@@ -10,4 +10,13 @@ public class DegreeTypeRepository {
     // Constructor
     public DegreeTypeRepository() {
     }
+
+    // Add Degree Type
+    public void addDegreeType (DegreeType degreeType){
+        degreeTypeList.add(degreeType);}
+
+
+    protected List<DegreeType> getDegreeTypeList() {
+        return degreeTypeList;
+    }
 }
