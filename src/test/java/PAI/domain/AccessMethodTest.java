@@ -23,4 +23,20 @@ class AccessMethodTest {
         //assert
         assertThrows(Exception.class, () -> new AccessMethod(null));
     }
+
+    @Test
+    void EmptyNameAccessMethodDoesNotCreateAccessMethod() throws Exception {
+        // arrange
+        // act
+        // assert
+        assertThrows(Exception.class, () -> new AccessMethod(""));
+    }
+
+    @Test
+    void BlankNameAccessMethodDoesNotCreateAccessMethod() throws Exception {
+        // arrange
+        // act
+        // assert
+        assertThrows(Exception.class, () -> new AccessMethod("   "));
+    }
 }
