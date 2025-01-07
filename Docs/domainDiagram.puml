@@ -1,0 +1,94 @@
+@startuml
+skinparam linetype polyline
+left to right direction
+hide empty methods
+hide empty members
+title "Domain Diagram"
+
+left to right direction
+' Entities
+class Facility {
+}
+
+class "School Year" {
+  startYear
+  endYear
+}
+
+class Department {
+  name
+  acronym
+}
+
+class Course {
+  name
+  acronym
+  qtyECTS
+}
+
+class Address {
+  postalCode
+  street
+  city
+  country
+}
+
+class "Teacher Category" {
+  categoryName
+}
+
+class Teacher {
+  name
+  acronym
+  NIF
+  email
+  phoneNumber
+}
+
+class Programme {
+  name
+  acronym
+  qtyECTS
+}
+
+class Enrolment {
+}
+
+class Student {
+  uniqueNumber
+  name
+  NIF
+  phoneNumber
+  email
+}
+
+class "Degree Type" {
+  name
+  maxECTS
+}
+
+class "Access Method" {
+  name
+}
+
+class Semester {
+  qtySemesters
+}
+
+Facility "1..*" -up- "1" Department : Aggregates <
+Department "1" --- "1   " Teacher : Department Director oversees <
+Department "1" --- "*" Teacher : Aggregates >
+Course "*" -- "*" Teacher : Teaches <
+Address "1" -right- "1" Student : Has <
+Teacher "1" -- "1" Address : Has >
+"Teacher" "*" -- "1" "Teacher Category" : Has >
+Programme "1" -- "1..*" Course : Belongs to <
+Programme "1" -- "*" Enrolment : Has >
+Programme "*" -right- "1" Department : Assigned to >
+Programme "1..*" -- "1  " Teacher : Programme Director oversees <
+Programme "*" -- "1" "Degree Type" : Has >
+Student "1" -- "1..*" Enrolment : Enrols >
+Enrolment "1..*" -- "1" "Access Method" : Has >
+Semester "1..*" -left- "\n\n\n\n *" Course : \n\n Runs during <\n\n\n
+Semester "1..*" -up- "1" Programme : Runs during <
+@enduml
