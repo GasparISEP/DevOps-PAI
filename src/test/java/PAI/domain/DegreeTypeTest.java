@@ -26,4 +26,18 @@ class DegreeTypeTest {
         assertThrows(Exception.class, () -> new DegreeType(null, 20));
     }
 
+    @Test
+    void overLimitECTSDontCreateADegreeType() throws Exception {
+
+        // arrange + act + assert
+        assertThrows(Exception.class, () -> new DegreeType("Master", 35));
+    }
+
+    @Test
+    void negativeECTSDontCreateADegreeType() throws Exception {
+
+        // arrange + act + assert
+        assertThrows(Exception.class, () -> new DegreeType("Master", -1));
+    }
+
 }
