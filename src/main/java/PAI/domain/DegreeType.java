@@ -23,14 +23,14 @@ public class DegreeType {
 
     }
 
-    public boolean nameIsInvalid (String name){
+    private boolean nameIsInvalid (String name){
         if(name==null || name.isBlank()){
             return true;
         }
         return false;
     }
 
-    public boolean maxEctsIsInvalid (int maxEcts){
+    private boolean maxEctsIsInvalid (int maxEcts){
         if(maxEcts<0 || maxEcts >30){
             return true;
         }
