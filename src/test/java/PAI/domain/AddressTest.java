@@ -83,4 +83,28 @@ class AddressTest {
         //act + assert
         assertThrows(Exception.class, () -> new Address("Praça do freixal, nº12, 4º, Drt", "4259-365", null, "Portugal"));
     }
+
+    @Test
+    void emptyCountryDoesNotCreateAnObject() {
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Address("Praceta do Sol, nº19", "3745-144", "Tomar", ""));
+    }
+
+    @Test
+    void blankCountryDoesNotCreateAnObject() {
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Address("Avenida São Gonçalo, nº45", "4581-236", "Coimbra", " "));
+    }
+
+    @Test
+    void nullCountryDoesNotCreateAnObject() {
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Address("Praça do freixal, nº12, 4º, Drt", "4259-365", "Loulé", null));
+    }
 }
