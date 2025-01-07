@@ -124,4 +124,35 @@ class StudentTest {
         //act + assert
         assertThrows(Exception.class, () -> new Student(3, "Rute", "32165498", null, "rute@gmail.com", address1));
     }
+
+    @Test
+    void emptyEmailDoesNotCreateObject () throws Exception {
+
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student(4, "Pedro", "159753824", "963996987", "", address1));
+    }
+
+    @Test
+    void blankEmailDoesNotCreateAnObject() throws Exception {
+
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student(2, "Joaquim", "569874126", "963996987", " ", address1));
+    }
+
+    @Test
+    void nullEmailDoesNotCreateObject () throws Exception {
+
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student(4, "Pedro", "159753824", "963996987", null, address1));
+    }
+
 }
