@@ -21,7 +21,7 @@ public class Teacher {
     //constructor
     public Teacher(String acronym, String name, String email, String nif, String phoneNumber, Address address, TeacherCategory category,
                    Department department) throws IllegalArgumentException {
-        this._acronym = acronym;
+        validateAcronym(acronym);
         this._name = name;
         this._email = email;
         this._nif = nif;
@@ -29,5 +29,15 @@ public class Teacher {
         this._address=address;
         this._teacherCategory= category;
         this._department = department;
+    }
+
+    private void validateAcronym(String teacherAcronym) throws IllegalArgumentException {
+        if (teacherAcronym == null || teacherAcronym.isBlank()) {
+            throw new IllegalArgumentException("Teacher´s acronym must be a 3 capital letter non-empty String.");
+        }
+        if(!teacherAcronym.matches("^[A-Z]{3}$")){
+            throw new IllegalArgumentException("Teacher´s acronym must contain only three capital letters.");
+        }
+        this._acronym = teacherAcronym;
     }
 }
