@@ -53,4 +53,22 @@ class CourseTest {
         //assert
         assertThrows(Exception.class, () -> new Course("Portuguese", "", 30, semester1));
     }
+
+    @Test
+    void testCourseCreation_TestingInvalidQuantityOfEctsLower() throws Exception{
+        //arrange
+        Semester semester1 = new Semester(1);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course("Portuguese", "PT", 0, semester1));
+    }
+
+    @Test
+    void testCourseCreation_TestingInvalidQuantityOfEctsHigher() throws Exception{
+        //arrange
+        Semester semester1 = new Semester(1);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course("Portuguese", "PT", 181, semester1));
+    }
 }
