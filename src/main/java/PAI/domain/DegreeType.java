@@ -31,7 +31,7 @@ public class DegreeType {
     }
 
     private boolean maxEctsIsInvalid (int maxEcts){
-        if(maxEcts<0 || maxEcts >30){
+        if(maxEcts<=0){
             return true;
         }
         return false;
