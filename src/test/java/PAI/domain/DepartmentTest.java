@@ -146,4 +146,42 @@ class DepartmentTest {
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
+
+    //US06
+    @Test
+    void shouldReturnTrueWhenTeacherIsOfTheDepartment() throws Exception{
+        //arrange
+        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
+        Address address1 = new Address ("Passeio Alegre",  "4432-123","Porto", "Portugal");
+        Department department1 = new Department ( "DEI","Department1");
+        Teacher teacher1 = new Teacher( "JOA","Joao", "JOA@isep.ipp.pt","213456789","B234",address1, teacherCategory1,department1);
+        //act
+        boolean result = department1.changeDirector(teacher1);
+        //assert
+        assertTrue (result);
+    }
+
+    @Test
+    void shouldReturnFalse_WhenTeacherIsNotInTheDepartment() throws Exception{
+        //arrange
+        Department department1 = new Department ("DEI","Dep1");
+        Department department2 = new Department ("ABC","Dep2");
+        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
+        Address address1 = new Address ("Passeio Alegre",  "4432-123", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("JOA","Joao",  "JOA@isep.ipp.pt","213456789","B234",address1, teacherCategory1, department2);
+        //act
+        boolean result = department1.changeDirector(teacher1);
+        //assert
+        assertFalse (result);
+    }
+
+    @Test
+    void shouldReturnFalse_WhenTeacherIsNull() throws Exception{
+        //arrange
+        Department department1 = new Department ( "DED","Department2");
+        //act
+        boolean result = department1.changeDirector(null);
+        //assert
+        assertFalse (result);
+    }
 }

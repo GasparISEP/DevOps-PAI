@@ -50,4 +50,13 @@ public class Department {
     public boolean hasSameName(Department department) {
         return this._name.equals(department._name);
     }
+
+    //US06
+    protected boolean changeDirector(Teacher furtherDirector){
+        if(furtherDirector!=null && furtherDirector.isInDepartment(this)){
+            _director = furtherDirector;
+            return true;
+        }
+        return false;
+    }
 }
