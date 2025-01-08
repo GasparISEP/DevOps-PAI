@@ -125,4 +125,73 @@ class TeacherTest {
         assertEquals(expectedMessage, exception.getMessage());
     }
 
+    //testing teacher's NIF
+    public static Stream<Arguments> provideInvalidTeacherNIF() {
+        return Stream.of(
+                arguments(null, "Teacher´s NIF must be a non-empty String."),
+                arguments("", "Teacher´s NIF must be a non-empty String."),
+                arguments("   ", "Teacher´s NIF must be a non-empty String."),
+                arguments("A23321423", "Teacher´s NIF must contain only 9 characters."),
+                arguments("+23321423", "Teacher´s NIF must contain only 9 characters."),
+                arguments("1 2 3 3 2 1 4 2 3", "Teacher´s NIF must contain only 9 characters."),
+                arguments(" 123456789", "Teacher´s NIF must contain only 9 characters."),
+                arguments("123456789 ", "Teacher´s NIF must contain only 9 characters."),
+                arguments("1234567890", "Teacher´s NIF must contain only 9 characters.")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidTeacherNIF")
+    void testInvalidNIF(String nif, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto", "Portugal");
+        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
+        Department department1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, address1, category1,department1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    //testing teacher's office phone number
+    public static Stream<Arguments> provideInvalidTeacherPhoneNumber() {
+        return Stream.of(
+                arguments(null, "Teacher´s office phoneNumber must be a non-empty String."),
+                arguments("", "Teacher´s office phoneNumber must be a non-empty String."),
+                arguments("   ", "Teacher´s office phoneNumber must be a non-empty String."),
+                arguments("919234567", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments(" B123", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments("B123 ", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments("b123", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments("B12", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments("B1234", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments("-123", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments("B12 3", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
+                arguments("B+23", "Teacher´s office phoneNumber must have a letter followed by 3 digits.")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidTeacherPhoneNumber")
+    void testInvalidPhoneNumber(String phoneNumber, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "777777777";
+        String email = "MMM@isep.ipp.pt";
+        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto","Portugal");
+        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
+        Department department1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, address1, category1,department1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
 }
