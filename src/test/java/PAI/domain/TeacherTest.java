@@ -92,4 +92,37 @@ class TeacherTest {
         assertEquals(expectedMessage, exception.getMessage());
     }
 
+    //testing Teacher's email
+    public static Stream<Arguments> provideInvalidTeacherEmail() {
+        return Stream.of(
+                arguments(null, "Teacher´s email must be a non-empty String."),
+                arguments("", "Teacher´s email must be a non-empty String."),
+                arguments("   ", "Teacher´s email must be a non-empty String."),
+                arguments("MMO@isep.ipp.pt", "Invalid email format."),
+                arguments("*MO@isep.ipp.pt", "Invalid email format."),
+                arguments("M2N@isep.ipp.pt", "Invalid email format."),
+                arguments("M MM@isep.ipp.pt", "Invalid email format."),
+                arguments("MMJ@gmail.com", "Invalid email format."),
+                arguments("MMN", "Invalid email format.")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidTeacherEmail")
+    void testInvalidEmail(String email, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "123456789";
+        String phoneNumber = "B123";
+        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto", "Portugal");
+        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
+        Department department1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, address1, category1,department1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
 }

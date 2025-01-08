@@ -23,7 +23,7 @@ public class Teacher {
                    Department department) throws IllegalArgumentException {
         validateAcronym(acronym);
         validateName(name);
-        this._email = email;
+        validateEmail(email);
         this._nif = nif;
         this._phoneNumber = phoneNumber;
         this._address=address;
@@ -58,5 +58,16 @@ public class Teacher {
             throw new IllegalArgumentException("Teacher´s name should start with a capital letter.");
         }
         this._name = name;
+    }
+
+    private void validateEmail(String email) throws IllegalArgumentException {
+
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Teacher´s email must be a non-empty String.");
+        }
+        if (!email.toLowerCase().matches(_acronym.toLowerCase() + "@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+            throw new IllegalArgumentException("Invalid email format.");
+        }
+        this._email = email;
     }
 }
