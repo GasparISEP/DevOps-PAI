@@ -54,4 +54,33 @@ class DepartmentRepositoryTest {
         //assert
         assertThrows(IllegalArgumentException.class, () -> repository.registerDepartment(duplicateNameDepartment));
     }
+
+    //Verifying the registration of a new valid department
+    @Test
+    public void testRegisterValidDepartment() throws Exception {
+        //arrange
+        DepartmentRepository repository = new DepartmentRepository();
+        Department department1 = new Department( "CSE","Computer Science");
+        //act + assert
+        assertDoesNotThrow(() -> repository.registerDepartment(department1));
+        assertTrue(repository.getDepartments().contains(department1));
+    }
+
+    //Testing if whe can see the elements of the departments list
+    @Test
+    public void testGetDepartments() throws Exception {
+        //arrange
+        DepartmentRepository repository = new DepartmentRepository();
+        Department department1 = new Department( "CSE","Computer Science");
+        Department department2 = new Department( "MAT", "Mathematics");
+        Department department3 = new Department( "PHY","PHYSICS");
+        repository.registerDepartment(department1);
+        repository.registerDepartment(department2);
+        repository.registerDepartment(department3);
+        //act + assert
+        assertEquals(3, repository.getDepartments().size());
+        assertTrue(repository.getDepartments().contains(department1));
+        assertTrue(repository.getDepartments().contains(department2));
+        assertTrue(repository.getDepartments().contains(department3));
+    }
 }

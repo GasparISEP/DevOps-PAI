@@ -32,4 +32,8 @@ public class DepartmentRepository {
         }
         departments.add(department);
     }
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
 }
