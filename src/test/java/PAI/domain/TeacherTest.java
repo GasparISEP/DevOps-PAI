@@ -59,4 +59,37 @@ class TeacherTest {
         assertEquals(expectedMessage, exception.getMessage());
     }
 
+    //testing the Teacher name
+    public static Stream<Arguments> provideInvalidTeacherNames() {
+        return Stream.of(
+                arguments(null, "Teacher´s name must be a non-empty String."),
+                arguments("", "Teacher´s name must be a non-empty String."),
+                arguments("   ", "Teacher´s name must be a non-empty String."),
+                arguments("A", "Teacher´s name must be between 2 and 100 characters."),
+                arguments("A".repeat(101), "Teacher´s name must be between 2 and 100 characters."),
+                arguments("john", "Teacher´s name should start with a capital letter."),
+                arguments(" John", "Teacher´s name should start with a capital letter."),
+                arguments("123Name", "Teacher´s name must contain only letters and spaces."),
+                arguments("!@#Name", "Teacher´s name must contain only letters and spaces.")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidTeacherNames")
+    void testInvalidNames(String name, String expectedMessage) throws Exception {
+        // Arrange
+        String acronym = "MMM";
+        String nif = "123456789";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto", "Portugal");
+        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
+        Department department1 = new Department("DED", "Dept1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name , email, nif, phoneNumber, address1,  category1, department1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
 }

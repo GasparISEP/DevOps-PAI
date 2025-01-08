@@ -22,7 +22,7 @@ public class Teacher {
     public Teacher(String acronym, String name, String email, String nif, String phoneNumber, Address address, TeacherCategory category,
                    Department department) throws IllegalArgumentException {
         validateAcronym(acronym);
-        this._name = name;
+        validateName(name);
         this._email = email;
         this._nif = nif;
         this._phoneNumber = phoneNumber;
@@ -39,5 +39,24 @@ public class Teacher {
             throw new IllegalArgumentException("Teacher´s acronym must contain only three capital letters.");
         }
         this._acronym = teacherAcronym;
+    }
+
+    private void validateName(String name) throws IllegalArgumentException {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Teacher´s name must be a non-empty String.");
+        }
+        if (name.length() <2 || name.length() > 100){
+            throw new IllegalArgumentException("Teacher´s name must be between 2 and 100 characters.");
+        }
+        for (int i = 0; i < name.length(); i++){
+            char c = name.charAt(i);
+            if (!Character.isLetter(c) && !Character.isSpaceChar(c) && c!= '-'){
+                throw new IllegalArgumentException("Teacher´s name must contain only letters and spaces.");
+            }
+        }
+        if(!name.matches("^[A-Z].*")){
+            throw new IllegalArgumentException("Teacher´s name should start with a capital letter.");
+        }
+        this._name = name;
     }
 }
