@@ -41,6 +41,50 @@ class DepartmentTest {
         assertNotNull (department);
     }
 
+    void shouldReturnDepartment_whenAllTheAtributesAreValid_withTwoLettersName () throws Exception {
+        //arrange
+        String acronym = "DEI";
+        String name = "DE";
+        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto", "Portugal");
+        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
+        Department department1 = new Department ("DEI", "Dept1");
+        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123",address1,teacherCategory1,department1);
+        //act
+        Department department = new Department(acronym, name,  teacherDirector1);
+        //assert
+        assertNotNull (department);
+    }
+
+    @Test
+    void shouldReturnDepartment_whenAllTheAtributesAreValid_withHundredLettersName () throws Exception {
+        //arrange
+        String acronym = "DEI";
+        String name = "D".repeat(100);
+        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto","Portugal");
+        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
+        Department department1 = new Department ("DEI", "Dept1");
+        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123",address1,teacherCategory1,department1);
+        //act
+        Department department = new Department(acronym, name,  teacherDirector1);
+        //assert
+        assertNotNull (department);
+    }
+    @Test
+    void everythingNullGenerateException () throws Exception {
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Department(null, null, null));
+    }
+
+    @Test
+    void everythingIsEmptyGenerateException () throws Exception {
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Department ("", "",null));
+    }
+
     //testing failure cases of Department's name
     public static Stream<Arguments> provideInvalidDepartmentsNames() {
         return Stream.of(
