@@ -11,7 +11,7 @@ public class Course {
     private ArrayList <Semester> _semesterList= new ArrayList<>();
 
     public Course (String name, String acronym, int quantityOfEcts, Semester semester) throws Exception{
-        if (!isValidName(name)) {
+        if (!isValidName(name) || !isValidAcronym(acronym)) {
             throw new Exception("Invalid input");
         }
             _name = name;
@@ -24,6 +24,13 @@ public class Course {
 
     private boolean isValidName(String courseName) {
         if (courseName == null || courseName.isBlank()) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidAcronym(String courseAcronym) {
+        if (courseAcronym == null || courseAcronym.isBlank()) {
             return false;
         }
         return true;

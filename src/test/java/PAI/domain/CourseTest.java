@@ -35,4 +35,22 @@ class CourseTest {
         //assert
         assertThrows(Exception.class, () -> new Course(null, "PT", 30, semester1));
     }
+
+    @Test
+    void testCourseCreation_TestingNullAcronym() throws Exception {
+        //arrange
+        Semester semester1 = new Semester(1);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course("Portuguese", null, 30, semester1));
+    }
+
+    @Test
+    void testCourseCreation_TestingInvalidAcronym() throws Exception {
+        //arrange
+        Semester semester1 = new Semester(1);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course("Portuguese", "", 30, semester1));
+    }
 }
