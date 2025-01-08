@@ -24,8 +24,8 @@ public class Teacher {
         validateAcronym(acronym);
         validateName(name);
         validateEmail(email);
-        this._nif = nif;
-        this._phoneNumber = phoneNumber;
+        validateNif(nif);
+        validatePhoneNumber(phoneNumber);
         this._address=address;
         this._teacherCategory= category;
         this._department = department;
@@ -69,5 +69,34 @@ public class Teacher {
             throw new IllegalArgumentException("Invalid email format.");
         }
         this._email = email;
+    }
+
+    private void validateNif(String nif) throws IllegalArgumentException{
+        if (nif == null || nif.isBlank())
+            throw new IllegalArgumentException("Teacher´s NIF must be a non-empty String.");
+
+        if (!nif.matches("^[0-9]{9}$"))
+            throw new IllegalArgumentException("Teacher´s NIF must contain only 9 characters.");
+        this._nif = nif;
+    }
+
+    private void validatePhoneNumber(String phoneNumber) throws IllegalArgumentException {
+        if(phoneNumber == null || phoneNumber.isBlank())
+            throw new IllegalArgumentException("Teacher´s office phoneNumber must be a non-empty String.");
+
+        if (!phoneNumber.matches("^[A-Z][0-9]{3}$") || phoneNumber.length() != 4)
+            throw new IllegalArgumentException("Teacher´s office phoneNumber must have a letter followed by 3 digits.");
+
+        this._phoneNumber = phoneNumber;
+    }
+
+    public boolean hasSameAcronym(Teacher teacher) {
+        return this._acronym.equals(teacher._acronym);
+    }
+    public boolean hasSameNif(Teacher teacher) {
+        return this._nif.equals(teacher._nif);
+    }
+    public boolean isInDepartment(Department department) {
+        return _department == department;
     }
 }
