@@ -12,10 +12,10 @@ class CourseTest {
         Semester semester = new Semester(1);
 
         // Act
-        Course course = new Course("Informatics", "INF", 6, semester);
+        Course course1 = new Course("Informatics", "INF", 6, semester);
 
         // Assert
-        assertNotNull(course);
+        assertNotNull(course1);
     }
 
     @Test
