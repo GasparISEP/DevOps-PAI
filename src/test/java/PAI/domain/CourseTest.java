@@ -2,19 +2,37 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseTest {
 
     @Test
-    void testCourseCreation_Valid() throws Exception{
-        //arrange
+    void testValidCourseCreation() throws Exception {
+        // Arrange
         Semester semester = new Semester(1);
+
+        // Act
+        Course course = new Course("Informatics", "INF", 6, semester);
+
+        // Assert
+        assertNotNull(course);
+    }
+
+    @Test
+    void testCourseCreation_TestingInvalidName() throws Exception {
+        //arrange
+        Semester semester1 = new Semester(1);
         //act
-        Course course2 = new Course ("Informatics", "INF", 6,semester);
         //assert
-        assertNotNull(course2);
+        assertThrows(Exception.class, () -> new Course("", "PT", 30, semester1));
+    }
+
+    @Test
+    void testCourseCreation_TestingNullName() throws Exception {
+        //arrange
+        Semester semester1 = new Semester(1);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course(null, "PT", 30, semester1));
     }
 }
