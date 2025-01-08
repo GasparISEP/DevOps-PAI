@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +25,53 @@ class TeacherTest {
         //assert
         assertNotNull(teacher);
     }
+
+    @Test
+    void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws Exception {
+        //arrange
+        List<Teacher> testTeachers = new ArrayList<>();
+        Address address = new Address("Street One",  "1234-678", "Porto", "Portugal");
+        TeacherCategory category = new TeacherCategory("Math");
+        Department department = new Department("MAT", "Mathematics");
+        //act
+        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", address, category, department);
+        testTeachers.add(teacher);
+        //assert
+        assertNotNull(teacher);
+        assertEquals(1, testTeachers.size());
+    }
+
+    @Test
+    void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws Exception {
+        //arrange
+        List<Teacher> testTeachers = new ArrayList<>();
+        Address address = new Address("Street One",  "1234-678", "Porto", "Portugal");
+        TeacherCategory category = new TeacherCategory("Math");
+        Department department = new Department("MAT", "Mathematics");
+        //act
+        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106", address, category, department);
+        testTeachers.add(teacher);
+        //assert
+        assertNotNull(teacher);
+        assertEquals(1, testTeachers.size());
+    }
+
+    @Test
+    void everythingNullGenerateException () throws Exception {
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Teacher(null, null,null,null,null,null,null,null));
+    }
+
+    @Test
+    void everythingBlankGenerateException () throws Exception {
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Teacher("", "","","","",null,null,null));
+    }
+
 
     //testing the Teacher acronym
     public static Stream<Arguments> provideInvalidTeacherAcronyms() {
