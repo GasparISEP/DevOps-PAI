@@ -15,7 +15,7 @@ class CourseTest {
         Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
         "238310710", "A123", address, teacherCategory, department);
         // Act
-        Course course1 = new Course("Informatics", "INF", 6, teacher);
+        Course course1 = new Course("Informatics", "INF", 6, 1, teacher);
 
         // Assert
         assertNotNull(course1);
@@ -31,7 +31,7 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("", "INF", 6,  teacher));
+        assertThrows(Exception.class, () -> new Course("", "INF", 6, 1, teacher));
     }
 
     @Test
@@ -44,7 +44,7 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course(null, "INF", 6, teacher));
+        assertThrows(Exception.class, () -> new Course(null, "INF", 6,1, teacher));
     }
 
     @Test
@@ -57,7 +57,7 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", null, 6,  teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", null, 6, 1, teacher));
     }
 
     @Test
@@ -70,7 +70,7 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "", 6,  teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "", 6, 1,  teacher));
     }
 
     @Test
@@ -83,7 +83,7 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 0, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 0, 1, teacher));
     }
 
     @Test
@@ -96,7 +96,33 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 181, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 181, 1, teacher));
+    }
+
+    @Test
+    void testCourseCreationTestingInvalidSemesterLower() throws Exception{
+        //arrange
+        TeacherCategory teacherCategory = new TeacherCategory("diretor");
+        Department department = new Department("EIA", "Departamento EI");
+        Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
+        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
+                "238310710", "A123", address, teacherCategory, department);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 6, 0, teacher));
+    }
+
+    @Test
+    void testCourseCreationTestingInvalidSemesterHigher() throws Exception{
+        //arrange
+        TeacherCategory teacherCategory = new TeacherCategory("diretor");
+        Department department = new Department("EIA", "Departamento EI");
+        Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
+        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
+                "238310710", "A123", address, teacherCategory, department);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 6, 7, teacher));
     }
 
     //Equals Method Test
@@ -108,7 +134,7 @@ class CourseTest {
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
         Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
                 "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
+        Course course1 = new Course("Informatics", "INF", 10, 1, teacher);
         Object compare = course1;
         //act
         boolean result = course1.equals(compare);
@@ -124,7 +150,7 @@ class CourseTest {
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
         Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
                 "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
+        Course course1 = new Course("Informatics", "INF", 10, 1, teacher);
         Object compare = teacher;
         //act
         boolean result = course1.equals(compare);
@@ -142,8 +168,8 @@ class CourseTest {
                 "238310710", "A123", address, teacherCategory, department);
         Teacher teacher2 = new Teacher("DSA", "Artur Silva Dias", "dsa@gmail.com",
                 "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
-        Course course2 = new Course("Maths", "INF", 5, teacher2);
+        Course course1 = new Course("Informatics", "INF", 10, 1, teacher);
+        Course course2 = new Course("Maths", "INF", 5, 1, teacher2);
         //act
         boolean result = course1.equals(course2);
         //assert
@@ -160,8 +186,8 @@ class CourseTest {
                 "238310710", "A123", address, teacherCategory, department);
         Teacher teacher2 = new Teacher("DSA", "Artur Silva Dias", "dsa@gmail.com",
                 "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
-        Course course2 = new Course("Maths", "MAT", 5, teacher2);
+        Course course1 = new Course("Informatics", "INF", 10, 1, teacher);
+        Course course2 = new Course("Maths", "MAT", 5, 1, teacher2);
         //act
         boolean result = course1.equals(course2);
         //assert

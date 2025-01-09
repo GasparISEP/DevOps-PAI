@@ -11,7 +11,7 @@ public class Programme {
     private DegreeType _degreeType;
     private Department _department;
     private Teacher _programmeDirector;
-    //private ArrayList<Course> _courseList = new ArrayList<>();
+    private ArrayList<Course> _courseList = new ArrayList<>();
 
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
@@ -55,7 +55,6 @@ public class Programme {
         return quantityOfSemesters <=0;
     }
 
-    /*
     //Method to add Course
     public boolean addCourse(Course course) {
         if (_courseList.contains(course)) {
@@ -65,5 +64,4 @@ public class Programme {
         return true;
     }
 
-     */
 }
