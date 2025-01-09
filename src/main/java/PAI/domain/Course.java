@@ -33,7 +33,10 @@ public class Course {
     }
 
     private boolean isValidQuantityOfEcts(int quantityOfEcts) {
-        return quantityOfEcts > 0 && quantityOfEcts <= 60;
+        if (quantityOfEcts > 0 && quantityOfEcts <= 60) {
+            return true;
+        }
+    return false;
     }
 
     @Override

@@ -112,7 +112,7 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 181, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 61, teacher));
     }
 
     //Equals Method Test
