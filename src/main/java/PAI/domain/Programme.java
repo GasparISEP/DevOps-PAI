@@ -9,7 +9,7 @@ public class Programme {
     private int _quantityOfEcts;
     private Semester _semester;
     private DegreeType _degreeType;
-    private ArrayList<Course> _courseList;
+    private ArrayList<Course> _courseList = new ArrayList<>();
 
 
     public Programme(String name, String acronym, int quantityOfEcts, Semester semester, DegreeType degreeType) throws Exception {
@@ -43,7 +43,11 @@ public class Programme {
         return quantityOfEcts <= 0 || quantityOfEcts > 30;
     }
 
+    //Method to add Course
     public boolean addCourse(Course course) {
+        if (_courseList.contains(course)) {
+            return false;
+        }
         _courseList.add(course);
         return true;
     }
