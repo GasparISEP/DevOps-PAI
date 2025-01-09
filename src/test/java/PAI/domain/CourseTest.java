@@ -1,6 +1,8 @@
 package PAI.domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,8 +75,9 @@ class CourseTest {
         assertThrows(Exception.class, () -> new Course("Informatics", "", 6, teacher));
     }
 
-    @Test
-    void testCourseCreationTestingInvalidAcronym() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = {"^AZ", "A^Z", "AZ^", "áBD", "BsD", "BDá", "A ZD", "AZ D", " AZD", "AZ!", "A!Z", "A!Z", "asd"})
+    void testCourseCreationTestingInvalidAcronym(String invalidAcronym) throws Exception {
         //arrange
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
@@ -83,20 +86,7 @@ class CourseTest {
         "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "^AZ", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "A^Z", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "AZ^", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "áBD", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "BÁD", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "BDá", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "A ZD", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "AZ D", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "AZD ", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", " AZD", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "AZ!", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "!ZD", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "A!Z", 6, teacher));
-        assertThrows(Exception.class, () -> new Course("Informatics", "asd", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", invalidAcronym, 6, teacher));
     }
 
     @Test
