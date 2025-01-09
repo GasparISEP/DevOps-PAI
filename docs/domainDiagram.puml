@@ -23,6 +23,7 @@ class Course {
   name
   acronym
   qtyECTS
+  semester
 }
 
 class Address {
@@ -48,6 +49,7 @@ class Programme {
   name
   acronym
   qtyECTS
+  qtySemesters
 }
 
 class Enrolment {
@@ -70,9 +72,6 @@ class "Access Method" {
   name
 }
 
-class Semester {
-  qtySemesters
-}
 
 Facility "1..*" -up- "1" Department : Aggregates <
 Department "1" --- "1   " Teacher : Department Director oversees <
@@ -88,6 +87,4 @@ Programme "1..*" -- "1  " Teacher : Programme Director oversees <
 Programme "*" -- "1" "Degree Type" : Has >
 Student "1" -- "1..*" Enrolment : Enrols >
 Enrolment "1..*" -- "1" "Access Method" : Has >
-Semester "1..*" -left- "\n\n\n\n *" Course : \n\n Runs during <\n\n\n
-Semester "1..*" -up- "1" Programme : Runs during <
 @enduml
