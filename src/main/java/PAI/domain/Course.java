@@ -8,16 +8,14 @@ public class Course {
     private String _acronym;
     private int _quantityOfEcts;
     private ArrayList <Teacher> _teacher;
-    private ArrayList <Semester> _semesterList= new ArrayList<>();
 
-    public Course (String name, String acronym, int quantityOfEcts, Semester semester, Teacher teacher) throws Exception{
-        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityOfEcts) || !isValidSemester(semester)) {
+    public Course (String name, String acronym, int quantityOfEcts, Teacher teacher) throws Exception{
+        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityOfEcts)) {
             throw new Exception("Invalid input");
         }
             _name = name;
             _acronym = acronym;
             _quantityOfEcts = quantityOfEcts;
-            _semesterList.add(semester);
     }
 
     private boolean isValidName(String courseName) {
@@ -41,12 +39,6 @@ public class Course {
         return true;
     }
 
-    private boolean isValidSemester(Semester semester) {
-        if (_semesterList.contains(semester)) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public boolean equals(Object compare){
