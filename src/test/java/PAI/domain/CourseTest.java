@@ -135,9 +135,9 @@ class CourseTest {
         Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
                 "238310710", "A123", address, teacherCategory, department);
         Course course1 = new Course("Informatics", "INF", 10, teacher);
-        Object compare = course1;
+        Object objectToCompare = course1;
         //act
-        boolean result = course1.equals(compare);
+        boolean result = course1.equals(objectToCompare);
         //assert
         assertTrue(result);
     }
@@ -151,9 +151,9 @@ class CourseTest {
         Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
                 "238310710", "A123", address, teacherCategory, department);
         Course course1 = new Course("Informatics", "INF", 10, teacher);
-        Object compare = teacher;
+        Object objectToCompare = teacher;
         //act
-        boolean result = course1.equals(compare);
+        boolean result = course1.equals(objectToCompare);
         //assert
         assertFalse(result);
     }

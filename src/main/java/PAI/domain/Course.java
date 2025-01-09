@@ -40,12 +40,17 @@ public class Course {
     }
 
     @Override
-    public boolean equals(Object compare){
-        if(this==compare) return true;
-        if(!(compare instanceof Course)) return false;
-        Course courseTest = (Course) compare;
-        if(this._acronym.equals(courseTest._acronym))
+    public boolean equals(Object objectToCompare){
+        if(this==objectToCompare) {
             return true;
+        }
+        if(!(objectToCompare instanceof Course)) {
+            return false;
+        }
+        Course courseTest = (Course) objectToCompare;
+        if(this._acronym.equals(courseTest._acronym)){
+            return true;
+        }
         return false;
     }
 }
