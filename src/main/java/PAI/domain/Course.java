@@ -7,19 +7,17 @@ public class Course {
     private String _name;
     private String _acronym;
     private int _quantityOfEcts;
-//  private ArrayList <Teacher> _teacher;
+    private ArrayList <Teacher> _teacher;
     private ArrayList <Semester> _semesterList= new ArrayList<>();
 
-    public Course (String name, String acronym, int quantityOfEcts, Semester semester) throws Exception{
-        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityOfEcts)) {
+    public Course (String name, String acronym, int quantityOfEcts, Semester semester, Teacher teacher) throws Exception{
+        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityOfEcts) || !isValidSemester(semester)) {
             throw new Exception("Invalid input");
         }
             _name = name;
             _acronym = acronym;
             _quantityOfEcts = quantityOfEcts;
-            if (_semesterList.contains(semester)) {
-                _semesterList.add(semester);
-            }
+            _semesterList.add(semester);
     }
 
     private boolean isValidName(String courseName) {
@@ -41,5 +39,22 @@ public class Course {
             return false;
         }
         return true;
+    }
+
+    private boolean isValidSemester(Semester semester) {
+        if (_semesterList.contains(semester)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object compare){
+        if(this==compare) return true;
+        if(!(compare instanceof Course)) return false;
+        Course courseTest = (Course) compare;
+        if(this._acronym.equals(courseTest._acronym))
+            return true;
+        return false;
     }
 }

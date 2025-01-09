@@ -1,15 +1,18 @@
 package PAI.domain;
 
+import java.util.ArrayList;
+
 public class Programme {
 
     private String _name;
     private String _acronym;
     private int _quantityOfEcts;
-    private Semester _semester;
+    private int _quantityOfSemesters;
     private DegreeType _degreeType;
+    //private ArrayList<Course> _courseList = new ArrayList<>();
 
 
-    public Programme(String name, String acronym, int quantityOfEcts, Semester semester, DegreeType degreeType) throws Exception {
+    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType) throws Exception {
         if (isNameInvalid(name)){ throw new IllegalArgumentException("Name must not be empty");}
         _name = name;
 
@@ -19,8 +22,8 @@ public class Programme {
         if (isQuantityOfEctsInvalid(quantityOfEcts)){throw  new IllegalArgumentException("Insert a valid number of ECTS");}
         _quantityOfEcts = quantityOfEcts;
 
-        if (semester==null){throw  new IllegalArgumentException("Insert a valid Semester");}
-        _semester=semester;
+        if (isQuantityOfSemestersInvalid(quantityOfSemesters)){throw  new IllegalArgumentException("Insert a valid number of Semesters");}
+        _quantityOfSemesters = quantityOfSemesters;
 
         if (degreeType==null){throw  new IllegalArgumentException("Insert a valid DegreeType");}
         _degreeType = degreeType;
@@ -39,5 +42,22 @@ public class Programme {
     private boolean isQuantityOfEctsInvalid (int quantityOfEcts){
         return quantityOfEcts <= 0 || quantityOfEcts > 30;
     }
+
+    private boolean isQuantityOfSemestersInvalid (int quantityOfSemesters){
+        return quantityOfSemesters <=0;
+    }
+
+    /*
+    //Method to add Course
+    public boolean addCourse(Course course) {
+        if (_courseList.contains(course)) {
+            return false;
+        }
+        _courseList.add(course);
+        return true;
+    }
+
+     */
+
 
 }
