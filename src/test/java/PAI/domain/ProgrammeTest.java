@@ -118,8 +118,6 @@ class ProgrammeTest {
 
     }
 
-
-    /*
     //Add Course To Programme
     @Test
     void shouldReturnTrueIfCourseIsAddToAProgramme() throws Exception {
@@ -130,9 +128,8 @@ class ProgrammeTest {
         Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",20);
-        Semester semester = new Semester(2);
-        Course course1 = new Course("matemática", "MTA", 30,semester, teacher1);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 20,semester, degree1);
+        Course course1 = new Course("matemática", "MTA", 30, teacher1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 20, 6, degree1);
         // act
         boolean result = lei.addCourse(course1);
         // assert
@@ -148,16 +145,12 @@ class ProgrammeTest {
         Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",20);
-        Semester semester = new Semester(2);
-        Course course1 = new Course("matemática", "MTA", 30,semester, teacher1);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 20,semester, degree1);
+        Course course1 = new Course("matemática", "MTA", 30, teacher1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 20, 6, degree1);
         // act
         lei.addCourse(course1);
         boolean result = lei.addCourse(course1);
         // assert
         assertFalse(result);
     }
-
-     */
-  
 }
