@@ -9,10 +9,12 @@ public class Programme {
     private int _quantityOfEcts;
     private int _quantityOfSemesters;
     private DegreeType _degreeType;
-    private ArrayList<Course> _courseList = new ArrayList<>();
+    private Department _department;
+    private Teacher _programmeDirector;
+    //private ArrayList<Course> _courseList = new ArrayList<>();
 
 
-    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType) throws Exception {
+    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
         if (isNameInvalid(name)){ throw new IllegalArgumentException("Name must not be empty");}
         _name = name;
 
@@ -27,6 +29,12 @@ public class Programme {
 
         if (degreeType==null){throw  new IllegalArgumentException("Insert a valid DegreeType");}
         _degreeType = degreeType;
+
+        if (department== null){throw  new IllegalArgumentException("Insert a valid Department");}
+        _department = department;
+
+        if (programmeDirector== null){throw  new IllegalArgumentException("Insert a valid Programme Director");}
+        _programmeDirector = programmeDirector;
 
     }
 
@@ -47,6 +55,7 @@ public class Programme {
         return quantityOfSemesters <=0;
     }
 
+    /*
     //Method to add Course
     public boolean addCourse(Course course) {
         if (_courseList.contains(course)) {
@@ -55,4 +64,6 @@ public class Programme {
         _courseList.add(course);
         return true;
     }
+
+     */
 }
