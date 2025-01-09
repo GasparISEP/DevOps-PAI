@@ -6,37 +6,37 @@ hide empty members
 title "Domain Diagram"
 
 ' Entities
-class Facility {
+entity Facility {
 }
 
-class "School Year" {
+entity "School Year" {
   startYear
   endYear
 }
 
-class Department {
+entity Department {
   name
   acronym
 }
 
-class Course {
+entity Course {
   name
   acronym
   qtyECTS
 }
 
-class Address {
+entity Address {
   postalCode
   street
   city
   country
 }
 
-class "Teacher Category" {
+entity "Teacher Category" {
   categoryName
 }
 
-class Teacher {
+entity Teacher {
   name
   acronym
   NIF
@@ -44,33 +44,32 @@ class Teacher {
   phoneNumber
 }
 
-class Programme {
+entity Programme {
   name
   acronym
   qtyECTS
 }
 
-class Enrolment {
+entity Enrolment {
 }
 
-class Student {
+entity Student {
   uniqueNumber
   name
   NIF
   phoneNumber
   email
 }
-
-class "Degree Type" {
+entity "Degree Type" {
   name
   maxECTS
 }
 
-class "Access Method" {
+entity "Access Method" {
   name
 }
 
-class Semester {
+entity Semester {
   qtySemesters
 }
 
