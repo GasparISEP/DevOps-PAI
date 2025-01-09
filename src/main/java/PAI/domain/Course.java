@@ -26,7 +26,7 @@ public class Course {
     }
 
     private boolean isValidAcronym(String courseAcronym) {
-        if (courseAcronym == null || courseAcronym.isBlank()) {
+        if (courseAcronym == null || courseAcronym.isBlank() || !courseAcronym.matches("^[A-Z0-9]+$")) {
             return false;
         }
         return true;

@@ -61,7 +61,7 @@ class CourseTest {
     }
 
     @Test
-    void testCourseCreationTestingInvalidAcronym() throws Exception {
+    void testCourseCreationTestingBlankAcronym() throws Exception {
         //arrange
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
@@ -71,6 +71,32 @@ class CourseTest {
         //act
         //assert
         assertThrows(Exception.class, () -> new Course("Informatics", "", 6, teacher));
+    }
+
+    @Test
+    void testCourseCreationTestingInvalidAcronym() throws Exception {
+        //arrange
+        TeacherCategory teacherCategory = new TeacherCategory("diretor");
+        Department department = new Department("EIA", "Departamento EI");
+        Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
+        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
+        "238310710", "A123", address, teacherCategory, department);
+        //act
+        //assert
+        assertThrows(Exception.class, () -> new Course("Informatics", "^AZ", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "A^Z", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "AZ^", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "áBD", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "BÁD", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "BDá", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "A ZD", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "AZ D", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "AZD ", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", " AZD", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "AZ!", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "!ZD", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "A!Z", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "asd", 6, teacher));
     }
 
     @Test
