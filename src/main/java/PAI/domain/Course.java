@@ -7,17 +7,15 @@ public class Course {
     private String _name;
     private String _acronym;
     private int _quantityOfEcts;
-    private int _semester;
     private ArrayList <Teacher> _teacher;
 
-    public Course (String name, String acronym, int quantityOfEcts, int semester,  Teacher teacher) throws Exception{
-        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityOfEcts) || !isValidSemester(semester)) {
+    public Course (String name, String acronym, int quantityOfEcts,  Teacher teacher) throws Exception{
+        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityOfEcts)) {
             throw new Exception("Invalid input");
         }
             _name = name;
             _acronym = acronym;
             _quantityOfEcts = quantityOfEcts;
-            _semester = semester;
     }
 
     private boolean isValidName(String courseName) {
@@ -36,13 +34,6 @@ public class Course {
 
     private boolean isValidQuantityOfEcts(int quantityOfEcts) {
         if (quantityOfEcts <= 0 || quantityOfEcts > 180) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidSemester(int semester) {
-        if (semester <= 0 || semester > 6) {
             return false;
         }
         return true;
