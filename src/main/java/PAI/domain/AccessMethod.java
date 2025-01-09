@@ -7,7 +7,7 @@ public class AccessMethod {
     public AccessMethod(String acessMethodName) throws Exception {
 
         if (!isAccessMethodNameValid(acessMethodName))
-            throw new Exception("Access method name cannot be null");
+            throw new Exception("Access method name cannot be empty nor blank");
         this._name = acessMethodName;
     }
 
@@ -17,4 +17,23 @@ public class AccessMethod {
         }
         return true;
     }
+
+
+    @Override
+    public boolean equals (Object objectToCompare){
+
+        if (this == objectToCompare) {
+            return true;
+        }
+        if (!(objectToCompare instanceof AccessMethod)) {
+            return false;
+        }
+        AccessMethod testMethod = (AccessMethod) objectToCompare;
+
+        if (_name.equals(testMethod._name)) {
+            return true;
+        }
+        return false;
+    }
+
 }

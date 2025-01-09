@@ -39,4 +39,50 @@ class AccessMethodTest {
         // assert
         assertThrows(Exception.class, () -> new AccessMethod("   "));
     }
+
+    @Test
+    void shouldReturnTrueIfAccessMethodEqualsObject()throws Exception {
+        //arrange
+        AccessMethod am1 = new AccessMethod("M23");
+        Object am2 = am1;
+        //act
+        boolean result = am1.equals(am2);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfObjectIsNotAccessMethod() throws Exception{
+        //arrange
+        AccessMethod am1 = new AccessMethod("M23");
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        //act
+        boolean result = am1.equals(tc1);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfNameOfBothObjectsAreEqual() throws Exception{
+        //arrange
+        AccessMethod am1 = new AccessMethod("M23");
+        AccessMethod am2 = new AccessMethod("M23");
+
+        //act
+        boolean result = am1.equals(am2);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNameOfBothObjectsAreNotEqual() throws Exception{
+        //arrange
+        AccessMethod am1 = new AccessMethod("M23");
+        AccessMethod am2 = new AccessMethod("CNA");
+
+        //act
+        boolean result = am1.equals(am2);
+        //assert
+        assertFalse(result);
+    }
 }
