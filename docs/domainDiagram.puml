@@ -23,7 +23,6 @@ entity Course {
   name
   acronym
   qtyECTS
-  semester
 }
 
 entity Address {
