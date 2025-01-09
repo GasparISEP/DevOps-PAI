@@ -71,4 +71,20 @@ class CourseTest {
         //assert
         assertThrows(Exception.class, () -> new Course("Portuguese", "PT", 181, semester1));
     }
+
+    //Equals Method Test
+    @Test
+    void shouldReturnTrueIfObjectComparedIsTheSameAsThisCourse() throws Exception{
+        //arrange
+        Semester semester1 = new Semester(1);
+        Course course1 = new Course("Portuguese", "PT", 180,semester1);
+        Object compare = course1;
+        //act
+        boolean result = course1.equals(compare);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfOb
 }

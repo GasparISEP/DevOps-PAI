@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import java.util.ArrayList;
+
 public class Programme {
 
     private String _name;
@@ -7,6 +9,7 @@ public class Programme {
     private int _quantityOfEcts;
     private Semester _semester;
     private DegreeType _degreeType;
+    private ArrayList<Course> _courseList;
 
 
     public Programme(String name, String acronym, int quantityOfEcts, Semester semester, DegreeType degreeType) throws Exception {
@@ -39,5 +42,11 @@ public class Programme {
     private boolean isQuantityOfEctsInvalid (int quantityOfEcts){
         return quantityOfEcts <= 0 || quantityOfEcts > 30;
     }
+
+    public boolean addCourse(Course course) {
+        _courseList.add(course);
+        return true;
+    }
+
 
 }

@@ -105,5 +105,22 @@ class ProgrammeTest {
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,semester1, degree1));
 
     }
+
+    @Test
+    void shouldAddCourseToProgramme() throws Exception {
+        //arrange
+
+        Department department1 = new Department("EI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","91999999",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",20);
+        Semester semester = new Semester(2);
+        Course course1 = new Course("matemática", "mta", 30,teacher1, semester);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 20,semester, degree1);
+        // act
+        lei.addCourse(course1);
+        // assert
+    }
   
 }

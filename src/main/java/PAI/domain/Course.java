@@ -17,7 +17,7 @@ public class Course {
             _name = name;
             _acronym = acronym;
             _quantityOfEcts = quantityOfEcts;
-            if (_semesterList.contains(semester)) {
+            if (!_semesterList.contains(semester)) {
                 _semesterList.add(semester);
             }
     }
@@ -41,5 +41,15 @@ public class Course {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean equals(Object compare){
+        if(this==compare) return true;
+        if(!(compare instanceof Course)) return false;
+        Course testCourse = (Course) compare;
+        if(this._acronym.equals(testCourse._acronym)) return true;
+
+        return false;
     }
 }
