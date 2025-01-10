@@ -14,10 +14,8 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         // Act
-        Course course1 = new Course("Informatics", "INF", 6, teacher);
+        Course course1 = new Course("Informatics", "INF", 6);
 
         // Assert
         assertNotNull(course1);
@@ -29,11 +27,9 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("", "INF", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("", "INF", 6));
     }
 
     @Test
@@ -42,11 +38,9 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course(null, "INF", 6, teacher));
+        assertThrows(Exception.class, () -> new Course(null, "INF", 6));
     }
 
     @Test
@@ -55,11 +49,9 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", null, 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", null, 6));
     }
 
     @Test
@@ -68,11 +60,9 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "", 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "", 6));
     }
 
     @ParameterizedTest
@@ -82,11 +72,9 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", invalidAcronym, 6, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", invalidAcronym, 6));
     }
 
     @Test
@@ -95,11 +83,9 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 0, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 0));
     }
 
     @Test
@@ -108,11 +94,9 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com", 
-        "238310710", "A123", address, teacherCategory, department);
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 61, teacher));
+        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 61));
     }
 
     //Equals Method Test
@@ -122,9 +106,7 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
-                "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
+        Course course1 = new Course("Informatics", "INF", 10);
         Object objectToCompare = course1;
         //act
         boolean result = course1.equals(objectToCompare);
@@ -140,7 +122,7 @@ class CourseTest {
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
         Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
                 "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
+        Course course1 = new Course("Informatics", "INF", 10);
         Object objectToCompare = teacher;
         //act
         boolean result = course1.equals(objectToCompare);
@@ -154,12 +136,8 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
-                "238310710", "A123", address, teacherCategory, department);
-        Teacher teacher2 = new Teacher("DSA", "Artur Silva Dias", "dsa@gmail.com",
-                "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
-        Course course2 = new Course("Maths", "INF", 5, teacher2);
+        Course course1 = new Course("Informatics", "INF", 10);
+        Course course2 = new Course("Maths", "INF", 5);
         //act
         boolean result = course1.equals(course2);
         //assert
@@ -172,12 +150,8 @@ class CourseTest {
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
         Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
-                "238310710", "A123", address, teacherCategory, department);
-        Teacher teacher2 = new Teacher("DSA", "Artur Silva Dias", "dsa@gmail.com",
-                "238310710", "A123", address, teacherCategory, department);
-        Course course1 = new Course("Informatics", "INF", 10, teacher);
-        Course course2 = new Course("Maths", "MAT", 5, teacher2);
+        Course course1 = new Course("Informatics", "INF", 10);
+        Course course2 = new Course("Maths", "MAT", 5);
         //act
         boolean result = course1.equals(course2);
         //assert

@@ -1,21 +1,18 @@
 package PAI.domain;
 
-import java.util.ArrayList;
-
 public class Course {
 
     private String _name;
     private String _acronym;
     private int _quantityCreditsEcts;
-    private ArrayList <Teacher> _teacher;
 
-    public Course (String name, String acronym, int quantityOfEcts,  Teacher teacher) throws Exception{
-        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityOfEcts)) {
+    public Course (String name, String acronym, int quantityCreditsEcts) throws Exception{
+        if (!isValidName(name) || !isValidAcronym(acronym) || !isValidQuantityOfEcts(quantityCreditsEcts)) {
             throw new Exception("Invalid input");
         }
             _name = name;
             _acronym = acronym;
-            _quantityCreditsEcts = quantityOfEcts;
+            _quantityCreditsEcts = quantityCreditsEcts;
     }
 
     private boolean isValidName(String courseName) {

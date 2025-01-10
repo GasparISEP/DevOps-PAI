@@ -225,7 +225,7 @@ class ProgrammeTest {
         Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",20);
-        Course course1 = new Course("matemática", "MTA", 30, teacher1);
+        Course course1 = new Course("matemática", "MTA", 30);
         Programme lei = new Programme("Engenharia Informática", "LEI", 20, 6, degree1, department1, teacher1);
         // act
         boolean result = lei.addCourse(course1);
@@ -316,7 +316,7 @@ class ProgrammeTest {
         Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",20);
-        Course course1 = new Course("matemática", "MTA", 30, teacher1);
+        Course course1 = new Course("matemática", "MTA", 30);
         Programme lei = new Programme("Engenharia Informática", "LEI", 20, 6, degree1, department1, teacher1);
         // act
         lei.addCourse(course1);
