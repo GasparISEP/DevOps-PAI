@@ -55,6 +55,21 @@ public class Programme {
         return quantityOfSemesters <=0;
     }
 
+    @Override
+    public boolean equals(Object ObjectToCompare){
+        if (this == ObjectToCompare)
+            return true;
+
+        if (!(ObjectToCompare instanceof Programme))
+            return false;
+
+        Programme ProgrameToBeCompared = (Programme) ObjectToCompare;
+
+        if (this._acronym == ProgrameToBeCompared._acronym)
+            return true;
+        return false;
+    }
+
     //Method to add Course
     public boolean addCourse(Course course) {
         if (_courseList.contains(course)) {

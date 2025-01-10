@@ -186,6 +186,80 @@ class ProgrammeTest {
     }
 
     @Test
+    void equalsProgrammeReturnTrue () throws Exception {
+
+        //arrange
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act
+        boolean result = CE.equals(CEE);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void notEqualsProgrammeReturnFalse () throws Exception {
+
+        //arrange
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+        Programme CEE = new Programme("Computer Engineering", "CEE", 20,6,master,CSE,teacher);
+
+        //act
+        boolean result = CE.equals(CEE);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void equalsCompareObjectReturnTrue() throws Exception {
+
+        //arrange
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act
+        boolean result = CE.equals(CE);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void equalsDontCompareDifferentObjectAndReturnFalse() throws Exception {
+
+        //arrange
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act
+        boolean result = CE.equals(teacher);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
     void shouldReturnFalseIfCourseIsAlreadyInAProgramme() throws Exception {
         //arrange
 
