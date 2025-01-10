@@ -211,4 +211,39 @@ class StudentTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnTrueIfTwoStudentsHaveTheSameUniqueNumber() throws Exception {
+        // Arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+
+        Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
+        Student student2 = new Student(1, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+
+        // Act
+        boolean result = student1.hasSameUniqueNumber(student2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoStudentsDontHaveTheSameUniqueNumber() throws Exception {
+        // Arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+
+        Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
+        Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+
+        // Act
+        boolean result = student1.hasSameUniqueNumber(student2);
+
+        // Assert
+        assertFalse(result);
+    }
+
 }

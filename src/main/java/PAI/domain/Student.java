@@ -68,7 +68,7 @@ public class Student {
     }
 
     // Check for matching uniqueNumber
-    private boolean hasSameUniqueNumber(Student student) {
+    public boolean hasSameUniqueNumber(Student student) {
         return _uniqueNumber == student._uniqueNumber;
     }
 
