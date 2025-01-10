@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Programme {
 
@@ -12,6 +13,7 @@ public class Programme {
     private Department _department;
     private Teacher _programmeDirector;
     private ArrayList<Course> _courseList = new ArrayList<>();
+    private List<Enrolment> _programmeEnrolment;
 
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
@@ -35,6 +37,8 @@ public class Programme {
 
         if (programmeDirector== null){throw  new IllegalArgumentException("Insert a valid Programme Director");}
         _programmeDirector = programmeDirector;
+
+        _programmeEnrolment = new ArrayList<>();
 
     }
 
@@ -83,6 +87,27 @@ public class Programme {
 
     public void newProgrammeDirector(Teacher teacherDirector) throws Exception {
         _programmeDirector = teacherDirector;
+    }
+
+    public boolean enrolStudentInProgramme (Student student, AccessMethod accessMethod, AccessMethodRepository amr) throws Exception {
+
+        //Verify if access method exists in the access method repository
+        if(!amr.isAccessMethodRegistered(accessMethod)) {
+            throw new Exception("Access method cannot be found in the repository!");
+        }
+
+        //Verify if student is already enrolled in the programme
+        for(Enrolment existingEnrolment : _programmeEnrolment) {
+            if (existingEnrolment.isSameStudent(student))
+                throw new Exception("Student is already enrolled in the programme!");
+        }
+
+        //Creates enrolment and adds it to the _programmeEnrolment list
+        Enrolment enrolment = new Enrolment(student, accessMethod);
+
+        _programmeEnrolment.add(enrolment);
+
+        return true;
     }
 
 }

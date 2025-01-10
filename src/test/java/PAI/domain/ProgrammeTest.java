@@ -340,4 +340,106 @@ class ProgrammeTest {
         //act + assert
         CE.newProgrammeDirector(teacher1);
     }
+
+    @Test
+    void shouldReturnTrueIfTheEnrolmentInTheProgrammeIsSuccessful() throws Exception {
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        AccessMethod am1 = new AccessMethod("Maiores 23");
+
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("Maiores 23");
+
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act
+        boolean result = CE.enrolStudentInProgramme(student1, am1, amr);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfEnrolmentIsNotSuccessfulBecauseAccessMethodIsNotRegistered() throws Exception {
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        AccessMethod am1 = new AccessMethod("Maiores 23");
+
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("CNA");
+
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act + assert
+        assertThrows(Exception.class, () -> CE.enrolStudentInProgramme(student1, am1, amr));
+    }
+
+    @Test
+    void shouldReturnFalseIfEnrolmentIsNotSuccessfulBecauseStudentIsAlreadyEnrolledInTheProgramme() throws Exception {
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        AccessMethod am1 = new AccessMethod("Maiores 23");
+
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("Maiores 23");
+
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act
+        CE.enrolStudentInProgramme(student1, am1, amr);
+
+        //assert
+        assertThrows(Exception.class, () -> CE.enrolStudentInProgramme(student1, am1, amr));
+    }
+
+    @Test
+    void shouldEnrolSuccessfullyMoreThanOneStudent() throws Exception {
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
+        Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+
+        AccessMethod am1 = new AccessMethod("Maiores 23");
+
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("Maiores 23");
+
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act
+        boolean result1 = CE.enrolStudentInProgramme(student1, am1, amr);
+        boolean result2 = CE.enrolStudentInProgramme(student2, am1, amr);
+
+        //assert
+        assertTrue(result1);
+        assertTrue(result2);
+    }
 }
