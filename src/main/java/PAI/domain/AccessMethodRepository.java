@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 public class AccessMethodRepository {
 
-    private ArrayList<AccessMethod> _AccessMethodRepository;
+    private ArrayList<AccessMethod> _accessMethodRepository;
 
     public AccessMethodRepository (){
 
-        _AccessMethodRepository = new ArrayList<>();
+        _accessMethodRepository = new ArrayList<>();
     }
 
     public boolean registerAccessMethod (String accessMethodName) throws Exception {
         AccessMethod accessMethod = new AccessMethod(accessMethodName);
 
-        if (_AccessMethodRepository.contains(accessMethod))
+        if (_accessMethodRepository.contains(accessMethod))
             return false;
 
-        _AccessMethodRepository.add(accessMethod);
+        _accessMethodRepository.add(accessMethod);
         return true;
     }
 }

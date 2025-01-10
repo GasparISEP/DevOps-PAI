@@ -6,7 +6,7 @@ public class Course {
 
     private String _name;
     private String _acronym;
-    private int _quantityOfEcts;
+    private int _quantityCreditsEcts;
     private ArrayList <Teacher> _teacher;
 
     public Course (String name, String acronym, int quantityOfEcts,  Teacher teacher) throws Exception{
@@ -15,7 +15,7 @@ public class Course {
         }
             _name = name;
             _acronym = acronym;
-            _quantityOfEcts = quantityOfEcts;
+            _quantityCreditsEcts = quantityOfEcts;
     }
 
     private boolean isValidName(String courseName) {
