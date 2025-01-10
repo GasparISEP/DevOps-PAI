@@ -1,0 +1,111 @@
+@startuml
+!pragma layout smetana
+
+ left to right direction
+
+class Department {
+    -_acronym:String
+    -_name:String
+    +Department (departmentAcronym,departmentName)
+    +Department (departmentAcronym,departmentName,director)
+    -validadeDepartmentAcronym ()
+    -validateDepartmentName ()
+    +changeDirector ()
+}
+
+class Facility
+
+class TeacherCategory {
+    -_name:String
+}
+
+class Programme {
+     - name: string
+     - acronym: string
+     - quantityOfEcts: int
+     - quantityOfSemesters: int
+
+     + Equals()
+     + addCourse(): boolean
+     + newProgrammeDirector(): boolean
+     + isSameProgrammeDirector(): boolean
+ }
+
+class DegreeType {
+    - name: string
+    - maxEcts: int
+    + nameIsInvalid(): boolean
+    + maxEctsIsInvalid(): boolean
+}
+
+class Teacher {
+    -_acronym:String
+    -_name:String
+    -_email:String
+    -_nif:String
+    -_phoneNumber:String
+    +Teacher ()
+    -validateAcronym ()
+    -validateName ()
+    -validateEmail ()
+    -validateNIF ()
+    -validadePhoneNumber ()
+    #isInDepartment ()
+}
+
+
+class SchoolYear {
+    -_startYear:int
+    -_endYear:int
+    -_title:String
+}
+
+class Enrollment {
+    -_activityStatus:String
+}
+
+class Student {
+    -_uniqueNumber:int
+    -_name:String
+    -_nif:int
+    -_phoneNumber:int
+    -_email:String
+}
+
+class AccessMethod {
+    -_type:String
+}
+
+class Address {
+     -_street:String
+     -_building:int
+     -_floor:int
+     -_door:int
+     -_postalCode: String
+     -_locality: String
+}
+
+class Course {
+    -_name: String
+    -_acronym: String
+    -_ECTS: int
+}
+
+Department "1" -- "1..*" Facility : aggregates
+Teacher "1" -- "1" Address: has
+Student "1" -- "1" Address: has
+Programme "1..*" --> "1" Teacher : has a Programme Director
+Teacher "1" -- "*" TeacherCategory: has
+Teacher "1..*" -- "*" Course: Teach
+Course "*" -- "1..*" Semester: is associated to
+Course  "1..*" <-- "1" Programme: has
+Programme "1" -- "1..*" Semester: has
+Programme "*" --> "1*" Department: Assigned to
+DegreeType "1" <-- "*" Programme
+Enrollment "*" -- "1" AccessMethod: is registered
+Programme "1"  --> "*" Enrollment: has
+Student "1" -- "*" Enrollment: enrolls
+Teacher "1" -- "1" Department: is Department Director
+Teacher "1..*" -- "1" Department: aggregates
+
+@enduml
