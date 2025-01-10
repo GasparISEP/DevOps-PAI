@@ -2,22 +2,22 @@
 skinparam sequenceMessageAlign center
 
 actor Admin
-participant ":SYR" as SchoolYearRepository
-participant ":SchoolYear" as SchoolYear
+participant ":SchoolYearRepository" as SYR
 
-Admin -> SchoolYearRepository: insertSchoolYear(description, \nstartDate, endDate)
-activate SchoolYearRepository
-SchoolYearRepository -> SchoolYear: createSchoolYear(description, \nstartDate, endDate)
+Admin -> SYR: insertSchoolYear(description, \nstartDate, endDate)
+activate SYR
+create "sy1:SchoolYear" as SchoolYear
+SYR -> SchoolYear: createSchoolYear(description, startDate, endDate)
 activate SchoolYear
 SchoolYear -> SchoolYear: validation()
-SchoolYear --> SchoolYearRepository: SchoolYear Instance
+SchoolYear --> SYR: SchoolYear Instance
 deactivate SchoolYear
 |||
-ref over SchoolYearRepository, SchoolYear
+ref over SYR, SchoolYear
     Check if SchoolYear is already inserted
 end ref
 |||
-SchoolYearRepository -> SchoolYearRepository: addSchoolYear(SchoolYear)
-SchoolYearRepository --> Admin: SchoolYear created
-deactivate SchoolYearRepository
+SYR -> SYR: addSchoolYear(sy1:SchoolYear)
+SYR --> Admin: SchoolYear created
+deactivate SYR
 @enduml
