@@ -8,8 +8,6 @@ class Department {
     -_name:String
     +Department(departmentAcronym,departmentName)
     +Department(departmentAcronym,departmentName,director)
-    -validateAcronym()
-    -validateName()
     +hasSameAcronym()
     +hasSameName()
     +changeDirector()
@@ -47,11 +45,6 @@ class Teacher {
      -_nif:String
      -_phoneNumber:String
      +Teacher ()
-     -validateAcronym()
-     -validateName()
-     -validateEmail()
-     -validateNIF()
-     -validadePhoneNumber()
      +hasSameAcronym()
      +hasSameNif()
      +isInDepartment()
