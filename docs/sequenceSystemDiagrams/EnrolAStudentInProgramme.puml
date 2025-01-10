@@ -1,0 +1,21 @@
+@startuml
+skinparam sequenceMessageAlign center
+
+actor ASC
+participant ":Programme" as Programme
+
+ASC -> Programme: enrolStudent(Student, AccessMethod, \nAccessMethodRepository)
+activate Programme
+create "e1:Enrolment" as Enrolment
+Programme -> Enrolment: createEnrolment(Student, AccessMethod)
+Enrolment --> Programme: Enrolment Instance
+|||
+ref over Programme, Enrolment
+    Check if student is already enroled in the programme;
+        and if the AccessMethod exists in AccessMethodRepository
+end ref
+|||
+Programme -> Programme: addEnrolment(e1:Enrolment)
+Programme --> ASC: Successful Enrolment
+Deactivate Programme
+@enduml
