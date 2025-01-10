@@ -14,10 +14,15 @@ public class AccessMethodRepository {
     public boolean registerAccessMethod (String accessMethodName) throws Exception {
         AccessMethod accessMethod = new AccessMethod(accessMethodName);
 
-        if (_accessMethodRepository.contains(accessMethod))
+        if (isAccessMethodRegistered(accessMethod))
             return false;
 
         _accessMethodRepository.add(accessMethod);
         return true;
+    }
+
+    public boolean isAccessMethodRegistered(AccessMethod accessMethod) {
+
+        return _accessMethodRepository.contains(accessMethod);
     }
 }
