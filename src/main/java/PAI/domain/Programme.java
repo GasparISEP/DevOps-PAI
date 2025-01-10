@@ -40,11 +40,11 @@ public class Programme {
 
 
     private boolean isNameInvalid (String name){
-        return name == null || name.isBlank();
+        return name == null || name.isBlank() || !name.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     }
 
     private boolean isAcronymInvalid (String acronym){
-        return acronym == null || acronym.isBlank();
+        return acronym == null || acronym.isBlank() || !acronym.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     }
 
     private boolean isQuantityOfEctsInvalid (int quantityOfEcts){

@@ -167,6 +167,54 @@ class ProgrammeTest {
 
     }
 
+    @Test
+    void specialCharactersInNameDontCreateAProgramme () throws Exception {
+
+        //arrange
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+
+
+        //act + assert
+
+        assertThrows(Exception.class, () -> new Programme("@Computer Science", "CE", 20,6,master,CSE,teacher1));
+    }
+
+
+    @Test
+    void numbersInAcronymDontCreateAProgramme () throws Exception {
+
+        //arrange
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+
+
+        //act + assert
+
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "123", 20,6,master,CSE,teacher1));
+    }
+
+    @Test
+    void specialCharactersInAcronymDontCreateAProgramme () throws Exception {
+
+        //arrange
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+
+
+        //act + assert
+
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", 20,6,master,CSE,teacher1));
+    }
     //Add Course To Programme
     @Test
     void shouldReturnTrueIfCourseIsAddToAProgramme() throws Exception {
