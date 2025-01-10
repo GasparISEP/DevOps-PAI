@@ -1,0 +1,25 @@
+@startuml
+title US06: Change/Update Department Director
+
+participant "Test" as Test #Orange/White
+
+participant ":DepartmentDirector1" as DepartmentDirector #DeepPink/White
+activate DepartmentDirector
+
+Test -> DepartmentDirector: change/update Further_director (Teacher)
+create "t1:Teacher" as Teacher #Violet/White
+DepartmentDirector -> Teacher : getTeacher (t1)
+activate Teacher
+create "d1:Department" as Department #cyan/White
+Teacher -> Department: isInDepartment (d1)
+activate Department
+Department --> Teacher: True ("Further_director belongs to department1.")
+deactivate Department
+Teacher --> DepartmentDirector: Teacher selected
+deactivate Teacher
+DepartmentDirector -> DepartmentDirector: change/update (t1)
+
+
+DepartmentDirector --> Test: True ("The Department Director change is valid.")
+
+@enduml
