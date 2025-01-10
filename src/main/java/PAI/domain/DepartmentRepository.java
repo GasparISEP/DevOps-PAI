@@ -12,16 +12,17 @@ public class DepartmentRepository {
         departments = new ArrayList<>();
     }
 
+    public boolean registerDepartment(String acronym, String name) throws Exception {
 
-    public Department createDepartment (String acronym, String name) throws Exception {
-        return new Department(acronym,name);
+        Department department = new Department(acronym,name);
 
+        compareDepartmentAcronymAndNameInList(department);
+        departments.add(department);
+
+        return true;
     }
 
-    public void registerDepartment(Department department) throws IllegalArgumentException {
-        if (department == null)
-            throw new IllegalArgumentException("Department cannot be null.");
-
+    private void compareDepartmentAcronymAndNameInList(Department department) {
         for (Department existingDepartment : departments) {
             if (department.hasSameAcronym(existingDepartment)) {
                 throw new IllegalArgumentException("Department with that acronym already exists.");
@@ -30,10 +31,5 @@ public class DepartmentRepository {
                 throw new IllegalArgumentException("Department with that name already exists.");
             }
         }
-        departments.add(department);
-    }
-
-    public List<Department> getDepartments() {
-        return departments;
     }
 }

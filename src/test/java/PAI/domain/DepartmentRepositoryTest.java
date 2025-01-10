@@ -6,81 +6,64 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DepartmentRepositoryTest {
 
-
     //Verifying the creation of a new valid department
     @Test
-    void shouldCreateValidDepartment() throws Exception {
+    void shouldRegisterValidDepartment() throws Exception {
         // Arrange
         DepartmentRepository repository = new DepartmentRepository();
 
         // Act
-        Department department = repository.createDepartment("CSE", "Computer Science");
+        boolean result = repository.registerDepartment("CSE", "Computer Science");
 
         // Assert
-        assertNotNull(department);
+        assertTrue(result, "The department should be successfully registered.");
     }
 
-    // Testing when the department is null
+    //Verifying the creation of two new valid departments
     @Test
-    public void testRegisterNullDepartment() {
-        //arrange
+    void shouldRegisterMultipleDifferentDepartments() throws Exception {
+        // Arrange
         DepartmentRepository repository = new DepartmentRepository();
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> repository.registerDepartment(null));
+
+        // Act
+        boolean result1 = repository.registerDepartment("CSE", "Computer Science");
+        boolean result2 = repository.registerDepartment("ECE", "Electronics");
+
+        // Assert
+        assertTrue(result1, "The first department should be registered.");
+        assertTrue(result2, "The second department should be registered.");
     }
 
     //Testing when the department has an existing acronym
     @Test
-    public void testRegisterDuplicateAcronym() throws Exception {
-        //arrange
+    void shouldThrowExceptionForDuplicateAcronym() {
+        // Arrange
         DepartmentRepository repository = new DepartmentRepository();
-        Department department1 = new Department( "CSE","Computer Science");
-        repository.registerDepartment(department1);
-        //act
-        Department duplicateAcronymDepartment = new Department( "CSE","Physics");
-        //assert
-        assertThrows(IllegalArgumentException.class, () -> repository.registerDepartment(duplicateAcronymDepartment));
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            repository.registerDepartment("CSE", "Computer Science");
+            repository.registerDepartment("CSE", "Civil Engineering");
+        });
+
+        // Assert
+        assertEquals("Department with that acronym already exists.", exception.getMessage());
     }
 
     //Testing when the department has an existing name
     @Test
-    public void testRegisterDuplicateName() throws Exception {
-        //arrange
+    void shouldThrowExceptionForDuplicateName() {
+        // Arrange
         DepartmentRepository repository = new DepartmentRepository();
-        Department department1 = new Department( "CSE","Computer Science");
-        repository.registerDepartment(department1);
-        //act
-        Department duplicateNameDepartment = new Department( "CSS","Computer Science");
-        //assert
-        assertThrows(IllegalArgumentException.class, () -> repository.registerDepartment(duplicateNameDepartment));
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            repository.registerDepartment("CSE", "Computer Science");
+            repository.registerDepartment("CIV", "Computer Science");
+        });
+
+        // Assert
+        assertEquals("Department with that name already exists.", exception.getMessage());
     }
 
-    //Verifying the registration of a new valid department
-    @Test
-    public void testRegisterValidDepartment() throws Exception {
-        //arrange
-        DepartmentRepository repository = new DepartmentRepository();
-        Department department1 = new Department( "CSE","Computer Science");
-        //act + assert
-        assertDoesNotThrow(() -> repository.registerDepartment(department1));
-        assertTrue(repository.getDepartments().contains(department1));
-    }
-
-    //Testing if whe can see the elements of the departments list
-    @Test
-    public void testGetDepartments() throws Exception {
-        //arrange
-        DepartmentRepository repository = new DepartmentRepository();
-        Department department1 = new Department( "CSE","Computer Science");
-        Department department2 = new Department( "MAT", "Mathematics");
-        Department department3 = new Department( "PHY","PHYSICS");
-        repository.registerDepartment(department1);
-        repository.registerDepartment(department2);
-        repository.registerDepartment(department3);
-        //act + assert
-        assertEquals(3, repository.getDepartments().size());
-        assertTrue(repository.getDepartments().contains(department1));
-        assertTrue(repository.getDepartments().contains(department2));
-        assertTrue(repository.getDepartments().contains(department3));
-    }
 }
