@@ -1,10 +1,10 @@
 @startuml
 actor ASC
 participant ":ProgrammeList" as PL #lightgreen
-participant ":Programme" as PG #yellow
 
 ASC -> PL : I want to register a Programme (name, acronym, Ects, Semesters, Department, DegreeType, TeacherDirector)
 activate PL
+create ":Programme" as PG #yellow
 PL -> PG : Create DegreeType (name, acronym, Ects, Semesters, Department, DegreeType, TeacherDirector)
 activate PG
 PG -> PG : isNameValid(name)
@@ -18,4 +18,5 @@ PL -> PL : Register Programme
 end
 deactivate PG
 PL --> ASC : Registration Successful
+deactivate PL
 @enduml

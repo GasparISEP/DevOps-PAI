@@ -1,10 +1,10 @@
 @startuml
 actor Admnistrator as Adm
 participant ":DegreeTypeList" as DTL #lightgreen
-participant ":DegreeType" as DT #yellow
 
 Adm -> DTL : Register DegreeType (name, maxEcts)
 activate DTL
+create "DT1:DegreeType" as DT #yellow
 DTL -> DT : Create DegreeType (name, maxEcts)
 activate DT
 DT -> DT : nameIsInvalid(name)
@@ -13,4 +13,5 @@ DT --> DTL : DegreeType Object
 deactivate DT
 DTL -> DTL : add DegreeType
 DTL --> Adm : Registration Successful
+deactivate DTL
 @enduml
