@@ -1,0 +1,33 @@
+@startuml
+
+title US05: Register a Department in the System
+
+participant "Test" as Test #Orange/White
+participant ":DepartmentRepository" as DepartmentRepository #DeepPink/White
+participant "d1:Department" as Department #Violet/White
+participant "d[i]:Department" as Departmenti #Cyan/White
+
+Test -> DepartmentRepository: registerDepartment(acronym, name)
+activate DepartmentRepository
+
+DepartmentRepository -> Department **: createDepartment (acronym, name)
+activate Department
+Department --> DepartmentRepository: Department created
+
+deactivate Department
+
+
+loop for each Department d[i] in DepartmentRepository
+DepartmentRepository -> Departmenti: compareDepartmentAcronymAndNameInList(d1:Department)
+activate Departmenti
+Departmenti --> DepartmentRepository: Acronym and name are valid.
+deactivate Departmenti
+end
+
+
+DepartmentRepository -> DepartmentRepository: add (d1:Department)
+
+DepartmentRepository --> Test: Department registered
+deactivate DepartmentRepository
+
+@enduml
