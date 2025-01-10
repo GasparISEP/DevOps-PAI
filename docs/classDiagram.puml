@@ -1,17 +1,24 @@
 @startuml
 !pragma layout smetana
 
- left to right direction
+/'left to right direction'/
 
 class Department {
     -_acronym:String
     -_name:String
-    +Department(departmentAcronym,departmentName)
-    +Department(departmentAcronym,departmentName,director)
-    +hasSameAcronym()
-    +hasSameName()
-    +changeDirector()
+    +Department(departmentAcronym: String, departmentName: String)
+    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
+    +hasSameAcronym(department: Department)
+    +hasSameName(department: Department)
+    +changeDirector(furtherDirector: Teacher)
 }
+
+class DepartmentRepository {
+    -_departments: List<Department>
+    +departmentRepository()
+    +registerDepartment(departmentAcronym: String, departmentName: String)
+}
+
 
 class Facility
 
@@ -44,10 +51,18 @@ class Teacher {
      -_email:String
      -_nif:String
      -_phoneNumber:String
-     +Teacher ()
-     +hasSameAcronym()
-     +hasSameNif()
-     +isInDepartment()
+     +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+     address: Address, teacherCategory: TeacherCategory, department: Department)
+     +hasSameAcronym(teacher: Teacher)
+     +hasSameNif(teacher: Teacher)
+     +isInDepartment(department: Department)
+}
+
+class TeacherRepository {
+    -_teachers: List<Teacher>
+    +teacherRepository()
+    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+                          address: Address, teacherCategory: TeacherCategory, department: Department)
 }
 
 
@@ -104,5 +119,7 @@ Programme "1"  --> "*" Enrollment: has
 Student "1" -- "*" Enrollment: enrolls
 Teacher "1" -- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates
+Teacher "1..*" -- "1" TeacherRepository
+Department "1..*" -- "1" DepartmentRepository
 
 @enduml
