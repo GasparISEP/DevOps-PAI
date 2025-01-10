@@ -55,6 +55,8 @@ public class Programme {
         return quantityOfSemesters <=0;
     }
 
+
+    //method
     @Override
     public boolean equals(Object ObjectToCompare){
         if (this == ObjectToCompare)
