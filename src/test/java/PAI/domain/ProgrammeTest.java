@@ -276,4 +276,20 @@ class ProgrammeTest {
         // assert
         assertFalse(result);
     }
+
+    @Test
+    void creatNewProgrammeDirector() throws Exception {
+        //arrange
+
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        //act + assert
+        CE.newProgrammeDirector(teacher1);
+    }
 }

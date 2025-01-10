@@ -81,4 +81,8 @@ public class Programme {
         return true;
     }
 
+    public void newProgrammeDirector(Teacher teacherDirector) throws Exception {
+        _programmeDirector = teacherDirector;
+    }
+
 }
