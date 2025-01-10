@@ -2,29 +2,23 @@
 skinparam sequenceMessageAlign center
 
 actor ASC
-participant ":SR" as StudentRepository
-participant ":Address" as Address
-participant ":Student" as Student
+participant ":StudentRepository" as SR
+participant "s1:Student" as Student
 
-ASC -> StudentRepository: registerStudent(uniqueNumber, \npersonalInfo, addressInfo)
-activate StudentRepository
-StudentRepository -> Address: createAddress(street, postalCode, \ncity, country)
-activate Address
-Address -> Address: validate()
-Address --> StudentRepository: Address instance
-deactivate Address
-|||
-StudentRepository -> Student: createStudent(uniqueNumber, name, NIF, phone, email, Address)
+ASC -> SR: registerStudent(uniqueNumber, \npersonalInfo, Address)
+activate SR
+create Student
+SR -> Student: createStudent(uniqueNumber, name, NIF, phone, email, Address)
 activate Student
 Student -> Student: validate()
-Student --> StudentRepository: Student instance
+Student --> SR: Student instance
 |||
-ref over StudentRepository, Student
+ref over SR, Student
     Check if a student is already registered
 end ref
 
 deactivate Student
 |||
-StudentRepository -> StudentRepository: addStudent(Student)
-StudentRepository --> ASC: Registration Successful
+SR -> SR: addStudent(s1:Student)
+SR --> ASC: Registration Successful
 @enduml
