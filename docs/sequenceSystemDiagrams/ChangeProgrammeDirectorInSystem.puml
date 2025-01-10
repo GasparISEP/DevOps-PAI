@@ -5,7 +5,7 @@ participant ":Programme" as PG #yellow
 
 ASC -> PL : I want to change Programme Director (Programme, Teacher)
 activate PL
-PL -> PG : Create DegreeType (Programme, Teacher)
+PL -> PG : Change Programme Director (Programme, Teacher)
 PG -> PG : validate()
 PG --> PL : Changed Programme Director
 deactivate PG
