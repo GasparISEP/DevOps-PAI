@@ -1,0 +1,21 @@
+@startuml
+actor ASC
+participant ":ProgrammeList" as PL #lightgreen
+participant ":Programme" as PG #yellow
+
+ASC -> PL : I want to register a Programme (name, acronym, Ects, Semesters, Department, DegreeType, TeacherDirector)
+activate PL
+PL -> PG : Create DegreeType (name, acronym, Ects, Semesters, Department, DegreeType, TeacherDirector)
+activate PG
+PG -> PG : isNameValid(name)
+PG -> PG : isAcronymValid(acronym)
+PG -> PG : isQtyEctsInvalid(qtyEcts)
+PG -> PG : isQtySemestersValid(qtySemesters)
+PG --> PL : Object Created
+deactivate PG
+group Ref [Check if Programme is Duplicated]
+PL -> PL : Register Programme
+end
+deactivate PG
+PL --> ASC : Registration Successful
+@enduml
