@@ -1,7 +1,10 @@
 package PAI.domain;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class StudentTest {
 
@@ -155,4 +158,57 @@ class StudentTest {
         assertThrows(Exception.class, () -> new Student(4, "Pedro", "159753824", "963996987", null, address1));
     }
 
+    @Test
+    void shouldReturnTrueIfStudentIsRepeatedWithDuplicateUniqueNumber() throws Exception {
+        // Arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address2 = new Address("Avenida Principal, nº10", "1000-001", "Lisboa", "Portugal");
+
+        Student student1 = new Student(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+        Student duplicateByNumber = new Student(12345, "Paula", "222333444", "910000000", "paula@gmail.com", address2);
+
+        List<Student> existingStudents = List.of(student1);
+
+        // Act
+        boolean result = duplicateByNumber.isStudentRepeated(existingStudents);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfStudentIsRepeatedWithDuplicateNIF() throws Exception {
+        // Arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address2 = new Address("Rua das Flores, nº7", "3000-200", "Coimbra", "Portugal");
+
+        Student student1 = new Student(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+        Student duplicateByNIF = new Student(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", address2);
+
+        List<Student> existingStudents = List.of(student1);
+
+        // Act
+        boolean result = duplicateByNIF.isStudentRepeated(existingStudents);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfStudentIsNotRepeatedWithDuplicateUniqueNumber() throws Exception {
+        // Arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address2 = new Address("Rua das Flores, nº7", "3000-200", "Coimbra", "Portugal");
+
+        Student student1 = new Student(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+        Student uniqueStudent = new Student(54321, "João", "112233445", "919999999", "joao@gmail.com", address2);
+
+        List<Student> existingStudents = List.of(student1);
+
+        // Act
+        boolean result = uniqueStudent.isStudentRepeated(existingStudents);
+
+        // Assert
+        assertFalse(result);
+    }
 }

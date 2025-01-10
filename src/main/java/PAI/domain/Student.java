@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import java.util.List;
+
 public class Student {
 
     private int _uniqueNumber;
@@ -54,6 +56,25 @@ public class Student {
     private boolean areParametersInvalid(String parameter) {
 
         return parameter == null || parameter.isBlank();
+    }
+
+    public boolean isStudentRepeated(List<Student> students) {
+        for (Student existingStudent : students) {
+            if (hasSameUniqueNumber(existingStudent) || hasSameNIF(existingStudent)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check for matching uniqueNumber
+    private boolean hasSameUniqueNumber(Student student) {
+        return _uniqueNumber == student._uniqueNumber;
+    }
+
+    // Check for matching NIF
+    private boolean hasSameNIF(Student student) {
+        return _NIF.equals(student._NIF);
     }
 
 }
