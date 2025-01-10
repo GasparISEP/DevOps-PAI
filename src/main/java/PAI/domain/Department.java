@@ -55,7 +55,7 @@ public class Department {
     }
 
     //US06
-    protected boolean changeDirector(Teacher furtherDirector){
+    public boolean changeDirector(Teacher furtherDirector){
         if(furtherDirector!=null && furtherDirector.isInDepartment(this)){
             _director = furtherDirector;
             return true;

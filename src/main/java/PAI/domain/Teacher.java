@@ -96,7 +96,7 @@ public class Teacher {
     public boolean hasSameNif(Teacher teacher) {
         return this._nif.equals(teacher._nif);
     }
-    public boolean isInDepartment(Department department) {
+    protected boolean isInDepartment(Department department) {
         return _department == department;
     }
 }
