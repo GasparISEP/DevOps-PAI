@@ -4,7 +4,7 @@ public class Address {
 
     private String _street;
     private String _postalCode;
-    private String _city;
+    private String _location;
     private String _country;
 
     //constructor with validations
@@ -26,7 +26,7 @@ public class Address {
         if (areParametersInvalid(location))
             throw new Exception("Location cannot be empty!");
 
-        _city = location;
+        _location = location;
 
         //validation country
         if (areParametersInvalid(country))
