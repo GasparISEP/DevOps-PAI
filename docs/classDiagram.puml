@@ -6,11 +6,13 @@
 class Department {
     -_acronym:String
     -_name:String
-    +Department (departmentAcronym,departmentName)
-    +Department (departmentAcronym,departmentName,director)
-    -validadeDepartmentAcronym ()
-    -validateDepartmentName ()
-    +changeDirector ()
+    +Department(departmentAcronym,departmentName)
+    +Department(departmentAcronym,departmentName,director)
+    -validateAcronym()
+    -validateName()
+    +hasSameAcronym()
+    +hasSameName()
+    +changeDirector()
 }
 
 class Facility
@@ -39,18 +41,20 @@ class DegreeType {
 }
 
 class Teacher {
-    -_acronym:String
-    -_name:String
-    -_email:String
-    -_nif:String
-    -_phoneNumber:String
-    +Teacher ()
-    -validateAcronym ()
-    -validateName ()
-    -validateEmail ()
-    -validateNIF ()
-    -validadePhoneNumber ()
-    #isInDepartment ()
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     +Teacher ()
+     -validateAcronym()
+     -validateName()
+     -validateEmail()
+     -validateNIF()
+     -validadePhoneNumber()
+     +hasSameAcronym()
+     +hasSameNif()
+     +isInDepartment()
 }
 
 
