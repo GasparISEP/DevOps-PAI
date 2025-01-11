@@ -72,7 +72,6 @@ class SchoolYear {
     -_startData:String
     -_endDate:String
     +SchoolYear(description: String, StartDate: String, EndDate: String)
-    +getSchoolYear(description: String, StartDate: String, EndDate: String)
     +isSameSchoolYear(otherSchoolYear: SchoolYear)
 }
 
