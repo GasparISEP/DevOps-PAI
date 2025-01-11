@@ -142,7 +142,7 @@ StudentRepository "1" --> "*" Student
 SchoolYearRepository "1" --> "*" SchoolYear
 Teacher "1" -- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates
-Teacher "1..*" -- "1" TeacherRepository
-Department "1..*" -- "1" DepartmentRepository
+Teacher "1..*" --> "1" TeacherRepository
+Department "1..*" --> "1" DepartmentRepository
 
 @enduml
