@@ -110,10 +110,9 @@ public class Programme {
                     throw new IllegalArgumentException("The course already exists in the programme");
             }
         }
-        if (course.getDurationInSemester() == 2 && semesterWhereCourseIsPresent != 0 && (semesterWhereCourseIsPresent % 2 == 0) && semester + 1 != semesterWhereCourseIsPresent - 1)
-            throw new IllegalArgumentException("This course can only be added to the previous semester");
-        if (course.getDurationInSemester() == 2 && semesterWhereCourseIsPresent != 0 && (semesterWhereCourseIsPresent % 2 != 0) && semester + 1 != semesterWhereCourseIsPresent + 1)
-            throw new IllegalArgumentException("This course can only be added to the next semester");
+
+        if(!isPossibleToAddACourseInThisYear(course,semesterWhereCourseIsPresent,semester))
+            throw new Exception("This course can not be added to this year");
 
         Semester semesterToAddCourse = listOfSemesters.getSemester(semester);
         ArrayList<Course> listCourses = semesterToAddCourse.getAllCourses();
@@ -173,5 +172,19 @@ public class Programme {
 
         return true;
     }
+
+    private boolean isPossibleToAddACourseInThisYear (Course course, int semesterWhereCourseIsPresent, int semester) {
+        if (course.getDurationInSemester() == 2 && semesterWhereCourseIsPresent != 0 ) {
+            if ((semesterWhereCourseIsPresent % 2 == 0) && semester + 1 != semesterWhereCourseIsPresent - 1) {
+                return false;
+            }
+            if ((semesterWhereCourseIsPresent % 2 != 0) && semester + 1 != semesterWhereCourseIsPresent + 1){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
 }
