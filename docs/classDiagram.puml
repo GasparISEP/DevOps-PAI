@@ -1,7 +1,6 @@
 @startuml
 !pragma layout smetana
-
-/'left to right direction'/
+left to right direction
 
 class Department {
     -_acronym:String
@@ -133,16 +132,15 @@ Teacher "1..*" -- "*" Course: Teach
 Course "*" -- "1..*" Semester: is associated to
 Course  "1..*" <-- "1" Programme: has
 Programme "1" -- "1..*" Semester: has
-Programme "*" --> "1*" Department: Assigned to
+Programme "*" -up-> "1*" Department: Assigned to
 DegreeType "1" <-- "*" Programme
 Enrolment "*" --> "1" AccessMethod: is registered
-Programme "1"  --> "*" Enrolment: has
+Programme "1"  -u-> "*" Enrolment: has
 Student "1" <-- "*" Enrolment: enrolls
 StudentRepository "1" --> "*" Student
 SchoolYearRepository "1" --> "*" SchoolYear
-Teacher "1" -- "1" Department: is Department Director
+Teacher "1" -r- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates
 Teacher "1..*" -- "1" TeacherRepository
 Department "1..*" -- "1" DepartmentRepository
-
 @enduml
