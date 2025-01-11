@@ -412,8 +412,7 @@ class ProgrammeTest {
         assertTrue(result2);
     }
 
-    // NOOOOOOOOOOOOOOOOOOOOOOOOSSOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOS
-
+    // AddCourseToASemesterOfProgramme tests
 
     @Test
     void shouldReturnTrueIfCourseIsAddedToASemesterOfAProgramme() throws Exception {
@@ -428,8 +427,8 @@ class ProgrammeTest {
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
         //act
-        boolean result = lei.addCourse(1, course1, courseRepository);
-        // act & assert
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        //assert
         assertTrue(result);
     }
 
@@ -444,8 +443,8 @@ class ProgrammeTest {
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
-        // act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(3, course1, courseRepository));
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository));
     }
 
     @Test
@@ -459,8 +458,8 @@ class ProgrammeTest {
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
-        // act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(0, course1, courseRepository));
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(0, course1, courseRepository));
     }
 
     @Test
@@ -475,8 +474,8 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.isCourseRegistered(course1);
-        // act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(2, course1, courseRepository));
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
     }
 
     @Test
@@ -490,8 +489,8 @@ class ProgrammeTest {
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
-        // act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(2, course1, courseRepository));
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
     }
 
     @Test
@@ -506,10 +505,10 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 5, 2);
-        lei.addCourse(1, course1, courseRepository);
-        lei.addCourse(2, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(3, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository));
     }
 
     @Test
@@ -524,9 +523,9 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        lei.addCourse(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(2, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
     }
 
     @ParameterizedTest
@@ -542,9 +541,9 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 6, 2);
-        lei.addCourse(2, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(semester, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1, courseRepository));
     }
 
     @ParameterizedTest
@@ -560,9 +559,9 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 6, 2);
-        lei.addCourse(3, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(semester, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1, courseRepository));
     }
 
     @Test
@@ -577,9 +576,9 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 6, 2);
-        lei.addCourse(2, estagio, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(2, estagio, courseRepository);
         //act
-        boolean result = lei.addCourse(1, estagio, courseRepository);
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, estagio, courseRepository);
         //assert
         assertTrue(result);
     }
@@ -596,9 +595,8 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 20, 1);
-        //lei.addCourse(1, course1, courseRepository);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(1, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository));
     }
 
     @Test
@@ -613,9 +611,9 @@ class ProgrammeTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        lei.addCourse(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourse(1, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository));
     }
 
     @Test
@@ -632,9 +630,9 @@ class ProgrammeTest {
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
         courseRepository.registerCourse("português", "POR", 5, 1);
-        lei.addCourse(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
         //act
-        boolean result = lei.addCourse(1, course2, courseRepository);
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, course2, courseRepository);
         //assert
         assertTrue(result);
     }

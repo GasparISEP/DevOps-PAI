@@ -58,7 +58,7 @@ public class SchoolYear {
     }
 
     // Method to compare if School Years are equal
-    public boolean isSameSchoolYear(SchoolYear otherSchoolYear) {
-        return _startDate.equals(otherSchoolYear._startDate) && _endDate.equals(otherSchoolYear._endDate);
+    public boolean isSameSchoolYear(SchoolYear newSchoolYear) {
+        return _startDate.equals(newSchoolYear._startDate) && _endDate.equals(newSchoolYear._endDate);
     }
 }

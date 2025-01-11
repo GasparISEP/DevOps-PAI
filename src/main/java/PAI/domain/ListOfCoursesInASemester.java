@@ -2,23 +2,23 @@ package PAI.domain;
 
 import java.util.ArrayList;
 
-public class Semester {
+public class ListOfCoursesInASemester {
 
-    private ArrayList<Course> listOfCoursesInThesemester = new ArrayList<>();
+    private ArrayList<Course> _listOfCoursesInTheSemester = new ArrayList<>();
 
-    public Semester() {}
+    public ListOfCoursesInASemester() {}
 
     public ArrayList<Course> getAllCourses() {
-        return listOfCoursesInThesemester;
+        return _listOfCoursesInTheSemester;
     }
 
     public void addCourseToSemester (Course course) {
-        listOfCoursesInThesemester.add(course);
+        _listOfCoursesInTheSemester.add(course);
     }
 
     public double sumOfCreditsOfAllCourses() {
         double sum = 0;
-        for (Course course : listOfCoursesInThesemester) {
+        for (Course course : _listOfCoursesInTheSemester) {
             sum += course.getQuantityCreditsEcts();
         }
         return sum;

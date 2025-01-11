@@ -1,6 +1,6 @@
 @startuml
 !pragma layout smetana
-left to right direction
+'left to right direction
 
 class Department {
     -_acronym:String
@@ -18,11 +18,9 @@ class DepartmentRepository {
     +registerDepartment(departmentAcronym: String, departmentName: String)
 }
 
-
-class Facility
-
 class TeacherCategory {
     -_name:String
+    + TeacherCategory (name:String)
 }
 
 class Programme {
@@ -31,9 +29,10 @@ class Programme {
      - quantityOfEcts: int
      - quantityOfSemesters: int
      -_programmeEnrolment: List<Enrolment>
+     -_listOfSemesters: SemestersListOfAProgramme
 
      + Equals()
-     + addCourse(): boolean
+     + addCourseToASemesterOfProgramme (semester: int, course: Course, courseRepository: CourseRepository)
      + newProgrammeDirector(): boolean
      + isSameProgrammeDirector(): boolean
      +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
@@ -72,7 +71,6 @@ class SchoolYear {
     -_startData:String
     -_endDate:String
     +SchoolYear(description: String, StartDate: String, EndDate: String)
-    +getSchoolYear(description: String, StartDate: String, EndDate: String)
     +isSameSchoolYear(otherSchoolYear: SchoolYear)
 }
 
@@ -106,7 +104,15 @@ class StudentRepository {
 }
 
 class AccessMethod {
-    -_type:String
+    -_name:String
+    +AccessMethod(name:String)
+}
+
+class AccessMethodRepository {
+    -_accessMethodRepository:ArrayList<AccessMethod>
+    +AccessMethodRepository()
+    +registerAccessMethod (accessMethodName: String)
+    +isAccessMethodRegistered(accessMethod: AccessMethod)
 }
 
 class Address {
@@ -120,19 +126,44 @@ class Address {
 class Course {
     -_name: String
     -_acronym: String
-    -_ECTS: int
+    -_quantityCreditsEcts: double
+    -_durationCourseInSemester: int
+
+    +Course(name: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
+    +getQuantityCreditsEcts()
+    +getDurationInSemester()
 }
 
-Department "1" -- "1..*" Facility : aggregates
+class CourseRepository {
+    -_courseRepository:ArrayList<Course>
+    +CourseRepository()
+    +registerCourse (courseName: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
+    +isCourseRegistered (course: Course)
+}
+
+class SemestersListOfaProgramme {
+    -_semestersListOfAProgramme: ArrayList<ListOfCoursesInASemester>
+    +SemestersListOfAProgramme()
+    +addSemester (semester: Semester)
+    +getSemester (semesterNumber: int)
+}
+
+class ListOfCoursesInASemester {
+    -_listOfCoursesInTheSemester: ArrayList<Course>
+    +ListOfCoursesInASemester()
+    +getAllCourses()
+    +addCourseToASemester (course: Course)
+}
+
 Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
 Teacher "1" -- "*" TeacherCategory: has
 Teacher "1..*" -- "*" Course: Teach
-Course "*" -- "1..*" Semester: is associated to
-Course  "1..*" <-- "1" Programme: has
-Programme "1" -- "1..*" Semester: has
-Programme "*" -up-> "1*" Department: Assigned to
+Course "*" -- "1..*" ListOfCoursesInASemester: is associated to
+SemestersListOfaProgramme  "1..*" <-u- "1" Programme: has
+SemestersListOfaProgramme "1" -- "1..*" ListOfCoursesInASemester: has
+Programme "*" -u-> "1*" Department: Assigned to
 DegreeType "1" <-- "*" Programme
 Enrolment "*" --> "1" AccessMethod: is registered
 Programme "1"  -u-> "*" Enrolment: has
@@ -143,4 +174,6 @@ Teacher "1" -r- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates
 Teacher "1..*" -- "1" TeacherRepository
 Department "1..*" -- "1" DepartmentRepository
+AccessMethod "1..*" -- "1" AccessMethodRepository
+Course "1..*" -- "1" CourseRepository
 @enduml
