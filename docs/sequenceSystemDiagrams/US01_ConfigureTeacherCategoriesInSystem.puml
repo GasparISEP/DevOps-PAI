@@ -1,0 +1,11 @@
+@startuml
+actor admin
+
+create "t1:TeacherCategory" as TeacherCategory #application
+admin -> TeacherCategory : create new TeacherCategory(categoryName)
+activate TeacherCategory #application
+TeacherCategory -> TeacherCategory: validation
+TeacherCategory --> admin :  TeacherCategory Object
+
+deactivate TeacherCategory
+@enduml

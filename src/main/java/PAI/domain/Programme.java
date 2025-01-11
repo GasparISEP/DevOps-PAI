@@ -79,7 +79,7 @@ public class Programme {
 
     //Method to add Course
     public boolean addCourseToASemesterOfAProgramme(int semester, Course course, CourseRepository courseRepository) throws Exception {
-        semester = verifyInputs(semester, course, courseRepository);
+        semester = modifySemesterValueIfAllInputsGivenAreValid(semester, course, courseRepository);
         int semesterWhereCourseIsPresent = getSemesterWhereCourseIsPresent(course);
         if(!isPossibleToAddACourseInThisYear(course,semesterWhereCourseIsPresent,semester))
             throw new Exception("This course can not be added to this year");
@@ -92,7 +92,7 @@ public class Programme {
         return true;
     }
 
-    private int verifyInputs(int semester, Course course, CourseRepository courseRepository) throws Exception {
+    private int modifySemesterValueIfAllInputsGivenAreValid(int semester, Course course, CourseRepository courseRepository) throws Exception {
         if (!doesTheSemesterExistsInTheProgramme(semester))
             throw new IllegalArgumentException("Semester does not exist in the programme");
         if (!isTheCourseNotNull(course))

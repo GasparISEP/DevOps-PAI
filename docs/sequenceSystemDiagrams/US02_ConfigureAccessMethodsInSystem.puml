@@ -1,0 +1,22 @@
+@startuml
+actor ASC
+participant ":AccessMethodRepository" as AccessMethodRepository #application
+
+activate AccessMethodRepository #application
+ASC -> AccessMethodRepository : registerAccessMethod(accessMethodName)
+
+create "a1 :AccessMethod" as AccessMethod #lightskyblue
+activate AccessMethod #lightskyblue
+AccessMethodRepository -> AccessMethod : createAccessMethod(accessMethodName)
+AccessMethod -> AccessMethod : validation
+AccessMethod --> AccessMethodRepository :AccessMethod instance
+|||
+ref over AccessMethod, AccessMethodRepository
+    Check if a1:AccessMethod is already registered in the AccessMethodRepository;
+end ref
+|||
+AccessMethodRepository -> AccessMethodRepository: register AccessMethod
+deactivate AccessMethod #lightskyblue
+AccessMethodRepository --> ASC: AccessMethod registration successful
+deactivate AccessMethodRepository #application
+@enduml
