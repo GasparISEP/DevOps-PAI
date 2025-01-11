@@ -20,11 +20,7 @@ public class SchoolYear {
         _endDate = endDate;
     }
 
-    public String getSchoolYear(String description, String startDate, String endDate) {
 
-        return description + ": " + startDate + " a " + endDate;
-        //Output eg: Ano letivo de: 24-09-2024 a 24-06-2025
-    }
 
     // Validation of parameters
     private void validateParameters(String description, String startDate, String endDate) throws Exception {
