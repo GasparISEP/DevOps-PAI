@@ -143,7 +143,7 @@ class CourseRepository {
 }
 
 class SemestersListOfaProgramme {
-    -_listOfSemesters: ArrayList<ListOfCoursesInASemester>
+    -_semestersListOfAProgramme: ArrayList<ListOfCoursesInASemester>
     +SemestersListOfAProgramme()
     +addSemester (semester: Semester)
     +getSemester (semesterNumber: int)

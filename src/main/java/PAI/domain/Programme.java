@@ -78,13 +78,13 @@ public class Programme {
     }
 
     //Method to add Course
-    public boolean addCourseToASemesterOfProgramme(int semester, Course course, CourseRepository courseRepository) throws Exception {
+    public boolean addCourseToASemesterOfAProgramme(int semester, Course course, CourseRepository courseRepository) throws Exception {
         semester = verifyInputs(semester, course, courseRepository);
         int semesterWhereCourseIsPresent = getSemesterWhereCourseIsPresent(course);
         if(!isPossibleToAddACourseInThisYear(course,semesterWhereCourseIsPresent,semester))
             throw new Exception("This course can not be added to this year");
 
-        Semester semesterToAddCourse = listOfSemesters.getSemester(semester);
+        ListOfCoursesInASemester semesterToAddCourse = listOfSemesters.getSemester(semester);
         double totalOfCreditsOfCoursesInTheSemester = semesterToAddCourse.sumOfCreditsOfAllCourses();
         if (totalOfCreditsOfCoursesInTheSemester + course.getQuantityCreditsEcts() > (double)_quantityOfEcts/_quantityOfSemesters)
             throw new IllegalArgumentException("Adding this course will surpass the limit credits ECTS for that Semester");
@@ -117,7 +117,7 @@ public class Programme {
         int count = 0;
         int semesterWhereCourseIsPresent = 0;
         for (int i = 0; i < _quantityOfSemesters; i++){
-            Semester newSemester = listOfSemesters.getSemester(i);
+            ListOfCoursesInASemester newSemester = listOfSemesters.getSemester(i);
             ArrayList<Course> listCourses = newSemester.getAllCourses();
             if (listCourses.contains(course)) {
                 count++;
@@ -131,7 +131,7 @@ public class Programme {
 
     private int getSemesterWhereSemesterCourseIsPresent (Course course) {
         for (int i = 0; i < _quantityOfSemesters; i++){
-            Semester newSemester = listOfSemesters.getSemester(i);
+            ListOfCoursesInASemester newSemester = listOfSemesters.getSemester(i);
             ArrayList<Course> listCourses = newSemester.getAllCourses();
             if (listCourses.contains(course)) {
                 throw new IllegalArgumentException("The course already exists in the programme");
@@ -160,7 +160,7 @@ public class Programme {
 
     private void createListOfSemesters(){
         for (int i = 0; i < _quantityOfSemesters; i++){
-            Semester newSemester = new Semester();
+            ListOfCoursesInASemester newSemester = new ListOfCoursesInASemester();
             listOfSemesters.addSemester(newSemester);
         }
     }

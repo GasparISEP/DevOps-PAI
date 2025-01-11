@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class SemestersListOfAProgramme {
 
-    private ArrayList<Semester> listOfSemester = new ArrayList<>();
+    private ArrayList<ListOfCoursesInASemester> _semestersListOfAProgramme = new ArrayList<>();
 
     public SemestersListOfAProgramme() {}
 
-    public void addSemester(Semester semester) {
-        listOfSemester.add(semester);
+    public void addSemester(ListOfCoursesInASemester semester) {
+        _semestersListOfAProgramme.add(semester);
     }
 
-    public Semester getSemester(int semesterNumber) {
-        return listOfSemester.get(semesterNumber);
+    public ListOfCoursesInASemester getSemester(int semesterNumber) {
+        return _semestersListOfAProgramme.get(semesterNumber);
     }
 }
