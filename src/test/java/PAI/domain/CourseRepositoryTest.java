@@ -19,7 +19,7 @@ class CourseRepositoryTest {
         //arrange
         CourseRepository cR1 = new CourseRepository ();
         //act
-        boolean result = cR1.registerCourse("Matemática", "MAT", 10);
+        boolean result = cR1.registerCourse("Matemática", "MAT", 10, 1);
         //assert
         assertTrue(result);
     }
@@ -28,9 +28,9 @@ class CourseRepositoryTest {
     void shouldReturnFalseIfAccessMethodIsNotRegistered() throws Exception {
         //arrange
         CourseRepository cR1 = new CourseRepository ();
-        cR1.registerCourse("Matemática", "MAT", 10);
+        cR1.registerCourse("Matemática", "MAT", 10, 1);
         //act
-        boolean result = cR1.registerCourse("Matemática", "MAT", 10);
+        boolean result = cR1.registerCourse("Matemática", "MAT", 10, 1);
         //assert
         assertFalse(result);
     }

@@ -11,9 +11,9 @@ public class CourseRepository {
         _courseRepository = new ArrayList<>();
     }
 
-    public boolean registerCourse (String courseName, String acronym, int quantityCreditsECTS) throws Exception {
+    public boolean registerCourse (String courseName, String acronym, double quantityCreditsECTS, int durationCourseInSemester) throws Exception {
 
-        Course course = new Course (courseName, acronym, quantityCreditsECTS);
+        Course course = new Course (courseName, acronym, quantityCreditsECTS, durationCourseInSemester);
 
         if (isCourseRegistered(course))
             return false;
