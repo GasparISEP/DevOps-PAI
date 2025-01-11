@@ -1,9 +1,9 @@
 @startuml
-actor ASC
+actor admin
 participant ":AccessMethodRepository" as AccessMethodRepository #application
 
 activate AccessMethodRepository #application
-ASC -> AccessMethodRepository : registerAccessMethod(accessMethodName)
+admin -> AccessMethodRepository : registerAccessMethod(accessMethodName)
 
 create "a1 :AccessMethod" as AccessMethod #lightskyblue
 activate AccessMethod #lightskyblue
@@ -17,6 +17,6 @@ end ref
 |||
 AccessMethodRepository -> AccessMethodRepository: register AccessMethod
 deactivate AccessMethod #lightskyblue
-AccessMethodRepository --> ASC: AccessMethod registration successful
+AccessMethodRepository --> admin: AccessMethod registration successful
 deactivate AccessMethodRepository #application
 @enduml
