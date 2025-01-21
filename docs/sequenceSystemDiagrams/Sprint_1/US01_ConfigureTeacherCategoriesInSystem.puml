@@ -14,8 +14,8 @@ create "tc1:TeacherCategory" as TeacherCategory
 TeacherCategoryRepository -> TeacherCategory ++ #application : <create>(categoryName)
 TeacherCategory -> TeacherCategory: isNameValid(categoryName)
 TeacherCategory --> TeacherCategoryRepository -- : tc1
-TeacherCategoryRepository -> TeacherCategoryRepository : isPossibleToAdd(tc1)
-TeacherCategoryRepository -> TeacherCategoryRepository : addTeacherCategory(tc1)
+TeacherCategoryRepository -> TeacherCategoryRepository : isTeacherCategoryRegistered (tc1)
+TeacherCategoryRepository -> TeacherCategoryRepository : registerTeacherCategory(categoryName)
 
 TeacherCategoryRepository --> ConfigureTeacherCategoryController --: true
 
