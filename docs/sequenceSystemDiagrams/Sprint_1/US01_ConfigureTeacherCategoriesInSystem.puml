@@ -1,11 +1,24 @@
 @startuml
 actor admin
 
-create "t1:TeacherCategory" as TeacherCategory #application
-admin -> TeacherCategory : create new TeacherCategory(categoryName)
-activate TeacherCategory #application
-TeacherCategory -> TeacherCategory: validation
-TeacherCategory --> admin :  TeacherCategory Object
 
-deactivate TeacherCategory
+
+admin -> tests ++ #application : I want to configure TeacherCategory
+
+tests -> ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(name)
+
+participant ":TeacherCategoryRepository" as TeacherCategoryRepository
+ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : createTeacherCategory(name)
+
+create "tc1:TeacherCategory" as TeacherCategory
+TeacherCategoryRepository -> TeacherCategory ++ #application : <create>(categoryName)
+TeacherCategory -> TeacherCategory: isNameValid(categoryName)
+TeacherCategory --> TeacherCategoryRepository -- : tc1
+TeacherCategoryRepository -> TeacherCategoryRepository : isPossibleToAdd(tc1)
+TeacherCategoryRepository -> TeacherCategoryRepository : addTeacherCategory(tc1)
+
+TeacherCategoryRepository --> ConfigureTeacherCategoryController --: true
+
+ConfigureTeacherCategoryController --> tests --: true
+tests --> admin --: true
 @enduml
