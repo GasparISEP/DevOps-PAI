@@ -35,5 +35,4 @@ public class AccessMethod {
         }
         return false;
     }
-
 }
