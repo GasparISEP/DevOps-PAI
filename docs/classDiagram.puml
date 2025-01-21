@@ -23,6 +23,13 @@ class TeacherCategory {
     + TeacherCategory (name:String)
 }
 
+class TeacherRepository {
+    -_teacherCategoryRepository:ArrayList<TeacherCategory>
+    +TeacherCategoryRepository()
+    +registerTeacherCategory (teacherCategoryName: String)
+    +isTeacherCategoryRegistered(teacherCategory: TeacherCategory)
+}
+
 class Programme {
      - name: string
      - acronym: string
@@ -175,5 +182,6 @@ Teacher "1..*" -- "1" Department: aggregates
 Teacher "1..*" -- "1" TeacherRepository
 Department "1..*" -- "1" DepartmentRepository
 AccessMethod "1..*" -- "1" AccessMethodRepository
+TeacherCategory "1..*" -- "1" TeacherCategoryRepository
 Course "1..*" -- "1" CourseRepository
 @enduml
