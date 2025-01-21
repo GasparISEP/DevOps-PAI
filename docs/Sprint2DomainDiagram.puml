@@ -23,6 +23,8 @@ entity Course {
   name
   acronym
   qtyECTS
+  semester
+  curricular year
 }
 
 entity Course_Edition {
@@ -74,6 +76,7 @@ entity Student {
   NIF
   phoneNumber
   email
+  listOfGrades
 }
 
 entity "Degree Type" {
@@ -91,6 +94,7 @@ entity "Grade Student" {
 }
 
 entity "studyPlan" {
+listOfCourses
 }
 
 entity "Teacher Career" {
@@ -102,7 +106,8 @@ entity "Teacher Career" {
 Facility "1..*" -- "1" Department : Aggregates <
 Department "1" --- "1   " Teacher : Department Director oversees <
 Department "1" --- "*" Teacher : Aggregates >
-Course "*" -- "*" Teacher : Teaches <
+Course_Edition "*" -- "*" Teacher : Teaches <
+Course_Edition "*" -- "1" Teacher : RUC oversees <
 Course "1" -right- "*" Course_Edition : > Has
 Course "*" -- "1" "studyPlan" : > Has
 "studyPlan" "1" -- "1" Programme : < Programme has a studyPlan
@@ -112,14 +117,14 @@ Address "1" -- "1" Student : Has <
 Teacher "1" -- "1" Address : Has >
 "Teacher Career" "*" -- "1" "Teacher Category" : Has >
 Programme "1" -- "*" Enrolment : Has >
-ProgrammeEdition "+" -- "1" Programme : < Has
+ProgrammeEdition "*" -- "1" Programme : < Has
 ProgrammeEdition "1" -- "*" EnrolmentProgramme : < Happens
 EnrolmentProgramme "*" -- "1" Student : < Enrols
 Student "1" -right- "*" EnrolmentCourse : > Enrols
 EnrolmentCourse "*" -- "1" Course_Edition : > Happens
 Programme "*" -- "1" Department : Assigned to >
 Student "1" -- "*" "Grade Student" : > Has
-"Grade Student" "*" -- "1" Course_Edition : < Has
+"Grade Student" "*" -- "1" Course_Edition : > Belongs
 
 Programme "1..*" -- "1  " Teacher : Programme Director oversees <
 Programme "*" -- "1" "Degree Type" : Has >
