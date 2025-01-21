@@ -23,7 +23,7 @@ class TeacherCategory {
     + TeacherCategory (name:String)
 }
 
-class TeacherRepository {
+class TeacherCategoryRepository {
     -_teacherCategoryRepository:ArrayList<TeacherCategory>
     +TeacherCategoryRepository()
     +registerTeacherCategory (teacherCategoryName: String)
