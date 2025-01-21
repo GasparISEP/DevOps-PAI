@@ -19,4 +19,19 @@ public class TeacherCategory {
         }
         return true;
     }
+
+    @Override
+    public boolean equals (Object objectToCompare){
+
+        if (!(objectToCompare instanceof TeacherCategory)) {
+            return false;
+        }
+        TeacherCategory testCategory = (TeacherCategory) objectToCompare;
+
+        if (_name.equals(testCategory._name)) {
+            return true;
+        }
+        return false;
+    }
+
 }
