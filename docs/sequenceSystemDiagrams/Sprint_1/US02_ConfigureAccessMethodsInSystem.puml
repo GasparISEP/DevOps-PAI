@@ -1,0 +1,22 @@
+@startuml
+actor admin
+
+admin -> tests ++ #application : I want to configure access method
+
+tests -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (name)
+
+ConfigureAccessMethodController -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : createAccessMethod(name)
+
+create ":AccessMethod" as AccessMethod
+AccessMethodRepository -> AccessMethod ++  : <create>(accessMethodName)
+AccessMethod -> AccessMethod : isAccessMethodNameValid(accessMethodName);
+
+AccessMethod --> AccessMethodRepository -- : :ac1
+AccessMethodRepository -> AccessMethodRepository : isAccessMethodRegistered (ac1)
+AccessMethodRepository -> AccessMethodRepository : registerAccessMethod (accessMethodName)
+
+AccessMethodRepository --> ConfigureAccessMethodController --: true
+
+ConfigureAccessMethodController --> tests --: true
+tests --> admin --: true
+@enduml

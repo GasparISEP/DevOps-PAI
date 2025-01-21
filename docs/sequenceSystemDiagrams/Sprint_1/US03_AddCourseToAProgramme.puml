@@ -1,0 +1,18 @@
+@startuml
+actor ASC
+
+participant ":Programme" as Programme #lightblue
+
+activate Programme #application
+ASC -> Programme : addCourseToASemester (semester, course, courseRepository)
+Programme -> Programme : validation
+|||
+ref over Programme
+    Check if Semester exists in SemestersListOfAProgramme;
+    Check if Course is already in ListOfCoursesInASemester;
+
+end ref
+|||
+Programme -> Programme : add Course
+Programme --> ASC: Course added successfully
+@enduml

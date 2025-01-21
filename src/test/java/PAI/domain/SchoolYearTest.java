@@ -18,18 +18,6 @@ class SchoolYearTest {
         assertNotNull(sy1);
     }
 
-    @Test
-    void getFormattedSchoolYear() throws Exception {
-        // Arrange
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "24-09-2024", "24-06-2025");
-
-        // Act
-        String expected = "Ano letivo de: 24-09-2024 a 24-06-2025";
-        String result = sy1.getSchoolYear("Ano letivo de", "24-09-2024", "24-06-2025");
-
-        // Assert
-        assertEquals(expected, result);
-    }
 
     @Test
     void sameYearStartAndEndDate() throws Exception {

@@ -1,6 +1,8 @@
 package PAI.domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 class ProgrammeTest {
@@ -215,23 +217,6 @@ class ProgrammeTest {
 
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", 20,6,master,CSE,teacher1));
     }
-    //Add Course To Programme
-    @Test
-    void shouldReturnTrueIfCourseIsAddToAProgramme() throws Exception {
-        //arrange
-
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",20);
-        Course course1 = new Course("matemática", "MTA", 30);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 20, 6, degree1, department1, teacher1);
-        // act
-        boolean result = lei.addCourse(course1);
-        // assert
-        assertTrue(result);
-    }
 
     @Test
     void equalsProgrammeReturnTrue () throws Exception {
@@ -307,23 +292,7 @@ class ProgrammeTest {
         assertFalse(result);
     }
 
-    @Test
-    void shouldReturnFalseIfCourseIsAlreadyInAProgramme() throws Exception {
-        //arrange
 
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",20);
-        Course course1 = new Course("matemática", "MTA", 30);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 20, 6, degree1, department1, teacher1);
-        // act
-        lei.addCourse(course1);
-        boolean result = lei.addCourse(course1);
-        // assert
-        assertFalse(result);
-    }
 
     @Test
     void creatNewProgrammeDirector() throws Exception {
@@ -441,5 +410,230 @@ class ProgrammeTest {
         //assert
         assertTrue(result1);
         assertTrue(result2);
+    }
+
+    // AddCourseToASemesterOfProgramme tests
+
+    @Test
+    void shouldReturnTrueIfCourseIsAddedToASemesterOfAProgramme() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        //act
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnExceptionIfSemesterDoesNotExistInAProgramme() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnExceptionIfSemesterIsNotPositive() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(0, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseInNull() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = null;
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.isCourseRegistered(course1);
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseIsNotInTheSystem() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnExceptionIfAnualCourseAlreadyExistsInTwoDifferentSemestersInAProgramme() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 2);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 2);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository);
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseAlreadyExistsInAProgramme() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {2,3,4,5,6})
+    void shouldReturnExceptionIfAnualCourseIsBeingAddedToADifferentYearInAProgramme_test1(int semester) throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 6, 2);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 6, 2);
+        lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository);
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1, courseRepository));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1,2,3,5,6})
+    void shouldReturnExceptionIfAnualCourseIsBeingAddedToADifferentYearInAProgramme_test2(int semester) throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 6, 2);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 6, 2);
+        lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository);
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnTrueIfAnualCourseIsBeingAddedToTheSameYearInAProgramme() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course estagio = new Course("matemática", "MTA", 6, 2);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 6, 2);
+        lei.addCourseToASemesterOfAProgramme(2, estagio, courseRepository);
+        //act
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, estagio, courseRepository);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseAddedToASemesterSurpassTheLimtitCreditECTSForThatSemester() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 20, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 20, 1);
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseToBeAddedAlreadyExistsInSemesterOfAProgramme() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        //act & assert
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository));
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseIsAddedToASemesterOfAProgrammeThatContainsOtherDifferentCourses() throws Exception {
+        //arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Course course1 = new Course("matemática", "MTA", 5, 1);
+        Course course2 = new Course("português", "POR", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        courseRepository.registerCourse("português", "POR", 5, 1);
+        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        //act
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, course2, courseRepository);
+        //assert
+        assertTrue(result);
     }
 }

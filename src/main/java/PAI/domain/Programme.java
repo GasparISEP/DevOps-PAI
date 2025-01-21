@@ -14,7 +14,7 @@ public class Programme {
     private Teacher _programmeDirector;
     private ArrayList<Course> _courseList = new ArrayList<>();
     private List<Enrolment> _programmeEnrolment;
-
+    private SemestersListOfAProgramme listOfSemesters = new SemestersListOfAProgramme();
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
         if (isNameInvalid(name)){ throw new IllegalArgumentException("Name must not be empty");}
@@ -40,6 +40,7 @@ public class Programme {
 
         _programmeEnrolment = new ArrayList<>();
 
+        createListOfSemesters();
     }
 
 
@@ -77,12 +78,91 @@ public class Programme {
     }
 
     //Method to add Course
-    public boolean addCourse(Course course) {
-        if (_courseList.contains(course)) {
-            return false;
-        }
-        _courseList.add(course);
+    public boolean addCourseToASemesterOfAProgramme(int semester, Course course, CourseRepository courseRepository) throws Exception {
+        semester = modifySemesterValueIfAllInputsGivenAreValid(semester, course, courseRepository);
+        int semesterWhereCourseIsPresent = getSemesterWhereCourseIsPresent(course);
+        if(!isPossibleToAddACourseInThisYear(course,semesterWhereCourseIsPresent,semester))
+            throw new Exception("This course can not be added to this year");
+
+        ListOfCoursesInASemester semesterToAddCourse = listOfSemesters.getSemester(semester);
+        double totalOfCreditsOfCoursesInTheSemester = semesterToAddCourse.sumOfCreditsOfAllCourses();
+        if (totalOfCreditsOfCoursesInTheSemester + course.getQuantityCreditsEcts() > (double)_quantityOfEcts/_quantityOfSemesters)
+            throw new IllegalArgumentException("Adding this course will surpass the limit credits ECTS for that Semester");
+        listOfSemesters.getSemester(semester).addCourseToSemester(course);
         return true;
+    }
+
+    private int modifySemesterValueIfAllInputsGivenAreValid(int semester, Course course, CourseRepository courseRepository) throws Exception {
+        if (!doesTheSemesterExistsInTheProgramme(semester))
+            throw new IllegalArgumentException("Semester does not exist in the programme");
+        if (!isTheCourseNotNull(course))
+            throw new IllegalArgumentException("Course cannot be null");
+        if (isTheCourseInTheSystem(course, courseRepository))
+            semester -= 1;
+        else
+            throw new IllegalArgumentException("Course is not in system");
+        return semester;
+    }
+
+    private int getSemesterWhereCourseIsPresent (Course course) {
+        int semesterWhereCourseIsPresent;
+        if (course.getDurationInSemester() == 2)
+            semesterWhereCourseIsPresent = getSemesterWhereAnualCourseIsPresent(course);
+        else
+            semesterWhereCourseIsPresent = getSemesterWhereSemesterCourseIsPresent(course);
+        return semesterWhereCourseIsPresent;
+    }
+
+    private int getSemesterWhereAnualCourseIsPresent (Course course) {
+        int count = 0;
+        int semesterWhereCourseIsPresent = 0;
+        for (int i = 0; i < _quantityOfSemesters; i++){
+            ListOfCoursesInASemester newSemester = listOfSemesters.getSemester(i);
+            ArrayList<Course> listCourses = newSemester.getAllCourses();
+            if (listCourses.contains(course)) {
+                count++;
+                semesterWhereCourseIsPresent = i+1;
+            }
+        }
+        if (count > 1)
+            throw new IllegalArgumentException("The semester with anual duration already exists in two semesters");
+        return semesterWhereCourseIsPresent;
+    }
+
+    private int getSemesterWhereSemesterCourseIsPresent (Course course) {
+        for (int i = 0; i < _quantityOfSemesters; i++){
+            ListOfCoursesInASemester newSemester = listOfSemesters.getSemester(i);
+            ArrayList<Course> listCourses = newSemester.getAllCourses();
+            if (listCourses.contains(course)) {
+                throw new IllegalArgumentException("The course already exists in the programme");
+            }
+        }
+        return 0;
+    }
+
+    private boolean doesTheSemesterExistsInTheProgramme(int semester) throws Exception{
+        if (semester > 0 && semester <= this._quantityOfSemesters)
+            return true;
+        return false;
+    }
+
+    private boolean isTheCourseNotNull (Course course){
+        if (course == null)
+            return false;
+        return true;
+    }
+
+    private boolean isTheCourseInTheSystem(Course course, CourseRepository courseRepository){
+        if (courseRepository.isCourseRegistered(course))
+            return true;
+        return false;
+    }
+
+    private void createListOfSemesters(){
+        for (int i = 0; i < _quantityOfSemesters; i++){
+            ListOfCoursesInASemester newSemester = new ListOfCoursesInASemester();
+            listOfSemesters.addSemester(newSemester);
+        }
     }
 
     public void newProgrammeDirector(Teacher teacherDirector) throws Exception {
@@ -110,4 +190,15 @@ public class Programme {
         return true;
     }
 
+    private boolean isPossibleToAddACourseInThisYear (Course course, int semesterWhereCourseIsPresent, int semester) {
+        if (course.getDurationInSemester() == 2 && semesterWhereCourseIsPresent != 0 ) {
+            if ((semesterWhereCourseIsPresent % 2 == 0) && semester + 1 != semesterWhereCourseIsPresent - 1) {
+                return false;
+            }
+            if ((semesterWhereCourseIsPresent % 2 != 0) && semester + 1 != semesterWhereCourseIsPresent + 1){
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -1,0 +1,24 @@
+@startuml
+actor admin
+
+
+
+admin -> tests ++ #application : I want to configure TeacherCategory
+
+tests -> ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(name)
+
+participant ":TeacherCategoryRepository" as TeacherCategoryRepository
+ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : createTeacherCategory(name)
+
+create "tc1:TeacherCategory" as TeacherCategory
+TeacherCategoryRepository -> TeacherCategory ++ #application : <create>(categoryName)
+TeacherCategory -> TeacherCategory: isNameValid(categoryName)
+TeacherCategory --> TeacherCategoryRepository -- : tc1
+TeacherCategoryRepository -> TeacherCategoryRepository : isTeacherCategoryRegistered (tc1)
+TeacherCategoryRepository -> TeacherCategoryRepository : registerTeacherCategory(categoryName)
+
+TeacherCategoryRepository --> ConfigureTeacherCategoryController --: true
+
+ConfigureTeacherCategoryController --> tests --: true
+tests --> admin --: true
+@enduml
