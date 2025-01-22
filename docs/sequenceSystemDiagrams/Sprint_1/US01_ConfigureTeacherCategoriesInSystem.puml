@@ -3,12 +3,16 @@ actor admin
 
 
 
-admin -> tests ++ #application : I want to configure TeacherCategory
+admin -> UI ++ #application : I want to configure TeacherCategory
+UI --> admin -- : categoryName?
 
-tests -> ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(name)
+admin -> UI ++ #application :(categoryName)
+
+
+UI -> ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
 
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
-ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : createTeacherCategory(name)
+ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : createTeacherCategory(categoryName)
 
 create "tc1:TeacherCategory" as TeacherCategory
 TeacherCategoryRepository -> TeacherCategory ++ #application : <create>(categoryName)
@@ -19,6 +23,6 @@ TeacherCategoryRepository -> TeacherCategoryRepository : registerTeacherCategory
 
 TeacherCategoryRepository --> ConfigureTeacherCategoryController --: true
 
-ConfigureTeacherCategoryController --> tests --: true
-tests --> admin --: true
+ConfigureTeacherCategoryController --> UI --: true
+UI --> admin --: true
 @enduml
