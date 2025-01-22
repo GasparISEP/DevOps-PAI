@@ -1,14 +1,26 @@
 package PAI.domain;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class AccessMethodRepository {
 
-    private ArrayList<AccessMethod> _accessMethodRepository;
+    private ArrayList<AccessMethod> _accessMethodRepository = new ArrayList<>();
 
-    public AccessMethodRepository (){
 
-        _accessMethodRepository = new ArrayList<>();
+    public Optional <AccessMethod> createAccessMethod (String name){
+        try{
+            AccessMethod accessMethod = new AccessMethod(name);
+            if(!isAccessMethodRegistered(accessMethod)){
+                _accessMethodRepository.add(accessMethod);
+                return Optional.of(accessMethod);
+            }
+
+            return Optional.empty();
+
+        } catch (InstantiationException e) {
+            return Optional.empty();
+        }
     }
 
     public boolean registerAccessMethod (String accessMethodName) throws Exception {
