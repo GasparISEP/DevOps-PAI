@@ -3,13 +3,13 @@ actor admin
 
 
 
-admin -> UI ++ #application : I want to configure TeacherCategory
+admin -> ":UI" as UI ++ #application : I want to configure TeacherCategory
 UI --> admin -- : categoryName?
 
 admin -> UI ++ #application :(categoryName)
 
 
-UI -> ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
+UI -> ":ConfigureTeacherCategoryController" as ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
 
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
 ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : createTeacherCategory(categoryName)

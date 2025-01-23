@@ -7,20 +7,19 @@ import java.time.format.DateTimeParseException;
 public class SchoolYear {
 
     private String _description;
-    private String _startDate;
-    private String _endDate;
+    private LocalDate _startDate;
+    private LocalDate _endDate;
 
     // Constructor
     public SchoolYear(String description, String startDate, String endDate) throws Exception {
 
-        validateParameters(description, startDate, endDate);
-
-        _description = description;
-        _startDate = startDate;
-        _endDate = endDate;
+        try {
+            validateParameters(description, startDate, endDate);
+            _description = description;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-
-
 
     // Validation of parameters
     private void validateParameters(String description, String startDate, String endDate) throws Exception {
@@ -45,11 +44,11 @@ public class SchoolYear {
 
         try {
             // Conversion of startDate & endDate to Java Object LocalDate
-            LocalDate start = LocalDate.parse(startDate, formatter);
-            LocalDate end = LocalDate.parse(endDate, formatter);
+            _startDate = LocalDate.parse(startDate, formatter);
+            _endDate = LocalDate.parse(endDate, formatter);
 
             // Verifies if startDate is not greater than endDate
-            if (!end.isAfter(start)) {
+            if (!_endDate.isAfter(_startDate)) {
                 throw new Exception("End date must be greater than start date.");
             }
         } catch (DateTimeParseException e) {
@@ -60,5 +59,10 @@ public class SchoolYear {
     // Method to compare if School Years are equal
     public boolean isSameSchoolYear(SchoolYear newSchoolYear) {
         return _startDate.equals(newSchoolYear._startDate) && _endDate.equals(newSchoolYear._endDate);
+    }
+
+    public LocalDate getEndDate() {
+        LocalDate endDate = _endDate;
+        return endDate;
     }
 }
