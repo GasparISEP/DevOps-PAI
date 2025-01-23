@@ -32,7 +32,7 @@ public class TeacherCareerProgression {
 
         //validate working percentage
         if (isWorkingPercentageInvalid(workingPercentage))
-            throw new IllegalArgumentException("Working Percentage must be a value between 0 and 100");
+            throw new IllegalArgumentException("Working Percentage must be a value between 0 and 100.");
 
         _workingPercentage = workingPercentage;
 
