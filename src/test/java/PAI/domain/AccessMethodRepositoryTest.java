@@ -2,6 +2,8 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccessMethodRepositoryTest {
@@ -59,5 +61,43 @@ class AccessMethodRepositoryTest {
         boolean result = acml1.registerAccessMethod("Maiores 23");
         //assert
         assertFalse(result);
+    }
+
+
+    @Test
+    void shouldReturnsOptionalWithAccessMethodIfCanBeCreated(){
+        // arrange
+        AccessMethodRepository amr1 = new AccessMethodRepository();
+
+        // act
+        Optional<AccessMethod> result = amr1.createAccessMethod("Maiores 23");
+
+        // assert
+        assertTrue(result.isPresent(), "Expected Optional to be present");
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalIfAccessMethodAlreadyRegistered(){
+        // arrange
+        AccessMethodRepository amr1 = new AccessMethodRepository();
+        amr1.createAccessMethod("Maiores 23");
+
+        // act
+        Optional<AccessMethod> result = amr1.createAccessMethod("Maiores 23");
+
+        // assert
+        assertFalse(result.isPresent(), "Expected Optional to be empty");
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalIfAccessMethodCannotBeCreated(){
+        // arrange
+        AccessMethodRepository amr1 = new AccessMethodRepository();
+
+        // act
+        Optional<AccessMethod> result = amr1.createAccessMethod("");
+
+        // assert
+        assertFalse(result.isPresent(), "Expected Optional to be empty");
     }
 }

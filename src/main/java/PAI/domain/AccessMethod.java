@@ -4,14 +4,14 @@ public class AccessMethod {
 
     private String _name;
 
-    public AccessMethod(String acessMethodName) throws Exception {
+    public AccessMethod(String accessMethodName) throws InstantiationException {
 
-        if (!isAccessMethodNameValid(acessMethodName))
-            throw new Exception("Access method name cannot be empty nor blank");
-        this._name = acessMethodName;
+        if (!isAccessMethodNameValid (accessMethodName))
+            throw new InstantiationException("Access method name cannot be empty nor blank");
+        this._name = accessMethodName;
     }
 
-    private boolean isAccessMethodNameValid(String accessMethodName) {
+    private boolean isAccessMethodNameValid (String accessMethodName) {
         if (accessMethodName == null || accessMethodName.isBlank()) {
             return false;
         }
