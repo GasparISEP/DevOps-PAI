@@ -21,8 +21,8 @@ CT --> UI -- : List<ProgrammeEdition>
 UI --> ASC -- : which programme edition??
 
 ASC -> UI ++ #application : programme edition 1!
-UI -> CT ++ #application : createCourse(c1,pE1)
-CT -> CER ++ #application : createCourse(c1,pE1)
+UI -> CT ++ #application : createCourseEdition(c1,pE1)
+CT -> CER ++ #application : createCourseEdition(c1,pE1)
 
 
 create "cE1:CourseEdition" as CE
