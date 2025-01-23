@@ -20,6 +20,9 @@ public class TeacherCategory {
         return true;
     }
 
+    public String getName() {
+        return _name;
+    }
     @Override
     public boolean equals (Object objectToCompare){
 
