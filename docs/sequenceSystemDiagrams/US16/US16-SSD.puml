@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor ASC
+
+ASC -> System: I want to enroll a student in a course edition.
+System --> ASC: What School Year?
+ASC -> System: School Year!
+System --> ASC: What Student?
+ASC -> System: Student!
+System --> ASC: What Programme Edition?
+ASC -> System: Programme Edition!
+System --> ASC: What Course Edition?
+ASC -> System: Course Edition!
+System --> ASC: Sure?
+ASC -> System: Yes!
+System --> ASC: OK!
+
+
+
+@enduml
