@@ -2,6 +2,9 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SchoolYearTest {
@@ -127,5 +130,58 @@ class SchoolYearTest {
         assertThrows(Exception.class, () -> {
             new SchoolYear("Ano letivo de", "24 de setembro de 2024", "24 de junho de 2025");
         });
+    }
+
+    @Test
+    void shouldReturnTrueIfTwoSchoolYearsHaveSameStartDateAndEndDate() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        SchoolYear sy2 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+
+        // Act
+        boolean result = (sy1.isSameSchoolYear(sy2));
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoSchoolYearsDoNotHaveSameEndDate() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        SchoolYear sy2 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2026");
+
+        // Act
+        boolean result = (sy1.isSameSchoolYear(sy2));
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoSchoolYearsDoNotHaveSameStartDate() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        SchoolYear sy2 = new SchoolYear("Ano letivo de", "23-11-2025", "09-12-2025");
+
+        // Act
+        boolean result = (sy1.isSameSchoolYear(sy2));
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnEndDateFromSchoolYear() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate lc = LocalDate.parse("09-12-2025", formatter);
+
+        // Act
+        LocalDate endDate = sy1.getEndDate();
+
+        // Assert
+        assertEquals(endDate, lc);
     }
 }
