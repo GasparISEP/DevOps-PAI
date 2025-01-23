@@ -16,10 +16,10 @@ CPEC -> SYR ++ #application : getLatestSchoolYear()
 SYR --> CPEC ::sy1
 SYR --
 CPEC -> PER ++ #application : createProgrammeEdition(programme1, sy1)
-create "PE1 : ProgrammeEdition" as PE
+create "pe1 : ProgrammeEdition" as PE
 PER -> PE : <create> (programme1, sy1)
-PER -> PER : isProgrammeEditionValid
-PER -> PER : addProgrammeEditionToProgrammeEditionRepository
+PER -> PER : isProgrammeEditionAlreadyRegistered (pe1)
+PER -> PER : add (pe1)
 PER --> CPEC : true
 PER --
 CPEC --> UI : ok!
