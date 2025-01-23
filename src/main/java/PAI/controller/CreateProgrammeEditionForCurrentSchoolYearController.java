@@ -9,16 +9,16 @@ public class CreateProgrammeEditionForCurrentSchoolYearController {
     private ProgrammeEditionRepository _programmeEditionRepository;
     private SchoolYearRepository _schoolYearRepository;
 
-    public CreateProgrammeEditionForCurrentSchoolYearController (ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository) throws Exception {
+    public CreateProgrammeEditionForCurrentSchoolYearController (ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository) {
 
-        if (programmeEditionRepository == null) throw  new Exception("ProgrammeEditionRepository cannot be null");
-        if(schoolYearRepository == null) throw new Exception("SchoolYearRepository cannot be null");
 
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
     }
 
     public boolean createAProgrammeEditionInTheCurrentSchoolYear (Programme programme){
+
+        if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
 
         SchoolYear currentSchoolYear =_schoolYearRepository.getLatestSchoolYear();
         if(currentSchoolYear == null) return false;
