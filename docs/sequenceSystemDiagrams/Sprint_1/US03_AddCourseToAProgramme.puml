@@ -1,18 +1,31 @@
 @startuml
 actor ASC
 
-participant ":Programme" as Programme #lightblue
+ASC -> UI ++ #application : I want to add Course to a Programme
+UI --> ASC -- : courseName?
+ASC -> UI ++ #application : courseName!
+UI --> ASC -- : semester?
+ASC -> UI ++ #application : semester!
 
-activate Programme #application
-ASC -> Programme : addCourseToASemester (semester, course, courseRepository)
-Programme -> Programme : validation
-|||
-ref over Programme
-    Check if Semester exists in SemestersListOfAProgramme;
-    Check if Course is already in ListOfCoursesInASemester;
+UI -> addCourseToAProgrammeController ++ #application : addCourseToAProgramme (course, semester)
 
-end ref
-|||
-Programme -> Programme : add Course
-Programme --> ASC: Course added successfully
+addCourseToAProgrammeController -> ":Programme" ++ #application : addCourseToAProgramme (course, semester)
+
+":Programme" -> semesterListOfAProgramme ++ #application : addCourseToAProgramme (semester)
+
+semesterListOfAProgramme -> listOfCoursesInASemester ++ #application : addCourseToAProgramme (course)
+
+listOfCoursesInASemester -> listOfCoursesInASemester : validation
+listOfCoursesInASemester -> listOfCoursesInASemester : addCourseToASemester
+
+listOfCoursesInASemester --> semesterListOfAProgramme --: :c1
+
+semesterListOfAProgramme --> ":Programme" --: :c1
+
+":Programme" --> addCourseToAProgrammeController --: :c1
+
+addCourseToAProgrammeController --> UI : true
+
+UI --> ASC : true
+
 @enduml
