@@ -1,0 +1,38 @@
+@startuml
+actor ASC
+participant ":UI" as UI
+participant ":CreateACourseEditionController" as CT
+participant ":CourseRepository" as CR
+participant ":ProgrammeEditionRepository" as PER
+participant ":CourseEditionRepository" as CER
+
+ASC -> UI ++ #application : I want to create a Course Edition
+UI -> CT ++ #application: getAllCourses()
+CT -> CR ++ #application: getAllCourses()
+CR --> CT -- : List<Course>
+CT --> UI -- : List<Course>
+UI --> ASC -- : which course??
+
+ASC -> UI ++ #application : course 1!
+UI -> CT ++ #application: getAllProgrammeEditions()
+CT -> PER ++ #application: getAllProgrammeEditions()
+PER --> CT -- : List<ProgrammeEdition>
+CT --> UI -- : List<ProgrammeEdition>
+UI --> ASC -- : which programme edition??
+
+ASC -> UI ++ #application : programme edition 1!
+UI -> CT ++ #application : createCourse(c1,pE1)
+CT -> CER ++ #application : createCourse(c1,pE1)
+
+
+create "cE1:CourseEdition" as CE
+CER -> CE ++ #application : <create> (c1, pE1)
+CE --> CER -- : cE1
+CER -> CER : isCourseEditionRegistered (cE1)
+CER -> CER : addCourseEdition (c1, pE1)
+
+CER --> CT --: true
+CT --> UI --: true
+UI --> ASC --: true
+
+@enduml

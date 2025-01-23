@@ -1,0 +1,24 @@
+@startuml US21
+actor ASC
+participant UI #application
+participant Controller #application
+participant ProgrammeEditionRepo #application
+participant ProgrammeEdition #application
+
+autonumber
+
+ASC -> UI  ++-- #application : I want to get all ProgrammeEditions
+
+UI -> Controller --++ #application: I want to get all ProgrammeEditions
+
+Controller -> ProgrammeEditionRepo --++ #application: get all ProgrammeEditions
+
+ProgrammeEditionRepo -> ProgrammeEditionRepo  #application: getAllProgrammeEditions()
+ProgrammeEditionRepo --> ASC -- : which ProgrammeEdition?
+ASC -> UI ++ #application: I want :PE1
+UI -> Controller --++ #application: :PE1
+Controller -> ProgrammeEdition --++ #application : :PE1.getTotalStudents()
+
+ProgrammeEdition -> ProgrammeEdition #application : getTotalStudents()
+ProgrammeEdition --> ASC -- #application : total students enrolled in a ProgrammeEdition
+@enduml
