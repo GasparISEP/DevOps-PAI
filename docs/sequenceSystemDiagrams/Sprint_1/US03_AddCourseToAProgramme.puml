@@ -7,24 +7,24 @@ ASC -> UI ++ #application : courseName!
 UI --> ASC -- : semester?
 ASC -> UI ++ #application : semester!
 
-UI -> AddCourseToAProgrammeController ++ #application : addCourseToAProgramme (course, semester)
+UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToAProgramme (course, semester)
 
-AddCourseToAProgrammeController -> ":Programme" ++ #application : addCourseToAProgramme (course, semester)
+":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (course, semester)
 
-":Programme" -> SemesterListOfAProgramme ++ #application : addCourseToAProgramme (semester)
+":Programme" -> ":SemesterListOfAProgramme" ++ #application : addCourseToAProgramme (semester)
 
-SemesterListOfAProgramme -> ListOfCoursesInASemester ++ #application : addCourseToAProgramme (course)
+":SemesterListOfAProgramme" -> ":ListOfCoursesInASemester" ++ #application : addCourseToAProgramme (course)
 
-ListOfCoursesInASemester -> ListOfCoursesInASemester : validation
-ListOfCoursesInASemester -> ListOfCoursesInASemester : addCourseToASemester
+":ListOfCoursesInASemester" -> ":ListOfCoursesInASemester" : validation
+":ListOfCoursesInASemester" -> ":ListOfCoursesInASemester" : addCourseToASemester
 
-ListOfCoursesInASemester --> SemesterListOfAProgramme --: :c1
+":ListOfCoursesInASemester" --> ":SemesterListOfAProgramme" --: :c1
 
-SemesterListOfAProgramme --> ":Programme" --: :c1
+":SemesterListOfAProgramme" --> ":Programme" --: :c1
 
-":Programme" --> AddCourseToAProgrammeController --: :c1
+":Programme" --> ":AddCourseToAProgrammeController" --: :c1
 
-AddCourseToAProgrammeController --> UI : true
+":AddCourseToAProgrammeController" --> UI : true
 
 UI --> ASC : true
 
