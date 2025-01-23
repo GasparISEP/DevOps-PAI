@@ -1,24 +1,27 @@
 @startuml
 actor ProgrammmeDirector as PD
-participant UI #application
-participant ":Controller" as S #application
+participant ":UI" as UI #application
+participant ":DefineRucForCourseEditionController" as S #application
 participant ":CourseEditionRepository" as CER #application
 participant ":TeacherRepository" as TR #application
 participant  ":CourseEdition" as CE #application
 
 
 PD -> UI :Define the RUC for a course edition
-UI -> S  :getCourseEditionController()
+activate UI #application
+UI -> S  :getAllCourseEditions()
 activate S #application
-S -> CER :getCourseEdition()
+S -> CER :getAllCourseEditions()
 activate CER #application
 S <-- CER :: Lista de ":CourseEdition"
 deactivate CER
 UI <-- S : Lista de ":CourseEdition"
 deactivate S
 PD <-- UI :Whitch Course Edition?
+deactivate
 PD -> UI: ce1
-UI-> S :getTeacherController()
+activate UI #application
+UI-> S :getAllTeachers()
 activate S #application
 S -> TR :getTeacher()
 activate TR #application
@@ -27,15 +30,19 @@ deactivate TR
 S --> UI :Lista Teacher
 deactivate S
 PD <-- UI : Whitch Teacher?
+deactivate UI
 PD -> UI: t1
 activate UI #application
-UI -> S : DefineTheRucForACourse\nEditionController(CourseEdition, Teacher)
+UI -> S : setRucInCourseEdition(ce1, t 1)
 activate S #application
-S -> CE : setRucInCourseEdition(ce1,t1)
+S -> CER : setRucInCourseEdition(ce1,t1)
+activate CER #application
+CER -> CE : :setRuc(t1)
 activate CE #application
-CE -> CE :setRuc(t1)
-CE --> S :True
-deactivate CE
+CER <-- CE : True
+deactivate
+S <-- CER :True
+deactivate
 S --> UI :True
 deactivate S
 UI --> PD : True
