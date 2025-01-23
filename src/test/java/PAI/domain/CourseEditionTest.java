@@ -53,6 +53,14 @@ class CourseEditionTest {
     }
 
     @Test
+    void shouldNotCreateCourseEditionIfProgrammeEditionAndCourseAreNull() throws Exception {
+        //Arrange
+        //Assert
+        assertThrows(Exception.class, () -> {new CourseEdition(null, null);});
+
+    }
+
+    @Test
     void shouldReturnTrueIfCourseEditionEqualsObject()throws Exception {
         //arrange
         DegreeType master = new DegreeType("Master",240);
@@ -114,7 +122,7 @@ class CourseEditionTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseAreNotEqualButProgrammeEditionsAreEqual() throws Exception{
+    void shouldReturnFalseIfCoursesAreNotEqualButProgrammeEditionsAreEqual() throws Exception{
         //arrange
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
