@@ -109,7 +109,7 @@ Department "1" --- "*" Teacher : Aggregates >
 Course_Edition "*" -- "*" Teacher : Teaches <
 Course_Edition "*" -- "1" Teacher : RUC oversees <
 Course "1" -right- "*" Course_Edition : > Has
-Course "*" -- "1" "studyPlan" : < Has
+Course "*" -- "1" "studyPlan" : > Has
 "studyPlan" "1" -- "1" Programme : < Programme has a studyPlan
 Course_Edition "*" -- "1" "School Year" : > Has
 "School Year" "1" -- "*" ProgrammeEdition : > Has
