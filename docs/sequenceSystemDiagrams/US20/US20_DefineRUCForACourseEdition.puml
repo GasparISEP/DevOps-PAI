@@ -1,0 +1,45 @@
+@startuml
+actor ProgrammmeDirector as PD
+participant UI #application
+participant ":Controller" as S #application
+participant ":CourseEditionRepository" as CER #application
+participant ":TeacherRepository" as TR #application
+participant  ":CourseEdition" as CE #application
+
+
+PD -> UI :Define the RUC for a course edition
+UI -> S  :getCourseEditionController()
+activate S #application
+S -> CER :getCourseEdition()
+activate CER #application
+S <-- CER :: Lista de ":CourseEdition"
+deactivate CER
+UI <-- S : Lista de ":CourseEdition"
+deactivate S
+PD <-- UI :Whitch Course Edition?
+PD -> UI: ce1
+UI-> S :getTeacherController()
+activate S #application
+S -> TR :getTeacher()
+activate TR #application
+TR --> S :Lista Teacher
+deactivate TR
+S --> UI :Lista Teacher
+deactivate S
+PD <-- UI : Whitch Teacher?
+PD -> UI: t1
+activate UI #application
+UI -> S : DefineTheRucForACourse\nEditionController(CourseEdition, Teacher)
+activate S #application
+S -> CE : setRucInCourseEdition(ce1,t1)
+activate CE #application
+CE -> CE :setRuc(t1)
+CE --> S :True
+deactivate CE
+S --> UI :True
+deactivate S
+UI --> PD : True
+deactivate UI
+
+
+@enduml
