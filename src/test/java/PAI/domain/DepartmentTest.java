@@ -31,10 +31,9 @@ class DepartmentTest {
         //arrange
         String acronym = "DEI";
         String name = "Department1";
-        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto","Portugal");
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123",address1,teacherCategory1,department1);
+        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto","Portugal", "20-12-2010", teacherCategory1, 100, department1);
         //act
         Department department = new Department(acronym, name,  teacherDirector1);
         //assert
@@ -45,10 +44,9 @@ class DepartmentTest {
         //arrange
         String acronym = "DEI";
         String name = "DE";
-        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto", "Portugal");
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123",address1,teacherCategory1,department1);
+        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal","20-12-2010", teacherCategory1, 100, department1);
         //act
         Department department = new Department(acronym, name,  teacherDirector1);
         //assert
@@ -60,10 +58,9 @@ class DepartmentTest {
         //arrange
         String acronym = "DEI";
         String name = "D".repeat(100);
-        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto","Portugal");
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123",address1,teacherCategory1,department1);
+        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100, department1);
         //act
         Department department = new Department(acronym, name,  teacherDirector1);
         //assert
@@ -103,10 +100,9 @@ class DepartmentTest {
     void testInvalidNames(String name, String expectedMessage) throws Exception {
         // Arrange
         String acronym = "DEI";
-        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto", "Portugal");
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123",address1,teacherCategory1,department1);
+        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100,department1);
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
             new Department(acronym, name, teacherDirector1);
@@ -135,10 +131,9 @@ class DepartmentTest {
     void testInvalidAcronyms(String acronym, String expectedMessage) throws Exception {
         // Arrange
         String name = "Department1";
-        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto", "Portugal");
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123",address1,teacherCategory1,department1);
+        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100, department1);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
@@ -152,9 +147,8 @@ class DepartmentTest {
     void shouldReturnTrueWhenTeacherIsOfTheDepartment() throws Exception{
         //arrange
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Address address1 = new Address ("Passeio Alegre",  "4432-123","Porto", "Portugal");
         Department department1 = new Department ( "DEI","Department1");
-        Teacher teacher1 = new Teacher( "JOA","Joao", "JOA@isep.ipp.pt","213456789","B234",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher( "JOA","Joao", "JOA@isep.ipp.pt","213456789","B234","Doutoramento em Engenharia Informatica, 2005, ISEP", "Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100, department1);
         //act
         boolean result = department1.changeDirector(teacher1);
         //assert
@@ -167,8 +161,7 @@ class DepartmentTest {
         Department department1 = new Department ("DEI","Dep1");
         Department department2 = new Department ("ABC","Dep2");
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Address address1 = new Address ("Passeio Alegre",  "4432-123", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("JOA","Joao",  "JOA@isep.ipp.pt","213456789","B234",address1, teacherCategory1, department2);
+        Teacher teacher1 = new Teacher("JOA","Joao",  "JOA@isep.ipp.pt","213456789","B234","Doutoramento em Engenharia Informatica, 2005, ISEP", "Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1, 100, department2);
         //act
         boolean result = department1.changeDirector(teacher1);
         //assert

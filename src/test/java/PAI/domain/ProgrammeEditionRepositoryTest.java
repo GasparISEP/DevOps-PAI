@@ -9,13 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProgrammeEditionRepositoryTest {
 
     @Test
-    void shouldReturnsTrueIfProgrammeEditionIsCreatedSuccessfully() throws Exception {
+    void shouldReturnTrueIfProgrammeEditionIsCreatedSuccessfully() throws Exception {
         // arrange
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -28,13 +27,12 @@ class ProgrammeEditionRepositoryTest {
     }
 
     @Test
-    void shouldReturnsTrueIfTheAddedProgrammeEditionHasTheSameProgrammeAsAnExistingOneButADifferentYear() throws Exception {
+    void shouldReturnTrueIfTheAddedProgrammeEditionHasTheSameProgrammeAsAnExistingOneButADifferentYear() throws Exception {
         // arrange
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010",  assistantProfessor,100, CSE);
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -49,13 +47,12 @@ class ProgrammeEditionRepositoryTest {
     }
 
     @Test
-    void shouldReturnsTrueIfTheAddedProgrammeEditionHasTheSameYearAsAnExistingOneButADifferentProgramme() throws Exception {
+    void shouldReturnTrueIfTheAddedProgrammeEditionHasTheSameYearAsAnExistingOneButADifferentProgramme() throws Exception {
         // arrange
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Programme p2 = new Programme("LEI", "LEI", 20,6,master,CSE,teacher);
@@ -76,8 +73,7 @@ class ProgrammeEditionRepositoryTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100,CSE);
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -108,8 +104,7 @@ class ProgrammeEditionRepositoryTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         // act

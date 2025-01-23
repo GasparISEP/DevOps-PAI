@@ -28,8 +28,8 @@ class TeacherCareerProgressionTest {
 
     public static Stream<Arguments> provideInvalidAttributes() {
         return Stream.of(
-                arguments("10-12-2024", -1, "Working Percentage must be a value between 0 and 100"),
-                arguments("10-12-2024", 101, "Working Percentage must be a value between 0 and 100"),
+                arguments("10-12-2024", -1, "Working Percentage must be a value between 0 and 100."),
+                arguments("10-12-2024", 101, "Working Percentage must be a value between 0 and 100."),
                 arguments("", 50, "Date cannot be empty!"),
                 arguments(" ", 50, "Date cannot be empty!"),
                 arguments(null, 50, "Date cannot be empty!"),

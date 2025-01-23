@@ -17,11 +17,10 @@ class TeacherTest {
     @Test
     void shouldReturnTeacherWhenAllFieldsAreValid() throws Exception {
         //arrange
-        Address address = new Address("Street One", "1234-678", "Porto", "Portugal");
-        TeacherCategory category = new TeacherCategory("Math");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MAT", "Mathematics");
         //act
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", address, category, department);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
         //assert
         assertNotNull(teacher);
     }
@@ -30,11 +29,10 @@ class TeacherTest {
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws Exception {
         //arrange
         List<Teacher> testTeachers = new ArrayList<>();
-        Address address = new Address("Street One",  "1234-678", "Porto", "Portugal");
-        TeacherCategory category = new TeacherCategory("Math");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherCategory tc1 = new TeacherCategory("Math");
+        Department dpt1 = new Department("MAT", "Mathematics");
         //act
-        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", address, category, department);
+        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
         testTeachers.add(teacher);
         //assert
         assertNotNull(teacher);
@@ -45,11 +43,10 @@ class TeacherTest {
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws Exception {
         //arrange
         List<Teacher> testTeachers = new ArrayList<>();
-        Address address = new Address("Street One",  "1234-678", "Porto", "Portugal");
-        TeacherCategory category = new TeacherCategory("Math");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherCategory tc1 = new TeacherCategory("Math");
+        Department dpt1 = new Department("MAT", "Mathematics");
         //act
-        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106", address, category, department);
+        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
         testTeachers.add(teacher);
         //assert
         assertNotNull(teacher);
@@ -61,7 +58,7 @@ class TeacherTest {
         //arrange
 
         //act + assert
-        assertThrows(Exception.class, () -> new Teacher(null, null,null,null,null,null,null,null));
+        assertThrows(Exception.class, () -> new Teacher(null, null,null,null,null,null, null,null,null,null,null,null,101,null));
     }
 
     @Test
@@ -69,7 +66,7 @@ class TeacherTest {
         //arrange
 
         //act + assert
-        assertThrows(Exception.class, () -> new Teacher("", "","","","",null,null,null));
+        assertThrows(Exception.class, () -> new Teacher("", "","","","","", "","","","", "",null,101,null));
     }
 
 
@@ -98,12 +95,12 @@ class TeacherTest {
         String nif = "123456789";
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
-        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto","Portugal");
-        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
-        Department department1 = new Department("DED", "Dept1");
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("DED", "Dept1");
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, address1, category1, department1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -130,13 +127,13 @@ class TeacherTest {
         String nif = "123456789";
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
-        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto", "Portugal");
-        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
-        Department department1 = new Department("DED", "Dept1");
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("DED", "Dept1");
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name , email, nif, phoneNumber, address1,  category1, department1);
+            new Teacher(acronym, name , email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -163,13 +160,13 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "123456789";
         String phoneNumber = "B123";
-        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto", "Portugal");
-        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
-        Department department1 = new Department( "DED","Dep1");
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, address1, category1,department1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -196,13 +193,13 @@ class TeacherTest {
         String acronym = "MMM";
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
-        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto", "Portugal");
-        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
-        Department department1 = new Department( "DED","Dep1");
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, address1, category1,department1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -232,13 +229,180 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
-        Address address1 = new Address("Passeio Alegre",  "4432-345","Porto","Portugal");
-        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
-        Department department1 = new Department( "DED","Dep1");
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, address1, category1,department1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    //testing teacher's academic background
+    public static Stream<Arguments> provideInvalidAcademicBackground() {
+        return Stream.of(
+                arguments(null, "Teacher's academic background must be a non-empty String."),
+                arguments("", "Teacher's academic background must be a non-empty String."),
+                arguments("   ", "Teacher's academic background must be a non-empty String.")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidAcademicBackground")
+    void testInvalidAcademicBackground(String academicBackground, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "777777777";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    //testing street
+    public static Stream<Arguments> provideInvalidStreet() {
+        return Stream.of(
+                arguments(null, "Street cannot be empty!"),
+                arguments("", "Street cannot be empty!"),
+                arguments("   ", "Street cannot be empty!")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidStreet")
+    void testInvalidStreet(String street, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "777777777";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    //testing postalCode
+    public static Stream<Arguments> provideInvalidPostalCode() {
+        return Stream.of(
+                arguments(null, "Postal Code cannot be empty!"),
+                arguments("", "Postal Code cannot be empty!"),
+                arguments("   ", "Postal Code cannot be empty!")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidPostalCode")
+    void testInvalidPostalCode(String postalCode, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "777777777";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores", postalCode, "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    //testing location
+    public static Stream<Arguments> provideInvalidLocation() {
+        return Stream.of(
+                arguments(null, "Location cannot be empty!"),
+                arguments("", "Location cannot be empty!"),
+                arguments("   ", "Location cannot be empty!")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidLocation")
+    void testInvalidLocation(String Location, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "777777777";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085", Location,"Portugal","14-05-2004", tc1, 100, dpt1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    //testing Country
+    public static Stream<Arguments> provideInvalidCountry() {
+        return Stream.of(
+                arguments(null, "Country cannot be empty!"),
+                arguments("", "Country cannot be empty!"),
+                arguments("   ", "Country cannot be empty!")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidCountry")
+    void testInvalidCountry(String Country, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "777777777";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto", Country,"14-05-2004", tc1, 100, dpt1);
+        });
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    //testing Date
+    public static Stream<Arguments> provideInvalidDate() {
+        return Stream.of(
+                arguments(null, "Date cannot be empty!"),
+                arguments("", "Date cannot be empty!"),
+                arguments("   ", "Date cannot be empty!")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidDate")
+    void testInvalidDate(String Date, String expectedMessage) throws Exception {
+        // Arrange
+        String name = "Maria Manuela Lima";
+        String acronym = "MMM";
+        String nif = "777777777";
+        String email = "MMM@isep.ipp.pt";
+        String phoneNumber = "B123";
+        String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department( "DED","Dep1");
+
+        // Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto","Portugal",Date, tc1, 100, dpt1);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
