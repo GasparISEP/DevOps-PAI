@@ -1,0 +1,46 @@
+@startuml
+
+actor HRC
+participant ":Test" as Test
+participant ":Controller" as Controller #lightgreen
+participant ":TeacherRepository" as TR #lightblue
+participant "t1:Teacher" as Teacher #lightyellow
+participant "tc1:TeacherCareer" as TC #lightpink
+
+HRC -> Test : I want to update Teacher's working percentage \n(NIF, workingPercentage, date)
+activate Test
+Test -> Controller : getTeacherByNIF(NIF)
+activate Controller
+Controller -> TR : getTeacherByNIF(NIF)
+activate TR
+TR -> Teacher : hasThisNif()
+activate Teacher
+Teacher --> TR : NIF!
+deactivate Teacher
+TR --> Controller : t1!
+deactivate TR
+Controller -> Teacher : getLastTeacherCategory (Teacher t1)
+
+activate Teacher
+
+Teacher --> Controller : category1!
+deactivate Teacher
+
+Controller -> Teacher : updateWorkingPercentageInTeacherCareer \n(category1, workingPercentage, date)
+activate Teacher
+Teacher -> TC** : createTeacherCareer \n(category1, workingPercentage, date)
+activate TC
+TC -> TC : validateWorkingPercentage()
+TC --> Teacher : Changed Working Percentage!
+deactivate TC
+Teacher -> Teacher : validate()
+Teacher -> Teacher : add()
+
+Teacher --> Controller : Changed Working Percentage!
+deactivate Teacher
+
+Controller --> Test : Changed Working Percentage!
+deactivate Controller
+Test --> HRC : Success
+deactivate Test
+@enduml
