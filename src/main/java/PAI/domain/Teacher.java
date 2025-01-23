@@ -33,8 +33,13 @@ public class Teacher {
         validateNif(nif);
         validatePhoneNumber(phoneNumber);
         validateAcademicBackground(academicBackground);
-        Address address = new Address (street, postalCode, location,country);
+
+        this._address = new Address (street, postalCode, location,country);
+
+        this._teacherCareerProgression = new ArrayList<>();
         TeacherCareerProgression tcp = new TeacherCareerProgression(date, category, workingPercentage);
+        this._teacherCareerProgression.add(tcp);
+
         this._department = department;
     }
 
