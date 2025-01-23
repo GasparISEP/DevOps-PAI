@@ -25,4 +25,17 @@ public class SchoolYearRepository {
         _schoolYearList.add(newSchoolYear);
         return true;
     }
+
+    public SchoolYear getLatestSchoolYear() {
+
+        if (_schoolYearList.isEmpty())
+            return null;
+
+        SchoolYear mostRecentSchoolYear = _schoolYearList.get(0);
+        for (int i = 0; i < _schoolYearList.size(); i++) {
+            if (mostRecentSchoolYear.getEndDate().isBefore(_schoolYearList.get(i).getEndDate()))
+                mostRecentSchoolYear = _schoolYearList.get(i);
+        }
+        return mostRecentSchoolYear;
+    }
 }

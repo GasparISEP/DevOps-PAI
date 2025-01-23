@@ -52,4 +52,31 @@ class SchoolYearRepositoryTest {
         // Act & Assert
         assertThrows(Exception.class, () -> repository.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025"));
     }
+
+    @Test
+    void shouldReturnTheMostRecentSchoolYear() throws Exception {
+        // Arrange
+        SchoolYearRepository syr = new SchoolYearRepository();
+        syr.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
+        syr.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2026");
+        SchoolYear sy1 = new SchoolYear("Ano letivo", "01-09-2024", "30-06-2026");
+
+        // Act
+        SchoolYear sy2 = syr.getLatestSchoolYear();
+
+        // Assert
+        assertTrue(sy1.isSameSchoolYear(sy2));
+    }
+
+    @Test
+    void shouldReturnNullIfSchoolYearRepositoryIsEmpty() throws Exception {
+        // Arrange
+        SchoolYearRepository syr = new SchoolYearRepository();
+
+        // Act
+        SchoolYear sy1 = syr.getLatestSchoolYear();
+
+        // Assert
+        assertNull(sy1);
+    }
 }
