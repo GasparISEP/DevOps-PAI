@@ -39,7 +39,7 @@ deactivate CE
 S --> UI :True
 deactivate S
 UI --> PD : True
-deactivate UI
+deactivate UI
 
 
 @enduml
