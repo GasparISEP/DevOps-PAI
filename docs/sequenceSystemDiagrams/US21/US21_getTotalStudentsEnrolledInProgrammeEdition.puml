@@ -7,18 +7,19 @@ participant ":ProgrammeEdition" #application
 
 autonumber
 
-ASC -> UI  ++-- #application : I want to get all ProgrammeEditions
-
-UI -> ":Controller" --++ #application: I want to get all ProgrammeEditions
-
-":Controller" -> ":ProgrammeEditionRepo" --++ #application: getallProgrammeEditions()
-
+ASC -> UI  ++ #application : I want to get all ProgrammeEditions
+UI -> ":Controller" ++ #application: getallProgrammeEditions()
+":Controller" -> ":ProgrammeEditionRepo" ++ #application: getallProgrammeEditions()
 ":ProgrammeEditionRepo" -> ":ProgrammeEditionRepo"  #application: getAllProgrammeEditions()
-":ProgrammeEditionRepo" --> ASC -- : which ProgrammeEdition?
+":ProgrammeEditionRepo" --> ":Controller" -- : List<ProgrammeEdition>
+":Controller" --> UI -- : List<ProgrammeEdition>
+UI --> ASC -- : which ProgrammeEdition?
 ASC -> UI ++ #application: I want :PE1
-UI -> ":Controller" --++ #application: :PE1
-":Controller" -> ":ProgrammeEdition" --++ #application : :PE1.getTotalStudents()
+UI -> ":Controller" ++ #application: :PE1
+":Controller" -> ":ProgrammeEdition" ++ #application : :PE1.getTotalStudents()
 
 ":ProgrammeEdition" -> ":ProgrammeEdition" #application : getTotalStudents()
-":ProgrammeEdition" --> ASC -- #application : total students enrolled in a ProgrammeEdition
+":ProgrammeEdition" --> ":Controller" -- #application : total students enrolled in a ProgrammeEdition
+":Controller" --> "UI" -- #application : total students enrolled in a ProgrammeEdition
+"UI" --> ASC -- #application : total students enrolled in a ProgrammeEdition
 @enduml
