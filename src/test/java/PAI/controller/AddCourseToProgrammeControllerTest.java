@@ -1,6 +1,5 @@
 package PAI.controller;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -69,10 +68,10 @@ public class AddCourseToProgrammeControllerTest {
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
-        //act
-        boolean addCourseToProgramme = addCourseToProgrammeController.addCourseToProgramme(0, course1);
-        //assert
-        assertFalse(addCourseToProgramme);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            addCourseToProgrammeController.addCourseToProgramme(0, course1);
+        });
     }
 
     @Test
@@ -85,10 +84,10 @@ public class AddCourseToProgrammeControllerTest {
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
-        //act
-        boolean addCourseToProgramme = addCourseToProgrammeController.addCourseToProgramme(3, course1);
-        //assert
-        assertFalse(addCourseToProgramme);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            addCourseToProgrammeController.addCourseToProgramme(3, course1);
+        });
     }
 
     @Test
@@ -101,8 +100,9 @@ public class AddCourseToProgrammeControllerTest {
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
         //act
-        boolean addCourseToProgramme = addCourseToProgrammeController.addCourseToProgramme(3, null);
-        //assert
-        assertFalse(addCourseToProgramme);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            addCourseToProgrammeController.addCourseToProgramme(2, null);
+        });
     }
 }

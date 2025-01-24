@@ -16,14 +16,9 @@ public class AddCourseToProgrammeController {
 
 
 
-    public boolean addCourseToProgramme(int semester, Course course) {
-        try {
-            programme.addCourseToASemesterOfAProgramme(semester, course);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public boolean addCourseToProgramme(int semester, Course course) throws Exception {
+        programme.addCourseToASemesterOfAProgramme(semester, course);
+        return true;
     }
     
 }
