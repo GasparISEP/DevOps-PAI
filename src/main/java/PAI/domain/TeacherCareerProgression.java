@@ -48,4 +48,13 @@ public class TeacherCareerProgression {
         return workingPercentage < 0 || workingPercentage > 100;
     }
 
+    public TeacherCategory getCategory () {
+
+        return _category;
+    }
+
+    public LocalDate getDate () {
+
+        return _date;
+    }
 }
