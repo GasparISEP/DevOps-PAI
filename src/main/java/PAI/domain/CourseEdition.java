@@ -28,4 +28,11 @@ public class CourseEdition {
         return _course.equals(courseEditionTest._course) &&
                 _programmeEdition.equals(courseEditionTest._programmeEdition);
     }
+
+    public boolean setRuc(Teacher ruc) {
+        this._ruc = ruc;
+        if (_ruc == null)
+            return false;
+        return true;
+    }
 }

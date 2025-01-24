@@ -13,7 +13,7 @@ public class CourseEditionRepository {
     }
 
 
-    public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) throws Exception {
+    public boolean createCourseEdition(Course course, ProgrammeEdition programmeEdition) throws Exception {
 
         try {
             CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
@@ -37,4 +37,13 @@ public class CourseEditionRepository {
     public boolean contains(CourseEdition courseEdition) {
         return _courseEditionRepository.contains(courseEdition);
     }
+
+
+    public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
+        if (ce1.setRuc(t1))
+            return true;
+        return false;
+    }
+
 }
+
