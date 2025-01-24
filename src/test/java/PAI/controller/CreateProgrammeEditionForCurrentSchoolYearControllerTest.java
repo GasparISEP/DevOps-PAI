@@ -87,10 +87,9 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12.2010", assistantProfessor,100, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
-
         CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(null, syr1);
 
         //act
@@ -107,7 +106,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12.2010", assistantProfessor,100, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(per1, null);
