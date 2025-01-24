@@ -1,41 +1,33 @@
 package PAI.controller;
 
 import PAI.domain.TeacherCategory;
-import java.util.ArrayList;
+import PAI.domain.TeacherCategoryRepository;
+
 import java.util.List;
+import java.util.Optional;
 
 public class US01_ConfigureTeacherCategoryController {
+    private TeacherCategoryRepository repository;
 
-    private List<TeacherCategory> categories;
-
-    public US01_ConfigureTeacherCategoryController() {
-        this.categories = new ArrayList<>();
+    public US01_ConfigureTeacherCategoryController(TeacherCategoryRepository repository) {
+        if (repository == null) {
+            throw new IllegalArgumentException("Repository cannot be null");
+        }
+        this.repository = repository;
     }
 
     public void addCategory(String categoryName) throws Exception {
-        TeacherCategory newCategory = new TeacherCategory(categoryName);
-        if (!categories.contains(newCategory)) {
-            categories.add(newCategory);
-        } else {
+        if (!repository.registerTeacherCategory(categoryName)) {
             throw new Exception("Category already exists.");
         }
     }
 
     public TeacherCategory getCategory(String categoryName) throws Exception {
-        try {
-            TeacherCategory tempCategory = new TeacherCategory(categoryName);
-            for (TeacherCategory category : categories) {
-                if (category.equals(tempCategory)) {
-                    return category;
-                }
-            }
-        } catch (Exception e) {
-            throw new Exception("Invalid category name: " + categoryName, e);
-        }
-        return null;
+        Optional<TeacherCategory> category = repository.getTeacherCategoryByName(categoryName);
+        return category.orElseThrow(() -> new Exception("Invalid category name: " + categoryName));
     }
 
     public List<TeacherCategory> listCategories() {
-        return new ArrayList<>(categories);
+        return repository.listAllCategories();
     }
 }
