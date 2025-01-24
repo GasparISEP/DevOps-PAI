@@ -3,9 +3,7 @@ import PAI.domain.TeacherCategory;
 import PAI.domain.TeacherCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class US01_ConfigureTeacherCategoryControllerTest {
@@ -17,6 +15,14 @@ public class US01_ConfigureTeacherCategoryControllerTest {
     public void setUp() {
         repository = new TeacherCategoryRepository();
         controller = new US01_ConfigureTeacherCategoryController(repository);
+    }
+
+    @Test
+    public void testConstructorWithNullRepository() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new US01_ConfigureTeacherCategoryController(null);
+        });
+        assertEquals("Repository cannot be null", exception.getMessage());
     }
 
     @Test
@@ -56,7 +62,21 @@ public class US01_ConfigureTeacherCategoryControllerTest {
         controller.addCategory("Science");
         List<TeacherCategory> categories = controller.listCategories();
         assertEquals(2, categories.size());
-        assertTrue(categories.stream().anyMatch(c -> c.getName().equals("Math")));
-        assertTrue(categories.stream().anyMatch(c -> c.getName().equals("Science")));
+
+        boolean containsMath = false;
+        boolean containsScience = false;
+
+        for (TeacherCategory category : categories) {
+            if (category.getName().equals("Math")) {
+                containsMath = true;
+            }
+            if (category.getName().equals("Science")) {
+                containsScience = true;
+            }
+        }
+
+        assertTrue(containsMath);
+        assertTrue(containsScience);
     }
+
 }

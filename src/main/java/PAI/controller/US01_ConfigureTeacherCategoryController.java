@@ -1,5 +1,4 @@
 package PAI.controller;
-
 import PAI.domain.TeacherCategory;
 import PAI.domain.TeacherCategoryRepository;
 
