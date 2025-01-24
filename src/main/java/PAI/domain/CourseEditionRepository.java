@@ -33,4 +33,8 @@ public class CourseEditionRepository {
 
         return _courseEditionRepository.contains(courseEdition);
     }
+
+    public boolean contains(CourseEdition courseEdition) {
+        return _courseEditionRepository.contains(courseEdition);
+    }
 }
