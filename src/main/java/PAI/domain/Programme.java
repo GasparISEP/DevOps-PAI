@@ -78,8 +78,13 @@ public class Programme {
     }
 
     //Method to add Course
-    public boolean addCourseToASemesterOfAProgramme(int semester, Course course, CourseRepository courseRepository) throws Exception {
-        semester = modifySemesterValueIfAllInputsGivenAreValid(semester, course, courseRepository);
+    public boolean addCourseToASemesterOfAProgramme(int semester, Course course) throws Exception {
+        if (!doesTheSemesterExistsInTheProgramme(semester))
+            throw new IllegalArgumentException("Semester does not exist in the programme");
+        if (!isTheCourseNotNull(course))
+            throw new IllegalArgumentException("Course cannot be null");
+
+        semester -= 1;
         int semesterWhereCourseIsPresent = getSemesterWhereCourseIsPresent(course);
         if(!isPossibleToAddACourseInThisYear(course,semesterWhereCourseIsPresent,semester))
             throw new Exception("This course can not be added to this year");
@@ -90,18 +95,6 @@ public class Programme {
             throw new IllegalArgumentException("Adding this course will surpass the limit credits ECTS for that Semester");
         listOfSemesters.getSemester(semester).addCourseToSemester(course);
         return true;
-    }
-
-    private int modifySemesterValueIfAllInputsGivenAreValid(int semester, Course course, CourseRepository courseRepository) throws Exception {
-        if (!doesTheSemesterExistsInTheProgramme(semester))
-            throw new IllegalArgumentException("Semester does not exist in the programme");
-        if (!isTheCourseNotNull(course))
-            throw new IllegalArgumentException("Course cannot be null");
-        if (isTheCourseInTheSystem(course, courseRepository))
-            semester -= 1;
-        else
-            throw new IllegalArgumentException("Course is not in system");
-        return semester;
     }
 
     private int getSemesterWhereCourseIsPresent (Course course) {
@@ -150,12 +143,6 @@ public class Programme {
         if (course == null)
             return false;
         return true;
-    }
-
-    private boolean isTheCourseInTheSystem(Course course, CourseRepository courseRepository){
-        if (courseRepository.isCourseRegistered(course))
-            return true;
-        return false;
     }
 
     private void createListOfSemesters(){
