@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CourseEditionRepository {
 
@@ -11,7 +12,6 @@ public class CourseEditionRepository {
         _courseEditionRepository = new ArrayList<>();
 
     }
-
 
     public boolean createCourseEdition(Course course, ProgrammeEdition programmeEdition) throws Exception {
 
@@ -28,7 +28,6 @@ public class CourseEditionRepository {
         }
     }
 
-
     private boolean isCourseEditionAlreadyInRepository(CourseEdition courseEdition) {
 
         return _courseEditionRepository.contains(courseEdition);
@@ -38,12 +37,18 @@ public class CourseEditionRepository {
         return _courseEditionRepository.contains(courseEdition);
     }
 
-
     public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
         if (ce1.setRuc(t1))
             return true;
         return false;
     }
 
+    public List<CourseEdition> getCourseEditions() {
+        return _courseEditionRepository;
+    }
 }
+
+
+
+
 
