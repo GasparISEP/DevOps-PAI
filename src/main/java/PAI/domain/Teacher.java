@@ -1,5 +1,8 @@
 package PAI.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Teacher {
 
     private String _acronym;
@@ -12,30 +15,40 @@ public class Teacher {
 
     private String _phoneNumber;
 
-    private Address _address;
+    private String _academicBackground;
 
-    private TeacherCategory _teacherCategory;
+    private Address _address;
 
     private Department _department;
 
+    private List<TeacherCareerProgression> _teacherCareerProgression;
+
+
     //constructor
-    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, Address address, TeacherCategory category,
+    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage,
                    Department department) throws IllegalArgumentException {
         validateAcronym(acronym);
         validateName(name);
         validateEmail(email);
         validateNif(nif);
         validatePhoneNumber(phoneNumber);
-        this._address=address;
-        this._teacherCategory= category;
+        validateAcademicBackground(academicBackground);
+
+        this._address = new Address (street, postalCode, location,country);
+
+        this._teacherCareerProgression = new ArrayList<>();
+        TeacherCareerProgression tcp = new TeacherCareerProgression(date, category, workingPercentage);
+        this._teacherCareerProgression.add(tcp);
+
         this._department = department;
     }
+
 
     private void validateAcronym(String teacherAcronym) throws IllegalArgumentException {
         if (teacherAcronym == null || teacherAcronym.isBlank()) {
             throw new IllegalArgumentException("Teacher´s acronym must be a 3 capital letter non-empty String.");
         }
-        if(!teacherAcronym.matches("^[A-Z]{3}$")){
+        if (!teacherAcronym.matches("^[A-Z]{3}$")) {
             throw new IllegalArgumentException("Teacher´s acronym must contain only three capital letters.");
         }
         this._acronym = teacherAcronym;
@@ -45,16 +58,16 @@ public class Teacher {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Teacher´s name must be a non-empty String.");
         }
-        if (name.length() <2 || name.length() > 100){
+        if (name.length() < 2 || name.length() > 100) {
             throw new IllegalArgumentException("Teacher´s name must be between 2 and 100 characters.");
         }
-        for (int i = 0; i < name.length(); i++){
+        for (int i = 0; i < name.length(); i++) {
             char c = name.charAt(i);
-            if (!Character.isLetter(c) && !Character.isSpaceChar(c) && c!= '-'){
+            if (!Character.isLetter(c) && !Character.isSpaceChar(c) && c != '-') {
                 throw new IllegalArgumentException("Teacher´s name must contain only letters and spaces.");
             }
         }
-        if(!name.matches("^[A-Z].*")){
+        if (!name.matches("^[A-Z].*")) {
             throw new IllegalArgumentException("Teacher´s name should start with a capital letter.");
         }
         this._name = name;
@@ -71,7 +84,7 @@ public class Teacher {
         this._email = email;
     }
 
-    private void validateNif(String nif) throws IllegalArgumentException{
+    private void validateNif(String nif) throws IllegalArgumentException {
         if (nif == null || nif.isBlank())
             throw new IllegalArgumentException("Teacher´s NIF must be a non-empty String.");
 
@@ -81,7 +94,7 @@ public class Teacher {
     }
 
     private void validatePhoneNumber(String phoneNumber) throws IllegalArgumentException {
-        if(phoneNumber == null || phoneNumber.isBlank())
+        if (phoneNumber == null || phoneNumber.isBlank())
             throw new IllegalArgumentException("Teacher´s office phoneNumber must be a non-empty String.");
 
         if (!phoneNumber.matches("^[A-Z][0-9]{3}$") || phoneNumber.length() != 4)
@@ -90,13 +103,21 @@ public class Teacher {
         this._phoneNumber = phoneNumber;
     }
 
+    private void validateAcademicBackground(String academicBackground) throws IllegalArgumentException {
+        if (academicBackground == null || academicBackground.isBlank())
+            throw new IllegalArgumentException("Teacher's academic background must be a non-empty String.");
+    }
+
     public boolean hasSameAcronym(Teacher teacher) {
         return this._acronym.equals(teacher._acronym);
     }
+
     public boolean hasSameNif(Teacher teacher) {
         return this._nif.equals(teacher._nif);
     }
+
     protected boolean isInDepartment(Department department) {
         return _department == department;
     }
 }
+

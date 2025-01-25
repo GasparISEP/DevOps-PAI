@@ -5,7 +5,9 @@ participant ":Test" as Test
 participant ":Controller" as Controller #lightgreen
 participant ":TeacherRepository" as TR #lightblue
 participant "t1:Teacher" as Teacher #lightyellow
-participant "tc1:TeacherCareer" as TC #lightpink
+participant ":TeacherCareerProgression" as TCP #lightpink
+participant "tcp1:TeacherCareerProgression" as TCP1 #lightpink
+
 
 HRC -> Test : I want to update Teacher's working percentage \n(NIF, workingPercentage, date)
 activate Test
@@ -13,26 +15,32 @@ Test -> Controller : getTeacherByNIF(NIF)
 activate Controller
 Controller -> TR : getTeacherByNIF(NIF)
 activate TR
-TR -> Teacher : hasThisNif()
+TR -> Teacher : hasThisNIF()
 activate Teacher
-Teacher --> TR : NIF!
+Teacher --> TR : True!
 deactivate Teacher
 TR --> Controller : t1!
 deactivate TR
-Controller -> Teacher : getLastTeacherCategory (Teacher t1)
+Controller -> Teacher : getLastTeacherCategory (t1)
 
 activate Teacher
+Teacher -> TCP : getCategory()
+activate TCP
+TCP --> Teacher : category1!
+deactivate TCP
+deactivate TR
 
 Teacher --> Controller : category1!
 deactivate Teacher
 
-Controller -> Teacher : updateWorkingPercentageInTeacherCareer \n(category1, workingPercentage, date)
+Controller -> Teacher : updateWorkingPercentageInTeacherCareer \n(date, category1, workingPercentage)
 activate Teacher
-Teacher -> TC** : createTeacherCareer \n(category1, workingPercentage, date)
-activate TC
-TC -> TC : validateWorkingPercentage()
-TC --> Teacher : Changed Working Percentage!
-deactivate TC
+Teacher -> TCP1** : updateWorkingPercentageInTeacherCareer \n(date, category1, workingPercentage)
+activate TCP1
+TCP1 -> TCP1 : validateDate()
+TCP1 -> TCP1 : validateWorkingPercentage()
+TCP1 --> Teacher : tcp1!
+deactivate TCP1
 Teacher -> Teacher : validate()
 Teacher -> Teacher : add()
 

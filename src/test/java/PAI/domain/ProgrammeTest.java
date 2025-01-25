@@ -14,8 +14,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
         //act + assert
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
@@ -30,8 +29,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -48,8 +46,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -66,8 +63,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -82,8 +78,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -98,8 +93,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -114,8 +108,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -130,8 +123,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
 
@@ -146,8 +138,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
         //act + assert
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,-1,master,CSE,teacher1));
@@ -160,8 +151,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -176,8 +166,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -193,8 +182,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -209,8 +197,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
 
 
         //act + assert
@@ -225,8 +212,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010",assistantProfessor,100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Programme CEE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
@@ -244,8 +230,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Programme CEE = new Programme("Computer Engineering", "CEE", 20,6,master,CSE,teacher);
 
@@ -263,8 +248,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
@@ -281,8 +265,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
@@ -301,9 +284,8 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
-        Teacher teacher1 = new Teacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
+        Teacher teacher1 = new Teacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act + assert
@@ -324,8 +306,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
@@ -349,8 +330,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010",assistantProfessor,100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act + assert
@@ -371,8 +351,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
@@ -399,8 +378,7 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto","4249-015","Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", addressIsep, assistantProfessor, CSE);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
@@ -419,15 +397,11 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        //act
-        boolean result = lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);        //act
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, course1);
         //assert
         assertTrue(result);
     }
@@ -437,14 +411,12 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1));
     }
 
     @Test
@@ -452,14 +424,12 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(0, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(0, course1));
     }
 
     @Test
@@ -467,30 +437,13 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100, department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = null;
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.isCourseRegistered(course1);
-        //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
-    }
 
-    @Test
-    void shouldReturnExceptionIfCourseIsNotInTheSystem() throws Exception {
-        //arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        Course course1 = new Course("matemática", "MTA", 5, 1);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1));
     }
 
     @Test
@@ -498,17 +451,15 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100, department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 2);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 2);
-        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
-        lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository);
+
+        lei.addCourseToASemesterOfAProgramme(1, course1);
+        lei.addCourseToASemesterOfAProgramme(2, course1);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(3, course1));
     }
 
     @Test
@@ -516,16 +467,13 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(1, course1);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(2, course1));
     }
 
     @ParameterizedTest
@@ -534,16 +482,15 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100, department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 6, 2);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 6, 2);
-        lei.addCourseToASemesterOfAProgramme(2, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(2, course1);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1));
     }
 
     @ParameterizedTest
@@ -552,16 +499,15 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100, department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 6, 2);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("matemática", "MTA", 6, 2);
-        lei.addCourseToASemesterOfAProgramme(3, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(3, course1);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(semester, course1));
     }
 
     @Test
@@ -569,16 +515,13 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course estagio = new Course("matemática", "MTA", 6, 2);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 6, 2);
-        lei.addCourseToASemesterOfAProgramme(2, estagio, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(2, estagio);
         //act
-        boolean result = lei.addCourseToASemesterOfAProgramme(1, estagio, courseRepository);
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, estagio);
         //assert
         assertTrue(result);
     }
@@ -588,15 +531,12 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100, department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 20, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 20, 1);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1));
     }
 
     @Test
@@ -604,16 +544,13 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010",teacherCategory1,100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(1, course1);
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository));
+        assertThrows(Exception.class, () -> lei.addCourseToASemesterOfAProgramme(1, course1));
     }
 
     @Test
@@ -621,18 +558,14 @@ class ProgrammeTest {
         //arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Address address1 = new Address("Rua São Tomé Nº100", "4435-696","Gondomar","Portugal");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123",address1, teacherCategory1,department1);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100, department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
         Course course2 = new Course("português", "POR", 5, 1);
         Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        courseRepository.registerCourse("português", "POR", 5, 1);
-        lei.addCourseToASemesterOfAProgramme(1, course1, courseRepository);
+        lei.addCourseToASemesterOfAProgramme(1, course1);
         //act
-        boolean result = lei.addCourseToASemesterOfAProgramme(1, course2, courseRepository);
+        boolean result = lei.addCourseToASemesterOfAProgramme(1, course2);
         //assert
         assertTrue(result);
     }

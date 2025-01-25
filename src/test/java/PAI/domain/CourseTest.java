@@ -124,9 +124,8 @@ class CourseTest {
         //arrange
         TeacherCategory teacherCategory = new TeacherCategory("diretor");
         Department department = new Department("EIA", "Departamento EI");
-        Address address = new Address("Rua da Alegria", "4222-232", "Porto", "Portugal");
         Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
-                "238310710", "A123", address, teacherCategory, department);
+                "238310710", "A123", "Doutoramento em Engenharia Informatica, 2005, ISEP","Rua da Alegria", "4222-232", "Porto", "Portugal","24-05-2010",teacherCategory, 100, department);
         Course course1 = new Course("Informatics", "INF", 10, 1);
         Object objectToCompare = teacher;
         //act

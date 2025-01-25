@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AddressTest {
 
     @Test
-    void validAttributesCreateAnObject() throws Exception {
+    void validAttributesCreateAnObject() throws IllegalArgumentException {
         //arrange
 
         //act

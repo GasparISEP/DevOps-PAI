@@ -11,12 +11,11 @@ class TeacherRepositoryTest {
     void shouldCreateValidTeacher() throws Exception {
         // Arrange
         TeacherRepository repository = new TeacherRepository();
-        Address address = new Address("Street One", "1234-678", "Porto", "Portugal");
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
         // Act
-        boolean result = repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", address, category, department);
+        boolean result = repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal", "20-12-1010", category, 100, department);
 
 
         // Assert
@@ -29,13 +28,11 @@ class TeacherRepositoryTest {
     public void testRegisterValidTeacher() throws Exception {
         //arrange
         TeacherRepository repository = new TeacherRepository();
-        Address address = new Address("Street One",  "1234-678", "Porto","Portugal");
-        Address address1 = new Address("Street Two",  "1347-677", "Porto","Portugal");
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
         //act
-        boolean result1 = repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123", address, category, department);
-        boolean result2 = repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123", address1, category, department);
+        boolean result1 = repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
+        boolean result2 = repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street Two", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
 
         //assert
         assertTrue(result1, "The first teacher should be registered successfully.");
@@ -47,14 +44,13 @@ class TeacherRepositoryTest {
     public void testRegisterTeacherWithDuplicateAcronym() throws Exception {
         //arrange
         TeacherRepository repository = new TeacherRepository();
-        Address address = new Address("Street One",  "1234-678", "Porto","Portugal");
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123", address, category, department);
-            repository.registerTeacher("ABC", "Jane Doe", "ABC@isep.ipp.pt", "987654321", "B123", address, category, department);
+            repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
+            repository.registerTeacher("ABC", "Jane Doe", "ABC@isep.ipp.pt", "987654321", "B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
         });
         // Assert
         assertEquals("A teacher with the same acronym already exists.", exception.getMessage());
@@ -65,14 +61,13 @@ class TeacherRepositoryTest {
     public void testRegisterTeacherWithDuplicateNif() throws Exception {
         //arrange
         TeacherRepository repository = new TeacherRepository();
-        Address address = new Address("Street One",  "1234-678", "Porto","Portugal");
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123", address, category, department);
-            repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123456789", "B123", address, category, department);
+            repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
+            repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123456789", "B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
             // Assert
         });
         assertEquals("A teacher with the same NIF already exists.", exception.getMessage());

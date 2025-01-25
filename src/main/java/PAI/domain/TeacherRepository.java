@@ -11,10 +11,10 @@ public class TeacherRepository {
         teachers=new ArrayList<>();
     }
 
-    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber,
-                                   Address address, TeacherCategory category, Department department) throws IllegalArgumentException {
+    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage,
+                                   Department department) throws IllegalArgumentException {
 
-        Teacher teacher = new Teacher(acronym, name, email, nif, phoneNumber, address, category, department);
+        Teacher teacher = new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, date, category, workingPercentage, department);
 
         compareTeacherAcronymAndNifInList(teacher);
         teachers.add(teacher);
