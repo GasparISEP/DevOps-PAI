@@ -102,4 +102,57 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals("This course edition enrollment is already in the list.", thrown.getMessage());
     }
 
+    @Test
+    void shouldConfirmStudentIsEnrollInACourseEdition () throws Exception {
+        //arrange
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository();
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(123,"John","223445667","222333444","123@gmail.com",add1);
+        Department CSE = new Department("DCE","Department of Computer Engineering");
+        SchoolYear sy1 = new SchoolYear("2024/2025","14-10-2024","30-06-2025");
+        DegreeType master = new DegreeType("Master",30);
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        Course c1 = new Course("Development","DEV",5,1);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
+        CourseEdition ce1 = new CourseEdition(c1,pe1);
+        LocalDate currentDate = LocalDate.now();
+
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", new Address("Rua A", "4000-001", "Porto", "Portugal"));
+        repository.enrollStudentInACourseEdition(student1, ce1, currentDate);
+
+        //act
+        //assert
+        assertTrue(repository.isStudentEnrolledInCourseEdition(student1, ce1));
+
+    }
+
+    @Test
+    void shouldConfirmStudentIsNotEnrollInACourseEdition () throws Exception {
+        //arrange
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository();
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(123,"John","223445667","222333444","123@gmail.com",add1);
+        Department CSE = new Department("DCE","Department of Computer Engineering");
+        SchoolYear sy1 = new SchoolYear("2024/2025","14-10-2024","30-06-2025");
+        DegreeType master = new DegreeType("Master",30);
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        Course c1 = new Course("Development","DEV",5,1);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
+        CourseEdition ce1 = new CourseEdition(c1,pe1);
+        LocalDate currentDate = LocalDate.now();
+
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", new Address("Rua A", "4000-001", "Porto", "Portugal"));
+        Student student2 = new Student(2, "João", "123456788", "963741257", "joao@gmail.com", new Address("Rua B", "4000-002", "Porto", "Portugal"));
+        repository.enrollStudentInACourseEdition(student1, ce1, currentDate);
+
+        //act
+        //assert
+        assertFalse(repository.isStudentEnrolledInCourseEdition(student2, ce1));
+
+    }
+
 }

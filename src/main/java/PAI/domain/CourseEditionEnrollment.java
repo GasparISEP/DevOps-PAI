@@ -57,4 +57,13 @@ public class CourseEditionEnrollment {
         return this._courseEdition;
 
     }
+
+    public Object knowStudent() {
+        return _student;
+    }
+
+    public Object knowCourseEdition() {
+        return _courseEdition;
+    }
+
 }

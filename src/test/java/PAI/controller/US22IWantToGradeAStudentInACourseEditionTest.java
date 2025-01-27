@@ -3,6 +3,8 @@ package PAI.controller;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +27,8 @@ class US22IWantToGradeAStudentInACourseEditionTest {
 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
         //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1);
 
@@ -40,10 +44,13 @@ class US22IWantToGradeAStudentInACourseEditionTest {
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-        courseEditionRepository.createCourseEdition(c1, pE1);
-        gradeStudentRepository1.addGradeToStudent(20.0,"12-02-2024",student1,courseEdition1);
+        LocalDate currentDate = LocalDate.now();
 
-        Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student1,courseEdition1);
+        courseEditionRepository.createCourseEdition(c1, pE1);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
+        gradeStudentRepository1.addGradeToStudent(20.0,"12-02-2024",student1,courseEdition1,enrollmentRepository);
+
+        Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student1,courseEdition1,enrollmentRepository);
 
         //assert
 
@@ -51,3 +58,4 @@ class US22IWantToGradeAStudentInACourseEditionTest {
     }
 
 }
+

@@ -32,4 +32,11 @@ public class CourseEditionEnrollmentRepository {
             throw new IllegalArgumentException("This course edition enrollment is already in the list.");
         }
     }
+
+    public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {
+        return _courseEditionEnrollments.stream()
+                .anyMatch(enrollmentStudentCE -> enrollmentStudentCE.knowStudent().equals(student)
+                && enrollmentStudentCE.knowCourseEdition().equals(courseEdition));
+    }
+
 }

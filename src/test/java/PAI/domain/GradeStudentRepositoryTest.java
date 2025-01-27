@@ -1,6 +1,8 @@
 package PAI.domain;
 
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,6 +14,9 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -26,12 +31,17 @@ class GradeStudentRepositoryTest {
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
+        LocalDate currentDate = LocalDate.now();
 
         courseEditionRepository.createCourseEdition(c1, pE1);
 
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1, currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1, currentDate);
+
+
         // Act
-        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1);
-        Optional<GradeStudent> result2 = list.addGradeToStudent(8, "10/10/2025", student2, courseEdition1);
+        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1,enrollmentRepository);
+        Optional<GradeStudent> result2 = list.addGradeToStudent(8, "10/10/2025", student2, courseEdition1,enrollmentRepository);
 
         // Assert
         assertTrue(result1.isPresent());
@@ -43,6 +53,8 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -58,12 +70,15 @@ class GradeStudentRepositoryTest {
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
+        LocalDate currentDate = LocalDate.now();
 
         courseEditionRepository.createCourseEdition(c1, pE1);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1, currentDate);
 
         // Act
-        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1);
-        Optional<GradeStudent> result2 = list.addGradeToStudent(8, "10/10/2025", student2, null);
+        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1,enrollmentRepository);
+        Optional<GradeStudent> result2 = list.addGradeToStudent(8, "10/10/2025", student2, null,enrollmentRepository);
 
         // Assert
         assertFalse(result2.isPresent());
@@ -74,6 +89,7 @@ class GradeStudentRepositoryTest {
     void shouldNotAddGradeToAStudentWithInvalidCourseEdition() throws Exception {
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -86,9 +102,12 @@ class GradeStudentRepositoryTest {
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition invalidCourseEdition = new CourseEdition(c1, pE1);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        LocalDate currentDate = LocalDate.now();
+
+        enrollmentRepository.enrollStudentInACourseEdition(student1, invalidCourseEdition, currentDate);
 
         // Act
-        Optional<GradeStudent> result = list.addGradeToStudent(18, "10/02/2025", student1, invalidCourseEdition);
+        Optional<GradeStudent> result = list.addGradeToStudent(18, "10/02/2025", student1, invalidCourseEdition,enrollmentRepository);
 
         // Assert
         assertFalse(result.isPresent());
@@ -100,6 +119,8 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -117,16 +138,20 @@ class GradeStudentRepositoryTest {
         ProgrammeEdition pE2 = new ProgrammeEdition(p2, sY2);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         CourseEdition courseEdition2 = new CourseEdition(c2, pE2);
+        LocalDate currentDate = LocalDate.now();
+
 
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
         courseEditionRepository.createCourseEdition(c1, pE1);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1, currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1, currentDate);
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition2);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition2);
+        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition2,enrollmentRepository);
+        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition2,enrollmentRepository);
 
         // Act
         double approvalRate = list.knowApprovalRate(courseEdition1);
@@ -140,6 +165,8 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -157,16 +184,20 @@ class GradeStudentRepositoryTest {
         ProgrammeEdition pE2 = new ProgrammeEdition(p2, sY2);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         CourseEdition courseEdition2 = new CourseEdition(c2, pE2);
+        LocalDate currentDate = LocalDate.now();
+
 
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
         courseEditionRepository.createCourseEdition(c1, pE1);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1, currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1, currentDate);
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition1);
+        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1,enrollmentRepository);
+        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition1,enrollmentRepository);
 
         // Act
         double approvalRate = list.knowApprovalRate(courseEdition1);
@@ -180,6 +211,8 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department cseDepartment = new Department("CSE", "Computer Science Engineer");
@@ -209,9 +242,12 @@ class GradeStudentRepositoryTest {
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         Student validStudent = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        LocalDate currentDate = LocalDate.now();
+
+        enrollmentRepository.enrollStudentInACourseEdition(validStudent, courseEditionValid, currentDate);
 
         // Act
-        Optional<GradeStudent> result = gradeStudentRepository.addGradeToStudent(25, "10/10/2025", validStudent, courseEditionValid);
+        Optional<GradeStudent> result = gradeStudentRepository.addGradeToStudent(25, "10/10/2025", validStudent, courseEditionValid,enrollmentRepository);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -222,6 +258,8 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -239,16 +277,19 @@ class GradeStudentRepositoryTest {
         ProgrammeEdition pE2 = new ProgrammeEdition(p2, sY2);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         CourseEdition courseEdition2 = new CourseEdition(c2, pE2);
+        LocalDate currentDate = LocalDate.now();
 
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
         courseEditionRepository.createCourseEdition(c1, pE1);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1, currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1, currentDate);
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition1);
+        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1,enrollmentRepository);
+        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition1,enrollmentRepository);
 
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);
@@ -262,6 +303,8 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -279,16 +322,19 @@ class GradeStudentRepositoryTest {
         ProgrammeEdition pE2 = new ProgrammeEdition(p2, sY2);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         CourseEdition courseEdition2 = new CourseEdition(c2, pE2);
+        LocalDate currentDate = LocalDate.now();
+
 
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
-
         courseEditionRepository.createCourseEdition(c1, pE1);
 
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1, currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1, currentDate);
 
-        list.addGradeToStudent(0, "10/10/2025", student1, courseEdition1);
-        list.addGradeToStudent(0, "10/10/2025", student2, courseEdition1);
+        list.addGradeToStudent(0, "10/10/2025", student1, courseEdition1,enrollmentRepository);
+        list.addGradeToStudent(0, "10/10/2025", student2, courseEdition1,enrollmentRepository);
 
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);
@@ -302,6 +348,8 @@ class GradeStudentRepositoryTest {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -319,16 +367,21 @@ class GradeStudentRepositoryTest {
         ProgrammeEdition pE2 = new ProgrammeEdition(p2, sY2);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         CourseEdition courseEdition2 = new CourseEdition(c2, pE2);
+        LocalDate currentDate = LocalDate.now();
+
 
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
         courseEditionRepository.createCourseEdition(c1, pE1);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1, currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1, currentDate);
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition2);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition2);
+
+        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition2,enrollmentRepository);
+        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition2,enrollmentRepository);
 
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);

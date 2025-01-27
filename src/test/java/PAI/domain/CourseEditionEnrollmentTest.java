@@ -212,4 +212,54 @@ class CourseEditionEnrollmentTest {
         // Verifica se o estudante retornado é o mesmo que foi associado à matrícula
         assertEquals(st1, result);
     }
+
+    @Test
+    void should_return_a_valid_Student() throws Exception {
+        //arrange
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Course c1 = new Course("c1", "CC", 30, 2);
+        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        LocalDate currentDate = LocalDate.now();
+
+        //act
+        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+
+        Object returnedStudent = cee1.knowStudent();
+
+        //assert
+        assertEquals(st1, returnedStudent);
+
+    }
+
+    @Test
+    void should_return_a_valid_course_edition() throws Exception {
+        //arrange
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Course c1 = new Course("c1", "CC", 30, 2);
+        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        LocalDate currentDate = LocalDate.now();
+
+        //act
+        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+
+        Object returnedCourseEdition = cee1.knowCourseEdition();
+        //assert
+        assertEquals(ce1, returnedCourseEdition);
+    }
 }

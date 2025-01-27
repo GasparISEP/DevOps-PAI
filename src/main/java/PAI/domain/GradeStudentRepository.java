@@ -7,6 +7,7 @@ import java.util.Optional;
 public class GradeStudentRepository {
     private List<GradeStudent> gradeStudentList = new ArrayList<>();
     private CourseEditionRepository courseEditionRepository;
+    private CourseEditionEnrollmentRepository courseEditionEnrollmentRepository;
 
 
     public GradeStudentRepository (CourseEditionRepository courseEditionRepository) {
@@ -14,8 +15,12 @@ public class GradeStudentRepository {
     }
 
 
-    public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
+    public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition,CourseEditionEnrollmentRepository courseEditionEnrollmentRepository){
         try {
+            if (!courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, courseEdition)){
+                return Optional.empty();
+            }
+
             if (courseEditionRepository != null && courseEditionRepoExists(courseEdition)){
                 GradeStudent gradeStudent = new GradeStudent(grade, date, student,courseEdition);
                 gradeStudentList.add(gradeStudent);
