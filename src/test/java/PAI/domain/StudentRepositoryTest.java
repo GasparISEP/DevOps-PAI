@@ -79,7 +79,6 @@ class StudentRepositoryTest {
                 new TeacherCategory("Professor"), 100, department);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
         programme.enrolStudentInProgramme(student, am1, amr);
-
         StudentRepository repository = new StudentRepository();
 
         // Act

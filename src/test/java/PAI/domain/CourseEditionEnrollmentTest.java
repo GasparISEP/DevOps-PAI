@@ -163,7 +163,6 @@ class CourseEditionEnrollmentTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         Course course = new Course("Informatica", "INF", 6, 1);
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -172,8 +171,6 @@ class CourseEditionEnrollmentTest {
         LocalDate currentDate = LocalDate.now();
 
         Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-
-        // Simula a matrícula do aluno na CourseEdition
         CourseEditionEnrollment enrollment = new CourseEditionEnrollment(st1, courseEdition,currentDate);
 
         // Act
@@ -200,16 +197,12 @@ class CourseEditionEnrollmentTest {
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
-
-        // Criando a matrícula do estudante no curso
         CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, ce1, currentDate);
 
         // Act
-        // Obter o estudante associado à matrícula na edição do curso
         Student result = enrollment1.findStudentInCourseEditionEnrollment();
 
         // Assert
-        // Verifica se o estudante retornado é o mesmo que foi associado à matrícula
         assertEquals(st1, result);
     }
 
