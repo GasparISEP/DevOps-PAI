@@ -7,10 +7,10 @@ public class ProgrammeEditionRepository {
 
     private ArrayList<ProgrammeEdition> _programmeEditionRepository = new ArrayList<>();
 
-    public boolean createProgrammeEdition (Programme programme, SchoolYear schoolYear){
+    public boolean createProgrammeEdition(Programme programme, SchoolYear schoolYear) {
         try {
             ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
-            if(!isProgrammeEditionAlreadyRegistered(programmeEdition)){
+            if (!isProgrammeEditionAlreadyRegistered(programmeEdition)) {
                 _programmeEditionRepository.add(programmeEdition);
                 return true;
             }
@@ -22,9 +22,21 @@ public class ProgrammeEditionRepository {
         }
     }
 
-
-       private boolean isProgrammeEditionAlreadyRegistered (ProgrammeEdition programmeEdition){
+    private boolean isProgrammeEditionAlreadyRegistered(ProgrammeEdition programmeEdition) {
 
         return _programmeEditionRepository.contains(programmeEdition);
+    }
+
+    //US17
+    public Optional<ProgrammeEdition> findBySchoolYearAndProgramme(
+            Programme programme,
+            SchoolYear schoolYear) {
+        for (ProgrammeEdition programmeEdition : _programmeEditionRepository) {
+            if (programmeEdition.findProgrammeInProgrammeEdition().equals(programme) &&
+                    programmeEdition.findSchoolYearInProgrammeEdition().equals(schoolYear)) {
+                return Optional.of(programmeEdition);
+            }
+        }
+        return Optional.empty();
     }
 }

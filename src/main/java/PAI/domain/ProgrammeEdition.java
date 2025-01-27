@@ -27,4 +27,14 @@ public class ProgrammeEdition {
             return true;
         return false;
     }
+
+    //US17
+    public Programme findProgrammeInProgrammeEdition() {
+        return _programme;
+    }
+
+    //US17
+    public SchoolYear findSchoolYearInProgrammeEdition() {
+        return _schoolYear;
+    }
 }
