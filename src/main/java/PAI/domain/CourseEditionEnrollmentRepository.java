@@ -39,4 +39,15 @@ public class CourseEditionEnrollmentRepository {
                 && enrollmentStudentCE.knowCourseEdition().equals(courseEdition));
     }
 
+    //US17
+    public Optional<CourseEditionEnrollment> findByStudentAndEdition(Student student, CourseEdition courseEdition) {
+        if (student == null || courseEdition == null) {
+            throw new IllegalArgumentException("Student and CourseEdition cannot be null");
+        }
+        for (CourseEditionEnrollment courseEEnrollments : _courseEditionEnrollments)
+            if (courseEEnrollments.findStudentInCourseEditionEnrollment().equals(student) && courseEEnrollments.findCourseEditionInEnrollment().equals(courseEdition)) {
+                return Optional.of(courseEEnrollments);
+            }
+        return Optional.empty();
+    }
 }

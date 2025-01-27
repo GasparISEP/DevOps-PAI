@@ -262,4 +262,31 @@ class CourseEditionEnrollmentTest {
         //assert
         assertEquals(ce1, returnedCourseEdition);
     }
+
+    //US17
+    @Test
+    void shouldReturnStudentInCourseEdition() throws Exception {
+        // Arrange
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Course c1 = new Course("c1", "CC", 30, 2);
+        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        LocalDate currentDate = LocalDate.now();
+        CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+
+        // Act
+        Student result = enrollment1.findStudentInCourseEditionEnrollment();
+
+        // Assert
+        assertEquals(st1, result);
+    }
 }
