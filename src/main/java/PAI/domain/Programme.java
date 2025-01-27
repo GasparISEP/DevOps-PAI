@@ -2,6 +2,7 @@ package PAI.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Programme {
 
@@ -61,20 +62,16 @@ public class Programme {
     }
 
 
-    //method
+    //US17 alteracao ao Equals
     @Override
-    public boolean equals(Object ObjectToCompare){
-        if (this == ObjectToCompare)
-            return true;
-
-        if (!(ObjectToCompare instanceof Programme))
-            return false;
-
-        Programme ProgrameToBeCompared = (Programme) ObjectToCompare;
-
-        if (this._acronym == ProgrameToBeCompared._acronym)
-            return true;
-        return false;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Programme programme = (Programme) o;
+        return _quantityOfEcts == programme._quantityOfEcts && _quantityOfSemesters == programme._quantityOfSemesters &&
+                Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym) &&
+                Objects.equals(_degreeType, programme._degreeType) && Objects.equals(_department, programme._department) &&
+                Objects.equals(_programmeDirector, programme._programmeDirector) && Objects.equals(_courseList, programme._courseList) &&
+                Objects.equals(_programmeEnrolment, programme._programmeEnrolment) && Objects.equals(listOfSemesters, programme.listOfSemesters);
     }
 
     //Method to add Course

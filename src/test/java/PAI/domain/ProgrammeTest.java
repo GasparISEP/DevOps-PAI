@@ -650,4 +650,47 @@ class ProgrammeTest {
         // Assert
         assertEquals(student, enrolledStudent, "The student found in the enrolment must be the same as the student created.");
     }
+
+    //US17
+    @Test
+    void shouldReturnFalseWhenComparedWithNull() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                "20-12-2010", assistantProfessor, 100, department);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
+
+        // Act
+        boolean result = programme.equals(null);
+
+        // Assert
+        assertFalse(result, "The equals method should return false when comparing with null.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseWhenComparedWithDifferentClassObject() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                "20-12-2010", assistantProfessor, 100, department);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
+
+        // Arrange
+        String differentClassObject = "Not a Programme";
+
+        // Act
+        boolean result = programme.equals(differentClassObject);
+
+        // Assert
+        assertFalse(result, "The equals method should return false when comparing with an object of a different class.");
+    }
 }
