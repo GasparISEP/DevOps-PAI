@@ -16,4 +16,8 @@ public class Enrolment {
         return _student.hasSameUniqueNumber(student);
     }
 
+    //US17
+    public Student findStudentInEnrollments(){
+        return _student;
+    }
 }

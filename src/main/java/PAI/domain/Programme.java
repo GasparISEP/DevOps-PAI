@@ -188,4 +188,14 @@ public class Programme {
         }
         return true;
     }
+
+    //US17
+    public boolean isStudentEnrolled(Student student) {
+        for (Enrolment enrolment : _programmeEnrolment) {
+            if(enrolment.findStudentInEnrollments().equals(student)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

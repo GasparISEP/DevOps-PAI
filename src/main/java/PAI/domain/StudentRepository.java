@@ -5,6 +5,7 @@ import java.util.List;
 
 public class StudentRepository {
 
+    private Programme programme;
     // Create ArrayList to store students
     private List<Student> _students = new ArrayList<>();
 
@@ -18,5 +19,13 @@ public class StudentRepository {
             _students.add(newStudent); //add the student to the list
             return true;
         }
+    }
+
+    //US17
+    public boolean isStudentEnrolledInProgramme(Student student) {
+        if(!programme.isStudentEnrolled(student)) {
+            return false;
+        }
+        return true;
     }
 }

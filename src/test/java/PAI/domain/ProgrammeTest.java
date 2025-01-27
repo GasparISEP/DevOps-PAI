@@ -569,4 +569,85 @@ class ProgrammeTest {
         //assert
         assertTrue(result);
     }
+
+    //US17
+    @Test
+    void shouldReturnTrueIfStudentIsEnrolledInProgramme() throws Exception {
+        // Arrange: Criando um aluno
+        Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
+
+        // Arrange: Criando um programa
+        DegreeType master = new DegreeType("Master", 240);
+        Department department = new Department("CSE", "Computer Science Engineer");
+        AccessMethod am1 = new AccessMethod("M1");
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("M1");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                "20-12-2010", assistantProfessor, 100, department);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
+        programme.enrolStudentInProgramme(student,am1,amr);
+
+        // Act
+        boolean result = programme.isStudentEnrolled(student);
+
+        // Assert
+        assertTrue(result, "The student must be enrolled in the programme.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseIfStudentIsNotEnrolledInProgramme() throws Exception {
+        // Arrange: Criando um aluno
+        Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
+        Student student1 = new Student(2, "Joana Silva", "123000009", "221234567", "joana123@gmail.com", address);
+        AccessMethod am1 = new AccessMethod("M1");
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("M1");
+        DegreeType master = new DegreeType("Master", 240);
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                "20-12-2010", assistantProfessor, 100, department);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
+        programme.enrolStudentInProgramme(student,am1,amr);
+
+        // Act
+        boolean result = programme.isStudentEnrolled(student1);
+
+        // Assert
+        assertFalse(result, "The student should not be enrolled in the programme.");
+    }
+    //US17
+    @Test
+    void shouldReturnCorrectStudentFromEnrolment() throws Exception {
+        // Arrange: Criando um aluno
+        Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
+        DegreeType master = new DegreeType("Master", 240);
+        AccessMethod am1 = new AccessMethod("M1");
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("M1");
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                "20-12-2010", assistantProfessor, 100, department);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
+        programme.enrolStudentInProgramme(student,am1,amr);
+        Enrolment enrolment = new Enrolment(student, am1);
+
+        // Act
+        Student enrolledStudent = enrolment.findStudentInEnrollments();
+
+        // Assert
+        assertEquals(student, enrolledStudent, "The student found in the enrolment must be the same as the student created.");
+    }
 }
