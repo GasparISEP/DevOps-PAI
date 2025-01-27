@@ -33,6 +33,7 @@ public class GradeStudent {
             return _grade;
         }
 
+
         public CourseEdition KnowCourseEdition() {
             return _courseEdition;
         }

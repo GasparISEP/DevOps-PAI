@@ -27,6 +27,23 @@ public class GradeStudentRepository {
             return Optional.empty(); }
     }
 
+    public double KnowAverageGrade(CourseEdition courseEdition) {
+        int numOfStudent = 0;
+        double sumGrade = 0;
+
+        for (GradeStudent gradeStudent: gradeStudentList) {
+            if (gradeStudent.KnowCourseEdition().equals(courseEdition)) {
+                double grade = gradeStudent.knowGrade();
+                sumGrade += grade;
+                numOfStudent++;
+            }
+        }
+        if (numOfStudent == 0) {
+            return 0;
+        }
+        return sumGrade/numOfStudent;
+    }
+
 
     public double knowApprovalRate(CourseEdition courseEdition) {
         int totalApprovalStudents = 0;
