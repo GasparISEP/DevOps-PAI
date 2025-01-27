@@ -27,7 +27,7 @@ public class GradeStudentRepository {
             return Optional.empty(); }
     }
 
-    public double KnowAverageGrade(CourseEdition courseEdition) {
+    public Double KnowAverageGrade(CourseEdition courseEdition) {
         int numOfStudent = 0;
         double sumGrade = 0;
 
@@ -39,7 +39,7 @@ public class GradeStudentRepository {
             }
         }
         if (numOfStudent == 0) {
-            return 0;
+            return null;
         }
         return sumGrade/numOfStudent;
     }
