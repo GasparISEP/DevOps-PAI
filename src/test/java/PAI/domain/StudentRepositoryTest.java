@@ -64,4 +64,52 @@ class StudentRepositoryTest {
         assertTrue(result1 && result2 && result3);
     }
 
+    //US17
+    @Test
+    void shouldReturnTrueIfStudentIsEnrolledInProgramme() throws Exception {
+        // Arrange
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        AccessMethod am1 = new AccessMethod("M1");
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("M1");
+        DegreeType degreeType = new DegreeType("Master", 30);
+        Department department = new Department("DCE", "Department of Computer Engineering");
+        Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
+                new TeacherCategory("Professor"), 100, department);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
+        programme.enrolStudentInProgramme(student, am1, amr);
+
+        StudentRepository repository = new StudentRepository();
+
+        // Act
+        boolean result = repository.isStudentEnrolledInProgramme(student, programme);
+
+        // Assert
+        assertTrue(result, "The student must be enrolled in the programme.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseIfStudentIsNotEnrolledInProgramme() throws Exception {
+        // Arrange
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        AccessMethod am1 = new AccessMethod("M1");
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("M1");
+        DegreeType degreeType = new DegreeType("Master", 30);
+        Department department = new Department("DCE", "Department of Computer Engineering");
+        Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
+                new TeacherCategory("Professor"), 100, department);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
+        StudentRepository repository = new StudentRepository();
+
+        // Act
+        boolean result = repository.isStudentEnrolledInProgramme(student, programme);
+
+        // Assert
+        assertFalse(result, "The student should not be enrolled in the programme.");
+    }
+
 }
