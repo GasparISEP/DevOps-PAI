@@ -50,11 +50,11 @@ public class CourseEditionRepository {
 
     //US16 - return the programmeEdition that belongs to a course Edition, if the course edition exists in this repository
     public ProgrammeEdition findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition courseEdition) throws Exception {
-        for (CourseEdition courseEdition1 : _courseEditionRepository) {
+        for (CourseEdition courseEdition1 : _courseEditionRepository)
             if (courseEdition1.equals(courseEdition)) {
                 return courseEdition1.whatProgrammeEditionBelongsThisCourseEdition();
             }
-        }
+        
         throw new Exception("The course edition does not belong to the course Edition Repository");
     }
 
