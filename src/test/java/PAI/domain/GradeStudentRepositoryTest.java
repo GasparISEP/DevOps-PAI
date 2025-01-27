@@ -218,7 +218,7 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldGradeAStudent15() throws Exception {
+    void shouldGetAverageGradeOfCourseEditionOf15() throws Exception {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
@@ -251,14 +251,54 @@ class GradeStudentRepositoryTest {
         list.addGradeToStudent(20, "10/10/2025", student2, courseEdition1);
 
         // Act
-        double averageGrade = list.KnowAverageGrade(courseEdition1);
+        Double averageGrade = list.KnowAverageGrade(courseEdition1);
 
         // Assert
         assertEquals(15, averageGrade, 0.01);
     }
 
     @Test
-    void shouldNotGetAverageGradeAStudentOnCourseEditionWithoutStudents() throws Exception {
+    void shouldGetAverageGradeOf0() throws Exception {
+        // Arrange
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
+
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MAT", "Mathematics");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        Course c1 = new Course("Informatics", "INF", 6, 1);
+        Course c2 = new Course("Science", "SCI", 6, 1);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        Programme p2 = new Programme("Computer Science", "CES", 20, 6, master, CSE, teacher);
+        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        SchoolYear sY2 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2025");
+        ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
+        ProgrammeEdition pE2 = new ProgrammeEdition(p2, sY2);
+        CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
+        CourseEdition courseEdition2 = new CourseEdition(c2, pE2);
+
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
+
+
+        courseEditionRepository.createCourseEdition(c1, pE1);
+
+
+        list.addGradeToStudent(0, "10/10/2025", student1, courseEdition1);
+        list.addGradeToStudent(0, "10/10/2025", student2, courseEdition1);
+
+        // Act
+        Double averageGrade = list.KnowAverageGrade(courseEdition1);
+
+        // Assert
+        assertEquals(0, averageGrade, 0.01);
+    }
+
+    @Test
+    void shouldNotGetAverageGradeOnCourseEditionWithoutStudents() throws Exception {
         // Arrange
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         GradeStudentRepository list = new GradeStudentRepository(courseEditionRepository);
@@ -291,9 +331,9 @@ class GradeStudentRepositoryTest {
         list.addGradeToStudent(20, "10/10/2025", student2, courseEdition2);
 
         // Act
-        double averageGrade = list.KnowAverageGrade(courseEdition1);
+        Double averageGrade = list.KnowAverageGrade(courseEdition1);
 
         // Assert
-        assertEquals(0, averageGrade, 0.01);
+        assertNull(averageGrade);
     }
 }

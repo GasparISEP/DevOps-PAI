@@ -151,4 +151,65 @@ class CourseEditionEnrollmentTest {
         //assert
         assertTrue(enrollment1.equals(enrollment1));
     }
+
+    //US17
+    @Test
+    void shouldReturnCourseEditionFromEnrollment() throws Exception {
+        // Arrange
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        Course course = new Course("Informatica", "INF", 6, 1);
+        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+        LocalDate currentDate = LocalDate.now();
+
+        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+
+        // Simula a matrícula do aluno na CourseEdition
+        CourseEditionEnrollment enrollment = new CourseEditionEnrollment(st1, courseEdition,currentDate);
+
+        // Act
+        CourseEdition result = enrollment.findCourseEditionInEnrollment();
+
+        // Assert
+        assertEquals(courseEdition, result);
+    }
+
+    @Test
+    void shouldReturnStudentInCourseEditionEnrollment() throws Exception {
+        // Arrange
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Course c1 = new Course("c1", "CC", 30, 2);
+        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        LocalDate currentDate = LocalDate.now();
+
+        // Criando a matrícula do estudante no curso
+        CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+
+        // Act
+        // Obter o estudante associado à matrícula na edição do curso
+        Student result = enrollment1.findStudentInCourseEditionEnrollment();
+
+        // Assert
+        // Verifica se o estudante retornado é o mesmo que foi associado à matrícula
+        assertEquals(st1, result);
+    }
 }
