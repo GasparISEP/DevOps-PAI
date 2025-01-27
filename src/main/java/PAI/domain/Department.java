@@ -2,6 +2,7 @@ package PAI.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Department {
 
@@ -61,5 +62,13 @@ public class Department {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Department that = (Department) obj;
+        return Objects.equals(_name, that._name) && Objects.equals(_acronym, that._acronym);
     }
 }

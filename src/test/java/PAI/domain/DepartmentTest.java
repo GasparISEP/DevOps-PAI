@@ -177,4 +177,45 @@ class DepartmentTest {
         //assert
         assertFalse (result);
     }
+
+    //Testing the equals method
+    @Test
+    void testShouldReturnTrueForEqualDepartments()throws Exception {
+        // Arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Department department2 = new Department("DEI", "Departamento Engenharia Informática");
+
+        // Act & Assert
+        assertTrue(department1.equals(department2));
+    }
+
+    @Test
+    void testShouldReturnFalseForDifferentNames()throws Exception {
+        // Arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
+
+        // Act & Assert
+        assertFalse(department1.equals(department2));
+    }
+
+    @Test
+    void testShouldReturnFalseForDifferentAcronyms()throws Exception {
+        // Arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
+
+        // Act & Assert
+        assertFalse(department1.equals(department2));
+    }
+
+    @Test
+    void testShouldReturnFalseWhenNullDepartment() throws Exception{
+        // Arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Department department2 = null;
+
+        // Act & Assert
+        assertFalse(department1.equals(department2));
+    }
 }
