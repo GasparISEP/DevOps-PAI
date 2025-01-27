@@ -16,14 +16,21 @@ public class SchoolYearRepository {
         SchoolYear newSchoolYear = new SchoolYear(description, startDate, endDate);
 
         // Check if the school year already exists in the list
-        for (SchoolYear existingSchoolYear : _schoolYearList) {
-            if (existingSchoolYear.isSameSchoolYear(newSchoolYear)) {
-                throw new Exception("School year already exists.");
-            }
+        if(schoolYearExists(newSchoolYear)){
+            throw new Exception("School year already exists.");
         }
         // Add the school year to the list
         _schoolYearList.add(newSchoolYear);
         return true;
+    }
+
+    public boolean schoolYearExists(SchoolYear schoolYear){
+        for (SchoolYear existingSchoolYear : _schoolYearList) {
+            if (existingSchoolYear.isSameSchoolYear(schoolYear)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public SchoolYear getLatestSchoolYear() {
