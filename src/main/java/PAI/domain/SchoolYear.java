@@ -3,6 +3,7 @@ package PAI.domain;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
 public class SchoolYear {
 
@@ -64,5 +65,14 @@ public class SchoolYear {
     public LocalDate getEndDate() {
         LocalDate endDate = _endDate;
         return endDate;
+    }
+
+    //US17
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        SchoolYear that = (SchoolYear) o;
+        return Objects.equals(_description, that._description) && Objects.equals(_startDate, that._startDate) &&
+                Objects.equals(_endDate, that._endDate);
     }
 }

@@ -68,10 +68,7 @@ public class Programme {
         if (o == null || getClass() != o.getClass()) return false;
         Programme programme = (Programme) o;
         return _quantityOfEcts == programme._quantityOfEcts && _quantityOfSemesters == programme._quantityOfSemesters &&
-                Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym) &&
-                Objects.equals(_degreeType, programme._degreeType) && Objects.equals(_department, programme._department) &&
-                Objects.equals(_programmeDirector, programme._programmeDirector) && Objects.equals(_courseList, programme._courseList) &&
-                Objects.equals(_programmeEnrolment, programme._programmeEnrolment) && Objects.equals(listOfSemesters, programme.listOfSemesters);
+                Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
     }
 
     //Method to add Course

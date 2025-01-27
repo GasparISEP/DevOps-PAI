@@ -184,4 +184,89 @@ class SchoolYearTest {
         // Assert
         assertEquals(endDate, lc);
     }
+    //US17
+    @Test
+    void shouldReturnTrueForEqualSchoolYears() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+        SchoolYear sy2 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+
+        // Act & Assert
+        assertTrue(sy1.equals(sy2), "Two identical school years should be equal.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseForDifferentDescriptions() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+        SchoolYear sy2 = new SchoolYear(  "School Year: ", "14-10-2023", "30-06-2024");
+
+        // Act & Assert
+        assertFalse(sy1.equals(sy2), "School years with different descriptions should not be equal.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseForDifferentStartDates() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+        SchoolYear sy2 = new SchoolYear(  "School Year: ", "14-10-2023", "30-06-2025");
+
+        // Act & Assert
+        assertFalse(sy1.equals(sy2), "School years with different start dates should not be equal.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseForDifferentEndDates() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+        SchoolYear sy2 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2026");
+
+        // Act & Assert
+        assertFalse(sy1.equals(sy2), "School years with different end dates should not be equal.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseWhenComparedWithNull() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+
+        // Act & Assert
+        assertFalse(sy1.equals(null), "A school year should not be equal to null.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseWhenComparedWithDifferentClass() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+        String notASchoolYear = "Not a school year";
+
+        // Act & Assert
+        assertFalse(sy1.equals(notASchoolYear), "A school year should not be equal to an object of a different class.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnTrueWhenComparedWithItself() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+
+        // Act & Assert
+        assertTrue(sy1.equals(sy1), "A school year should be equal to itself.");
+    }
+
+    //US17
+    @Test
+    void shouldReturnFalseForCompletelyDifferentSchoolYears() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear(  "School Year: ", "14-10-2024", "30-06-2025");
+        SchoolYear sy2 = new SchoolYear(  "School Year: ", "01-09-2023", "15-06-2024");
+
+        // Act & Assert
+        assertFalse(sy1.equals(sy2), "Completely different school years should not be equal.");
+    }
 }
