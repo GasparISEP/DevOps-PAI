@@ -31,4 +31,9 @@ public class ProgrammeList {
         programme.newProgrammeDirector(newDirector);
         return true;
     }
+
+    public List<Programme> getAllProgrammes() {
+        return new ArrayList<>(programmeList);
+    }
+    
 }

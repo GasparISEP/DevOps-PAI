@@ -3,6 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
@@ -53,4 +54,30 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
 
         return Optional.of(programmeEdition);
     }
+
+    //Enroll a student in all CourseEditions of a ProgrammeEdition.
+    public Optional<List<CourseEdition>> enrollStudentInCourseEditions(
+            Student student, ProgrammeEdition programmeEdition) {
+
+        // Find all course editions for the programme edition
+        List<CourseEdition> courseEditionsOfAProgrammeEdition =
+                _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+
+        for (CourseEdition courseEdition : courseEditionsOfAProgrammeEdition) {
+            Optional<CourseEditionEnrollment> existingEnrollment =
+                    _courseEditionEnrollmentRepository.findByStudentAndEdition(student, courseEdition);
+            if (existingEnrollment.isPresent()) {
+                throw new IllegalArgumentException("This course edition enrollment is already in the list.");
+            } else {
+                _courseEditionEnrollmentRepository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
+            }
+        }
+
+        return Optional.of(courseEditionsOfAProgrammeEdition);
+    }
+
+    public List<Programme> getAllProgrammes() {
+        return _programmeList.getAllProgrammes();
+    }
+
 }

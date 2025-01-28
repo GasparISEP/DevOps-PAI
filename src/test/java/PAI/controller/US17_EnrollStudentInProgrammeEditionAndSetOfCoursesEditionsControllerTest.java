@@ -4,6 +4,7 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -181,5 +182,138 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 controller.enrollStudentInProgrammeEdition(student, programme, schoolYear)
         );
         assertEquals("Student is already enrolled in the programme edition.", exception.getMessage());
+    }
+
+    @Test
+    void testEnrollStudentInCourseEditions_Success() throws Exception {
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        programmeEditionEnrollmentRepo,
+                        programmeEditionRepository,
+                        programmeList,
+                        courseEditionEnrollmentRepository,
+                        courseEditionRepository);
+
+        // Create supporting entities
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
+                "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
+
+        // Create a programme edition and course editions
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme1, schoolYear);
+        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
+
+        // Create student
+        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+
+        // Add course editions to the programme edition
+        Course c1 = new Course("Development", "DEV", 5, 1);
+        Course c2 = new Course("Computer Science Engineering", "CSE", 5, 1);
+        courseEditionRepository.createCourseEdition(c1, programmeEdition);
+        courseEditionRepository.createCourseEdition(c2, programmeEdition);
+        CourseEdition ce1 = courseEditionRepository.getCourseEditions().get(0);
+        CourseEdition ce2 = courseEditionRepository.getCourseEditions().get(1);
+
+        // Act
+        Optional<List<CourseEdition>> result = controller.enrollStudentInCourseEditions(student, programmeEdition);
+        Optional<CourseEditionEnrollment> enrollment1 = courseEditionEnrollmentRepository.findByStudentAndEdition(student, ce1);
+        Optional<CourseEditionEnrollment> enrollment2 = courseEditionEnrollmentRepository.findByStudentAndEdition(student, ce2);
+        List<CourseEdition> enrolledCourses = result.get();
+
+        // Assert
+
+        assertTrue(enrollment1.isPresent(), "The student is enrolled in the first course edition.");
+        assertTrue(enrollment2.isPresent(), "The student is enrolled in the second course edition.");
+        assertEquals(2, enrolledCourses.size(), "The student is enrolled in all course editions.");
+        assertTrue(enrolledCourses.contains(ce1), "The student should be enrolled in the first course edition.");
+        assertTrue(enrolledCourses.contains(ce2), "The student should be enrolled in the second course edition.");
+
+    }
+
+    @Test
+    void testEnrollStudentInCourseEditions_StudentAlreadyEnrolled() throws Exception {
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        programmeEditionEnrollmentRepo,
+                        programmeEditionRepository,
+                        programmeList,
+                        courseEditionEnrollmentRepository,
+                        courseEditionRepository);
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
+                "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme1, schoolYear);
+        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
+        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Course c1 = new Course("Development", "DEV", 5, 1);
+        Course c2 = new Course("Computer Science Engineering", "CSE", 5, 1);
+        courseEditionRepository.createCourseEdition(c1, programmeEdition);
+        courseEditionRepository.createCourseEdition(c2, programmeEdition);
+        controller.enrollStudentInCourseEditions(student, programmeEdition);
+
+        // Act
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            controller.enrollStudentInCourseEditions(student, programmeEdition);
+        });
+
+        // Assert
+        assertEquals("This course edition enrollment is already in the list.", thrown.getMessage());
+    }
+
+    @Test
+    void testGetAllProgrammes() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", "20-12-2010", new TeacherCategory("Assistant Professor"), 100, department1);
+        ProgrammeList programmeList = new ProgrammeList();
+        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
+        programmeList.registerProgramme("Computer Science", "CS", 26, 6, master, department1, teacher1);
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        null,
+                        null,
+                        programmeList,
+                        null,
+                        null
+                );
+
+        // Act
+        List<Programme> programmes = controller.getAllProgrammes();
+
+        // Assert
+        assertNotNull(programmes, "The list of programmes should not be null.");
+        assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
+        assertTrue(programmes.contains(new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1)),
+                "The list should contain the programme 'Computer Science Engineering'.");
+        assertTrue(programmes.contains(new Programme("Computer Science", "CS", 26, 6, master, department1, teacher1)),
+                "The list should contain the programme 'Computer Science'.");
+
     }
 }
