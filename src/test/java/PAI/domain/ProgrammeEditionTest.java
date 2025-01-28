@@ -178,4 +178,94 @@ class ProgrammeEditionTest {
         assertEquals(sy1, result);
     }
 
+    //US26
+    //Test ensures that method returns true when both the department and school year are correctly associated with the programme edition
+    @Test
+    void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department = new Department("DEI", "Departamento Engenharia Informática");
+        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "01-09-2024", "31-12-2024");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department);
+        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher1);
+        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear);
+
+        // act
+        boolean result = edition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
+
+        // assert
+        assertTrue(result);
+    }
+
+    //Test ensures that method returns false when schoolYear is not associated with the programme edition
+    @Test
+    void shouldReturnFalseWhenSchoolYearIsNotAssociated() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department = new Department("DEI", "Departamento Engenharia Informática");
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ana letivo de", "01-09-2020", "31-07-2021");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department);
+        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher1);
+        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear1);
+
+        // act
+        boolean result = edition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear2);
+
+        // assert
+        assertFalse(result);
+    }
+
+    //Test ensures that method returns false when department is not associated with the programme edition
+    @Test
+    void shouldReturnFalseWhenDepartmentIsNotAssociated() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
+        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear);
+
+        // act
+        boolean result = edition.isEditionAssociatedToDepartmentAndSchoolYear(department2, schoolYear);
+
+        // assert
+        assertFalse(result);
+    }
+
+    //Test ensures that method returns false when department and schoolYear are not associated with the programme edition
+    @Test
+    void shouldReturnFalseWhenNeitherDepartmentNorSchoolYearAreAssociated() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ana letivo de", "01-09-2020", "31-07-2021");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear1);
+
+        // act
+        boolean result = edition.isEditionAssociatedToDepartmentAndSchoolYear(department2, schoolYear2);
+
+        // assert
+        assertFalse(result);
+    }
+
+
 }

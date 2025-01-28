@@ -39,6 +39,10 @@ public class ProgrammeEditionEnrollment {
         this._enrollmentDate = enrollmentDate;
     }
 
+    public boolean isEnrollmentAssociatedToDepartmentAndSchoolYear(Department department, SchoolYear schoolYear) {
+        return _programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

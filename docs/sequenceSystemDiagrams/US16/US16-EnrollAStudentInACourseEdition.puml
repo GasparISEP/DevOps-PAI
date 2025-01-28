@@ -1,14 +1,14 @@
  @startuml
 
 actor ASC
+participant ":UI" as UI
+ASC -> UI: I want to enroll a student in a course edition
+UI --> ASC: What Student?
 
-ASC -> Test: I want to enroll a student in a course edition
-Test --> ASC: What Student?
-
-ASC -> Test: student(uniqueNumber)
-activate Test
+ASC -> UI: student(uniqueNumber)
+activate UI
 participant ":Controller" as Controller
-Test -> Controller: getStudent(uniqueNumber)
+UI -> Controller: getStudent(uniqueNumber)
 activate Controller
 participant ":StudentRepository" as StudentRepository
 Controller --> StudentRepository: getStudent (uniqueNumber)
@@ -16,14 +16,14 @@ activate StudentRepository
 StudentRepository -> StudentRepository: getStudent (st1)
 StudentRepository --> Controller: studentSelected (st1)
 deactivate StudentRepository
-Controller --> Test: studentSelected (st1)
+Controller --> UI: studentSelected (st1)
 deactivate Controller
-deactivate Test
+deactivate UI
 
-Test --> ASC: What SchoolYear?
-ASC -> Test: schoolYear (description,startDate,endDate)
-activate Test
-Test -> Controller: getSchoolYear (description,startDate,endDate)
+UI --> ASC: What SchoolYear?
+ASC -> UI: schoolYear (description,startDate,endDate)
+activate UI
+UI -> Controller: getSchoolYear (description,startDate,endDate)
 activate Controller
 participant ":SchoolYearRepository" as SchoolYearRepository
 Controller -> SchoolYearRepository: getSchoolYear (description,startDate,endDate)
@@ -32,15 +32,15 @@ SchoolYearRepository -> SchoolYearRepository: isSchoolYearValid(description,star
 SchoolYearRepository -> SchoolYearRepository: getSchoolYear(sy1)
 SchoolYearRepository -> Controller: schoolYearSelected (sy1)
 deactivate SchoolYearRepository
-Controller --> Test: schoolYearSelected (sy1)
+Controller --> UI: schoolYearSelected (sy1)
 deactivate Controller
-deactivate Test
+deactivate UI
 
-Test --> ASC: What ProgrammeEdition?
+UI --> ASC: What ProgrammeEdition?
 
-ASC -> Test: ProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
-activate Test
-Test -> Controller: getProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
+ASC -> UI: ProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
+activate UI
+UI -> Controller: getProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
 activate Controller
 participant ":ProgrammeEditionEnrollmentRepository" as ProgrammeEditionEnrollmentRepository
 Controller -> ProgrammeEditionEnrollmentRepository : getProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
@@ -48,14 +48,14 @@ activate ProgrammeEditionEnrollmentRepository
 ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollmentRepository: listOfStudentOfProgrammeEditionEnrollmentSelected (pee1)
 ProgrammeEditionEnrollmentRepository --> Controller: listOfStudentOfProgrammeEditionEnrollmentSelected (pee1)
 deactivate ProgrammeEditionEnrollmentRepository
-Controller --> Test: listOfStudentOfProgrammeEditionEnrollmentSelected (pee1)
+Controller --> UI: listOfStudentOfProgrammeEditionEnrollmentSelected (pee1)
 deactivate Controller
-deactivate Test
-Test --> ASC: What CourseEdition?
+deactivate UI
+UI --> ASC: What CourseEdition?
 
-ASC -> Test: CourseEdition (course,programmeEdition)
-activate Test
-Test -> Controller: getCourseEdition (course,programmeEdition)
+ASC -> UI: CourseEdition (course,programmeEdition)
+activate UI
+UI -> Controller: getCourseEdition (course,programmeEdition)
 activate Controller
 participant ":CourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository : getCourseEdition (course,programmeEdition)
@@ -64,22 +64,21 @@ CourseEditionRepository -> CourseEditionRepository: isCourseEditionValid (course
 CourseEditionRepository -> CourseEditionRepository: getCourseEdition (ce1)
 CourseEditionRepository --> Controller: courseEditionSelected (ce1)
 deactivate CourseEditionRepository
-Controller --> Test: courseEditionSelected (ce1)
+Controller --> UI: courseEditionSelected (ce1)
 deactivate Controller
-Test --> ASC: Sure?
-deactivate Test
+UI --> ASC: Sure?
+deactivate UI
 
-ASC -> Test: Yes!
+ASC -> UI: Yes!
 
 
-activate Test
-Test -> Controller: enrollStudentInCourseEdition (st1, ce1)
+activate UI
+UI -> Controller: enrollStudentInCourseEdition (st1, ce1)
 activate Controller
 Controller -> Controller: isStudentInProgrammeEdition (st1, ce1)
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
 Controller -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (st1, ce1, enrollmentDate)
 activate CourseEditionEnrollmentRepository
-participant "cee1:CourseEditionEnrollment" as CourseEditionEnrollment
 create "cee1:CourseEditionEnrollment"
 CourseEditionEnrollmentRepository -> "cee1:CourseEditionEnrollment" : createCourseEditionEnrollment (st1, ce1, enrollmentDate)
 activate "cee1:CourseEditionEnrollment"
@@ -89,9 +88,9 @@ CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: checkIfT
 CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (cee1)
 CourseEditionEnrollmentRepository --> Controller: studentEnrolledInACourseEdition(cee1)
 deactivate CourseEditionEnrollmentRepository
-Controller --> Test: studentEnrolledInACourseEdition(cee1)
+Controller --> UI: studentEnrolledInACourseEdition(cee1)
 deactivate Controller
-Test --> ASC: OK!
-deactivate Test
+UI --> ASC: OK!
+deactivate UI
 
 @enduml
