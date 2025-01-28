@@ -26,7 +26,7 @@ class ProgrammeEditionEnrollmentRepoTest {
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.enrollStudentInProgrammeEdition(null, pe1, currentDate);  // student é null
+            repository.enrollStudentInProgrammeEdition(null, pe1, currentDate);
         });
 
         // Assert
@@ -42,7 +42,7 @@ class ProgrammeEditionEnrollmentRepoTest {
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.enrollStudentInProgrammeEdition(st1, null, currentDate);  // programmeEdition é null
+            repository.enrollStudentInProgrammeEdition(st1, null, currentDate);
         });
 
         // Assert
@@ -97,7 +97,7 @@ class ProgrammeEditionEnrollmentRepoTest {
         Optional<ProgrammeEditionEnrollment> result = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
 
         //assert
-        assertTrue(result.isPresent(), "The student was enrolled in a programme edition sucessfully.");
+        assertTrue(result.isPresent(), "The student was enrolled in a programme edition successfully.");
     }
 
     @Test
@@ -135,8 +135,8 @@ class ProgrammeEditionEnrollmentRepoTest {
         Optional<ProgrammeEditionEnrollment> result2 = repository.enrollStudentInProgrammeEdition(st2,pe2,currentDate1);
 
         //assert
-        assertTrue(result1.isPresent(), "The student was enrolled in a programme edition sucessfully.");
-        assertTrue(result2.isPresent(), "The student was enrolled in a programme edition sucessfully.");
+        assertTrue(result1.isPresent(), "The student was enrolled in a programme edition successfully.");
+        assertTrue(result2.isPresent(), "The student was enrolled in a programme edition successfully.");
 
     }
 
