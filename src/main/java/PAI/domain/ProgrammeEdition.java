@@ -37,4 +37,10 @@ public class ProgrammeEdition {
     public SchoolYear findSchoolYearInProgrammeEdition() {
         return _schoolYear;
     }
+
+
+    public boolean isEditionAssociatedToDepartmentAndSchoolYear(Department department, SchoolYear schoolYear){
+        return _schoolYear.isSameSchoolYear(schoolYear) && _programme.isInDepartment(department);
+    }
+
 }
