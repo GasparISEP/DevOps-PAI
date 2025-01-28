@@ -202,7 +202,7 @@ class CourseEditionRepositoryTest {
         assertTrue(result.contains(new CourseEdition(c2,pe1)));
     }
 
-    //US17
+
     @Test
     void shouldReturnProgrammeEditionWhenCourseEditionExists() throws Exception {
         // Arrange
@@ -230,7 +230,7 @@ class CourseEditionRepositoryTest {
         assertEquals(programmeEdition, result, "The returned ProgrammeEdition should match the one associated with the CourseEdition.");
     }
 
-    //US17
+
     @Test
     void shouldThrowExceptionWhenCourseEditionDoesNotExist() throws Exception {
         // Arrange
