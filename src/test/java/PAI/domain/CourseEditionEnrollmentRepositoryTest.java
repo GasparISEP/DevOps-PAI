@@ -31,7 +31,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Optional<CourseEditionEnrollment> result = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertTrue(result.isPresent(), "The student was enrolled in a course edition sucessfully.");
+        assertTrue(result.isPresent(), "The student was enrolled in a course edition successfully.");
     }
 
     @Test
@@ -70,8 +70,8 @@ class CourseEditionEnrollmentRepositoryTest {
 
 
         //assert
-        assertTrue(result1.isPresent(), "The student was enrolled in a course edition sucessfully.");
-        assertTrue(result2.isPresent(), "The student was enrolled in a course edition sucessfully.");
+        assertTrue(result1.isPresent(), "The student was enrolled in a course edition successfully.");
+        assertTrue(result2.isPresent(), "The student was enrolled in a course edition successfully.");
 
     }
 
