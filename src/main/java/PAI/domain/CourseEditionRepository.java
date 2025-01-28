@@ -28,8 +28,7 @@ public class CourseEditionRepository {
         }
     }
 
-    private boolean isCourseEditionAlreadyInRepository(CourseEdition courseEdition) {
-
+    public boolean isCourseEditionAlreadyInRepository(CourseEdition courseEdition) {
         return _courseEditionRepository.contains(courseEdition);
     }
 
@@ -69,7 +68,6 @@ public class CourseEditionRepository {
 
         return result;
     }
-
 }
 
 
