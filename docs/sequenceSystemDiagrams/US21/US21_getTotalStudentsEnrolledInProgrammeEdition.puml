@@ -3,7 +3,7 @@ actor ASC
 participant UI #application
 participant ":Controller" #application
 participant ":ProgrammeEditionRepo" #application
-participant ":ProgrammeEdition" #application
+participant ":ProgrammeEditionEnrollmentRepo" #application
 
 autonumber
 
@@ -16,10 +16,10 @@ UI -> ":Controller" ++ #application: getallProgrammeEditions()
 UI --> ASC -- : which ProgrammeEdition?
 ASC -> UI ++ #application: I want :PE1
 UI -> ":Controller" ++ #application: :PE1
-":Controller" -> ":ProgrammeEdition" ++ #application : :PE1.getTotalStudents()
+":Controller" -> ":ProgrammeEditionEnrollmentRepo" ++ #application : :ProgrammeEditionEnrollmentRepo.getNumberOfStudentsEnrolled(:PE1)
 
-":ProgrammeEdition" -> ":ProgrammeEdition" #application : getTotalStudents()
-":ProgrammeEdition" --> ":Controller" -- #application : total students enrolled in a ProgrammeEdition
+":ProgrammeEditionEnrollmentRepo" -> ":ProgrammeEditionEnrollmentRepo" #application : getNumberOfStudentsEnrolled()
+":ProgrammeEditionEnrollmentRepo" --> ":Controller" -- #application : total students enrolled in a ProgrammeEdition
 ":Controller" --> "UI" -- #application : total students enrolled in a ProgrammeEdition
 "UI" --> ASC -- #application : total students enrolled in a ProgrammeEdition
 @enduml
