@@ -1,0 +1,97 @@
+ @startuml
+
+actor ASC
+
+ASC -> Test: I want to enroll a student in a course edition
+Test --> ASC: What Student?
+
+ASC -> Test: student(uniqueNumber)
+activate Test
+participant ":Controller" as Controller
+Test -> Controller: getStudent(uniqueNumber)
+activate Controller
+participant ":StudentRepository" as StudentRepository
+Controller --> StudentRepository: getStudent (uniqueNumber)
+activate StudentRepository
+StudentRepository -> StudentRepository: getStudent (st1)
+StudentRepository --> Controller: studentSelected (st1)
+deactivate StudentRepository
+Controller --> Test: studentSelected (st1)
+deactivate Controller
+deactivate Test
+
+Test --> ASC: What SchoolYear?
+ASC -> Test: schoolYear (description,startDate,endDate)
+activate Test
+Test -> Controller: getSchoolYear (description,startDate,endDate)
+activate Controller
+participant ":SchoolYearRepository" as SchoolYearRepository
+Controller -> SchoolYearRepository: getSchoolYear (description,startDate,endDate)
+activate SchoolYearRepository
+SchoolYearRepository -> SchoolYearRepository: isSchoolYearValid(description,startDate,endDate)
+SchoolYearRepository -> SchoolYearRepository: getSchoolYear(sy1)
+SchoolYearRepository -> Controller: schoolYearSelected (sy1)
+deactivate SchoolYearRepository
+Controller --> Test: schoolYearSelected (sy1)
+deactivate Controller
+deactivate Test
+
+Test --> ASC: What ProgrammeEdition?
+
+ASC -> Test: ProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
+activate Test
+Test -> Controller: getProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
+activate Controller
+participant ":ProgrammeEditionEnrollmentRepository" as ProgrammeEditionEnrollmentRepository
+Controller -> ProgrammeEditionEnrollmentRepository : getProgrammeEditionEnrollmentOfStudent (ProgrammeEdition,st1,enrollmentDate)
+activate ProgrammeEditionEnrollmentRepository
+ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollmentRepository: listOfStudentOfProgrammeEditionEnrollmentSelected (pee1)
+ProgrammeEditionEnrollmentRepository --> Controller: listOfStudentOfProgrammeEditionEnrollmentSelected (pee1)
+deactivate ProgrammeEditionEnrollmentRepository
+Controller --> Test: listOfStudentOfProgrammeEditionEnrollmentSelected (pee1)
+deactivate Controller
+deactivate Test
+Test --> ASC: What CourseEdition?
+
+ASC -> Test: CourseEdition (course,programmeEdition)
+activate Test
+Test -> Controller: getCourseEdition (course,programmeEdition)
+activate Controller
+participant ":CourseEditionRepository" as CourseEditionRepository
+Controller -> CourseEditionRepository : getCourseEdition (course,programmeEdition)
+activate CourseEditionRepository
+CourseEditionRepository -> CourseEditionRepository: isCourseEditionValid (course,programmeEdition)
+CourseEditionRepository -> CourseEditionRepository: getCourseEdition (ce1)
+CourseEditionRepository --> Controller: courseEditionSelected (ce1)
+deactivate CourseEditionRepository
+Controller --> Test: courseEditionSelected (ce1)
+deactivate Controller
+Test --> ASC: Sure?
+deactivate Test
+
+ASC -> Test: Yes!
+
+
+activate Test
+Test -> Controller: enrollStudentInCourseEdition (st1, ce1)
+activate Controller
+Controller -> Controller: isStudentInProgrammeEdition (st1, ce1)
+participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
+Controller -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (st1, ce1, enrollmentDate)
+activate CourseEditionEnrollmentRepository
+participant "cee1:CourseEditionEnrollment" as CourseEditionEnrollment
+create "cee1:CourseEditionEnrollment"
+CourseEditionEnrollmentRepository -> "cee1:CourseEditionEnrollment" : createCourseEditionEnrollment (st1, ce1, enrollmentDate)
+activate "cee1:CourseEditionEnrollment"
+"cee1:CourseEditionEnrollment" --> CourseEditionEnrollmentRepository: courseEditionEnrollmentCreated (cee1)
+deactivate "cee1:CourseEditionEnrollment"
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: checkIfThisEnrollmentAlreadyExists (cee1)
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (cee1)
+CourseEditionEnrollmentRepository --> Controller: studentEnrolledInACourseEdition(cee1)
+deactivate CourseEditionEnrollmentRepository
+Controller --> Test: studentEnrolledInACourseEdition(cee1)
+deactivate Controller
+Test --> ASC: OK!
+deactivate Test
+
+@enduml
