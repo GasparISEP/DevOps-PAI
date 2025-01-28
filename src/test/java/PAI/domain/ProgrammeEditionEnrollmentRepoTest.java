@@ -190,4 +190,167 @@ class ProgrammeEditionEnrollmentRepoTest {
         // Assert
         assertFalse(repo.isStudentEnrolledInThisProgrammeEdition(st1, pe2));
     }
+
+    //US26
+    // Test counting with multiple schoolYears
+    @Test
+    void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndSchoolYear()throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Student student1 = new Student (1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student (2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student (3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        LocalDate currentDate = LocalDate.now();
+
+        ProgrammeEditionEnrollmentRepo PEERepo = new ProgrammeEditionEnrollmentRepo();
+
+        PEERepo.enrollStudentInProgrammeEdition(student1, edition1, currentDate);
+        PEERepo.enrollStudentInProgrammeEdition(student2, edition2, currentDate);
+        PEERepo.enrollStudentInProgrammeEdition(student3, edition3, currentDate);
+
+        // act
+        int result =PEERepo.countStudentsInProgrammesFromDepartmentInSchoolYear(department1, schoolYear1);
+
+        // assert
+        assertEquals(2, result);
+    }
+
+    //Test counting with multiple departments
+    @Test
+    void shouldReturnCorrectCountWhenStudentsFromDifferentDepartmentsAreEnrolled() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher t1 = new Teacher("CED", "Jane Doe", "ced@isep.ipp.pt", "100056789", "B107",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        Teacher teacher2 = new Teacher("DEF", "Jane Smith", "def@isep.ipp.pt", "987654321", "B107", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department2);
+
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1,t1 );
+        Programme programme2 = new Programme("Licenciatura Engenharia Química", "LEQ", 30, 6, master, department2, teacher2);
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
+        Student student1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student(2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student(3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        LocalDate currentDate = LocalDate.now();
+
+        ProgrammeEditionEnrollmentRepo PEERepo = new ProgrammeEditionEnrollmentRepo();
+
+        PEERepo.enrollStudentInProgrammeEdition(student1, edition1, currentDate);
+        PEERepo.enrollStudentInProgrammeEdition(student2, edition2, currentDate);
+        PEERepo.enrollStudentInProgrammeEdition(student3, edition2, currentDate);
+
+        // act
+        int result = PEERepo.countStudentsInProgrammesFromDepartmentInSchoolYear(department1, schoolYear1);
+
+        // assert
+        assertEquals(1, result);
+    }
+
+    // Test returns 0 when no students are enrolled in the department and school year
+    @Test
+    void shouldReturnZeroWhenNoStudentsAreEnrolledInDepartmentAndSchoolYear() throws Exception{
+        //arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher t1 = new Teacher("CED", "Jane Doe", "ced@isep.ipp.pt", "100056789", "B107",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, t1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, t1);
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Student student1 = new Student (1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student (2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student (3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        LocalDate currentDate = LocalDate.now();
+
+        ProgrammeEditionEnrollmentRepo PEERepo = new ProgrammeEditionEnrollmentRepo();
+
+        PEERepo.enrollStudentInProgrammeEdition(student1, edition3, currentDate);
+        PEERepo.enrollStudentInProgrammeEdition(student2, edition3, currentDate);
+        PEERepo.enrollStudentInProgrammeEdition(student3, edition3, currentDate);
+        // act
+        int result =PEERepo.countStudentsInProgrammesFromDepartmentInSchoolYear(department1, schoolYear1);
+        // assert
+        assertEquals(0, result);
+    }
+
+    //Test counting when there is a student enrolled in multiple programme editions (the student should be counted only once)
+    @Test
+    void shouldReturnCorrectCountWhenStudentsAreEnrolledInMultipleEditions() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher t1 = new Teacher("CED", "Jane Doe", "ced@isep.ipp.pt", "100056789", "B107",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, t1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, t1);
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Student student1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+
+        LocalDate currentDate = LocalDate.now();
+
+        ProgrammeEditionEnrollmentRepo PEERepo = new ProgrammeEditionEnrollmentRepo();
+
+        PEERepo.enrollStudentInProgrammeEdition(student1, edition1, currentDate);
+        PEERepo.enrollStudentInProgrammeEdition(student1, edition2, currentDate);
+
+        // act
+        int result = PEERepo.countStudentsInProgrammesFromDepartmentInSchoolYear(department1, schoolYear1);
+
+        // assert
+        assertEquals(1, result);
+    }
 }
