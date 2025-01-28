@@ -66,4 +66,48 @@ class DepartmentRepositoryTest {
         assertEquals("Department with that name already exists.", exception.getMessage());
     }
 
+    @Test
+    void shouldReturnTrueIfDepartmentExistsInDepartmentRepository() throws Exception {
+        // Arrange
+        Department department1= new Department("DEF","Departamento Engenharia Física");
+        DepartmentRepository repository = new DepartmentRepository();
+        repository.registerDepartment("DEF", "Departamento Engenharia Física");
+        repository.registerDepartment("DEC", "Departamento de Engenharia Civil");
+
+        // Act
+        boolean resultado= repository.departmentExists(department1);
+
+        //Assert
+        assertTrue(resultado);
+    }
+
+    @Test
+    void shouldReturnFalseIfDepartmentDoesNotExistInDepartmentRepository() throws Exception {
+        // Arrange
+        Department department1= new Department("DEQ","Departamento Engenharia Química");
+        DepartmentRepository repository = new DepartmentRepository();
+        repository.registerDepartment("DEF", "Departamento Engenharia Física");
+        repository.registerDepartment("DEC", "Departamento Engenharia Civil");
+
+        // Act
+        boolean resultado= repository.departmentExists(department1);
+
+        //Assert
+        assertFalse(resultado);
+    }
+
+    @Test
+    void shouldReturnFalseIfDepartmentIsNull() throws Exception {
+        // Arrange
+        Department department1= null;
+        DepartmentRepository repository = new DepartmentRepository();
+        repository.registerDepartment("DEF", "Departamento Engenharia Física");
+        repository.registerDepartment("DEC", "Departamento Engenharia Civil");
+
+        // Act
+        boolean resultado= repository.departmentExists(department1);
+
+        //Assert
+        assertFalse(resultado);
+    }
 }
