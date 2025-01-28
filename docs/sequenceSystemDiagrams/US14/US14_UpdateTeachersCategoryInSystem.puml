@@ -12,8 +12,10 @@ participant "tcp1:TeacherCareerProgression" as TCP #lightpink
 participant "tcp2:TeacherCareerProgression" as TCP2 #lightpink
 
 
-HRC -> TE: I want to update TeacherCategory
 
+note right TE #aliceblue
+    //arrange
+end note
 activate TE
 'note right
 'end note
@@ -31,7 +33,7 @@ D --> TE
 
 deactivate D
 |||
-TE -> T**: createTeacher(acronym, name, NIF, teacherContact,\naddressInformation, tc1, workingPercentage, dpt1)
+TE -> T**: createTeacher(acronym, name, NIF, teacherContact,\naddressInformation, tc1, workingPercentage, dpt1, date)
 activate T
 |||
 T -> A**: createAddress(street, postalCode,location, country)
@@ -61,6 +63,10 @@ activate TR
 TR --> TE
 deactivate TR
 |||
+HRC -> TE: I want to update Teacher t1 with TeacherCategory tc2
+note right TE #aliceblue
+    //act
+end note
 TE -> CTL : updateTeacherCategory(date, t1, tc2)
 activate CTL
 CTL -> TR : updateTeacherCategory(date, t1, tc2)
