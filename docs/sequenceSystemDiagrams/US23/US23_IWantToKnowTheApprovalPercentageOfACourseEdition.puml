@@ -1,0 +1,16 @@
+@startuml
+actor ProgrammeDirector
+
+participant "System" as S
+participant ":Controller" as C
+participant ":GradeStudentRepo" as GSR
+
+ProgrammeDirector -> S : I want to know approval percentage of course section (courseEdition)
+S -> C : knowApprovalRate()
+C -> GSR : knowApprovalRate()
+GSR -> GSR :knowApprovalRate()
+GSR --> C : Approval Percentage (CE1)
+C --> S : Approval Percentage (CE1)
+S --> ProgrammeDirector : Succeed Approval Percentage (CE1)
+
+@enduml

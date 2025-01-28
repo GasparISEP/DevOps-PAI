@@ -5,7 +5,7 @@ participant ":IWantToKnowTheAverageGradeInACourseEdition" as KA
 participant ":GradeStudentRepository" as GR
 
 
-ProgrammeDirector -> UI ++ #application : I want to know the average grade in a course edition
+ProgrammeDirector -> UI ++ #application : I want to know the average grade in a course edition (courseEdition)
 UI -> KA ++ #application : knowTheAverageGrade(courseEdition)
 KA -> GR ++ #application : knowTheAverageGrade(courseEdition)
 GR -> GR :validate
