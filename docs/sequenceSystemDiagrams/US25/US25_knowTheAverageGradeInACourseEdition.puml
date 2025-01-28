@@ -6,13 +6,8 @@ participant ":GradeStudentRepository" as GR
 
 
 ProgrammeDirector -> UI ++ #application : I want to know the average grade in a course edition
-UI -> KA ++ #application: getCourseEditions()
-KA --> UI -- : List<CourseEditions>
-UI --> ProgrammeDirector -- : which courseEdition??
-
-ProgrammeDirector -> UI ++ #application : courseEdition 1!
-UI -> KA ++ #application : knowTheAverageGrade(ce1)
-KA -> GR ++ #application : knowTheAverageGrade(ce1)
+UI -> KA ++ #application : knowTheAverageGrade(courseEdition)
+KA -> GR ++ #application : knowTheAverageGrade(courseEdition)
 GR -> GR :validate
 
 GR --> KA --: knowAverageGrade
