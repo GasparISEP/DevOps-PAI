@@ -57,4 +57,16 @@ public class ProgrammeEditionEnrollmentRepo {
         }
         return studentCount;
     }
+
+    //US21 - Get The Number Of Students Enrolled In A Programme Edition
+    public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
+        int numberOfStudents = 0;
+
+        for(ProgrammeEditionEnrollment programmeEditionEnrollment : _programmeEditionEnrollments)
+            if(programmeEditionEnrollment.findProgrammeEditionInEnrollment().equals(programmeEdition)){
+                numberOfStudents++;
+            }
+
+        return numberOfStudents;
+    }
 }

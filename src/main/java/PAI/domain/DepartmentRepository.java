@@ -32,4 +32,16 @@ public class DepartmentRepository {
             }
         }
     }
+
+    public boolean departmentExists (Department department){
+        if(department==null){
+            return false;
+        }
+        for(Department existingDepartment : departments){
+            if(department.equals(existingDepartment)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
