@@ -12,11 +12,11 @@ activate C
 C -> GSR : knowApprovalRate()
 activate GSR
 GSR -> GSR : knowApprovalRate()
-GSR --> C : Approval Percentage (CE1)
+GSR --> C : Approval Percentage (courseEdition1)
 deactivate GSR
-C --> S : Approval Percentage (CE1)
+C --> S : Approval Percentage (courseEdition1)
 deactivate C
-S --> ProgrammeDirector : Succeed Approval Percentage (CE1)
+S --> ProgrammeDirector : Succeed Approval Percentage (courseEdition1)
 deactivate S
 
 @enduml
