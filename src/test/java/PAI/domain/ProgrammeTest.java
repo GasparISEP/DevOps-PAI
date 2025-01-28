@@ -573,11 +573,9 @@ class ProgrammeTest {
     //US17
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInProgramme() throws Exception {
-        // Arrange: Criando um aluno
+        // Arrange
         Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
-
-        // Arrange: Criando um programa
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
         AccessMethod am1 = new AccessMethod("M1");
@@ -601,7 +599,7 @@ class ProgrammeTest {
     //US17
     @Test
     void shouldReturnFalseIfStudentIsNotEnrolledInProgramme() throws Exception {
-        // Arrange: Criando um aluno
+        // Arrange
         Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
         Student student1 = new Student(2, "Joana Silva", "123000009", "221234567", "joana123@gmail.com", address);
@@ -627,7 +625,7 @@ class ProgrammeTest {
     //US17
     @Test
     void shouldReturnCorrectStudentFromEnrolment() throws Exception {
-        // Arrange: Criando um aluno
+        // Arrange
         Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
         DegreeType master = new DegreeType("Master", 240);
@@ -683,8 +681,6 @@ class ProgrammeTest {
                 "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                 "20-12-2010", assistantProfessor, 100, department);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
-
-        // Arrange
         String differentClassObject = "Not a Programme";
 
         // Act
