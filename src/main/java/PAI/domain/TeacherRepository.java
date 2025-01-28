@@ -2,6 +2,7 @@ package PAI.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TeacherRepository {
     private List<Teacher> teachers;
@@ -33,5 +34,15 @@ public class TeacherRepository {
 
     public List<Teacher> getAllTeachers() {
         return new ArrayList<>(teachers);  // Retorna uma cópia da lista
+    }
+
+    public Optional<Teacher> getTeacherByNIF(String NIF) {
+
+        for (Teacher existingTeacher : teachers) {
+            if (existingTeacher.hasThisNIF(NIF)) {
+                return Optional.of(existingTeacher);
+            }
+        }
+        return Optional.empty();
     }
 }

@@ -119,5 +119,10 @@ public class Teacher {
     protected boolean isInDepartment(Department department) {
         return _department == department;
     }
+
+    public boolean hasThisNIF(String NIF) {
+
+        return _nif.equals(NIF);
+    }
 }
 

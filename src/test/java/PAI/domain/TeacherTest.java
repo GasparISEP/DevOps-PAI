@@ -407,4 +407,21 @@ class TeacherTest {
         assertEquals(expectedMessage, exception.getMessage());
     }
 
+    @Test
+    void doesTeacherHaveThisNIF() throws Exception {
+
+        // arrange
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MAT", "Mathematics");
+
+        //act
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+
+        //act & assert
+        assertTrue(t1.hasThisNIF("123456789"));
+        assertFalse(t1.hasThisNIF("987654321"));
+        assertFalse(t1.hasThisNIF(null));
+        assertFalse(t1.hasThisNIF(""));
+        assertFalse(t1.hasThisNIF(" "));
+    }
 }
