@@ -97,4 +97,27 @@ class TeacherCareerProgressionTest {
         //assert
         assertEquals(expectedLocalDate, result);
     }
+
+    public static Stream<Arguments> provideValidWorkingPercentages() {
+        return Stream.of(
+                arguments("02-02-2024", 0, "Assitente", 0),
+                arguments("20-05-2022", 100, "Adjunto", 100)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideValidWorkingPercentages")
+    void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, String categoryName, int expectedWorkingPercentage) throws Exception {
+
+        //arrange
+        TeacherCategory tc = new TeacherCategory(categoryName);
+        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tc, workingPercentage);
+
+        //act
+        int result = TCP.getWorkingPercentage();
+
+        //assert
+        assertEquals(expectedWorkingPercentage, result);
+    }
+
 }
