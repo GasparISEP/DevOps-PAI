@@ -77,4 +77,7 @@ public class Student {
         return _NIF.equals(student._NIF);
     }
 
+    public int getUniqueNumber() {
+        return _uniqueNumber;
+    }
 }
