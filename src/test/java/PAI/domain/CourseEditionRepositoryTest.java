@@ -308,4 +308,34 @@ class CourseEditionRepositoryTest {
         //assert
         assertEquals (pe1,result);
     }
+    @Test
+    void shouldReturnListOfCourseEditions() throws Exception {
+        //arrange
+        CourseEditionRepository repo1 = new CourseEditionRepository();
+
+        DegreeType master = new DegreeType("Master",240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("AAA", "João Costa", "AAA@isep.ipp.pt", "123456789",
+                "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010",
+                assistantProfessor, 100, CSE);
+
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
+
+        Course c1 = new Course ("Informatics", "INF", 6, 1);
+        repo1.createCourseEdition(c1, pE1);
+
+
+        Course c2 = new Course ("Cidadania", "CID", 6, 1);
+        repo1.createCourseEdition(c2, pE1);
+
+        //act
+        List<CourseEdition> result = repo1.getCourseEditions();
+
+        //assert
+        assertEquals(2, result.size());
+    }
 }
