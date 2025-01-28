@@ -2,6 +2,8 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TeacherRepositoryTest {
@@ -71,5 +73,28 @@ class TeacherRepositoryTest {
             // Assert
         });
         assertEquals("A teacher with the same NIF already exists.", exception.getMessage());
+    }
+    @Test
+    void shouldReturnANewListOfTeachersWithSameSize() throws Exception {
+        //ARRANGE
+        TeacherRepository repo1 = new TeacherRepository();
+        TeacherCategory category = new TeacherCategory("Professor Adjunto");
+        Department department = new Department("MAT", "Mathematics");
+
+        repo1.registerTeacher( "AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
+                "A106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
+                category, 70, department);
+
+        repo1.registerTeacher( "BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780",
+                "B106","Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
+                category, 70, department);
+
+        //ACT
+        List<Teacher> result = repo1.getAllTeachers();
+
+        //
+        assertEquals(2, result.size());
     }
 }
