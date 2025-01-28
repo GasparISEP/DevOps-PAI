@@ -84,6 +84,8 @@ class CourseEditionEnrollmentControllerTest {
         Optional<CourseEditionEnrollment> result = controller.enrollStudentInCourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertTrue(result.isPresent(), "The student was enrolled in a course edition successfully.");
+        assertTrue(result.isPresent());
+        CourseEditionEnrollment expectedEnrollment = new CourseEditionEnrollment(st1, ce1, currentDate);
+        assertEquals(expectedEnrollment, result.get());
     }
 }
