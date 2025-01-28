@@ -30,9 +30,9 @@ public class CourseEdition {
     }
 
     public boolean setRuc(Teacher ruc) {
-        this._ruc = ruc;
-        if (_ruc == null)
+        if (_ruc != null)
             return false;
+        this._ruc = ruc;
         return true;
     }
 

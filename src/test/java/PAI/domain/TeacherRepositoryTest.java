@@ -96,5 +96,6 @@ class TeacherRepositoryTest {
 
         //
         assertEquals(2, result.size());
+
     }
 }
