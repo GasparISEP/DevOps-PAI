@@ -11,18 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
-    private US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller;
-    private ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo;
-    private ProgrammeEditionRepository programmeEditionRepository;
-    private ProgrammeList programmeList;
-    private CourseEditionEnrollmentRepository courseEditionEnrollmentRepository;
-    private CourseEditionRepository courseEditionRepository;
-    private SchoolYear schoolYear;
-    private Student student;
-    private ProgrammeEdition programmeEdition;
-    private CourseEdition courseEdition;
-    private StudentRepository studentRepository;
-
     @Test
     void testEnrollStudentInProgrammeEdition_Success() throws Exception {
         // Arrange
@@ -200,7 +188,6 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         courseEditionEnrollmentRepository,
                         courseEditionRepository);
 
-        // Create supporting entities
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -210,15 +197,12 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
 
-        // Create a programme edition and course editions
         Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme1, schoolYear);
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
 
-        // Create student
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
-        // Add course editions to the programme edition
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Computer Science Engineering", "CSE", 5, 1);
         courseEditionRepository.createCourseEdition(c1, programmeEdition);
