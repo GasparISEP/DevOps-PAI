@@ -57,4 +57,9 @@ public class TeacherCareerProgression {
 
         return _date;
     }
+
+    public int getWorkingPercentage () {
+
+        return _workingPercentage;
+    }
 }

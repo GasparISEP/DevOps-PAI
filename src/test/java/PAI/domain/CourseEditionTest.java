@@ -181,7 +181,7 @@ class CourseEditionTest {
         assertTrue(result);
     }
     @Test
-    void shouldReturnFalseIfRucIsNotSet() throws Exception {
+    void shouldReturnFalseIfRucIsAlreadySet() throws Exception {
         //Arrange
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -191,10 +191,14 @@ class CourseEditionTest {
         Course c1 = new Course("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
+        Teacher ruc1 = new Teacher("AAA", "Joao Costa", "aaa@isep.ipp.pt", "123456780", "A106", "Doutoramento em Artes Circenses, 2004, ISEP", "Rua São Porto", "4249-015", "Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
+        courseEdition1.setRuc(ruc1);
+        Teacher ruc2 = new Teacher("ABA", "Mariana Antunes", "aba@isep.ipp.pt", "123456788", "A106", "Doutoramento em Artes Circenses, 2004, ISEP", "Rua São Porto", "4249-015", "Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
+
 
         //Act
-        boolean result = courseEdition1.setRuc(null);
+        boolean result = courseEdition1.setRuc(ruc2);
         //Assert
         assertFalse(result);
     }
