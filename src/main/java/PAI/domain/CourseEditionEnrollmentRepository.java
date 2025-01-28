@@ -27,7 +27,7 @@ public class CourseEditionEnrollmentRepository {
         return Optional.of(cee1);
     }
 
-
+    //check if this enrollment already exists
     private boolean isThisEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
 
         if (_courseEditionEnrollments.contains(courseEditionEnrollment)) {
