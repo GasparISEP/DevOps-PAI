@@ -31,7 +31,9 @@ class CourseEditionEnrollmentRepositoryTest {
         Optional<CourseEditionEnrollment> result = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertTrue(result.isPresent(), "The student was enrolled in a course edition successfully.");
+        assertTrue(result.isPresent());
+        CourseEditionEnrollment expectedEnrollment = new CourseEditionEnrollment(st1, ce1, currentDate);
+        assertEquals(expectedEnrollment, result.get());
     }
 
     @Test
@@ -68,15 +70,18 @@ class CourseEditionEnrollmentRepositoryTest {
         Optional<CourseEditionEnrollment> result1 = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
         Optional<CourseEditionEnrollment> result2 = repository.enrollStudentInACourseEdition(st2,ce2,currentDate1);
 
-
         //assert
-        assertTrue(result1.isPresent(), "The student was enrolled in a course edition successfully.");
-        assertTrue(result2.isPresent(), "The student was enrolled in a course edition successfully.");
+        assertTrue(result1.isPresent());
+        CourseEditionEnrollment expectedEnrollment = new CourseEditionEnrollment(st1, ce1, currentDate);
+        assertEquals(expectedEnrollment, result1.get());
 
+        assertTrue(result2.isPresent());
+        CourseEditionEnrollment expectedEnrollment1 = new CourseEditionEnrollment(st2, ce2, currentDate1);
+        assertEquals(expectedEnrollment1, result2.get());
     }
 
     @Test
-    void shouldReturnAnExceptionWhenCourseEditionEnrollmentAlreadyExists() throws Exception {
+    void shouldReturnFalseWhenCourseEditionEnrollmentAlreadyExists() throws Exception {
         //arrange
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
@@ -91,15 +96,13 @@ class CourseEditionEnrollmentRepositoryTest {
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
         CourseEdition ce1 = new CourseEdition(c1,pe1);
         LocalDate currentDate = LocalDate.now();
+        repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
 
         //act
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.enrollStudentInACourseEdition(st1, ce1, currentDate);
-            repository.enrollStudentInACourseEdition(st1, ce1, currentDate);
-        });
+        Optional<CourseEditionEnrollment> result2 = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertEquals("This course edition enrollment is already in the list.", thrown.getMessage());
+        assertFalse(result2.isPresent());
     }
 
     @Test
@@ -125,7 +128,6 @@ class CourseEditionEnrollmentRepositoryTest {
         //act
         //assert
         assertTrue(repository.isStudentEnrolledInCourseEdition(student1, ce1));
-
     }
 
     @Test

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class    CourseEditionEnrollmentRepository {
+public class CourseEditionEnrollmentRepository {
 
     private ArrayList<CourseEditionEnrollment> _courseEditionEnrollments;
 
@@ -18,7 +18,9 @@ public class    CourseEditionEnrollmentRepository {
 
         CourseEditionEnrollment cee1 = new CourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
-        checkIfThisEnrollmentAlreadyExists(cee1);
+        if (isThisEnrollmentAlreadyExists(cee1)){
+            return Optional.empty();
+        }
 
         _courseEditionEnrollments.add(cee1);
 
@@ -26,11 +28,12 @@ public class    CourseEditionEnrollmentRepository {
     }
 
 
-    private void checkIfThisEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
+    private boolean isThisEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
 
         if (_courseEditionEnrollments.contains(courseEditionEnrollment)) {
-            throw new IllegalArgumentException("This course edition enrollment is already in the list.");
+            return true;
         }
+        return false;
     }
 
     public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {
