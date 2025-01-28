@@ -63,6 +63,12 @@ activate TR
 TR --> TE
 deactivate TR
 |||
+TE -> CTL : configureUpdateTeacherController(tr1)
+activate CTL
+|||
+CTL --> TE
+deactivate CTL
+|||
 HRC -> TE: I want to update Teacher t1 with TeacherCategory tc2
 note right TE #aliceblue
     //act

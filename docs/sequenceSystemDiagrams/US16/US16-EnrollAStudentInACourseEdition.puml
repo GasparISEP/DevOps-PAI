@@ -79,7 +79,6 @@ Controller -> Controller: isStudentInProgrammeEdition (st1, ce1)
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
 Controller -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (st1, ce1, enrollmentDate)
 activate CourseEditionEnrollmentRepository
-participant "cee1:CourseEditionEnrollment" as CourseEditionEnrollment
 create "cee1:CourseEditionEnrollment"
 CourseEditionEnrollmentRepository -> "cee1:CourseEditionEnrollment" : createCourseEditionEnrollment (st1, ce1, enrollmentDate)
 activate "cee1:CourseEditionEnrollment"
