@@ -133,7 +133,7 @@ class ProgrammeEditionRepositoryTest {
         repository.createProgrammeEdition(programme, schoolYear);
 
         // Act
-        Optional<ProgrammeEdition> result = repository.findBySchoolYearAndProgramme(programme, schoolYear);
+        Optional<ProgrammeEdition> result = repository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear);
 
         // Assert
         assertTrue(result.isPresent());
@@ -162,7 +162,7 @@ class ProgrammeEditionRepositoryTest {
         repository.createProgrammeEdition(programme1, schoolYear1);
 
         // Act
-        Optional<ProgrammeEdition> result = repository.findBySchoolYearAndProgramme(programme2, schoolYear2);
+        Optional<ProgrammeEdition> result = repository.findProgrammeEditionBySchoolYearAndProgramme(programme2, schoolYear2);
 
         // Assert
         assertFalse(result.isPresent());
