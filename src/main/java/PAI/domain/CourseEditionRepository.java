@@ -54,8 +54,8 @@ public class CourseEditionRepository {
             if (courseEdition1.equals(courseEdition)) {
                 return courseEdition1.whatProgrammeEditionBelongsThisCourseEdition();
             }
-        
-        throw new Exception("The course edition does not belong to the course Edition Repository");
+
+        throw new Exception("The course edition does not belong to the course Edition Repository.");
     }
 
     //US17
