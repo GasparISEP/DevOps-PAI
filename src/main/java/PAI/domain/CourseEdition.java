@@ -40,4 +40,12 @@ public class CourseEdition {
     protected ProgrammeEdition whatProgrammeEditionBelongsThisCourseEdition () {
         return _programmeEdition;
     }
+
+    public Course getCourse() {
+        return _course;
+    }
+
+    public ProgrammeEdition getProgrammeEdition() {;
+        return _programmeEdition;
+    }
 }
