@@ -143,6 +143,7 @@ class CourseEditionRepositoryTest {
         CourseEditionRepository courseEditionRepository1 = new CourseEditionRepository();
         courseEditionRepository1.createCourseEdition(c1,pE1);
         CourseEdition ce1 = new CourseEdition(c1, pE1);
+
         Teacher ruc = new Teacher("AAA", "Joao Costa", "aaa@isep.ipp.pt", "123456780", "A106", "Doutoramento em Artes Circenses, 2004, ISEP", "Rua São Porto", "4249-015", "Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
 
         //act
@@ -164,9 +165,12 @@ class CourseEditionRepositoryTest {
         CourseEditionRepository courseEditionRepository1 = new CourseEditionRepository();
         courseEditionRepository1.createCourseEdition(c1,pE1);
         CourseEdition ce1 = new CourseEdition(c1, pE1);
+        Teacher ruc1 = new Teacher("AAA", "Joao Costa", "aaa@isep.ipp.pt", "123456780", "A106", "Doutoramento em Artes Circenses, 2004, ISEP", "Rua São Porto", "4249-015", "Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
+        courseEditionRepository1.setRucInACourseEdition(ce1, ruc1);
+        Teacher ruc2 = new Teacher("ABA", "Mariana Antunes", "aba@isep.ipp.pt", "123456788", "A106", "Doutoramento em Artes Circenses, 2004, ISEP", "Rua São Porto", "4249-015", "Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
 
         //act
-        boolean result = courseEditionRepository1.setRucInACourseEdition(ce1, null);
+        boolean result = courseEditionRepository1.setRucInACourseEdition(ce1,ruc2);
         //assert
         assertFalse(result);
     }
