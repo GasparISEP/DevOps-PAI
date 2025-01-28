@@ -192,4 +192,8 @@ public class Programme {
         }
         return false;
     }
+
+    public boolean isInDepartment (Department department){
+        return _department.equals(department);
+    }
 }

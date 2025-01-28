@@ -6,6 +6,49 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 class ProgrammeTest {
+
+    //test ensures that the isInDepartment method returns false when the program is not associated with the department
+    @Test
+    void shouldReturnFalseWhenProgrammeIsNotInDepartment() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher t1 = new Teacher("CED", "Jane Doe", "ced@isep.ipp.pt", "100056789", "B107",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+
+        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
+
+        Programme P1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, t1);
+
+        // act
+        boolean result = P1.isInDepartment(department2);
+
+        // assert
+        assertFalse(result);
+    }
+
+    //test ensures that the isInDepartment method returns true when the program is associated with the department
+    @Test
+    void shouldReturnTrueWhenProgrammeIsNotInDepartment() throws Exception {
+        // arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher t1 = new Teacher("CED", "Jane Doe", "ced@isep.ipp.pt", "100056789", "B107",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        Programme P1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, t1);
+
+        // act
+        boolean result = P1.isInDepartment(department1);
+
+        // assert
+        assertTrue(result);
+    }
+
     // Test to check the constructor
     @Test
     void createAProgramme () throws Exception {
