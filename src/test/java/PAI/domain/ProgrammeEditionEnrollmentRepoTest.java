@@ -353,4 +353,97 @@ class ProgrammeEditionEnrollmentRepoTest {
         // assert
         assertEquals(1, result);
     }
+
+    //US21
+    //Test counting 2 students enrolled in a programme edition
+    @Test
+    void shouldReturnNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception {
+        // Arrange
+        ProgrammeEditionEnrollmentRepo repo = new ProgrammeEditionEnrollmentRepo();
+
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address add2 = new Address("Rua da Alegria", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Student st2 = new Student(2, "Pedro Silva", "123456788", "221234567", "pedro123@gmail.com", add2);
+        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        LocalDate currentDate = LocalDate.now();
+
+        int NumberOfStudentsEnrolledInAProgrammeEdition = 2;
+
+        // Act
+        repo.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
+        repo.enrollStudentInProgrammeEdition(st2, pe1, currentDate);
+        int result = repo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
+
+        // Assert
+        assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
+    }
+
+    //Test counting when there are no students enrolled in a programme edition
+    @Test
+    void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() throws Exception {
+        // Arrange
+        ProgrammeEditionEnrollmentRepo repo = new ProgrammeEditionEnrollmentRepo();
+
+        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+
+        int NumberOfStudentsEnrolledInAProgrammeEdition = 0;
+
+        // Act
+        int result = repo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
+
+        // Assert
+        assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
+    }
+
+    //Test counting in a programme edition different from the one where the students are enrolled
+    @Test
+    void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() throws Exception {
+        // Arrange
+        ProgrammeEditionEnrollmentRepo repo = new ProgrammeEditionEnrollmentRepo();
+
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address add2 = new Address("Rua da Alegria", "4554-565", "Porto", "Portugal");
+        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Student st2 = new Student(2, "Pedro Silva", "123456788", "221234567", "pedro123@gmail.com", add2);
+        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2023", "23-02-2023");
+        SchoolYear sy2 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        ProgrammeEdition pe2 = new ProgrammeEdition(p1, sy2);
+        LocalDate currentDate = LocalDate.now();
+
+        int NumberOfStudentsEnrolledInAProgrammeEdition = 0;
+
+        // Act
+        repo.enrollStudentInProgrammeEdition(st1, pe2, currentDate);
+        repo.enrollStudentInProgrammeEdition(st2, pe2, currentDate);
+
+        int result = repo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
+
+        // Assert
+        assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
+    }
 }
