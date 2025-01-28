@@ -4,10 +4,10 @@
 actor ASC
 
 ASC -> System: I want to enroll a student in a course edition.
-System --> ASC: What School Year?
-ASC -> System: School Year!
 System --> ASC: What Student?
 ASC -> System: Student!
+System --> ASC: What School Year?
+ASC -> System: School Year!
 System --> ASC: What Programme Edition?
 ASC -> System: Programme Edition!
 System --> ASC: What Course Edition?
