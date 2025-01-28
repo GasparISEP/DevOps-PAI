@@ -12,7 +12,7 @@ participant "tcp1:TeacherCareerProgression" as TCP #lightpink
 participant "tcp2:TeacherCareerProgression" as TCP2 #lightpink
 
 
-HRC -> TE: I want to update TeacherCategory
+
 note right TE #aliceblue
     //arrange
 end note
@@ -63,6 +63,7 @@ activate TR
 TR --> TE
 deactivate TR
 |||
+HRC -> TE: I want to update Teacher t1 with TeacherCategory tc2
 note right TE #aliceblue
     //act
 end note
