@@ -43,6 +43,10 @@ public class ProgrammeEditionEnrollment {
         return _programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
     }
 
+    public int getStudentUniqueNumber() {
+        return _student.getUniqueNumber();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
