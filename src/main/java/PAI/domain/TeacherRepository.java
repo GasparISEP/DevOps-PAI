@@ -33,7 +33,7 @@ public class TeacherRepository {
     }
 
     public List<Teacher> getAllTeachers() {
-        return new ArrayList<>(teachers);  // Retorna uma cópia da lista
+        return new ArrayList<>(teachers);
     }
 
     public Optional<Teacher> getTeacherByNIF(String NIF) {
