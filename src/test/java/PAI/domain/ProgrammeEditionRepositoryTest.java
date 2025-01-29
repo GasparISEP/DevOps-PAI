@@ -2,6 +2,7 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -168,4 +169,50 @@ class ProgrammeEditionRepositoryTest {
         assertFalse(result.isPresent());
     }
 
+    @Test
+    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() {
+        //Arrange
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        //Act
+        List<ProgrammeEdition> allEditions = per1.getAllProgrammeEditions();
+        //Assert
+        assertNotNull(allEditions);
+    }
+
+    @Test
+    void shouldReturnListOfProgrammeEditions() throws Exception {
+        //Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        SchoolYear sy2 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2024");
+        per1.createProgrammeEdition(p1,sy1);
+        per1.createProgrammeEdition(p1,sy2);
+        //Act
+        List<ProgrammeEdition> allEditions = per1.getAllProgrammeEditions();
+        //Assert
+        assertEquals(2,allEditions.size());
+    }
+
+    @Test
+    void shouldReturnTrueIfListOfProgrammeEditionsContainsProgrammeEdition() throws Exception {
+        //Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        SchoolYear sy2 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2024");
+        ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
+        per1.createProgrammeEdition(p1,sy1);
+        List<ProgrammeEdition> allEditions = per1.getAllProgrammeEditions();
+        //Act + Assert
+        assertTrue(allEditions.contains(pe1));
+    }
 }
