@@ -1,23 +1,36 @@
 package PAI.controller;
 
-import PAI.domain.CourseEdition;
-import PAI.domain.Course;
-import PAI.domain.ProgrammeEdition;
+import PAI.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class US19_CreateCourseEditionController {
+    private ProgrammeEditionRepository _programmeEditionRepository;
+    private CourseEditionRepository _courseEditionRepository;
 
-    private List<CourseEdition> courseEditions = new ArrayList<>();
-
-    public CourseEdition createCourseEdition(Course course, ProgrammeEdition programmeEdition) throws Exception {
-        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
-        courseEditions.add(courseEdition);
-        return courseEdition;
+    public US19_CreateCourseEditionController(ProgrammeEditionRepository programmeEditionRepository, CourseEditionRepository courseEditionRepository){
+        _programmeEditionRepository = programmeEditionRepository;
+        _courseEditionRepository = courseEditionRepository;
     }
 
-    public List<CourseEdition> getAllCourseEditions() {
-        return courseEditions;
+    public List<ProgrammeEdition> getAllProgrammeEditions() {
+        return _programmeEditionRepository.getAllProgrammeEditions();
+    }
+
+    public List<Course> getCoursesInProgramme(ProgrammeEdition programmeEdition) {
+        Programme programme = programmeEdition.findProgrammeInProgrammeEdition();
+        return programme.getCourseList();
+    }
+
+    public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) throws Exception {
+        try {
+            CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+            _courseEditionRepository.createCourseEdition(course, programmeEdition);
+            return true;
+
+        } catch (Exception exception) {
+            return false;
+        }
     }
 }
