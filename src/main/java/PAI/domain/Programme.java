@@ -18,47 +18,62 @@ public class Programme {
     private CourseRepository _courseRepository;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, CourseRepository courseRepository) throws Exception {
-        if (isNameInvalid(name)){ throw new IllegalArgumentException("Name must not be empty");}
+        if (isNameInvalid(name)) {
+            throw new IllegalArgumentException("Name must not be empty");
+        }
         _name = name;
 
-        if (isAcronymInvalid(acronym)){throw new IllegalArgumentException("Acronym must not be empty");}
+        if (isAcronymInvalid(acronym)) {
+            throw new IllegalArgumentException("Acronym must not be empty");
+        }
         _acronym = acronym;
 
-        if (isQuantityOfEctsInvalid(quantityOfEcts)){throw  new IllegalArgumentException("Insert a valid number of ECTS");}
+        if (isQuantityOfEctsInvalid(quantityOfEcts)) {
+            throw new IllegalArgumentException("Insert a valid number of ECTS");
+        }
         _quantityOfEcts = quantityOfEcts;
 
-        if (isQuantityOfSemestersInvalid(quantityOfSemesters)){throw  new IllegalArgumentException("Insert a valid number of Semesters");}
+        if (isQuantityOfSemestersInvalid(quantityOfSemesters)) {
+            throw new IllegalArgumentException("Insert a valid number of Semesters");
+        }
         _quantityOfSemesters = quantityOfSemesters;
 
-        if (degreeType==null){throw  new IllegalArgumentException("Insert a valid DegreeType");}
+        if (degreeType == null) {
+            throw new IllegalArgumentException("Insert a valid DegreeType");
+        }
         _degreeType = degreeType;
 
-        if (department== null){throw  new IllegalArgumentException("Insert a valid Department");}
+        if (department == null) {
+            throw new IllegalArgumentException("Insert a valid Department");
+        }
         _department = department;
 
-        if (programmeDirector== null){throw  new IllegalArgumentException("Insert a valid Programme Director");}
+        if (programmeDirector == null) {
+            throw new IllegalArgumentException("Insert a valid Programme Director");
+        }
         _programmeDirector = programmeDirector;
 
         _courseRepository = courseRepository;
 
         _programmeEnrolment = new ArrayList<>();
+
     }
 
 
-    private boolean isNameInvalid (String name){
+    private boolean isNameInvalid(String name) {
         return name == null || name.isBlank() || !name.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     }
 
-    private boolean isAcronymInvalid (String acronym){
+    private boolean isAcronymInvalid(String acronym) {
         return acronym == null || acronym.isBlank() || !acronym.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     }
 
-    private boolean isQuantityOfEctsInvalid (int quantityOfEcts){
+    private boolean isQuantityOfEctsInvalid(int quantityOfEcts) {
         return quantityOfEcts <= 0 || quantityOfEcts > 30;
     }
 
-    private boolean isQuantityOfSemestersInvalid (int quantityOfSemesters){
-        return quantityOfSemesters <=0;
+    private boolean isQuantityOfSemestersInvalid(int quantityOfSemesters) {
+        return quantityOfSemesters <= 0;
     }
 
 
@@ -91,15 +106,15 @@ public class Programme {
         _programmeDirector = teacherDirector;
     }
 
-    public boolean enrolStudentInProgramme (Student student, AccessMethod accessMethod, AccessMethodRepository amr) throws Exception {
+    public boolean enrolStudentInProgramme(Student student, AccessMethod accessMethod, AccessMethodRepository amr) throws Exception {
 
         //Verify if access method exists in the access method repository
-        if(!amr.isAccessMethodRegistered(accessMethod)) {
+        if (!amr.isAccessMethodRegistered(accessMethod)) {
             throw new Exception("Access method cannot be found in the repository!");
         }
 
         //Verify if student is already enrolled in the programme
-        for(Enrolment existingEnrolment : _programmeEnrolment) {
+        for (Enrolment existingEnrolment : _programmeEnrolment) {
             if (existingEnrolment.isSameStudent(student))
                 throw new Exception("Student is already enrolled in the programme!");
         }
@@ -115,14 +130,26 @@ public class Programme {
     //US17
     public boolean isStudentEnrolled(Student student) {
         for (Enrolment enrolment : _programmeEnrolment) {
-            if(enrolment.findStudentInEnrollments().equals(student)){
+            if (enrolment.findStudentInEnrollments().equals(student)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isInDepartment (Department department){
+    public boolean isInDepartment(Department department) {
         return _department.equals(department);
+    }
+
+    public List<Course> getCourseList() {
+        return _courseList;
+    }
+
+    public int getQuantityOfSemester() {
+        return _quantityOfSemesters;
+    }
+
+    public int getQuantityOfEcts() {
+        return _quantityOfEcts;
     }
 }

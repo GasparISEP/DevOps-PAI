@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 class ProgrammeTest {
 
@@ -636,4 +638,73 @@ class ProgrammeTest {
         // Assert
         assertFalse(result, "The equals method should return false when comparing with an object of a different class.");
     }
+
+    @Test
+    void shouldReturnCourseList() throws Exception {
+        //arrange
+        CourseRepository courseRepository = new CourseRepository();
+        Course course1 = new Course("Programming", "PROG", 25, 1);
+        Course course2 = new Course("Mathematics", "MATH", 25, 2);
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+
+        // act
+        courseRepository.registerCourse("Programming", "PROG", 25, 1);
+        courseRepository.registerCourse("Mathematics", "MATH", 25, 2);
+
+        programme.addCourseToAProgramme(course1);
+        programme.addCourseToAProgramme(course2);
+
+        List<Course> courseList = programme.getCourseList();
+
+        //assert
+        assertEquals(2, courseList.size(), "O número de cursos deve ser 2");
+        assertTrue(courseList.contains(course1), "A lista deve conter o curso Programming");
+        assertTrue(courseList.contains(course2), "A lista deve conter o curso Mathematics");
+
+    }
+
+    @Test
+    void shouldReturnQuantityOfSemesters() throws Exception {
+        // Arrange
+        CourseRepository courseRepository = new CourseRepository();
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+
+        // Act
+        int quantityOfSemesters = programme.getQuantityOfSemester();
+
+        // Assert
+        assertEquals(6, quantityOfSemesters, "The quantity of semesters should be 6.");
+    }
+
+    @Test
+    void shouldReturnCorrectQuantityOfEcts() throws Exception {
+        // Arrange
+        CourseRepository courseRepository = new CourseRepository();
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher, courseRepository);
+
+        // Act
+        int quantityOfEcts = programme.getQuantityOfEcts();
+
+        // Assert
+        assertEquals(20, quantityOfEcts, "The quantity of ECTS should be 20.");
+    }
+
 }
