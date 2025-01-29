@@ -39,7 +39,7 @@ public class TeacherCategoryRepository {
     }
 
     // New method to list all categories(support all the operations required by the controller)
-    public List<TeacherCategory> listAllCategories() {
+    public List<TeacherCategory> retrieveTeacherCategoriesList() {
         return new ArrayList<>(_teacherCategoryRepository);
     }
 

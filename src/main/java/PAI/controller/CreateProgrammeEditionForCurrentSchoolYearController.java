@@ -6,8 +6,8 @@ import java.util.Optional;
 
 public class CreateProgrammeEditionForCurrentSchoolYearController {
 
-    private ProgrammeEditionRepository _programmeEditionRepository;
-    private SchoolYearRepository _schoolYearRepository;
+    private final ProgrammeEditionRepository _programmeEditionRepository;
+    private final SchoolYearRepository _schoolYearRepository;
 
     public CreateProgrammeEditionForCurrentSchoolYearController (ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository) {
 
@@ -25,10 +25,7 @@ public class CreateProgrammeEditionForCurrentSchoolYearController {
 
         boolean isCreated = _programmeEditionRepository.createProgrammeEdition(programme, currentSchoolYear);
 
-        if(isCreated) {
-            return true;
-        }
-        return false;
+        return isCreated;
     }
 
 }

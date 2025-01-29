@@ -185,7 +185,7 @@ class ProgrammeEditionRepositoryTest {
     }
 
     @Test
-    void shouldReturnListOfProgrammeEditions() throws Exception {
+    void shouldReturnSizeofListOfProgrammeEditionsForGetAllProgrammeEditionsMethod() throws Exception {
         //Arrange
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");

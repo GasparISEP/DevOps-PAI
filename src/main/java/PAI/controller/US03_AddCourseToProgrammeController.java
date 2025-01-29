@@ -5,7 +5,7 @@ import PAI.domain.Programme;
 
 public class US03_AddCourseToProgrammeController {
 
-    private Programme programme;
+    private final Programme programme;
     
     public US03_AddCourseToProgrammeController(Programme programme) {
         if (programme == null) {

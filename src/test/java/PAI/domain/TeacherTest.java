@@ -470,4 +470,52 @@ class TeacherTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date, 50));
         assertEquals(expectedMessage, exception.getMessage());
     }
+
+    @Test
+    void updateTeacherCategory_SuccessfulTest() throws Exception {
+        //arrange
+        String date1 = "22-12-2024";
+        String date2 = "25-12-2024";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
+        Department dpt1 = new Department("MOT", "Mothematics");
+
+        //act
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        boolean result = t1.updateTeacherCategory(date2, tc2);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void updateTeacherCategory_UnsuccessfulTestOlderDate() throws Exception {
+        //arrange
+        String date1 = "25-12-2024";
+        String date2 = "12-12-2024";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
+        Department dpt1 = new Department("MOT", "Mothematics");
+
+        //act
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+
+        //assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategory(date2, tc2));
+    }
+
+    @Test
+    void updateTeacherCategory_UnsuccessfulTestSameCategory() throws Exception {
+        //arrange
+        String date1 = "25-12-2024";
+        String date2 = "26-12-2024";
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MOT", "Mothematics");
+
+        //act
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+
+        //assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategory(date2, tc1));
+    }
 }

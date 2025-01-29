@@ -143,5 +143,22 @@ public class Teacher {
 
         return true;
     }
+
+    public boolean updateTeacherCategory(String date, TeacherCategory teacherCategory) throws IllegalArgumentException {
+
+        TeacherCareerProgression lastTeacherCareerProgression =  _teacherCareerProgression.getLast();
+
+        int lastWorkingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
+
+        if(teacherCategory == lastTeacherCareerProgression.getCategory())
+            throw new IllegalArgumentException("The Teacher Category " + teacherCategory.getName() + " already exists.");
+
+        TeacherCareerProgression updatedTeacherCareerProgression = new TeacherCareerProgression(date, teacherCategory, lastWorkingPercentage);
+
+        if(!updatedTeacherCareerProgression.isDateAfter(lastTeacherCareerProgression))
+            throw new IllegalArgumentException("The date must be greater than the last date registered!");
+        else
+            return _teacherCareerProgression.add(updatedTeacherCareerProgression);
+    }
 }
 

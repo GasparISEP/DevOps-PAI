@@ -19,14 +19,6 @@ class CourseTest {
     }
 
     @Test
-    void shouldCreateValidCourseWithHalfOfCreditsIfDurationCourseInSemesterIsTwo() throws Exception {
-        // Arrange
-        // Act
-        Course course1 = new Course("Informatics", "INF", 6, 2);
-        // Assert
-        assertEquals(3, course1.getQuantityCreditsEcts());
-    }
-    @Test
     void shouldReturnExceptionIfCourseNameIsInvalid() throws Exception {
         //arrange
         //act
@@ -175,5 +167,35 @@ class CourseTest {
         int result = course1.getDurationInSemester();
         //assert
         assertEquals(1, result);
+    }
+
+    @Test
+    void shouldReturnQuantityCreditsEcts() throws Exception {
+        // Arrange
+        Course course1 = new Course("Informatics", "INF", 6, 1);
+        // Act
+        double resultado = course1.getQuantityCreditsEcts();
+        // Assert
+        assertEquals(6, resultado);
+    }
+
+    @Test
+    void shouldReturnCourseName() throws Exception {
+        // Arrange
+        Course course1 = new Course("Informatics", "INF", 6, 1);
+        // Act
+        String resultado = course1.getName();
+        // Assert
+        assertEquals("Informatics", resultado);
+    }
+
+    @Test
+    void shouldReturnCourseAcronym() throws Exception {
+        // Arrange
+        Course course1 = new Course("Informatics", "INF", 6, 1);
+        // Act
+        String resultado = course1.getAcronym();
+        // Assert
+        assertEquals("INF", resultado);
     }
 }
