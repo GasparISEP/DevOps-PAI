@@ -13,19 +13,22 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
     private ProgrammeList _programmeList;
     private CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
     private CourseEditionRepository _courseEditionRepository;
+    private StudentRepository _studentRepository;
 
     public US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
             ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo,
             ProgrammeEditionRepository programmeEditionRepository,
             ProgrammeList programmeList,
             CourseEditionEnrollmentRepository courseEditionEnrollmentRepository,
-            CourseEditionRepository courseEditionRepository) {
+            CourseEditionRepository courseEditionRepository,
+            StudentRepository studentRepository) {
 
         this._programmeEditionEnrollmentRepo = programmeEditionEnrollmentRepo;
         this._programmeEditionRepository = programmeEditionRepository;
         this._programmeList = programmeList;
         this._courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
         this._courseEditionRepository = courseEditionRepository;
+        this._studentRepository = studentRepository;
     }
     // Enroll a student in a ProgrammeEdition.
     public Optional<ProgrammeEdition> enrollStudentInProgrammeEdition(
@@ -78,6 +81,10 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
 
     public List<Programme> getAllProgrammes() {
         return _programmeList.getAllProgrammes();
+    }
+
+    public Optional<Student> findStudentById(int uniqueNumber){
+        return _studentRepository.findStudentByUniqueNumber(uniqueNumber);
     }
 
 }
