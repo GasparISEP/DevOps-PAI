@@ -53,4 +53,17 @@ public class CourseEditionEnrollmentRepository {
             }
         return Optional.empty();
     }
+
+    //US24
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) {
+
+        int count = 0;
+        for (int i = 0; i < _courseEditionEnrollments.size(); i++) {
+            CourseEditionEnrollment enrollment = _courseEditionEnrollments.get(i);
+            if (enrollment.knowCourseEdition().equals(courseEdition)) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
