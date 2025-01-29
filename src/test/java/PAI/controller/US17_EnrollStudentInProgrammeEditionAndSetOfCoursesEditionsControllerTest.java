@@ -48,10 +48,10 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         if (!programme1.isStudentEnrolled(student)) {
             programme1.enrolStudentInProgramme(student, am1, amr);
         }
-        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
+          programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
 
         // Act
-        Optional<ProgrammeEdition> result = controller.enrollStudentInProgrammeEdition(student, programme1, schoolYear);
+        Optional<ProgrammeEdition> result = controller.enrollStudentInProgrammeEdition(1, programme1, schoolYear);
 
         // Assert
         assertTrue(result.isPresent(), "The student is enrolled in the ProgrammeEdition.");
@@ -61,6 +61,40 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         assertTrue(programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition),
                 "The student should be enrolled in the ProgrammeEdition.");
         assertTrue(programme1.isStudentEnrolled(student), "The student should be enrolled in the programme.");
+    }
+
+    @Test
+    void testEnrollStudentInProgrammeEdition_StudentNotFound() throws Exception {
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        programmeEditionEnrollmentRepo,
+                        programmeEditionRepository,
+                        programmeList,
+                        courseEditionEnrollmentRepository,
+                        courseEditionRepository,
+                        studentRepository);
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
+                "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
+        CourseRepository courseRepository = new CourseRepository();
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+
+        // Act & Assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+                controller.enrollStudentInProgrammeEdition(1, programme1, schoolYear));
+        assertEquals("Student not found.", exception.getMessage());
     }
 
     @Test
@@ -91,12 +125,14 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseRepository courseRepository = new CourseRepository();
         Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
         // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-                controller.enrollStudentInProgrammeEdition(student, programme1, schoolYear));
+                controller.enrollStudentInProgrammeEdition(1, programme1, schoolYear));
         assertEquals("Student not enrolled in Programme.", exception.getMessage());
     }
+
 
     @Test
     void testEnrollStudentInProgrammeEdition_ProgrammeEditionNotFound() throws Exception {
@@ -126,15 +162,19 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         AccessMethodRepository amr = new AccessMethodRepository();
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
+        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Enrolment enrolment = new Enrolment(student, am1);
         CourseRepository courseRepository = new CourseRepository();
         Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-
-        programme1.enrolStudentInProgramme(student, am1,amr);
+        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        if (!programme1.isStudentEnrolled(student)) {
+            programme1.enrolStudentInProgramme(student, am1, amr);
+        }
 
         // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-                controller.enrollStudentInProgrammeEdition(student, programme1, schoolYear));
+                controller.enrollStudentInProgrammeEdition(student.getUniqueNumber(), programme1, schoolYear));
         assertEquals("Programme edition not found for the given school year.", exception.getMessage());
     }
 
@@ -170,7 +210,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("Computer Science", "CS", 25, 6, master, department, teacher, courseRepository);
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", address);
-
+        studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", address);
+        Enrolment enrolment = new Enrolment(student, am1);
         programme.enrolStudentInProgramme(student, am1, amr);
         programmeEditionRepository.createProgrammeEdition(programme, schoolYear);
         ProgrammeEdition programmeEdition = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear).get();
@@ -178,7 +219,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-                controller.enrollStudentInProgrammeEdition(student, programme, schoolYear)
+                controller.enrollStudentInProgrammeEdition(student.getUniqueNumber(), programme, schoolYear)
         );
         assertEquals("Student is already enrolled in the programme edition.", exception.getMessage());
     }
@@ -320,39 +361,39 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
 
-    @Test
-    void testFindStudentById_WhenStudentExists() throws Exception {
-        //arrange
-        StudentRepository studentRepository = new StudentRepository();
-        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        null, null, null, null, null, studentRepository);
-
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        studentRepository.registerStudent(1001, "João Silva", "123456789", "912345678", "joao@email.com", add1);
-
-        //act
-        Optional<Student> foundStudent = controller.findStudentById(1001);
-
-        //assert
-        assertTrue(foundStudent.isPresent(), "O estudante deveria estar presente.");
-        assertEquals(1001, foundStudent.get().getUniqueNumber(), "O número único deveria coincidir.");
-    }
-
-    @Test
-    void testFindStudentById_WhenStudentDoesNotExist() {
-        //arrange
-        StudentRepository studentRepository = new StudentRepository();
-        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        null, null, null, null, null, studentRepository);
-
-        //act
-        Optional<Student> foundStudent = controller.findStudentById(9999);
-
-        //assert
-        assertFalse(foundStudent.isPresent(), "O estudante não deveria ser encontrado.");
-    }
+//    @Test
+//    void testFindStudentById_WhenStudentExists() throws Exception {
+//        //arrange
+//        StudentRepository studentRepository = new StudentRepository();
+//        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        null, null, null, null, null, studentRepository);
+//
+//        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+//        studentRepository.registerStudent(1001, "João Silva", "123456789", "912345678", "joao@email.com", add1);
+//
+//        //act
+//        Optional<Student> foundStudent = controller.findStudentById(1001);
+//
+//        //assert
+//        assertTrue(foundStudent.isPresent(), "O estudante deveria estar presente.");
+//        assertEquals(1001, foundStudent.get().getUniqueNumber(), "O número único deveria coincidir.");
+//    }
+//
+//    @Test
+//    void testFindStudentById_WhenStudentDoesNotExist() {
+//        //arrange
+//        StudentRepository studentRepository = new StudentRepository();
+//        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        null, null, null, null, null, studentRepository);
+//
+//        //act
+//        Optional<Student> foundStudent = controller.findStudentById(9999);
+//
+//        //assert
+//        assertFalse(foundStudent.isPresent(), "O estudante não deveria ser encontrado.");
+//    }
 }
 
 

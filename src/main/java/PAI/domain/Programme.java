@@ -129,8 +129,8 @@ public class Programme {
 
     //US17
     public boolean isStudentEnrolled(Student student) {
-        for (Enrolment enrolment : _programmeEnrolment) {
-            if (enrolment.findStudentInEnrollments().equals(student)) {
+        for (Enrolment enrolledStudent : _programmeEnrolment) {
+            if (enrolledStudent.findStudentInEnrollments().getUniqueNumber() == student.getUniqueNumber()) {
                 return true;
             }
         }

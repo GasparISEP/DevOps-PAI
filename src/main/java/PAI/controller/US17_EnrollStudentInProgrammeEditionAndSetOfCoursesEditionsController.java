@@ -32,7 +32,15 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
     }
     // Enroll a student in a ProgrammeEdition.
     public Optional<ProgrammeEdition> enrollStudentInProgrammeEdition(
-            Student student, Programme programme, SchoolYear schoolYear) {
+            int uniqueNumber, Programme programme, SchoolYear schoolYear) {
+
+       Optional<Student> studentOpt = _studentRepository.findStudentByUniqueNumber(uniqueNumber);
+
+        if (studentOpt.isEmpty()) {
+            throw new IllegalStateException("Student not found.");
+        }
+
+        Student student = studentOpt.get();
 
         if (!programme.isStudentEnrolled(student)) {
             throw new IllegalStateException("Student not enrolled in Programme.");
@@ -83,8 +91,6 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         return _programmeList.getAllProgrammes();
     }
 
-    public Optional<Student> findStudentById(int uniqueNumber){
-        return _studentRepository.findStudentByUniqueNumber(uniqueNumber);
-    }
+
 
 }
