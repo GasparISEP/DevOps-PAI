@@ -124,5 +124,24 @@ public class Teacher {
 
         return _nif.equals(NIF);
     }
+
+    public boolean updateWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage) throws IllegalArgumentException {
+
+        TeacherCareerProgression lastCareerProgression = _teacherCareerProgression.getLast();
+
+        TeacherCategory lastCategory = lastCareerProgression.getCategory();
+
+        if (lastCareerProgression.getWorkingPercentage() == workingPercentage)
+            throw new IllegalArgumentException("Working percentage must be different than the last working percentage!");
+
+        TeacherCareerProgression tcp = new TeacherCareerProgression(date, lastCategory, workingPercentage);
+
+        if(!tcp.isDateAfter(lastCareerProgression))
+            throw new IllegalArgumentException("Date must be greater than the last date registered!");
+
+        _teacherCareerProgression.add(tcp);
+
+        return true;
+    }
 }
 

@@ -424,4 +424,50 @@ class TeacherTest {
         assertFalse(t1.hasThisNIF(""));
         assertFalse(t1.hasThisNIF(" "));
     }
+
+    @Test
+    void returnsTrueAfterUpdateWorkingPercentageInTeacherCareerProgression() throws Exception {
+        //arrange
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MAT", "Mathematics");
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+
+        //act
+        boolean result = t1.updateWorkingPercentageInTeacherCareerProgression("15-04-2008", 50);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void returnsExceptionWhenGivenWorkingPercentageIsEqualToPresentWorkingPercentage() throws Exception {
+        //arrange
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MAT", "Mathematics");
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+
+        //act + assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression("16-10-2015", 70));
+        assertEquals("Working percentage must be different than the last working percentage!", exception.getMessage());
+    }
+
+    public static Stream<Arguments> provideInvalidDates() {
+        return Stream.of(
+                Arguments.of("15-04-2005", "Date must be greater than the last date registered!"),
+                Arguments.of("14-04-2005", "Date must be greater than the last date registered!")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidDates")
+    void throwsExceptionWhenUpdateDateIsNotAfterExistingDate(String date, String expectedMessage) throws Exception {
+        //arrange
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MAT", "Mathematics");
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+
+        //act + assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date, 50));
+        assertEquals(expectedMessage, exception.getMessage());
+    }
 }
