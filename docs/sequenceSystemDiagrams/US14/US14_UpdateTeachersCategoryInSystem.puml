@@ -10,6 +10,7 @@ participant "tcp2:TeacherCareerProgression" as TCP2 #lightpink
 
 
 HRC -> TE: I want to update Teacher (date, teacherNIF, teacherCategoryName)
+activate TE
 TE -> CTL : updateTeacherCategory(date, teacherNIF, teacherCategoryName)
 activate CTL
 CTL -> TR: getTeacherByNIF(teacherNIF)
