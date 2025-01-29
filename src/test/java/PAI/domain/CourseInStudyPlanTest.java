@@ -21,7 +21,7 @@ class CourseInStudyPlanTest {
         StudyPlan studyPlan = new StudyPlan();
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
-        boolean addCourse1ToStudyPlan = studyPlan.registerStudyPlan(1,1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.registerCourseInStudyPlan(1,1, course1, programme);
 
         //Act
         CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(1, 1, course1, programme);
