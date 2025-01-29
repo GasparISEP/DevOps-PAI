@@ -24,7 +24,8 @@ class CourseEditionEnrollmentTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
@@ -61,7 +62,8 @@ class CourseEditionEnrollmentTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         // Act + Assert
@@ -81,7 +83,8 @@ class CourseEditionEnrollmentTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate enrollmentDate = LocalDate.now();
@@ -117,7 +120,8 @@ class CourseEditionEnrollmentTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
@@ -140,7 +144,8 @@ class CourseEditionEnrollmentTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
@@ -163,7 +168,8 @@ class CourseEditionEnrollmentTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         Course course = new Course("Informatica", "INF", 6, 1);
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
@@ -193,7 +199,8 @@ class CourseEditionEnrollmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
@@ -217,7 +224,8 @@ class CourseEditionEnrollmentTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
@@ -243,7 +251,8 @@ class CourseEditionEnrollmentTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
@@ -270,7 +279,8 @@ class CourseEditionEnrollmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();
@@ -295,7 +305,8 @@ class CourseEditionEnrollmentTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1, courseRepository);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         CourseEdition ce1 = new CourseEdition(c1, pe1);
         LocalDate currentDate = LocalDate.now();

@@ -43,8 +43,9 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
         Course c1 = new Course("Informatics", "INF", 6, 1);
         Course c2 = new Course("Science", "SCI", 6, 1);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        Programme p2 = new Programme("Computer Science", "CES", 20, 6, master, CSE, teacher);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        Programme p2 = new Programme("Computer Science", "CES", 20, 6, master, CSE, teacher, courseRepository);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         SchoolYear sY2 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
