@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class US01_ConfigureTeacherCategoryController {
-    private TeacherCategoryRepository repository;
+    private final TeacherCategoryRepository repository;
 
     public US01_ConfigureTeacherCategoryController(TeacherCategoryRepository repository) {
         if (repository == null) {
@@ -27,6 +27,6 @@ public class US01_ConfigureTeacherCategoryController {
     }
 
     public List<TeacherCategory> listCategories() {
-        return repository.listAllCategories();
+        return repository.retrieveTeacherCategoriesList();
     }
 }
