@@ -4,16 +4,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
-import PAI.domain.Course;
-import PAI.domain.DegreeType;
-import PAI.domain.Department;
-import PAI.domain.Programme;
-import PAI.domain.Teacher;
-import PAI.domain.TeacherCategory;
-
-public class AddCourseToProgrammeControllerTest {
+public class US03AddCourseToProgrammeControllerTest {
     
     
     
@@ -24,11 +18,12 @@ public class AddCourseToProgrammeControllerTest {
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1, courseRepository);
         //act
-        AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
         //assert
-        assertNotNull(addCourseToProgrammeController);
+        assertNotNull(US03AddCourseToProgrammeController);
     }
 
     @Test
@@ -37,7 +32,7 @@ public class AddCourseToProgrammeControllerTest {
         //act
         //assert
         assertThrows(IllegalArgumentException.class, () -> { 
-            new AddCourseToProgrammeController(null);
+            new US03_AddCourseToProgrammeController(null);
         });    
     }
 
@@ -50,43 +45,49 @@ public class AddCourseToProgrammeControllerTest {
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1, courseRepository);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
         //act
-        boolean addCourseToProgramme = addCourseToProgrammeController.addCourseToProgramme(1, course1);
+        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(course1);
         //assert
         assertTrue(addCourseToProgramme);
     }
 
     @Test
-    void shouldNotAddCourseToProgrammeIfSemesterGivenBelowFirstSemester() throws Exception {
+    void shoudNotAddCourseToProgrammeIfCourseNotInCourseRepository() throws Exception {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
-        // act & assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            addCourseToProgrammeController.addCourseToProgramme(0, course1);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1, courseRepository);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
+        //act + assert
+        assertThrows(Exception.class, () -> {
+            US03AddCourseToProgrammeController.addCourseToProgramme(course1);
         });
     }
 
     @Test
-    void shouldNotAddCourseToProgrammeIfSemesterGivenAboveLastSemester() throws Exception {
+    void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Course course1 = new Course("matemática", "MTA", 5, 1);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
-        // act & assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            addCourseToProgrammeController.addCourseToProgramme(3, course1);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1, courseRepository);
+        lei.addCourseToAProgramme(course1);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
+        //act + assert
+        assertThrows(Exception.class, () -> {
+            US03AddCourseToProgrammeController.addCourseToProgramme(course1);
         });
     }
 
@@ -97,12 +98,12 @@ public class AddCourseToProgrammeControllerTest {
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        AddCourseToProgrammeController addCourseToProgrammeController = new AddCourseToProgrammeController(lei);
-        //act
+        CourseRepository courseRepository = new CourseRepository();
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1,courseRepository);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
         // act & assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            addCourseToProgrammeController.addCourseToProgramme(2, null);
+        assertThrows(Exception.class, () -> {
+            US03AddCourseToProgrammeController.addCourseToProgramme(null);
         });
     }
 }

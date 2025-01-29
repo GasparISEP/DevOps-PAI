@@ -11,9 +11,9 @@ public class ProgrammeList {
     }
 
 
-    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector ) throws Exception {
+    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, CourseRepository courseRepository) throws Exception {
 
-        Programme programme = new Programme (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector);
+        Programme programme = new Programme (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, courseRepository);
 
         if (programmeList.contains(programme))
             return false;

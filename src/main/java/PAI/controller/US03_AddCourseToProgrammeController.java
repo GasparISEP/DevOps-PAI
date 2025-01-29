@@ -3,11 +3,11 @@ package PAI.controller;
 import PAI.domain.Course;
 import PAI.domain.Programme;
 
-public class AddCourseToProgrammeController {   
+public class US03_AddCourseToProgrammeController {
 
     private Programme programme;
     
-    public AddCourseToProgrammeController(Programme programme) {
+    public US03_AddCourseToProgrammeController(Programme programme) {
         if (programme == null) {
             throw new IllegalArgumentException("Programme cannot be null.");
         }
@@ -16,8 +16,8 @@ public class AddCourseToProgrammeController {
 
 
 
-    public boolean addCourseToProgramme(int semester, Course course) throws Exception {
-        programme.addCourseToASemesterOfAProgramme(semester, course);
+    public boolean addCourseToProgramme(Course course) throws Exception {
+        programme.addCourseToAProgramme(course);
         return true;
     }
     

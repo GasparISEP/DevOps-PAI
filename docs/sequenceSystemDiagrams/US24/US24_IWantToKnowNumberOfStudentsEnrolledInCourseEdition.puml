@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor AcademicServiceCollaborator as ASC #Purple/White
+participant UI #application
+participant ":Controller" as C #application
+participant ":CourseEditionEnrollementRepository" as CEER #application
+
+ASC -> UI : I want to get the number of students enrolled in CourseEdition1
+activate UI #application
+UI -> C  : IWantToKnowNumberOfStudentsEnrolledInCourseEdition1
+activate C #application
+C -> CEER : IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition1)
+activate CEER #application
+C <-- CEER : numberOfStudents
+deactivate CEER #application
+UI <-- C : numberOfStudents
+deactivate C #application
+ASC <-- UI : numberOfStudents
+deactivate UI #application
+
+@enduml

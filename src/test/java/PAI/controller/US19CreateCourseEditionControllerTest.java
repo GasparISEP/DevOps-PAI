@@ -11,6 +11,7 @@ class US19CreateCourseEditionControllerTest {
     @Test
     void testCreateCourseEdition() throws Exception {
         // Arrange
+        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController();
         Course course = new Course("Informatics", "INF", 6, 1);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
@@ -22,7 +23,7 @@ class US19CreateCourseEditionControllerTest {
                                 "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                                 new Department("CSE", "Computer Science Engineer")
-                        )
+                        ), courseRepository
                 ),
                 new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
         );
@@ -39,6 +40,7 @@ class US19CreateCourseEditionControllerTest {
     @Test
     void testGetAllCourseEditions() throws Exception {
         // Arrange
+        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController();
         Course course1 = new Course("Informatics", "INF", 6, 1);
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(
@@ -50,7 +52,7 @@ class US19CreateCourseEditionControllerTest {
                                 "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                                 new Department("CSE", "Computer Science Engineer")
-                        )
+                        ), courseRepository
                 ),
                 new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
         );
@@ -64,7 +66,7 @@ class US19CreateCourseEditionControllerTest {
                                 "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                                 new Department("CSE", "Computer Science Engineer")
-                        )
+                        ), courseRepository
                 ),
                 new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
         );

@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ProgrammeEditionRepository {
@@ -38,6 +39,10 @@ public class ProgrammeEditionRepository {
             }
         }
         return Optional.empty();
+    }
+
+    public List<ProgrammeEdition> getAllProgrammeEditions() {
+        return _programmeEditionRepository;
     }
 
 
