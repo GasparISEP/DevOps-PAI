@@ -19,13 +19,15 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
                         programmeEditionRepository,
                         programmeList,
                         courseEditionEnrollmentRepository,
-                        courseEditionRepository);
+                        courseEditionRepository,
+                        studentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -38,7 +40,6 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        StudentRepository studentRepository = new StudentRepository();
         studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Enrolment enrolment = new Enrolment(student, am1);
         Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
@@ -66,16 +67,18 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
                         programmeEditionRepository,
                         programmeList,
                         courseEditionEnrollmentRepository,
-                        courseEditionRepository);
+                        courseEditionRepository,
+                        studentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -98,16 +101,18 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
                         programmeEditionRepository,
                         programmeList,
                         courseEditionEnrollmentRepository,
-                        courseEditionRepository);
+                        courseEditionRepository,
+                        studentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -135,16 +140,18 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
                         programmeEditionRepository,
                         programmeList,
                         courseEditionEnrollmentRepository,
-                        courseEditionRepository);
+                        courseEditionRepository,
+                        studentRepository);
 
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("DEI", "Computer Science Department");
@@ -177,16 +184,18 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
                         programmeEditionRepository,
                         programmeList,
                         courseEditionEnrollmentRepository,
-                        courseEditionRepository);
+                        courseEditionRepository,
+                        studentRepository);
 
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
@@ -231,16 +240,18 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
                         programmeEditionRepository,
                         programmeList,
                         courseEditionEnrollmentRepository,
-                        courseEditionRepository);
+                        courseEditionRepository,
+                        studentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -285,6 +296,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         null,
                         programmeList,
                         null,
+                        null,
                         null
                 );
 
@@ -300,4 +312,43 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "The list should contain the programme 'Computer Science'.");
 
     }
+
+
+    @Test
+    void testFindStudentById_WhenStudentExists() throws Exception {
+        //arrange
+        StudentRepository studentRepository = new StudentRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        null, null, null, null, null, studentRepository);
+
+        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        studentRepository.registerStudent(1001, "João Silva", "123456789", "912345678", "joao@email.com", add1);
+
+        //act
+        Optional<Student> foundStudent = controller.findStudentById(1001);
+
+        //assert
+        assertTrue(foundStudent.isPresent(), "O estudante deveria estar presente.");
+        assertEquals(1001, foundStudent.get().getUniqueNumber(), "O número único deveria coincidir.");
+    }
+
+    @Test
+    void testFindStudentById_WhenStudentDoesNotExist() {
+        //arrange
+        StudentRepository studentRepository = new StudentRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        null, null, null, null, null, studentRepository);
+
+        //act
+        Optional<Student> foundStudent = controller.findStudentById(9999);
+
+        //assert
+        assertFalse(foundStudent.isPresent(), "O estudante não deveria ser encontrado.");
+    }
 }
+
+
+
+
