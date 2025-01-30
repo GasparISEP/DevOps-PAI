@@ -41,10 +41,10 @@ class US16_EnrollAStudentInACourseEditionTest {
         courseEditionRepository.createCourseEdition(c1,pe1);
 
         //act
-        Optional<CourseEditionEnrollment> result = controller.enrollStudentInCourseEdition(st2, ce1, enrollmentDate);
+        boolean result = controller.enrollStudentInCourseEdition(st2, ce1, enrollmentDate);
 
         //assert
-        assertFalse(result.isPresent());
+        assertFalse(result);
     }
 
 
@@ -82,11 +82,9 @@ class US16_EnrollAStudentInACourseEditionTest {
 
 
         //act
-        Optional<CourseEditionEnrollment> result = controller.enrollStudentInCourseEdition(st1,ce1,currentDate);
+        boolean result = controller.enrollStudentInCourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertTrue(result.isPresent());
-        CourseEditionEnrollment expectedEnrollment = new CourseEditionEnrollment(st1, ce1, currentDate);
-        assertEquals(expectedEnrollment, result.get());
+        assertTrue(result);
     }
 }
