@@ -2,6 +2,8 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DepartmentRepositoryTest {
@@ -64,6 +66,30 @@ class DepartmentRepositoryTest {
 
         // Assert
         assertEquals("Department with that name already exists.", exception.getMessage());
+    }
+
+    //Testing that the list may be retrieved even if still empty
+    @Test
+    void shouldReturnDepartmentListEvenIfEmpty() {
+        // Arrange
+        DepartmentRepository tcr = new DepartmentRepository();
+        // Act
+        List<Department> result = tcr.getDepartmentsList();
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    //Testing that the retrieved list has registered objects
+    @Test
+    void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
+        // Arrange
+        DepartmentRepository tcr = new DepartmentRepository();
+        tcr.registerDepartment("CSE", "Computer Science");
+        tcr.registerDepartment("CIV", "Civil Engineering");
+        // Act
+        List<Department> result = tcr.getDepartmentsList();
+        // Assert
+        assertEquals(2, result.size());
     }
 
     @Test

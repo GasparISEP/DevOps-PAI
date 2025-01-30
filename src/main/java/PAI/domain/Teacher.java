@@ -144,7 +144,7 @@ public class Teacher {
         return true;
     }
 
-    public boolean updateTeacherCategory(String date, TeacherCategory teacherCategory) throws IllegalArgumentException {
+    public boolean updateTeacherCategoryInTeacherCareer(String date, TeacherCategory teacherCategory) throws IllegalArgumentException {
 
         TeacherCareerProgression lastTeacherCareerProgression =  _teacherCareerProgression.getLast();
 

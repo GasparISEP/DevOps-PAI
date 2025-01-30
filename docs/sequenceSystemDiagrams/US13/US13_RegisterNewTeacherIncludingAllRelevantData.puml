@@ -3,23 +3,23 @@
 title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
 
 actor HRC
-participant "UI" as UI #Cyan/Silver
+participant ":UI" as UI #Cyan/Silver
 participant ":Controller" as Controller #Cyan/Silver
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository #Cyan/Silver
 participant ":DepartmentRepository" as DepartmentRepository #Cyan/Silver
 participant ":TeacherRepository" as TeacherRepository #Cyan/Silver
 participant "t1:Teacher" as Teacher #Yellow/Silver
 participant "addrs1:Address" as Address #Yellow/Silver
-participant "tcpList:TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
+participant "tcp1:TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
 
 
-HRC -> UI: I need all Teacher Categories.
+HRC -> UI: I want to register a new teacher including all relevant data.
 activate UI
 
-UI -> Controller: **retrieveTeacherCategoriesList**
+UI -> Controller: **getTeacherCategoriesList**
 activate Controller
 
-Controller -> TeacherCategoryRepository: **retrieveTeacherCategoriesList**
+Controller -> TeacherCategoryRepository: **getTeacherCategoriesList**
 activate TeacherCategoryRepository
 
 TeacherCategoryRepository --> Controller: tcList
@@ -28,14 +28,14 @@ deactivate TeacherCategoryRepository
 Controller --> UI: tcList
 deactivate Controller
 
-UI --> HRC: tcList
+UI --> HRC: Choose one category from the list.
 
-HRC -> UI: I need all Departments.
+HRC -> UI: Okay.
 
-UI -> Controller: **retrieveDepartmentsList()**
+UI -> Controller: **getDepartmentsList()**
 activate Controller
 
-Controller -> DepartmentRepository: **retrieveDepartmentsList()**
+Controller -> DepartmentRepository: **getDepartmentsList()**
 activate DepartmentRepository
 
 DepartmentRepository --> Controller: dptList
@@ -44,7 +44,7 @@ deactivate DepartmentRepository
 Controller --> UI: dptList
 deactivate Controller
 
-UI --> HRC: dptList
+UI --> HRC: Choose one department from the list.
 
 HRC -> UI: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackgroung, workingPercentage,\ndate, tc1, dpt1
 
@@ -71,9 +71,7 @@ deactivate Address
 Teacher -> TeacherCareerProgression **: **createTeacherCareerProgressionList** (date, tc1, workingPercentage)
 activate TeacherCareerProgression
 
-TeacherCareerProgression -> TeacherCareerProgression: add (tcp1)
-
-TeacherCareerProgression --> Teacher: tcpList
+TeacherCareerProgression --> Teacher: tcp1
 deactivate TeacherCareerProgression
 
 Teacher --> TeacherRepository: t1

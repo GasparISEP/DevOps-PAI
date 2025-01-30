@@ -47,6 +47,6 @@ public class TeacherRepository {
     }
 
     public boolean updateTeacherCategory(String date, Teacher teacher, TeacherCategory teacherCategory){
-        return teacher.updateTeacherCategory(date, teacherCategory);
+        return teacher.updateTeacherCategoryInTeacherCareer(date, teacherCategory);
     }
 }

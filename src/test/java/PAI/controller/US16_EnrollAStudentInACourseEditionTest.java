@@ -4,11 +4,10 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseEditionEnrollmentControllerTest {
+class US16_EnrollAStudentInACourseEditionTest {
 
 
     @Test
@@ -19,7 +18,7 @@ class CourseEditionEnrollmentControllerTest {
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
 
-        CourseEditionEnrollmentController controller = new CourseEditionEnrollmentController(
+        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
                 ceeRepository, peeRepository, courseEditionRepository);
 
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
@@ -57,7 +56,7 @@ class CourseEditionEnrollmentControllerTest {
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
 
-        CourseEditionEnrollmentController controller = new CourseEditionEnrollmentController(
+        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
                 ceeRepository, peeRepository, courseEditionRepository);
 
 

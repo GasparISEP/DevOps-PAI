@@ -27,5 +27,8 @@
 | **Teacher Category**    | A classification within a university that divides educators into distinct groups based on rank.                                                                                                              |
 | **Teacher Career**      | Represents an update in a teacher's career, including changes to their Category and/or in a Working Percentage. Each update includes the date of the change. When a teacher is registered, an initial career progression is automatically created.
 | **Working Percentage**  | Portrays a teacher's workload. Although other values are possible, it is typically 50% or 100%.
+| **Grade Student**       | Represents the assessment of a student in a specific course edition. It includes the grade obtained, the assessment date, the evaluated student, and the corresponding course edition. The grade must be between 0 and 20, and the date must follow the format DD/MM/YYYY.
+| **Study Plan**          | A structured academic plan defining the courses a student must complete in a programme. It ensures proper course registration, prevents duplicates, handles annual courses, and enforces ECTS limits per semester. 
+| **CourseInStudyPlan**   | Represents a course within a study plan, assigned to a specific semester and curricular year of a programme. Ensures the course belongs to the programme, follows semester rules, and prevents invalid registrations.
 
 *Written in British English*
