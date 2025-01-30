@@ -3,16 +3,15 @@ package PAI.controller;
 import PAI.domain.*;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-public class CourseEditionEnrollmentController {
+public class US16_EnrollAStudentInACourseEdition {
 
     private CourseEditionEnrollmentRepository _ceeRepository;
     private ProgrammeEditionEnrollmentRepo _peeRepository;
     private CourseEditionRepository _courseEditionRepository;
 
 
-    public CourseEditionEnrollmentController(
+    public US16_EnrollAStudentInACourseEdition(
             CourseEditionEnrollmentRepository ceeRepository,
             ProgrammeEditionEnrollmentRepo peeRepository,
             CourseEditionRepository courseEditionRepository) {
