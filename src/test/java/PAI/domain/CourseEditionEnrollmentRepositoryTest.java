@@ -11,7 +11,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
 
     @Test
-    void shouldReturnAValidCourseEditionEnrollment () throws Exception {
+    void shouldReturnTrueWithAValidCourseEditionEnrollment () throws Exception {
         //arrange
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
@@ -29,16 +29,14 @@ class CourseEditionEnrollmentRepositoryTest {
         LocalDate currentDate = LocalDate.now();
 
         //act
-        Optional<CourseEditionEnrollment> result = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
+        boolean result = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertTrue(result.isPresent());
-        CourseEditionEnrollment expectedEnrollment = new CourseEditionEnrollment(st1, ce1, currentDate);
-        assertEquals(expectedEnrollment, result.get());
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnATwoValidCourseEditionEnrollments () throws Exception {
+    void shouldReturnTrueWithTwoValidCourseEditionEnrollments () throws Exception {
         //arrange
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
@@ -69,17 +67,12 @@ class CourseEditionEnrollmentRepositoryTest {
         LocalDate currentDate1 = LocalDate.now();
 
         //act
-        Optional<CourseEditionEnrollment> result1 = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
-        Optional<CourseEditionEnrollment> result2 = repository.enrollStudentInACourseEdition(st2,ce2,currentDate1);
+        boolean result1 = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
+        boolean result2 = repository.enrollStudentInACourseEdition(st2,ce2,currentDate1);
 
         //assert
-        assertTrue(result1.isPresent());
-        CourseEditionEnrollment expectedEnrollment = new CourseEditionEnrollment(st1, ce1, currentDate);
-        assertEquals(expectedEnrollment, result1.get());
-
-        assertTrue(result2.isPresent());
-        CourseEditionEnrollment expectedEnrollment1 = new CourseEditionEnrollment(st2, ce2, currentDate1);
-        assertEquals(expectedEnrollment1, result2.get());
+        assertEquals(true,result1);
+        assertEquals(true,result2);
     }
 
     @Test
@@ -102,10 +95,10 @@ class CourseEditionEnrollmentRepositoryTest {
         repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
 
         //act
-        Optional<CourseEditionEnrollment> result2 = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
+        boolean result2 = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertFalse(result2.isPresent());
+        assertFalse(result2);
     }
 
     @Test
