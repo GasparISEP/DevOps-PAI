@@ -23,15 +23,10 @@ public class US19_CreateCourseEditionController {
         return programme.getCourseList();
     }
 
-    public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) throws Exception {
-        try{
+    public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) {
             if(!_courseEditionRepository.createCourseEdition(course, programmeEdition))
                 return false;
         _courseEditionRepository.createCourseEdition(course, programmeEdition);
             return true;
-
-        } catch (Exception exception) {
-            return false;
-        }
     }
 }
