@@ -23,8 +23,6 @@ entity Course {
   name
   acronym
   qtyECTS
-  semester
-  curricular year
 }
 
 entity Course_Edition {
@@ -94,12 +92,16 @@ entity "Grade Student" {
 }
 
 entity "studyPlan" {
-listOfCourses
 }
 
 entity "Teacher Career Progression" {
   workingPercentage
   date
+}
+
+entity "CourseInStudyPlan" {
+  CurricularYear
+  Semester
 }
 
 
@@ -109,8 +111,10 @@ Department "1" --- "*" Teacher : Aggregates >
 Course "*" -- "*" Teacher : Teaches <
 Course_Edition "*" -- "1" Teacher : RUC oversees <
 Course "1" ----- "*" Course_Edition : > Is organized
-Programme "1" ----- "*" Course : > Aggregates
-"studyPlan" "1" -- "1" Programme : > Belongs
+Programme "1" -left- "*" Course : > Aggregates
+"studyPlan" "0..1" -- "1" Programme : > Belongs
+"studyPlan" "1" --right-- "1..*" "CourseInStudyPlan" : \n\n< Belongs\n\n
+"CourseInStudyPlan" "0..1" -- "1" Course : < Happens
 ProgrammeEdition "1" -- "*" Course_Edition : < Belongs
 "School Year" "1" -- "*" ProgrammeEdition : < Runs in
 Address "1" -up- "1" Student : Has <
