@@ -9,9 +9,62 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class US16_EnrollAStudentInACourseEditionTest {
 
+    @Test
+    void shouldReturnExceptionIfEverythingIsNull (){
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new US16_EnrollAStudentInACourseEdition(null, null, null));
+    }
 
     @Test
-    public void shouldReturnFalseIfStudentIsNotInProgrammeEditionThatHasCourseEdition() throws Exception {
+    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
+        //arrange
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new US16_EnrollAStudentInACourseEdition(ceeRepository, null, courseEditionRepository);
+        });
+
+        //assert
+        assertEquals("Programme edition enrollment repository cannot be null!", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
+        //arrange
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new US16_EnrollAStudentInACourseEdition(ceeRepository, peeRepository, null);
+        });
+
+        //assert
+        assertEquals("Course edition repository cannot be null!", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
+        //arrange
+        CourseEditionRepository ceRepository = new CourseEditionRepository();
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new US16_EnrollAStudentInACourseEdition(null, peeRepository, ceRepository);
+        });
+
+        //assert
+        assertEquals("Course edition enrollment repository cannot be null!", exception.getMessage());
+    }
+
+
+    @Test
+    void shouldReturnFalseIfStudentIsNotInProgrammeEditionThatHasCourseEdition() throws Exception {
 
         //arrange
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
@@ -35,13 +88,12 @@ class US16_EnrollAStudentInACourseEditionTest {
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
         CourseEdition ce1 = new CourseEdition(c1,pe1);
-        LocalDate enrollmentDate = LocalDate.now();
         LocalDate currentDate = LocalDate.now();
         peeRepository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
         courseEditionRepository.createCourseEdition(c1,pe1);
 
         //act
-        boolean result = controller.enrollStudentInCourseEdition(st2, ce1, enrollmentDate);
+        boolean result = controller.enrollStudentInCourseEdition(st2, ce1);
 
         //assert
         assertFalse(result);
@@ -82,9 +134,25 @@ class US16_EnrollAStudentInACourseEditionTest {
 
 
         //act
-        boolean result = controller.enrollStudentInCourseEdition(st1,ce1,currentDate);
+        boolean result = controller.enrollStudentInCourseEdition(st1,ce1);
 
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseInStudentAndCourseEditionAreNull () throws Exception {
+        //arrange
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
+        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
+                ceeRepository, peeRepository, courseEditionRepository);
+
+        //act
+        boolean result = controller.enrollStudentInCourseEdition (null, null);
+
+        //assert
+        assertFalse(result);
     }
 }
