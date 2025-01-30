@@ -39,18 +39,9 @@ public class TeacherCategoryRepository {
         return Optional.empty();
     }
 
-     // Method to retrieve the list of Teacher Categories
-    public List<TeacherCategory> retrieveTeacherCategoriesList() {
+     // Method to get the list of Teacher Categories
+    public List<TeacherCategory> getTeacherCategoriesList() {
         return _teacherCategoryRepository;
     }
 
-    // Method to retrieve the list of Teacher Categories
-    public TeacherCategory getTeacherCategoryByName(int name) {
-        for (TeacherCategory category : _teacherCategoryRepository) {
-            if (category.equals(name)) {
-                return category;
-            }
-        }
-        return null;
-    }
 }

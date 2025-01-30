@@ -71,7 +71,7 @@ class TeacherCategoryRepositoryTest {
         // Arrange
         TeacherCategoryRepository tcr = new TeacherCategoryRepository();
         // Act
-        List<TeacherCategory> result = tcr.retrieveTeacherCategoriesList();
+        List<TeacherCategory> result = tcr.getTeacherCategoriesList();
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -84,7 +84,7 @@ class TeacherCategoryRepositoryTest {
         tcr.registerTeacherCategory("Assistant Professor");
         tcr.registerTeacherCategory("Coordinating Professor");
         // Act
-        List<TeacherCategory> result = tcr.retrieveTeacherCategoriesList();
+        List<TeacherCategory> result = tcr.getTeacherCategoriesList();
         // Assert
         assertEquals(2, result.size());
     }
