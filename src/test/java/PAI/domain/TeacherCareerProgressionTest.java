@@ -33,9 +33,10 @@ class TeacherCareerProgressionTest {
                 arguments("", 50, "Date cannot be empty!"),
                 arguments(" ", 50, "Date cannot be empty!"),
                 arguments(null, 50, "Date cannot be empty!"),
-                arguments("2024-12-10", 50, "Invalid date format. Use the following format: dd-MM-yyyy."),
-                arguments("10/12/2024", 50, "Invalid date format. Use the following format: dd-MM-yyyy."),
-                arguments("10 de dezembro de 2024", 50, "Invalid date format. Use the following format: dd-MM-yyyy.")
+                arguments("2024-12-10", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                arguments("10/12/2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                arguments("10 de dezembro de 2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                arguments("32-01-2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.")
         );
     }
 

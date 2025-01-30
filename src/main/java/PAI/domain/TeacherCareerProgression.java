@@ -43,7 +43,7 @@ public class TeacherCareerProgression {
         try {
             return LocalDate.parse(date, formatter);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Use the following format: dd-MM-yyyy.");
+            throw new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.");
         }
     }
 
