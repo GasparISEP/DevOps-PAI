@@ -14,7 +14,7 @@ public class US16_EnrollAStudentInACourseEdition {
     public US16_EnrollAStudentInACourseEdition(
             CourseEditionEnrollmentRepository ceeRepository, ProgrammeEditionEnrollmentRepo peeRepository, CourseEditionRepository courseEditionRepository) {
 
-        validateCourseEditonEnrollmentRepository (ceeRepository);
+        validateCourseEditionEnrollmentRepository (ceeRepository);
         validateProgrammeEditionEnrollmentRepo (peeRepository);
         validateCourseEditionRepository (courseEditionRepository);
     }
@@ -40,7 +40,7 @@ public class US16_EnrollAStudentInACourseEdition {
     }
 
     //Verify if the course edition enrollment repository is valid
-    private void validateCourseEditonEnrollmentRepository (CourseEditionEnrollmentRepository ceeRepository) throws IllegalArgumentException {
+    private void validateCourseEditionEnrollmentRepository (CourseEditionEnrollmentRepository ceeRepository) throws IllegalArgumentException {
         if (ceeRepository == null) {
             throw new IllegalArgumentException("Course edition enrollment repository cannot be null!");
         }
