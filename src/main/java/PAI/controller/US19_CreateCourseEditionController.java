@@ -25,7 +25,6 @@ public class US19_CreateCourseEditionController {
 
     public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) throws Exception {
         try {
-            CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
             _courseEditionRepository.createCourseEdition(course, programmeEdition);
             return true;
 
