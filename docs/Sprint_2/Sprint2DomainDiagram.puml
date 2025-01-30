@@ -112,7 +112,7 @@ Course "*" -- "*" Teacher : Teaches <
 Course_Edition "*" -- "1" Teacher : RUC oversees <
 Course "1" ----- "*" Course_Edition : > Is organized
 Programme "1" -left- "*" Course : > Aggregates
-"studyPlan" "0..1" -- "1" Programme : > Belongs
+"CourseInStudyPlan" "*" -- "1" Programme : > Belongs
 "studyPlan" "1" --right-- "1..*" "CourseInStudyPlan" : \n\n< Belongs\n\n
 "CourseInStudyPlan" "0..1" -- "1" Course : < Happens
 ProgrammeEdition "1" -- "*" Course_Edition : < Belongs
