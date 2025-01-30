@@ -2,30 +2,21 @@
 actor ASC
 
 ASC -> UI ++ #application : I want to add Course to a Programme
-UI --> ASC -- : courseName?
-ASC -> UI ++ #application : courseName!
-UI --> ASC -- : semester?
-ASC -> UI ++ #application : semester!
+UI --> ASC -- : Programme?
+ASC -> UI ++ #application : :P1!
+UI --> ASC -- : Course?
+ASC -> UI ++ #application : :C1!
 
-UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToAProgramme (course, semester)
+UI -> ":AddCourseToAProgrammeController" ++ #application : :P1.addCourseToAProgramme (:C1)
 
-":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (course, semester)
+":AddCourseToAProgrammeController" -> ":Programme" ++ #application : :P1.addCourseToAProgramme (:C1)
 
-":Programme" -> ":SemesterListOfAProgramme" ++ #application : addCourseToAProgramme (semester)
+":Programme" -> ":Programme"  #application : :P1.addCourseToAProgramme (:C1)
 
-":SemesterListOfAProgramme" -> ":ListOfCoursesInASemester" ++ #application : addCourseToAProgramme (course)
+":Programme" --> ":AddCourseToAProgrammeController" --: true
 
-":ListOfCoursesInASemester" -> ":ListOfCoursesInASemester" : validation
-":ListOfCoursesInASemester" -> ":ListOfCoursesInASemester" : addCourseToASemester
+":AddCourseToAProgrammeController" --> UI  --: true
 
-":ListOfCoursesInASemester" --> ":SemesterListOfAProgramme" --: :c1
-
-":SemesterListOfAProgramme" --> ":Programme" --: :c1
-
-":Programme" --> ":AddCourseToAProgrammeController" --: :c1
-
-":AddCourseToAProgrammeController" --> UI : true
-
-UI --> ASC : true
+UI --> ASC --: true
 
 @enduml
