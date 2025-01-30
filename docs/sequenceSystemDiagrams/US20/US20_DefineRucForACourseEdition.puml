@@ -1,37 +1,37 @@
 @startuml
 actor ProgrammmeDirector as PD
 participant UI #application
-participant ":Controller" as C #application
+participant ":DefineRucForCourseEditionController" as C #application
 participant ":CourseEditionRepository" as CER #application
 participant ":TeacherRepository" as TR #application
 participant  ":CourseEdition" as CE #application
 
 
-PD -> UI : I want to define the RUC for a Course Edition
-UI -> C  : defineRucForACourseEdition
+PD -> UI ++ #application: I want to define the RUC for a Course Edition
+UI -> C  : getCourseEdition()
 activate C #application
 C -> CER :getCourseEdition()
 activate CER #application
-C <-- CER : List CourseEdition
+C <-- CER : List <CourseEdition>
 deactivate CER
-UI <-- C : List CourseEdition
+UI <-- C : List <CourseEdition>
 deactivate C
-PD <-- UI : Course Edition?
-PD -> UI: ce1
-UI-> C : ce1
+PD <-- UI --: Course Edition?
+PD -> UI ++ #application: Course Edition 1
+UI-> C : getTeachers()
 activate C #application
-C -> TR :getTeacher()
+C -> TR :getTeachers()
 activate TR #application
-TR --> C :List Teacher
+TR --> C :List <Teacher>
 deactivate TR
-C --> UI :List Teacher
+C --> UI :List <Teacher>
 deactivate C
-PD <-- UI : Teacher?
-PD -> UI: t1
+PD <-- UI -- : Teacher?
+PD -> UI: Teacher 1
 activate UI #application
-UI -> C : defineRucForACourseEditionController(CourseEdition, Teacher)
+UI -> C : defineRucForCourseEdition(CourseEdition, Teacher)
 activate C #application
-C -> CER : setRucInCourseEdition(ce1,t1)
+C -> CER : setRucInACourseEdition(ce1,t1)
 activate CER #application
 CER -> CE : setRuc(t1)
 activate CE #application
@@ -43,7 +43,7 @@ deactivate CE
 C --> UI :True
 deactivate C
 UI --> PD : True
-deactivate UI
+deactivate UI
 
 
 @enduml
