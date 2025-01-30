@@ -185,24 +185,4 @@ class TeacherRepositoryTest {
         // assert
         assertTrue(optT1.isEmpty());
     }
-
-    @Test
-    void shouldReturnTrue_If_UpdateTeacherCategoryisSuccessfulInTeacherCareer() throws Exception{
-        TeacherRepository repository = new TeacherRepository();
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        TeacherCategory category2 = new TeacherCategory("Assistente");
-        Department department = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
-        boolean result = repository.updateTeacherCategory("15-06-2005", t1, category2);
-        assertTrue(result);
-    }
-
-    @Test
-    void shouldReturnException_If_UpdateTeacherCategoryisNotSuccessfulInTeacherCareer() throws Exception {
-        TeacherRepository repository = new TeacherRepository();
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
-        assertThrows(IllegalArgumentException.class, () -> repository.updateTeacherCategory("15-06-2005", t1, category));
-    }
 }

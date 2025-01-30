@@ -3,16 +3,15 @@ package PAI.controller;
 import PAI.domain.*;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-public class CourseEditionEnrollmentController {
+public class US16_EnrollAStudentInACourseEdition {
 
     private CourseEditionEnrollmentRepository _ceeRepository;
     private ProgrammeEditionEnrollmentRepo _peeRepository;
     private CourseEditionRepository _courseEditionRepository;
 
 
-    public CourseEditionEnrollmentController(
+    public US16_EnrollAStudentInACourseEdition(
             CourseEditionEnrollmentRepository ceeRepository,
             ProgrammeEditionEnrollmentRepo peeRepository,
             CourseEditionRepository courseEditionRepository) {
@@ -23,13 +22,14 @@ public class CourseEditionEnrollmentController {
     }
 
 
-    public Optional<CourseEditionEnrollment> enrollStudentInCourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) throws Exception {
+    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) throws Exception {
 
         if (!isStudentInProgrammeEdition(student, courseEdition)) {
-            return Optional.empty();
+            return false;
         }
 
-        return _ceeRepository.enrollStudentInACourseEdition(student, courseEdition, enrollmentDate);
+        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition, enrollmentDate);
+        return true;
     }
 
     // Verify if student belongs to programme edition that has the course edition passed as an attribute

@@ -4,11 +4,10 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseEditionEnrollmentControllerTest {
+class US16_EnrollAStudentInACourseEditionTest {
 
 
     @Test
@@ -19,7 +18,7 @@ class CourseEditionEnrollmentControllerTest {
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
 
-        CourseEditionEnrollmentController controller = new CourseEditionEnrollmentController(
+        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
                 ceeRepository, peeRepository, courseEditionRepository);
 
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
@@ -42,10 +41,10 @@ class CourseEditionEnrollmentControllerTest {
         courseEditionRepository.createCourseEdition(c1,pe1);
 
         //act
-        Optional<CourseEditionEnrollment> result = controller.enrollStudentInCourseEdition(st2, ce1, enrollmentDate);
+        boolean result = controller.enrollStudentInCourseEdition(st2, ce1, enrollmentDate);
 
         //assert
-        assertFalse(result.isPresent());
+        assertFalse(result);
     }
 
 
@@ -57,7 +56,7 @@ class CourseEditionEnrollmentControllerTest {
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
 
-        CourseEditionEnrollmentController controller = new CourseEditionEnrollmentController(
+        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
                 ceeRepository, peeRepository, courseEditionRepository);
 
 
@@ -83,11 +82,9 @@ class CourseEditionEnrollmentControllerTest {
 
 
         //act
-        Optional<CourseEditionEnrollment> result = controller.enrollStudentInCourseEdition(st1,ce1,currentDate);
+        boolean result = controller.enrollStudentInCourseEdition(st1,ce1,currentDate);
 
         //assert
-        assertTrue(result.isPresent());
-        CourseEditionEnrollment expectedEnrollment = new CourseEditionEnrollment(st1, ce1, currentDate);
-        assertEquals(expectedEnrollment, result.get());
+        assertTrue(result);
     }
 }
