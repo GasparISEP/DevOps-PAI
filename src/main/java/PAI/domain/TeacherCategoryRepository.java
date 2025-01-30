@@ -1,12 +1,11 @@
 package PAI.domain;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class TeacherCategoryRepository {
 
-    private List<TeacherCategory> _teacherCategoryRepository;
+    private ArrayList<TeacherCategory> _teacherCategoryRepository;
 
     //CONSTRUTOR
     public TeacherCategoryRepository () {
@@ -39,9 +38,9 @@ public class TeacherCategoryRepository {
         return Optional.empty();
     }
 
-     // Method to get the list of Teacher Categories
-    public List<TeacherCategory> getTeacherCategoriesList() {
-        return _teacherCategoryRepository;
+    // New method to list all categories(support all the operations required by the controller)
+    public List<TeacherCategory> retrieveTeacherCategoriesList() {
+        return new ArrayList<>(_teacherCategoryRepository);
     }
 
 }

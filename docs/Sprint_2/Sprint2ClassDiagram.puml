@@ -45,6 +45,9 @@ class Programme {
      + newProgrammeDirector(): boolean
      + isSameProgrammeDirector(): boolean
      +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
+     +getQuantityOfSemester()
+     +getCourseList()
+     +getQuantityOfEcts()
  }
 
 class DegreeType {
@@ -161,6 +164,9 @@ class Course {
     +Course(name: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
     +getQuantityCreditsEcts()
     +getDurationInSemester()
+    +getName()
+    +getAcronym()
+
 }
 
 class CourseRepository {
@@ -170,6 +176,27 @@ class CourseRepository {
     +isCourseRegistered (course: Course)
 }
 
+class GradeStudent {
+    -grade: double
+    -date: String
+    +knowGrade()
+}
+
+class StudyPlan {
+
+    +RegisterCourseInStudyPlan()
+
+}
+
+class CourseInStudyPlan {
+    -semester: int
+    -curricularYear: int
+    +equals()
+    +getCourse()
+    +getSemester()
+    +getCurricularYear()
+    +getProgramme()
+}
 
 Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
@@ -192,4 +219,9 @@ Department "1..*" -- "1" DepartmentRepository
 AccessMethod "1..*" -- "1" AccessMethodRepository
 TeacherCategory "1..*" -- "1" TeacherCategoryRepository
 Course "1..*" -- "1" CourseRepository
+GradeStudent "*" --> "1" Student: Belongs
+GradeStudent "*" --> "1" CourseEdition: Refers To
+StudyPlan "1" <-- "1..*" CourseInStudyPlan: Belongs
+CourseInStudyPlan "*" --> "1" Programme: Belongs
+CourseInStudyPlan "0..1" <-- "1" Course: Happens
 @enduml

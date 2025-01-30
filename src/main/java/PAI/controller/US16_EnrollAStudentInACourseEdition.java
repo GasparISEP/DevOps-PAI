@@ -22,14 +22,13 @@ public class US16_EnrollAStudentInACourseEdition {
     }
 
 
-    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) throws Exception {
+    public Optional<CourseEditionEnrollment> enrollStudentInCourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) throws Exception {
 
         if (!isStudentInProgrammeEdition(student, courseEdition)) {
-            return false;
+            return Optional.empty();
         }
 
-        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition, enrollmentDate);
-        return true;
+        return _ceeRepository.enrollStudentInACourseEdition(student, courseEdition, enrollmentDate);
     }
 
     // Verify if student belongs to programme edition that has the course edition passed as an attribute

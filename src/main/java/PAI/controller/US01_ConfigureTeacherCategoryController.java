@@ -27,6 +27,6 @@ public class US01_ConfigureTeacherCategoryController {
     }
 
     public List<TeacherCategory> listCategories() {
-        return repository.getTeacherCategoriesList();
+        return repository.retrieveTeacherCategoriesList();
     }
 }
