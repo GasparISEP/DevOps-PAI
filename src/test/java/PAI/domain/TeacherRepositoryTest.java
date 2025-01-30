@@ -187,7 +187,7 @@ class TeacherRepositoryTest {
     }
 
     @Test
-    void shouldReturnTrue_If_UpdateTeacherCategoryisSuccessful() throws Exception{
+    void shouldReturnTrue_If_UpdateTeacherCategoryisSuccessfulInTeacherCareer() throws Exception{
         TeacherRepository repository = new TeacherRepository();
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         TeacherCategory category2 = new TeacherCategory("Assistente");
@@ -198,7 +198,7 @@ class TeacherRepositoryTest {
     }
 
     @Test
-    void shouldReturnException_If_UpdateTeacherCategoryisNotSuccessful() throws Exception {
+    void shouldReturnException_If_UpdateTeacherCategoryisNotSuccessfulInTeacherCareer() throws Exception {
         TeacherRepository repository = new TeacherRepository();
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");

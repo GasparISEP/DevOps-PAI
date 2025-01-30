@@ -25,7 +25,7 @@ TCR -> TCR: find tc2
 TCR --> CTL
 deactivate TCR
 |||
-CTL -> TR: updateTeacherCategoryInTeacherCareer(date, t1, tc2)
+CTL -> TR: updateTeacherCategory(date, t1, tc2)
 activate TR
 TR -> T: updateTeacherCategory(date, tc2)
 activate T

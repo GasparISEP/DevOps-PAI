@@ -472,7 +472,7 @@ class TeacherTest {
     }
 
     @Test
-    void updateTeacherCategory_SuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_SuccessfulTest() throws Exception {
         //arrange
         String date1 = "22-12-2024";
         String date2 = "25-12-2024";
@@ -482,14 +482,14 @@ class TeacherTest {
 
         //act
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
-        boolean result = t1.updateTeacherCategory(date2, tc2);
+        boolean result = t1.updateTeacherCategoryInTeacherCareer(date2, tc2);
 
         //assert
         assertTrue(result);
     }
 
     @Test
-    void updateTeacherCategory_UnsuccessfulTestOlderDate() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_UnsuccessfulTestOlderDate() throws Exception {
         //arrange
         String date1 = "25-12-2024";
         String date2 = "12-12-2024";
@@ -501,11 +501,11 @@ class TeacherTest {
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
 
         //assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategory(date2, tc2));
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
     }
 
     @Test
-    void updateTeacherCategory_UnsuccessfulTestSameCategory() throws Exception {
+    void updateTeacherCategory_UnsuccessfulTestSameCategoryInTeacherCareer() throws Exception {
         //arrange
         String date1 = "25-12-2024";
         String date2 = "26-12-2024";
@@ -516,7 +516,7 @@ class TeacherTest {
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
 
         //assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategory(date2, tc1));
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc1));
     }
 
     @Test
@@ -530,7 +530,7 @@ class TeacherTest {
         TeacherCareerProgression tcp1 = new TeacherCareerProgression("15-04-2005", category2, 70);
 
         //act
-        t1.updateTeacherCategory("16-07-2005", category2);
+        t1.updateTeacherCategoryInTeacherCareer("16-07-2005", category2);
         TeacherCategory updatedTeacherCategory = tcp1.getCategory();
 
         //assert
