@@ -518,4 +518,22 @@ class TeacherTest {
         //assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategory(date2, tc1));
     }
+
+    @Test
+    void verifyIfTeacherCategoryWasUpdatedFromTC1toTC2() throws Exception{
+
+        //arrange
+        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
+        TeacherCategory category2 = new TeacherCategory("Professor Efectivo");
+        Department department = new Department("MAT", "Mathematics");
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", category1, 70, department);
+        TeacherCareerProgression tcp1 = new TeacherCareerProgression("15-04-2005", category2, 70);
+
+        //act
+        t1.updateTeacherCategory("16-07-2005", category2);
+        TeacherCategory updatedTeacherCategory = tcp1.getCategory();
+
+        //assert
+        assertEquals(category2.getName(), updatedTeacherCategory.getName());
+    }
 }

@@ -119,7 +119,7 @@ ProgrammeEdition "1" -- "*" Course_Edition : < Belongs
 "School Year" "1" -- "*" ProgrammeEdition : < Runs in
 Address "1" -up- "1" Student : Has <
 Teacher "1" -- "1" Address : Has >
-"Teacher Career Progression" "*" -- "1..*" "Teacher Category" : Aggregates >
+"Teacher Career Progression" "*" -- "1" "Teacher Category" : Aggregates >
 Programme "1" -- "*" Enrolment : Has >
 ProgrammeEdition "*" -- "1" Programme : < Is organized
 ProgrammeEdition "1" -- "*" EnrolmentProgrammeEdition : < Happens
@@ -134,5 +134,5 @@ Programme "1..*" -- "1  " Teacher : Programme Director oversees <
 Programme "*" -- "1" "Degree Type" : Has >
 Student "1" -- "1..*" Enrolment : Enrols >
 Enrolment "1..*" -- "1" "Access Method" : Has >
-"Teacher Career Progression" "1" -- "1..*" "Teacher" : Has <
+"Teacher Career Progression" "1..*" -- "1" "Teacher" : Has <
 @enduml
