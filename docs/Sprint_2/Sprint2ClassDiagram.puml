@@ -50,6 +50,12 @@ class Programme {
      +getQuantityOfEcts()
  }
 
+class ProgrammeEdition {
+    -_programme: Programme
+    -_schoolYear: SchoolYear
+    +getAllProgrammeEditions()
+}
+
 class DegreeType {
     - name: string
     - maxEcts: int
@@ -176,6 +182,20 @@ class CourseRepository {
     +isCourseRegistered (course: Course)
 }
 
+class CourseEdition {
+    -_programmeEdition: ProgrammeEdition
+    -_course: Course
+    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+    +Equals(objectToCompare: Object)
+}
+
+class CourseEditionRepository {
+    -_courseEditionRepository: ArrayList<CourseEdition>
+    +CourseEditionRepository()
+    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
+    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
+}
+
 class GradeStudent {
     -grade: double
     -date: String
@@ -219,9 +239,13 @@ Department "1..*" -- "1" DepartmentRepository
 AccessMethod "1..*" -- "1" AccessMethodRepository
 TeacherCategory "1..*" -- "1" TeacherCategoryRepository
 Course "1..*" -- "1" CourseRepository
+Course "1..*" --> "1..*" CourseEdition: organized in
 GradeStudent "*" --> "1" Student: Belongs
 GradeStudent "*" --> "1" CourseEdition: Refers To
 StudyPlan "1" <-- "1..*" CourseInStudyPlan: Belongs
 CourseInStudyPlan "*" --> "1" Programme: Belongs
 CourseInStudyPlan "0..1" <-- "1" Course: Happens
+CourseEdition "*" --> "1" ProgrammeEdition: Belongs To
+CourseEdition "*" -- "1" CourseEditionRepository
+
 @enduml

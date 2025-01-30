@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class US19_CreateCourseEditionController {
@@ -24,8 +24,10 @@ public class US19_CreateCourseEditionController {
     }
 
     public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) throws Exception {
-        try {
-            _courseEditionRepository.createCourseEdition(course, programmeEdition);
+        try{
+            if(!_courseEditionRepository.createCourseEdition(course, programmeEdition))
+                return false;
+        _courseEditionRepository.createCourseEdition(course, programmeEdition);
             return true;
 
         } catch (Exception exception) {
