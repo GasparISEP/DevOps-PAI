@@ -41,7 +41,7 @@ class Programme {
      -_programmeEnrolment: List<Enrolment>
      -_listOfSemesters: SemestersListOfAProgramme
      + Equals()
-     + addCourseToASemesterOfProgramme (semester: int, course: Course, courseRepository: CourseRepository)
+     + addCourseToProgramme (course: Course)
      + newProgrammeDirector(): boolean
      + isSameProgrammeDirector(): boolean
      +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
@@ -170,28 +170,13 @@ class CourseRepository {
     +isCourseRegistered (course: Course)
 }
 
-class SemestersListOfaProgramme {
-    -_semestersListOfAProgramme: ArrayList<ListOfCoursesInASemester>
-    +SemestersListOfAProgramme()
-    +addSemester (semester: Semester)
-    +getSemester (semesterNumber: int)
-}
-
-class ListOfCoursesInASemester {
-    -_listOfCoursesInTheSemester: ArrayList<Course>
-    +ListOfCoursesInASemester()
-    +getAllCourses()
-    +addCourseToASemester (course: Course)
-}
 
 Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
 Teacher "1..*" -- "*" Course: Teach
-Course "*" -- "1..*" ListOfCoursesInASemester: is associated to
-SemestersListOfaProgramme  "1..*" <-u- "1" Programme: has
-SemestersListOfaProgramme "1" -- "1..*" ListOfCoursesInASemester: has
 Programme "*" -u-> "1*" Department: Assigned to
+Course "*" -- "1" Programme : aggregates
 DegreeType "1" <-- "*" Programme
 Enrolment "*" --> "1" AccessMethod: is registered
 Programme "1"  -u-> "*" Enrolment: has
