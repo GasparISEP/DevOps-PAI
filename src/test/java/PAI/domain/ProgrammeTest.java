@@ -479,6 +479,41 @@ class ProgrammeTest {
         assertThrows(Exception.class, () -> lei.addCourseToAProgramme(course1));
     }
 
+    @Test
+    void shouldIncreaseCourseListSizeWhenCourseIsAdded() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        Course course1 = courseRepository.getAllCourses().get(0);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        int initialSize = lei.getCourseList().size();
+        // act
+        lei.addCourseToAProgramme(course1);
+        // assert
+        assertEquals(initialSize + 1, lei.getCourseList().size());
+    }
+
+    @Test
+    void shouldContainAddedCourseInCourseList() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        Course course1 = courseRepository.getAllCourses().get(0);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        // act
+        lei.addCourseToAProgramme(course1);
+        // assert
+        assertTrue(lei.getCourseList().contains(course1));
+    }
+
     //US17
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInProgramme() throws Exception {
