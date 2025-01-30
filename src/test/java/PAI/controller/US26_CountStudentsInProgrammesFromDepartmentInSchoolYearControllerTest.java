@@ -25,8 +25,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
@@ -76,8 +76,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
@@ -129,8 +129,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
@@ -184,8 +184,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
@@ -235,8 +235,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
@@ -286,8 +286,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
@@ -332,8 +332,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
@@ -381,8 +381,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, courseRepository);
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
         ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);

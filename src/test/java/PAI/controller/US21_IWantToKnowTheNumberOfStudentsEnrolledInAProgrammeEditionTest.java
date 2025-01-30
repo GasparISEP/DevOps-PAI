@@ -37,7 +37,7 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
         LocalDate currentDate = LocalDate.now();
 

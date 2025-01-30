@@ -43,8 +43,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Enrolment enrolment = new Enrolment(student, am1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
+        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
         if (!programme1.isStudentEnrolled(student)) {
             programme1.enrolStudentInProgramme(student, am1, amr);
         }
@@ -89,7 +89,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
 
         // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
@@ -123,7 +123,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
@@ -166,8 +166,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Enrolment enrolment = new Enrolment(student, am1);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
+        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
         if (!programme1.isStudentEnrolled(student)) {
             programme1.enrolStudentInProgramme(student, am1, amr);
         }
@@ -208,7 +208,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Computer Science", "CS", 25, 6, master, department, teacher, courseRepository);
+        Programme programme = new Programme("Computer Science", "CS", 25, 6, master, department, teacher);
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", address);
         studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", address);
         Enrolment enrolment = new Enrolment(student, am1);
@@ -251,7 +251,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme1, schoolYear);
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
 
@@ -306,7 +306,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme1, schoolYear);
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
@@ -335,8 +335,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Porto", "Portugal", "20-12-2010", new TeacherCategory("Assistant Professor"), 100, department1);
         ProgrammeList programmeList = new ProgrammeList();
         CourseRepository courseRepository = new CourseRepository();
-        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        programmeList.registerProgramme("Computer Science", "CS", 26, 6, master, department1, teacher1, courseRepository);
+        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
+        programmeList.registerProgramme("Computer Science", "CS", 26, 6, master, department1, teacher1);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         null,
@@ -353,9 +353,9 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Assert
         assertNotNull(programmes, "The list of programmes should not be null.");
         assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
-        assertTrue(programmes.contains(new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository)),
+        assertTrue(programmes.contains(new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1)),
                 "The list should contain the programme 'Computer Science Engineering'.");
-        assertTrue(programmes.contains(new Programme("Computer Science", "CS", 26, 6, master, department1, teacher1, courseRepository)),
+        assertTrue(programmes.contains(new Programme("Computer Science", "CS", 26, 6, master, department1, teacher1)),
                 "The list should contain the programme 'Computer Science'.");
 
     }

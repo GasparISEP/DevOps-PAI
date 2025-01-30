@@ -3,7 +3,6 @@ package PAI.controller;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +27,7 @@ class US19CreateCourseEditionControllerTest {
                                 "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                                 new Department("CSE", "Computer Science Engineer")
-                        ), courseRepository
+                        )
                 ),
                 new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
         );
@@ -56,7 +55,7 @@ class US19CreateCourseEditionControllerTest {
                                 "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                                 new Department("CSE", "Computer Science Engineer")
-                        ), courseRepository
+                        )
                 ),
                 new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
         );
@@ -116,7 +115,7 @@ class US19CreateCourseEditionControllerTest {
                                 "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                                 new Department("CSE", "Computer Science Engineer")
-                        ), courseRepository
+                        )
                 ),
                 new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
         );
@@ -140,7 +139,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         Programme programme1 = new Programme("Computer Science", "CC", 20, 6,
                 new DegreeType("Master", 240),
@@ -150,7 +149,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
@@ -182,7 +181,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         Programme programme1 = new Programme("Computer Science", "CC", 20, 6,
                 new DegreeType("Master", 240),
@@ -192,7 +191,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
@@ -220,7 +219,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         Programme programme1 = new Programme("Computer Science", "CC", 20, 6,
                 new DegreeType("Master", 240),
@@ -230,7 +229,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1,schoolYear);
@@ -266,7 +265,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         programme.addCourseToAProgramme(c1);
         programme.addCourseToAProgramme(c2);
@@ -304,7 +303,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
 
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -338,7 +337,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         programme.addCourseToAProgramme(c1);
         programme.addCourseToAProgramme(c2);
@@ -376,7 +375,7 @@ class US19CreateCourseEditionControllerTest {
                         "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
                         "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                         new Department("CSE", "Computer Science Engineer")
-                ), courseRepository
+                )
         );
         programme.addCourseToAProgramme(c1);
 

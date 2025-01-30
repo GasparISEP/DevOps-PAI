@@ -8,9 +8,6 @@ public class US03_AddCourseToProgrammeController {
     private final Programme programme;
     
     public US03_AddCourseToProgrammeController(Programme programme) {
-        if (programme == null) {
-            throw new IllegalArgumentException("Programme cannot be null.");
-        }
         this.programme = programme;
     }
 

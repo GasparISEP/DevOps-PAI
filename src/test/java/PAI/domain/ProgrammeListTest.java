@@ -16,11 +16,11 @@ class ProgrammeListTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
         CourseRepository courseRepository = new CourseRepository();
         //act + assert
-        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
 
         // Act
-        boolean result = list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        boolean result = list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
         // Asssert
         assertTrue(result);
@@ -38,8 +38,8 @@ class ProgrammeListTest {
         CourseRepository courseRepository = new CourseRepository();
 
         // Act
-        list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
-        boolean result = list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        boolean result = list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
             // Asssert
         assertFalse(result);
@@ -56,7 +56,7 @@ class ProgrammeListTest {
         Teacher teacher1 = new Teacher("ABC", "John Travis", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         CourseRepository courseRepository = new CourseRepository();
         //act + assert
-        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
         // Act
         boolean result = list.changeProgrammeDirector(CE,teacher1);
@@ -76,7 +76,7 @@ class ProgrammeListTest {
         Teacher teacher1 = new Teacher("ABC", "John Travis", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
         CourseRepository courseRepository = new CourseRepository();
         //act + assert
-        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
         // Act
         boolean result = list.changeProgrammeDirector(CE,null);

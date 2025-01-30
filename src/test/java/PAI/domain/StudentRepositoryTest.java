@@ -81,7 +81,7 @@ class StudentRepositoryTest {
         Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
                 new TeacherCategory("Professor"), 100, department);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
         programme.enrolStudentInProgramme(student, am1, amr);
         StudentRepository repository = new StudentRepository();
 
@@ -106,7 +106,7 @@ class StudentRepositoryTest {
         Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
                 new TeacherCategory("Professor"), 100, department);
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
         StudentRepository repository = new StudentRepository();
 
         // Act

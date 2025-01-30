@@ -17,7 +17,7 @@ class CourseInStudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
@@ -48,7 +48,7 @@ class CourseInStudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
 
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);

@@ -32,7 +32,7 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master, CSE, teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master, CSE, teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
@@ -63,7 +63,7 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
@@ -98,14 +98,14 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1,pE1);
 
         //create a second Course Edition with the same Professor, department, degreetype, teachercategory and teacher
-        Programme p2 = new Programme("Computer Science", "CS", 20,6, master, CSE, teacher, courseRepository);
+        Programme p2 = new Programme("Computer Science", "CS", 20,6, master, CSE, teacher);
         Course c2 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY2 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2024");
         ProgrammeEdition pE2 = new ProgrammeEdition (p2, sY2);
@@ -140,14 +140,14 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1,pE1);
 
         //create a second Course Edition with the same Professor, department, degreetype, teachercategory and teacher
-        Programme p2 = new Programme("Computer Science", "CS", 20,6, master, CSE, teacher, courseRepository);
+        Programme p2 = new Programme("Computer Science", "CS", 20,6, master, CSE, teacher);
         Course c2 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY2 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2024");
         ProgrammeEdition pE2 = new ProgrammeEdition (p2, sY2);
@@ -182,14 +182,14 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6, master, CSE, teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1,pE1);
 
         //create a second Course Edition with the same Professor, department, degreetype, teachercategory and teacher
-        Programme p2 = new Programme("Computer Science", "CS", 20,6, master, CSE, teacher, courseRepository);
+        Programme p2 = new Programme("Computer Science", "CS", 20,6, master, CSE, teacher);
         Course c2 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY2 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2024");
         ProgrammeEdition pE2 = new ProgrammeEdition (p2, sY2);
