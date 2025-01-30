@@ -1,0 +1,210 @@
+@startuml
+!pragma layout smetana
+'left to right direction
+
+class Department {
+    -_acronym:String
+    -_name:String
+    +Department(departmentAcronym: String, departmentName: String)
+    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
+    +hasSameAcronym(department: Department)
+    +hasSameName(department: Department)
+    +changeDirector(furtherDirector: Teacher)
+}
+
+class DepartmentRepository {
+    -_departments: List<Department>
+    +departmentRepository()
+    +registerDepartment(departmentAcronym: String, departmentName: String)
+    +retrieveDepartmentsList()
+}
+
+class TeacherCategory {
+    -_name:String
+    + TeacherCategory (name:String)
+}
+
+
+class TeacherCategoryRepository {
+    -_teacherCategoryRepository:ArrayList<TeacherCategory>
+    +TeacherCategoryRepository()
+    +registerTeacherCategory (teacherCategoryName: String)
+    +isTeacherCategoryRegistered(teacherCategory: TeacherCategory)
+    +retrieveTeacherCategoriesList()
+}
+
+class Programme {
+     - name: string
+     - acronym: string
+     - quantityOfEcts: int
+     - quantityOfSemesters: int
+     -_programmeEnrolment: List<Enrolment>
+     -_listOfSemesters: SemestersListOfAProgramme
+     + Equals()
+     + addCourseToASemesterOfProgramme (semester: int, course: Course, courseRepository: CourseRepository)
+     + newProgrammeDirector(): boolean
+     + isSameProgrammeDirector(): boolean
+     +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
+ }
+
+class DegreeType {
+    - name: string
+    - maxEcts: int
+    + nameIsInvalid(): boolean
+    + maxEctsIsInvalid(): boolean
+}
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     -_academicBackground:String
+     -_address:Address
+     -_department:Department
+     -_teacherCareerProgression:List<TeacherCareerProgression>
+     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+     academicBackground: String, street: String, postalCode: String, location: String, country: String,
+     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+     +hasSameAcronym(teacher: Teacher)
+     +hasSameNif(teacher: Teacher)
+     +isInDepartment(department: Department)
+     +hasThisNIF(NIF: String)
+     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
+     +updateTeacherCategory(date: String, teacherCategory: TeacherCategory)
+}
+
+class TeacherCareerProgression {
+    -_date: LocalDate
+    -_category: TeacherCategory
+    -_workingPercentage: int
+    +TeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
+    +getCategory()
+    +getWorkingPercentage()
+    +isDateAfter(tcp: TeacherCareerProgression)
+}
+
+class TeacherRepository {
+    -_teachers: List<Teacher>
+    +teacherRepository()
+    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+                          address: Address, teacherCategory: TeacherCategory, department: Department)
+    +getTeacherByNIF(NIF: String)
+    +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
+}
+
+
+class SchoolYear {
+    -_description:String
+    -_startData:String
+    -_endDate:String
+    +SchoolYear(description: String, StartDate: String, EndDate: String)
+    +isSameSchoolYear(otherSchoolYear: SchoolYear)
+}
+
+class SchoolYearRepository {
+    -_schoolYearList: List<SchoolYear>
+    +schoolYearRepository()
+    +addSchoolYear(description: String, StartDate: String, EndDate: String)
+}
+
+class Enrolment {
+    -_student: Student
+    -_accessMethod: AccessMethod
+    +Enrolment(student: Student, accessMethod: AccessMethod)
+    +isSameStudent(student: Student)
+}
+
+class Student {
+    -_uniqueNumber:int
+    -_name:String
+    -_NIF:String
+    -_phone:String
+    -_email:String
+    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +isStudentRepeated(students: List<Student>)
+    +hasSameUniqueNumber(Student student)
+}
+
+class StudentRepository {
+    -_students: List<Student>
+    +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+}
+
+class AccessMethod {
+    -_name:String
+    +AccessMethod(name:String)
+}
+
+class AccessMethodRepository {
+    -_accessMethodRepository:ArrayList<AccessMethod>
+    +AccessMethodRepository()
+    +registerAccessMethod (accessMethodName: String)
+    +isAccessMethodRegistered(accessMethod: AccessMethod)
+}
+
+class Address {
+     -_street:String
+     -_postalCode: String
+     -_location: String
+     -_country: String
+     +Address(street: String, postalCode: String, location: String, country: String)
+}
+
+class Course {
+    -_name: String
+    -_acronym: String
+    -_quantityCreditsEcts: double
+    -_durationCourseInSemester: int
+
+    +Course(name: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
+    +getQuantityCreditsEcts()
+    +getDurationInSemester()
+}
+
+class CourseRepository {
+    -_courseRepository:ArrayList<Course>
+    +CourseRepository()
+    +registerCourse (courseName: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
+    +isCourseRegistered (course: Course)
+}
+
+class SemestersListOfaProgramme {
+    -_semestersListOfAProgramme: ArrayList<ListOfCoursesInASemester>
+    +SemestersListOfAProgramme()
+    +addSemester (semester: Semester)
+    +getSemester (semesterNumber: int)
+}
+
+class ListOfCoursesInASemester {
+    -_listOfCoursesInTheSemester: ArrayList<Course>
+    +ListOfCoursesInASemester()
+    +getAllCourses()
+    +addCourseToASemester (course: Course)
+}
+
+Teacher "1" --> "1" Address: has
+Student "1" --> "1" Address: has
+Programme "1..*" --> "1" Teacher : has a Programme Director
+Teacher "1..*" -- "*" Course: Teach
+Course "*" -- "1..*" ListOfCoursesInASemester: is associated to
+SemestersListOfaProgramme  "1..*" <-u- "1" Programme: has
+SemestersListOfaProgramme "1" -- "1..*" ListOfCoursesInASemester: has
+Programme "*" -u-> "1*" Department: Assigned to
+DegreeType "1" <-- "*" Programme
+Enrolment "*" --> "1" AccessMethod: is registered
+Programme "1"  -u-> "*" Enrolment: has
+Student "1" <-- "*" Enrolment: enrolls
+StudentRepository "1" --> "*" Student
+SchoolYearRepository "1" --> "*" SchoolYear
+Teacher "1" -r- "1" Department: is Department Director
+Teacher "1..*" -- "1" Department: aggregates
+Teacher "1..*" -- "1" TeacherRepository: has
+Teacher "1" --> "1..*" TeacherCareerProgression
+TeacherCareerProgression "*" --> "1"TeacherCategory: Aggregates
+Department "1..*" -- "1" DepartmentRepository
+AccessMethod "1..*" -- "1" AccessMethodRepository
+TeacherCategory "1..*" -- "1" TeacherCategoryRepository
+Course "1..*" -- "1" CourseRepository
+@enduml
