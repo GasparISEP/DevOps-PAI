@@ -2,8 +2,6 @@ package PAI.controller;
 
 import PAI.domain.*;
 
-import java.util.Optional;
-
 public class CreateProgrammeEditionForCurrentSchoolYearController {
 
     private final ProgrammeEditionRepository _programmeEditionRepository;
@@ -19,7 +17,7 @@ public class CreateProgrammeEditionForCurrentSchoolYearController {
 
         if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
 
-        SchoolYear currentSchoolYear =_schoolYearRepository.getLatestSchoolYear();
+        SchoolYear currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
         if(currentSchoolYear == null) return false;
 
         boolean isCreated = _programmeEditionRepository.createProgrammeEdition(programme, currentSchoolYear);
