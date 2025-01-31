@@ -1,0 +1,102 @@
+@startuml
+title US17 - enroll a student in a programme in a given school year and in a set of courses
+actor ASC
+participant ":UI" as UI
+ASC -> UI : I want to enroll a student in a programme in a given school year and in a set of courses.
+activate UI
+UI --> ASC : What student?
+ASC -> UI : Enter the student!
+participant ":Controller" as Controller
+UI -> Controller : getAllProgrammes()
+activate Controller
+participant ":ProgrammeList" as ProgrammeList
+Controller -> ProgrammeList : getAllProgrammes()
+activate ProgrammeList
+ProgrammeList --> Controller : listOfProgrammes
+deactivate ProgrammeList
+Controller --> UI : listOfProgrammes
+deactivate Controller
+UI --> ASC : Here is the list of Programmes! What programme do you want?
+ASC -> UI : Enter the programme!
+participant ":SchoolYearRepository" as SchoolYearRepository
+UI -> Controller : getAllSchoolYears()
+activate Controller
+Controller -> SchoolYearRepository : getAllSchoolYears()
+activate SchoolYearRepository
+SchoolYearRepository --> Controller : listOfSchoolYears
+deactivate SchoolYearRepository
+Controller --> UI : listOfSchoolYears
+deactivate Controller
+UI --> ASC : Here is the list SchoolYears! What schoolYear do you want?
+ASC -> UI : Enter the schoolYear!
+UI --> ASC : Sure?
+ASC -> UI : Yes!
+UI -> Controller : enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
+activate Controller
+participant ":Programme" as Programme
+Controller -> Programme : isStudentEnrolled(student)
+activate Programme
+participant "st[i]:Enrollment" as Enrollment
+loop for each "st[i]:Enrollment" as Student
+Programme -> Enrollment : Student: findStudentInEnrollments(student)
+end
+deactivate Enrollment
+Programme --> Controller : True
+deactivate Programme
+participant ":ProgrammeEditionRepository" as ProgrammeEditionRepository
+Controller -> ProgrammeEditionRepository : findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear)
+activate ProgrammeEditionRepository
+participant ":ProgrammeEdition" as ProgrammeEdition
+loop for each "pe[i]:ProgrammeEditionRepository" as ProgrammeEditionRepository
+ProgrammeEditionRepository -> ProgrammeEdition : programmeEdition : findStudentInEnrollments(programme)
+ProgrammeEditionRepository -> ProgrammeEdition : programmeEdition : findStudentInEnrollments(schoolYear)
+end
+ProgrammeEditionRepository --> Controller :  ProgrammeEdition(pe1)
+deactivate ProgrammeEditionRepository
+participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
+Controller -> ProgrammeEditionEnrollmentRepo : isStudentEnrolledInThisProgrammeEdition(student, pe1)
+activate ProgrammeEditionEnrollmentRepo
+participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
+loop for each "pee[i]:ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment : programmeEdition : findStudentInEnrollments(programme)
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment : programmeEdition : findStudentInEnrollments(schoolYear)
+end
+ProgrammeEditionEnrollmentRepo --> Controller : False
+Controller -> ProgrammeEditionEnrollmentRepo : enrollStudentInProgrammeEdition(student, pe1, LocalDate)
+create "pee1:ProgrammeEditionEnrollment"
+ProgrammeEditionEnrollmentRepo -> "pee1:ProgrammeEditionEnrollment" : createProgrammeEditionEnrollment(student, pe1, LocalDate)
+activate "pee1:ProgrammeEditionEnrollment"
+"pee1:ProgrammeEditionEnrollment" --> ProgrammeEditionEnrollmentRepo : programmeEditionEnrollmentCreated (pee1)
+deactivate "pee1:ProgrammeEditionEnrollment"
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentRepo : checkIfThisEnrollmentAlreadyExists(pee1)
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentRepo : add(pee1)
+ProgrammeEditionEnrollmentRepo --> Controller : True
+deactivate ProgrammeEditionEnrollmentRepo
+participant ":CourseEditionRepository" as CourseEditionRepository
+Controller -> CourseEditionRepository : findCourseEditionsByProgrammeEdition(pee1)
+participant ":CourseEdition" as CourseEdition
+
+participant ":CourseEdition" as CourseEdition
+activate CourseEditionRepository
+loop for each "cee[i]:CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
+CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
+CourseEditionRepository -> CourseEditionRepository :  add(ce1)
+end
+participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
+CourseEditionRepository --> CourseEditionEnrollmentRepository : ListOfCourseEditions
+deactivate CourseEditionRepository
+participant ":CourseEditionEnrollment" as CourseEditionEnrollment
+activate CourseEditionEnrollmentRepository
+loop for each "cee[i]:CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
+CourseEditionEnrollmentRepository -> CourseEditionEnrollment : findByStudentAndEdition(student, ce[i])
+CourseEditionEnrollmentRepository -> CourseEditionEnrollment : isPresent()
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository : enrollStudentInACourseEdition(student, ce1, LocalDate)
+end
+CourseEditionEnrollmentRepository --> Controller : True
+deactivate CourseEditionEnrollmentRepository
+Controller --> UI : True
+deactivate Controller
+UI --> ASC: OK!
+deactivate UI
+
+@enduml
