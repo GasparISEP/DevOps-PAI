@@ -22,7 +22,6 @@ class CourseEditionEnrollmentRepositoryTest {
         DegreeType master = new DegreeType("Master",30);
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
@@ -87,7 +86,6 @@ class CourseEditionEnrollmentRepositoryTest {
         DegreeType master = new DegreeType("Master",30);
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
@@ -113,7 +111,6 @@ class CourseEditionEnrollmentRepositoryTest {
         DegreeType master = new DegreeType("Master",30);
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
@@ -123,8 +120,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", new Address("Rua A", "4000-001", "Porto", "Portugal"));
         repository.enrollStudentInACourseEdition(student1, ce1, currentDate);
 
-        //act
-        //assert
+        //act & assert
         assertTrue(repository.isStudentEnrolledInCourseEdition(student1, ce1));
     }
 
