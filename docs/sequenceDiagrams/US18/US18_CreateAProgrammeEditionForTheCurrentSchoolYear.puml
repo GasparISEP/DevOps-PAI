@@ -2,7 +2,7 @@
 
 autonumber
 
-participant "UI"
+participant ":UI" as UI
 participant ":CreateAProgrammeEditionInTheCurrentSchoolYearController" as CPEC
 participant ":SchoolYearRepo" as SYR
 'participant ":SchoolYear"
