@@ -282,6 +282,14 @@ class CourseInStudyPlan {
     +getProgramme()
 }
 
+class ProgrammeEditionRepository {
+    -_programmeEditionRepository: ArrayList<ProgrammeEdition>
+    +ProgrammeEditionRepository()
+    +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
+    +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
+    +getAllProgrammeEditions()
+}
+
 Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
@@ -317,4 +325,5 @@ CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
 ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < Happens
 ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
 ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
+ProgrammeEdition "1..*" -- "1" ProgrammeEditionRepository
 @enduml
