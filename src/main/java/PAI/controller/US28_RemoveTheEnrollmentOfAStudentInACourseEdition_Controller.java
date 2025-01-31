@@ -11,6 +11,7 @@ public class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
         this.courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
     }
     public boolean removeStudentEnrolment(Student student, CourseEdition courseEdition) {
-        return courseEditionEnrollmentRepository.removeEnrollment(student, courseEdition);
+        courseEditionEnrollmentRepository.removeEnrollment(student, courseEdition);
+        return true;
     }
 }
