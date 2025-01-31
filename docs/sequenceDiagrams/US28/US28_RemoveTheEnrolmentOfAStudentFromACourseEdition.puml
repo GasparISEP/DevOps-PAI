@@ -1,0 +1,32 @@
+@startuml
+
+title US28: Remove the enrollment of a student in a course edition
+
+actor ASC #Orange/White
+participant UI #DeepPink/White
+participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEdition" as Controller #Violet/White
+participant ":CourseEditionEnrollmentRepository" as Repository #Cyan/White
+
+ASC -> UI : I want to remove the enrollment of a student in a course edition
+UI --> ASC : What student?
+ASC -> UI : Student!
+UI --> ASC : What course edition?
+ASC -> UI : Course edition!
+
+UI -> Controller : removeStudentEnrolment(student, courseEdition)
+activate UI
+
+Controller -> Repository : removeEnrollment(student, courseEdition)
+activate Repository
+
+Repository -> Repository : findByStudentAndEdition(student, courseEdition)
+Repository -> Repository : remove(enrollment)
+Repository --> Controller : return true
+
+deactivate Repository
+
+Controller --> UI : true (Enrollment removed)
+deactivate UI
+UI --> ASC : Enrollment removed
+
+@enduml
