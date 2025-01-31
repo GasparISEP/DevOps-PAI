@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class US19CreateCourseEditionControllerTest {
+class US19_CreateCourseEditionControllerTest {
 
     @Test
     void shouldReturnTrueIfCourseEditionIsCreated() throws Exception {

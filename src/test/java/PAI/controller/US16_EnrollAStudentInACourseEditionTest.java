@@ -18,7 +18,7 @@ class US16_EnrollAStudentInACourseEditionTest {
     }
 
     @Test
-    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryIsNull (){
+    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
@@ -83,6 +83,7 @@ class US16_EnrollAStudentInACourseEditionTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
+        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("SWITCH DEV","SDV",30,1,dt1,d1,teacher1);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
@@ -120,6 +121,7 @@ class US16_EnrollAStudentInACourseEditionTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
+        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("SWITCH DEV","SDV",30,1,dt1,d1,teacher1);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
