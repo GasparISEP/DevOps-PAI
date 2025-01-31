@@ -67,6 +67,11 @@ public class SchoolYear {
         return endDate;
     }
 
+    public LocalDate getStartDate() {
+        LocalDate startDate = _startDate;
+        return startDate;
+    }
+
     //US17
     @Override
     public boolean equals(Object o) {

@@ -184,6 +184,20 @@ class SchoolYearTest {
         // Assert
         assertEquals(endDate, lc);
     }
+
+    @Test
+    void shouldReturnStartDateFromSchoolYear() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate lc = LocalDate.parse("23-11-2024", formatter);
+
+        // Act
+        LocalDate startDate = sy1.getStartDate();
+
+        // Assert
+        assertEquals(startDate, lc);
+    }
     //US17
     @Test
     void shouldReturnTrueForEqualSchoolYears() throws Exception {

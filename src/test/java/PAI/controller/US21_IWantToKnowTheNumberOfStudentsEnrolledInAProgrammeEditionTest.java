@@ -10,22 +10,50 @@ import static org.junit.jupiter.api.Assertions.*;
 class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
 
     @Test
-    void NumberOfStudentsEnrolled(){
+    void shouldCreateControllerWhenRepositoriesAreValid(){
         // Arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+
 
         // Act
-        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition NumberOfStudents = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo);
+        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controller =
+                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo, programmeEditionRepository);
 
         // Assert
-        assertNotNull(NumberOfStudents);
+        assertNotNull(controller);
 
     }
 
     @Test
-    void NumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
+    void shouldThrowExceptionWhenProgrammeEditionRepositoryIsNull(){
         // Arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo, null));
+
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionEnrollmentRepositoryIsNull(){
+        // Arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(null, programmeEditionRepository));
+
+    }
+
+    @Test
+    void shouldReturnCorrectNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
+        // Arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
 
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
@@ -44,7 +72,7 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
         int NumberOfStudentsEnrolledInAProgrammeEdition = 1;
 
         // Act
-        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controlador1 = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo);
+        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controlador1 = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo, programmeEditionRepository);
 
         programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
         int result = controlador1.IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
