@@ -11,7 +11,6 @@ public class CreateProgrammeEditionForCurrentSchoolYearController {
 
     public CreateProgrammeEditionForCurrentSchoolYearController (ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository) {
 
-
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
     }
