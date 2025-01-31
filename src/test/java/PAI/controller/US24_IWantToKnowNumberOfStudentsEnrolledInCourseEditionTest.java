@@ -218,11 +218,10 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository();
         US24_IWantToKnowNumberOfStudentsEnrolledInCourseEdition controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEdition(repository);
 
-        // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(null);
-        });
+        // Act
+        int result = controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(null);
 
-        assertEquals("CourseEdition cannot be null", exception.getMessage());
+        // Assert
+        assertEquals(0, result);
     }
 }

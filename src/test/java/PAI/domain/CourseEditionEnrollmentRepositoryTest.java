@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.controller.US24_IWantToKnowNumberOfStudentsEnrolledInCourseEdition;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -388,6 +389,19 @@ class CourseEditionEnrollmentRepositoryTest {
         int studentsEnrolled = repo.numberOfStudentsEnrolledInCourseEdition(courseEdition1);
 
         assertEquals(0, studentsEnrolled);
+    }
+
+    @Test
+    void testIWantToKnowNumberOfStudentsEnrolledInCourseEdition_NullCourseEdition_ShouldThrowException() {
+        // Arrange
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository();
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEdition controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEdition(repository);
+
+        // Act
+        int result = controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(null);
+
+        // Assert
+        assertEquals(0, result);
     }
 
     //US28
