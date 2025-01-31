@@ -8,7 +8,6 @@ participant "t1:Teacher" as Teacher #lightyellow
 participant ":TeacherCareerProgression" as TCP #lightpink
 participant "tcp1:TeacherCareerProgression" as TCP1 #lightpink
 
-
 HRC -> Test : I want to update Teacher's working percentage \n(NIF, workingPercentage, date)
 activate Test
 Test -> Controller : getTeacherByNIF(NIF)
@@ -16,20 +15,16 @@ activate Controller
 
 Controller -> TR : getTeacherByNIF(NIF)
 activate TR
-ref over TR, Teacher
-    Loop t[i] in TR
-    hasThisNIF()
-end ref
-activate Teacher
-Teacher --> TR : True!
-deactivate Teacher
+
+loop for each Teacher in TR
+    TR -> Teacher : hasThisNIF(NIF)
+    activate Teacher
+    Teacher --> TR : True!
+    deactivate Teacher
+end
+
 TR --> Controller : t1!
 deactivate TR
-
-deactivate TCP
-deactivate TR
-
-deactivate Teacher
 
 Controller -> Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
 activate Teacher
@@ -54,4 +49,5 @@ Controller --> Test : Changed Working Percentage!
 deactivate Controller
 Test --> HRC : Success
 deactivate Test
+
 @enduml
