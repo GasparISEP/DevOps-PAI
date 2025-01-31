@@ -1,20 +1,27 @@
 @startuml
 actor ASC as Admin
+
+participant ":UI" as UI #lightblue
+participant ":Controller" as C #lightblue
+participant ":Programme" as P #lightblue
+participant ":Study Plan" as SP #lightblue
+participant ":Course In Study Plan" as CISP #lightblue
+
 create ":UI" as UI #lightblue
 
-Admin -> UI : I Want to register a Study Plan (semester, curricularYears)
+Admin -> UI : I Want to register a Study Plan (programme, course, semester, curricularYears)
 activate UI
 create ":Controller" as C #lightblue
-UI -> C : registerAStudyPlan(semester, curricularYears)
+UI -> C : registerAStudyPlan(programme, course, semester, curricularYears)
 activate C
-create ":ProgrammeList" as PL #lightblue
-C -> PL : registerAStudyPlan(semester, curricularYear)
-activate PL
+create ":Programme" as P #lightblue
+C -> P : registerCourseInStudyPlan(programme, course, semester, curricularYear)
+activate P
 create ":Study Plan" as SP #lightblue
-PL -> SP : New Study Plan(semester, curricularYear)
+P -> SP : New Study Plan(programme, course, semester, curricularYear)
 activate SP
 create ":Course In Study Plan" as CISP #lightblue
-SP -> CISP : Create Course In Study Plan(courseList, semester, curricularYear)
+SP -> CISP : Create Course In Study Plan(programme, course, semester, curricularYear)
 activate CISP
 CISP -> CISP : Validate course
 CISP -> CISP : Validate semester
@@ -23,10 +30,10 @@ CISP -> SP : Add Course In Study Plan to StudyPlan
 deactivate CISP
 SP -> SP : Check Course In Study Plan for duplicates
 SP -> SP : Register Course in Study Plan in StudyPlan
-SP --> PL : Done!
+SP --> P : Done!
 deactivate SP
-PL --> C : Done!
-deactivate PL
+P --> C : Done!
+deactivate P
 C --> UI : Done!
 deactivate C
 UI --> Admin : Done!
