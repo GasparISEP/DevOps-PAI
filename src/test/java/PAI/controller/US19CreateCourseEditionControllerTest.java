@@ -15,7 +15,6 @@ class US19CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
         Course course = new Course("Informatics", "INF", 6, 1);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
@@ -44,7 +43,6 @@ class US19CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new Programme("Computer Engineering", "CE", 20, 6,
@@ -72,7 +70,6 @@ class US19CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
         Course course = new Course("Informatics", "INF", 6, 1);
 
@@ -102,7 +99,6 @@ class US19CreateCourseEditionControllerTest {
         //Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
         List<ProgrammeEdition> allEditions = per1.getAllProgrammeEditions();
@@ -129,7 +125,6 @@ class US19CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
@@ -171,7 +166,6 @@ class US19CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
@@ -195,11 +189,10 @@ class US19CreateCourseEditionControllerTest {
         );
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
-        List<ProgrammeEdition> allEditions = programmeEditionRepository.getAllProgrammeEditions();
-
         programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
 
         // Act
+        List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
         // Assert
         assertEquals(true, allEditions.contains (programmeEdition1));
     }
@@ -209,7 +202,6 @@ class US19CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseRepository courseRepository = new CourseRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
@@ -233,11 +225,10 @@ class US19CreateCourseEditionControllerTest {
         );
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1,schoolYear);
-        List<ProgrammeEdition> allEditions = programmeEditionRepository.getAllProgrammeEditions();
-
         programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
 
         // Act
+        List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
         // Assert
         assertEquals(false, allEditions.contains (programmeEdition2));
     }
@@ -245,12 +236,11 @@ class US19CreateCourseEditionControllerTest {
 
 
     @Test
-    void shouldReturnSizeOfCourseListInProgrammeByProgrammeEditionForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
-
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
@@ -283,12 +273,11 @@ class US19CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeByProgrammeEditionForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
-
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
@@ -317,7 +306,7 @@ class US19CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseListHasCourseInProgrammeByProgrammeEditionForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
@@ -355,7 +344,7 @@ class US19CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeByProgrammeEditionForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
