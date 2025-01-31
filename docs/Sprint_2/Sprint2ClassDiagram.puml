@@ -66,12 +66,12 @@ class ProgrammeEditionEnrollment {
 }
 
 class ProgrammeEditionEnrollmentRepo {
-    -_programmeEditionEnrollments: List<CourseEditionEnrollment>
-    +ProgrammeEditionEnrollmentRepository ()
+    -_programmeEditionEnrollments: List<ProgrammeEditionEnrollment>
+    +ProgrammeEditionEnrollmentRepo()
     +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,
     localDate: LocalDate)
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
-    +checkIfThisEnrollmentAlreadyExists(ProgrammeEditionEnrollment programmeEditionEnrollment)
+    +checkIfThisEnrollmentAlreadyExists(programmeEditionEnrollment: ProgrammeEditionEnrollment)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
     +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
 }
