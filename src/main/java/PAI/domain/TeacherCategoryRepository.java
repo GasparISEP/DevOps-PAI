@@ -38,8 +38,8 @@ public class TeacherCategoryRepository {
         return Optional.empty();
     }
 
-    // New method to list all categories(support all the operations required by the controller)
-    public List<TeacherCategory> retrieveTeacherCategoriesList() {
+    // Method to get the list of Teacher Categories
+    public List<TeacherCategory> getTeacherCategoriesList() {
         return new ArrayList<>(_teacherCategoryRepository);
     }
 

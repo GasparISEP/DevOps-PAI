@@ -2,6 +2,8 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TeacherCategoryRepositoryTest {
@@ -61,5 +63,28 @@ class TeacherCategoryRepositoryTest {
         boolean result = tcr.registerTeacherCategory("Professor Adjunto");
         //assert
         assertFalse(result);
+    }
+
+    //Testing that the list may be retrieved even if still empty
+    @Test
+    void shouldReturnCategoryListEvenIfEmpty() {
+        // Arrange
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        // Act
+        List<TeacherCategory> result = tcr.getTeacherCategoriesList();
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+    //Testing that the retrieved list has registered objects
+    @Test
+    void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
+        // Arrange
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        tcr.registerTeacherCategory("Assistant Professor");
+        tcr.registerTeacherCategory("Coordinating Professor");
+        // Act
+        List<TeacherCategory> result = tcr.getTeacherCategoriesList();
+        // Assert
+        assertEquals(2, result.size());
     }
 }
