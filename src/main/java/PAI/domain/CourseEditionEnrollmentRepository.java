@@ -67,5 +67,16 @@ public class CourseEditionEnrollmentRepository {
         return count;
     }
 
+    //US28
+    // Method to remove
+    public boolean removeEnrollment(Student student, CourseEdition courseEdition) {
+        // Finds the enrollment for the student and the course edition
+        Optional<CourseEditionEnrollment> enrollmentToRemove = findByStudentAndEdition(student, courseEdition);
+        if (enrollmentToRemove.isEmpty()) {
+            throw new IllegalArgumentException("Enrollment does not exist.");
+        }
+        _courseEditionEnrollments.remove(enrollmentToRemove.get());
+        return true;  // Returns true if the enrollment was successfully removed
+    }
 
 }
