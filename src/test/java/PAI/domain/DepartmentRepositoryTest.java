@@ -68,15 +68,13 @@ class DepartmentRepositoryTest {
         assertEquals("Department with that name already exists.", exception.getMessage());
     }
 
-    //Testing that the list may be retrieved even if still empty
+    //Testing that the list should not be retrieved if empty
     @Test
-    void shouldReturnDepartmentListEvenIfEmpty() {
+    void shouldReturnExceptionIfDepartmentListIsEmpty() throws IllegalStateException {
         // Arrange
         DepartmentRepository tcr = new DepartmentRepository();
-        // Act
-        List<Department> result = tcr.getDepartmentsList();
-        // Assert
-        assertTrue(result.isEmpty());
+        // Act + Assert
+        assertThrows(IllegalStateException.class, () -> tcr.getDepartmentsList());
     }
 
     //Testing that the retrieved list has registered objects
