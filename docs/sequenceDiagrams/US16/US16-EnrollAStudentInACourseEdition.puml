@@ -19,17 +19,23 @@ UI -> Controller: enrollStudentInCourseEdition (student, courseEdition)
 activate Controller
 participant "ce[i]:CourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository : isStudentInProgrammeEdition(student, courseEdition)
+activate CourseEditionRepository
 loop for each ce[i] in CourseEditionRepository
 participant "ce1:CourseEdition" as CourseEdition
 CourseEditionRepository -> CourseEdition: findWhichProgrammeEditionBelongsToACourseEdition(courseEdition)
+deactivate CourseEditionRepository
+activate CourseEdition
 end
 CourseEdition --> Controller: programmeEditionFound (pee1)
+deactivate CourseEdition
 participant "pee[i]:ProgrammeEditionEnrollmentRepository" as ProgrammeEditionEnrollmentRepository
 loop for each pee[i] in ProgrammeEditionEnrollmentRepository
 participant "st1:Student" as Student
 ProgrammeEditionEnrollmentRepository -> Student: isStudentEnrolledInThisProgrammeEdition(student, pee1)
+activate Student
 end
 Student --> Controller: True! ("st1 is enrolled in pee1.")
+deactivate Student
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
 Controller -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (st1, ce1, enrollmentDate)
 activate CourseEditionEnrollmentRepository
