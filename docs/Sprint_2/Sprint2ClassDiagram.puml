@@ -81,7 +81,7 @@ class TeacherCategoryRepository {
     +TeacherCategoryRepository()
     +registerTeacherCategory (teacherCategoryName: String)
     +isTeacherCategoryRegistered(teacherCategory: TeacherCategory)
-    +retrieveTeacherCategoriesList()
+    +getTeacherCategoriesList()
 }
 
 class Programme {
