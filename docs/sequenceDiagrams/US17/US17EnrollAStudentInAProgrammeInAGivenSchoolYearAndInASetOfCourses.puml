@@ -27,7 +27,7 @@ SchoolYearRepository --> Controller : listOfSchoolYears
 deactivate SchoolYearRepository
 Controller --> UI : listOfSchoolYears
 deactivate Controller
-UI --> ASC : Here is the list SchoolYears! What schoolYear?
+UI --> ASC : Here is the list SchoolYears! What schoolYear do you want?
 ASC -> UI : Enter the schoolYear!
 UI --> ASC : Sure?
 ASC -> UI : Yes!
