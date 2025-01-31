@@ -11,7 +11,7 @@ public class ProgrammeList {
     }
 
 
-    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector ) throws Exception {
+    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
 
         Programme programme = new Programme (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector);
 
@@ -31,4 +31,9 @@ public class ProgrammeList {
         programme.newProgrammeDirector(newDirector);
         return true;
     }
+
+    public List<Programme> getAllProgrammes() {
+        return new ArrayList<>(programmeList);
+    }
+    
 }

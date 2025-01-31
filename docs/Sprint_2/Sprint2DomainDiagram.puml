@@ -23,8 +23,6 @@ entity Course {
   name
   acronym
   qtyECTS
-  semester
-  curricular year
 }
 
 entity Course_Edition {
@@ -62,11 +60,11 @@ entity ProgrammeEdition {
 entity Enrolment {
 }
 
-entity EnrolmentProgrammeEdition {
+entity ProgrammeEditionEnrollment {
    date
 }
 
-entity EnrolmentCourseEdition {
+entity CourseEditionEnrollment {
    date
 }
 
@@ -94,12 +92,16 @@ entity "Grade Student" {
 }
 
 entity "studyPlan" {
-listOfCourses
 }
 
 entity "Teacher Career Progression" {
   workingPercentage
   date
+}
+
+entity "CourseInStudyPlan" {
+  CurricularYear
+  Semester
 }
 
 
@@ -109,19 +111,21 @@ Department "1" --- "*" Teacher : Aggregates >
 Course "*" -- "*" Teacher : Teaches <
 Course_Edition "*" -- "1" Teacher : RUC oversees <
 Course "1" ----- "*" Course_Edition : > Is organized
-Programme "1" ----- "*" Course : > Aggregates
-"studyPlan" "1" -- "1" Programme : > Belongs
+Programme "1" -left- "*" Course : > Aggregates
+"CourseInStudyPlan" "*" -- "1" Programme : > Belongs
+"studyPlan" "1" --right-- "*" "CourseInStudyPlan" : \n\n< Belongs\n\n
+"CourseInStudyPlan" "0..1" -- "1" Course : < Happens
 ProgrammeEdition "1" -- "*" Course_Edition : < Belongs
 "School Year" "1" -- "*" ProgrammeEdition : < Runs in
 Address "1" -up- "1" Student : Has <
 Teacher "1" -- "1" Address : Has >
-"Teacher Career Progression" "*" -- "1..*" "Teacher Category" : Aggregates >
+"Teacher Career Progression" "*" -- "1" "Teacher Category" : Aggregates >
 Programme "1" -- "*" Enrolment : Has >
 ProgrammeEdition "*" -- "1" Programme : < Is organized
-ProgrammeEdition "1" -- "*" EnrolmentProgrammeEdition : < Happens
-EnrolmentProgrammeEdition "*" -- "1" Student : < Enrols
-Student "1" --- "*" EnrolmentCourseEdition : > Enrols
-EnrolmentCourseEdition "*" -- "1" Course_Edition : > Relates to
+ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < Happens
+ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
+Student "1" --- "*" CourseEditionEnrollment : > Enrols
+CourseEditionEnrollment "*" -- "1" Course_Edition : > Relates to
 Programme "*" -- "1" Department : Assigned to >
 Student "1" -- "*" "Grade Student" : < Belongs
 "Grade Student" "*" -- "1" Course_Edition : > Refers to
@@ -130,5 +134,5 @@ Programme "1..*" -- "1  " Teacher : Programme Director oversees <
 Programme "*" -- "1" "Degree Type" : Has >
 Student "1" -- "1..*" Enrolment : Enrols >
 Enrolment "1..*" -- "1" "Access Method" : Has >
-"Teacher Career Progression" "1" -- "1..*" "Teacher" : Has <
+"Teacher Career Progression" "1..*" -- "1" "Teacher" : Has <
 @enduml

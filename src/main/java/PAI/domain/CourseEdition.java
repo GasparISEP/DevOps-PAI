@@ -30,22 +30,14 @@ public class CourseEdition {
     }
 
     public boolean setRuc(Teacher ruc) {
-        this._ruc = ruc;
-        if (_ruc == null)
+        if (_ruc != null)
             return false;
+        this._ruc = ruc;
         return true;
     }
 
     //US16 - check what programme edition belongs to this course edition
     protected ProgrammeEdition whatProgrammeEditionBelongsThisCourseEdition () {
-        return _programmeEdition;
-    }
-
-    public Course getCourse() {
-        return _course;
-    }
-
-    public ProgrammeEdition getProgrammeEdition() {;
         return _programmeEdition;
     }
 }

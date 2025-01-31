@@ -1,0 +1,27 @@
+@startuml
+actor RUC
+participant "System" as UI
+participant ":Controller" as ctr
+participant ":GradeStudentRepository" as GR
+
+
+
+RUC -> UI ++ #application : I want to grade a Student in a course edition (Grade,date,Student,CourseEdition)
+UI -> ctr ++ #application : iWantToGradeAStudent (Grade,date,Student,CourseEdition)
+ctr -> GR ++ #application : iWantToGradeAStudent (Grade,date,Student,CourseEdition)
+
+
+create "gs1:GradeStudent" as gs
+GR -> gs ++ #application : <create> (Grade,date,Student,CourseEdition)
+gs -> gs : validate()
+gs --> GR -- : :gs1
+GR -> GR : isStudentEnrolledInCourseEdition(student,courseEdition)
+GR -> GR : courseEditionRepoExists(courseEdition)
+GR -> GR : addGrade()
+
+
+
+GR --> ctr --: GradeStudent (gs1)
+ctr --> UI --: GradeStudent (gs1)
+UI --> RUC --: GradeStudent (gs1)
+@enduml

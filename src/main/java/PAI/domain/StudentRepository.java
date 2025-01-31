@@ -2,6 +2,7 @@ package PAI.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentRepository {
 
@@ -24,5 +25,14 @@ public class StudentRepository {
     //US17
     public boolean isStudentEnrolledInProgramme(Student student, Programme programme) {
         return programme.isStudentEnrolled(student);
+    }
+
+    //US17
+    public Optional<Student> findStudentByUniqueNumber(int uniqueNumber){
+        for (Student student : _students)
+            if (student.getUniqueNumber() == uniqueNumber) {
+                return Optional.of(student);
+            }
+        return Optional.empty();
     }
 }

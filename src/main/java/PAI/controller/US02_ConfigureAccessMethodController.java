@@ -9,7 +9,7 @@ public class US02_ConfigureAccessMethodController {
 
     //Argumentos
 
-    private AccessMethodRepository _accessMethodRepository;
+    private final AccessMethodRepository _accessMethodRepository;
 
     //Construtor, injecta dependêcias neste caso é o repositório.
 
@@ -26,12 +26,7 @@ public class US02_ConfigureAccessMethodController {
             return false;
         }
         Optional<AccessMethod> opt1 = _accessMethodRepository.createAccessMethod(accessMethodName);
-        if (opt1.isPresent()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return opt1.isPresent();
     }
 
 

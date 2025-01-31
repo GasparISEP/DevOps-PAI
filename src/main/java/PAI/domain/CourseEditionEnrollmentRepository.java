@@ -14,23 +14,26 @@ public class CourseEditionEnrollmentRepository {
         _courseEditionEnrollments = new ArrayList<>();
     }
 
-    public Optional<CourseEditionEnrollment> enrollStudentInACourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) {
+    public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) {
 
         CourseEditionEnrollment cee1 = new CourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
-        checkIfThisEnrollmentAlreadyExists(cee1);
+        if (isEnrollmentAlreadyExists(cee1)){
+            return false;
+        }
 
         _courseEditionEnrollments.add(cee1);
 
-        return Optional.of(cee1);
+        return true;
     }
 
-    //check if this enrollment already exists in this repository
-    private void checkIfThisEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
+    //check if this enrollment already exists
+    private boolean isEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
 
         if (_courseEditionEnrollments.contains(courseEditionEnrollment)) {
-            throw new IllegalArgumentException("This course edition enrollment is already in the list.");
+            return true;
         }
+        return false;
     }
 
     public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {
@@ -49,5 +52,18 @@ public class CourseEditionEnrollmentRepository {
                 return Optional.of(courseEEnrollments);
             }
         return Optional.empty();
+    }
+
+    //US24
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) {
+
+        int count = 0;
+        for (int i = 0; i < _courseEditionEnrollments.size(); i++) {
+            CourseEditionEnrollment enrollment = _courseEditionEnrollments.get(i);
+            if (enrollment.knowCourseEdition().equals(courseEdition)) {
+                count++;
+            }
+        }
+        return count;
     }
 }

@@ -28,16 +28,8 @@ public class US20_DefineRucForCourseEditionController {
     }
 
     // Define RUC for a specific Course Edition
-    public boolean defineRucForCourseEdition(CourseEdition courseEdition, Teacher teacher) throws IllegalArgumentException {
-        if (courseEdition == null) {
-            throw new IllegalArgumentException("CourseEdition cannot be null.");
-        }
-
-        if (teacher == null) {
-            throw new IllegalArgumentException("Teacher cannot be null.");
-        }
+    public boolean defineRucForCourseEdition(CourseEdition courseEdition, Teacher teacher) {
 
         return courseEditionRepository.setRucInACourseEdition(courseEdition, teacher);
     }
 }
-

@@ -119,5 +119,46 @@ public class Teacher {
     protected boolean isInDepartment(Department department) {
         return _department == department;
     }
+
+    public boolean hasThisNIF(String NIF) {
+
+        return _nif.equals(NIF);
+    }
+
+    public boolean updateWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage) throws IllegalArgumentException {
+
+        TeacherCareerProgression lastCareerProgression = _teacherCareerProgression.getLast();
+
+        TeacherCategory lastCategory = lastCareerProgression.getCategory();
+
+        if (lastCareerProgression.getWorkingPercentage() == workingPercentage)
+            throw new IllegalArgumentException("Working percentage must be different than the last working percentage!");
+
+        TeacherCareerProgression tcp = new TeacherCareerProgression(date, lastCategory, workingPercentage);
+
+        if(!tcp.isDateAfter(lastCareerProgression))
+            throw new IllegalArgumentException("Date must be greater than the last date registered!");
+
+        _teacherCareerProgression.add(tcp);
+
+        return true;
+    }
+
+    public boolean updateTeacherCategoryInTeacherCareer(String date, TeacherCategory teacherCategory) throws IllegalArgumentException {
+
+        TeacherCareerProgression lastTeacherCareerProgression =  _teacherCareerProgression.getLast();
+
+        int lastWorkingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
+
+        if(teacherCategory == lastTeacherCareerProgression.getCategory())
+            throw new IllegalArgumentException("The Teacher Category " + teacherCategory.getName() + " already exists.");
+
+        TeacherCareerProgression updatedTeacherCareerProgression = new TeacherCareerProgression(date, teacherCategory, lastWorkingPercentage);
+
+        if(!updatedTeacherCareerProgression.isDateAfter(lastTeacherCareerProgression))
+            throw new IllegalArgumentException("The date must be greater than the last date registered!");
+        else
+            return _teacherCareerProgression.add(updatedTeacherCareerProgression);
+    }
 }
 

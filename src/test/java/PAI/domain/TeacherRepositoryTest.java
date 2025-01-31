@@ -3,6 +3,7 @@ package PAI.domain;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -96,5 +97,92 @@ class TeacherRepositoryTest {
 
         //
         assertEquals(2, result.size());
+
+    }
+
+    @Test
+    void shouldReturnTeacherWhenNIFMatches() throws Exception {
+
+        //arrange
+        TeacherRepository repository = new TeacherRepository();
+        TeacherCategory category = new TeacherCategory("Professor Adjunto");
+        Department department = new Department("MAT", "Mathematics");
+
+        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        // act
+
+        Optional<Teacher> optT1 = repository.getTeacherByNIF("123456789");
+
+        // assert
+        assertTrue(optT1.isPresent());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() throws Exception {
+
+        //arrange
+        TeacherRepository repository = new TeacherRepository();
+        TeacherCategory category = new TeacherCategory("Professor Adjunto");
+        Department department = new Department("MAT", "Mathematics");
+
+        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        // act
+        Optional<Teacher> optT1 = repository.getTeacherByNIF("987654321");
+
+        // assert
+        assertTrue(optT1.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenNIFIsEmpty() throws Exception {
+
+        //arrange
+        TeacherRepository repository = new TeacherRepository();
+        TeacherCategory category = new TeacherCategory("Professor Adjunto");
+        Department department = new Department("MAT", "Mathematics");
+
+        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        // act
+        Optional<Teacher> optT1 = repository.getTeacherByNIF("");
+
+        // assert
+        assertTrue(optT1.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenNIFIsBlank() throws Exception {
+
+        //arrange
+        TeacherRepository repository = new TeacherRepository();
+        TeacherCategory category = new TeacherCategory("Professor Adjunto");
+        Department department = new Department("MAT", "Mathematics");
+
+        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        // act
+        Optional<Teacher> optT1 = repository.getTeacherByNIF(" ");
+
+        // assert
+        assertTrue(optT1.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenNIFIsNull() throws Exception {
+
+        //arrange
+        TeacherRepository repository = new TeacherRepository();
+        TeacherCategory category = new TeacherCategory("Professor Adjunto");
+        Department department = new Department("MAT", "Mathematics");
+
+        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        // act
+        Optional<Teacher> optT1 = repository.getTeacherByNIF(null);
+
+        // assert
+        assertTrue(optT1.isEmpty());
     }
 }

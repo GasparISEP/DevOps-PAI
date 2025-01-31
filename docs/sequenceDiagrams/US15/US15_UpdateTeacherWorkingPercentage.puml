@@ -13,35 +13,38 @@ HRC -> Test : I want to update Teacher's working percentage \n(NIF, workingPerce
 activate Test
 Test -> Controller : getTeacherByNIF(NIF)
 activate Controller
+
 Controller -> TR : getTeacherByNIF(NIF)
 activate TR
-TR -> Teacher : hasThisNIF()
+ref over TR, Teacher
+    Loop t[i] in TR
+    hasThisNIF()
+end ref
 activate Teacher
 Teacher --> TR : True!
 deactivate Teacher
 TR --> Controller : t1!
 deactivate TR
-Controller -> Teacher : getLastTeacherCategory (t1)
 
-activate Teacher
-Teacher -> TCP : getCategory()
-activate TCP
-TCP --> Teacher : category1!
 deactivate TCP
 deactivate TR
 
-Teacher --> Controller : category1!
 deactivate Teacher
 
-Controller -> Teacher : updateWorkingPercentageInTeacherCareer \n(date, category1, workingPercentage)
+Controller -> Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
 activate Teacher
-Teacher -> TCP1** : updateWorkingPercentageInTeacherCareer \n(date, category1, workingPercentage)
+Teacher -> Teacher : getLast()
+Teacher -> TCP : getCategory()
+activate TCP
+TCP --> Teacher : tc1
+deactivate TCP
+Teacher -> TCP1** : createTeacherCareerProgression \n(date, tc1, workingPercentage)
 activate TCP1
-TCP1 -> TCP1 : validateDate()
+TCP1 -> TCP1 : validateAndFormatDate()
 TCP1 -> TCP1 : validateWorkingPercentage()
 TCP1 --> Teacher : tcp1!
 deactivate TCP1
-Teacher -> Teacher : validate()
+Teacher -> Teacher : validateIsDateAfter()
 Teacher -> Teacher : add()
 
 Teacher --> Controller : Changed Working Percentage!

@@ -3,45 +3,48 @@
 title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
 
 actor HRC
-participant "UI" as UI #Cyan/Silver
+participant ":UI" as UI #Cyan/Silver
 participant ":Controller" as Controller #Cyan/Silver
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository #Cyan/Silver
 participant ":DepartmentRepository" as DepartmentRepository #Cyan/Silver
 participant ":TeacherRepository" as TeacherRepository #Cyan/Silver
-participant "t1:Teacher" as Teacher #Cyan/Silver
-participant "addrs1:Address" as Address #Cyan/Silver
-participant "<TeacherCareerProgressionList>:TeacherCareerProgression" as TeacherCareerProgression #Cyan/Silver
+participant "t1:Teacher" as Teacher #Yellow/Silver
+participant "addrs1:Address" as Address #Yellow/Silver
+participant "tcp1:TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
 
 
-HRC -> UI: I need all Teacher Categories.
+HRC -> UI: I want to register a new teacher including all relevant data.
 activate UI
 
-UI -> Controller: I need all Teacher Categories.
+UI -> Controller: **getTeacherCategoriesList**
 activate Controller
 
-Controller -> TeacherCategoryRepository: **getTeacherCategoryList()**
+Controller -> TeacherCategoryRepository: **getTeacherCategoriesList**
 activate TeacherCategoryRepository
 
-TeacherCategoryRepository --> Controller: <TeacherCategoryList>
+TeacherCategoryRepository --> Controller: tcList
 deactivate TeacherCategoryRepository
 
-Controller --> UI: <TeacherCategoryList>
+Controller --> UI: tcList
+deactivate Controller
 
-UI --> HRC: <TeacherCategoryList>
+UI --> HRC: Choose one category from the list.
 
-HRC -> UI: I need all Departments.
+HRC -> UI: Okay.
 
-UI -> Controller: I need all Departments.
+UI -> Controller: **getDepartmentsList()**
+activate Controller
 
-Controller -> DepartmentRepository: **getDepartmentList()**
+Controller -> DepartmentRepository: **getDepartmentsList()**
 activate DepartmentRepository
 
-DepartmentRepository --> Controller: <DepartmentList>
+DepartmentRepository --> Controller: dptList
 deactivate DepartmentRepository
 
-Controller --> UI: <DepartmentList>
+Controller --> UI: dptList
+deactivate Controller
 
-UI --> HRC: <DepartmentList>
+UI --> HRC: Choose one department from the list.
 
 HRC -> UI: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackgroung, workingPercentage,\ndate, tc1, dpt1
 
@@ -51,6 +54,7 @@ Note Right HRC #Pink/White
 End Note
 
 UI -> Controller: **registerTeacher**(acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, workingPercentage,\ndate, tc1, dpt1)
+activate Controller
 
 Controller -> TeacherRepository: **registerTeacher**(acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, workingPercentage,\ndate, tc1, dpt1)
 activate TeacherRepository
@@ -64,9 +68,10 @@ activate Address
 Address --> Teacher: addrs1
 deactivate Address
 
-Teacher -> TeacherCareerProgression **: **createTeacherCareerProgressionList** (tc1, workingPercentage, date)
+Teacher -> TeacherCareerProgression **: **createTeacherCareerProgressionList** (date, tc1, workingPercentage)
+activate TeacherCareerProgression
 
-TeacherCareerProgression --> Teacher: <TeacherCareerProgressionList>
+TeacherCareerProgression --> Teacher: tcp1
 deactivate TeacherCareerProgression
 
 Teacher --> TeacherRepository: t1

@@ -1,0 +1,34 @@
+@startuml
+actor ASC as Admin
+create ":UI" as UI #lightblue
+
+Admin -> UI : I Want to register a Study Plan (semester, curricularYears)
+activate UI
+create ":Controller" as C #lightblue
+UI -> C : registerAStudyPlan(semester, curricularYears)
+activate C
+create ":ProgrammeList" as PL #lightblue
+C -> PL : registerAStudyPlan(semester, curricularYear)
+activate PL
+create ":Study Plan" as SP #lightblue
+PL -> SP : New Study Plan(semester, curricularYear)
+activate SP
+create ":Course In Study Plan" as CISP #lightblue
+SP -> CISP : Create Course In Study Plan(courseList, semester, curricularYear)
+activate CISP
+CISP -> CISP : Validate course
+CISP -> CISP : Validate semester
+CISP -> CISP : Validate curricularYear
+CISP -> SP : Add Course In Study Plan to StudyPlan
+deactivate CISP
+SP -> SP : Check Course In Study Plan for duplicates
+SP -> SP : Register Course in Study Plan in StudyPlan
+SP --> PL : Done!
+deactivate SP
+PL --> C : Done!
+deactivate PL
+C --> UI : Done!
+deactivate C
+UI --> Admin : Done!
+deactivate UI
+@enduml

@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ProgrammeEditionRepository {
@@ -28,7 +29,7 @@ public class ProgrammeEditionRepository {
     }
 
     //US17
-    public Optional<ProgrammeEdition> findBySchoolYearAndProgramme(
+    public Optional<ProgrammeEdition> findProgrammeEditionBySchoolYearAndProgramme(
             Programme programme,
             SchoolYear schoolYear) {
         for (ProgrammeEdition programmeEdition : _programmeEditionRepository) {
@@ -39,4 +40,10 @@ public class ProgrammeEditionRepository {
         }
         return Optional.empty();
     }
+
+    public List<ProgrammeEdition> getAllProgrammeEditions() {
+        return _programmeEditionRepository;
+    }
+
+
 }

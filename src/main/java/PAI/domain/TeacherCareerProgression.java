@@ -14,17 +14,7 @@ public class TeacherCareerProgression {
     public TeacherCareerProgression (String date, TeacherCategory category, int workingPercentage) throws IllegalArgumentException {
 
         //validate date
-        if (isDateInvalid(date))
-            throw new IllegalArgumentException("Date cannot be empty!");
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate formattedDate;
-
-        try {
-            formattedDate = LocalDate.parse(date, formatter);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Use the following format: dd-MM-yyyy.");
-        }
+        LocalDate formattedDate = validateAndFormatDate(date);
 
         _date = formattedDate;
 
@@ -35,17 +25,26 @@ public class TeacherCareerProgression {
             throw new IllegalArgumentException("Working Percentage must be a value between 0 and 100.");
 
         _workingPercentage = workingPercentage;
-
     }
 
-    private boolean isDateInvalid (String date) {
-
-        return date == null || date.isBlank();
-    }
 
     private boolean isWorkingPercentageInvalid (int workingPercentage) {
 
         return workingPercentage < 0 || workingPercentage > 100;
+    }
+
+    private LocalDate validateAndFormatDate(String date) throws IllegalArgumentException {
+
+        if (date == null || date.isBlank())
+            throw new IllegalArgumentException("Date cannot be empty!");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        try {
+            return LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.");
+        }
     }
 
     public TeacherCategory getCategory () {
@@ -53,8 +52,16 @@ public class TeacherCareerProgression {
         return _category;
     }
 
-    public LocalDate getDate () {
+    public int getWorkingPercentage () {
 
-        return _date;
+        return _workingPercentage;
+    }
+
+    public boolean isDateAfter(TeacherCareerProgression tcp) {
+
+        if(_date.isAfter(tcp._date))
+            return true;
+
+        return false;
     }
 }

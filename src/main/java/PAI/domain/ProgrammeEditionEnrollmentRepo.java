@@ -27,7 +27,7 @@ public class ProgrammeEditionEnrollmentRepo {
     //US16 e US17 - check if a student is enrolled in any programme edition
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
-            if (enrollment.findProgrammeEditionInEnrollment().equals(programmeEdition) && enrollment.findStudentInProgrammeEdition().equals(student)) {
+            if (enrollment.getStudentUniqueNumber() == student.getUniqueNumber() && enrollment.findProgrammeEditionInEnrollment() == programmeEdition) {
                 return true;
             }
         }
@@ -36,10 +36,13 @@ public class ProgrammeEditionEnrollmentRepo {
 
 
     private void checkIfThisEnrollmentAlreadyExists(ProgrammeEditionEnrollment programmeEditionEnrollment) throws IllegalArgumentException {
-        if (_programmeEditionEnrollments.contains(programmeEditionEnrollment)) {
-            throw new IllegalArgumentException("This programme edition enrollment is already in the list.");
+        for (ProgrammeEditionEnrollment existingEnrollment : _programmeEditionEnrollments) {
+            if (existingEnrollment.equals(programmeEditionEnrollment)) {
+                throw new IllegalArgumentException("This programme edition enrollment is already in the list.");
+            }
         }
     }
+
 
     //US26- number of students enrolled in all programmes associated to a department, in a given school year
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {

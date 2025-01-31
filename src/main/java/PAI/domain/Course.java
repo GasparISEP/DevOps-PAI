@@ -21,8 +21,6 @@ public class Course {
         _acronym = acronym;
         _quantityCreditsEcts = quantityOfEcts;
         _durationCourseInSemester = durationCourseInSemester;
-        if (_durationCourseInSemester == 2)
-            _quantityCreditsEcts /= 2;
     }
 
     private boolean isValidName(String courseName) throws Exception {
@@ -78,5 +76,13 @@ public class Course {
 
     public int getDurationInSemester() {
         return _durationCourseInSemester;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public String getAcronym() {
+        return _acronym;
     }
 }

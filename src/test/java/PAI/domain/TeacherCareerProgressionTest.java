@@ -3,8 +3,6 @@ package PAI.domain;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -35,9 +33,10 @@ class TeacherCareerProgressionTest {
                 arguments("", 50, "Date cannot be empty!"),
                 arguments(" ", 50, "Date cannot be empty!"),
                 arguments(null, 50, "Date cannot be empty!"),
-                arguments("2024-12-10", 50, "Invalid date format. Use the following format: dd-MM-yyyy."),
-                arguments("10/12/2024", 50, "Invalid date format. Use the following format: dd-MM-yyyy."),
-                arguments("10 de dezembro de 2024", 50, "Invalid date format. Use the following format: dd-MM-yyyy.")
+                arguments("2024-12-10", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                arguments("10/12/2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                arguments("10 de dezembro de 2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                arguments("32-01-2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.")
         );
     }
 
@@ -75,26 +74,50 @@ class TeacherCareerProgressionTest {
         assertEquals(tc, result);
     }
 
-    public static Stream<Arguments> provideValidDates() {
+    public static Stream<Arguments> provideValidWorkingPercentages() {
         return Stream.of(
-                arguments("12-12-2024", 0, "12-12-2024"),
-                arguments("20-05-2022", 100, "20-05-2022")
+                arguments("02-02-2024", 0, "Assitente", 0),
+                arguments("20-05-2022", 100, "Adjunto", 100)
         );
     }
 
     @ParameterizedTest
-    @MethodSource("provideValidDates")
-    void getDateReturnsCorrectDate(String inputDate, int workingPercentage, String expectedDate) throws Exception {
+    @MethodSource("provideValidWorkingPercentages")
+    void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, String categoryName, int expectedWorkingPercentage) throws Exception {
+
         //arrange
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate expectedLocalDate = LocalDate.parse(expectedDate, formatter);
-        TeacherCategory tc = new TeacherCategory("Professor Adjunto");
-        TeacherCareerProgression TCP = new TeacherCareerProgression(inputDate, tc, workingPercentage);
+        TeacherCategory tc = new TeacherCategory(categoryName);
+        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tc, workingPercentage);
 
         //act
-        LocalDate result = TCP.getDate();
+        int result = TCP.getWorkingPercentage();
 
         //assert
-        assertEquals(expectedLocalDate, result);
+        assertEquals(expectedWorkingPercentage, result);
     }
+
+    public static Stream<Arguments> provideDates() {
+        return Stream.of(
+                arguments("16-04-2024", "17-04-2024", "Professor Adjunto", true),
+                arguments("15-04-2024", "15-04-2024", "Professor Adjunto", false),
+                arguments("15-04-2024", "14-04-2024", "Professor Adjunto", false)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideDates")
+    void shouldReturnTrueIfGivenDateIsAfterLastDate(String date1, String date2, String tc, boolean expectedResult) throws Exception {
+        // Arrange
+        TeacherCategory tc1 = new TeacherCategory(tc);
+
+        TeacherCareerProgression TCP1 = new TeacherCareerProgression(date1, tc1, 50);
+        TeacherCareerProgression TCP2 = new TeacherCareerProgression(date2, tc1, 60);
+
+        // Act
+        boolean result = TCP2.isDateAfter(TCP1);
+
+        // Assert
+        assertEquals(expectedResult, result);
+    }
+
 }

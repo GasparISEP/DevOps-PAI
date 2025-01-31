@@ -1,0 +1,22 @@
+@startuml
+actor ASC
+
+ASC -> UI ++ #application : I want to add Course to a Programme
+UI --> ASC -- : Programme?
+ASC -> UI ++ #application : :P1!
+UI --> ASC -- : Course?
+ASC -> UI ++ #application : :C1!
+
+UI -> ":AddCourseToAProgrammeController" ++ #application : :P1.addCourseToAProgramme (:C1)
+
+":AddCourseToAProgrammeController" -> ":Programme" ++ #application : :P1.addCourseToAProgramme (:C1)
+
+":Programme" -> ":Programme"  #application : :P1.addCourseToAProgramme (:C1)
+
+":Programme" --> ":AddCourseToAProgrammeController" --: true
+
+":AddCourseToAProgrammeController" --> UI  --: true
+
+UI --> ASC --: true
+
+@enduml
