@@ -319,6 +319,7 @@ Programme "1"  -u-> "*" Enrolment: has
 Student "1" <-- "*" Enrolment: enrolls
 StudentRepository "1" --> "*" Student
 SchoolYearRepository "1" --> "*" SchoolYear
+ProgrammeEdition "*" -l-> "1" SchoolYear: relates to
 Teacher "1" -r- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates
 Teacher "1..*" -- "1" TeacherRepository: has
