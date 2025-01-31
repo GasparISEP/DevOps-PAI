@@ -69,4 +69,33 @@ public class US03AddCourseToProgrammeControllerTest {
         //assert
         assertTrue(addCourseToProgramme);
     }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeIsNull() throws Exception {
+        // arrange
+        Programme nullProgramme = null;
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(nullProgramme);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseIsNull() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        CourseRepository courseRepository = new CourseRepository();
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeList programmeList = new ProgrammeList();
+        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        Programme lei = programmeList.getAllProgrammes().get(0);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
+        //act + assert
+        assertThrows(Exception.class, () -> {
+            US03AddCourseToProgrammeController.addCourseToProgramme(null);
+        });
+    }
 }
