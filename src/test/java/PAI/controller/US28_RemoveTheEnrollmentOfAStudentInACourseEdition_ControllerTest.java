@@ -8,8 +8,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-    class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
-
+class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         //US28
         @Test
         public void removeExistingEnrollment() throws Exception {
