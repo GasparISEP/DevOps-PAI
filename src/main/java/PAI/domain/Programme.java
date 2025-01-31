@@ -15,6 +15,7 @@ public class Programme {
     private Teacher _programmeDirector;
     private ArrayList<Course> _courseList = new ArrayList<>();
     private List<Enrolment> _programmeEnrolment;
+    private StudyPlan _studyPlan = new StudyPlan();
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
         if (isNameInvalid(name)) {
@@ -144,5 +145,9 @@ public class Programme {
 
     public int getQuantityOfEcts() {
         return _quantityOfEcts;
+    }
+
+    public StudyPlan getStudyPlan() {
+        return _studyPlan;
     }
 }
