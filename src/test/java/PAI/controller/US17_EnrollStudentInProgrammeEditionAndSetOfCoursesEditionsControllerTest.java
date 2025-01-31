@@ -20,6 +20,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -27,7 +29,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        studentRepository,
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -72,6 +75,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -79,7 +83,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        studentRepository,
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -106,6 +111,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -113,7 +119,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        studentRepository,
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -143,6 +150,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -150,7 +158,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        studentRepository,
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -187,6 +196,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -194,7 +204,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        studentRepository,
+                        schoolYearRepository);
 
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("DEI", "Computer Science Department");
@@ -233,6 +244,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -240,7 +252,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        studentRepository,
+                        schoolYearRepository);
 
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
@@ -289,6 +302,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -296,7 +310,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        studentRepository,
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -328,28 +343,32 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testGetAllProgrammes() throws Exception {
         // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        programmeEditionEnrollmentRepo,
+                        programmeEditionRepository,
+                        programmeList,
+                        courseEditionEnrollmentRepository,
+                        courseEditionRepository,
+                        studentRepository,
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", "20-12-2010", new TeacherCategory("Assistant Professor"), 100, department1);
-        ProgrammeList programmeList = new ProgrammeList();
-        CourseRepository courseRepository = new CourseRepository();
         programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
         programmeList.registerProgramme("Computer Science", "CS", 26, 6, master, department1, teacher1);
-        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        null,
-                        null,
-                        programmeList,
-                        null,
-                        null,
-                        null
-                );
 
         // Act
         List<Programme> programmes = controller.getAllProgrammes();
-
         // Assert
         assertNotNull(programmes, "The list of programmes should not be null.");
         assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
@@ -357,7 +376,38 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "The list should contain the programme 'Computer Science Engineering'.");
         assertTrue(programmes.contains(new Programme("Computer Science", "CS", 26, 6, master, department1, teacher1)),
                 "The list should contain the programme 'Computer Science'.");
+    }
+    @Test
+    void testGetAllSchoolYears() throws Exception {
 
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        programmeEditionEnrollmentRepo,
+                        programmeEditionRepository,
+                        programmeList,
+                        courseEditionEnrollmentRepository,
+                        courseEditionRepository,
+                        studentRepository,
+                        schoolYearRepository);
+        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        schoolYearRepository.addSchoolYear("25/26", "10-11-2025", "09-12-2026");
+        // Act
+        List<SchoolYear> schoolYears = controller.getAllSchoolYears();
+        // Assert
+        assertNotNull(schoolYears, "The list of school years should not be null.");
+        assertEquals(2, schoolYears.size(), "The list of school years should contain exactly 2 years.");
+        assertTrue(schoolYears.contains(new SchoolYear("24/25", "23-11-2024", "09-12-2025")),
+                "The list should contain the school year '24/25'.");
+        assertTrue(schoolYears.contains(new SchoolYear("25/26", "10-11-2025", "09-12-2026")),
+                "The list should contain the school year '25/26'.");
     }
 
 

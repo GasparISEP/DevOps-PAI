@@ -50,4 +50,8 @@ public class SchoolYearRepository {
         }
         return null;
     }
+
+    public List<SchoolYear> getAllSchoolYears() {
+        return new ArrayList<>(_schoolYearList);
+    }
 }

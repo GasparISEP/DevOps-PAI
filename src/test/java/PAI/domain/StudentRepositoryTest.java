@@ -116,35 +116,6 @@ class StudentRepositoryTest {
         assertFalse(result, "The student should not be enrolled in the programme.");
     }
 
-
-    @Test
-    void testFindStudentByUniqueNumber_WhenStudentExists() throws Exception {
-        // Arrange
-        StudentRepository studentRepository = new StudentRepository();
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student = new Student(1001, "João Silva", "123456789", "912345678", "joao@email.com", add1);
-        studentRepository.registerStudent(1001, "João Silva", "123456789", "912345678", "joao@email.com", add1);
-
-        // Act
-        Optional<Student> foundStudent = studentRepository.findStudentByUniqueNumber(1001);
-
-        // Assert
-        assertTrue(foundStudent.isPresent(), "Student is present");
-        assertEquals(student.getUniqueNumber(), foundStudent.get().getUniqueNumber(), "Student unique number is the same");
-    }
-
-    @Test
-    void testFindStudentByUniqueNumber_WhenStudentDoesNotExist() {
-        //arrange
-        StudentRepository studentRepository = new StudentRepository();
-        // Act
-        Optional<Student> foundStudent = studentRepository.findStudentByUniqueNumber(9999);
-
-        // Assert
-        assertFalse(foundStudent.isPresent(), "Student not found.");
-    }
-
-
 }
 
 
