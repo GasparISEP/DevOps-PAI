@@ -13,7 +13,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
     private ProgrammeList _programmeList;
     private CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
     private CourseEditionRepository _courseEditionRepository;
-    private StudentRepository _studentRepository;
+    private SchoolYearRepository _schoolYearRepository;
 
     public US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
             ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo,
@@ -21,30 +21,24 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
             ProgrammeList programmeList,
             CourseEditionEnrollmentRepository courseEditionEnrollmentRepository,
             CourseEditionRepository courseEditionRepository,
-            StudentRepository studentRepository) {
+            SchoolYearRepository schoolYearRepository) {
 
-        this._programmeEditionEnrollmentRepo = programmeEditionEnrollmentRepo;
-        this._programmeEditionRepository = programmeEditionRepository;
-        this._programmeList = programmeList;
-        this._courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
-        this._courseEditionRepository = courseEditionRepository;
-        this._studentRepository = studentRepository;
+        validateProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentRepo);
+        validateProgrammeEditionRepository(programmeEditionRepository);
+        validateProgrammeList(programmeList);
+        validateCourseEditionEnrollmentRepository(courseEditionEnrollmentRepository);
+        validateCourseEditionRepository(courseEditionRepository);
+        validateSchoolYearRepository(schoolYearRepository);
     }
+
     // Enroll a student in a ProgrammeEdition.
-    public Optional<ProgrammeEdition> enrollStudentInProgrammeEdition(
-            int uniqueNumber, Programme programme, SchoolYear schoolYear) {
-
-       Optional<Student> studentOpt = _studentRepository.findStudentByUniqueNumber(uniqueNumber);
-
-        if (studentOpt.isEmpty()) {
-            throw new IllegalStateException("Student not found.");
-        }
-
-        Student student = studentOpt.get();
+    public boolean enrollStudentInProgrammeEditionAndSetOfCoursesEditions(
+            Student student, Programme programme, SchoolYear schoolYear ) {
 
         if (!programme.isStudentEnrolled(student)) {
-            throw new IllegalStateException("Student not enrolled in Programme.");
+            throw new IllegalStateException("Student should enrolled in Programme.");
         }
+
         // Find ProgrammeEdition
         Optional<ProgrammeEdition> optionalProgrammeEdition =
                 _programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear);
@@ -60,15 +54,8 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
             throw new IllegalStateException("Student is already enrolled in the programme edition.");
         }
 
-        // Enroll student
+        // Enroll student in programmeEdition
         _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition, LocalDate.now());
-
-        return Optional.of(programmeEdition);
-    }
-
-    //Enroll a student in all CourseEditions of a ProgrammeEdition.
-    public Optional<List<CourseEdition>> enrollStudentInCourseEditions(
-            Student student, ProgrammeEdition programmeEdition) {
 
         // Find all course editions for the programme edition
         List<CourseEdition> courseEditionsOfAProgrammeEdition =
@@ -78,19 +65,66 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
             Optional<CourseEditionEnrollment> existingEnrollment =
                     _courseEditionEnrollmentRepository.findByStudentAndEdition(student, courseEdition);
             if (existingEnrollment.isPresent()) {
-                throw new IllegalArgumentException("This course edition enrollment is already in the list.");
+                throw new IllegalStateException("This course edition enrollment is already in the list.");
             } else {
                 _courseEditionEnrollmentRepository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
             }
         }
-
-        return Optional.of(courseEditionsOfAProgrammeEdition);
+        return true;
     }
 
     public List<Programme> getAllProgrammes() {
         return _programmeList.getAllProgrammes();
     }
 
+    public List<SchoolYear> getAllSchoolYears() {
+        return _schoolYearRepository.getAllSchoolYears();
+    }
 
-
+    //Verify if the programme edition enrollment repo is valid
+    private void validateProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo) {
+        if (programmeEditionEnrollmentRepo == null) {
+            throw new IllegalStateException("Programme edition enrollment repository cannot be null.");
+        }
+        this._programmeEditionEnrollmentRepo = programmeEditionEnrollmentRepo;
+    }
+    //Verify if the programme edition repository is valid
+    private void validateProgrammeEditionRepository(ProgrammeEditionRepository programmeEditionRepository) {
+        if (programmeEditionRepository == null) {
+            throw new IllegalStateException("Programme edition repository cannot be null.");
+        }
+        this._programmeEditionRepository = programmeEditionRepository;
+    }
+    //Verify if the programme list is valid
+    private void validateProgrammeList(ProgrammeList programmeList) {
+        if (programmeList == null) {
+            throw new IllegalStateException("Programme list cannot be null.");
+        }
+        this._programmeList = programmeList;
+    }
+    //Verify if the course edition enrollment repository is valid
+    private void validateCourseEditionEnrollmentRepository(CourseEditionEnrollmentRepository courseEditionEnrollmentRepository) {
+        if (courseEditionEnrollmentRepository == null) {
+            throw new IllegalStateException("Course edition enrollment repository cannot be null.");
+        }
+        this._courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
+    }
+    //verify if the course edition repository is valid
+    private void validateCourseEditionRepository(CourseEditionRepository courseEditionRepository) {
+        if(courseEditionRepository == null) {
+            throw new IllegalStateException("Course edition repository cannot be null.");
+        }
+        this._courseEditionRepository = courseEditionRepository;
+    }
+    //verify if the school year repository is valid
+    private void validateSchoolYearRepository(SchoolYearRepository schoolYearRepository) {
+        if(schoolYearRepository == null) {
+            throw new IllegalStateException("School year repository cannot be null.");
+        }
+        this._schoolYearRepository = schoolYearRepository;
+    }
 }
+
+
+
+

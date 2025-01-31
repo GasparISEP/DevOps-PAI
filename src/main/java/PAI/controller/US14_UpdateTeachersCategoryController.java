@@ -35,7 +35,7 @@ public class US14_UpdateTeachersCategoryController {
         TeacherCategory teacherCategory = optionalTeacherCategory.orElseThrow(() ->
                 new IllegalArgumentException("Teacher Category with name " + teacherCategoryName + " not found"));
 
-        return _teacherRepository.updateTeacherCategory(date, teacher, teacherCategory);
+        return teacher.updateTeacherCategoryInTeacherCareer(date, teacherCategory);
         }
     }
 }

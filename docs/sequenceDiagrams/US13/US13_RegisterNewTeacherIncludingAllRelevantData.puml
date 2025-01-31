@@ -1,0 +1,96 @@
+@startuml
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+
+actor HRC
+participant ":UI" as UI #Cyan/Silver
+participant ":Controller" as Controller #Cyan/Silver
+participant ":TeacherCategoryRepository" as TeacherCategoryRepository #Cyan/Silver
+participant ":DepartmentRepository" as DepartmentRepository #Cyan/Silver
+participant ":TeacherRepository" as TeacherRepository #Cyan/Silver
+participant "t1:Teacher" as Teacher #Yellow/Silver
+participant "addrs1:Address" as Address #Yellow/Silver
+participant "tcp1:TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
+
+
+HRC -> UI: I want to register a new teacher including all relevant data.
+activate UI
+
+UI -> Controller: **getTeacherCategoriesList**
+activate Controller
+
+Controller -> TeacherCategoryRepository: **getTeacherCategoriesList**
+activate TeacherCategoryRepository
+
+TeacherCategoryRepository --> Controller: tcList
+deactivate TeacherCategoryRepository
+
+Controller --> UI: tcList
+deactivate Controller
+
+UI --> HRC: Choose one category from the list.
+
+HRC -> UI: Okay.
+
+UI -> Controller: **getDepartmentsList()**
+activate Controller
+
+Controller -> DepartmentRepository: **getDepartmentsList()**
+activate DepartmentRepository
+
+DepartmentRepository --> Controller: dptList
+deactivate DepartmentRepository
+
+Controller --> UI: dptList
+deactivate Controller
+
+UI --> HRC: Choose one department from the list.
+
+HRC -> UI: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackgroung, workingPercentage,\ndate, tc1, dpt1
+
+Note Right HRC #Pink/White
+    *tc1* = Teacher Category Object
+    *dpt1* = Department Object
+End Note
+
+UI -> Controller: **registerTeacher**(acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, workingPercentage,\ndate, tc1, dpt1)
+activate Controller
+
+Controller -> TeacherRepository: **registerTeacher**(acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, workingPercentage,\ndate, tc1, dpt1)
+activate TeacherRepository
+
+TeacherRepository -> Teacher **: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
+activate Teacher
+
+Teacher -> Address **: **createAddress** (street, postcode, location, country)
+activate Address
+
+Address --> Teacher: addrs1
+deactivate Address
+
+Teacher -> TeacherCareerProgression **: **createTeacherCareerProgressionList** (date, tc1, workingPercentage)
+activate TeacherCareerProgression
+
+TeacherCareerProgression --> Teacher: tcp1
+deactivate TeacherCareerProgression
+
+Teacher --> TeacherRepository: t1
+
+ref over TeacherRepository, Teacher
+    Check if a teacher is already registered
+end ref
+
+TeacherRepository -> TeacherRepository: add (t1)
+
+deactivate Teacher
+
+TeacherRepository --> Controller: Registered
+deactivate TeacherRepository
+
+Controller --> UI: Registered
+deactivate Controller
+
+UI --> HRC: Success
+deactivate UI
+
+@enduml

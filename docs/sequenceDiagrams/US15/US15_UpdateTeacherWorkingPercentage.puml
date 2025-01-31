@@ -1,0 +1,57 @@
+@startuml
+
+actor HRC
+participant ":Test" as Test
+participant ":Controller" as Controller #lightgreen
+participant ":TeacherRepository" as TR #lightblue
+participant "t1:Teacher" as Teacher #lightyellow
+participant ":TeacherCareerProgression" as TCP #lightpink
+participant "tcp1:TeacherCareerProgression" as TCP1 #lightpink
+
+
+HRC -> Test : I want to update Teacher's working percentage \n(NIF, workingPercentage, date)
+activate Test
+Test -> Controller : getTeacherByNIF(NIF)
+activate Controller
+
+Controller -> TR : getTeacherByNIF(NIF)
+activate TR
+ref over TR, Teacher
+    Loop t[i] in TR
+    hasThisNIF()
+end ref
+activate Teacher
+Teacher --> TR : True!
+deactivate Teacher
+TR --> Controller : t1!
+deactivate TR
+
+deactivate TCP
+deactivate TR
+
+deactivate Teacher
+
+Controller -> Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
+activate Teacher
+Teacher -> Teacher : getLast()
+Teacher -> TCP : getCategory()
+activate TCP
+TCP --> Teacher : tc1
+deactivate TCP
+Teacher -> TCP1** : createTeacherCareerProgression \n(date, tc1, workingPercentage)
+activate TCP1
+TCP1 -> TCP1 : validateAndFormatDate()
+TCP1 -> TCP1 : validateWorkingPercentage()
+TCP1 --> Teacher : tcp1!
+deactivate TCP1
+Teacher -> Teacher : validateIsDateAfter()
+Teacher -> Teacher : add()
+
+Teacher --> Controller : Changed Working Percentage!
+deactivate Teacher
+
+Controller --> Test : Changed Working Percentage!
+deactivate Controller
+Test --> HRC : Success
+deactivate Test
+@enduml

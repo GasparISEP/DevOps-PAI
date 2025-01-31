@@ -13,7 +13,7 @@ public class CourseEditionRepository {
 
     }
 
-    public boolean createCourseEdition(Course course, ProgrammeEdition programmeEdition) throws Exception {
+    public boolean createCourseEdition(Course course, ProgrammeEdition programmeEdition) {
 
         try {
             CourseEdition courseEdition = new CourseEdition(course, programmeEdition);

@@ -29,7 +29,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "14-05-2007", assistantProfessor, 70, CSE );
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
 
         CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
@@ -50,7 +50,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "14-05-2007", assistantProfessor, 70, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
         CreateProgrammeEditionForCurrentSchoolYearController controller = new CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
@@ -70,7 +70,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "14-05-2007", assistantProfessor, 80, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
 
         CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
@@ -92,7 +92,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
         CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(null, syr1);
 
@@ -112,7 +112,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
         CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(per1, null);
 

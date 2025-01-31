@@ -13,8 +13,7 @@ class US22IWantToGradeAStudentInACourseEditionTest {
     @Test
     void gradeStudentInRepository () {
         //arrange
-        CourseEditionRepository courseEditionRepository1 = new CourseEditionRepository();
-        GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(courseEditionRepository1);
+        GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository();
         //act
         US22_IWantToGradeAStudentInACourseEdition G1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1);
         //assert
@@ -25,8 +24,7 @@ class US22IWantToGradeAStudentInACourseEditionTest {
     void iWantToGradeAStudentInACourseEdition () throws Exception {
         //arrange
 
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(courseEditionRepository);
+        GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository();
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
 
         //act
@@ -39,15 +37,13 @@ class US22IWantToGradeAStudentInACourseEditionTest {
         Department dpt1 = new Department("MAT", "Mathematics");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
         Course c1 = new Course("Informatics", "INF", 6, 1);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, courseRepository);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         LocalDate currentDate = LocalDate.now();
 
-        courseEditionRepository.createCourseEdition(c1, pE1);
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
         gradeStudentRepository1.addGradeToStudent(20.0,"12-02-2024",student1,courseEdition1,enrollmentRepository);
 

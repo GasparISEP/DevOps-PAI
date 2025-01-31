@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class SchoolYearRepository {
     }
 
     public boolean schoolYearExists(SchoolYear schoolYear){
+        if(schoolYear==null){
+            return false;
+        }
         for (SchoolYear existingSchoolYear : _schoolYearList) {
             if (existingSchoolYear.isSameSchoolYear(schoolYear)) {
                 return true;
@@ -33,16 +37,21 @@ public class SchoolYearRepository {
         return false;
     }
 
-    public SchoolYear getLatestSchoolYear() {
+    public SchoolYear getCurrentSchoolYear() {
 
         if (_schoolYearList.isEmpty())
             return null;
 
-        SchoolYear mostRecentSchoolYear = _schoolYearList.get(0);
+        LocalDate today = LocalDate.now();
+
         for (int i = 0; i < _schoolYearList.size(); i++) {
-            if (mostRecentSchoolYear.getEndDate().isBefore(_schoolYearList.get(i).getEndDate()))
-                mostRecentSchoolYear = _schoolYearList.get(i);
+            if (!today.isBefore(_schoolYearList.get(i).getStartDate()) && !today.isAfter(_schoolYearList.get(i).getEndDate()))
+                return _schoolYearList.get(i);
         }
-        return mostRecentSchoolYear;
+        return null;
+    }
+
+    public List<SchoolYear> getAllSchoolYears() {
+        return new ArrayList<>(_schoolYearList);
     }
 }

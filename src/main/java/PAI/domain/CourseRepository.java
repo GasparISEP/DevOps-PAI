@@ -26,4 +26,8 @@ public class CourseRepository {
 
         return _courseRepository.contains(course);
     }
+
+    public ArrayList<Course> getAllCourses() {
+        return _courseRepository;
+    }
 }

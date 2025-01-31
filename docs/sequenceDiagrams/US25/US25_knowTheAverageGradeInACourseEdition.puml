@@ -1,0 +1,17 @@
+@startuml
+actor ProgrammeDirector
+participant ":UI" as UI
+participant ":IWantToKnowTheAverageGradeInACourseEdition" as KA
+participant ":GradeStudentRepository" as GR
+
+
+ProgrammeDirector -> UI ++ #application : I want to know the average grade in a course edition (courseEdition1)
+UI -> KA ++ #application : knowTheAverageGrade(courseEdition1)
+KA -> GR ++ #application : knowTheAverageGrade(courseEdition1)
+GR -> GR :knowTheAverageGrade(courseEdition1)
+
+GR --> KA --: Average Grade (courseEdition1)
+KA --> UI --: Average Grade (courseEdition1)
+UI --> ProgrammeDirector --: Average Grade (courseEdition1)
+
+@enduml

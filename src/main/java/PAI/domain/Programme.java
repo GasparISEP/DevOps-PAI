@@ -15,10 +15,8 @@ public class Programme {
     private Teacher _programmeDirector;
     private ArrayList<Course> _courseList = new ArrayList<>();
     private List<Enrolment> _programmeEnrolment;
-    private CourseRepository _courseRepository;
-    private StudyPlan _studyPlan = new StudyPlan();
 
-    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, CourseRepository courseRepository) throws Exception {
+    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
         }
@@ -54,8 +52,6 @@ public class Programme {
         }
         _programmeDirector = programmeDirector;
 
-        _courseRepository = courseRepository;
-
         _programmeEnrolment = new ArrayList<>();
 
     }
@@ -89,10 +85,6 @@ public class Programme {
 
     //Method to add Course
     public boolean addCourseToAProgramme(Course course) throws Exception {
-
-        if (!_courseRepository.isCourseRegistered(course)) {
-            throw new Exception("Course cannot be found in the repository.");
-        }
 
         if (_courseList.contains(course)) {
             throw new Exception("Course is already added to the programme.");
@@ -152,9 +144,5 @@ public class Programme {
 
     public int getQuantityOfEcts() {
         return _quantityOfEcts;
-    }
-
-    public StudyPlan getStudyPlan() {
-        return _studyPlan;
     }
 }

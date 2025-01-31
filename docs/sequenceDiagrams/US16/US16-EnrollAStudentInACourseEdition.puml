@@ -1,0 +1,56 @@
+ @startuml
+ title US16: Enroll a student in a course edition
+
+actor ASC
+participant ":UI" as UI
+ASC -> UI: I want to enroll a student in a course edition!
+activate UI
+UI --> ASC: What Student?
+ASC -> UI: Enter the student!
+
+UI --> ASC: What CourseEdition?
+ASC -> UI: Enter the course edition!
+
+UI --> ASC: Sure?
+ASC -> UI: Yes!
+
+participant ":Controller" as Controller
+UI -> Controller: enrollStudentInCourseEdition (student, courseEdition)
+activate Controller
+participant "ce[i]:CourseEditionRepository" as CourseEditionRepository
+Controller -> CourseEditionRepository : isStudentInProgrammeEdition(student, courseEdition)
+activate CourseEditionRepository
+loop for each ce[i] in CourseEditionRepository
+participant "ce1:CourseEdition" as CourseEdition
+CourseEditionRepository -> CourseEdition: findWhichProgrammeEditionBelongsToACourseEdition(courseEdition)
+deactivate CourseEditionRepository
+activate CourseEdition
+end
+CourseEdition --> Controller: programmeEditionFound (pee1)
+deactivate CourseEdition
+participant "pee[i]:ProgrammeEditionEnrollmentRepository" as ProgrammeEditionEnrollmentRepository
+loop for each pee[i] in ProgrammeEditionEnrollmentRepository
+participant "st1:Student" as Student
+ProgrammeEditionEnrollmentRepository -> Student: isStudentEnrolledInThisProgrammeEdition(student, pee1)
+activate Student
+end
+Student --> Controller: True! ("st1 is enrolled in pee1.")
+deactivate Student
+participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
+Controller -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (st1, ce1, enrollmentDate)
+activate CourseEditionEnrollmentRepository
+create "cee1:CourseEditionEnrollment"
+CourseEditionEnrollmentRepository -> "cee1:CourseEditionEnrollment" : createCourseEditionEnrollment (st1, ce1, enrollmentDate)
+activate "cee1:CourseEditionEnrollment"
+"cee1:CourseEditionEnrollment" --> CourseEditionEnrollmentRepository: courseEditionEnrollmentCreated (cee1)
+deactivate "cee1:CourseEditionEnrollment"
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: isThisEnrollmentAlreadyExists (cee1)
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: enrollStudentInACourseEdition (cee1)
+CourseEditionEnrollmentRepository --> Controller: True! ("st1 is enrolled in ce1.")
+deactivate CourseEditionEnrollmentRepository
+Controller --> UI: True! ("st1 is enrolled in ce1.")
+deactivate Controller
+UI --> ASC: OK!
+deactivate UI
+
+@enduml

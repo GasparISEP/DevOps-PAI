@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public class TeacherCategoryRepository {
 
-    private ArrayList<TeacherCategory> _teacherCategoryRepository;
+    private List<TeacherCategory> _teacherCategoryRepository;
 
     //CONSTRUTOR
     public TeacherCategoryRepository () {
@@ -38,9 +38,12 @@ public class TeacherCategoryRepository {
         return Optional.empty();
     }
 
-    // New method to list all categories(support all the operations required by the controller)
-    public List<TeacherCategory> retrieveTeacherCategoriesList() {
-        return new ArrayList<>(_teacherCategoryRepository);
+    // Method to get the list of Teacher Categories
+    public List<TeacherCategory> getTeacherCategoriesList() throws IllegalStateException {
+        if (_teacherCategoryRepository.isEmpty()) {
+            throw new IllegalStateException("Teacher Category list is empty.");
+        }
+        return _teacherCategoryRepository;
     }
 
 }

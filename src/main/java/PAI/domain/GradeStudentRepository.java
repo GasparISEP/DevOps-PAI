@@ -6,29 +6,19 @@ import java.util.Optional;
 
 public class GradeStudentRepository {
     private List<GradeStudent> gradeStudentList = new ArrayList<>();
-    private CourseEditionRepository courseEditionRepository;
     private CourseEditionEnrollmentRepository courseEditionEnrollmentRepository;
 
 
-    public GradeStudentRepository (CourseEditionRepository courseEditionRepository) {
-        this.courseEditionRepository = courseEditionRepository;
-    }
-
-
-    public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition,CourseEditionEnrollmentRepository courseEditionEnrollmentRepository){
+    public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition, CourseEditionEnrollmentRepository courseEditionEnrollmentRepository){
         try {
             if (!courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, courseEdition)){
                 return Optional.empty();
             }
-
-            if (courseEditionRepository != null && courseEditionRepoExists(courseEdition)){
                 GradeStudent gradeStudent = new GradeStudent(grade, date, student,courseEdition);
                 gradeStudentList.add(gradeStudent);
                 return Optional.of(gradeStudent);
-            }
-            return Optional.empty();
         }
-        catch ( Exception ex) {
+        catch (Exception ex) {
             return Optional.empty(); }
     }
 
@@ -72,8 +62,5 @@ public class GradeStudentRepository {
     }
 
 
-    public boolean courseEditionRepoExists (CourseEdition courseEdition){
-        return courseEditionRepository.contains(courseEdition);
-    }
 
 }

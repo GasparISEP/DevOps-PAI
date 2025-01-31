@@ -14,21 +14,21 @@ public class CourseEditionEnrollmentRepository {
         _courseEditionEnrollments = new ArrayList<>();
     }
 
-    public Optional<CourseEditionEnrollment> enrollStudentInACourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) {
+    public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) {
 
         CourseEditionEnrollment cee1 = new CourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
-        if (isThisEnrollmentAlreadyExists(cee1)){
-            return Optional.empty();
+        if (isEnrollmentAlreadyExists(cee1)){
+            return false;
         }
 
         _courseEditionEnrollments.add(cee1);
 
-        return Optional.of(cee1);
+        return true;
     }
 
     //check if this enrollment already exists
-    private boolean isThisEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
+    private boolean isEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
 
         if (_courseEditionEnrollments.contains(courseEditionEnrollment)) {
             return true;
@@ -66,4 +66,17 @@ public class CourseEditionEnrollmentRepository {
         }
         return count;
     }
+
+    //US28
+    // Method to remove
+    public boolean removeEnrollment(Student student, CourseEdition courseEdition) {
+        // Finds the enrollment for the student and the course edition
+        Optional<CourseEditionEnrollment> enrollmentToRemove = findByStudentAndEdition(student, courseEdition);
+        if (enrollmentToRemove.isEmpty()) {
+            throw new IllegalArgumentException("Enrollment does not exist.");
+        }
+        _courseEditionEnrollments.remove(enrollmentToRemove.get());
+        return true;  // Returns true if the enrollment was successfully removed
+    }
+
 }

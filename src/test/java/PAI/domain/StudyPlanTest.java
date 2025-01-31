@@ -17,7 +17,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -43,7 +43,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -73,7 +73,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -100,7 +100,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -128,7 +128,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -151,7 +151,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -174,7 +174,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -196,7 +196,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -217,7 +217,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -237,7 +237,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -263,7 +263,7 @@ class StudyPlanTest {
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         StudyPlan studyPlan = new StudyPlan();
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
 
         // act
         courseRepository.registerCourse("Physics", "PHYS", 10, 1);
@@ -295,7 +295,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -320,7 +320,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -353,7 +353,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -382,7 +382,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act
@@ -410,7 +410,7 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, courseRepository);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = new StudyPlan();
 
         // act

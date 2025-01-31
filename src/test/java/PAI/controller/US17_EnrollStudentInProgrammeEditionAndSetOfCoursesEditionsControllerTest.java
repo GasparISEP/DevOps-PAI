@@ -20,6 +20,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -27,7 +28,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -35,66 +36,33 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
+        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
         AccessMethodRepository amr = new AccessMethodRepository();
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        Enrolment enrolment = new Enrolment(student, am1);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Course c1 = new Course("Development", "DEV", 5, 1);
+        Course c2 = new Course("Development1", "DEV1", 5, 1);
+        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
         if (!programme1.isStudentEnrolled(student)) {
             programme1.enrolStudentInProgramme(student, am1, amr);
         }
-          programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
-
+        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
+        Optional<ProgrammeEdition> pe1Opt = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
+        ProgrammeEdition pe1 = pe1Opt.get();
+        courseEditionRepository.createCourseEdition(c1, pe1);
+        courseEditionRepository.createCourseEdition(c2, pe1);
+        CourseEdition ce1 = courseEditionRepository.getCourseEditions().get(0);
+        CourseEdition ce2 = courseEditionRepository.getCourseEditions().get(1);
         // Act
-        Optional<ProgrammeEdition> result = controller.enrollStudentInProgrammeEdition(1, programme1, schoolYear);
-
+        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        boolean result2 = courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce1);
+        boolean result3 = courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce2);
         // Assert
-        assertTrue(result.isPresent(), "The student is enrolled in the ProgrammeEdition.");
-        ProgrammeEdition programmeEdition = result.get();
-        assertEquals(programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear).get(), programmeEdition,
-                "The returned ProgrammeEdition should be the same.");
-        assertTrue(programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition),
-                "The student should be enrolled in the ProgrammeEdition.");
-        assertTrue(programme1.isStudentEnrolled(student), "The student should be enrolled in the programme.");
-    }
-
-    @Test
-    void testEnrollStudentInProgrammeEdition_StudentNotFound() throws Exception {
-        // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeList programmeList = new ProgrammeList();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
-        StudentRepository studentRepository = new StudentRepository();
-        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        studentRepository);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-
-        // Act & Assert
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-                controller.enrollStudentInProgrammeEdition(1, programme1, schoolYear));
-        assertEquals("Student not found.", exception.getMessage());
+        assertTrue(result, "The student is enrolled in the ProgrammeEdition.");
+        assertTrue(result2, "The Student is enrolled in the CourseEdition.");
+        assertTrue(result3, "The Student is enrolled in the CourseEdition.");
     }
 
     @Test
@@ -106,6 +74,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -113,26 +82,28 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
+        AccessMethodRepository amr = new AccessMethodRepository();
+        amr.registerAccessMethod("Over 23");
         studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-
-        // Act & Assert
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-                controller.enrollStudentInProgrammeEdition(1, programme1, schoolYear));
-        assertEquals("Student not enrolled in Programme.", exception.getMessage());
+        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
+        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
+        // Act & Assert:
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        });
+        assertEquals("Student should enrolled in Programme.", exception.getMessage());
     }
-
 
     @Test
     void testEnrollStudentInProgrammeEdition_ProgrammeEditionNotFound() throws Exception {
@@ -143,6 +114,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -150,7 +122,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -158,28 +130,25 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
+        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
         AccessMethodRepository amr = new AccessMethodRepository();
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        Enrolment enrolment = new Enrolment(student, am1);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
+        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
         if (!programme1.isStudentEnrolled(student)) {
             programme1.enrolStudentInProgramme(student, am1, amr);
         }
-
         // Act & Assert
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-                controller.enrollStudentInProgrammeEdition(student.getUniqueNumber(), programme1, schoolYear));
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        });
         assertEquals("Programme edition not found for the given school year.", exception.getMessage());
     }
 
     @Test
-    void testEnrollStudentInProgrammeEdition_StudentAlreadyEnrolledInEdition() throws Exception {
+    void testEnrollStudentInProgrammeEdition_StudentAlreadyEnrolledInProgrammeEdition() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
@@ -187,6 +156,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -194,45 +164,44 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
-
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("DEI", "Computer Science Department");
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address address = new Address("Rua São Tomé", "4249-015", "Porto", "Portugal");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.pt", "123456789", "B106",
-                "PhD in Computer Science, 2005, ISEP", "Rua São Tomé", "4249-015", "Porto",
-                "Portugal", "20-12-2010", assistantProfessor, 100, department);
-        SchoolYear schoolYear = new SchoolYear("2024/2025", "23-11-2024", "09-12-2025");
+        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
+                "Portugal", "20-12-2010", assistantProfessor, 100, department1);
+        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
         AccessMethodRepository amr = new AccessMethodRepository();
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Computer Science", "CS", 25, 6, master, department, teacher, courseRepository);
-        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", address);
-        studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", address);
-        Enrolment enrolment = new Enrolment(student, am1);
-        programme.enrolStudentInProgramme(student, am1, amr);
-        programmeEditionRepository.createProgrammeEdition(programme, schoolYear);
-        ProgrammeEdition programmeEdition = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear).get();
+        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
+        if (!programme1.isStudentEnrolled(student)) {
+            programme1.enrolStudentInProgramme(student, am1, amr);
+        }
+        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
+        Optional<ProgrammeEdition> peOptional = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
+        ProgrammeEdition programmeEdition = peOptional.get();
         programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition, LocalDate.now());
-
         // Act & Assert
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-                controller.enrollStudentInProgrammeEdition(student.getUniqueNumber(), programme, schoolYear)
-        );
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        });
         assertEquals("Student is already enrolled in the programme edition.", exception.getMessage());
     }
 
     @Test
-    void testEnrollStudentInCourseEditions_Success() throws Exception {
-        // Arrange
+    void testEnrollStudentInCourseEdition_StudentAlreadyEnrolledInCourseEdition() throws Exception {
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         StudentRepository studentRepository = new StudentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -240,8 +209,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        studentRepository);
-
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -249,151 +217,221 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme1, schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
-
+        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
+        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethod am1 = new AccessMethod("Over 23");
+        amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-
         Course c1 = new Course("Development", "DEV", 5, 1);
-        Course c2 = new Course("Computer Science Engineering", "CSE", 5, 1);
-        courseEditionRepository.createCourseEdition(c1, programmeEdition);
-        courseEditionRepository.createCourseEdition(c2, programmeEdition);
+        Course c2 = new Course("Development1", "DEV1", 5, 1);
+        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
+        if (!programme1.isStudentEnrolled(student)) {
+            programme1.enrolStudentInProgramme(student, am1, amr);
+        }
+        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
+        Optional<ProgrammeEdition> pe1Opt = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
+        ProgrammeEdition pe1 = pe1Opt.get();
+        courseEditionRepository.createCourseEdition(c1, pe1);
+        courseEditionRepository.createCourseEdition(c2, pe1);
         CourseEdition ce1 = courseEditionRepository.getCourseEditions().get(0);
         CourseEdition ce2 = courseEditionRepository.getCourseEditions().get(1);
-
-        // Act
-        Optional<List<CourseEdition>> result = controller.enrollStudentInCourseEditions(student, programmeEdition);
-        Optional<CourseEditionEnrollment> enrollment1 = courseEditionEnrollmentRepository.findByStudentAndEdition(student, ce1);
-        Optional<CourseEditionEnrollment> enrollment2 = courseEditionEnrollmentRepository.findByStudentAndEdition(student, ce2);
-        List<CourseEdition> enrolledCourses = result.get();
-
-        // Assert
-
-        assertTrue(enrollment1.isPresent(), "The student is enrolled in the first course edition.");
-        assertTrue(enrollment2.isPresent(), "The student is enrolled in the second course edition.");
-        assertEquals(2, enrolledCourses.size(), "The student is enrolled in all course editions.");
-        assertTrue(enrolledCourses.contains(ce1), "The student should be enrolled in the first course edition.");
-        assertTrue(enrolledCourses.contains(ce2), "The student should be enrolled in the second course edition.");
-
-    }
-
-    @Test
-    void testEnrollStudentInCourseEditions_StudentAlreadyEnrolled() throws Exception {
-        // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeList programmeList = new ProgrammeList();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
-        StudentRepository studentRepository = new StudentRepository();
-        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        studentRepository);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        SchoolYear schoolYear = new SchoolYear("Academic Year", "23-11-2024", "09-12-2025");
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme1 = new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme1, schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
-        Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("Development", "DEV", 5, 1);
-        Course c2 = new Course("Computer Science Engineering", "CSE", 5, 1);
-        courseEditionRepository.createCourseEdition(c1, programmeEdition);
-        courseEditionRepository.createCourseEdition(c2, programmeEdition);
-        controller.enrollStudentInCourseEditions(student, programmeEdition);
-
-        // Act
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            controller.enrollStudentInCourseEditions(student, programmeEdition);
+        courseEditionEnrollmentRepository.enrollStudentInACourseEdition(student, ce1,LocalDate.now());
+        courseEditionEnrollmentRepository.enrollStudentInACourseEdition(student, ce2,LocalDate.now());
+        // Act + Assert
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
         });
-
-        // Assert
-        assertEquals("This course edition enrollment is already in the list.", thrown.getMessage());
+        assertEquals("This course edition enrollment is already in the list.", exception.getMessage());
     }
 
     @Test
     void testGetAllProgrammes() throws Exception {
         // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        programmeEditionEnrollmentRepo,
+                        programmeEditionRepository,
+                        programmeList,
+                        courseEditionEnrollmentRepository,
+                        courseEditionRepository,
+                        schoolYearRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", "20-12-2010", new TeacherCategory("Assistant Professor"), 100, department1);
-        ProgrammeList programmeList = new ProgrammeList();
-        CourseRepository courseRepository = new CourseRepository();
-        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository);
-        programmeList.registerProgramme("Computer Science", "CS", 26, 6, master, department1, teacher1, courseRepository);
-        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        null,
-                        null,
-                        programmeList,
-                        null,
-                        null,
-                        null
-                );
+        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
+        programmeList.registerProgramme("Computer Science", "CS", 26, 6, master, department1, teacher1);
 
         // Act
         List<Programme> programmes = controller.getAllProgrammes();
-
         // Assert
         assertNotNull(programmes, "The list of programmes should not be null.");
         assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
-        assertTrue(programmes.contains(new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1, courseRepository)),
+        assertTrue(programmes.contains(new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1)),
                 "The list should contain the programme 'Computer Science Engineering'.");
-        assertTrue(programmes.contains(new Programme("Computer Science", "CS", 26, 6, master, department1, teacher1, courseRepository)),
+        assertTrue(programmes.contains(new Programme("Computer Science", "CS", 26, 6, master, department1, teacher1)),
                 "The list should contain the programme 'Computer Science'.");
+    }
+    @Test
+    void testGetAllSchoolYears() throws Exception {
 
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+                        programmeEditionEnrollmentRepo,
+                        programmeEditionRepository,
+                        programmeList,
+                        courseEditionEnrollmentRepository,
+                        courseEditionRepository,
+                        schoolYearRepository);
+        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        schoolYearRepository.addSchoolYear("25/26", "10-11-2025", "09-12-2026");
+        // Act
+        List<SchoolYear> schoolYears = controller.getAllSchoolYears();
+        // Assert
+        assertNotNull(schoolYears, "The list of school years should not be null.");
+        assertEquals(2, schoolYears.size(), "The list of school years should contain exactly 2 years.");
+        assertTrue(schoolYears.contains(new SchoolYear("24/25", "23-11-2024", "09-12-2025")),
+                "The list should contain the school year '24/25'.");
+        assertTrue(schoolYears.contains(new SchoolYear("25/26", "10-11-2025", "09-12-2026")),
+                "The list should contain the school year '25/26'.");
+    }
+
+    @Test
+    void shouldReturnExceptionIfEverythingIsNull (){
+        //arrange
+
+        //act + assert
+        assertThrows(Exception.class, () -> new US16_EnrollAStudentInACourseEdition(null, null, null));
+    }
+
+    @Test
+    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
+        //arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+
+        //act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(null,programmeEditionRepository,
+                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository);
+        });
+        //assert
+        assertEquals("Programme edition enrollment repository cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnExceptionIfProgrammeEditionRepositoryIsNull (){
+        //arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+
+        //act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,null,
+                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository);
+        });
+
+        //assert
+        assertEquals("Programme edition repository cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnExceptionIfProgrammeListIsNull (){
+        //arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+
+        //act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+                    null, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository);
+        });
+
+        //assert
+        assertEquals("Programme list cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
+        //arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+
+        //act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+                    programmeList, null, courseEditionRepository, schoolYearRepository);
+        });
+
+        //assert
+        assertEquals("Course edition enrollment repository cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
+        //arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+
+        //act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+                    programmeList, courseEditionEnrollmentRepository, null, schoolYearRepository);
+        });
+
+        //assert
+        assertEquals("Course edition repository cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnExceptionIfSchoolYearRepositoryIsNull (){
+        //arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        //act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, null);
+        });
+
+        //assert
+        assertEquals("School year repository cannot be null.", exception.getMessage());
     }
 
 
-//    @Test
-//    void testFindStudentById_WhenStudentExists() throws Exception {
-//        //arrange
-//        StudentRepository studentRepository = new StudentRepository();
-//        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-//                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-//                        null, null, null, null, null, studentRepository);
-//
-//        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-//        studentRepository.registerStudent(1001, "João Silva", "123456789", "912345678", "joao@email.com", add1);
-//
-//        //act
-//        Optional<Student> foundStudent = controller.findStudentById(1001);
-//
-//        //assert
-//        assertTrue(foundStudent.isPresent(), "O estudante deveria estar presente.");
-//        assertEquals(1001, foundStudent.get().getUniqueNumber(), "O número único deveria coincidir.");
-//    }
-//
-//    @Test
-//    void testFindStudentById_WhenStudentDoesNotExist() {
-//        //arrange
-//        StudentRepository studentRepository = new StudentRepository();
-//        US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-//                new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-//                        null, null, null, null, null, studentRepository);
-//
-//        //act
-//        Optional<Student> foundStudent = controller.findStudentById(9999);
-//
-//        //assert
-//        assertFalse(foundStudent.isPresent(), "O estudante não deveria ser encontrado.");
-//    }
 }
 
 
