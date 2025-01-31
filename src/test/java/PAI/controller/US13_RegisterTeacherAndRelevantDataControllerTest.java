@@ -56,7 +56,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldReturnDepartmentListEvenIfEmpty() throws IllegalStateException {
+    void shouldReturnExceptionIfDepartmentListIsEmpty() throws IllegalStateException {
         DepartmentRepository dptr = new DepartmentRepository();
         US13_RegisterTeacherAndRelevantDataController dptrControllerList = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);
         // Act + Assert
