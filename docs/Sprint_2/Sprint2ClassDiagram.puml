@@ -71,6 +71,7 @@ class ProgrammeEditionEnrollmentRepo {
     +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,
     localDate: LocalDate)
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
+    +checkIfThisEnrollmentAlreadyExists(ProgrammeEditionEnrollment programmeEditionEnrollment)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
     +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
 }
@@ -95,7 +96,7 @@ class Programme {
      -_courseList: List <Course>
      -_programmeEnrolment: List<Enrolment>
 
-     + Equals()
+     + equals()
      + addCourseToProgramme (course: Course)
      + newProgrammeDirector(): boolean
      +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
@@ -104,6 +105,13 @@ class Programme {
      +getCourseList()
      +getQuantityOfSemester()
      +getQuantityOfEcts()
+ }
+
+ class ProgrammeList {
+     -_programmeList: List<Programme>
+     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
+     +changeProgrammeDirector(Programme programme, Teacher newDirector)
+     +getAllProgrammes()
  }
 
 class ProgrammeEdition {
@@ -171,6 +179,7 @@ class SchoolYear {
     -_endDate:String
     +SchoolYear(description: String, StartDate: String, EndDate: String)
     +isSameSchoolYear(otherSchoolYear: SchoolYear)
+    +equals(Object: o)
 }
 
 class SchoolYearRepository {
@@ -179,13 +188,15 @@ class SchoolYearRepository {
     +addSchoolYear(description: String, StartDate: String, EndDate: String)
     +schoolYearExists(schoolYear: SchoolYear)
     +getLatestSchoolYear()
+    +getAllSchoolYears()
 }
 
 class Enrolment {
     -_student: Student
     -_accessMethod: AccessMethod
-    +Enrolment(student: Student, accessMethod: AccessMethod)
-    +isSameStudent(student: Student)
+    +Enrolment(Student: student, AccessMethod: accessMethod)
+    +isSameStudent(Student: student)
+    +findStudentInEnrollments()
 }
 
 class Student {
@@ -202,6 +213,7 @@ class Student {
 class StudentRepository {
     -_students: List<Student>
     +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +isStudentEnrolledInProgramme(Student student, Programme programme)
 }
 
 class AccessMethod {
@@ -235,7 +247,6 @@ class Course {
     +getDurationInSemester()
     +getName()
     +getAcronym()
-
 }
 
 class CourseRepository {
@@ -252,7 +263,7 @@ class CourseEdition {
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
     +setRuc(Teacher: ruc)
-    #whatProgrammeEditionBelongsThisCourseEdition ()
+    +whatProgrammeEditionBelongsThisCourseEdition ()
 }
 
 class CourseEditionRepository {
@@ -263,6 +274,7 @@ class CourseEditionRepository {
     +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
     +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
     +getCourseEdition()
+    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition)
 }
 
 class GradeStudent {
@@ -331,4 +343,5 @@ ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < Happens
 ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
 ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
 ProgrammeEdition "1..*" -- "1" ProgrammeEditionRepository
+ProgrammeList "1" -- "1..*" Programme
 @enduml

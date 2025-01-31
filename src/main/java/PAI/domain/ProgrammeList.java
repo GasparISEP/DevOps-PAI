@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProgrammeList {
-    private List<Programme> programmeList = new ArrayList();
+    private List<Programme> programmeList;
 
     public ProgrammeList() {
         programmeList = new ArrayList<>();
