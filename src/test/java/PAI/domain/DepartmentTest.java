@@ -17,9 +17,6 @@ class DepartmentTest {
         //arrange
         String acronym = "DEI";
         String name = "Department1";
-        Address address1 = new Address("Passeio Alegre", "4432-345", "Porto","Portugal");
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Department department1 = new Department ("DEI", "Dept1");
         //act
         Department department = new Department(acronym, name);
         //assert
@@ -39,7 +36,7 @@ class DepartmentTest {
         //assert
         assertNotNull (department);
     }
-
+@Test
     void shouldReturnDepartment_whenAllTheAtributesAreValid_withTwoLettersName () throws Exception {
         //arrange
         String acronym = "DEI";
@@ -217,5 +214,15 @@ class DepartmentTest {
 
         // Act & Assert
         assertFalse(department1.equals(department2));
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparedWithDifferentClassObject() throws Exception {
+        // Arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+
+        // Act & Assert
+        assertFalse(department1.equals(schoolYear1));
     }
 }
