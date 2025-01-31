@@ -13,8 +13,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
     @Test
     void gradeStudentInRepository() {
         //arrange
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(courseEditionRepository);
+        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
 
         //act
         US25_IWantToKnowTheAverageGradeOfACourseEdtion average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdtion(gradeStudentRepository);
@@ -27,8 +26,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
     void averageGradeInACourseEdition () throws Exception {
 
         //arrange
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(courseEditionRepository);
+        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
 
 
@@ -59,7 +57,6 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
-        courseEditionRepository.createCourseEdition(c1, pE1);
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
         enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1,currentDate);
 
