@@ -36,7 +36,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
             Student student, Programme programme, SchoolYear schoolYear ) {
 
         if (!programme.isStudentEnrolled(student)) {
-            throw new IllegalStateException("Student not enrolled in Programme.");
+            throw new IllegalStateException("Student should enrolled in Programme.");
         }
 
         // Find ProgrammeEdition

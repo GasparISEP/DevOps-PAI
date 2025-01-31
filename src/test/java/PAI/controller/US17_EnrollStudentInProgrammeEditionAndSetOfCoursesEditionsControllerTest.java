@@ -102,7 +102,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
         });
-        assertEquals("Student not enrolled in Programme.", exception.getMessage());
+        assertEquals("Student should enrolled in Programme.", exception.getMessage());
     }
 
     @Test
