@@ -1,22 +1,22 @@
 @startuml
 actor ProgrammeDirector
 
-participant "System" as S
+participant ":UI" as S
 participant ":Controller" as C
 participant ":GradeStudentRepo" as GSR
 
-ProgrammeDirector -> S : I want to know approval percentage of course section (courseEdition)
-activate S
-S -> C : knowApprovalRate()
-activate C
-C -> GSR : knowApprovalRate()
-activate GSR
-GSR -> GSR : knowApprovalRate()
-GSR --> C : Approval Percentage (courseEdition1)
-deactivate GSR
-C --> S : Approval Percentage (courseEdition1)
-deactivate C
+ProgrammeDirector -> S ++ #application: I want to know approval percentage of Course Edition
+S --> ProgrammeDirector -- : Course Edition?
+ProgrammeDirector -> S ++ #application: Course Edition!
+S -> C ++ #application: knowApprovalRate(CourseEdition)
+C -> GSR ++ #application : knowApprovalRate(CourseEdition)
+
+GSR -> GSR : knowApprovalRate(CourseEdition)
+GSR --> C --: Approval Percentage of courseEdition1
+
+C --> S --: Approval Percentage of courseEdition1
+
 S --> ProgrammeDirector : Succeed Approval Percentage (courseEdition1)
-deactivate S
+
 
 @enduml
