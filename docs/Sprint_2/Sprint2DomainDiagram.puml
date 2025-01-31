@@ -60,11 +60,11 @@ entity ProgrammeEdition {
 entity Enrolment {
 }
 
-entity EnrolmentProgrammeEdition {
+entity ProgrammeEditionEnrollment {
    date
 }
 
-entity EnrolmentCourseEdition {
+entity CourseEditionEnrollment {
    date
 }
 
@@ -122,10 +122,10 @@ Teacher "1" -- "1" Address : Has >
 "Teacher Career Progression" "*" -- "1" "Teacher Category" : Aggregates >
 Programme "1" -- "*" Enrolment : Has >
 ProgrammeEdition "*" -- "1" Programme : < Is organized
-ProgrammeEdition "1" -- "*" EnrolmentProgrammeEdition : < Happens
-EnrolmentProgrammeEdition "*" -- "1" Student : < Enrols
-Student "1" --- "*" EnrolmentCourseEdition : > Enrols
-EnrolmentCourseEdition "*" -- "1" Course_Edition : > Relates to
+ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < Happens
+ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
+Student "1" --- "*" CourseEditionEnrollment : > Enrols
+CourseEditionEnrollment "*" -- "1" Course_Edition : > Relates to
 Programme "*" -- "1" Department : Assigned to >
 Student "1" -- "*" "Grade Student" : < Belongs
 "Grade Student" "*" -- "1" Course_Edition : > Refers to

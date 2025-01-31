@@ -25,6 +25,9 @@ public class SchoolYearRepository {
     }
 
     public boolean schoolYearExists(SchoolYear schoolYear){
+        if(schoolYear==null){
+            return false;
+        }
         for (SchoolYear existingSchoolYear : _schoolYearList) {
             if (existingSchoolYear.isSameSchoolYear(schoolYear)) {
                 return true;

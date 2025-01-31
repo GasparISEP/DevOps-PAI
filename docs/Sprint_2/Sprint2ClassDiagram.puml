@@ -5,23 +5,74 @@
 class Department {
     -_acronym:String
     -_name:String
+    -_director:Teacher
+    -_departmentTeachers:List<Teacher>
+    -_departmentProgramme:List<Programme>
     +Department(departmentAcronym: String, departmentName: String)
     +Department(departmentAcronym: String, departmentName: String,director: Teacher)
     +hasSameAcronym(department: Department)
     +hasSameName(department: Department)
     +changeDirector(furtherDirector: Teacher)
+
 }
 
 class DepartmentRepository {
     -_departments: List<Department>
     +departmentRepository()
     +registerDepartment(departmentAcronym: String, departmentName: String)
-    +retrieveDepartmentsList()
+    +getDepartmentsList()
+    +departmentExists(department: Department)
 }
 
 class TeacherCategory {
     -_name:String
     + TeacherCategory (name:String)
+}
+
+class CourseEditionEnrollment {
+    -_student: Student
+    -_courseEdition: CourseEdition
+    -_enrollmentDate: LocalDate
+    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
+     enrollmentDate: LocalDate)
+    +equals (obj: Object)
+    +findStudentInCourseEditionEnrollment ()
+    +findCourseEditionInEnrollment ()
+    +knowStudent ()
+    +knowCourseEdition ()
+}
+
+class CourseEditionEnrollmentRepository {
+    -_courseEditionEnrollments: ArrayList<CourseEditionEnrollment>
+    +CourseEditionEnrollmentRepository ()
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
+    enrollmentDate: LocalDate)
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition)
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition)
+    +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition)
+}
+
+class ProgrammeEditionEnrollment {
+    -_student: Student
+    -_programmeEdition: ProgrammeEdition
+    -_enrollmentDate: LocalDate
+    +ProgrammeEditionEnrollment(student:Student, programmeEdition: ProgrammeEdition,
+     enrollmentDate: LocalDate)
+    +isEnrollmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
+    +getStudentUniqueNumber()
+    +equals (obj: Object)
+    +findProgrammeEditionInEnrollment ()
+    +findStudentInProgrammeEdition ()
+}
+
+class ProgrammeEditionEnrollmentRepo {
+    -_programmeEditionEnrollments: List<CourseEditionEnrollment>
+    +ProgrammeEditionEnrollmentRepository ()
+    +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,
+    localDate: LocalDate)
+    +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
+    +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
+    +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
 }
 
 
@@ -38,22 +89,31 @@ class Programme {
      - acronym: string
      - quantityOfEcts: int
      - quantityOfSemesters: int
+     - degreeType: DegreeType
+     - department: Department
+     - programmeDirector: Teacher
+     -_courseList: List <Course>
      -_programmeEnrolment: List<Enrolment>
-     -_listOfSemesters: SemestersListOfAProgramme
+
      + Equals()
      + addCourseToProgramme (course: Course)
      + newProgrammeDirector(): boolean
-     + isSameProgrammeDirector(): boolean
      +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
-     +getQuantityOfSemester()
+     +isStudentEnrolled(student: Student)
+     +isInDepartment(department: Department)
      +getCourseList()
+     +getQuantityOfSemester()
      +getQuantityOfEcts()
  }
 
 class ProgrammeEdition {
     -_programme: Programme
     -_schoolYear: SchoolYear
-    +getAllProgrammeEditions()
+    +programmeEdition(programme: Programme,schoolYear: SchoolYear)
+    +equals(object: Object)
+    +findProgrammeInProgrammeEdition()
+    +findSchoolYearInProgrammeEdition()
+    +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
 }
 
 class DegreeType {
@@ -116,6 +176,8 @@ class SchoolYearRepository {
     -_schoolYearList: List<SchoolYear>
     +schoolYearRepository()
     +addSchoolYear(description: String, StartDate: String, EndDate: String)
+    +schoolYearExists(schoolYear: SchoolYear)
+    +getLatestSchoolYear()
 }
 
 class Enrolment {
@@ -187,6 +249,7 @@ class CourseEdition {
     -_course: Course
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
+    #whatProgrammeEditionBelongsThisCourseEdition ()
 }
 
 class CourseEditionRepository {
@@ -194,6 +257,7 @@ class CourseEditionRepository {
     +CourseEditionRepository()
     +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
     +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
+    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
 }
 
 class GradeStudent {
@@ -247,5 +311,10 @@ CourseInStudyPlan "*" --> "1" Programme: Belongs
 CourseInStudyPlan "0..1" <-- "1" Course: Happens
 CourseEdition "*" --> "1" ProgrammeEdition: Belongs To
 CourseEdition "*" -- "1" CourseEditionRepository
-
+Student "1" --- "*" CourseEditionEnrollment : > Enrols
+CourseEditionEnrollment "*" -- "1" CourseEdition : > Relates to
+CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
+ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < Happens
+ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
+ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
 @enduml
