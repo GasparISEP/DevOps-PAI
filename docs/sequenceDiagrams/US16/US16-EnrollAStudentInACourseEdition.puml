@@ -1,4 +1,5 @@
  @startuml
+ title US16: Enroll a student in a course edition
 
 actor ASC
 participant ":UI" as UI
