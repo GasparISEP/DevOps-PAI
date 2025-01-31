@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor ASC
+
+ASC -> System: I want to enroll a student in a programme in a given school year and in a set of courses.
+System --> ASC: What Student?
+ASC -> System: Enter the student.
+System --> ASC: Here is a list of programmes! What programme do you want?
+ASC -> System: Enter the programme.
+System --> ASC: Here is a list of school years! What school year do you want?
+ASC -> System: Enter the school year.
+System --> ASC: Sure?
+ASC -> System: Yes!
+System --> ASC: OK!
+
+@enduml
