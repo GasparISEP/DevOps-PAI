@@ -1,0 +1,14 @@
+@startuml
+title US26: Get number of students enrolled in programmes from specified department in a given school year
+
+actor "Department Director" as DepartmentDir
+participant "System" as System
+
+DepartmentDir -> System: I want to get number of students enrolled in programmes from my department in a given school year!
+System --> DepartmentDir: Which department?
+DepartmentDir -> System: Department!
+System --> DepartmentDir: Which school year?
+DepartmentDir -> System: School year!
+System --> DepartmentDir: Number of Students!
+
+@enduml

@@ -3,7 +3,7 @@
 title US26: Get number of students enrolled in programmes from specified department in a given school year
 
 actor "Department Director" as DepartmentDir #Orange/White
-participant "UI" as UI #DeepPink/White
+participant ":UI" as UI #DeepPink/White
 participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #Violet/White
 participant ":SchoolYearRepo" as SchoolYearRepo #Cyan/White
 participant ":DepartmentRepo" as DepartmentRepo #Cyan/White
@@ -19,9 +19,9 @@ activate DepartmentDir
 DepartmentDir -> UI: I want to get number of students enrolled in programmes from my department in a given school year
 activate UI
 UI-->DepartmentDir: Choose Department
-DepartmentDir ->UI: d1:Department
+DepartmentDir ->UI: Department selected
 UI --> DepartmentDir: Choose SchoolYear
-DepartmentDir ->UI: sy1:SchoolYear
+DepartmentDir ->UI: School Year selected
 deactivate DepartmentDir
 UI-> Controller: countStudentsInProgrammesFromDepartmentInSchoolYear(d1,sy1)
 deactivate UI
