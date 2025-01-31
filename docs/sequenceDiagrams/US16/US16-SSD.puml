@@ -1,5 +1,5 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+title US16: Enroll a student in a course edition
 
 actor ASC
 
