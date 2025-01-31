@@ -56,7 +56,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                 new Department("CSE", "Computer Science Engineer"));
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, courseRepository);
+        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
@@ -89,7 +89,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
                 "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
                 new Department("CSE", "Computer Science Engineer"));
         CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, courseRepository);
+        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
         Course course1 = new Course("Programming", "PROG", 5, 1);
         Course course2 = new Course("Programminga", "PRO", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
