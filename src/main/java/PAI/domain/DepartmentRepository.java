@@ -35,6 +35,9 @@ public class DepartmentRepository {
 
     // Method to get the list of Departments
     public List<Department> getDepartmentsList() {
+        if (_departments.isEmpty()){
+            throw new IllegalStateException("Department list is empty.");
+        }
         return _departments;
     }
 
