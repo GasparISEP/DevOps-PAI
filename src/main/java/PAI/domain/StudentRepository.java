@@ -27,12 +27,4 @@ public class StudentRepository {
         return programme.isStudentEnrolled(student);
     }
 
-    //US17
-    public Optional<Student> findStudentByUniqueNumber(int uniqueNumber){
-        for (Student student : _students)
-            if (student.getUniqueNumber() == uniqueNumber) {
-                return Optional.of(student);
-            }
-        return Optional.empty();
-    }
 }
