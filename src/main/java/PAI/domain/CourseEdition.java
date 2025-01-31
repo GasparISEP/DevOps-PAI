@@ -37,7 +37,7 @@ public class CourseEdition {
     }
 
     //US16 - check what programme edition belongs to this course edition
-    protected ProgrammeEdition whatProgrammeEditionBelongsThisCourseEdition () {
+    public ProgrammeEdition whatProgrammeEditionBelongsThisCourseEdition () {
         return _programmeEdition;
     }
 }
