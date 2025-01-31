@@ -6,7 +6,11 @@ import java.util.Optional;
 
 public class ProgrammeEditionRepository {
 
-    private ArrayList<ProgrammeEdition> _programmeEditionRepository = new ArrayList<>();
+    private ArrayList<ProgrammeEdition> _programmeEditionRepository;
+
+    public ProgrammeEditionRepository () {
+        _programmeEditionRepository = new ArrayList<>();
+    }
 
     public boolean createProgrammeEdition(Programme programme, SchoolYear schoolYear) {
         try {
@@ -44,6 +48,4 @@ public class ProgrammeEditionRepository {
     public List<ProgrammeEdition> getAllProgrammeEditions() {
         return _programmeEditionRepository;
     }
-
-
 }
