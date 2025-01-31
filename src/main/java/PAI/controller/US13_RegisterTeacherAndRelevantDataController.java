@@ -15,12 +15,12 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to get all Teacher Categories
-    public List<TeacherCategory> getTeacherCategoriesList() {
+    public List<TeacherCategory> getTeacherCategoriesList() throws IllegalStateException{
         return _teacherCategoryRepository.getTeacherCategoriesList();
     }
 
     // Method to get all Departments
-    public List<Department> getDepartmentsList() {
+    public List<Department> getDepartmentsList() throws IllegalStateException{
         return _departmentRepository.getDepartmentsList();
     }
 

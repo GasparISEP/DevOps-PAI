@@ -1,8 +1,6 @@
 @startuml
-'https://plantuml.com/sequence-diagram
-
+title US16: Enroll a student in a course edition
 actor ASC
-
 ASC -> System: I want to enroll a student in a course edition.
 System --> ASC: What Student?
 ASC -> System: Enter the student!
