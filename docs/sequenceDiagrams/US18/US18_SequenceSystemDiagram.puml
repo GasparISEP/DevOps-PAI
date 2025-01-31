@@ -1,0 +1,8 @@
+@startuml
+autonumber
+actor ASC
+ASC -> System : I want to create a programme edition for the current school year
+System --> ASC : Which Programme? List of programmes
+ASC -> System : Programme xpto
+System --> ASC : The programmeEdition was created in the current schoolYear
+@enduml
