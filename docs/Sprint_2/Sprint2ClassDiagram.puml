@@ -161,6 +161,7 @@ class TeacherRepository {
                           address: Address, teacherCategory: TeacherCategory, department: Department)
     +getTeacherByNIF(NIF: String)
     +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
+    +getTeachers()
 }
 
 
@@ -247,8 +248,10 @@ class CourseRepository {
 class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_course: Course
+    -_Teacher: Ruc
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
+    +setRuc(Teacher: ruc)
     #whatProgrammeEditionBelongsThisCourseEdition ()
 }
 
@@ -258,6 +261,8 @@ class CourseEditionRepository {
     +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
     +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
     +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
+    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
+    +getCourseEdition()
 }
 
 class GradeStudent {
