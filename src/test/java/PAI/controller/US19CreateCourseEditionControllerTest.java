@@ -100,8 +100,7 @@ class US19CreateCourseEditionControllerTest {
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
-        List<ProgrammeEdition> allEditions = per1.getAllProgrammeEditions();
+        List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new Programme("Computer Engineering", "CE", 20, 6,
                         new DegreeType("Master", 240),
@@ -147,8 +146,6 @@ class US19CreateCourseEditionControllerTest {
                 )
         );
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
-        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1,schoolYear);
 
         programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
         programmeEditionRepository.createProgrammeEdition(programme1,schoolYear);
@@ -281,8 +278,6 @@ class US19CreateCourseEditionControllerTest {
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
-        Course c1 = new Course ("Informatica", "INF", 6, 1);
-        Course c2 = new Course("Matemática", "MAT", 4, 1);
 
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
@@ -337,8 +332,6 @@ class US19CreateCourseEditionControllerTest {
 
 
         // Act
-        controller.getCoursesInProgramme(programmeEdition1);
-
         // Assert
         assertEquals(true, controller.getCoursesInProgramme(programmeEdition1).contains(c1));
     }
@@ -375,7 +368,6 @@ class US19CreateCourseEditionControllerTest {
 
         // Act
         controller.getCoursesInProgramme(programmeEdition1);
-
         // Assert
         assertEquals(false, controller.getCoursesInProgramme(programmeEdition1).contains(c2));
     }
