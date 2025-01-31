@@ -345,5 +345,4 @@ ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
 ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
 ProgrammeEdition "1..*" -- "1" ProgrammeEditionRepository
 ProgrammeList "1" -- "1..*" Programme
-SchoolYear "1" <-- "1..*" ProgrammeEdition : < Belongs to
 @enduml
