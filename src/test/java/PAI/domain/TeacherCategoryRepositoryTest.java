@@ -65,16 +65,15 @@ class TeacherCategoryRepositoryTest {
         assertFalse(result);
     }
 
-    //Testing that the list may be retrieved even if still empty
+    //Testing that the list is not retrieved if empty
     @Test
-    void shouldReturnCategoryListEvenIfEmpty() {
+    void shouldReturnExceptionIfCategoryListIsEmpty() throws IllegalStateException {
         // Arrange
         TeacherCategoryRepository tcr = new TeacherCategoryRepository();
-        // Act
-        List<TeacherCategory> result = tcr.getTeacherCategoriesList();
-        // Assert
-        assertTrue(result.isEmpty());
+        // Act + Assert
+        assertThrows(IllegalStateException.class, () -> tcr.getTeacherCategoriesList());
     }
+
     //Testing that the retrieved list has registered objects
     @Test
     void shouldReturnCategoryListWithRegisteredCategories() throws Exception {

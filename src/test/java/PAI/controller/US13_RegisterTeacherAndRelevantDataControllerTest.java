@@ -21,25 +21,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldNotReturnCategoryListIfNull() {
+    void shouldReturnExceptionIfCategoriesListIsEmpty() throws IllegalStateException {
         // Arrange
         TeacherCategoryRepository tcr = new TeacherCategoryRepository();
         US13_RegisterTeacherAndRelevantDataController tcrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
-        // Act
-        List<TeacherCategory> result = tcrControllerList.getTeacherCategoriesList();
-        // Assert
-        assertNotNull(result);
-    }
-
-    @Test
-    void shouldReturnCategoryListEvenIfEmpty() {
-        // Arrange
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
-        US13_RegisterTeacherAndRelevantDataController tcrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
-        // Act
-        List<TeacherCategory> result = tcrControllerList.getTeacherCategoriesList();
-        // Assert
-        assertTrue(result.isEmpty());
+        // Act + Assert
+        assertThrows(IllegalStateException.class, () -> tcrControllerList.getTeacherCategoriesList());
     }
 
     @Test
@@ -56,7 +43,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfDepartmentListIsEmpty() throws IllegalStateException {
+    void shouldReturnExceptionIfDepartmentsListIsEmpty() throws IllegalStateException {
         DepartmentRepository dptr = new DepartmentRepository();
         US13_RegisterTeacherAndRelevantDataController dptrControllerList = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);
         // Act + Assert
