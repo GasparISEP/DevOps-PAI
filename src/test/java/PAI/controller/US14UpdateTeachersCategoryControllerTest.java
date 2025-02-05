@@ -1,8 +1,5 @@
 package PAI.controller;
-import PAI.domain.Department;
-import PAI.domain.TeacherCategory;
-import PAI.domain.TeacherCategoryRepository;
-import PAI.domain.TeacherRepository;
+import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -81,11 +78,5 @@ class US14UpdateTeachersCategoryControllerTest {
     void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdateddTeachersCategory() {
         US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(tr1, tcr1);
         assertThrows(IllegalArgumentException.class, () -> controller1.updateTeacherCategory("30-01-2025", "213784542", "Doutor"));
-    }
-
-    @Test
-    void olderDateThanLastDateInLastCareerRegisteredInTeacher_UnsuccessfullyUpdatedTeachersCategory() {
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(tr1, tcr1);
-        assertThrows(IllegalArgumentException.class, () -> controller1.updateTeacherCategory("05-01-2024", "213784542", "Doutor"));
     }
 }

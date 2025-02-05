@@ -1,6 +1,7 @@
 @startuml
+title US14: Update a Teacher's Category in the System
 actor HRC
-participant ":Test" as TE #lightgrey
+participant ":UI" as UI #lightgrey
 participant ":Controller" as CTL #lightgreen
 participant "tcr1:TeacherCategoryRepo" as TCR #lightblue
 participant "tc2:TeacherCategory" as TC2
@@ -9,10 +10,11 @@ participant "t1:Teacher" as T #lightyellow
 participant "tcp1:TeacherCareerProgression" as TCP #lightpink
 participant "tcp2:TeacherCareerProgression" as TCP2 #lightpink
 
-
-HRC -> TE: I want to update Teacher (date, teacherNIF, teacherCategoryName)
-activate TE
-TE -> CTL : updateTeacherCategory(date, teacherNIF, teacherCategoryName)
+activate UI
+HRC -> UI: I want to update a Teacher's category
+UI -> HRC: What Teacher, Teacher Category and date?
+HRC -> UI: teacherNIF, teacherCategoryName and date!
+UI -> CTL : updateTeacherCategory(date, teacherNIF, teacherCategoryName)
 activate CTL
 CTL -> TR: getTeacherByNIF(teacherNIF)
 activate TR
@@ -20,7 +22,7 @@ activate T
 |||
 ref over TR, T
     Loop t[i] in tr1
-    hasThisNIF()
+    hasThisNIF(teacherNIF)
 end ref
 T --> TR: True
 deactivate T
@@ -33,7 +35,7 @@ activate TCR
 activate TC2
 ref over TCR, TC2
     Loop tc[i] in tcr1
-    hasThisNIF()
+    getName().equals(teacherCategoryName)
 end ref
 TC2 --> TCR: True
 deactivate TC2
@@ -42,15 +44,14 @@ deactivate TCR
 |||
 CTL -> T: updateTeacherCategoryInTeacherCareer(date, tc2)
 activate T
-T -> T: getLast() from tcpList
-T --> T: tcp1
+T -> T: tcp1 = getLastTeacherCarrerProgression()
 |||
-T -> TCP : getWorkingPercentage() from tcp1
+T -> TCP : tcp1.getWorkingPercentage()
 activate TCP
 TCP --> T : wp1
 deactivate TCP
 |||
-T -> TCP: getCategory() from tcp1
+T -> TCP: tcp1.getCategory()
 activate TCP
 TCP --> T: tc1
 deactivate TCP
@@ -60,18 +61,17 @@ T -> T: Validate if tc2 is different than tc1
 T -> TCP2** : createTeacherCarrerProgression(date, tc2, wp1)
 activate TCP2
 TCP2 -> TCP2 : validateDate(date)
-TCP2 --> T
+TCP2 --> T: tcp2
 deactivate TCP2
 |||
-ref over T, TCP2
+ref over T, TCP
     check if tcp2 has a date later than tcp1
 end ref
 |||
 T -> T : add(tcp2)
 T --> CTL : success!
 deactivate T
-CTL --> TE : success!
+CTL --> UI : success!
 deactivate CTL
-TE --> HRC : success!
-deactivate TE
+UI --> HRC : success!
 @enduml
