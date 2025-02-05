@@ -1,0 +1,20 @@
+@startuml
+
+title: US20_Sequence System Diagram_Define Ruc for a Course Edition
+
+actor ProgrammmeDirector as PD
+participant System #application
+
+PD -> System #application: I want to define the RUC for a Course Edition
+
+PD <-- System : Course Edition?
+PD -> System  #application: Course Edition 1
+
+PD <-- System : Teacher?
+PD -> System: Teacher 1
+
+System --> PD : Ruc defined.
+
+
+
+@enduml
