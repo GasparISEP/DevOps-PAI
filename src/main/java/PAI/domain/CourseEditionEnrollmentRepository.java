@@ -55,7 +55,8 @@ public class CourseEditionEnrollmentRepository {
     }
 
     //US24
-    public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) {
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) throws Exception {
+        validateCourseEdition(courseEdition);
 
         int count = 0;
         for (int i = 0; i < _courseEditionEnrollments.size(); i++) {
@@ -65,6 +66,13 @@ public class CourseEditionEnrollmentRepository {
             }
         }
         return count;
+    }
+
+    // Private method to validate Course Edition
+    private void validateCourseEdition(CourseEdition courseEdition) throws Exception {
+        if (courseEdition == null) {
+            throw new Exception("Course edition cannot be null.");
+        }
     }
 
     //US28
