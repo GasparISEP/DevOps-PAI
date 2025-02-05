@@ -11,16 +11,17 @@ UI -> ctr ++ #application : addGradeToStudent (Grade,date, Student, CourseEditio
 ctr -> GR ++ #application : addGradeToStudent (Grade,date, Student, CourseEdition)
 
 create ":gs1:GradeStudent" as gs
-GR -> gs ++ #application : addGradeToStudent (Grade,date,Student,CourseEdition)
-gs -> gs : validate()
+GR -> gs ++ #application : <Create> (Grade,date,Student,CourseEdition)
+gs -> gs : isGradeValid()
+gs -> gs : isDateValid ()
 gs --> GR -- : gs1
 
 GR -> GR : isStudentEnrolledInCourseEdition(student,courseEdition)
 
-GR -> GR : addGrade()
+GR -> GR : addGrade(gs1)
 
-GR --> ctr --: Added Grade to Student (gs1)
-ctr --> UI --: Added Grade to Student (gs1)
+GR --> ctr --: Grade Student (gs1)
+ctr --> UI --: Grade Student (gs1)
 UI --> RUC --: Succeed (gs1)
 
 @enduml
