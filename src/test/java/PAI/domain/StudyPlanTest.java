@@ -440,7 +440,7 @@ class StudyPlanTest {
             studyPlan.addCourseToStudyPlan(1, 1, invalidCourse, programme);
         });
 
-        assertEquals("The course provided is not part of the programme.", exception.getMessage());
+        assertEquals("Invalid course or programme.", exception.getMessage());
     }
 
     @Test

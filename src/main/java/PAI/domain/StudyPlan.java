@@ -14,66 +14,17 @@ public class StudyPlan {
 
     public boolean addCourseToStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception {
 
-        if (course == null) {
-            throw new IllegalArgumentException("Course cannot be null.");
+        if (isCourseOrProgrammeInvalid(course, programme)) {
+            throw new Exception("Invalid course or programme.");
         }
 
-        if (programme == null) {
-            throw new IllegalArgumentException("Programme cannot be null.");
+        if (isCourseInStudyPlan(course)) {
+            throw new Exception("Cannot register course: Course already registered in Study Plan.");
         }
 
-        // Verifica se o Course fornecido está na courseList do Programme
-        if (!programme.getCourseList().contains(course)) {
-            throw new Exception("The course provided is not part of the programme.");
-        }
-
-        // Verifica se o course já foi adicionado no mesmo plano curricular
-        for (CourseInStudyPlan existingCourse : studyPlan) {
-            if (existingCourse.getCourse().equals(course)) {
-                throw new Exception("Cannot register course: Course already registered in Study Plan.");
-            }
-        }
-
-        // Verifica se o course é anual
+        //Verificar se o course é anual
         if (course.getDurationInSemester() == 2) {
-
-            if (semester != 1) {
-                throw new Exception("Annual courses must be registered in the first semester.");
-            }
-
-            int quantityOfSemesters = programme.getQuantityOfSemester();
-            int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
-
-            if (quantityOfSemesters % 2 != 0 && curricularYear == numberOfYears) {
-                throw new Exception("Annual courses must be registered in a complete year.");
-            }
-
-
-            // Divide os créditos do curso anual em 2
-            double halfEcts = course.getQuantityCreditsEcts() / 2.0;
-
-            // Cria o objeto para o primeiro semestre
-            CourseInStudyPlan firstSemesterCourse = new CourseInStudyPlan(1, curricularYear,
-                    new Course(course.getName(), course.getAcronym(), halfEcts, 1), programme);
-
-            // Verifica se o limite de ECTS foi excedido no 1º semestre
-            if (isEctsLimitExceeded(curricularYear, 1, firstSemesterCourse)) {
-                throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
-            }
-
-            // Cria o objeto para o segundo semestre
-            CourseInStudyPlan secondSemesterCourse = new CourseInStudyPlan(2, curricularYear,
-                    new Course(course.getName(), course.getAcronym(), halfEcts, 1), programme);
-
-            // Verifica se o limite de ECTS foi excedido no 2º semestre
-            if (isEctsLimitExceeded(curricularYear, 2, secondSemesterCourse)) {
-                throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
-            }
-
-            // Adiciona ambos ao plano de estudos
-            studyPlan.add(firstSemesterCourse);
-            studyPlan.add(secondSemesterCourse);
-            return true;
+            return addAnnualCourse(semester, curricularYear, course, programme);
         }
 
         CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(semester, curricularYear, course, programme);
@@ -86,6 +37,57 @@ public class StudyPlan {
         studyPlan.add(courseInStudyPlan);
         return true;
     }
+
+    private boolean isCourseOrProgrammeInvalid(Course course, Programme programme) {
+        if (course == null || programme == null) {
+            return true;
+        }
+        return !programme.getCourseList().contains(course);
+    }
+
+    private boolean isCourseInStudyPlan(Course course) {
+        for (CourseInStudyPlan existingCourse : studyPlan) {
+            if (existingCourse.getCourse().equals(course)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean addAnnualCourse(int semester, int curricularYear, Course course, Programme programme) throws Exception {
+        if (semester != 1) {
+            throw new Exception("Annual courses must be registered in the first semester.");
+        }
+
+        int quantityOfSemesters = programme.getQuantityOfSemester();
+        int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
+
+        if (quantityOfSemesters % 2 != 0 && curricularYear == numberOfYears) {
+            throw new Exception("Annual courses must be registered in a complete year.");
+        }
+
+        double halfEcts = course.getQuantityCreditsEcts() / 2.0;
+
+        CourseInStudyPlan firstSemesterCourse = new CourseInStudyPlan(1, curricularYear,
+                new Course(course.getName(), course.getAcronym(), halfEcts, 1), programme);
+
+        if (isEctsLimitExceeded(curricularYear, 1, firstSemesterCourse)) {
+            throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
+        }
+
+        CourseInStudyPlan secondSemesterCourse = new CourseInStudyPlan(2, curricularYear,
+                new Course(course.getName(), course.getAcronym(), halfEcts, 1), programme);
+
+        if (isEctsLimitExceeded(curricularYear, 2, secondSemesterCourse)) {
+            throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
+        }
+
+        studyPlan.add(firstSemesterCourse);
+        studyPlan.add(secondSemesterCourse);
+        return true;
+    }
+
+
 
     private boolean isEctsLimitExceeded(int curricularYear, int semester, CourseInStudyPlan courseInStudyPlan) {
         double totalEcts = 0;

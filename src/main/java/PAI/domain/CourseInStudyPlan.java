@@ -9,16 +9,16 @@ public class CourseInStudyPlan {
     private int _curricularYear;
     private Programme _programme;
 
-    public CourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception{
+    public CourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception {
 
         int quantityOfSemesters = programme.getQuantityOfSemester();
         int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
 
-        if (semester < 1 || semester > 2) {
+        if (isSemesterInvalid(semester)) {
             throw new Exception("Invalid semester.");
         }
 
-        if (curricularYear < 1 || curricularYear > numberOfYears) {
+        if (isCurricularYearInvalid(curricularYear, numberOfYears)) {
             throw new Exception("Invalid curricular year.");
         }
 
@@ -60,10 +60,18 @@ public class CourseInStudyPlan {
     }
 
     public int getCurricularYear() {
-        return  _curricularYear;
+        return _curricularYear;
     }
 
     public Programme getProgramme() {
         return _programme;
+    }
+
+    private boolean isSemesterInvalid(int semester) {
+        return semester < 1 || semester > 2;
+    }
+
+    private boolean isCurricularYearInvalid(int curricularYear, int numberOfYears) {
+        return (curricularYear < 1 || curricularYear > numberOfYears);
     }
 }
