@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
 
     @Test
-    void gradeStudentInRepository() {
+    void newGradeStudentRepository() throws Exception {
         //arrange
         GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
 
@@ -20,6 +20,18 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
 
         //assert
         assertNotNull(average1);
+    }
+
+    @Test
+    void nullGradeStudentRepository() {
+        //arrange
+        GradeStudentRepository gradeStudentRepository = null;
+
+        //act & assert
+        Exception exception = assertThrows(Exception.class, () ->
+            new US25_IWantToKnowTheAverageGradeOfACourseEdtion(gradeStudentRepository)
+        );
+        assertEquals("GradeStudent Repository cannot be null", exception.getMessage());
     }
 
     @Test

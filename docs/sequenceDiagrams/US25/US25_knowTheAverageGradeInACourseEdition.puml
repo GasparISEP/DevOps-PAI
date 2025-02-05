@@ -1,11 +1,13 @@
 @startuml
 actor ProgrammeDirector
 participant ":UI" as UI
-participant ":IWantToKnowTheAverageGradeInACourseEdition" as KA
+participant ":IWantToKnowTheAverageGradeInACourseEditionCtr" as KA
 participant ":GradeStudentRepository" as GR
 
 
-ProgrammeDirector -> UI ++ #application : I want to know the average grade in a course edition (courseEdition1)
+ProgrammeDirector -> UI ++ #application: I want to know approval percentage of Course Edition
+UI --> ProgrammeDirector -- : Course Edition?
+ProgrammeDirector -> UI ++ #application: Course Edition!
 UI -> KA ++ #application : knowTheAverageGrade(courseEdition1)
 KA -> GR ++ #application : knowTheAverageGrade(courseEdition1)
 GR -> GR :knowTheAverageGrade(courseEdition1)
