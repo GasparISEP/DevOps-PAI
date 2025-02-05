@@ -1,0 +1,17 @@
+@startuml
+actor RUC
+participant ":System" as System
+
+RUC -> System  : I want to grade a Student in a Course Edition
+System --> RUC  : What Course Edition?
+RUC -> System  : Enter course Edition
+System --> RUC  : What Student?
+RUC -> System  : Enter Student
+System --> RUC  : What Grade?
+RUC -> System  : Enter Grade
+System --> RUC  : Which Date?
+RUC  -> System  : Enter Date
+System --> RUC  : Sure?
+RUC -> System  : Yes!
+System --> RUC  : Ok
+@enduml
