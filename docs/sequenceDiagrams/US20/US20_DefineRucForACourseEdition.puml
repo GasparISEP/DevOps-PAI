@@ -1,4 +1,7 @@
 @startuml
+
+title: US20_Sequence Diagram_Define Ruc for a Course Edition
+
 actor ProgrammmeDirector as PD
 participant UI #application
 participant ":DefineRucForCourseEditionController" as C #application
@@ -42,7 +45,7 @@ deactivate CER
 deactivate CE
 C --> UI :True
 deactivate C
-UI --> PD : True
+UI --> PD : Ruc defined.
 deactivate UI
 
 
