@@ -3,6 +3,8 @@ package PAI.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.Method;
+
 
 class StudyPlanTest {
 
@@ -420,4 +422,48 @@ class StudyPlanTest {
         // assert
         assertThrows(Exception.class, () -> studyPlan.registerCourseInStudyPlan(2,1, course1, programme));
     }
+
+    @Test
+    void shouldThrowExceptionWhenRegisteringCourseNotInProgramme() throws Exception {
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+
+        Course invalidCourse = new Course("Physics", "PHYS", 6, 1); // Este curso não foi adicionado ao programa
+
+        StudyPlan studyPlan = new StudyPlan();
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            studyPlan.registerCourseInStudyPlan(1, 1, invalidCourse, programme);
+        });
+
+        assertEquals("The course provided is not part of the programme.", exception.getMessage());
+    }
+
+    @Test
+    void shouldAllowCourseThatExactlyMeetsEctsLimit() throws Exception {
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 10, 6, master, cse, teacher);
+
+        Course course1 = new Course("Mathematics", "MATH", 5, 1);
+        Course course2 = new Course("Physics", "PHYS", 5, 1); // Soma dos créditos = limite de 10
+
+        programme.addCourseToAProgramme(course1);
+        programme.addCourseToAProgramme(course2);
+
+        StudyPlan studyPlan = new StudyPlan();
+
+        assertTrue(studyPlan.registerCourseInStudyPlan(1, 1, course1, programme));
+        assertTrue(studyPlan.registerCourseInStudyPlan(1, 1, course2, programme)); // Não deve lançar erro
+    }
+
 }

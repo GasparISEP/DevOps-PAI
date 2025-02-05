@@ -34,7 +34,7 @@ public class StudyPlan {
             }
 
             int quantityOfSemesters = programme.getQuantityOfSemester();
-            int numberOfYears = calculateNumberOfYears(quantityOfSemesters);
+            int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
 
             if (quantityOfSemesters % 2 != 0 && curricularYear == numberOfYears) {
                 throw new Exception("Annual courses must be registered in a complete year.");
@@ -97,18 +97,5 @@ public class StudyPlan {
 
         // Verifica se excede o limite
         return totalEcts > ectsLimit;
-    }
-
-    private int calculateNumberOfYears(int quantityOfSemesters) {
-        int numberOfYears;
-
-        // Calcula o número de anos
-        if (quantityOfSemesters % 2 != 0) {
-            numberOfYears = (quantityOfSemesters + 1) / 2;
-        }
-        else {
-            numberOfYears = quantityOfSemesters / 2;
-        }
-        return numberOfYears;
     }
 }
