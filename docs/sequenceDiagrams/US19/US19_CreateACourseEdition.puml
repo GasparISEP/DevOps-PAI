@@ -1,4 +1,7 @@
 @startuml
+title: US19_CREATE A COURSE EDITION_SEQUENCE DIAGRAM
+autonumber
+
 actor ASC
 participant ":UI" as UI
 participant ":CreateACourseEditionController" as CT
@@ -16,11 +19,11 @@ UI --> ASC -- : which programme edition??
 
 
 ASC -> UI ++ #application : programme edition 1!
-UI -> CT ++ #application: getCoursesInProgramme()
-CT -> PE ++ #application: findProgrammeInProgrammeEdition()
+UI -> CT ++ #application: getCoursesInProgramme(pE1)
+CT -> PE ++ #application: findProgrammeInProgrammeEdition(pE1)
 PE --> CT -- : p1
 
-CT --> PG ++ #application: getCoursesList()
+CT --> PG ++ #application: getCourseList(p1)
 PG --> CT -- : List<Course>
 CT --> UI -- : List<Course>
 UI --> ASC -- : which course??
