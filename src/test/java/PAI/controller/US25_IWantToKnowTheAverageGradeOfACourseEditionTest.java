@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
+class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
     @Test
     void newGradeStudentRepository() throws Exception {
@@ -16,7 +16,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
         GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
 
         //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdtion average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdtion(gradeStudentRepository);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
 
         //assert
         assertNotNull(average1);
@@ -29,7 +29,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
 
         //act & assert
         Exception exception = assertThrows(Exception.class, () ->
-            new US25_IWantToKnowTheAverageGradeOfACourseEdtion(gradeStudentRepository)
+            new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository)
         );
         assertEquals("GradeStudent Repository cannot be null", exception.getMessage());
     }
@@ -43,7 +43,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEdtionTest {
 
 
         //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdtion controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdtion(gradeStudentRepository);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");

@@ -1,0 +1,12 @@
+@startuml
+actor ProgrammeDirector
+
+ProgrammeDirector -> System ++ #application: I want to know the average grade of a CourseEdition
+System --> ProgrammeDirector: Which CourseEdition?
+ProgrammeDirector -> System: Enter CourseEdition
+System --> ProgrammeDirector : sure?
+ProgrammeDirector -> System: yes!
+System --> ProgrammeDirector --: Average Grade of CourseEdition
+
+
+@enduml

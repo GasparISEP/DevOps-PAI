@@ -675,4 +675,27 @@ class ProgrammeTest {
         assertEquals(20, quantityOfEcts, "The quantity of ECTS should be 20.");
     }
 
+    @Test
+    void shouldCalculateNumberOfYearsDirectly() throws Exception {
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+        // Testar valores pares
+        assertEquals(1, programme.calculateNumberOfYears(2));
+        assertEquals(3, programme.calculateNumberOfYears(6));
+        assertEquals(10, programme.calculateNumberOfYears(20));
+
+        // Testar valores ímpares
+        assertEquals(2, programme.calculateNumberOfYears(3));
+        assertEquals(4, programme.calculateNumberOfYears(7));
+        assertEquals(6, programme.calculateNumberOfYears(11));
+
+        // Testar valores extremos
+        assertEquals(1, programme.calculateNumberOfYears(1));
+        assertEquals(50, programme.calculateNumberOfYears(99));
+    }
 }

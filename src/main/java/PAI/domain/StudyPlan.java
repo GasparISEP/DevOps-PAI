@@ -12,14 +12,22 @@ public class StudyPlan {
         this.studyPlan = new ArrayList<>();
     }
 
-    public boolean registerCourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception {
+    public boolean addCourseToStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception {
+
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null.");
+        }
+
+        if (programme == null) {
+            throw new IllegalArgumentException("Programme cannot be null.");
+        }
 
         // Verifica se o Course fornecido está na courseList do Programme
         if (!programme.getCourseList().contains(course)) {
             throw new Exception("The course provided is not part of the programme.");
         }
 
-        // Verifica se o curso já foi adicionado no mesmo plano curricular
+        // Verifica se o course já foi adicionado no mesmo plano curricular
         for (CourseInStudyPlan existingCourse : studyPlan) {
             if (existingCourse.getCourse().equals(course)) {
                 throw new Exception("Cannot register course: Course already registered in Study Plan.");
@@ -34,7 +42,7 @@ public class StudyPlan {
             }
 
             int quantityOfSemesters = programme.getQuantityOfSemester();
-            int numberOfYears = calculateNumberOfYears(quantityOfSemesters);
+            int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
 
             if (quantityOfSemesters % 2 != 0 && curricularYear == numberOfYears) {
                 throw new Exception("Annual courses must be registered in a complete year.");
@@ -97,18 +105,5 @@ public class StudyPlan {
 
         // Verifica se excede o limite
         return totalEcts > ectsLimit;
-    }
-
-    private int calculateNumberOfYears(int quantityOfSemesters) {
-        int numberOfYears;
-
-        // Calcula o número de anos
-        if (quantityOfSemesters % 2 != 0) {
-            numberOfYears = (quantityOfSemesters + 1) / 2;
-        }
-        else {
-            numberOfYears = quantityOfSemesters / 2;
-        }
-        return numberOfYears;
     }
 }

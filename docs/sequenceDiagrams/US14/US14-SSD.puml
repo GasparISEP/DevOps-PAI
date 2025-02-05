@@ -1,0 +1,15 @@
+@startuml
+title US14: Update a Teacher's Category in the System
+actor HRC
+participant ":System" as system
+HRC -> system: I want to update a teacher's Category.
+system --> HRC: What Teacher?
+HRC -> system: teacherNIF!
+system --> HRC: With what Teacher Category?
+HRC -> system: teacherCategoryName!
+system -> HRC: What date?
+HRC -> system: date!
+system --> HRC: Sure?
+HRC -> system: Yes!
+system --> HRC: OK!
+@enduml

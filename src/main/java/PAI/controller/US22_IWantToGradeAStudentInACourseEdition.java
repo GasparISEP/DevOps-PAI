@@ -9,6 +9,9 @@ public class US22_IWantToGradeAStudentInACourseEdition {
     GradeStudentRepository _gradeStudentRepository;
 
     public US22_IWantToGradeAStudentInACourseEdition(GradeStudentRepository gradeStudentRepository){
+        if (gradeStudentRepository == null){
+            throw new IllegalArgumentException("Grade Student Repository Cannot be null");
+        }
         _gradeStudentRepository = gradeStudentRepository;
     }
 

@@ -283,6 +283,12 @@ class GradeStudent {
     +knowGrade()
 }
 
+class GradeStudentRepository {
+    -gradeStudentList: List<GradeStudent>
+    +addGradeToStudent()
+    +KnowAverageGrade()
+    +knowApprovalRate()
+}
 class StudyPlan {
 
     +RegisterCourseInStudyPlan()
@@ -345,4 +351,6 @@ ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
 ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
 ProgrammeEdition "1..*" -- "1" ProgrammeEditionRepository
 ProgrammeList "1" -- "1..*" Programme
+GradeStudentRepository "1" --> "*" GradeStudent
+
 @enduml

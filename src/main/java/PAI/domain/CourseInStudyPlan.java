@@ -11,18 +11,8 @@ public class CourseInStudyPlan {
 
     public CourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception{
 
-        if (course == null) {
-            throw new IllegalArgumentException("Course cannot be null.");
-        }
-
-        if (programme == null) {
-            throw new IllegalArgumentException("Programme cannot be null.");
-        }
-
-        List<Course> courseList = programme.getCourseList();
-
         int quantityOfSemesters = programme.getQuantityOfSemester();
-        int numberOfYears = calculateNumberOfYears(quantityOfSemesters);
+        int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
 
         if (semester < 1 || semester > 2) {
             throw new Exception("Invalid semester.");
@@ -36,27 +26,10 @@ public class CourseInStudyPlan {
             throw new Exception("Course cannot be added to second semester of last year.");
         }
 
-        if (!courseList.contains(course)) {
-            throw new Exception("The course provided is not part of the programme.");
-        }
-
         this._course = course;
         this._semester = semester;
         this._curricularYear = curricularYear;
         this._programme = programme;
-    }
-
-    private int calculateNumberOfYears(int quantityOfSemesters) {
-        int numberOfYears;
-
-        // Calcula o número de anos
-        if (quantityOfSemesters % 2 != 0) {
-            numberOfYears = (quantityOfSemesters + 1) / 2;
-        }
-        else {
-            numberOfYears = quantityOfSemesters / 2;
-        }
-        return numberOfYears;
     }
 
     @Override

@@ -16,10 +16,10 @@ participant "tcp1:TeacherCareerProgression" as TeacherCareerProgression #Yellow/
 HRC -> UI: I want to register a new teacher including all relevant data.
 activate UI
 
-UI -> Controller: **getTeacherCategoriesList**
+UI -> Controller: **getTeacherCategoriesList()**
 activate Controller
 
-Controller -> TeacherCategoryRepository: **getTeacherCategoriesList**
+Controller -> TeacherCategoryRepository: **getTeacherCategoriesList()**
 activate TeacherCategoryRepository
 
 TeacherCategoryRepository --> Controller: tcList
@@ -28,9 +28,9 @@ deactivate TeacherCategoryRepository
 Controller --> UI: tcList
 deactivate Controller
 
-UI --> HRC: Choose one category from the list.
+UI --> HRC: Choose a teacher category from the list.
 
-HRC -> UI: Okay.
+HRC -> UI: tc1
 
 UI -> Controller: **getDepartmentsList()**
 activate Controller
@@ -44,9 +44,13 @@ deactivate DepartmentRepository
 Controller --> UI: dptList
 deactivate Controller
 
-UI --> HRC: Choose one department from the list.
+UI --> HRC: Choose a department from the list.
 
-HRC -> UI: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackgroung, workingPercentage,\ndate, tc1, dpt1
+HRC -> UI: dpt1
+
+UI --> HRC: What are the attributes?
+
+HRC -> UI: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackgroung, workingPercentage,\ndate
 
 Note Right HRC #Pink/White
     *tc1* = Teacher Category Object
@@ -84,10 +88,10 @@ TeacherRepository -> TeacherRepository: add (t1)
 
 deactivate Teacher
 
-TeacherRepository --> Controller: Registered
+TeacherRepository --> Controller: True
 deactivate TeacherRepository
 
-Controller --> UI: Registered
+Controller --> UI: True
 deactivate Controller
 
 UI --> HRC: Success
