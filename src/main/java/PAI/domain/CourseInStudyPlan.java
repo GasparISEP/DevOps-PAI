@@ -11,16 +11,6 @@ public class CourseInStudyPlan {
 
     public CourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception{
 
-        if (course == null) {
-            throw new IllegalArgumentException("Course cannot be null.");
-        }
-
-        if (programme == null) {
-            throw new IllegalArgumentException("Programme cannot be null.");
-        }
-
-        List<Course> courseList = programme.getCourseList();
-
         int quantityOfSemesters = programme.getQuantityOfSemester();
         int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
 
@@ -34,10 +24,6 @@ public class CourseInStudyPlan {
 
         if (quantityOfSemesters % 2 != 0 && semester == 2 && curricularYear == numberOfYears) {
             throw new Exception("Course cannot be added to second semester of last year.");
-        }
-
-        if (!courseList.contains(course)) {
-            throw new Exception("The course provided is not part of the programme.");
         }
 
         this._course = course;

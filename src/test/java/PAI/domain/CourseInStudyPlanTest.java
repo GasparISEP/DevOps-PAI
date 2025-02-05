@@ -21,7 +21,7 @@ class CourseInStudyPlanTest {
         StudyPlan studyPlan = new StudyPlan();
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
-        boolean addCourse1ToStudyPlan = studyPlan.registerCourseInStudyPlan(1,1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
 
         //Act
         CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(1, 1, course1, programme);
@@ -105,9 +105,9 @@ class CourseInStudyPlanTest {
         StudyPlan studyPlan = new StudyPlan();
 
         //assert
-        assertTrue(studyPlan.registerCourseInStudyPlan(1, 1, new Course("Math", "MATH", 5, 1), programme));
+        assertTrue(studyPlan.addCourseToStudyPlan(1, 1, new Course("Math", "MATH", 5, 1), programme));
         assertThrows(Exception.class, () -> {
-            studyPlan.registerCourseInStudyPlan(1, 1, new Course("Physics", "PHYS", 6, 1), programme);
+            studyPlan.addCourseToStudyPlan(1, 1, new Course("Physics", "PHYS", 6, 1), programme);
         }, "Should not allow course exceeding credit limit.");
     }
 
@@ -130,7 +130,7 @@ class CourseInStudyPlanTest {
 
         //assert
         assertThrows(Exception.class, () -> {
-            studyPlan.registerCourseInStudyPlan(1, 4, annualCourse, programme);
+            studyPlan.addCourseToStudyPlan(1, 4, annualCourse, programme);
         }, "Annual courses should not be allowed in the final year if semesters are odd.");
     }
 
@@ -151,9 +151,9 @@ class CourseInStudyPlanTest {
         StudyPlan studyPlan = new StudyPlan();
 
         //assert
-        assertTrue(studyPlan.registerCourseInStudyPlan(1, 1, course, programme));
+        assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course, programme));
         Exception exception = assertThrows(Exception.class, () -> {
-            studyPlan.registerCourseInStudyPlan(1, 1, course, programme);
+            studyPlan.addCourseToStudyPlan(1, 1, course, programme);
         });
 
         assertEquals("Cannot register course: Course already registered in Study Plan.", exception.getMessage());
@@ -180,31 +180,7 @@ class CourseInStudyPlanTest {
         StudyPlan studyPlan = new StudyPlan();
 
         //assert
-        assertTrue(studyPlan.registerCourseInStudyPlan(1, 1, singleSemesterCourse, programme));
-        assertTrue(studyPlan.registerCourseInStudyPlan(1, 1, annualCourse, programme));
-    }
-
-    @Test
-    void shouldFailWhenCourseNotInProgramme() throws Exception {
-
-        //arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 10, 6, master, cse, teacher);
-
-        // Criar um curso que não faz parte do programa
-        Course courseNotInProgramme = new Course("Physics", "PHYS", 6, 1);
-
-        // Tentar registar um curso não incluído no programa deve lançar uma exceção
-        Exception exception = assertThrows(Exception.class, () -> {
-            new CourseInStudyPlan(1, 1, courseNotInProgramme, programme);
-        });
-
-        // Verificar se a mensagem de erro é a correta
-        assertEquals("The course provided is not part of the programme.", exception.getMessage());
+        assertTrue(studyPlan.addCourseToStudyPlan(1, 1, singleSemesterCourse, programme));
+        assertTrue(studyPlan.addCourseToStudyPlan(1, 1, annualCourse, programme));
     }
 }
