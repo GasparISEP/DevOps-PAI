@@ -54,5 +54,18 @@ class US22IWantToGradeAStudentInACourseEditionTest {
         assertTrue(optc1.isPresent());
     }
 
+    @Test
+    void iWantToGradeAStudentInACourseEditionWithNullRepo () throws Exception {
+        //arrange
+
+        GradeStudentRepository gradeStudentRepository1 = null;
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1);
+        });
+        assertEquals("Grade Student Repository Cannot be null", exception.getMessage());
+
+    }
 }
 
