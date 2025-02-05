@@ -222,9 +222,12 @@ class StudyPlanTest {
         StudyPlan studyPlan = new StudyPlan();
 
         // act
+        Exception exception = assertThrows(Exception.class, () -> {
+            studyPlan.addCourseToStudyPlan(1, 1, null, programme);
+        });
 
-        // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,3, null, programme));
+        //assert
+        assertEquals("Invalid course or programme.", exception.getMessage());
     }
 
     @Test
@@ -242,11 +245,12 @@ class StudyPlanTest {
         StudyPlan studyPlan = new StudyPlan();
 
         // act
-        courseRepository.registerCourse("Annual Course", "ANNUAL", 12, 2);
-        programme.addCourseToAProgramme(course1);
+        Exception exception = assertThrows(Exception.class, () -> {
+            studyPlan.addCourseToStudyPlan(1, 1, course1, null);
+        });
 
-        // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,3, course1, null));
+        //assert
+        assertEquals("Invalid course or programme.", exception.getMessage());
     }
 
     @Test

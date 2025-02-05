@@ -94,7 +94,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
             controller.addCourseToStudyPlan(1, 1, course2, programme);
         });
 
-        assertEquals("The course provided is not part of the programme.", exception.getMessage());
+        assertEquals("Invalid course or programme.", exception.getMessage());
     }
 
     @Test
@@ -214,6 +214,6 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         });
 
         // Verificar que o retorno é false
-        assertEquals("The course provided is not part of the programme.", exception.getMessage());
+        assertEquals("Invalid course or programme.", exception.getMessage());
     }
 }
