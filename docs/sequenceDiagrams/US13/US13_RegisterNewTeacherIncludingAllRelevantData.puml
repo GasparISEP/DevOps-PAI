@@ -6,7 +6,9 @@ actor HRC
 participant ":UI" as UI #Cyan/Silver
 participant ":Controller" as Controller #Cyan/Silver
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository #Cyan/Silver
+participant "tcList:List<TeacherCategories>" as tcList #Yellow/Silver
 participant ":DepartmentRepository" as DepartmentRepository #Cyan/Silver
+participant "dptList:List<Departments>" as dptList #Yellow/Silver
 participant ":TeacherRepository" as TeacherRepository #Cyan/Silver
 participant "t1:Teacher" as Teacher #Yellow/Silver
 participant "addrs1:Address" as Address #Yellow/Silver
@@ -60,7 +62,7 @@ End Note
 UI -> Controller: **registerTeacher**(acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, workingPercentage,\ndate, tc1, dpt1)
 activate Controller
 
-Controller -> TeacherRepository: **registerTeacher**(acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, workingPercentage,\ndate, tc1, dpt1)
+Controller -> TeacherRepository: **registerTeacher**(acronym, name, email, nif, phoneNumber, street, postcode, location, country,\nacademicBackground, workingPercentage, date, tc1, dpt1)
 activate TeacherRepository
 
 TeacherRepository -> Teacher **: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
