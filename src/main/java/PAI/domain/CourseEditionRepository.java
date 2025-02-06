@@ -32,9 +32,6 @@ public class CourseEditionRepository {
         return _courseEditionRepository.contains(courseEdition);
     }
 
-    public boolean contains(CourseEdition courseEdition) {
-        return _courseEditionRepository.contains(courseEdition);
-    }
 
     public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
         if (ce1.setRuc(t1))
