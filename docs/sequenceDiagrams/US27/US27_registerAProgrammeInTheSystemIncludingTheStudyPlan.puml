@@ -6,46 +6,31 @@ participant ":ControllerUS27" as C #lightblue
 participant ":ProgrammeList" as PL #lightblue
 
 
+Admin -> UI ++ #application : I Want to register a Programme in the System,\n including a Study Plan.
+UI --> Admin -- : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? \n Department? Programme Director?
+Admin -> UI ++ #application : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! \n Department! Programme Director!
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(Name, Acronym, quantityOfEcts, quantityOfSemesters, \n DegreeType,  Department, Programme Director)
+C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector)
 
-
-create ":UI" as UI #lightblue
-
-Admin -> UI : I Want to register a Programme in the System,\n including a Study Plan.
-activate UI
-UI --> Admin : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? \n Department? Programme Director?
-Admin -> UI : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! \n Department! Programme Director!
-create ":ControllerUS27" as C #lightblue
-UI -> C : registerProgrammeInTheSystemIncludingStudyPlan(Name, Acronym, quantityOfEcts, quantityOfSemesters, \n DegreeType,  Department, Programme Director)
-activate C
-create ":ProgrammeList" as PL #lightblue
-C -> PL : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector)
-activate PL
-create ":P1:Programme" as P
-
-PL -> P : Programme(name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector)
-activate P
+create ":Programme" as P #lightblue
+PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector)
 P -> P : isNameInvalid()
 P -> P : isAcronymInvalid()
 P -> P : isQuantityOfEctsInvalid()
 P -> P : isQuantityOfSemestersInvalid()
 
-create ":SP1:StudyPlan" as SP
-P -> SP  : StudyPlan()
-activate SP
-SP --> P : List<CourseInStudyPlan> SP1
-deactivate SP
-P --> PL : P1
-deactivate P
+create ":StudyPlan" as SP #lightblue
+P -> SP ++ #application : StudyPlan()
+SP --> P -- : List<CourseInStudyPlan> SP1
+
+P --> PL -- : P1
 
 PL -> PL : contains(P1)
 PL -> PL : add(P1)
 
-PL --> C : True
-deactivate PL
-C --> UI : True
-deactivate C
-UI --> Admin : Success!
-deactivate UI
+PL --> C -- : True
+C --> UI -- : True
+UI --> Admin -- : Success!
 
 ref over Admin
 Courses are added to Programme in a List
@@ -53,38 +38,28 @@ Courses are added to Programme in a List
 
 end ref
 
-Admin -> UI : I want to add a Course to StudyPlan
-activate UI
-UI --> Admin : semester? curricularYear? course? programme?
-Admin -> UI : semester! curricularYear! course! P1!
-UI -> C : addCourseToStudyPlan(semester, curricularYear, course, P1)
-activate C
-C -> SP : P1.getStudyPlan().addCourseToStudyPlan(semester, curricularYear, course, P1)
-activate SP
+Admin -> UI ++ #application : I want to add a Course to StudyPlan
+UI --> Admin -- : semester? curricularYear? course? programme?
+Admin -> UI ++ #application : semester! curricularYear! course! P1!
+UI -> C ++ #application : addCourseToStudyPlan(semester, curricularYear, course, P1)
+C -> SP ++ #application : P1.getStudyPlan().addCourseToStudyPlan(semester, curricularYear, course, P1)
 SP -> SP : isCourseOrProgrammeInvalid(course, p1)
 SP -> SP : isCourseInStudyPlan(course, p1)
 
-create ":CSP1:CourseInStudyPlan" as CSP
+create ":CourseInStudyPlan" as CSP #lightblue
 
-SP -> CSP : CourseInStudyPlan(semester, curricularYear, course, P1)
-activate CSP
+SP -> CSP ++ #application : CourseInStudyPlan(semester, curricularYear, course, P1)
 CSP -> CSP : isSemesterInvalid
 CSP -> CSP : IsCurricularYearInvalid
 
-CSP --> SP : CSP1
-deactivate CSP
+CSP --> SP -- : CSP1
 
 SP -> SP : IsECTSLimitExceeded(semester, curricularYear, CSP1)
 SP -> SP : addCourseToStudyPlan(CSP1)
 
-SP --> C : True
-deactivate SP
-C --> UI : True
-deactivate C
+SP --> C -- : True
+C --> UI -- : True
 
-UI --> Admin : Success
-
-deactivate UI
-
+UI --> Admin -- : Success
 
 @enduml
