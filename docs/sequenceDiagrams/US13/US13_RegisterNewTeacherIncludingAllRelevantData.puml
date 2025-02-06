@@ -52,7 +52,7 @@ HRC -> UI: dpt1
 
 UI --> HRC: What are the attributes?
 
-HRC -> UI: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackgroung, workingPercentage,\ndate
+HRC -> UI: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackground, workingPercentage,\ndate
 
 Note Right HRC #Pink/White
     *tc1* = Teacher Category Object
@@ -80,6 +80,8 @@ activate TeacherCareerProgression
 TeacherCareerProgression --> Teacher: tcp1
 deactivate TeacherCareerProgression
 
+Teacher -> Teacher: add(tcp1)
+
 Teacher --> TeacherRepository: t1
 
 ref over TeacherRepository, Teacher
@@ -96,7 +98,7 @@ deactivate TeacherRepository
 Controller --> UI: True
 deactivate Controller
 
-UI --> HRC: Success
+UI --> HRC: Success!
 deactivate UI
 
 @enduml
