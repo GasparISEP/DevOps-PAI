@@ -6,7 +6,7 @@ participant ":GradeStudentRepository" as GR
 participant ":GradeStudent" as GradeStudent
 
 
-ProgrammeDirector -> UI ++ #application: I want to know approval percentage of Course Edition
+ProgrammeDirector -> UI ++ #application: I want to know average grade of Course Edition
 UI --> ProgrammeDirector -- : Course Edition?
 ProgrammeDirector -> UI ++ #application: Course Edition!
 UI -> KA ++ #application : IWantToKnowTheAvg(courseEdition1)
