@@ -1,0 +1,11 @@
+@startuml
+actor admin
+
+admin -> System ++ #application: I want to configure TeacherCategory
+System --> admin: categoryName?
+
+admin -> System: categoryName
+
+
+System --> admin: true
+@enduml
