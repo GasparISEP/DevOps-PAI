@@ -95,6 +95,7 @@ class Programme {
      - programmeDirector: Teacher
      -_courseList: List <Course>
      -_programmeEnrolment: List<Enrolment>
+     -StudyPlan: _studyPlan
 
      + equals()
      + addCourseToProgramme (course: Course)
@@ -291,7 +292,7 @@ class GradeStudentRepository {
 }
 class StudyPlan {
 
-    +RegisterCourseInStudyPlan()
+    +addCourseToStudyPlan()
 
 }
 

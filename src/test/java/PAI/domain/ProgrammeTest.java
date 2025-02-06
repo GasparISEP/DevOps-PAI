@@ -698,4 +698,22 @@ class ProgrammeTest {
         assertEquals(1, programme.calculateNumberOfYears(1));
         assertEquals(50, programme.calculateNumberOfYears(99));
     }
+
+    @Test
+    void shouldReturnStudyPlan() throws Exception {
+        //arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+
+        // act
+        StudyPlan studyPlan = programme.getStudyPlan();
+
+        //assert
+        assertNotNull(studyPlan);
+    }
 }

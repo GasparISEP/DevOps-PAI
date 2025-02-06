@@ -18,7 +18,7 @@ class CourseInStudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
         boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
@@ -27,6 +27,7 @@ class CourseInStudyPlanTest {
         CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(1, 1, course1, programme);
 
         //Assert
+        assertTrue(addCourse1ToStudyPlan);
         assertNotNull(courseInStudyPlan);
         assertEquals(course1, courseInStudyPlan.getCourse());
         assertEquals(1, courseInStudyPlan.getSemester());
@@ -102,7 +103,7 @@ class CourseInStudyPlanTest {
         programme.addCourseToAProgramme(new Course("Math", "MATH", 5, 1));
         programme.addCourseToAProgramme(new Course("Physics", "PHYS", 6, 1)); // Excede o limite de 10 ECTS
 
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         //assert
         assertTrue(studyPlan.addCourseToStudyPlan(1, 1, new Course("Math", "MATH", 5, 1), programme));
@@ -148,7 +149,7 @@ class CourseInStudyPlanTest {
         programme.addCourseToAProgramme(course);
 
         //act
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         //assert
         assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course, programme));
@@ -177,7 +178,7 @@ class CourseInStudyPlanTest {
         programme.addCourseToAProgramme(singleSemesterCourse);
         programme.addCourseToAProgramme(annualCourse);
 
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         //assert
         assertTrue(studyPlan.addCourseToStudyPlan(1, 1, singleSemesterCourse, programme));
