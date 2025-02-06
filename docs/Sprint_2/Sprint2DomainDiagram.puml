@@ -109,7 +109,7 @@ Facility "1..*" -- "1" Department : Aggregates <
 Department "1" --- "1   " Teacher : Department Director oversees <
 Department "1" --- "*" Teacher : Aggregates >
 Course "*" -- "*" Teacher : Teaches <
-Course_Edition "*" -- "1" Teacher : RUC oversees <
+Course_Edition "*" -- "0,1" Teacher : RUC oversees <
 Course "1" ----- "*" Course_Edition : > Is organized
 Programme "1" -left- "*" Course : > Aggregates
 Programme "1" --up-- "1" "studyPlan" : > Aggregates
