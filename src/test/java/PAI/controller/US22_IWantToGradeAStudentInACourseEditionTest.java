@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class US22IWantToGradeAStudentInACourseEditionTest {
+class US22_IWantToGradeAStudentInACourseEditionTest {
     @Test
     void gradeStudentInRepository () {
         //arrange
