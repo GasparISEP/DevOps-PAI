@@ -1,10 +1,12 @@
 package PAI.controller;
-import PAI.domain.TeacherCategory;
+
 import PAI.domain.TeacherCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class US01_ConfigureTeacherCategoryControllerTest {
 
@@ -13,70 +15,44 @@ public class US01_ConfigureTeacherCategoryControllerTest {
 
     @BeforeEach
     public void setUp() {
+        // Arrange
         repository = new TeacherCategoryRepository();
         controller = new US01_ConfigureTeacherCategoryController(repository);
     }
 
     @Test
     public void testConstructorWithNullRepository() {
+        // Arrange
+        TeacherCategoryRepository nullRepository = null;
+
+        // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US01_ConfigureTeacherCategoryController(null);
+            new US01_ConfigureTeacherCategoryController(nullRepository);
         });
         assertEquals("Repository cannot be null", exception.getMessage());
     }
 
     @Test
-    public void testAddCategory() throws Exception {
-        controller.addCategory("Math");
-        TeacherCategory category = controller.getCategory("Math");
-        assertNotNull(category);
-        assertEquals("Math", category.getName());
-    }
-
-    @Test
     public void testAddDuplicateCategory() {
+        // Arrange
+        String categoryName = "Math";
+
+        // Act & Assert
         assertThrows(Exception.class, () -> {
-            controller.addCategory("Math");
-            controller.addCategory("Math");
+            controller.configureTeacherCategory(categoryName);
+            controller.configureTeacherCategory(categoryName);
         });
     }
 
     @Test
-    public void testGetCategory() throws Exception {
-        controller.addCategory("Science");
-        TeacherCategory category = controller.getCategory("Science");
-        assertNotNull(category);
-        assertEquals("Science", category.getName());
+    public void testAddNewCategory() throws Exception {
+        // Arrange
+        String categoryName = "Science";
+
+        // Act
+        boolean result = controller.configureTeacherCategory(categoryName);
+
+        // Assert
+        assertTrue(result);
     }
-
-    @Test
-    public void testGetNonExistentCategory() {
-        assertThrows(Exception.class, () -> {
-            controller.getCategory("History");
-        });
-    }
-
-    @Test
-    public void testListCategories() throws Exception {
-        controller.addCategory("Math");
-        controller.addCategory("Science");
-        List<TeacherCategory> categories = controller.listCategories();
-        assertEquals(2, categories.size());
-
-        boolean containsMath = false;
-        boolean containsScience = false;
-
-        for (TeacherCategory category : categories) {
-            if (category.getName().equals("Math")) {
-                containsMath = true;
-            }
-            if (category.getName().equals("Science")) {
-                containsScience = true;
-            }
-        }
-
-        assertTrue(containsMath);
-        assertTrue(containsScience);
-    }
-
 }
