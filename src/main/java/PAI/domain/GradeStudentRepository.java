@@ -27,7 +27,7 @@ public class GradeStudentRepository {
         double sumGrade = 0;
 
         for (GradeStudent gradeStudent: gradeStudentList) {
-            if (gradeStudent.KnowCourseEdition().equals(courseEdition)) {
+            if (gradeStudent.hasThisCourseEdition(courseEdition)) {
                 double grade = gradeStudent.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;

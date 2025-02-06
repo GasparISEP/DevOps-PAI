@@ -28,6 +28,8 @@ public class US15_UpdateTeacherWorkingPercentageController {
 
     public boolean updateTeacherWorkingPercentageInTeacherCareerProgression (Teacher teacher, String date, int workingPercentage) {
 
-        return teacher.updateWorkingPercentageInTeacherCareerProgression(date, workingPercentage);
+        teacher.updateWorkingPercentageInTeacherCareerProgression(date, workingPercentage);
+
+        return true;
     }
 }

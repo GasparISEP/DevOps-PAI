@@ -37,9 +37,12 @@ public class CourseEditionEnrollmentRepository {
     }
 
     public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {
-        return _courseEditionEnrollments.stream()
-                .anyMatch(enrollmentStudentCE -> enrollmentStudentCE.knowStudent().equals(student)
-                && enrollmentStudentCE.knowCourseEdition().equals(courseEdition));
+        for (CourseEditionEnrollment enrollment : _courseEditionEnrollments) {
+            if (enrollment.knowStudent().equals(student) && enrollment.knowCourseEdition().equals(courseEdition)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //US17
@@ -55,7 +58,8 @@ public class CourseEditionEnrollmentRepository {
     }
 
     //US24
-    public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) {
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) throws Exception {
+        validateCourseEdition(courseEdition);
 
         int count = 0;
         for (int i = 0; i < _courseEditionEnrollments.size(); i++) {
@@ -65,6 +69,13 @@ public class CourseEditionEnrollmentRepository {
             }
         }
         return count;
+    }
+
+    // Private method to validate Course Edition
+    private void validateCourseEdition(CourseEdition courseEdition) throws Exception {
+        if (courseEdition == null) {
+            throw new Exception("Course edition cannot be null.");
+        }
     }
 
     //US28

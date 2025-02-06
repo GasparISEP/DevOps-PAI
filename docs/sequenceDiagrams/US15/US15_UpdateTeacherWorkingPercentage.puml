@@ -1,53 +1,63 @@
 @startuml
 
 actor HRC
-participant ":Test" as Test
+participant ":UI" as UI
 participant ":Controller" as Controller #lightgreen
 participant ":TeacherRepository" as TR #lightblue
 participant "t1:Teacher" as Teacher #lightyellow
 participant ":TeacherCareerProgression" as TCP #lightpink
 participant "tcp1:TeacherCareerProgression" as TCP1 #lightpink
 
-HRC -> Test : I want to update Teacher's working percentage \n(NIF, workingPercentage, date)
-activate Test
-Test -> Controller : getTeacherByNIF(NIF)
+HRC -> UI : I want to update Teacher's working percentage
+activate UI
+UI --> HRC: What Teacher?
+HRC -> UI: Teacher's NIF
+UI --> HRC: What working percentage?
+HRC -> UI: Working percentage
+UI --> HRC: What date?
+HRC -> UI: Date
+UI -> Controller : getTeacherByNIF(Teacher's NIF)
 activate Controller
 
-Controller -> TR : getTeacherByNIF(NIF)
+Controller -> TR : getTeacherByNIF(Teacher's NIF)
 activate TR
 
 loop for each Teacher in TR
-    TR -> Teacher : hasThisNIF(NIF)
+    TR -> Teacher : hasThisNIF(Teacher's NIF)
     activate Teacher
-    Teacher --> TR : True!
+    Teacher --> TR : True
     deactivate Teacher
 end
 
-TR --> Controller : t1!
+TR --> Controller : t1
 deactivate TR
+
 
 Controller -> Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
 activate Teacher
-Teacher -> Teacher : getLast()
-Teacher -> TCP : getCategory()
+Teacher -> Teacher : lastTCP = getLastTeacherCareerProgression()
+Teacher -> TCP : lastTCP.getCategory()
 activate TCP
 TCP --> Teacher : tc1
 deactivate TCP
 Teacher -> TCP1** : createTeacherCareerProgression \n(date, tc1, workingPercentage)
 activate TCP1
-TCP1 -> TCP1 : validateAndFormatDate()
-TCP1 -> TCP1 : validateWorkingPercentage()
-TCP1 --> Teacher : tcp1!
+TCP1 -> TCP1 : validateAndFormatDate(date)
+TCP1 -> TCP1 : validateWorkingPercentage(working percentage)
+TCP1 --> Teacher : tcp1
 deactivate TCP1
-Teacher -> Teacher : validateIsDateAfter()
-Teacher -> Teacher : add()
+Teacher -> TCP : validateIsDateAfter(tcp1)
+activate TCP
+TCP --> Teacher : True
+deactivate TCP
+Teacher -> Teacher : add(tcp1)
 
-Teacher --> Controller : Changed Working Percentage!
+Teacher --> Controller : True
 deactivate Teacher
 
-Controller --> Test : Changed Working Percentage!
+Controller --> UI : True
 deactivate Controller
-Test --> HRC : Success
-deactivate Test
+UI --> HRC : Success
+deactivate UI
 
 @enduml

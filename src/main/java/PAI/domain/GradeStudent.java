@@ -33,6 +33,9 @@ public class GradeStudent {
             return _grade;
         }
 
+        public boolean hasThisCourseEdition(CourseEdition courseEdition) {
+            return _courseEdition.equals(courseEdition);
+        }
 
         public CourseEdition KnowCourseEdition() {
             return _courseEdition;

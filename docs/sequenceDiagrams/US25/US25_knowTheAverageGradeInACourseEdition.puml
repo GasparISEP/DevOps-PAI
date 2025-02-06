@@ -3,14 +3,29 @@ actor ProgrammeDirector
 participant ":UI" as UI
 participant ":IWantToKnowTheAverageGradeInACourseEditionCtr" as KA
 participant ":GradeStudentRepository" as GR
+participant ":GradeStudent" as GradeStudent
 
 
 ProgrammeDirector -> UI ++ #application: I want to know approval percentage of Course Edition
 UI --> ProgrammeDirector -- : Course Edition?
 ProgrammeDirector -> UI ++ #application: Course Edition!
-UI -> KA ++ #application : knowTheAverageGrade(courseEdition1)
+UI -> KA ++ #application : IWantToKnowTheAvg(courseEdition1)
 KA -> GR ++ #application : knowTheAverageGrade(courseEdition1)
-GR -> GR :knowTheAverageGrade(courseEdition1)
+
+
+
+loop for each GradeStudent in GR
+    GR -> GradeStudent : hasThisCourseEdition(courseEdition1)
+    activate GradeStudent
+    GradeStudent --> GR : True!
+    deactivate GradeStudent
+
+    GR -> GradeStudent : knowGrade()
+    activate GradeStudent
+    GradeStudent --> GR : grade
+    deactivate GradeStudent
+end
+
 
 GR --> KA --: Average Grade (courseEdition1)
 KA --> UI --: Average Grade (courseEdition1)

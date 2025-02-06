@@ -109,7 +109,7 @@ Facility "1..*" -- "1" Department : Aggregates <
 Department "1" --- "1   " Teacher : Department Director oversees <
 Department "1" --- "*" Teacher : Aggregates >
 Course "*" -- "*" Teacher : Teaches <
-Course_Edition "*" -- "1" Teacher : RUC oversees <
+Course_Edition "*" -- "0,1" Teacher : RUC oversees <
 Course "1" ----- "*" Course_Edition : > Is organized
 Programme "1" -left- "*" Course : > Aggregates
 Programme "1" --up-- "1" "studyPlan" : > Aggregates
@@ -120,7 +120,7 @@ ProgrammeEdition "1" -- "*" Course_Edition : < Belongs
 "School Year" "1" -- "*" ProgrammeEdition : < Runs in
 Address "1" -up- "1" Student : Has <
 Teacher "1" -- "1" Address : Has >
-"Teacher Career Progression" "*" -- "1" "Teacher Category" : Aggregates >
+"Teacher Career Progression" "*" -- "1" "Teacher Category" : Comprises >
 Programme "1" -- "*" Enrolment : Has >
 ProgrammeEdition "*" -- "1" Programme : < Is organized
 ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < Happens

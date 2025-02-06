@@ -330,10 +330,10 @@ Teacher "1" -r- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates
 Teacher "1..*" -- "1" TeacherRepository: has
 Teacher "1" --> "1..*" TeacherCareerProgression
-TeacherCareerProgression "*" --> "1"TeacherCategory: Aggregates
+TeacherCareerProgression "*" --> "1"TeacherCategory: Comprises
 Department "1..*" -- "1" DepartmentRepository
 AccessMethod "1..*" -- "1" AccessMethodRepository
-TeacherCategory "1..*" -- "1" TeacherCategoryRepository
+TeacherCategory "1..*" <-- "1" TeacherCategoryRepository: Stores
 Course "1..*" -- "1" CourseRepository
 Course "1..*" --> "1..*" CourseEdition: organized in
 GradeStudent "*" --> "1" Student: Belongs
@@ -343,6 +343,7 @@ CourseInStudyPlan "*" --> "1" Programme: Belongs
 CourseInStudyPlan "0..1" <-- "1" Course: Happens
 CourseEdition "*" --> "1" ProgrammeEdition: Belongs To
 CourseEdition "*" -- "1" CourseEditionRepository
+CourseEdition "1" --> "1" TeacherRepository
 Student "1" --- "*" CourseEditionEnrollment : > Enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > Relates to
 CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
