@@ -343,6 +343,7 @@ CourseInStudyPlan "*" --> "1" Programme: Belongs
 CourseInStudyPlan "0..1" <-- "1" Course: Happens
 CourseEdition "*" --> "1" ProgrammeEdition: Belongs To
 CourseEdition "*" -- "1" CourseEditionRepository
+CourseEdition "1" --> "1" TeacherRepository
 Student "1" --- "*" CourseEditionEnrollment : > Enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > Relates to
 CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
