@@ -12,12 +12,12 @@ admin -> UI ++ #application :(categoryName)
 UI -> ":ConfigureTeacherCategoryController" as ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
 
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
-ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : createTeacherCategory(categoryName)
+ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : registerTeacherCategory(categoryName)
 
 create "tc1:TeacherCategory" as TeacherCategory
 TeacherCategoryRepository -> TeacherCategory ++ #application : <create>(categoryName)
 TeacherCategory -> TeacherCategory: isNameValid(categoryName)
-TeacherCategory --> TeacherCategoryRepository -- : tc1
+TeacherCategory --> TeacherCategoryRepository -- ::tc1
 TeacherCategoryRepository -> TeacherCategoryRepository : isTeacherCategoryRegistered (tc1)
 TeacherCategoryRepository -> TeacherCategoryRepository : registerTeacherCategory(categoryName)
 

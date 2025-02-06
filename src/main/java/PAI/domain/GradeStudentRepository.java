@@ -6,7 +6,6 @@ import java.util.Optional;
 
 public class GradeStudentRepository {
     private List<GradeStudent> gradeStudentList = new ArrayList<>();
-    private CourseEditionEnrollmentRepository courseEditionEnrollmentRepository;
 
 
     public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition, CourseEditionEnrollmentRepository courseEditionEnrollmentRepository){

@@ -19,7 +19,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
@@ -45,7 +45,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
@@ -75,7 +75,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
@@ -102,7 +102,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Mathematics", "MATH", 5, 1);
@@ -130,7 +130,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
@@ -153,7 +153,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
@@ -176,7 +176,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
@@ -198,7 +198,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Annual Course", "ANNUAL", 12, 2);
@@ -219,7 +219,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -242,7 +242,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -266,9 +266,9 @@ class StudyPlanTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        StudyPlan studyPlan = new StudyPlan();
 
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Physics", "PHYS", 10, 1);
@@ -301,7 +301,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Annual Course", "ANNUAL", 12, 2);
@@ -326,7 +326,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 25, 1);
@@ -359,7 +359,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 25, 1);
@@ -388,7 +388,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 25, 1);
@@ -416,7 +416,7 @@ class StudyPlanTest {
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
@@ -438,7 +438,7 @@ class StudyPlanTest {
 
         Course invalidCourse = new Course("Physics", "PHYS", 6, 1); // Este curso não foi adicionado ao programa
 
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         Exception exception = assertThrows(Exception.class, () -> {
             studyPlan.addCourseToStudyPlan(1, 1, invalidCourse, programme);
@@ -463,7 +463,7 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
 
-        StudyPlan studyPlan = new StudyPlan();
+        StudyPlan studyPlan = programme.getStudyPlan();
 
         assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course1, programme));
         assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course2, programme)); // Não deve lançar erro
