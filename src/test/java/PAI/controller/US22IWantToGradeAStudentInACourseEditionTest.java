@@ -45,7 +45,6 @@ class US22IWantToGradeAStudentInACourseEditionTest {
         LocalDate currentDate = LocalDate.now();
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
-        gradeStudentRepository1.addGradeToStudent(20.0,"12-02-2024",student1,courseEdition1,enrollmentRepository);
 
         Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student1,courseEdition1,enrollmentRepository);
 
