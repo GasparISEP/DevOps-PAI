@@ -34,7 +34,7 @@ ASC -> UI : Course 1!
 
 UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToAProgramme (Course 1)
 
-":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (Course)
+":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (Course 1)
 
 ":Programme" -> ":Programme"  #application : addCourseToAProgramme (Course 1)
 
