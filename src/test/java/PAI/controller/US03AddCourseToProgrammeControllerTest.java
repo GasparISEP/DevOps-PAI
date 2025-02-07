@@ -50,7 +50,7 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldAddCourseToProgrammeIfAllArgumentsAreValid() throws Exception {
+    void shouldAddCourseToProgramme() throws Exception {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
