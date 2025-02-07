@@ -3,12 +3,40 @@ actor ASC
 
 ASC -> UI ++ #application : I want to add Course to a Programme
 
+UI -> ":AddCourseToAProgrammeController" ++ #application: getProgrammeList
 
-UI -> ":AddCourseToAProgrammeController" ++ #application : :P1.addCourseToAProgramme (:C1)
+":AddCourseToAProgrammeController" -> ProgrammeList --++ #application: getAllProgrammes
 
-":AddCourseToAProgrammeController" -> ":Programme" ++ #application : :P1.addCourseToAProgramme (:C1)
+ProgrammeList -> ProgrammeList : getProgrammeList()
 
-":Programme" -> ":Programme"  #application : :P1.addCourseToAProgramme (:C1)
+ProgrammeList --> ":AddCourseToAProgrammeController" --++ #application: all Programmes
+
+":AddCourseToAProgrammeController" --> UI --: all Programmes
+
+UI --> ASC : Which Programme?
+
+ASC -> UI: Programme 1!
+
+UI -> ":AddCourseToAProgrammeController" ++ #application: getCourseList
+
+":AddCourseToAProgrammeController" -> CourseRepository --++ #application: getCourseList
+
+CourseRepository -> CourseRepository : getAllCourses()
+
+CourseRepository --> ":AddCourseToAProgrammeController" ++-- #application: all Courses
+
+":AddCourseToAProgrammeController" --> UI -- : all Courses
+
+UI --> ASC : Which Course?
+
+ASC -> UI : Course 1!
+
+
+UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToAProgramme (Course 1)
+
+":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (Course)
+
+":Programme" -> ":Programme"  #application : addCourseToAProgramme (Course 1)
 
 ":Programme" --> ":AddCourseToAProgrammeController" --: true
 
