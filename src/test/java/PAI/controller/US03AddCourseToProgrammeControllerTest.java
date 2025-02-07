@@ -21,9 +21,8 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository();
         ProgrammeList programmeList = new ProgrammeList();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        Programme lei = programmeList.getAllProgrammes().get(0);
         //act
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //assert
         assertNotNull(US03AddCourseToProgrammeController);
     }
@@ -43,10 +42,10 @@ public class US03AddCourseToProgrammeControllerTest {
         Programme lei = programmeList.getAllProgrammes().get(0);
         lei.addCourseToAProgramme(courseRepository.getAllCourses().get(0));
         Course course1 = lei.getCourseList().get(0);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //act + assert
         assertThrows(Exception.class, () -> {
-            US03AddCourseToProgrammeController.addCourseToProgramme(course1);
+            US03AddCourseToProgrammeController.addCourseToProgramme(lei, course1);
         });
     }
 
@@ -63,9 +62,9 @@ public class US03AddCourseToProgrammeControllerTest {
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         Course course1 = courseRepository.getAllCourses().get(0);
         Programme lei = programmeList.getAllProgrammes().get(0);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //act
-        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(course1);
+        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(lei, course1);
         //assert
         assertTrue(addCourseToProgramme);
     }
@@ -73,10 +72,11 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldThrowExceptionIfProgrammeIsNull() throws Exception {
         // arrange
-        Programme nullProgramme = null;
+        ProgrammeList nullProgrammeList = null;
+        CourseRepository courseRepository = new CourseRepository();
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(nullProgramme);
+            new US03_AddCourseToProgrammeController(nullProgrammeList, courseRepository);
         });
     }
 
@@ -92,10 +92,10 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeList programmeList = new ProgrammeList();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
         Programme lei = programmeList.getAllProgrammes().get(0);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(lei);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //act + assert
         assertThrows(Exception.class, () -> {
-            US03AddCourseToProgrammeController.addCourseToProgramme(null);
+            US03AddCourseToProgrammeController.addCourseToProgramme(lei, null);
         });
     }
 }
