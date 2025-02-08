@@ -4,9 +4,6 @@ import PAI.domain.CourseEdition;
 import PAI.domain.CourseEditionRepository;
 import PAI.domain.Teacher;
 import PAI.domain.TeacherRepository;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class US20_DefineRucForCourseEditionController {
