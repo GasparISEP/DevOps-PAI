@@ -32,11 +32,12 @@ public class CourseEditionRepository {
         return _courseEditionRepository.contains(courseEdition);
     }
 
+    // US20 - returns a list of all course editions stored in the repository
     public List<CourseEdition> getCourseEditions() {
         return new ArrayList<>(_courseEditionRepository); // Retorna uma cópia da lista
     }
 
-
+    // US20 - sets the RUC for a specific course edition
     public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
         if (!_courseEditionRepository.contains(ce1)) {
             throw new IllegalArgumentException("Course edition not found in repository.");
