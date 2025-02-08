@@ -32,7 +32,9 @@ public class US20_DefineRucForCourseEditionController {
 
     // Define RUC for a specific Course Edition
     public boolean defineRucForCourseEdition(CourseEdition courseEdition, Teacher teacher) {
-
+        if (teacher == null) {
+            return false;
+        }
         return courseEditionRepository.setRucInACourseEdition(courseEdition, teacher);
     }
 }
