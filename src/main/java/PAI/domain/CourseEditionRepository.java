@@ -32,17 +32,21 @@ public class CourseEditionRepository {
         return _courseEditionRepository.contains(courseEdition);
     }
 
+    public CourseEdition getCourseEdition(CourseEdition courseEdition) {
+        for (CourseEdition ce : _courseEditionRepository) {
+            if (ce.equals(courseEdition)) {
+                return ce;
+            }
+        }
+        return null; // Ou lançar uma exceção
+    }
 
     public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
-        if (ce1.setRuc(t1))
-            return true;
-        return false;
+        if (!_courseEditionRepository.contains(ce1)) {
+            throw new IllegalArgumentException("Course edition not found in repository.");
+        }
+        return ce1.setRuc(t1);
     }
-
-    public List<CourseEdition> getCourseEditions() {
-        return _courseEditionRepository;
-    }
-
 
     //US16 - return the programmeEdition that belongs to a course Edition, if the course edition exists in this repository
     public ProgrammeEdition findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition courseEdition) throws Exception {
