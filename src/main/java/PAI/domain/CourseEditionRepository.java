@@ -32,14 +32,10 @@ public class CourseEditionRepository {
         return _courseEditionRepository.contains(courseEdition);
     }
 
-    public CourseEdition getCourseEdition(CourseEdition courseEdition) {
-        for (CourseEdition ce : _courseEditionRepository) {
-            if (ce.equals(courseEdition)) {
-                return ce;
-            }
-        }
-        return null; // Ou lançar uma exceção
+    public List<CourseEdition> getCourseEditions() {
+        return new ArrayList<>(_courseEditionRepository); // Retorna uma cópia da lista
     }
+
 
     public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
         if (!_courseEditionRepository.contains(ce1)) {
