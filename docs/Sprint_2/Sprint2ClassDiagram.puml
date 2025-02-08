@@ -170,7 +170,7 @@ class TeacherRepository {
                           address: Address, teacherCategory: TeacherCategory, department: Department)
     +getTeacherByNIF(NIF: String)
     +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
-    +getTeachers()
+    +getAllTeachers()
 }
 
 
