@@ -345,7 +345,6 @@ CourseInStudyPlan "0..1" <-- "1" Course: happens
 CourseEdition "*" --> "1" ProgrammeEdition: belongs to
 CourseEdition "*" -- "1" CourseEditionRepository
 CourseEdition "1" ..> "1" TeacherRepository
-CourseEditionRepository "1" --> "1" TeacherRepository
 Student "1" --- "*" CourseEditionEnrollment : > enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to
 CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
