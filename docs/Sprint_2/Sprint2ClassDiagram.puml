@@ -165,7 +165,7 @@ class TeacherCareerProgression {
 
 class TeacherRepository {
     -_teachers: List<Teacher>
-    +teacherRepository()
+    +TeacherRepository()
     +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
                           address: Address, teacherCategory: TeacherCategory, department: Department)
     +getTeacherByNIF(NIF: String)
@@ -260,7 +260,7 @@ class CourseRepository {
 class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_course: Course
-    -_Teacher: Ruc
+    -_ruc: Teacher
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
     +setRuc(Teacher: ruc)
@@ -274,7 +274,7 @@ class CourseEditionRepository {
     +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
     +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
     +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
-    +getCourseEdition()
+    +getCourseEditions(): List<CourseEdition>
     +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition)
 }
 
@@ -344,7 +344,8 @@ CourseInStudyPlan "*" --> "1" Programme: belongs
 CourseInStudyPlan "0..1" <-- "1" Course: happens
 CourseEdition "*" --> "1" ProgrammeEdition: belongs to
 CourseEdition "*" -- "1" CourseEditionRepository
-CourseEdition "1" --> "1" TeacherRepository
+CourseEdition "1" ..> "1" TeacherRepository
+CourseEditionRepository "1" --> "1" TeacherRepository
 Student "1" --- "*" CourseEditionEnrollment : > enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to
 CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
