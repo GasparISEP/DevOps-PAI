@@ -49,7 +49,7 @@ class US20_DefineRucForCourseEditionControllerTest {
     }
 
     @Test
-    void shouldNotDefineRucWhenRucAlreadyExists() throws Exception {
+    void shouldNotRedefineRucIfRucAlreadyExists() throws Exception {
         // Arrange
         CourseEditionRepository repo1 = new CourseEditionRepository();
         TeacherRepository repo2 = new TeacherRepository();
@@ -84,9 +84,6 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         //Arrange
 
-        //TeacherCategory category = new TeacherCategory("Professor Adjunto");
-
-        //Department department = new Department("MAT", "Mathematics");
         CourseEditionRepository repo1 = new CourseEditionRepository();
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
@@ -180,12 +177,15 @@ class US20_DefineRucForCourseEditionControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenCourseEditionIsNull() throws Exception {
+    void shouldThrowExceptionIfCourseEditionIsNull() throws Exception {
+
+        // Arrange
         CourseEditionRepository repo1 = new CourseEditionRepository();
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "24-03-2010", new TeacherCategory("Assistant Professor"), 80, new Department("CSE", "Computer Science"));
 
+        // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> ctrl1.defineRucForCourseEdition(null, t1));
     }
 }
