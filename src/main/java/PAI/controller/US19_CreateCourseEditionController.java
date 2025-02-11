@@ -8,10 +8,12 @@ import java.util.List;
 public class US19_CreateCourseEditionController {
     private ProgrammeEditionRepository _programmeEditionRepository;
     private CourseEditionRepository _courseEditionRepository;
+    private ProgrammeList _programmeList;
 
-    public US19_CreateCourseEditionController(ProgrammeEditionRepository programmeEditionRepository, CourseEditionRepository courseEditionRepository){
+    public US19_CreateCourseEditionController(ProgrammeEditionRepository programmeEditionRepository, CourseEditionRepository courseEditionRepository, ProgrammeList programmeList){
         _programmeEditionRepository = programmeEditionRepository;
         _courseEditionRepository = courseEditionRepository;
+        _programmeList = programmeList;
     }
 
     public List<ProgrammeEdition> getAllProgrammeEditions() {
@@ -20,7 +22,7 @@ public class US19_CreateCourseEditionController {
 
     public List<Course> getCoursesInProgramme(ProgrammeEdition programmeEdition) {
         Programme programme = _programmeEditionRepository.findProgrammeInProgrammeEdition(programmeEdition);
-        return programme.getCourseList();
+        return _programmeList.getCourseList(programme);
     }
 
     public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) {

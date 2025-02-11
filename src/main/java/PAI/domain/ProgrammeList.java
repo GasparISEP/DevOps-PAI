@@ -35,5 +35,9 @@ public class ProgrammeList {
     public List<Programme> getAllProgrammes() {
         return new ArrayList<>(programmeList);
     }
+
+    public List<Course> getCourseList(Programme programme){
+        return programme.getCourseList();
+    }
     
 }
