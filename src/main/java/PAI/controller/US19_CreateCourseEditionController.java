@@ -19,7 +19,7 @@ public class US19_CreateCourseEditionController {
     }
 
     public List<Course> getCoursesInProgramme(ProgrammeEdition programmeEdition) {
-        Programme programme = programmeEdition.findProgrammeInProgrammeEdition();
+        Programme programme = _programmeEditionRepository.findProgrammeInProgrammeEdition(programmeEdition);
         return programme.getCourseList();
     }
 

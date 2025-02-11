@@ -222,4 +222,24 @@ class ProgrammeEditionRepositoryTest {
         //Act + Assert
         assertTrue(allEditions.contains(pe1));
     }
+
+    @Test
+    void shouldFindProgrammeInProgrammeEditionSuccessfuly() throws Exception {
+        //Arrange
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
+        Department CSE = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        DegreeType master = new DegreeType("Master", 240);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        CourseRepository courseRepository = new CourseRepository();
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(p1, sy1);
+        //Act
+        Programme result = programmeEditionRepository.findProgrammeInProgrammeEdition(programmeEdition);
+        //Assert
+        assertNotNull(result);
+        assertEquals(p1, result);
+    }
 }
