@@ -45,6 +45,7 @@ entity Teacher {
   NIF
   email
   phoneNumber
+  academicBackground
 }
 
 entity Programme {

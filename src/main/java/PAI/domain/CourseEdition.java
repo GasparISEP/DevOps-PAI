@@ -29,6 +29,7 @@ public class CourseEdition {
                 _programmeEdition.equals(courseEditionTest._programmeEdition);
     }
 
+    // US20 - sets the RUC for this course edition
     public boolean setRuc(Teacher ruc) {
         if (_ruc != null)
             return false;

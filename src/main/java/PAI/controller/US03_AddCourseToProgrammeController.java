@@ -1,22 +1,37 @@
 package PAI.controller;
 
 import PAI.domain.Course;
+import PAI.domain.CourseRepository;
 import PAI.domain.Programme;
+import PAI.domain.ProgrammeList;
+
+import java.util.List;
 
 public class US03_AddCourseToProgrammeController {
 
-    private final Programme programme;
+    private final ProgrammeList programmeList;
+    private final CourseRepository courseRepository;
     
-    public US03_AddCourseToProgrammeController(Programme programme) throws Exception {
-        if(programme == null) {
-            throw new IllegalArgumentException("Programme cannot be null.");
+    public US03_AddCourseToProgrammeController(ProgrammeList programmeList, CourseRepository courseRepository) throws Exception {
+        if(programmeList == null) {
+            throw new IllegalArgumentException("ProgrammeList cannot be null.");
         }
-        this.programme = programme;
+        if (courseRepository == null) {
+            throw new IllegalArgumentException("CourseRepository cannot be null.");
+        }
+        this.programmeList = programmeList;
+        this.courseRepository = courseRepository;
     }
 
+    public List<Programme> getAllProgrammes() {
+        return programmeList.getAllProgrammes();
+    }
 
+    public List<Course> getAllCourses() {
+        return courseRepository.getAllCourses();
+    }
 
-    public boolean addCourseToProgramme(Course course) throws Exception {
+    public boolean addCourseToProgramme(Programme programme, Course course) throws Exception {
         if(course == null) {
             throw new IllegalArgumentException("Course cannot be null.");
         }
