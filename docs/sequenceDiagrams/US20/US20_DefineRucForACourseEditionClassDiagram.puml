@@ -1,0 +1,100 @@
+@startuml
+
+title US20_DefineRucForACourseEditionClassDiagram.puml
+
+class US20_DefineRucForCourseEditionController {
+    -_courseEditionRepository: CourseEditionRepository
+    -_teacherRepository: TeacherRepository
+    +US20_DefineRucForCourseEditionController(courseEditionRepository: CourseEditionRepository, teacherRepository: TeacherRepository)
+    +getCourseEdition()
+    +getTeachers()
+    +defineRucForCourseEdition(courseEdition: CourseEdition, teacher: Teacher)
+}
+
+note right of US20_DefineRucForCourseEditionController::defineRucForCourseEdition
+  This method assigns a RUC teacher to a Course Edition.
+end note
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     -_academicBackground:String
+     -_address:Address
+     -_department:Department
+     -_teacherCareerProgression:List<TeacherCareerProgression>
+     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+     academicBackground: String, street: String, postalCode: String, location: String, country: String,
+     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+     +hasSameAcronym(teacher: Teacher)
+     +hasSameNif(teacher: Teacher)
+     +isInDepartment(department: Department)
+     +hasThisNIF(NIF: String)
+     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
+     +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+}
+
+class TeacherRepository {
+    -_teachers: List<Teacher>
+    +TeacherRepository()
+    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+                          address: Address, teacherCategory: TeacherCategory, department: Department)
+    +getTeacherByNIF(NIF: String)
+    +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
+    +getAllTeachers()
+}
+
+note right of TeacherRepository::getAllTeachers
+  This method returns all teachers in the repository.
+end note
+
+class CourseEdition {
+    -_programmeEdition: ProgrammeEdition
+    -_course: Course
+    -_ruc: Teacher
+    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+    +Equals(objectToCompare: Object)
+    +setRuc(Teacher: ruc)
+    +whatProgrammeEditionBelongsThisCourseEdition ()
+}
+
+note left of CourseEdition::setRuc
+  This method assigns a teacher RUC to a Course Edition.
+end note
+
+class CourseEditionRepository {
+    -_courseEditionRepository: ArrayList<CourseEdition>
+    +CourseEditionRepository()
+    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
+    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
+    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
+    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
+    +getCourseEditions(): List<CourseEdition>
+    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition)
+}
+note left of CourseEditionRepository::setRucInACourseEdition
+  This method returns all course editions in the repository.
+end note
+
+note left of CourseEditionRepository::getCourseEditions
+  This method returns all course editions in the repository.
+end note
+
+
+
+
+US20_DefineRucForCourseEditionController "  1  " ..> "  1  " CourseEditionRepository : uses
+
+US20_DefineRucForCourseEditionController "  1  " ..> "  1  " TeacherRepository: uses
+
+CourseEditionRepository "  1  " --> "  1..*  " CourseEdition : contains
+
+TeacherRepository "  1  " --> "  1..*  " Teacher: contains
+
+CourseEdition "  0..1  " --> "  1  " Teacher: contains RUC
+
+
+
+@enduml

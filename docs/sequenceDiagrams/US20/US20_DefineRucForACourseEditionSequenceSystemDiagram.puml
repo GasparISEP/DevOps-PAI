@@ -1,6 +1,6 @@
 @startuml
 
-title: US20_Sequence System Diagram_Define Ruc for a Course Edition
+title: US20_Define Ruc for a Course Edition Sequence System Diagram
 
 actor ProgrammmeDirector as PD
 participant System #application

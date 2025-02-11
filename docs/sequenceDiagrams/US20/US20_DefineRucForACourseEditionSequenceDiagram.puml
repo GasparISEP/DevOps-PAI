@@ -2,14 +2,14 @@
 
 autonumber
 
-title: US20_Sequence Diagram_Define Ruc for a Course Edition
+title: US20_Define Ruc for a Course Edition Sequence Diagram
 
 actor ProgrammmeDirector as PD
 participant UI #application
 participant ":DefineRucForCourseEditionController" as C #application
 participant ":CourseEditionRepository" as CER #application
 participant ":TeacherRepository" as TR #application
-participant  ":CourseEdition" as CE #application
+participant  "cE1:CourseEdition" as CE #application
 participant "cEL1:List<CourseEdition>" as LCE
 participant "tL1:List<Teacher>" as LT
 
