@@ -11,13 +11,13 @@ class US19_CreateCourseEditionController {
     +getCourseList(programmeEdition: ProgrammeEdition)
 }
 
- class ProgrammeList {
+class ProgrammeList {
      -_programmeList: List<Programme>
      +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
      +getAllProgrammes()
      +getCourseList(programme: Programme)
- }
+}
 
 class Programme {
      - name: string
@@ -89,6 +89,7 @@ class ProgrammeEditionRepository {
     -_programmeEditionRepository: ArrayList<ProgrammeEdition>
     +ProgrammeEditionRepository()
     +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
+    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
     +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
     +getAllProgrammeEditions()
 }
@@ -98,8 +99,10 @@ US19_CreateCourseEditionController "1" ..> "1" CourseEditionRepository: uses
 US19_CreateCourseEditionController "1" ..> "1" ProgrammeList: uses
 CourseEditionRepository "1" *-- "0..*" CourseEdition: contains
 ProgrammeEditionRepository "1" *-- "0..*" ProgrammeEdition: contains
-CourseEdition "*" ..> "1" ProgrammeEdition: uses
-CourseEdition "1..*" ..> "1..*" Course : uses
+ProgrammeList "1" *-- "0..*" Programme: contains
+Programme "1" *-- "1..*" Course : aggregates
+CourseEdition "*" --> "1" ProgrammeEdition: references
+CourseEdition "1..*" --> "1..*" Course : references
 
 
 

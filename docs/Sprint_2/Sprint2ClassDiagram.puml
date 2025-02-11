@@ -108,13 +108,13 @@ class Programme {
      +getQuantityOfEcts()
  }
 
- class ProgrammeList {
+class ProgrammeList {
      -_programmeList: List<Programme>
      +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
      +getAllProgrammes()
      +getCourseList(programme: Programme)
- }
+}
 
 class ProgrammeEdition {
     -_programme: Programme
@@ -311,6 +311,7 @@ class ProgrammeEditionRepository {
     -_programmeEditionRepository: ArrayList<ProgrammeEdition>
     +ProgrammeEditionRepository()
     +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
+    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
     +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
     +getAllProgrammeEditions()
 }
@@ -337,14 +338,12 @@ Department "1..*" <-- "1" DepartmentRepository: stores
 AccessMethod "1..*" -- "1" AccessMethodRepository
 TeacherCategory "1..*" <-- "1" TeacherCategoryRepository: stores
 Course "1..*" -- "1" CourseRepository
-Course "1..*" --> "1..*" CourseEdition: organised in
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
 StudyPlan "1" <-- "1..*" CourseInStudyPlan: belongs
 CourseInStudyPlan "*" --> "1" Programme: belongs
 CourseInStudyPlan "0..1" <-- "1" Course: happens
-CourseEdition "*" --> "1" ProgrammeEdition: belongs to
-CourseEdition "*" -- "1" CourseEditionRepository
+CourseEditionRepository "1" *-- "0..*" CourseEdition: contains
 CourseEdition "1" ..> "1" TeacherRepository
 Student "1" --- "*" CourseEditionEnrollment : > enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to
@@ -355,5 +354,7 @@ ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
 ProgrammeEdition "1..*" -- "1" ProgrammeEditionRepository
 ProgrammeList "1" -- "1..*" Programme
 GradeStudentRepository "1" --> "*" GradeStudent
+CourseEdition "*" --> "1" ProgrammeEdition: references
+CourseEdition "1..*" --> "1..*" Course : references
 
 @enduml
