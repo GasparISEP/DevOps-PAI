@@ -1,6 +1,7 @@
 @startuml
 title US16: Enroll a student in a course edition
 actor ASC
+participant ":System" as System
 ASC -> System: I want to enroll a student in a course edition.
 System --> ASC: What Student?
 ASC -> System: Enter the student!
