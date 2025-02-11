@@ -3,9 +3,10 @@
 actor HRC
 participant ":UI" as UI
 participant ":Controller" as Controller #lightgreen
-participant ":TeacherRepository" as TR #lightblue
-participant "t1:Teacher" as Teacher #lightyellow
-participant ":TeacherCareerProgression" as TCP #lightpink
+participant "tr1:TeacherRepository" as TR #lightblue
+participant ":Teacher" as Teacher #lightyellow
+participant "t1:Teacher" as t1Teacher #lightyellow
+participant "lastTCP:TeacherCareerProgression" as TCP #lightpink
 participant "tcp1:TeacherCareerProgression" as TCP1 #lightpink
 
 HRC -> UI : I want to update Teacher's working percentage
@@ -16,7 +17,7 @@ UI --> HRC: What working percentage?
 HRC -> UI: Working percentage
 UI --> HRC: What date?
 HRC -> UI: Date
-UI -> Controller : getTeacherByNIF(Teacher's NIF)
+UI -> Controller : updateTeacherWorkingPercentage(Teacher's NIF, date, workingPercentage)
 activate Controller
 
 Controller -> TR : getTeacherByNIF(Teacher's NIF)
@@ -33,27 +34,32 @@ TR --> Controller : t1
 deactivate TR
 
 
-Controller -> Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
-activate Teacher
-Teacher -> Teacher : lastTCP = getLastTeacherCareerProgression()
-Teacher -> TCP : lastTCP.getCategory()
+Controller -> t1Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
+activate t1Teacher
+t1Teacher -> t1Teacher : lastTCP = getLastTeacherCareerProgression()
+t1Teacher -> TCP : lastTCP.getCategory()
 activate TCP
-TCP --> Teacher : tc1
+TCP --> t1Teacher : tc1
 deactivate TCP
-Teacher -> TCP1** : createTeacherCareerProgression \n(date, tc1, workingPercentage)
+t1Teacher -> TCP : lastTCP.getWorkingPercentage()
+activate TCP
+TCP --> t1Teacher : wp1
+deactivate TCP
+t1Teacher -> t1Teacher : Validate if wp1 is different than workingPercentage
+t1Teacher -> TCP1** : createTeacherCareerProgression \n(date, tc1, workingPercentage)
 activate TCP1
 TCP1 -> TCP1 : validateAndFormatDate(date)
-TCP1 -> TCP1 : validateWorkingPercentage(working percentage)
-TCP1 --> Teacher : tcp1
+TCP1 -> TCP1 : validateWorkingPercentage(workingPercentage)
+TCP1 --> t1Teacher : tcp1
 deactivate TCP1
-Teacher -> TCP : validateIsDateAfter(tcp1)
+t1Teacher -> TCP : validateIsDateAfter(tcp1)
 activate TCP
-TCP --> Teacher : True
+TCP --> t1Teacher : True
 deactivate TCP
-Teacher -> Teacher : add(tcp1)
+t1Teacher -> t1Teacher : add(tcp1)
 
-Teacher --> Controller : True
-deactivate Teacher
+t1Teacher --> Controller : True
+deactivate t1Teacher
 
 Controller --> UI : True
 deactivate Controller

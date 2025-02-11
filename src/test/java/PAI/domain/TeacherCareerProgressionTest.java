@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -24,6 +25,17 @@ class TeacherCareerProgressionTest {
 
         //act + assert
         TeacherCareerProgression tcp1 = new TeacherCareerProgression(date, tc1, workingPercentage);
+    }
+
+    @Test
+    void nullTeacherCategoryDoesNotCreateObject() {
+        // Arrange
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression("10-12-2024", null, 50));
+
+        // Assert
+        assertEquals("Teacher Category cannot be null", exception.getMessage());
     }
 
     public static Stream<Arguments> provideInvalidAttributes() {
