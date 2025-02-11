@@ -113,6 +113,7 @@ class Programme {
      +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
      +getAllProgrammes()
+     +getCourseList(programme: Programme)
  }
 
 class ProgrammeEdition {
