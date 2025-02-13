@@ -91,8 +91,8 @@ public class CourseEditionEnrollmentRepository {
         return true;  // Returns true if the enrollment was successfully removed
     }
 
-    public void enrollStudentInProgrammeCourseEditions(Student student, ProgrammeEdition programmeEdition, CourseEditionRepository courseEditionRepository) {
-        List<CourseEdition> courseEditions = courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+
+    public void enrollStudentInProgrammeCourseEditions(Student student,  List<CourseEdition> courseEditions) {
 
         for (CourseEdition courseEdition : courseEditions) {
             Optional<CourseEditionEnrollment> existingEnrollment = findByStudentAndEdition(student, courseEdition);

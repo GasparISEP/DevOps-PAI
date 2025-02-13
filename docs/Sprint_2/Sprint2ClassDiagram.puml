@@ -50,6 +50,7 @@ class CourseEditionEnrollmentRepository {
     +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition)
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition)
     +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition)
+    +enrollStudentInProgrammeCourseEditions(student :Student, courseEditions : List<CourseEdition>)
 }
 
 class ProgrammeEditionEnrollment {

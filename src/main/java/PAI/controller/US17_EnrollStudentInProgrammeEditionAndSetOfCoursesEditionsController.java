@@ -57,10 +57,11 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         // Enroll student in programmeEdition
         _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition, LocalDate.now());
 
-        _courseEditionEnrollmentRepository.enrollStudentInProgrammeCourseEditions(student, programmeEdition, _courseEditionRepository);
+        List<CourseEdition> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+
+        _courseEditionEnrollmentRepository.enrollStudentInProgrammeCourseEditions(student, courseEditions);
         return true;
     }
-
 
     public List<Programme> getAllProgrammes() {
         return _programmeList.getAllProgrammes();
