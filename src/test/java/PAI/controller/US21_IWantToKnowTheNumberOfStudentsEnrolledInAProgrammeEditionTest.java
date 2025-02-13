@@ -18,22 +18,10 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
 
         // Act
         US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controller =
-                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo, programmeEditionRepository);
+                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo);
 
         // Assert
         assertNotNull(controller);
-
-    }
-
-    @Test
-    void shouldThrowExceptionWhenProgrammeEditionRepositoryIsNull(){
-        // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
-
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo, null));
 
     }
 
@@ -45,7 +33,7 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(null, programmeEditionRepository));
+                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(null));
 
     }
 
@@ -72,7 +60,7 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
         int NumberOfStudentsEnrolledInAProgrammeEdition = 1;
 
         // Act
-        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controlador1 = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo, programmeEditionRepository);
+        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controlador1 = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo);
 
         programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
         int result = controlador1.IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);

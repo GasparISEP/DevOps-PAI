@@ -127,7 +127,7 @@ public class Teacher {
 
     public boolean updateWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage) throws IllegalArgumentException {
 
-        TeacherCareerProgression lastCareerProgression = _teacherCareerProgression.getLast();
+        TeacherCareerProgression lastCareerProgression = getLastTeacherCareerProgression();
 
         TeacherCategory lastCategory = lastCareerProgression.getCategory();
 
@@ -146,7 +146,11 @@ public class Teacher {
 
     public boolean updateTeacherCategoryInTeacherCareer(String date, TeacherCategory teacherCategory) throws IllegalArgumentException {
 
-        TeacherCareerProgression lastTeacherCareerProgression =  _teacherCareerProgression.getLast();
+        if (teacherCategory == null) {
+            throw new IllegalArgumentException("Teacher category cannot be null.");
+        }
+
+        TeacherCareerProgression lastTeacherCareerProgression =  getLastTeacherCareerProgression();
 
         int lastWorkingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
 
@@ -157,8 +161,16 @@ public class Teacher {
 
         if(!updatedTeacherCareerProgression.isDateAfter(lastTeacherCareerProgression))
             throw new IllegalArgumentException("The date must be greater than the last date registered!");
-        else
-            return _teacherCareerProgression.add(updatedTeacherCareerProgression);
+        else {
+            _teacherCareerProgression.add(updatedTeacherCareerProgression);
+            return true;
+        }
+    }
+
+    private TeacherCareerProgression getLastTeacherCareerProgression() {
+
+        return _teacherCareerProgression.getLast();
+
     }
 }
 

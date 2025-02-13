@@ -13,7 +13,7 @@ activate C #application
 C -> CEER : IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition1)
 activate CEER #application
 
-CEER -> CEER : validateCourseEdition(CourseEdition1);
+note right of CEER : Validate if CourseEdition1 is null
 
 loop cce[i] < _courseEditionEnrollments.size()
     CEER -> CEER : numberOfStudentsEnrolledInCourseEdition(CourseEdition1)

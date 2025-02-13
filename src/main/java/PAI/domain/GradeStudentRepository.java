@@ -6,7 +6,6 @@ import java.util.Optional;
 
 public class GradeStudentRepository {
     private List<GradeStudent> gradeStudentList = new ArrayList<>();
-    private CourseEditionEnrollmentRepository courseEditionEnrollmentRepository;
 
 
     public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition, CourseEditionEnrollmentRepository courseEditionEnrollmentRepository){
@@ -27,7 +26,7 @@ public class GradeStudentRepository {
         double sumGrade = 0;
 
         for (GradeStudent gradeStudent: gradeStudentList) {
-            if (gradeStudent.KnowCourseEdition().equals(courseEdition)) {
+            if (gradeStudent.hasThisCourseEdition(courseEdition)) {
                 double grade = gradeStudent.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;

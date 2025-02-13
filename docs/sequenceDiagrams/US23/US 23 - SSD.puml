@@ -1,0 +1,11 @@
+@startuml
+actor RUC
+participant ":System" as System
+
+RUC -> System  : I Want to know the approval percentage of a Course Edition
+System --> RUC  : What Course Edition?
+RUC -> System  : Enter course Edition
+System --> RUC  : Sure?
+RUC -> System  : Yes!
+System --> RUC  : Ok
+@enduml

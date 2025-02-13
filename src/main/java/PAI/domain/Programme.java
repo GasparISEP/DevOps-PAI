@@ -57,7 +57,6 @@ public class Programme {
 
     }
 
-
     private boolean isNameInvalid(String name) {
         return name == null || name.isBlank() || !name.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     }
@@ -149,5 +148,18 @@ public class Programme {
 
     public StudyPlan getStudyPlan() {
         return _studyPlan;
+    }
+
+    public int calculateNumberOfYears(int quantityOfSemesters) {
+        int numberOfYears;
+
+        // Calcula o número de anos
+        if (quantityOfSemesters % 2 != 0) {
+            numberOfYears = (quantityOfSemesters + 1) / 2;
+        }
+        else {
+            numberOfYears = quantityOfSemesters / 2;
+        }
+        return numberOfYears;
     }
 }

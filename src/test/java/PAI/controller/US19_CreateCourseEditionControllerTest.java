@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -10,12 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class US19_CreateCourseEditionControllerTest {
 
+
     @Test
     void shouldReturnTrueIfCourseEditionIsCreated() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Course course = new Course("Informatics", "INF", 6, 1);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new Programme("Computer Engineering", "CE", 20, 6,
@@ -43,7 +46,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new Programme("Computer Engineering", "CE", 20, 6,
                         new DegreeType("Master", 240),
@@ -70,7 +74,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Course course = new Course("Informatics", "INF", 6, 1);
 
         // Act
@@ -85,7 +90,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
         // Act
         boolean result = controller.createCourseEdition(null, null);
@@ -99,7 +105,8 @@ class US19_CreateCourseEditionControllerTest {
         //Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new Programme("Computer Engineering", "CE", 20, 6,
@@ -114,7 +121,7 @@ class US19_CreateCourseEditionControllerTest {
                 ),
                 new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
         );
-        controller.getCoursesInProgramme(programmeEdition);
+        controller.getAllProgrammeEditions();
         //Assert
         assertNotNull(allEditions);
     }
@@ -124,7 +131,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
                 new Department("CSE", "Computer Science Engineer"),
@@ -163,7 +171,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
                 new Department("CSE", "Computer Science Engineer"),
@@ -199,7 +208,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
                 new Department("CSE", "Computer Science Engineer"),
@@ -237,14 +247,24 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
         Course c1 = new Course ("Informatica", "INF", 6, 1);
         Course c2 = new Course("Matemática", "MAT", 4, 1);
-
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
+                new DegreeType("Master", 240),
+                new Department("CSE", "Computer Science Engineer"),
+                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
+                        new Department("CSE", "Computer Science Engineer")
+                )
+        );
+        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
                 new Department("CSE", "Computer Science Engineer"),
                 new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -256,7 +276,6 @@ class US19_CreateCourseEditionControllerTest {
         );
         programme.addCourseToAProgramme(c1);
         programme.addCourseToAProgramme(c2);
-
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
         programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -274,12 +293,23 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
 
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
+                new DegreeType("Master", 240),
+                new Department("CSE", "Computer Science Engineer"),
+                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
+                        new Department("CSE", "Computer Science Engineer")
+                )
+        );
+        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
                 new Department("CSE", "Computer Science Engineer"),
                 new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -305,7 +335,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
@@ -314,6 +345,16 @@ class US19_CreateCourseEditionControllerTest {
         Course c2 = new Course("Matemática", "MAT", 4, 1);
 
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
+                new DegreeType("Master", 240),
+                new Department("CSE", "Computer Science Engineer"),
+                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
+                        new Department("CSE", "Computer Science Engineer")
+                )
+        );
+        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
                 new Department("CSE", "Computer Science Engineer"),
                 new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -341,7 +382,8 @@ class US19_CreateCourseEditionControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository);
+        ProgrammeList programmeList = new ProgrammeList();
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
         CourseRepository courseRepository = new CourseRepository();
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
@@ -359,6 +401,17 @@ class US19_CreateCourseEditionControllerTest {
                         new Department("CSE", "Computer Science Engineer")
                 )
         );
+        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
+                new DegreeType("Master", 240),
+                new Department("CSE", "Computer Science Engineer"),
+                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
+                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
+                        new Department("CSE", "Computer Science Engineer")
+                )
+        );
+
         programme.addCourseToAProgramme(c1);
 
         SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");

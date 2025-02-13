@@ -18,6 +18,9 @@ public class TeacherCareerProgression {
 
         _date = formattedDate;
 
+        if (isTeacherCategoryInvalid(category))
+            throw new IllegalArgumentException("Teacher Category cannot be null");
+
         _category = category;
 
         //validate working percentage
@@ -27,6 +30,10 @@ public class TeacherCareerProgression {
         _workingPercentage = workingPercentage;
     }
 
+    private boolean isTeacherCategoryInvalid (TeacherCategory category) {
+
+        return category == null;
+    }
 
     private boolean isWorkingPercentageInvalid (int workingPercentage) {
 

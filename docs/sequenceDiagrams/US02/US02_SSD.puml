@@ -1,0 +1,14 @@
+@startuml
+actor admin
+participant System
+
+
+title: US02_Sequence System Diagram_Configure Access Method in System
+
+admin -> System  #application : I want to configure Access Method
+System --> admin  : Access Method name?
+admin -> System #application :(name)
+
+System --> admin : Access Method configured.
+
+@enduml

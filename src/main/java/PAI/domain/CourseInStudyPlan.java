@@ -9,26 +9,16 @@ public class CourseInStudyPlan {
     private int _curricularYear;
     private Programme _programme;
 
-    public CourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception{
-
-        if (course == null) {
-            throw new IllegalArgumentException("Course cannot be null.");
-        }
-
-        if (programme == null) {
-            throw new IllegalArgumentException("Programme cannot be null.");
-        }
-
-        List<Course> courseList = programme.getCourseList();
+    public CourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception {
 
         int quantityOfSemesters = programme.getQuantityOfSemester();
-        int numberOfYears = calculateNumberOfYears(quantityOfSemesters);
+        int numberOfYears = programme.calculateNumberOfYears(quantityOfSemesters);
 
-        if (semester < 1 || semester > 2) {
+        if (isSemesterInvalid(semester)) {
             throw new Exception("Invalid semester.");
         }
 
-        if (curricularYear < 1 || curricularYear > numberOfYears) {
+        if (isCurricularYearInvalid(curricularYear, numberOfYears)) {
             throw new Exception("Invalid curricular year.");
         }
 
@@ -36,27 +26,10 @@ public class CourseInStudyPlan {
             throw new Exception("Course cannot be added to second semester of last year.");
         }
 
-        if (!courseList.contains(course)) {
-            throw new Exception("The course provided is not part of the programme.");
-        }
-
         this._course = course;
         this._semester = semester;
         this._curricularYear = curricularYear;
         this._programme = programme;
-    }
-
-    private int calculateNumberOfYears(int quantityOfSemesters) {
-        int numberOfYears;
-
-        // Calcula o número de anos
-        if (quantityOfSemesters % 2 != 0) {
-            numberOfYears = (quantityOfSemesters + 1) / 2;
-        }
-        else {
-            numberOfYears = quantityOfSemesters / 2;
-        }
-        return numberOfYears;
     }
 
     @Override
@@ -87,10 +60,18 @@ public class CourseInStudyPlan {
     }
 
     public int getCurricularYear() {
-        return  _curricularYear;
+        return _curricularYear;
     }
 
     public Programme getProgramme() {
         return _programme;
+    }
+
+    private boolean isSemesterInvalid(int semester) {
+        return semester < 1 || semester > 2;
+    }
+
+    private boolean isCurricularYearInvalid(int curricularYear, int numberOfYears) {
+        return (curricularYear < 1 || curricularYear > numberOfYears);
     }
 }

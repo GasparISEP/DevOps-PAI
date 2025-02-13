@@ -7,14 +7,14 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class US16_EnrollAStudentInACourseEditionTest {
+class US16_EnrollAStudentInACourseEditionControllerTest {
 
     @Test
     void shouldReturnExceptionIfEverythingIsNull (){
         //arrange
 
         //act + assert
-        assertThrows(Exception.class, () -> new US16_EnrollAStudentInACourseEdition(null, null, null));
+        assertThrows(Exception.class, () -> new US16_EnrollAStudentInACourseEditionController(null, null, null));
     }
 
     @Test
@@ -25,7 +25,7 @@ class US16_EnrollAStudentInACourseEditionTest {
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US16_EnrollAStudentInACourseEdition(ceeRepository, null, courseEditionRepository);
+            new US16_EnrollAStudentInACourseEditionController(ceeRepository, null, courseEditionRepository);
         });
 
         //assert
@@ -40,7 +40,7 @@ class US16_EnrollAStudentInACourseEditionTest {
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US16_EnrollAStudentInACourseEdition(ceeRepository, peeRepository, null);
+            new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, null);
         });
 
         //assert
@@ -55,7 +55,7 @@ class US16_EnrollAStudentInACourseEditionTest {
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US16_EnrollAStudentInACourseEdition(null, peeRepository, ceRepository);
+            new US16_EnrollAStudentInACourseEditionController(null, peeRepository, ceRepository);
         });
 
         //assert
@@ -71,7 +71,7 @@ class US16_EnrollAStudentInACourseEditionTest {
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
 
-        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
+        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 ceeRepository, peeRepository, courseEditionRepository);
 
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
@@ -108,7 +108,7 @@ class US16_EnrollAStudentInACourseEditionTest {
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
 
-        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
+        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 ceeRepository, peeRepository, courseEditionRepository);
 
 
@@ -146,7 +146,7 @@ class US16_EnrollAStudentInACourseEditionTest {
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
-        US16_EnrollAStudentInACourseEdition controller = new US16_EnrollAStudentInACourseEdition(
+        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 ceeRepository, peeRepository, courseEditionRepository);
 
         //act

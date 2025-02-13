@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class US22IWantToGradeAStudentInACourseEditionTest {
+class US22_IWantToGradeAStudentInACourseEditionTest {
     @Test
     void gradeStudentInRepository () {
         //arrange
@@ -45,7 +45,6 @@ class US22IWantToGradeAStudentInACourseEditionTest {
         LocalDate currentDate = LocalDate.now();
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
-        gradeStudentRepository1.addGradeToStudent(20.0,"12-02-2024",student1,courseEdition1,enrollmentRepository);
 
         Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student1,courseEdition1,enrollmentRepository);
 
@@ -54,5 +53,18 @@ class US22IWantToGradeAStudentInACourseEditionTest {
         assertTrue(optc1.isPresent());
     }
 
+    @Test
+    void iWantToGradeAStudentInACourseEditionWithNullRepo () throws Exception {
+        //arrange
+
+        GradeStudentRepository gradeStudentRepository1 = null;
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1);
+        });
+        assertEquals("Grade Student Repository Cannot be null", exception.getMessage());
+
+    }
 }
 

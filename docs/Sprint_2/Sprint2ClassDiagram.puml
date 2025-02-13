@@ -66,12 +66,12 @@ class ProgrammeEditionEnrollment {
 }
 
 class ProgrammeEditionEnrollmentRepo {
-    -_programmeEditionEnrollments: List<CourseEditionEnrollment>
-    +ProgrammeEditionEnrollmentRepository ()
+    -_programmeEditionEnrollments: List<ProgrammeEditionEnrollment>
+    +ProgrammeEditionEnrollmentRepo()
     +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,
     localDate: LocalDate)
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
-    +checkIfThisEnrollmentAlreadyExists(ProgrammeEditionEnrollment programmeEditionEnrollment)
+    +checkIfThisEnrollmentAlreadyExists(programmeEditionEnrollment: ProgrammeEditionEnrollment)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
     +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
 }
@@ -95,6 +95,7 @@ class Programme {
      - programmeDirector: Teacher
      -_courseList: List <Course>
      -_programmeEnrolment: List<Enrolment>
+     -StudyPlan: _studyPlan
 
      + equals()
      + addCourseToProgramme (course: Course)
@@ -107,12 +108,13 @@ class Programme {
      +getQuantityOfEcts()
  }
 
- class ProgrammeList {
+class ProgrammeList {
      -_programmeList: List<Programme>
      +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
      +getAllProgrammes()
- }
+     +getCourseList(programme: Programme)
+}
 
 class ProgrammeEdition {
     -_programme: Programme
@@ -164,12 +166,12 @@ class TeacherCareerProgression {
 
 class TeacherRepository {
     -_teachers: List<Teacher>
-    +teacherRepository()
+    +TeacherRepository()
     +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
                           address: Address, teacherCategory: TeacherCategory, department: Department)
     +getTeacherByNIF(NIF: String)
     +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
-    +getTeachers()
+    +getAllTeachers()
 }
 
 
@@ -259,7 +261,7 @@ class CourseRepository {
 class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_course: Course
-    -_Teacher: Ruc
+    -_ruc: Teacher
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
     +setRuc(Teacher: ruc)
@@ -273,7 +275,7 @@ class CourseEditionRepository {
     +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
     +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
     +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
-    +getCourseEdition()
+    +getCourseEditions(): List<CourseEdition>
     +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition)
 }
 
@@ -283,9 +285,15 @@ class GradeStudent {
     +knowGrade()
 }
 
+class GradeStudentRepository {
+    -gradeStudentList: List<GradeStudent>
+    +addGradeToStudent()
+    +KnowAverageGrade()
+    +knowApprovalRate()
+}
 class StudyPlan {
 
-    +RegisterCourseInStudyPlan()
+    +addCourseToStudyPlan()
 
 }
 
@@ -303,6 +311,7 @@ class ProgrammeEditionRepository {
     -_programmeEditionRepository: ArrayList<ProgrammeEdition>
     +ProgrammeEditionRepository()
     +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
+    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
     +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
     +getAllProgrammeEditions()
 }
@@ -310,38 +319,42 @@ class ProgrammeEditionRepository {
 Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
-Teacher "1..*" -- "*" Course: Teach
-Programme "*" -u-> "1*" Department: Assigned to
+Teacher "1..*" --> "*" Course: teaches
+Programme "*" -u-> "1*" Department: assigned to
 Course "*" -- "1" Programme : aggregates
 DegreeType "1" <-- "*" Programme
 Enrolment "*" --> "1" AccessMethod: is registered
 Programme "1"  -u-> "*" Enrolment: has
-Student "1" <-- "*" Enrolment: enrolls
+Student "1" <-- "*" Enrolment: enrols
 StudentRepository "1" --> "*" Student
-SchoolYearRepository "1" --> "*" SchoolYear
-Teacher "1" -r- "1" Department: is Department Director
-Teacher "1..*" -- "1" Department: aggregates
-Teacher "1..*" -- "1" TeacherRepository: has
-Teacher "1" --> "1..*" TeacherCareerProgression
-TeacherCareerProgression "*" --> "1"TeacherCategory: Aggregates
-Department "1..*" -- "1" DepartmentRepository
+SchoolYearRepository "1" --> "*" SchoolYear: stores
+ProgrammeEdition "*" -l-> "1" SchoolYear: relates to
+Teacher "1" <-r- "1" Department: is Department Director
+Teacher "1..*" <-- "1" Department: aggregates
+Teacher "1..*" <-- "1" TeacherRepository: stores
+Teacher "1" --> "1..*" TeacherCareerProgression: comprises
+TeacherCareerProgression "*" --> "1"TeacherCategory: comprises
+Department "1..*" <-- "1" DepartmentRepository: stores
 AccessMethod "1..*" -- "1" AccessMethodRepository
-TeacherCategory "1..*" -- "1" TeacherCategoryRepository
+TeacherCategory "1..*" <-- "1" TeacherCategoryRepository: stores
 Course "1..*" -- "1" CourseRepository
-Course "1..*" --> "1..*" CourseEdition: organized in
-GradeStudent "*" --> "1" Student: Belongs
-GradeStudent "*" --> "1" CourseEdition: Refers To
-StudyPlan "1" <-- "1..*" CourseInStudyPlan: Belongs
-CourseInStudyPlan "*" --> "1" Programme: Belongs
-CourseInStudyPlan "0..1" <-- "1" Course: Happens
-CourseEdition "*" --> "1" ProgrammeEdition: Belongs To
-CourseEdition "*" -- "1" CourseEditionRepository
-Student "1" --- "*" CourseEditionEnrollment : > Enrols
-CourseEditionEnrollment "*" -- "1" CourseEdition : > Relates to
+GradeStudent "*" --> "1" Student: belongs
+GradeStudent "*" --> "1" CourseEdition: refers to
+StudyPlan "1" <-- "1..*" CourseInStudyPlan: belongs
+CourseInStudyPlan "*" --> "1" Programme: belongs
+CourseInStudyPlan "0..1" <-- "1" Course: happens
+CourseEditionRepository "1" *-- "0..*" CourseEdition: contains
+CourseEdition "1" ..> "1" TeacherRepository
+Student "1" --- "*" CourseEditionEnrollment : > enrols
+CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to
 CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
-ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < Happens
-ProgrammeEditionEnrollment "*" -- "1" Student : < Enrols
+ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < happens
+ProgrammeEditionEnrollment "*" -- "1" Student : < enrols
 ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
 ProgrammeEdition "1..*" -- "1" ProgrammeEditionRepository
 ProgrammeList "1" -- "1..*" Programme
+GradeStudentRepository "1" --> "*" GradeStudent
+CourseEdition "*" --> "1" ProgrammeEdition: references
+CourseEdition "1..*" --> "1..*" Course : references
+
 @enduml

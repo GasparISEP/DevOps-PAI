@@ -2,25 +2,27 @@
 actor RUC
 participant ":UI" as UI
 participant ":Controller" as ctr
-participant ":gs1:GradeStudentRepository" as GR
+participant ":GradeStudentRepository" as GR
+participant ":CourseEditionEnrollmentRepository" as CEER
 
 RUC -> UI ++ #application: I want to grade a Student in a Course Edition
 UI --> RUC --: Grade, Date, CourseEdition, Student?
 RUC -> UI ++ #application: Grade, Date, CourseEdition, Student!
-UI -> ctr ++ #application : addGradeToStudent (Grade,date, Student, CourseEdition)
-ctr -> GR ++ #application : addGradeToStudent (Grade,date, Student, CourseEdition)
+UI -> ctr ++ #application : IWantToGradeStudent (Grade, Date, Student, CourseEdition)
+ctr -> GR ++ #application : addGradeToStudent (Grade, Date, Student, CourseEdition)
 
-create ":gs1:GradeStudent" as gs
-GR -> gs ++ #application : addGradeToStudent (Grade,date,Student,CourseEdition)
-gs -> gs : validate()
-gs --> GR -- : gs1
+GR -> CEER ++ #application : isStudentEnrolledInCourseEdition(Student, CourseEdition)
+CEER --> GR -- : true
 
-GR -> GR : isStudentEnrolledInCourseEdition(student,courseEdition)
+create ":GradeStudent" as GS
+GR -> GS ++ #application : <Create> (Grade, Date, Student, CourseEdition)
+GS -> GS : isGradeValid()
+GS -> GS : isDateValid()
+GS --> GR -- : gs1
 
-GR -> GR : addGrade()
-
-GR --> ctr --: Added Grade to Student (gs1)
-ctr --> UI --: Added Grade to Student (gs1)
-UI --> RUC --: Succeed (gs1)
+GR -> GR : addGrade(gs1)
+GR --> ctr --: gs1
+ctr --> UI --: gs1
+UI --> RUC --: Succeed
 
 @enduml

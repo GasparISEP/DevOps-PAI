@@ -2,40 +2,64 @@
 actor ASC as Admin
 
 participant ":UI" as UI #lightblue
-participant ":Controller" as C #lightblue
-participant ":Programme" as P #lightblue
-participant ":Study Plan" as SP #lightblue
-participant ":Course In Study Plan" as CISP #lightblue
+participant ":ControllerUS27" as C #lightblue
+participant ":ProgrammeList" as PL #lightblue
 
-create ":UI" as UI #lightblue
 
-Admin -> UI : I Want to register a Study Plan (programme, course, semester, curricularYears)
-activate UI
-create ":Controller" as C #lightblue
-UI -> C : registerAStudyPlan(programme, course, semester, curricularYears)
-activate C
+Admin -> UI ++ #application : I Want to register a Programme in the System,\n including a Study Plan.
+UI --> Admin -- : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? \n Department? Programme Director?
+Admin -> UI ++ #application : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! \n Department! Programme Director!
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(Name, Acronym, quantityOfEcts, quantityOfSemesters, \n DegreeType,  Department, Programme Director)
+C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector)
+
 create ":Programme" as P #lightblue
-C -> P : registerCourseInStudyPlan(programme, course, semester, curricularYear)
-activate P
-create ":Study Plan" as SP #lightblue
-P -> SP : New Study Plan(programme, course, semester, curricularYear)
-activate SP
-create ":Course In Study Plan" as CISP #lightblue
-SP -> CISP : Create Course In Study Plan(programme, course, semester, curricularYear)
-activate CISP
-CISP -> CISP : Validate course
-CISP -> CISP : Validate semester
-CISP -> CISP : Validate curricularYear
-CISP -> SP : Add Course In Study Plan to StudyPlan
-deactivate CISP
-SP -> SP : Check Course In Study Plan for duplicates
-SP -> SP : Register Course in Study Plan in StudyPlan
-SP --> P : Done!
-deactivate SP
-P --> C : Done!
-deactivate P
-C --> UI : Done!
-deactivate C
-UI --> Admin : Done!
-deactivate UI
+PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector)
+P -> P : isNameInvalid()
+P -> P : isAcronymInvalid()
+P -> P : isQuantityOfEctsInvalid()
+P -> P : isQuantityOfSemestersInvalid()
+
+create ":StudyPlan" as SP #lightblue
+P -> SP ++ #application : StudyPlan()
+SP --> P -- : List<CourseInStudyPlan> SP1
+
+P --> PL -- : P1
+
+PL -> PL : contains(P1)
+PL -> PL : add(P1)
+
+PL --> C -- : True
+C --> UI -- : True
+UI --> Admin -- : Success!
+
+ref over Admin
+Courses are added to Programme in a List
+
+
+end ref
+
+Admin -> UI ++ #application : I want to add a Course to StudyPlan
+UI --> Admin -- : semester? curricularYear? course? programme?
+Admin -> UI ++ #application : semester! curricularYear! course! P1!
+UI -> C ++ #application : addCourseToStudyPlan(semester, curricularYear, course, P1)
+C -> SP ++ #application : P1.getStudyPlan().addCourseToStudyPlan(semester, curricularYear, course, P1)
+SP -> SP : isCourseOrProgrammeInvalid(course, p1)
+SP -> SP : isCourseInStudyPlan(course, p1)
+
+create ":CourseInStudyPlan" as CSP #lightblue
+
+SP -> CSP ++ #application : CourseInStudyPlan(semester, curricularYear, course, P1)
+CSP -> CSP : isSemesterInvalid
+CSP -> CSP : IsCurricularYearInvalid
+
+CSP --> SP -- : CSP1
+
+SP -> SP : IsECTSLimitExceeded(semester, curricularYear, CSP1)
+SP -> SP : addCourseToStudyPlan(CSP1)
+
+SP --> C -- : True
+C --> UI -- : True
+
+UI --> Admin -- : Success
+
 @enduml

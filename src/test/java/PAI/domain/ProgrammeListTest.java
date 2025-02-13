@@ -2,6 +2,8 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProgrammeListTest {
@@ -83,5 +85,36 @@ class ProgrammeListTest {
 
         // Asssert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnCourseList() throws Exception {
+        //arrange
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseRepository courseRepository = new CourseRepository();
+        Course course1 = new Course("Programming", "PROG", 25, 1);
+        Course course2 = new Course("Mathematics", "MATH", 25, 2);
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+
+        // act
+        courseRepository.registerCourse("Programming", "PROG", 25, 1);
+        courseRepository.registerCourse("Mathematics", "MATH", 25, 2);
+
+        programme.addCourseToAProgramme(course1);
+        programme.addCourseToAProgramme(course2);
+
+        List<Course> courseList = programmeList.getCourseList(programme);
+
+        //assert
+        assertEquals(2, courseList.size(), "O número de cursos deve ser 2");
+        assertTrue(courseList.contains(course1), "A lista deve conter o curso Programming");
+        assertTrue(courseList.contains(course2), "A lista deve conter o curso Mathematics");
+
     }
 }

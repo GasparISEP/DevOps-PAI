@@ -1,53 +1,69 @@
 @startuml
 
 actor HRC
-participant ":Test" as Test
+participant ":UI" as UI
 participant ":Controller" as Controller #lightgreen
-participant ":TeacherRepository" as TR #lightblue
-participant "t1:Teacher" as Teacher #lightyellow
-participant ":TeacherCareerProgression" as TCP #lightpink
+participant "tr1:TeacherRepository" as TR #lightblue
+participant ":Teacher" as Teacher #lightyellow
+participant "t1:Teacher" as t1Teacher #lightyellow
+participant "lastTCP:TeacherCareerProgression" as TCP #lightpink
 participant "tcp1:TeacherCareerProgression" as TCP1 #lightpink
 
-HRC -> Test : I want to update Teacher's working percentage \n(NIF, workingPercentage, date)
-activate Test
-Test -> Controller : getTeacherByNIF(NIF)
+HRC -> UI : I want to update Teacher's working percentage
+activate UI
+UI --> HRC: What Teacher?
+HRC -> UI: Teacher's NIF
+UI --> HRC: What working percentage?
+HRC -> UI: Working percentage
+UI --> HRC: What date?
+HRC -> UI: Date
+UI -> Controller : updateTeacherWorkingPercentage(Teacher's NIF, date, workingPercentage)
 activate Controller
 
-Controller -> TR : getTeacherByNIF(NIF)
+Controller -> TR : getTeacherByNIF(Teacher's NIF)
 activate TR
 
 loop for each Teacher in TR
-    TR -> Teacher : hasThisNIF(NIF)
+    TR -> Teacher : hasThisNIF(Teacher's NIF)
     activate Teacher
-    Teacher --> TR : True!
+    Teacher --> TR : True
     deactivate Teacher
 end
 
-TR --> Controller : t1!
+TR --> Controller : t1
 deactivate TR
 
-Controller -> Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
-activate Teacher
-Teacher -> Teacher : getLast()
-Teacher -> TCP : getCategory()
+
+Controller -> t1Teacher : updateWorkingPercentageInTeacherCareerProgression \n(date, workingPercentage)
+activate t1Teacher
+t1Teacher -> t1Teacher : lastTCP = getLastTeacherCareerProgression()
+t1Teacher -> TCP : lastTCP.getCategory()
 activate TCP
-TCP --> Teacher : tc1
+TCP --> t1Teacher : tc1
 deactivate TCP
-Teacher -> TCP1** : createTeacherCareerProgression \n(date, tc1, workingPercentage)
+t1Teacher -> TCP : lastTCP.getWorkingPercentage()
+activate TCP
+TCP --> t1Teacher : wp1
+deactivate TCP
+t1Teacher -> t1Teacher : Validate if wp1 is different than workingPercentage
+t1Teacher -> TCP1** : createTeacherCareerProgression \n(date, tc1, workingPercentage)
 activate TCP1
-TCP1 -> TCP1 : validateAndFormatDate()
-TCP1 -> TCP1 : validateWorkingPercentage()
-TCP1 --> Teacher : tcp1!
+TCP1 -> TCP1 : validateAndFormatDate(date)
+TCP1 -> TCP1 : validateWorkingPercentage(workingPercentage)
+TCP1 --> t1Teacher : tcp1
 deactivate TCP1
-Teacher -> Teacher : validateIsDateAfter()
-Teacher -> Teacher : add()
+t1Teacher -> TCP : validateIsDateAfter(tcp1)
+activate TCP
+TCP --> t1Teacher : True
+deactivate TCP
+t1Teacher -> t1Teacher : add(tcp1)
 
-Teacher --> Controller : Changed Working Percentage!
-deactivate Teacher
+t1Teacher --> Controller : True
+deactivate t1Teacher
 
-Controller --> Test : Changed Working Percentage!
+Controller --> UI : True
 deactivate Controller
-Test --> HRC : Success
-deactivate Test
+UI --> HRC : Success
+deactivate UI
 
 @enduml

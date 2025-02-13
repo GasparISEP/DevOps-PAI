@@ -1,10 +1,17 @@
 @startuml
+
+autonumber
+
+title: US20_Define Ruc for a Course Edition Sequence Diagram
+
 actor ProgrammmeDirector as PD
 participant UI #application
 participant ":DefineRucForCourseEditionController" as C #application
 participant ":CourseEditionRepository" as CER #application
 participant ":TeacherRepository" as TR #application
-participant  ":CourseEdition" as CE #application
+participant  "cE1:CourseEdition" as CE #application
+participant "cEL1:List<CourseEdition>" as LCE
+participant "tL1:List<Teacher>" as LT
 
 
 PD -> UI ++ #application: I want to define the RUC for a Course Edition
@@ -12,9 +19,9 @@ UI -> C  : getCourseEdition()
 activate C #application
 C -> CER :getCourseEdition()
 activate CER #application
-C <-- CER : List <CourseEdition>
+C <-- CER : cEL1
 deactivate CER
-UI <-- C : List <CourseEdition>
+UI <-- C : cEL1
 deactivate C
 PD <-- UI --: Course Edition?
 PD -> UI ++ #application: Course Edition 1
@@ -22,14 +29,14 @@ UI-> C : getTeachers()
 activate C #application
 C -> TR :getTeachers()
 activate TR #application
-TR --> C :List <Teacher>
+TR --> C :tL1
 deactivate TR
-C --> UI :List <Teacher>
+C --> UI :tL1
 deactivate C
 PD <-- UI -- : Teacher?
 PD -> UI: Teacher 1
 activate UI #application
-UI -> C : defineRucForCourseEdition(CourseEdition, Teacher)
+UI -> C : defineRucForCourseEdition(ce1, t1)
 activate C #application
 C -> CER : setRucInACourseEdition(ce1,t1)
 activate CER #application
@@ -42,7 +49,7 @@ deactivate CER
 deactivate CE
 C --> UI :True
 deactivate C
-UI --> PD : True
+UI --> PD : Ruc defined.
 deactivate UI
 
 

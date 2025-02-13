@@ -1,28 +1,36 @@
 @startuml
+title: US19_CREATE COURSE EDITION_SEQUENCE DIAGRAM
+autonumber
+
 actor ASC
 participant ":UI" as UI
-participant ":CreateACourseEditionController" as CT
+participant ":CreateCourseEditionController" as CT
 participant ":ProgrammeEditionRepository" as PER
 participant "pE1:ProgrammeEdition" as PE
+participant ":ProgrammeList" as PL
 participant "p1:Programme" as PG
 participant ":CourseEditionRepository" as CER
 
 ASC -> UI ++ #application :  I want to create a Course Edition
 UI -> CT ++ #application: getAllProgrammeEditions()
 CT -> PER ++ #application: getAllProgrammeEditions()
-PER --> CT -- : List<ProgrammeEdition>
-CT --> UI -- : List<ProgrammeEdition>
+PER --> CT -- : pEL1
+CT --> UI -- : pEL1
 UI --> ASC -- : which programme edition??
 
 
 ASC -> UI ++ #application : programme edition 1!
-UI -> CT ++ #application: getCoursesInProgramme()
-CT -> PE ++ #application: findProgrammeInProgrammeEdition()
-PE --> CT -- : p1
+UI -> CT ++ #application: getCoursesInProgramme(pE1)
+CT -> PER ++ #application: findProgrammeInProgrammeEdition(pE1)
+PER -> PE ++ #application: findProgrammeInProgrammeEdition(pE1)
+PE --> PER -- : p1
+PER --> CT -- : p1
 
-CT --> PG ++ #application: getCoursesList()
-PG --> CT -- : List<Course>
-CT --> UI -- : List<Course>
+CT -> PL ++ #application: getCourseList(p1)
+PL -> PG ++ #application: getCourseList(p1)
+PG --> PL -- : cL1
+PL --> CT -- : cL1
+CT --> UI -- : cL1
 UI --> ASC -- : which course??
 
 
@@ -31,14 +39,17 @@ UI -> CT ++ #application : createCourseEdition(c1,pE1)
 CT -> CER ++ #application : createCourseEdition(c1,pE1)
 
 
-create "cE1:CourseEdition" as CE
+create "cE1:CourseEdition" as CE #lightblue
 CER -> CE ++ #application : <create> (c1, pE1)
 CE --> CER -- : cE1
-CER -> CER : isCourseEditionRegistered (cE1)
+CER -> CER : isCourseEditionAlreadyInRepository (cE1)
 CER -> CER : addCourseEdition (cE1)
 
 CER --> CT --: true
 CT --> UI --: true
 UI --> ASC --: true
+
+participant "pEL1:List<ProgrammeEdition>" as PEL
+participant "cL1:List<Course>" as CL
 
 @enduml

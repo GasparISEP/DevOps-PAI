@@ -48,4 +48,9 @@ public class ProgrammeEditionRepository {
     public List<ProgrammeEdition> getAllProgrammeEditions() {
         return _programmeEditionRepository;
     }
+
+    public Programme findProgrammeInProgrammeEdition(ProgrammeEdition programmeEdition) {
+        Programme programme = programmeEdition.findProgrammeInProgrammeEdition();
+        return programme;
+    }
 }

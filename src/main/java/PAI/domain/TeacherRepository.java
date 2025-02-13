@@ -32,6 +32,7 @@ public class TeacherRepository {
         }
     }
 
+    // US20 - retrieves all the teachers in the repository
     public List<Teacher> getAllTeachers() {
         return new ArrayList<>(teachers);
     }
