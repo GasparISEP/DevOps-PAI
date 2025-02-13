@@ -12,7 +12,6 @@ class US19_CreateCourseEditionController {
 }
 
 class ProgrammeList {
-     -_programmeList: List<Programme>
      +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
      +getAllProgrammes()
@@ -75,7 +74,6 @@ class CourseEdition {
 }
 
 class CourseEditionRepository {
-    -_courseEditionRepository: ArrayList<CourseEdition>
     +CourseEditionRepository()
     +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
     +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
@@ -86,7 +84,6 @@ class CourseEditionRepository {
 }
 
 class ProgrammeEditionRepository {
-    -_programmeEditionRepository: ArrayList<ProgrammeEdition>
     +ProgrammeEditionRepository()
     +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
     +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
@@ -94,15 +91,15 @@ class ProgrammeEditionRepository {
     +getAllProgrammeEditions()
 }
 
-US19_CreateCourseEditionController "1" ..> "1" ProgrammeEditionRepository: uses
-US19_CreateCourseEditionController "1" ..> "1" CourseEditionRepository: uses
-US19_CreateCourseEditionController "1" ..> "1" ProgrammeList: uses
-CourseEditionRepository "1" *-- "0..*" CourseEdition: contains
-ProgrammeEditionRepository "1" *-- "0..*" ProgrammeEdition: contains
-ProgrammeList "1" *-- "0..*" Programme: contains
-Programme "1" *-- "1..*" Course : aggregates
-CourseEdition "*" --> "1" ProgrammeEdition: references
-CourseEdition "1..*" --> "1..*" Course : references
+US19_CreateCourseEditionController "1" ..> "1" ProgrammeEditionRepository
+US19_CreateCourseEditionController "1" ..> "1" CourseEditionRepository
+US19_CreateCourseEditionController "1" ..> "1" ProgrammeList
+CourseEditionRepository "List<CourseEdition>" *-- "0..*" CourseEdition
+ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition
+ProgrammeList "List<Programme>" *-- "0..*" Programme
+Programme "1" *-- "1..*" Course
+CourseEdition "*" --> "1" ProgrammeEdition
+CourseEdition "1..*" --> "1..*" Course
 
 
 
