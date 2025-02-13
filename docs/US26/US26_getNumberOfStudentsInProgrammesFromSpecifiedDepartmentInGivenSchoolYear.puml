@@ -10,6 +10,7 @@ participant ":DepartmentRepo" as DepartmentRepo #Cyan/White
 participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrolRepo #Cyan/White
 participant "pee[i]:ProgrammeEditionEnrollment" as ProgrammeEditionEnrollmenti #Cyan/White
 participant ":Student" as Student #Cyan/White
+participant ":StudentUniqueNumbers" as StudentUniqueNumbers #Cyan/White
 participant ":ProgrammeEdition" as ProgrammeEdition #Cyan/White
 participant ":SchoolYear" as SchoolYear #Cyan/White
 participant ":Programme" as Programme #Cyan/White
@@ -22,9 +23,8 @@ UI-->DepartmentDir: Choose Department
 DepartmentDir ->UI: Department selected
 UI --> DepartmentDir: Choose SchoolYear
 DepartmentDir ->UI: School Year selected
-deactivate DepartmentDir
+
 UI-> Controller: countStudentsInProgrammesFromDepartmentInSchoolYear(d1,sy1)
-deactivate UI
 activate Controller
 Controller -> SchoolYearRepo: schoolYearExists(sy1)
 activate SchoolYearRepo
@@ -37,7 +37,8 @@ deactivate DepartmentRepo
 Controller -> ProgrammeEditionEnrolRepo: countStudentsInProgrammesFromDepartmentInSchoolYear(d1,sy1)
 activate ProgrammeEditionEnrolRepo
 
-
+ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new ArrayList<>()
+activate StudentUniqueNumbers
 loop for each ProgrammeEditionEnrollment[i] in ProgrammeEditionEnrolRepo
 ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrollmenti: getStudentUniqueNumber ()
 activate ProgrammeEditionEnrollmenti
@@ -49,7 +50,6 @@ ProgrammeEditionEnrollmenti --> ProgrammeEditionEnrolRepo: uniqueNumber
 ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrollmenti :isEnrollmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
 ProgrammeEditionEnrollmenti -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEdition
-deactivate ProgrammeEditionEnrollmenti
 ProgrammeEdition->SchoolYear: isSameSchoolYear(sy1)
 activate SchoolYear
 SchoolYear -->ProgrammeEdition: true
@@ -60,18 +60,22 @@ Programme-->ProgrammeEdition:true
 deactivate Programme
 ProgrammeEdition-->ProgrammeEditionEnrollmenti: true
 deactivate ProgrammeEdition
-activate ProgrammeEditionEnrollmenti
 ProgrammeEditionEnrollmenti-->ProgrammeEditionEnrolRepo: true
 deactivate ProgrammeEditionEnrollmenti
-ProgrammeEditionEnrolRepo->ProgrammeEditionEnrolRepo:student count ++
+alt !studentUniqueNumbers.contains(uniqueNumber)
+alt isEnrollmentAssociatedToDepartmentAndSchoolYear
+ProgrammeEditionEnrolRepo-> StudentUniqueNumbers: add(uniqueNumber)
 end
-ProgrammeEditionEnrolRepo-->Controller: student count
+end
+end
+StudentUniqueNumbers -> ProgrammeEditionEnrolRepo: studentUniqueNumbers.size()
+deactivate StudentUniqueNumbers
+ProgrammeEditionEnrolRepo-->Controller: studentUniqueNumbers.size()
 deactivate ProgrammeEditionEnrolRepo
-activate Controller
-Controller --> UI: student count
+Controller --> UI:  studentUniqueNumbers.size()
 deactivate Controller
-activate UI
-UI-->DepartmentDir: student count
+UI-->DepartmentDir: studentUniqueNumbers.size()
+deactivate DepartmentDir
 deactivate UI
 
 
