@@ -52,4 +52,9 @@ public class DepartmentRepository {
         }
         return false;
     }
+
+    public boolean updateOfDepartmentDirector(Department department, Teacher teacher){
+        department.changeDirector(teacher);
+        return true;
+    }
 }
