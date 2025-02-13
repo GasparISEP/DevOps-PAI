@@ -43,22 +43,20 @@ public class ProgrammeEditionEnrollmentRepo {
         }
     }
 
-
     //US26- number of students enrolled in all programmes associated to a department, in a given school year
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
-        int studentCount = 0;
         List<Integer> studentUniqueNumbers = new ArrayList<>();
 
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
             Integer studentUniqueNumber = enrollment.getStudentUniqueNumber();
 
-            if (!studentUniqueNumbers.contains(studentUniqueNumber) &&
-                    enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
-                studentCount++;
-                studentUniqueNumbers.add(studentUniqueNumber);
+            if (!studentUniqueNumbers.contains(studentUniqueNumber)) {
+                if (enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
+                    studentUniqueNumbers.add(studentUniqueNumber);
+                }
             }
         }
-        return studentCount;
+        return studentUniqueNumbers.size();
     }
 
     //US21 - Get The Number Of Students Enrolled In A Programme Edition
