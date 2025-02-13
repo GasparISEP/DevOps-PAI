@@ -1,0 +1,184 @@
+@startuml
+!pragma layout smetana
+'left to right direction
+
+
+class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
+    +enrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(student: Student, programme: Programme, schoolYear: SchoolYear)
+    +getAllProgrammes()
+    +getAllSchoolYears()
+}
+class CourseEditionEnrollment {
+    -_enrollmentDate: LocalDate
+    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
+     enrollmentDate: LocalDate)
+    +equals (obj: Object) : boolean
+    +findStudentInCourseEditionEnrollment () : Student
+    +findCourseEditionInEnrollment () : CourseEdition
+    +knowStudent () : Object
+    +knowCourseEdition () : Object
+}
+
+class CourseEditionEnrollmentRepository {
+    +CourseEditionEnrollmentRepository ()
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
+    enrollmentDate: LocalDate) : boolean
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition) : boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
+    +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition) : int
+    +enrollStudentInProgrammeEditionCoursesEditions (student: Student, courseEditions: List<CourseEdition>) : void
+}
+
+class ProgrammeEditionEnrollment {
+    -_enrollmentDate: LocalDate
+    +ProgrammeEditionEnrollment(student:Student, programmeEdition: ProgrammeEdition,
+     enrollmentDate: LocalDate)
+    +isEnrollmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear) : boolean
+    +getStudentUniqueNumber() : int
+    +equals (obj: Object) : boolean
+    +findProgrammeEditionInEnrollment () : ProgrammeEdition
+    +findStudentInProgrammeEdition () : Student
+}
+
+class ProgrammeEditionEnrollmentRepo {
+    +ProgrammeEditionEnrollmentRepo()
+    +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,
+    localDate: LocalDate) : boolean
+    +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
+    +checkIfThisEnrollmentAlreadyExists(programmeEditionEnrollment: ProgrammeEditionEnrollment) : void
+    +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear) : int
+    +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition) : int
+}
+
+class Programme {
+     - name: string
+     - acronym: string
+     - quantityOfEcts: int
+     - quantityOfSemesters: int
+     + Programme (name : String, acronym : String, quantityOfEcts: int, quantityOfSemesters : int,
+     degreeType : DegreeType, department : Department, programmeDirector : Teacher)
+     + equals() : boolean
+     + addCourseToProgramme (course: Course) : boolean
+     + newProgrammeDirector(): boolean
+     +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository) : boolean
+     +isStudentEnrolled(student: Student) : boolean
+     +isInDepartment(department: Department) : boolean
+     +getCourseList() : List<Course>
+     +getQuantityOfSemester() : int
+     +getQuantityOfEcts() : int
+     +getStudyPlan() : StudyPlan
+     +calculateNumberOfYears(quantityOfSemesters : int) : int
+ }
+
+class ProgrammeList {
+     +ProgrammeList()
+     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters,
+     int degreeType: DegreeType; Department : department, Teacher programmeDirector) : boolean
+     +changeProgrammeDirector(Programme programme, Teacher newDirector) : boolean
+     +getAllProgrammes() : List<Programme>
+     +getCourseList(programme: Programme) : List<Course>
+}
+
+class SchoolYear {
+    -_description:String
+    -_startData:String
+    -_endDate:String
+    +SchoolYear(description: String, StartDate: String, EndDate: String)
+    +isSameSchoolYear(otherSchoolYear: SchoolYear) : boolean
+    +getEndDate() : LocalDate
+    +getStartDate() : LocalDate
+    +equals(Object: o) : boolean
+}
+
+class SchoolYearRepository {
+    +schoolYearRepository()
+    +addSchoolYear(description: String, StartDate: String, EndDate: String) : boolean
+    +schoolYearExists(schoolYear: SchoolYear) : boolean
+    +getCurrentSchoolYear() : SchoolYear
+    +getAllSchoolYears() : List<SchoolYear>
+}
+
+class Enrollment {
+    +Enrolment(Student: student, AccessMethod: accessMethod)
+    +isSameStudent(Student: student) : boolean
+    +findStudentInEnrollments() : Student
+}
+
+class Student {
+    -_uniqueNumber:int
+    -_name:String
+    -_NIF:String
+    -_phone:String
+    -_email:String
+    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +isStudentRepeated(students: List<Student>) : boolean
+    +hasSameUniqueNumber(student : Student) : boolean
+    +hasSameNIF(student: Student) : boolean
+    +getUniqueNumber() : int
+}
+
+class Address {
+     -_street:String
+     -_postalCode: String
+     -_location: String
+     -_country: String
+     +Address(street: String, postalCode: String, location: String, country: String)
+}
+
+class CourseEdition {
+    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+    +Equals(objectToCompare: Object) : boolean
+    +setRuc(Teacher: ruc) : boolean
+    +whatProgrammeEditionBelongsThisCourseEdition() : ProgrammeEdition
+}
+
+class CourseEditionRepository {
+    +CourseEditionRepository()
+    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition) : boolean
+    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition) : boolean
+    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition) : ProgrammeEdition
+    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc) : boolean
+    +getCourseEditions(): List<CourseEdition>
+    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) : List<CourseEdition>
+}
+
+class ProgrammeEdition {
+    +programmeEdition(programme: Programme,schoolYear: SchoolYear)
+    +equals(object: Object) : boolean
+    +findProgrammeInProgrammeEdition() : Programme
+    +findSchoolYearInProgrammeEdition() : SchoolYear
+    +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear) : boolean
+}
+
+class ProgrammeEditionRepository {
+    +ProgrammeEditionRepository()
+    +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear) : boolean
+    +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear) : Optional<ProgrammeEdition>
+    +getAllProgrammeEditions() : List<ProgrammeEdition>
+    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition) : Programme
+}
+
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1  " ProgrammeEditionEnrollmentRepo
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1  " ProgrammeEditionRepository
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1         " ..> "1" ProgrammeList
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1  " CourseEditionEnrollmentRepository
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1   " CourseEditionRepository
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1   " SchoolYearRepository
+Student "1" --> "_address 1  " Address
+Programme "1    "  --> "_listOfEnrollments   *       " Enrollment
+Student "_student  1                   " <-- "*" Enrollment
+SchoolYearRepository "1 " --> "_listOfSchoolYears   *  " SchoolYear
+ProgrammeEdition "     *        " -->"_schoolYear 1 " SchoolYear
+CourseEditionRepository "1 " --> "  * _listCourseEditions" CourseEdition
+Student "_student 1  " <-- "*" CourseEditionEnrollment
+CourseEditionEnrollment "*" --> "  1 _courseEdition" CourseEdition
+CourseEditionEnrollment "_listOfCourseEditionEnrollment *      " <-- "1" CourseEditionEnrollmentRepository
+ProgrammeEdition "_programmeEdition 1  " <-- " * " ProgrammeEditionEnrollment
+ProgrammeEditionEnrollment "* " --> "_student 1  " Student
+ProgrammeEditionEnrollment "_listOfProgrammeEditionEnrollment *             " <-- "1" ProgrammeEditionEnrollmentRepo
+ProgrammeEdition "_listOfProgrammeEdition *" <-- "1" ProgrammeEditionRepository
+ProgrammeList "1" --> "* _listOfProgrammes" Programme
+CourseEdition "_courseEdition *  " <-- "1   " ProgrammeEdition
+
+
+@enduml
