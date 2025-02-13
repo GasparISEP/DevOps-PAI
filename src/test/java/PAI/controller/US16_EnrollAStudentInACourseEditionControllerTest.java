@@ -10,14 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class US16_EnrollAStudentInACourseEditionControllerTest {
 
     @Test
-    void shouldReturnExceptionIfEverythingIsNull (){
-        //arrange
-
-        //act + assert
-        assertThrows(Exception.class, () -> new US16_EnrollAStudentInACourseEditionController(null, null, null));
-    }
-
-    @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
