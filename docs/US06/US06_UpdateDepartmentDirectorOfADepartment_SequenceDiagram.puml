@@ -1,0 +1,57 @@
+@startuml
+title US06: UpdateDepartmentDirectorOfADepartment
+actor Administrator
+participant ":UI" as UI #Orange/White
+
+Administrator -> UI: I want to update the Department Director of a Department!
+activate UI
+participant ":US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController" as Controller
+UI -> Controller: getAllDepartments ()
+activate Controller
+participant ":DepartmentRepository" as DepartmentRepository
+Controller -> DepartmentRepository: getDepartmentList ()
+activate DepartmentRepository
+DepartmentRepository --> Controller: listOfDepartments
+deactivate DepartmentRepository
+Controller --> UI: listOfDepartments
+deactivate Controller
+
+UI --> Administrator: What Department?
+deactivate UI
+Administrator -> UI: Enter the Department!
+activate UI
+UI --> Administrator: What Teacher?
+deactivate UI
+Administrator -> UI: Enter the Teacher!
+activate UI
+UI --> Administrator: Sure?
+deactivate UI
+Administrator -> UI: Yes!
+activate UI
+
+UI -> Controller : updateDepartmentDirector (department, teacher)
+activate Controller
+participant ":DepartmentRepository" as DepartmentRepository
+Controller -> DepartmentRepository: updateOfDepartmentDirector(department, teacher)
+participant ":Department" as Department #DeepPink/White
+activate DepartmentRepository
+DepartmentRepository -> Department: changeDirector (Teacher)
+activate Department
+participant ":Teacher" as Teacher #Violet/White
+Department -> Teacher: isInDepartment (d1)
+activate Teacher
+Teacher --> Department: True
+deactivate Teacher
+Department --> DepartmentRepository: True
+deactivate Department
+DepartmentRepository --> Controller: True
+deactivate DepartmentRepository
+Controller --> UI: True
+deactivate Controller
+
+
+UI --> Administrator: OK!
+deactivate UI
+
+
+@enduml
