@@ -8,7 +8,7 @@ UI --> ASC : What student?
 deactivate UI
 ASC -> UI : Enter the student!
 activate UI
-participant ":ControllerUS17" as Controller
+participant ":US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
 UI -> Controller : getAllProgrammes()
 activate Controller
 participant ":ProgrammeList" as ProgrammeList
