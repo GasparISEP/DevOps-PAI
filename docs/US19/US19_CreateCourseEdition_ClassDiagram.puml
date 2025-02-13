@@ -26,7 +26,6 @@ class Programme {
      - degreeType: DegreeType
      - department: Department
      - programmeDirector: Teacher
-     -_courseList: List <Course>
      -_programmeEnrolment: List<Enrolment>
      -StudyPlan: _studyPlan
 
@@ -97,7 +96,7 @@ US19_CreateCourseEditionController "1" ..> "1" ProgrammeList
 CourseEditionRepository "List<CourseEdition>" *-- "0..*" CourseEdition
 ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition
 ProgrammeList "List<Programme>" *-- "0..*" Programme
-Programme "1" *-- "1..*" Course
+Programme "List <Course>" *-- "1..*" Course
 CourseEdition "*" --> "1" ProgrammeEdition
 CourseEdition "1..*" --> "1..*" Course
 
