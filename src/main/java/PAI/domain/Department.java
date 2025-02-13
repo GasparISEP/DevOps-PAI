@@ -9,7 +9,6 @@ public class Department {
     private String _name;
     private String _acronym;
     private Teacher _director;
-    private List<Teacher> _departmentTeachers = new ArrayList<>();
     private List <Programme> _departmentProgramme;
 
     //constructor
@@ -70,5 +69,9 @@ public class Department {
         if (obj == null || getClass() != obj.getClass()) return false;
         Department that = (Department) obj;
         return Objects.equals(_name, that._name) && Objects.equals(_acronym, that._acronym);
+    }
+
+    public Teacher findDepartmentDirector() {
+        return _director;
     }
 }
