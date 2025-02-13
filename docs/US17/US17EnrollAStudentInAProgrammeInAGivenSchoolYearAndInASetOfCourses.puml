@@ -5,8 +5,10 @@ participant ":UI" as UI
 ASC -> UI : I want to enroll a student in a programme in a given school year and in a set of courses.
 activate UI
 UI --> ASC : What student?
+deactivate UI
 ASC -> UI : Enter the student!
-participant ":Controller" as Controller
+activate UI
+participant ":ControllerUS17" as Controller
 UI -> Controller : getAllProgrammes()
 activate Controller
 participant ":ProgrammeList" as ProgrammeList
@@ -17,7 +19,9 @@ deactivate ProgrammeList
 Controller --> UI : listOfProgrammes
 deactivate Controller
 UI --> ASC : Here is the list of Programmes! What programme do you want?
+deactivate UI
 ASC -> UI : Enter the programme!
+activate UI
 participant ":SchoolYearRepository" as SchoolYearRepository
 UI -> Controller : getAllSchoolYears()
 activate Controller
@@ -28,9 +32,13 @@ deactivate SchoolYearRepository
 Controller --> UI : listOfSchoolYears
 deactivate Controller
 UI --> ASC : Here is the list SchoolYears! What schoolYear do you want?
+deactivate UI
 ASC -> UI : Enter the schoolYear!
+activate UI
 UI --> ASC : Sure?
+deactivate UI
 ASC -> UI : Yes!
+activate UI
 UI -> Controller : enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
 activate Controller
 participant ":Programme" as Programme
@@ -48,18 +56,21 @@ Controller -> ProgrammeEditionRepository : findProgrammeEditionBySchoolYearAndPr
 activate ProgrammeEditionRepository
 participant ":ProgrammeEdition" as ProgrammeEdition
 loop for each "pe[i]:ProgrammeEditionRepository" as ProgrammeEditionRepository
-ProgrammeEditionRepository -> ProgrammeEdition : programmeEdition : findStudentInEnrollments(programme)
-ProgrammeEditionRepository -> ProgrammeEdition : programmeEdition : findStudentInEnrollments(schoolYear)
+ProgrammeEditionRepository -> ProgrammeEdition : programmeEdition : findProgrammeInProgrammeEdition(programme)
+ProgrammeEditionRepository -> ProgrammeEdition : programmeEdition : findSchoolYearInProgrammeEdition(schoolYear)
+ProgrammeEdition --> ProgrammeEditionRepository : pe1
 end
-ProgrammeEditionRepository --> Controller :  ProgrammeEdition(pe1)
+ProgrammeEditionRepository --> Controller :  pe1
 deactivate ProgrammeEditionRepository
 participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
 Controller -> ProgrammeEditionEnrollmentRepo : isStudentEnrolledInThisProgrammeEdition(student, pe1)
 activate ProgrammeEditionEnrollmentRepo
 participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
 loop for each "pee[i]:ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment : programmeEdition : findStudentInEnrollments(programme)
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment : programmeEdition : findStudentInEnrollments(schoolYear)
+participant ":Student" as Student
+ProgrammeEditionEnrollmentRepo -> Student: ProgrammeEditionEnrollment: getUniqueNumber()
+participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment: ProgrammeEditionEnrollment: findProgrammeEditionInEnrollment()
 end
 ProgrammeEditionEnrollmentRepo --> Controller : False
 Controller -> ProgrammeEditionEnrollmentRepo : enrollStudentInProgrammeEdition(student, pe1, LocalDate)
@@ -83,7 +94,7 @@ CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCours
 CourseEditionRepository -> CourseEditionRepository :  add(ce1)
 end
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
-CourseEditionRepository --> CourseEditionEnrollmentRepository : ListOfCourseEditions
+CourseEditionRepository -> CourseEditionEnrollmentRepository : ListOfCourseEditions
 deactivate CourseEditionRepository
 participant ":CourseEditionEnrollment" as CourseEditionEnrollment
 activate CourseEditionEnrollmentRepository
