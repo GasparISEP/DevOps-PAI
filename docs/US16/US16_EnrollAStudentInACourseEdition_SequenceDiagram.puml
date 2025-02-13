@@ -6,13 +6,18 @@ participant ":UI" as UI
 ASC -> UI: I want to enroll a student in a course edition!
 activate UI
 UI --> ASC: What Student?
+
+deactivate UI
 ASC -> UI: Enter the student!
-
+activate UI
 UI --> ASC: What CourseEdition?
+deactivate UI
 ASC -> UI: Enter the course edition!
-
+activate UI
 UI --> ASC: Sure?
+deactivate UI
 ASC -> UI: Yes!
+activate UI
 
 participant ":US16_EnrollAStudentInACourseEditionController" as Controller
 UI -> Controller: enrollStudentInCourseEdition (student, courseEdition)
