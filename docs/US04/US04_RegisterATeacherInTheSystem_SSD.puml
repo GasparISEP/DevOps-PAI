@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Administrator
+participant ":System" as System
+
+Administrator -> System: I want to register a teacher in the system.
+System --> Administrator: Type data: acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, date, category, workingPercentage, department.
+Administrator -> System: Enter data: acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, date, category, workingPercentage, department.
+System --> Administrator: Sure?
+Administrator -> System: Yes!
+System --> Administrator: OK!
+@enduml

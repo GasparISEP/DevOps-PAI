@@ -1,0 +1,74 @@
+@startuml
+!pragma layout smetana
+'left to right direction
+
+class US04_IWantToRegisterATeacherInTheSystemController{
+        +US04_IWantToRegisterATeacherInTheSystemController(TeacherRepository teacherRepository,
+        teacherCategoryRepository: TeacherCategoryRepository, departmentRepository: DepartmentRepository)
+        +registerATeacherInTheSystem(acronym: String, name: String , email:  String , nif: String, phoneNumber: String,
+        academicBackground: String, street: String, postalCode: String, location: String, country: String, date: String,
+        category: TeacherCategory, workingPercentage: int, department: Department) : boolean
+}
+
+class Department {
+    -_acronym:String
+    -_name:String
+    +Department(departmentAcronym: String, departmentName: String)
+    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
+    +hasSameAcronym(department: Department) : boolean
+    +hasSameName(department: Department) : boolean
+    +changeDirector(furtherDirector: Teacher) : boolean
+}
+
+class DepartmentRepository {
+    +departmentRepository()
+    +registerDepartment(departmentAcronym: String, departmentName: String) : boolean
+}
+
+class TeacherCategory {
+    -_name:String
+    + TeacherCategory (name:String)
+}
+
+class TeacherCategoryRepository {
+    +TeacherCategoryRepository()
+    +registerTeacherCategory (teacherCategoryName: String) : boolean
+    +isTeacherCategoryRegistered(teacherCategory: TeacherCategory) : boolean
+}
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+     address: Address, teacherCategory: TeacherCategory, department: Department)
+     +hasSameAcronym(teacher: Teacher) : boolean
+     +hasSameNif(teacher: Teacher) : boolean
+     +isInDepartment(department: Department) : boolean
+}
+
+class TeacherRepository {
+    +teacherRepository()
+    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+    address: Address, teacherCategory: TeacherCategory, department: Department) : boolean
+}
+
+class Address {
+     -_street:String
+     -_postalCode: String
+     -_location: String
+     -_country: String
+     +Address(street: String, postalCode: String, location: String, country: String)
+}
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1  " TeacherRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1  " TeacherCategoryRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" DepartmentRepository
+Teacher "1" --> "_address 1 " Address
+Teacher "1     " --> "1 _teacherCategory  " TeacherCategory
+Teacher "1..*" --> "_department 1" Department
+Teacher " * _listOfTeachers" <-- "1    " TeacherRepository
+Department "_listOfDepartments *  " <-- "1   " DepartmentRepository
+TeacherCategory "  * _listOfTeacherCategories" <-- "1" TeacherCategoryRepository
+@enduml
