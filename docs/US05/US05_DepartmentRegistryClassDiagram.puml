@@ -1,0 +1,25 @@
+@startuml
+title US05: Register a Department in the System
+'left to right direction
+
+class US05_RegisterADepartmentController {
+    +US05_RegisterADepartmentController(departmentRepo: DepartmentRepository)
+    +registerDepartment(acronym: String, name: String): boolean
+}
+
+class Department {
+    -_acronym:String
+    -_name:String
+    +Department(departmentAcronym: String, departmentName: String)
+    +hasSameAcronym(department: Department) : boolean
+    +hasSameName(department: Department) : boolean
+}
+
+class DepartmentRepository {
+    +departmentRepository()
+    +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
+}
+
+US05_RegisterADepartmentController "1" ..> "1\n_departmentRepo    " DepartmentRepository
+Department "_departmentsList *      " <-- "1" DepartmentRepository
+@enduml
