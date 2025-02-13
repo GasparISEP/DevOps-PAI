@@ -321,7 +321,6 @@ Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
 Teacher "1..*" --> "*" Course: teaches
 Programme "*" -u-> "1*" Department: assigned to
-Course "*" -- "1" Programme : aggregates
 DegreeType "1" <-- "*" Programme
 Enrolment "*" --> "1" AccessMethod: is registered
 Programme "1"  -u-> "*" Enrolment: has
@@ -343,7 +342,6 @@ GradeStudent "*" --> "1" CourseEdition: refers to
 StudyPlan "1" <-- "1..*" CourseInStudyPlan: belongs
 CourseInStudyPlan "*" --> "1" Programme: belongs
 CourseInStudyPlan "0..1" <-- "1" Course: happens
-CourseEditionRepository "1" *-- "0..*" CourseEdition: contains
 CourseEdition "1" ..> "1" TeacherRepository
 Student "1" --- "*" CourseEditionEnrollment : > enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to
@@ -351,10 +349,13 @@ CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
 ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < happens
 ProgrammeEditionEnrollment "*" -- "1" Student : < enrols
 ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
-ProgrammeEdition "1..*" -- "1" ProgrammeEditionRepository
-ProgrammeList "1" -- "1..*" Programme
 GradeStudentRepository "1" --> "*" GradeStudent
-CourseEdition "*" --> "1" ProgrammeEdition: references
-CourseEdition "1..*" --> "1..*" Course : references
+
+CourseEditionRepository "List<CourseEdition>" *-- "0..*" CourseEdition
+ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition
+ProgrammeList "List<Programme>" *-- "0..*" Programme
+Programme "List<Course>" *-- "1..*" Course
+CourseEdition "*" --> "1" ProgrammeEdition
+CourseEdition "1..*" --> "1..*" Course
 
 @enduml
