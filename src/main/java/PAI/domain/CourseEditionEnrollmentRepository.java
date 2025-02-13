@@ -2,6 +2,7 @@ package PAI.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class CourseEditionEnrollmentRepository {
@@ -42,7 +43,7 @@ public class CourseEditionEnrollmentRepository {
                 && enrollmentStudentCE.knowCourseEdition().equals(courseEdition));
     }
 
-    //US17
+
     public Optional<CourseEditionEnrollment> findByStudentAndEdition(Student student, CourseEdition courseEdition) {
         if (student == null || courseEdition == null) {
             throw new IllegalArgumentException("Student and CourseEdition cannot be null");
@@ -79,4 +80,17 @@ public class CourseEditionEnrollmentRepository {
         return true;  // Returns true if the enrollment was successfully removed
     }
 
+    public void enrollStudentInProgrammeCourseEditions(Student student, ProgrammeEdition programmeEdition, CourseEditionRepository courseEditionRepository) {
+        List<CourseEdition> courseEditions = courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+
+        for (CourseEdition courseEdition : courseEditions) {
+            Optional<CourseEditionEnrollment> existingEnrollment = findByStudentAndEdition(student, courseEdition);
+            if (existingEnrollment.isPresent()) {
+                throw new IllegalStateException("This course edition enrollment is already in the list.");
+            }
+            enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
+        }
+    }
 }
+
+
