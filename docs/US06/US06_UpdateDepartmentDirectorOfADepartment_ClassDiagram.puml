@@ -1,0 +1,58 @@
+@startuml
+!pragma layout smetana
+'left to right direction
+
+class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
+    +US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentRepository)
+    +updateDepartmentDirector (department: Department, teacher: Teacher) : boolean
+}
+
+class Department {
+    -_acronym:String
+    -_name:String
+    +Department(departmentAcronym: String, departmentName: String)
+    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
+    +hasSameAcronym(department: Department) : boolean
+    +hasSameName(department: Department) : boolean
+    +changeDirector(furtherDirector: Teacher) : boolean
+}
+
+class DepartmentRepository {
+    +departmentRepository()
+    +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
+}
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+     address: Address, teacherCategory: TeacherCategory, department: Department)
+     +hasSameAcronym(teacher: Teacher) : boolean
+     +hasSameNif(teacher: Teacher) : boolean
+     +isInDepartment(department: Department) :boolean
+}
+
+class TeacherCategory {
+    -_name:String
+    + TeacherCategory (name:String)
+}
+
+class Address {
+     -_street:String
+     -_postalCode: String
+     -_location: String
+     -_country: String
+     +Address(street: String, postalCode: String, location: String, country: String)
+}
+
+US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1      " DepartmentRepository
+Teacher "1" --> "_address 1           " Address
+Teacher "1     " --> " *  _teacherCategory " TeacherCategory
+Teacher "_departmentDirector 1        " <-- "1" Department
+Teacher "1..*     " --> "     1    _department" Department
+Department "_listDepartment 1..*      " <-- "1" DepartmentRepository
+
+@enduml
