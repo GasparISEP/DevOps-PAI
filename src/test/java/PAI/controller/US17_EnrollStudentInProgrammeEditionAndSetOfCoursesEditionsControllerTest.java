@@ -12,14 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
     @Test
-    void testEnrollStudentInProgrammeEdition_Success() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_Success() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
-        StudentRepository studentRepository = new StudentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
@@ -66,14 +65,13 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInProgrammeEdition_StudentNotEnrolledInProgramme() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
-        StudentRepository studentRepository = new StudentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
@@ -95,7 +93,6 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
         AccessMethodRepository amr = new AccessMethodRepository();
         amr.registerAccessMethod("Over 23");
-        studentRepository.registerStudent(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         // Act & Assert:
@@ -106,14 +103,13 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInProgrammeEdition_ProgrammeEditionNotFound() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
-        StudentRepository studentRepository = new StudentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
@@ -148,14 +144,13 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInProgrammeEdition_StudentAlreadyEnrolledInProgrammeEdition() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() throws Exception {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
-        StudentRepository studentRepository = new StudentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
@@ -194,13 +189,12 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInCourseEdition_StudentAlreadyEnrolledInCourseEdition() throws Exception {
+    void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() throws Exception {
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
-        StudentRepository studentRepository = new StudentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
@@ -316,7 +310,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         //arrange
 
         //act + assert
-        assertThrows(Exception.class, () -> new US16_EnrollAStudentInACourseEdition(null, null, null));
+        assertThrows(Exception.class, () -> new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(null,null,null,null, null, null));
     }
 
     @Test
