@@ -57,21 +57,10 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         // Enroll student in programmeEdition
         _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition, LocalDate.now());
 
-        // Find all course editions for the programme edition
-        List<CourseEdition> courseEditionsOfAProgrammeEdition =
-                _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
-
-        for (CourseEdition courseEdition : courseEditionsOfAProgrammeEdition) {
-            Optional<CourseEditionEnrollment> existingEnrollment =
-                    _courseEditionEnrollmentRepository.findByStudentAndEdition(student, courseEdition);
-            if (existingEnrollment.isPresent()) {
-                throw new IllegalStateException("This course edition enrollment is already in the list.");
-            } else {
-                _courseEditionEnrollmentRepository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
-            }
-        }
+        _courseEditionEnrollmentRepository.enrollStudentInProgrammeCourseEditions(student, programmeEdition, _courseEditionRepository);
         return true;
     }
+
 
     public List<Programme> getAllProgrammes() {
         return _programmeList.getAllProgrammes();
