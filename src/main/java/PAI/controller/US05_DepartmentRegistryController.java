@@ -16,6 +16,7 @@ public class US05_DepartmentRegistryController {
         if(acronym==null || name==null){
             throw new IllegalArgumentException("Acronym or name cannot be null.");
         }
-        return _departmentRepo.registerDepartment(acronym,name);
+        _departmentRepo.registerDepartment(acronym,name);
+        return true;
     }
 }
