@@ -10,8 +10,9 @@ entity Facility {
 }
 
 entity "School Year" {
-  startYear
-  endYear
+  description
+  startDate
+  endDate
 }
 
 entity Department {
