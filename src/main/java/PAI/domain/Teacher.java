@@ -21,7 +21,7 @@ public class Teacher {
 
     private Department _department;
 
-    private List<TeacherCareerProgression> _teacherCareerProgression;
+    private List<TeacherCareerProgression> _teacherCareerProgressionList;
 
 
     //constructor
@@ -36,9 +36,9 @@ public class Teacher {
 
         this._address = new Address (street, postalCode, location,country);
 
-        this._teacherCareerProgression = new ArrayList<>();
+        this._teacherCareerProgressionList = new ArrayList<>();
         TeacherCareerProgression tcp = new TeacherCareerProgression(date, category, workingPercentage);
-        this._teacherCareerProgression.add(tcp);
+        this._teacherCareerProgressionList.add(tcp);
 
         this._department = department;
     }
@@ -139,7 +139,7 @@ public class Teacher {
         if(!tcp.isDateAfter(lastCareerProgression))
             throw new IllegalArgumentException("Date must be greater than the last date registered!");
 
-        _teacherCareerProgression.add(tcp);
+        _teacherCareerProgressionList.add(tcp);
 
         return true;
     }
@@ -162,14 +162,14 @@ public class Teacher {
         if(!updatedTeacherCareerProgression.isDateAfter(lastTeacherCareerProgression))
             throw new IllegalArgumentException("The date must be greater than the last date registered!");
         else {
-            _teacherCareerProgression.add(updatedTeacherCareerProgression);
+            _teacherCareerProgressionList.add(updatedTeacherCareerProgression);
             return true;
         }
     }
 
     private TeacherCareerProgression getLastTeacherCareerProgression() {
 
-        return _teacherCareerProgression.getLast();
+        return _teacherCareerProgressionList.getLast();
 
     }
 }

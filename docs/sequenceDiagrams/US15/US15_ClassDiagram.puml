@@ -1,0 +1,66 @@
+@startuml
+
+!pragma layout smetana
+'left to right direction
+
+class US15_UpdateTeacherWorkingPercentageController {
+    +US15_UpdateTeacherWorkingPercentageController()
+    +getTeacherByNIF(NIF: String)
+    +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
+}
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     -_academicBackground:String
+     -_address:Address
+     -_department:Department
+     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+     academicBackground: String, street: String, postalCode: String, location: String, country: String,
+     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+     +validateAcronym(teacherAcronym:String)
+     +validateName(name: String)
+     +validateEmail(email: String)
+     +validateNif(nif: String)
+     +validatePhoneNumber(phoneNumber: String)
+     +validateAcademicBackground(academicBackground: String)
+     +hasSameAcronym(teacher: Teacher)
+     +hasSameNif(teacher: Teacher)
+     +isInDepartment(department: Department)
+     +hasThisNIF(NIF: String)
+     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
+     +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+}
+
+class TeacherCareerProgression {
+    -_date: LocalDate
+    -_workingPercentage: int
+    +TeacherCareerProgression(date: String, workingPercentage: int)
+    +getWorkingPercentage()
+    +getCategory()
+    +isDateAfter(tcp: TeacherCareerProgression)
+}
+
+class TeacherRepository {
+    +TeacherRepository()
+    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+                          address: Address, teacherCategory: TeacherCategory, department: Department)
+    +compareTeacherAcronymAndNifInList(Teacher: teacher)
+    +getAllTeachers()
+    +getTeacherByNIF(NIF: String)
+}
+
+class TeacherCategory {
+    -_name:String
+    + TeacherCategory (name:String)
+}
+
+US15_UpdateTeacherWorkingPercentageController "1" ..> "1 " TeacherRepository: _teacherRepository
+Teacher "1..*" <-- "1" TeacherRepository: _teachers
+Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
+TeacherCareerProgression "*" --> "1" TeacherCategory: _category
+
+@enduml
