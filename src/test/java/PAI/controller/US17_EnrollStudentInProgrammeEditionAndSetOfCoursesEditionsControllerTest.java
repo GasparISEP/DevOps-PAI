@@ -306,14 +306,6 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void shouldReturnExceptionIfEverythingIsNull (){
-        //arrange
-
-        //act + assert
-        assertThrows(Exception.class, () -> new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(null,null,null,null, null, null));
-    }
-
-    @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();

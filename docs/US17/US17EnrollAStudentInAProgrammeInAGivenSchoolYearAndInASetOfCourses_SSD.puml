@@ -2,6 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 actor ASC
+participant ":System" as System
 
 ASC -> System: I want to enroll a student in a programme in a given school year and in a set of courses.
 System --> ASC: What Student?
