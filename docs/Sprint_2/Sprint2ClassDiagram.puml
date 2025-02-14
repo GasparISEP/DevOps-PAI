@@ -141,9 +141,6 @@ class Teacher {
      -_nif:String
      -_phoneNumber:String
      -_academicBackground:String
-     -_address:Address
-     -_department:Department
-     -_teacherCareerProgression:List<TeacherCareerProgression>
      +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
      academicBackground: String, street: String, postalCode: String, location: String, country: String,
      date: String, category: TeacherCategory, workingPercentage: int, department: Department)
@@ -157,16 +154,14 @@ class Teacher {
 
 class TeacherCareerProgression {
     -_date: LocalDate
-    -_category: TeacherCategory
     -_workingPercentage: int
-    +TeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
-    +getCategory()
+    +TeacherCareerProgression(date: String, workingPercentage: int)
     +getWorkingPercentage()
+    +getCategory()
     +isDateAfter(tcp: TeacherCareerProgression)
 }
 
 class TeacherRepository {
-    -_teachers: List<Teacher>
     +TeacherRepository()
     +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
                           address: Address, teacherCategory: TeacherCategory, department: Department)
@@ -317,7 +312,7 @@ class ProgrammeEditionRepository {
     +getAllProgrammeEditions()
 }
 
-Teacher "1" --> "1" Address: has
+Teacher "1" ..> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
 Teacher "1..*" --> "*" Course: teaches
@@ -331,9 +326,9 @@ SchoolYearRepository "1" --> "*" SchoolYear: stores
 ProgrammeEdition "*" -l-> "1" SchoolYear: relates to
 Teacher "1" <-r- "1" Department: is Department Director
 Teacher "1..*" <-- "1" Department: aggregates
-Teacher "1..*" <-- "1" TeacherRepository: stores
-Teacher "1" --> "1..*" TeacherCareerProgression: comprises
-TeacherCareerProgression "*" --> "1"TeacherCategory: comprises
+Teacher "1..*" <-- "1" TeacherRepository: _teachers
+Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
+TeacherCareerProgression "*" --> "1"TeacherCategory: _category
 Department "1..*" <-- "1" DepartmentRepository: stores
 AccessMethod "1..*" -- "1" AccessMethodRepository
 TeacherCategory "1..*" <-- "1" TeacherCategoryRepository: stores
