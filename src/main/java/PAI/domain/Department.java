@@ -70,8 +70,4 @@ public class Department {
         Department that = (Department) obj;
         return Objects.equals(_name, that._name) && Objects.equals(_acronym, that._acronym);
     }
-
-    public Teacher findDepartmentDirector() {
-        return _director;
-    }
 }
