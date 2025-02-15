@@ -2,22 +2,40 @@
 skinparam sequenceMessageAlign center
 
 actor Admin
-participant ":SchoolYearRepository" as SYR
+participant ":UI" as UI
+participant ":Controller" as ctrl
+participant "SYR:SchoolYearRepository" as syRepo
+participant ":SchoolYear" as SY
 
-Admin -> SYR: insertSchoolYear(description, \nstartDate, endDate)
-activate SYR
+Admin -> UI : I want to create a School Year in the System
+UI --> Admin : description?
+Admin -> UI : description!
+UI --> Admin : startDate?
+Admin -> UI : startDate!
+UI --> Admin : endDate?
+Admin -> UI : endDate!
+
+UI -> ctrl : I want to create a School Year in the System \n (description, startDate, endDate)
+activate ctrl
+ctrl -> syRepo : addSchoolYear \n (description,startDate,endDate)
+activate syRepo
+loop for each SchoolYear in syRepo
+    syRepo -> SY : schoolYearExists(newSchoolYear)
+    activate SY
+    SY --> syRepo : False
+    deactivate SY
+end
 create "sy1:SchoolYear" as SchoolYear
-SYR -> SchoolYear: createSchoolYear(description, startDate, endDate)
+syRepo -> SchoolYear: createSchoolYear \n (description, startDate, endDate)
 activate SchoolYear
-SchoolYear -> SchoolYear: validation()
-SchoolYear --> SYR: SchoolYear Instance
+SchoolYear -> SchoolYear : validateParameters()
+SchoolYear -> SchoolYear : validateDateFormat()
+SchoolYear --> syRepo: sy1
 deactivate SchoolYear
-|||
-ref over SYR, SchoolYear
-    Check if SchoolYear is already inserted
-end ref
-|||
-SYR -> SYR: addSchoolYear(sy1:SchoolYear)
-SYR --> Admin: SchoolYear created
-deactivate SYR
+
+syRepo -> syRepo : add(sy1)
+syRepo --> ctrl : true
+ctrl --> UI : true
+UI --> Admin : Success
+
 @enduml
