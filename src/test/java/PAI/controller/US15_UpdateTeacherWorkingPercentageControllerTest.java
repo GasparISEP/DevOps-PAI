@@ -16,10 +16,10 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     @Test
     void newUpdateTeacherWorkingPercentageController () {
 
-        //arrange
+        //Arrange
         TeacherRepository repo = new TeacherRepository();
 
-        //act
+        //Act
         new US15_UpdateTeacherWorkingPercentageController(repo);
     }
 

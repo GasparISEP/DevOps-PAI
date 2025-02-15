@@ -9,7 +9,7 @@ public class US15_UpdateTeacherWorkingPercentageController {
 
     private TeacherRepository _teacherRepository;
 
-    //constructor
+    // Constructor
     public US15_UpdateTeacherWorkingPercentageController (TeacherRepository teacherRepository) {
 
         if (teacherRepository == null) {
