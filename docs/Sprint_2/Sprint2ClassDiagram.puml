@@ -79,7 +79,6 @@ class ProgrammeEditionEnrollmentRepo {
 
 
 class TeacherCategoryRepository {
-    -_teacherCategoryRepository:ArrayList<TeacherCategory>
     +TeacherCategoryRepository()
     +registerTeacherCategory (teacherCategoryName: String)
     +isTeacherCategoryRegistered(teacherCategory: TeacherCategory)
@@ -173,15 +172,14 @@ class TeacherRepository {
 
 class SchoolYear {
     -_description:String
-    -_startData:String
-    -_endDate:String
+    -_startData:LocalDate
+    -_endDate:LocalDate
     +SchoolYear(description: String, StartDate: String, EndDate: String)
     +isSameSchoolYear(otherSchoolYear: SchoolYear)
     +equals(Object: o)
 }
 
 class SchoolYearRepository {
-    -_schoolYearList: List<SchoolYear>
     +schoolYearRepository()
     +addSchoolYear(description: String, StartDate: String, EndDate: String)
     +schoolYearExists(schoolYear: SchoolYear)
@@ -312,7 +310,7 @@ class ProgrammeEditionRepository {
     +getAllProgrammeEditions()
 }
 
-Teacher "1" ..> "1" Address: has
+Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
 Teacher "1..*" --> "*" Course: teaches
@@ -322,7 +320,7 @@ Enrolment "*" --> "1" AccessMethod: is registered
 Programme "1"  -u-> "*" Enrolment: has
 Student "1" <-- "*" Enrolment: enrols
 StudentRepository "1" --> "*" Student
-SchoolYearRepository "1" --> "*" SchoolYear: stores
+SchoolYearRepository "1" ..> "*" SchoolYear: _schoolYearList
 ProgrammeEdition "*" -l-> "1" SchoolYear: relates to
 Teacher "1" <-r- "1" Department: is Department Director
 Teacher "1..*" <-- "1" Department: aggregates
@@ -331,7 +329,7 @@ Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
 TeacherCareerProgression "*" --> "1"TeacherCategory: _category
 Department "1..*" <-- "1" DepartmentRepository: stores
 AccessMethod "1..*" -- "1" AccessMethodRepository
-TeacherCategory "1..*" <-- "1" TeacherCategoryRepository: stores
+TeacherCategory "1..*" <.. "1" TeacherCategoryRepository: _teacherCategoryRepository
 Course "1..*" -- "1" CourseRepository
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
