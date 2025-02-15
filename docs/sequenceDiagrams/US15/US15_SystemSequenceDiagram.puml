@@ -1,4 +1,5 @@
 @startuml
+skinparam sequenceMessageAlign center
 
 title US15: I want to update a teacher's working percentage
 actor HRC
