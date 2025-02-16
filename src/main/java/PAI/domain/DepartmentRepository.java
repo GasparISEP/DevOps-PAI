@@ -53,8 +53,11 @@ public class DepartmentRepository {
         return false;
     }
 
-    public boolean updateOfDepartmentDirector(Department department, Teacher teacher){
-        department.changeDirector(teacher);
-        return true;
+    public boolean updateOfDepartmentDirector(Department department, Teacher furtherDirector) {
+        if(furtherDirector!=null && furtherDirector.isInDepartment(department)) {
+            department.changeDirector(furtherDirector);
+            return true;
+        }
+        return false;
     }
 }

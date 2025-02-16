@@ -152,28 +152,6 @@ class DepartmentTest {
         assertTrue (result);
     }
 
-    @Test
-    void shouldReturnFalse_WhenTeacherIsNotInTheDepartment() throws Exception{
-        //arrange
-        Department department1 = new Department ("DEI","Dep1");
-        Department department2 = new Department ("ABC","Dep2");
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Teacher teacher1 = new Teacher("JOA","Joao",  "JOA@isep.ipp.pt","213456789","B234","Doutoramento em Engenharia Informatica, 2005, ISEP", "Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1, 100, department2);
-        //act
-        boolean result = department1.changeDirector(teacher1);
-        //assert
-        assertFalse (result);
-    }
-
-    @Test
-    void shouldReturnFalse_WhenTeacherIsNull() throws Exception{
-        //arrange
-        Department department1 = new Department ( "DED","Department2");
-        //act
-        boolean result = department1.changeDirector(null);
-        //assert
-        assertFalse (result);
-    }
 
     //Testing the equals method
     @Test

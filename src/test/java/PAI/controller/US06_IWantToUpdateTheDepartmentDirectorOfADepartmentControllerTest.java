@@ -69,6 +69,24 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         assertTrue(result);
     }
 
+    @Test
+    void shouldReturnFalseIfTeacherDoesNotBelongToDepartment () throws Exception {
+        //arrange
+        DepartmentRepository dr1 = new DepartmentRepository();
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        Department dpt1 = new Department("MAT", "Mathematics");
+        Department dpt2 = new Department("DED", "Software Engineering");
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt2);
+        dr1.registerDepartment("MAT", "Mathematics");
+
+        //act
+        boolean result = controller.updateDepartmentDirector(dpt1, t1);
+
+        //assert
+        assertFalse(result);
+    }
+
 
     @Test
     void testGetAllDepartments() throws Exception {

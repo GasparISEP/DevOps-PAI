@@ -20,8 +20,7 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
             return false;
         }
 
-        _departmentRepository.updateOfDepartmentDirector(department, teacher);
-        return true;
+        return _departmentRepository.updateOfDepartmentDirector(department, teacher);
     }
 
     private void validateDepartmentRepository(DepartmentRepository departmentRepository) {
