@@ -26,7 +26,6 @@ class Programme {
      - degreeType: DegreeType
      - department: Department
      - programmeDirector: Teacher
-     -_programmeEnrolment: List<Enrolment>
      -StudyPlan: _studyPlan
 
      + equals()
