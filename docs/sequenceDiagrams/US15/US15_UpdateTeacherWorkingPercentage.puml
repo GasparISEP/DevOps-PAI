@@ -1,10 +1,11 @@
 @startuml
+skinparam sequenceMessageAlign center
 
 actor HRC
 participant ":UI" as UI
-participant ":Controller" as Controller #lightgreen
+participant "ctrl:UpdateTeacherWorkingPercentageController" as Controller #lightgreen
 participant "tr1:TeacherRepository" as TR #lightblue
-participant ":Teacher" as Teacher #lightyellow
+participant "t[i]:Teacher" as Teacher #lightyellow
 participant "t1:Teacher" as t1Teacher #lightyellow
 participant "lastTCP:TeacherCareerProgression" as TCP #lightpink
 participant "tcp1:TeacherCareerProgression" as TCP1 #lightpink
@@ -17,7 +18,7 @@ UI --> HRC: What working percentage?
 HRC -> UI: Working percentage
 UI --> HRC: What date?
 HRC -> UI: Date
-UI -> Controller : updateTeacherWorkingPercentage(Teacher's NIF, date, workingPercentage)
+UI -> Controller : updateTeacherWorkingPercentage \n (Teacher's NIF, date, workingPercentage)
 activate Controller
 
 Controller -> TR : getTeacherByNIF(Teacher's NIF)

@@ -3,9 +3,9 @@ skinparam sequenceMessageAlign center
 
 actor Admin
 participant ":UI" as UI
-participant ":Controller" as ctrl
-participant "SYR:SchoolYearRepository" as syRepo
-participant ":SchoolYear" as SY
+participant "ctllr:Controller" as ctrl
+participant "syr1:SchoolYearRepository" as syRepo
+participant "sy[i]:SchoolYear" as SY
 
 Admin -> UI : I want to create a School Year in the System
 UI --> Admin : description?

@@ -47,7 +47,7 @@ class TeacherCareerProgression {
 class TeacherRepository {
     +TeacherRepository()
     +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
-                          address: Address, teacherCategory: TeacherCategory, department: Department)
+                          address: Address, department: Department)
     +compareTeacherAcronymAndNifInList(Teacher: teacher)
     +getAllTeachers()
     +getTeacherByNIF(NIF: String)
