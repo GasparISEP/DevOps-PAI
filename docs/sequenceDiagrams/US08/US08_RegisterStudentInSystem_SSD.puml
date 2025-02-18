@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam sequenceMessageAlign center
+
+title US15: I want to register a student in the system
+actor ASC
+participant ":System" as System
+
+ASC -> System: I want to register a student in the system
+System --> ASC: What is the Student's information?
+ASC -> System: Unique number, name, NIF, phone, email, Address
+System --> ASC: OK!
+
+@enduml
