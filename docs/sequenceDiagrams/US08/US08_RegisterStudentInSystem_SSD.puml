@@ -3,7 +3,7 @@
 
 skinparam sequenceMessageAlign center
 
-title US15: I want to register a student in the system
+title US08: I want to register a student in the system
 actor ASC
 participant ":System" as System
 

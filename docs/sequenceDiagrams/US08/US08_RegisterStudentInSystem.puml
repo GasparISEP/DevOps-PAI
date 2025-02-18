@@ -1,24 +1,43 @@
 @startuml
+
 skinparam sequenceMessageAlign center
 
 actor ASC
-participant ":StudentRepository" as SR
-participant "s1:Student" as Student
+participant ":UI" as UI
+participant "ctrl1:RegisterStudentInSystemController" as ctrl
+participant "sr1:StudentRepository" as SR
+participant "s1:Student" as Student1
+participant "s[i]:Student" as Student
 
-ASC -> SR: registerStudent(uniqueNumber, \npersonalInfo, Address)
+ASC -> UI: I want to register a student in the system
+activate UI
+UI --> ASC: What is the Student's information?
+ASC -> UI: Unique number, name, NIF, phone, email, Address
+UI -> ctrl: I want to register a Student \n (Unique number, name, NIF, phone, email, Address)
+activate ctrl
+ctrl -> SR: registerStudent \n (Unique number, name, NIF, phone, email, Address)
 activate SR
-create Student
-SR -> Student: createStudent(uniqueNumber, name, NIF, phone, email, Address)
-activate Student
-Student -> Student: validate()
-Student --> SR: Student instance
-|||
-ref over SR, Student
-    Check if a student is already registered
-end ref
 
-deactivate Student
-|||
-SR -> SR: addStudent(s1:Student)
-SR --> ASC: Registration Successful
+create Student1
+SR -> Student1: createStudent(uniqueNumber, name, NIF, phone, email, Address)
+activate Student1
+Student1 -> Student1: validateUniqueNumber()
+Student1 -> Student1: validateParameters()
+Student1 --> SR: s1
+deactivate Student1
+SR -> SR : isStudentRepeated(s1)
+
+loop for each Student in SR
+    activate Student
+    SR -> Student: hasSameUniqueNumber(s1) && hasSameNIF(s1)
+    Student --> SR : False
+    deactivate Student
+end
+
+SR -> SR: add(s1)
+SR --> ctrl: True
+deactivate SR
+ctrl --> UI: True
+UI --> ASC: Success!
+
 @enduml
