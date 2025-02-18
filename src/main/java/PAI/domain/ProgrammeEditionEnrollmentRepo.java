@@ -24,7 +24,6 @@ public class ProgrammeEditionEnrollmentRepo {
         return Optional.of(programmeEditionEnroll);
     }
 
-    //US16 e US17 - check if a student is enrolled in any programme edition
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
             if (enrollment.getStudentUniqueNumber() == student.getUniqueNumber() && enrollment.findProgrammeEditionInEnrollment() == programmeEdition) {
@@ -33,7 +32,6 @@ public class ProgrammeEditionEnrollmentRepo {
         }
         return false;
     }
-
 
     private void checkIfThisEnrollmentAlreadyExists(ProgrammeEditionEnrollment programmeEditionEnrollment) throws IllegalArgumentException {
         for (ProgrammeEditionEnrollment existingEnrollment : _programmeEditionEnrollments) {

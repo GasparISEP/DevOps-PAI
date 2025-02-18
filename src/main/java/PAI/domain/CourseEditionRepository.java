@@ -55,7 +55,6 @@ public class CourseEditionRepository {
         throw new Exception("The course edition does not belong to the course Edition Repository.");
     }
 
-    //US17
     public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
         List<CourseEdition> result = new ArrayList<>();
         for (CourseEdition courseEdition : _courseEditionRepository) {

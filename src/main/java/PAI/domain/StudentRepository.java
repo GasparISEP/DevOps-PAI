@@ -22,7 +22,6 @@ public class StudentRepository {
         }
     }
 
-    //US17
     public boolean isStudentEnrolledInProgramme(Student student, Programme programme) {
         return programme.isStudentEnrolled(student);
     }

@@ -47,12 +47,10 @@ public class CourseEditionEnrollment {
         return Objects.equals(_student, that._student) && Objects.equals(_courseEdition, that._courseEdition) && Objects.equals(_enrollmentDate, that._enrollmentDate);
     }
 
-    //US17
     public Student findStudentInCourseEditionEnrollment() {
         return this._student;
     }
 
-    //US17
     public CourseEdition findCourseEditionInEnrollment() {
         return this._courseEdition;
 

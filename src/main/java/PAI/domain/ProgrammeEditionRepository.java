@@ -32,7 +32,6 @@ public class ProgrammeEditionRepository {
         return _programmeEditionRepository.contains(programmeEdition);
     }
 
-    //US17
     public Optional<ProgrammeEdition> findProgrammeEditionBySchoolYearAndProgramme(
             Programme programme,
             SchoolYear schoolYear) {

@@ -74,7 +74,6 @@ public class Programme {
     }
 
 
-    //US17 alteracao ao Equals
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -120,7 +119,6 @@ public class Programme {
         return true;
     }
 
-    //US17
     public boolean isStudentEnrolled(Student student) {
         for (Enrolment enrolledStudent : _programmeEnrolment) {
             if (enrolledStudent.findStudentInEnrollments().getUniqueNumber() == student.getUniqueNumber()) {
@@ -153,7 +151,6 @@ public class Programme {
     public int calculateNumberOfYears(int quantityOfSemesters) {
         int numberOfYears;
 
-        // Calcula o número de anos
         if (quantityOfSemesters % 2 != 0) {
             numberOfYears = (quantityOfSemesters + 1) / 2;
         }

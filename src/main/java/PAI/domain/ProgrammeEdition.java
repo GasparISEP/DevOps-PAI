@@ -28,12 +28,10 @@ public class ProgrammeEdition {
         return false;
     }
 
-    //US17
     public Programme findProgrammeInProgrammeEdition() {
         return _programme;
     }
 
-    //US17
     public SchoolYear findSchoolYearInProgrammeEdition() {
         return _schoolYear;
     }
