@@ -58,7 +58,7 @@ class TeacherCategory {
     + TeacherCategory (name:String)
 }
 
-US15_UpdateTeacherWorkingPercentageController "1" ..> "1 " TeacherRepository: _teacherRepository
+US15_UpdateTeacherWorkingPercentageController "1" --> "1 " TeacherRepository: _teacherRepository
 Teacher "1..*" <-- "1" TeacherRepository: _teachers
 Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
 TeacherCareerProgression "*" --> "1" TeacherCategory: _category
