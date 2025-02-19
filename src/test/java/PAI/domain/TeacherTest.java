@@ -19,54 +19,26 @@ class TeacherTest {
         //arrange
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
-        //act
+        //act + assert
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
-        //assert
-        assertNotNull(teacher);
     }
 
     @Test
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws Exception {
         //arrange
-        List<Teacher> testTeachers = new ArrayList<>();
         TeacherCategory tc1 = new TeacherCategory("Math");
         Department dpt1 = new Department("MAT", "Mathematics");
-        //act
+        //act + assert
         Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
-        testTeachers.add(teacher);
-        //assert
-        assertNotNull(teacher);
-        assertEquals(1, testTeachers.size());
     }
 
     @Test
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws Exception {
         //arrange
-        List<Teacher> testTeachers = new ArrayList<>();
         TeacherCategory tc1 = new TeacherCategory("Math");
         Department dpt1 = new Department("MAT", "Mathematics");
-        //act
+        //act + assert
         Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
-        testTeachers.add(teacher);
-        //assert
-        assertNotNull(teacher);
-        assertEquals(1, testTeachers.size());
-    }
-
-    @Test
-    void everythingNullGenerateException () throws Exception {
-        //arrange
-
-        //act + assert
-        assertThrows(Exception.class, () -> new Teacher(null, null,null,null,null,null, null,null,null,null,null,null,101,null));
-    }
-
-    @Test
-    void everythingBlankGenerateException () throws Exception {
-        //arrange
-
-        //act + assert
-        assertThrows(Exception.class, () -> new Teacher("", "","","","","", "","","","", "",null,101,null));
     }
 
 

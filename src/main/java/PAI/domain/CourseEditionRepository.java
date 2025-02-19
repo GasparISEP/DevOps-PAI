@@ -45,7 +45,6 @@ public class CourseEditionRepository {
         return ce1.setRuc(t1);
     }
 
-    //US16 - return the programmeEdition that belongs to a course Edition, if the course edition exists in this repository
     public ProgrammeEdition findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition courseEdition) throws Exception {
         for (CourseEdition courseEdition1 : _courseEditionRepository)
             if (courseEdition1.equals(courseEdition)) {
