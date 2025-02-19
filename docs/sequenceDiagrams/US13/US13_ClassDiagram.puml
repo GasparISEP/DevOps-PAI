@@ -1,0 +1,101 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class US13_RegisterTeacherAndRelevantDataController {
++US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepository teacherCategoryRepository, DepartmentRepository departmentRepository,
+TeacherRepository teacherRepository)
++getTeacherCategoriesList()
++getDepartmentsList()
++registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
+}
+
+class TeacherCategoryRepository {
++TeacherCategoryRepository()
++registerTeacherCategory (String name)
++isTeacherCategoryRegistered(TeacherCategory teacherCategory)
++getTeacherCategoriesList()
+}
+
+class DepartmentRepository {
++DepartmentRepository()
++registerDepartment(String acronym, String name)
++getDepartmentsList()
++departmentExists (Department department)
++updateOfDepartmentDirector(Department department, Teacher furtherDirector)
+}
+
+class TeacherRepository {
++TeacherRepository()
++registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
++getAllTeachers()
++getTeacherByNIF(String NIF)
+}
+
+class Teacher {
+-_acronym:String
+ -_name:String
+ -_email:String
+ -_nif:String
+ -_phoneNumber:String
+ -_academicBackground:String
+ +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+ String academicBackground, String street, String postalCode, String location, String country, date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+ +hasSameAcronym(teacher: Teacher)
+ +hasSameNif(teacher: Teacher)
+ +isInDepartment(department: Department)
+ +hasThisNIF(NIF: String)
+ +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
+ +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+}
+
+class Address {
+-_street:String
+ -_postalCode: String
+ -_location: String
+ -_country: String
+ +Address(street: String, postalCode: String, location: String, country: String)
+}
+
+class TeacherCareerProgression {
+-_date: LocalDate
+-_workingPercentage: int
++TeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
++getWorkingPercentage()
++getCategory()
++isDateAfter(tcp: TeacherCareerProgression)
+}
+
+class TeacherCategory {
+-_name:String
++ TeacherCategory (name:String)
++getName()
++equals (Object objectToCompare)
+}
+
+class Department {
+-_acronym:String
+-_name:String
+-_director:Teacher
++Department(departmentAcronym: String, departmentName: String)
++Department(departmentAcronym: String, departmentName: String,director: Teacher)
++hasSameAcronym(department: Department)
++hasSameName(department: Department)
++changeDirector(furtherDirector: Teacher)
++equals(Object obj)
+}
+
+US13_RegisterTeacherAndRelevantDataController "\n1" ..> "_teacherCategoryRepository \n1"TeacherCategoryRepository
+US13_RegisterTeacherAndRelevantDataController "1" ..> "_departments \n1"DepartmentRepository
+US13_RegisterTeacherAndRelevantDataController "1" ..> "teachers \n1\n"TeacherRepository
+TeacherRepository "1" --> "teachers \n*"Teacher
+TeacherCategory "_teacherCategoryRepository \n*" <-- " 1" TeacherCategoryRepository
+TeacherCareerProgression "*" --> "_category \n1"TeacherCategory
+Teacher "1" --> "_teacherCareerProgressionList \n1..*" TeacherCareerProgression
+Teacher "1" --> "_address \n1" Address
+Teacher "_department \n*" <-- "1" Department
+Department "*\n_departments" <-u- "1" DepartmentRepository
+
+@enduml
