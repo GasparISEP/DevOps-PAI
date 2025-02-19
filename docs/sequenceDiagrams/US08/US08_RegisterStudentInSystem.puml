@@ -29,12 +29,13 @@ SR -> SR : isStudentRepeated(s1)
 
 loop for each Student in SR
     activate Student
-    SR -> Student: hasSameUniqueNumber(s1) && hasSameNIF(s1)
-    Student --> SR : False
-    deactivate Student
+    SR -> Student: hasSameUniqueNumber(s1) || hasSameNIF(s1)
 end
 
-SR -> SR: add(s1)
+Student --> SR : False
+deactivate Student
+
+SR -> SR: students.add(s1)
 SR --> ctrl: True
 deactivate SR
 ctrl --> UI: True
