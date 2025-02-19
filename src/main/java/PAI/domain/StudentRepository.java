@@ -2,7 +2,6 @@ package PAI.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class StudentRepository {
 
@@ -14,12 +13,21 @@ public class StudentRepository {
 
         Student newStudent = new Student(uniqueNumber, name, NIF, phone, email, address);
 
-        if (newStudent.isStudentRepeated(_students)) {
+        if (isStudentRepeated(newStudent)) {
             throw new Exception("Duplicate unique number or NIF detected. Student cannot be added.");
         } else {
             _students.add(newStudent); //add the student to the list
             return true;
         }
+    }
+
+    private boolean isStudentRepeated(Student student) {
+        for (Student existingStudent : _students) {
+            if (existingStudent.hasSameUniqueNumber(student) || existingStudent.hasSameNIF(student)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isStudentEnrolledInProgramme(Student student, Programme programme) {

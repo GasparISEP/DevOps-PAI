@@ -58,22 +58,13 @@ public class Student {
         return parameter == null || parameter.isBlank();
     }
 
-    public boolean isStudentRepeated(List<Student> students) {
-        for (Student existingStudent : students) {
-            if (hasSameUniqueNumber(existingStudent) || hasSameNIF(existingStudent)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     // Check for matching uniqueNumber
     public boolean hasSameUniqueNumber(Student student) {
         return _uniqueNumber == student._uniqueNumber;
     }
 
     // Check for matching NIF
-    private boolean hasSameNIF(Student student) {
+    public boolean hasSameNIF(Student student) {
         return _NIF.equals(student._NIF);
     }
 
