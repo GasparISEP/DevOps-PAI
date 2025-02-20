@@ -1,0 +1,37 @@
+@startuml
+!pragma layout smetana
+'left to right direction
+
+class Student {
+    -_uniqueNumber: int
+    -_name: String
+    -_NIF: String
+    -_phone: String
+    -_email: String
+    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +hasSameUniqueNumber(Student student)
+    +hasSameNIF(Student student)
+}
+
+class StudentRepository {
+    -_students: List<Student>
+    +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+}
+
+class Address {
+     -_street: String
+     -_postalCode: String
+     -_location: String
+     -_country: String
+     +Address(street: String, postalCode: String, location: String, country: String)
+}
+
+class US08_RegisterStudentInSystemController{
+    +registerStudent (uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+}
+
+Student "\n1 " *------ "Address \n1" Address
+StudentRepository "\n1" *------ "Student \n*" Student
+US08_RegisterStudentInSystemController "1" ......> "_students \n1\n" StudentRepository
+
+@enduml
