@@ -172,7 +172,7 @@ class TeacherRepository {
 
 class SchoolYear {
     -_description:String
-    -_startData:LocalDate
+    -_startDate:LocalDate
     -_endDate:LocalDate
     +SchoolYear(description: String, StartDate: String, EndDate: String)
     +isSameSchoolYear(otherSchoolYear: SchoolYear)
