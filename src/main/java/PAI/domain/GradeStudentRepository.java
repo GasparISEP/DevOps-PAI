@@ -41,7 +41,7 @@ public class GradeStudentRepository {
         int totalOfStudents = 0;
 
         for (GradeStudent gradeStudent : gradeStudentList) {
-            if (gradeStudent.KnowCourseEdition().equals(courseEdition)) {
+            if (gradeStudent.hasThisCourseEdition(courseEdition)) {
                 totalOfStudents++;
                 if (gradeStudent.knowGrade() >= 10) {
                     totalApprovalStudents++;
