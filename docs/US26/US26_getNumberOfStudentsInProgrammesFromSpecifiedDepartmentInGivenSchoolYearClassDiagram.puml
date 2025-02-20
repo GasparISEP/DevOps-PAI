@@ -24,6 +24,7 @@ class DepartmentRepository {
     +registerDepartment(acronym: String, name: String): boolean
     +getDepartmentsList(): List<Department>
     +departmentExists(department: Department): boolean
+    +updateOfDepartmentDirector(department: Department, teacher: Teacher): boolean
 }
 
 class ProgrammeEditionEnrollmentRepo {
