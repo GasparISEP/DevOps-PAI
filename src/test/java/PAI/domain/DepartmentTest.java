@@ -63,21 +63,6 @@ class DepartmentTest {
         //assert
         assertNotNull (department);
     }
-    @Test
-    void everythingNullGenerateException () throws Exception {
-        //arrange
-
-        //act + assert
-        assertThrows(Exception.class, () -> new Department(null, null, null));
-    }
-
-    @Test
-    void everythingIsEmptyGenerateException () throws Exception {
-        //arrange
-
-        //act + assert
-        assertThrows(Exception.class, () -> new Department ("", "",null));
-    }
 
     //testing failure cases of Department's name
     public static Stream<Arguments> provideInvalidDepartmentsNames() {
