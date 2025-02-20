@@ -9,10 +9,12 @@ RUC -> UI ++ #application: I want to grade a Student in a Course Edition
 UI --> RUC --: Grade, Date, CourseEdition, Student?
 RUC -> UI ++ #application: Grade, Date, CourseEdition, Student!
 UI -> ctr ++ #application : IWantToGradeStudent (Grade, Date, Student, CourseEdition)
+ctr -> CEER ++ #application : isStudentEnrolledInCourseEdition (Student, CourseEdition)
+CEER --> ctr -- : true
+
+
 ctr -> GR ++ #application : addGradeToStudent (Grade, Date, Student, CourseEdition)
 
-GR -> CEER ++ #application : isStudentEnrolledInCourseEdition(Student, CourseEdition)
-CEER --> GR -- : true
 
 create ":GradeStudent" as GS
 GR -> GS ++ #application : <Create> (Grade, Date, Student, CourseEdition)

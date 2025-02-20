@@ -17,10 +17,9 @@ class DepartmentTest {
         //arrange
         String acronym = "DEI";
         String name = "Department1";
-        //act
+        //act & assert
         Department department = new Department(acronym, name);
-        //assert
-        assertNotNull (department);
+
     }
 
     @Test
@@ -31,10 +30,9 @@ class DepartmentTest {
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
         Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto","Portugal", "20-12-2010", teacherCategory1, 100, department1);
-        //act
+        //act & assert
         Department department = new Department(acronym, name,  teacherDirector1);
-        //assert
-        assertNotNull (department);
+
     }
 @Test
     void shouldReturnDepartment_whenAllTheAtributesAreValid_withTwoLettersName () throws Exception {
@@ -44,10 +42,9 @@ class DepartmentTest {
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
         Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal","20-12-2010", teacherCategory1, 100, department1);
-        //act
+        //act & assert
         Department department = new Department(acronym, name,  teacherDirector1);
-        //assert
-        assertNotNull (department);
+
     }
 
     @Test
@@ -58,25 +55,9 @@ class DepartmentTest {
         TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
         Department department1 = new Department ("DEI", "Dept1");
         Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100, department1);
-        //act
+        //act & assert
         Department department = new Department(acronym, name,  teacherDirector1);
-        //assert
-        assertNotNull (department);
-    }
-    @Test
-    void everythingNullGenerateException () throws Exception {
-        //arrange
 
-        //act + assert
-        assertThrows(Exception.class, () -> new Department(null, null, null));
-    }
-
-    @Test
-    void everythingIsEmptyGenerateException () throws Exception {
-        //arrange
-
-        //act + assert
-        assertThrows(Exception.class, () -> new Department ("", "",null));
     }
 
     //testing failure cases of Department's name

@@ -1,18 +1,23 @@
 package PAI.domain;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Objects;
+
 public class GradeStudent {
 
         private double _grade;
-        private String _date;
+        private LocalDate _date;
         private Student _student;
         private CourseEdition _courseEdition;
 
-        public GradeStudent(double grade, String date, Student student, CourseEdition courseEdition) {
+        public GradeStudent(double grade, String date, Student student, CourseEdition courseEdition) throws Exception {
             if (!isGradeValid(grade)) throw new IllegalArgumentException("Grade should be between 0 and 20");
             _grade = grade;
 
-            if (!isDateValid(date)) throw new IllegalArgumentException("Date is not valid");
-            _date = date;
+            if ( date == null || date.isEmpty()) throw new IllegalArgumentException("Date cannot be empty");
+            isDateValid(date);
 
             if (student == null) throw new IllegalArgumentException("Student cannot be null");
             _student = student;
@@ -25,9 +30,7 @@ public class GradeStudent {
             return grade >= 0 && grade <=20;
         }
 
-        private boolean isDateValid (String date){
-            return date !=null && date.matches("\\d{2}/\\d{2}/\\d{4}") ;
-        }
+
 
         public double knowGrade() {
             return _grade;
@@ -40,6 +43,25 @@ public class GradeStudent {
         public CourseEdition KnowCourseEdition() {
             return _courseEdition;
         }
+
+        public void isDateValid (String date) throws Exception{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            try {
+                _date = LocalDate.parse(date,formatter);
+            }
+            catch (DateTimeParseException e){
+                throw new Exception("Time format must be dd-MM-YYYY");
+            }
+        }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GradeStudent that = (GradeStudent) o;
+        return Objects.equals(_student, that._student) && Objects.equals(_courseEdition, that._courseEdition);
     }
+}
+
 
 

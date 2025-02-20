@@ -58,8 +58,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
         enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1,currentDate);
 
-        gradeStudentRepository.addGradeToStudent(8, "10/10/2025", student1, courseEdition1,enrollmentRepository);
-        gradeStudentRepository.addGradeToStudent(20, "10/10/2025", student2, courseEdition1,enrollmentRepository);
+        gradeStudentRepository.addGradeToStudent(8, "10-02-2025", student1, courseEdition1);
+        gradeStudentRepository.addGradeToStudent(20, "10-02-2025", student2, courseEdition1);
 
 
         double optC1 = controlador1.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition1);

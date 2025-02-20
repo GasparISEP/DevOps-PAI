@@ -10,9 +10,11 @@ public class DegreeTypeList {
         degreeTypes = new ArrayList<>();
     }
 
-    public void registerDegreeType (String name, int maxEcts) throws Exception{
+    public boolean registerDegreeType (String name, int maxEcts) throws Exception{
         DegreeType degreeType = new DegreeType(name,maxEcts);
         degreeTypes.add(degreeType);
+
+        return true;
 
     }
 
