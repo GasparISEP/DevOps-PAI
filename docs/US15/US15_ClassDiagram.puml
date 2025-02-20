@@ -58,9 +58,9 @@ class TeacherCategory {
     + TeacherCategory (name:String)
 }
 
-US15_UpdateTeacherWorkingPercentageController "1" --> "1 " TeacherRepository: _teacherRepository
-Teacher "1..*" <-- "1" TeacherRepository: _teachers
-Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
-TeacherCareerProgression "*" --> "1" TeacherCategory: _category
+US15_UpdateTeacherWorkingPercentageController "1" ----> "_teacherRepository \n 1" TeacherRepository
+Teacher "_teachers \n 1..*" <---- "1" TeacherRepository
+Teacher "1" ----> "_teacherCareerProgressionList \n 1..*" TeacherCareerProgression
+TeacherCareerProgression "*" ----> "_category \n 1" TeacherCategory
 
 @enduml
