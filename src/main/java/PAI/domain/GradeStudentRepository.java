@@ -8,11 +8,8 @@ public class GradeStudentRepository {
     private List<GradeStudent> gradeStudentList = new ArrayList<>();
 
 
-    public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition, CourseEditionEnrollmentRepository courseEditionEnrollmentRepository){
+    public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
         try {
-            if (!courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, courseEdition)){
-                return Optional.empty();
-            }
                 GradeStudent gradeStudent = new GradeStudent(grade, date, student,courseEdition);
                 gradeStudentList.add(gradeStudent);
                 return Optional.of(gradeStudent);
