@@ -34,8 +34,8 @@ class GradeStudentRepositoryTest {
 
 
         // Act
-        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1);
-        Optional<GradeStudent> result2 = list.addGradeToStudent(8, "10/10/2025", student2, courseEdition1);
+        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+        Optional<GradeStudent> result2 = list.addGradeToStudent(8, "10-10-2025", student2, courseEdition1);
 
         // Assert
         assertTrue(result1.isPresent());
@@ -76,8 +76,8 @@ class GradeStudentRepositoryTest {
 
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition2);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition2);
+        list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
+        list.addGradeToStudent(20, "10-10-2025", student2, courseEdition2);
 
         // Act
         double approvalRate = list.knowApprovalRate(courseEdition1);
@@ -116,8 +116,8 @@ class GradeStudentRepositoryTest {
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition1);
+        list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+        list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
 
         // Act
         double approvalRate = list.knowApprovalRate(courseEdition1);
@@ -198,8 +198,8 @@ class GradeStudentRepositoryTest {
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition1);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition1);
+        list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+        list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
 
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);
@@ -237,8 +237,8 @@ class GradeStudentRepositoryTest {
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
-        list.addGradeToStudent(0, "10/10/2025", student1, courseEdition1);
-        list.addGradeToStudent(0, "10/10/2025", student2, courseEdition1);
+        list.addGradeToStudent(0, "10-10-2025", student1, courseEdition1);
+        list.addGradeToStudent(0, "10-10-2025", student2, courseEdition1);
 
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);
@@ -279,8 +279,8 @@ class GradeStudentRepositoryTest {
 
 
 
-        list.addGradeToStudent(10, "10/10/2025", student1, courseEdition2);
-        list.addGradeToStudent(20, "10/10/2025", student2, courseEdition2);
+        list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
+        list.addGradeToStudent(20, "10-10-2025", student2, courseEdition2);
 
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);

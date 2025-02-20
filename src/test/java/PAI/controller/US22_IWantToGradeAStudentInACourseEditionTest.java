@@ -48,7 +48,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
 
-        Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student1,courseEdition1);
+        Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
 
         //assert
 

@@ -39,7 +39,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         //arrange
         GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
-        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
+
 
 
         //act
@@ -61,20 +61,16 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         ProgrammeEdition pE2 = new ProgrammeEdition(p2, sY2);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
-        CourseEdition courseEdition2 = new CourseEdition(c2, pE2);
-        LocalDate currentDate = LocalDate.now();
+
 
 
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
-        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1,currentDate);
 
-
-        gradeStudentRepository.addGradeToStudent(8, "10/10/2025", student1, courseEdition1,enrollmentRepository);
-        gradeStudentRepository.addGradeToStudent(20, "10/10/2025", student2, courseEdition1,enrollmentRepository);
+        gradeStudentRepository.addGradeToStudent(8, "10-02-2025", student1, courseEdition1);
+        gradeStudentRepository.addGradeToStudent(20, "10-02-2025", student2, courseEdition1);
 
 
         double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);
