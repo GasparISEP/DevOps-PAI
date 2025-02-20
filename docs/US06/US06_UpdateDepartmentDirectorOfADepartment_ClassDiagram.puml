@@ -20,6 +20,7 @@ class Department {
 class DepartmentRepository {
     +departmentRepository()
     +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
+    +updateOfDepartmentDirector (department: Department, furtherDirector: Teacher) :boolean
 }
 
 class Teacher {
