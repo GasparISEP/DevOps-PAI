@@ -18,6 +18,8 @@ public class US07_IWantToCreateASchoolYearController {
 
     public boolean addSchoolYear (String description, String startDate, String endDate) throws Exception {
 
-        return _schoolYearRepo.addSchoolYear(description, startDate, endDate);
+        _schoolYearRepo.addSchoolYear(description, startDate, endDate);
+
+        return true;
     }
 }
