@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
+class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
     @Test
     void shouldCreateController() throws Exception {
@@ -13,7 +13,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         SchoolYearRepository syr1 = new SchoolYearRepository();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
         //act
-        CreateProgrammeEditionForCurrentSchoolYearController controller = new CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
         //assert
         assertNotNull(controller);
     }
@@ -32,7 +32,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
 
-        CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
 
         //act
         boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);
@@ -53,7 +53,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
-        CreateProgrammeEditionForCurrentSchoolYearController controller = new CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
         boolean isCreated = controller.createAProgrammeEditionInTheCurrentSchoolYear(p1);
         //assert
         assertFalse(isCreated);
@@ -73,7 +73,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
 
-        CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
 
         //act
         ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);
@@ -94,7 +94,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
-        CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(null, syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, syr1);
 
         //act
         boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);
@@ -114,7 +114,7 @@ class CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
-        CreateProgrammeEditionForCurrentSchoolYearController ctrl = new CreateProgrammeEditionForCurrentSchoolYearController(per1, null);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, null);
 
         //act
         boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);
