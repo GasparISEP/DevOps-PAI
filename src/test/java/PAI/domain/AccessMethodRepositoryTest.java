@@ -78,8 +78,6 @@ class AccessMethodRepositoryTest {
         assertFalse(result);
     }
 
-
-    //Isolation tests to be made
     @Test
     void shouldReturnsOptionalWithAccessMethodIfCanBeCreated() throws InstantiationException {
         // arrange
@@ -112,13 +110,14 @@ class AccessMethodRepositoryTest {
     }
 
     @Test
-    void shouldReturnEmptyOptionalIfAccessMethodCannotBeCreated(){
+    void shouldReturnEmptyOptionalIfAccessMethodCannotBeCreated() throws InstantiationException {
         // arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodRepository amr1 = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        when(doubleAccessMethodFactory.createAccessMethod("")).thenThrow(new InstantiationException("Cannot create AccessMethod"));
 
         // act
-        Optional<AccessMethod> result = amr1.createAccessMethod("");
+        Optional<AccessMethod> result = accessMethodRepository.createAccessMethod("");
 
         // assert
         assertFalse(result.isPresent(), "Expected Optional to be empty");
