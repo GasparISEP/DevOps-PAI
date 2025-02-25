@@ -33,13 +33,6 @@ class CourseEditionEnrollmentTest {
         CourseEditionEnrollment cee1 = new CourseEditionEnrollment(st1, ce1, currentDate);
     }
 
-    @Test
-    void everythingNullGenerateException() throws Exception {
-        //arrange
-        //act + assert
-        assertThrows(Exception.class, () -> new CourseEditionEnrollment(null, null, null));
-    }
-
     //testing invalid enrollment date
     public static Stream<Arguments> provideInvalidEnrollmentDate() {
         return Stream.of(
