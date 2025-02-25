@@ -194,16 +194,26 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllCourses() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
+        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
+        Course courseDouble1 = mock(Course.class);
+        Course courseDouble2 = mock(Course.class);
 
+        ArrayList<Course> courseList = new ArrayList<>();
+        courseList.add(courseDouble1);
+        courseList.add(courseDouble2);
+
+        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
+
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         // act
-        US03_AddCourseToProgrammeController controller = new US03_AddCourseToProgrammeController(new ProgrammeList(), courseRepository);
-        List<Course> allCourses = controller.getAllCourses();
+        List<Course> allCourses = US03AddCourseToProgrammeController.getAllCourses();
 
         // assert
-        Course expectedCourse = new Course("matemática", "MTA", 5, 1);
-        assertEquals(expectedCourse, allCourses.get(0));
+        assertEquals(courseList.size(), allCourses.size());
+        assertEquals(courseList.get(0), allCourses.get(0));
+        assertEquals(courseList.get(1), allCourses.get(1));
     }
 
     @Test
