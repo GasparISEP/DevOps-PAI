@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
 class ProgrammeTest {
 
     //test ensures that the isInDepartment method returns false when the program is not associated with the department
@@ -320,6 +322,7 @@ class ProgrammeTest {
         CE.newProgrammeDirector(teacher1);
     }
 
+
     @Test
     void shouldReturnTrueIfTheEnrolmentInTheProgrammeIsSuccessful() throws Exception {
         //arrange
@@ -328,7 +331,8 @@ class ProgrammeTest {
 
         AccessMethod am1 = new AccessMethod("Maiores 23");
 
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("Maiores 23");
 
         DegreeType master = new DegreeType("Master",240);
@@ -352,7 +356,8 @@ class ProgrammeTest {
 
         AccessMethod am1 = new AccessMethod("Maiores 23");
 
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository amr = new AccessMethodRepository(doubleAccessMethodFactory);
         amr.registerAccessMethod("CNA");
 
         DegreeType master = new DegreeType("Master",240);
@@ -373,7 +378,8 @@ class ProgrammeTest {
 
         AccessMethod am1 = new AccessMethod("Maiores 23");
 
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("Maiores 23");
 
         DegreeType master = new DegreeType("Master",240);
@@ -400,7 +406,8 @@ class ProgrammeTest {
 
         AccessMethod am1 = new AccessMethod("Maiores 23");
 
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("Maiores 23");
 
         DegreeType master = new DegreeType("Master",240);
@@ -498,7 +505,8 @@ class ProgrammeTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
         AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -523,7 +531,8 @@ class ProgrammeTest {
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
         Student student1 = new Student(2, "Joana Silva", "123000009", "221234567", "joana123@gmail.com", address);
         AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
@@ -549,7 +558,8 @@ class ProgrammeTest {
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
         DegreeType master = new DegreeType("Master", 240);
         AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
