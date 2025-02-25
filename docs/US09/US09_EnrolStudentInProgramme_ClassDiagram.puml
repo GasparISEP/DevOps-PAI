@@ -1,0 +1,100 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+!pragma layout smetana
+'left to right direction
+
+class Student {
+    -_uniqueNumber:int
+    -_name:String
+    -_NIF:String
+    -_phone:String
+    -_email:String
+    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +isStudentRepeated(students: List<Student>)
+    +hasSameUniqueNumber(Student : student)
+}
+
+class AccessMethod {
+    -_name:String
+    +AccessMethod(name:String)
+}
+
+class Programme {
+     - name: string
+     - acronym: string
+     - quantityOfEcts: int
+     - quantityOfSemesters: int
+     - degreeType: DegreeType
+     - department: Department
+     - programmeDirector: Teacher
+     -_courseList: List <Course>
+     -StudyPlan: _studyPlan
+     + equals()
+     + addCourseToProgramme (course: Course)
+     + newProgrammeDirector(): boolean
+     +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
+     +isStudentEnrolled(student: Student)
+     +isInDepartment(department: Department)
+     +getCourseList()
+     +getQuantityOfSemester()
+     +getQuantityOfEcts()
+ }
+
+ class programmeEnrolment {
+     +Enrolment(Student: student, AccessMethod: accessMethod)
+     +isSameStudent(Student: student)
+     +findStudentInEnrollments()
+ }
+
+class programmeEnrolmentRepository {
+     +enrolStudents (Student : student, AccessMethod : accessMethod, Programme : programme, String enrolmentDate)
+     +isEnrolmentRepetead(Enrolment : newEnrolment)
+     +isStudentEnrolled (Student : student, Programme : programme)
+}
+
+class US09_EnrollStudentInProgrammeController {
+     -_studentRepository: StudentRepository
+     -_accessMethodRepository: AccessMethodRepository
+     -_programmeList: ProgrammeList
+     -_enrolmentRepository: EnrolmentRepository
+     + US09_EnrollStudentInProgrammeController(StudentRepository, AccessMethodRepository, ProgrammeList, EnrolmentRepository)
+     + getStudentByUniqueNumber(uniqueNumber: int): Optional<Student>
+     + getAccessMethodByName(accessMethod: String): Optional<AccessMethod>
+     + getProgrammeByName(programmeName: String): Optional<Programme>
+     + enrolStudent(s1: Student, am1: AccessMethod, p1: Programme, date: String): boolean
+}
+
+class StudentRepository {
+    -_students: List<Student>
+    +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +isStudentEnrolledInProgramme(Student student, Programme programme)
+}
+
+class AccessMethodRepository {
+    -_accessMethodRepository:ArrayList<AccessMethod>
+    +AccessMethodRepository()
+    +registerAccessMethod (accessMethodName: String)
+    +isAccessMethodRegistered(accessMethod: AccessMethod)
+}
+
+class ProgrammeList {
+     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
+     +changeProgrammeDirector(Programme programme, Teacher newDirector)
+     +getAllProgrammes()
+     +getCourseList(programme: Programme)
+}
+
+StudentRepository "1" --> "students \n*" Student
+AccessMethodRepository "1" --> "accessmethod \n*" AccessMethod
+ProgrammeList "List<Programme>" *-- "0..*" Programme
+programmeEnrolmentRepository "enrolmentList \n1" <-- "*" programmeEnrolment
+Student "1" --> "_student \n*" programmeEnrolment
+AccessMethod "1" --> "_accessmethod \n*" programmeEnrolment
+Programme "1"  --> "_programme \n*" programmeEnrolment
+US09_EnrollStudentInProgrammeController "1" ..> "students \n1\n" StudentRepository
+US09_EnrollStudentInProgrammeController "1" ..> "accessmethod \n1\n" AccessMethodRepository
+US09_EnrollStudentInProgrammeController "1" ..> "programme \n1\n" ProgrammeList
+US09_EnrollStudentInProgrammeController "1" ..> "programmeEnrolment \n1\n" programmeEnrolmentRepository
+
+@enduml

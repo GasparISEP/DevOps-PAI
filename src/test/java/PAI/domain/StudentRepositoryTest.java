@@ -10,16 +10,6 @@ import static org.mockito.Mockito.mock;
 class StudentRepositoryTest {
 
     @Test
-    void validAttributesCreateObject() throws Exception {
-
-        //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-
-        //act
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-    }
-
-    @Test
     void testRegisterDuplicateNIFThrowsException() throws Exception {
         // Arrange
         StudentRepository repository = new StudentRepository();
