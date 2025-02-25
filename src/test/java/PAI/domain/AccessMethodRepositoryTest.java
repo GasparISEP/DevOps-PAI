@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class AccessMethodRepositoryTest {
 
@@ -12,11 +14,13 @@ class AccessMethodRepositoryTest {
     @Test
     void shouldReturnTrueIfIsAlreadyRegisteredInTheAccessMethodRepository() throws Exception {
         //arrange
-        AccessMethodRepository amr = new AccessMethodRepository ();
-        AccessMethod am1 = new AccessMethod("Maiores 23");
-        amr.registerAccessMethod("Maiores 23");
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository (doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        accessMethodRepository.registerAccessMethod("Maiores 23");
         //act
-        boolean result = amr.isAccessMethodRegistered(am1);
+        boolean result = accessMethodRepository.isAccessMethodRegistered(doubleAccessMethod);
         //assert
         assertTrue(result);
     }
@@ -24,11 +28,14 @@ class AccessMethodRepositoryTest {
     @Test
     void shouldReturnFalseIfAccessMethodIsNotRegisteredInAccessMethodRepository() throws Exception {
         //arrange
-        AccessMethodRepository amr = new AccessMethodRepository ();
-        AccessMethod am1 = new AccessMethod("Maiores 23");
-        amr.registerAccessMethod("CNA");
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository (doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod1 = mock(AccessMethod.class);
+        AccessMethod doubleAccessMethod2 = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod1);
+        accessMethodRepository.registerAccessMethod("Maiores 23");
         //act
-        boolean result = amr.isAccessMethodRegistered(am1);
+        boolean result = accessMethodRepository.isAccessMethodRegistered(doubleAccessMethod2);
         //assert
         assertFalse(result);
     }
@@ -36,66 +43,81 @@ class AccessMethodRepositoryTest {
     @Test
     void testAccessMethodListCreationValid() {
         //arrange
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
         //act
-        AccessMethodRepository acml1 = new AccessMethodRepository();
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
         //assert
-        assertNotNull(acml1);
+        assertNotNull(accessMethodRepository);
     }
 
     @Test
     void shouldReturnTrueIfAccessMethodIsRegistered() throws Exception {
         //arrange
-        AccessMethodRepository acml1 = new AccessMethodRepository();
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         //act
-        boolean result = acml1.registerAccessMethod("Maiores 23");
+        boolean result = accessMethodRepository.registerAccessMethod("Maiores 23");
         //assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfAccessMethodIsNotRegistered() throws Exception {
+    void shouldReturnFalseIfAccessMethodCannotBeRegistered() throws Exception {
         //arrange
-        AccessMethodRepository acml1 = new AccessMethodRepository();
-        acml1.registerAccessMethod("Maiores 23");
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        accessMethodRepository.registerAccessMethod("Maiores 23");
         //act
-        boolean result = acml1.registerAccessMethod("Maiores 23");
+        boolean result = accessMethodRepository.registerAccessMethod("Maiores 23");
         //assert
         assertFalse(result);
     }
 
-
     @Test
-    void shouldReturnsOptionalWithAccessMethodIfCanBeCreated(){
+    void shouldReturnsOptionalWithAccessMethodIfCanBeCreated() throws InstantiationException {
         // arrange
-        AccessMethodRepository amr1 = new AccessMethodRepository();
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
 
         // act
-        Optional<AccessMethod> result = amr1.createAccessMethod("Maiores 23");
+        Optional<AccessMethod> result = accessMethodRepository.createAccessMethod("Maiores 23");
 
         // assert
         assertTrue(result.isPresent(), "Expected Optional to be present");
     }
 
     @Test
-    void shouldReturnEmptyOptionalIfAccessMethodAlreadyRegistered(){
+    void shouldReturnEmptyOptionalIfAccessMethodAlreadyRegistered() throws InstantiationException {
         // arrange
-        AccessMethodRepository amr1 = new AccessMethodRepository();
-        amr1.createAccessMethod("Maiores 23");
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        accessMethodRepository.createAccessMethod("Maiores 23");
 
         // act
-        Optional<AccessMethod> result = amr1.createAccessMethod("Maiores 23");
+        Optional<AccessMethod> result = accessMethodRepository.createAccessMethod("Maiores 23");
 
         // assert
         assertFalse(result.isPresent(), "Expected Optional to be empty");
     }
 
     @Test
-    void shouldReturnEmptyOptionalIfAccessMethodCannotBeCreated(){
+    void shouldReturnEmptyOptionalIfAccessMethodCannotBeCreated() throws InstantiationException {
         // arrange
-        AccessMethodRepository amr1 = new AccessMethodRepository();
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        when(doubleAccessMethodFactory.createAccessMethod("")).thenThrow(new InstantiationException("Cannot create AccessMethod"));
 
         // act
-        Optional<AccessMethod> result = amr1.createAccessMethod("");
+        Optional<AccessMethod> result = accessMethodRepository.createAccessMethod("");
 
         // assert
         assertFalse(result.isPresent(), "Expected Optional to be empty");

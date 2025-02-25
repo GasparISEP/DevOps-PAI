@@ -1,10 +1,12 @@
 @startuml
 actor ASC
+participant ":System" as System
 
 ASC -> System ++ #application: I want to know the number of students in a course edition
 System --> ASC: What Course Edition?
 ASC -> System: Course Edition ce1
 System --> ASC : There are 'x' number of students enrolled in ce1
+deactivate
 
 
 

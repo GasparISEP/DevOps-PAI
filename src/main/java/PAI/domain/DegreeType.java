@@ -1,13 +1,10 @@
 package PAI.domain;
 
-import java.util.List;
-
 public class DegreeType {
 
     private String _name;
     private int _maxEcts;
 
-    //private List<Programme> _programme;
 
     // Constructor
     public DegreeType(String name, int maxEcts) throws Exception {
@@ -16,7 +13,7 @@ public class DegreeType {
         }
         _name=name;
         if(maxEctsIsInvalid(maxEcts)) {
-            throw new IllegalArgumentException("Insert a valid number of ECTS");
+            throw new IllegalArgumentException("The number os ECTS cannot be 0 or below");
         }
         _maxEcts =maxEcts;
 

@@ -2,8 +2,6 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentRepositoryTest {
@@ -74,19 +72,19 @@ class StudentRepositoryTest {
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         DegreeType degreeType = new DegreeType("Master", 30);
         Department department = new Department("DCE", "Department of Computer Engineering");
         Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
                 new TeacherCategory("Professor"), 100, department);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
-        programme.enrolStudentInProgramme(student, am1, amr);
-        StudentRepository repository = new StudentRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
+        enrolmentRepository.enrolStudents(student, am1, programme, "21-12-2025");
 
         // Act
-        boolean result = repository.isStudentEnrolledInProgramme(student, programme);
+        boolean result = enrolmentRepository.isStudentEnrolled(student, programme);
 
         // Assert
         assertTrue(result, "The student must be enrolled in the programme.");
@@ -99,24 +97,28 @@ class StudentRepositoryTest {
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         DegreeType degreeType = new DegreeType("Master", 30);
         Department department = new Department("DCE", "Department of Computer Engineering");
         Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
                 new TeacherCategory("Professor"), 100, department);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
-        StudentRepository repository = new StudentRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
+        enrolmentRepository.isStudentEnrolled(student, programme);
 
         // Act
-        boolean result = repository.isStudentEnrolledInProgramme(student, programme);
+        boolean result = enrolmentRepository.isStudentEnrolled(student, programme);
 
         // Assert
         assertFalse(result, "The student should not be enrolled in the programme.");
     }
 
 }
+
+
+
 
 
 

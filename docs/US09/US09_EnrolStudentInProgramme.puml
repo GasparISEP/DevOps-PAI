@@ -1,0 +1,89 @@
+@startuml
+skinparam sequenceMessageAlign center
+
+actor ASC
+participant ":UI" as UI
+participant "ctrl1:EnrolAStudentInProgrammeController" as CTL
+participant "sr1:studentRepository" as SR
+participant "s[i]:Student" as S
+participant "amr1:AccessMethodRepository" as AMR
+participant "am[i]:AccessMethod" as AM
+participant "prL1:ProgrammeList" as PR
+participant "p[i]:Programme" as P
+participant "er1:EnrolmentRepository" as ER
+participant "e[i]:Enrolment" as E
+
+ASC -> UI : I want to enrol a student in a programme.
+activate UI
+UI --> ASC : Student?
+ASC -> UI : uniqueNumber
+UI --> ASC : AccessMethod?
+ASC -> UI : accessMethodName
+UI --> ASC : Programme?
+ASC -> UI : programmeName
+UI --> ASC : Date?
+ASC -> UI : date
+UI -> CTL : I want to enrol a Student in a Programme \n (uniqueNumber, accessMethodName, programmeName, date)
+activate CTL
+CTL -> SR : getStudentByUniqueNumber(uniqueNumber)
+activate SR
+
+loop for each Student in SR
+    SR -> S : hasThisUniqueNumber(uniqueNumber)
+    activate S
+    S --> SR : True
+    deactivate S
+end
+SR --> CTL : s1
+deactivate SR
+
+CTL -> AMR : getAccessMethodByName(name)
+activate AMR
+loop for each AccessMethod in AccessMethodRepository
+    AMR -> AM : hasThisAccessMethodName(accessMethodName)
+    activate AM
+    AM --> AMR : True
+    deactivate AM
+end
+AMR --> CTL : am1
+deactivate AMR
+
+CTL -> PR : getProgrammeByName(name)
+activate PR
+loop for each Programme in ProgrammeList
+    PR -> P : hasThisName(programmeName)
+    activate P
+    P --> PR : True
+    deactivate P
+end
+PR --> CTL : p1
+deactivate PR
+
+CTL -> ER: enrolStudent(s1, am1, p1, date)
+activate ER
+create "e1:Enrolment" as E
+ER -> E: createEnrolment(student, accessMethod, programme, date)
+activate E
+E -> E : validateAndFormatDate(date)
+E --> ER: e1
+deactivate E
+
+ER -> ER : isEnrolmentRepeated
+
+loop for each Enrolment in enrolmentRepository
+    ER -> E : hasSameEnrolment(e1)
+    activate E
+    E --> ER : False
+    deactivate E
+end
+
+ER -> ER: enrolmentList.add(e1)
+ER --> CTL: True
+deactivate ER
+CTL --> UI : True
+deactivate CTL
+UI --> ASC : Success
+deactivate UI
+Deactivate ER
+
+@enduml

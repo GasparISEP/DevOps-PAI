@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
 class ProgrammeTest {
 
     //test ensures that the isInDepartment method returns false when the program is not associated with the department
@@ -320,294 +322,72 @@ class ProgrammeTest {
         CE.newProgrammeDirector(teacher1);
     }
 
-    @Test
-    void shouldReturnTrueIfTheEnrolmentInTheProgrammeIsSuccessful() throws Exception {
-        //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-
-        AccessMethod am1 = new AccessMethod("Maiores 23");
-
-        AccessMethodRepository amr = new AccessMethodRepository();
-        amr.registerAccessMethod("Maiores 23");
-
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-
-        //act
-        boolean result = CE.enrolStudentInProgramme(student1, am1, amr);
-
-        //assert
-        assertTrue(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfEnrolmentIsNotSuccessfulBecauseAccessMethodIsNotRegistered() throws Exception {
-        //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-
-        AccessMethod am1 = new AccessMethod("Maiores 23");
-
-        AccessMethodRepository amr = new AccessMethodRepository();
-        amr.registerAccessMethod("CNA");
-
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010",assistantProfessor,100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-
-        //act + assert
-        assertThrows(Exception.class, () -> CE.enrolStudentInProgramme(student1, am1, amr));
-    }
-
-    @Test
-    void shouldReturnFalseIfEnrolmentIsNotSuccessfulBecauseStudentIsAlreadyEnrolledInTheProgramme() throws Exception {
-        //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-
-        AccessMethod am1 = new AccessMethod("Maiores 23");
-
-        AccessMethodRepository amr = new AccessMethodRepository();
-        amr.registerAccessMethod("Maiores 23");
-
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-
-        //act
-        CE.enrolStudentInProgramme(student1, am1, amr);
-
-        //assert
-        assertThrows(Exception.class, () -> CE.enrolStudentInProgramme(student1, am1, amr));
-    }
-
-    @Test
-    void shouldEnrolSuccessfullyMoreThanOneStudent() throws Exception {
-        //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-
-        Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
-        Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
-
-        AccessMethod am1 = new AccessMethod("Maiores 23");
-
-        AccessMethodRepository amr = new AccessMethodRepository();
-        amr.registerAccessMethod("Maiores 23");
-
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-
-        //act
-        boolean result1 = CE.enrolStudentInProgramme(student1, am1, amr);
-        boolean result2 = CE.enrolStudentInProgramme(student2, am1, amr);
-
-        //assert
-        assertTrue(result1);
-        assertTrue(result2);
-    }
 
     // AddCourseToASemesterOfProgramme tests
 
     @Test
     void shouldReturnTrueIfCourseIsAddedToAProgramme() throws Exception {
         //arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        //act
-        boolean result = lei.addCourseToAProgramme(course1);
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        Course courseDouble = mock(Course.class);
+         //act
+        boolean result = lei.addCourseToAProgramme(courseDouble);
         //assert
         assertTrue(result);
     }
 
 
     @Test
-    void shouldReturnExceptionIfCourseAlreadyExistsInAProgramme() throws Exception {
+    void shouldThrowExceptionIfCourseAlreadyExistsInProgramme() throws Exception {
         //arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
-        lei.addCourseToAProgramme(course1);
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Course courseDouble = mock(Course.class);
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        programme.addCourseToAProgramme(courseDouble);
+
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToAProgramme(course1));
+        assertThrows(Exception.class, () -> programme.addCourseToAProgramme(courseDouble));
     }
 
     @Test
     void shouldIncreaseCourseListSizeWhenCourseIsAdded() throws Exception {
         // arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        int initialSize = lei.getCourseList().size();
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Course courseDouble = mock(Course.class);
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        programme.addCourseToAProgramme(courseDouble);
         // act
-        lei.addCourseToAProgramme(course1);
+        int sizeOfCourseList = programme.getCourseList().size();
         // assert
-        assertEquals(initialSize + 1, lei.getCourseList().size());
+        assertEquals(1, sizeOfCourseList);
     }
 
     @Test
     void shouldContainAddedCourseInCourseList() throws Exception {
         // arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Course courseDouble = mock(Course.class);
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        programme.addCourseToAProgramme(courseDouble);
         // act
-        lei.addCourseToAProgramme(course1);
+        Course courseInProgramme = programme.getCourseList().get(0);
         // assert
-        assertTrue(lei.getCourseList().contains(course1));
+        assertEquals(courseDouble, courseInProgramme);
     }
 
-    //US17
-    @Test
-    void shouldReturnTrueIfStudentIsEnrolledInProgramme() throws Exception {
-        // Arrange
-        Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("CSE", "Computer Science Engineer");
-        AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
-        amr.registerAccessMethod("M1");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
-        programme.enrolStudentInProgramme(student,am1,amr);
-
-        // Act
-        boolean result = programme.isStudentEnrolled(student);
-
-        // Assert
-        assertTrue(result, "The student must be enrolled in the programme.");
-    }
-
-    //US17
-    @Test
-    void shouldReturnFalseIfStudentIsNotEnrolledInProgramme() throws Exception {
-        // Arrange
-        Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
-        Student student1 = new Student(2, "Joana Silva", "123000009", "221234567", "joana123@gmail.com", address);
-        AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
-        amr.registerAccessMethod("M1");
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
-        programme.enrolStudentInProgramme(student,am1,amr);
-
-        // Act
-        boolean result = programme.isStudentEnrolled(student1);
-
-        // Assert
-        assertFalse(result, "The student should not be enrolled in the programme.");
-    }
-    //US17
-    @Test
-    void shouldReturnCorrectStudentFromEnrolment() throws Exception {
-        // Arrange
-        Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address);
-        DegreeType master = new DegreeType("Master", 240);
-        AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
-        amr.registerAccessMethod("M1");
-        Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
-        programme.enrolStudentInProgramme(student,am1,amr);
-        Enrolment enrolment = new Enrolment(student, am1);
-
-        // Act
-        Student enrolledStudent = enrolment.findStudentInEnrollments();
-
-        // Assert
-        assertEquals(student, enrolledStudent, "The student found in the enrolment must be the same as the student created.");
-    }
-
-    //US17
-    @Test
-    void shouldReturnFalseWhenComparedWithNull() throws Exception {
-        // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
-
-        // Act
-        boolean result = programme.equals(null);
-
-        // Assert
-        assertFalse(result, "The equals method should return false when comparing with null.");
-    }
-
-    //US17
-    @Test
-    void shouldReturnFalseWhenComparedWithDifferentClassObject() throws Exception {
-        // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
-        String differentClassObject = "Not a Programme";
-
-        // Act
-        boolean result = programme.equals(differentClassObject);
-
-        // Assert
-        assertFalse(result, "The equals method should return false when comparing with an object of a different class.");
-    }
 
     @Test
     void shouldReturnCourseList() throws Exception {
@@ -715,5 +495,40 @@ class ProgrammeTest {
 
         //assert
         assertNotNull(studyPlan);
+    }
+    @Test
+    void shouldReturnTrueIfNameIsAProgramme() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        boolean result = p1.hasThisProgrammeName("Computer Engineering");
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNameIsAProgramme() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        boolean result = p1.hasThisProgrammeName("Space Engineering");
+
+        // Assert
+        assertFalse(result);
     }
 }

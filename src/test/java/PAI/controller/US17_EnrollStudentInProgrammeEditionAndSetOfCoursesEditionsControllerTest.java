@@ -20,6 +20,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -27,7 +28,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        schoolYearRepository);
+                        schoolYearRepository,
+                        enrolmentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -37,16 +39,19 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Development1", "DEV1", 5, 1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
-        if (!programme1.isStudentEnrolled(student)) {
-            programme1.enrolStudentInProgramme(student, am1, amr);
+        enrolmentRepository.enrolStudents(student, am1, programme1,"05-12-2020");
+        if (!enrolmentRepository.isStudentEnrolled(student, programme1)) {
+            enrolmentRepository.enrolStudents(student, am1, programme1, "05-12-2020");
         }
+
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         Optional<ProgrammeEdition> pe1Opt = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
         ProgrammeEdition pe1 = pe1Opt.get();
@@ -59,7 +64,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         boolean result2 = courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce1);
         boolean result3 = courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce2);
         // Assert
-        assertTrue(result, "The student is enrolled in the ProgrammeEdition.");
+        assertTrue(result, "Student should enrolled in Programme.");
         assertTrue(result2, "The Student is enrolled in the CourseEdition.");
         assertTrue(result3, "The Student is enrolled in the CourseEdition.");
     }
@@ -73,6 +78,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -80,7 +86,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        schoolYearRepository);
+                        schoolYearRepository,
+                        enrolmentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -91,7 +98,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("Over 23");
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
@@ -111,6 +119,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -118,7 +127,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        schoolYearRepository);
+                        schoolYearRepository,
+                        enrolmentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -128,13 +138,14 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
-        if (!programme1.isStudentEnrolled(student)) {
-            programme1.enrolStudentInProgramme(student, am1, amr);
+        if (!enrolmentRepository.isStudentEnrolled(student, programme1)) {
+            enrolmentRepository.enrolStudents(student, am1, programme1, "05-12-2020");
         }
         // Act & Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -152,6 +163,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -159,7 +171,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        schoolYearRepository);
+                        schoolYearRepository,
+                        enrolmentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -169,13 +182,14 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
-        if (!programme1.isStudentEnrolled(student)) {
-            programme1.enrolStudentInProgramme(student, am1, amr);
+        if (!enrolmentRepository.isStudentEnrolled(student, programme1)) {
+            enrolmentRepository.enrolStudents(student, am1, programme1, "05-12-2020");
         }
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         Optional<ProgrammeEdition> peOptional = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
@@ -196,6 +210,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -203,7 +218,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        schoolYearRepository);
+                        schoolYearRepository,
+                        enrolmentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -213,15 +229,16 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Development1", "DEV1", 5, 1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
-        if (!programme1.isStudentEnrolled(student)) {
-            programme1.enrolStudentInProgramme(student, am1, amr);
+        if (!enrolmentRepository.isStudentEnrolled(student, programme1)) {
+            enrolmentRepository.enrolStudents(student, am1, programme1, "05-12-2020");
         }
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         Optional<ProgrammeEdition> pe1Opt = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
@@ -248,6 +265,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -255,7 +273,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        schoolYearRepository);
+                        schoolYearRepository,
+                        enrolmentRepository);
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
@@ -284,6 +303,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -291,7 +311,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         programmeList,
                         courseEditionEnrollmentRepository,
                         courseEditionRepository,
-                        schoolYearRepository);
+                        schoolYearRepository,
+                        enrolmentRepository);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         schoolYearRepository.addSchoolYear("25/26", "10-11-2025", "09-12-2026");
         // Act
@@ -313,11 +334,12 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(null,programmeEditionRepository,
-                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository);
+                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, enrolmentRepository);
         });
         //assert
         assertEquals("Programme edition enrollment repository cannot be null.", exception.getMessage());
@@ -331,11 +353,12 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,null,
-                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository);
+                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, enrolmentRepository);
         });
 
         //assert
@@ -350,11 +373,12 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    null, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository);
+                    null, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, enrolmentRepository);
         });
 
         //assert
@@ -369,11 +393,12 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    programmeList, null, courseEditionRepository, schoolYearRepository);
+                    programmeList, null, courseEditionRepository, schoolYearRepository, enrolmentRepository);
         });
 
         //assert
@@ -388,11 +413,12 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    programmeList, courseEditionEnrollmentRepository, null, schoolYearRepository);
+                    programmeList, courseEditionEnrollmentRepository, null, schoolYearRepository, enrolmentRepository);
         });
 
         //assert
@@ -407,19 +433,38 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeList programmeList = new ProgrammeList();
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
+
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, null);
+                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, null, enrolmentRepository);
         });
 
         //assert
         assertEquals("School year repository cannot be null.", exception.getMessage());
     }
 
+    @Test
+    void shouldReturnExceptionIfEnrolmentRepositoryIsNull (){
+        //arrange
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeList programmeList = new ProgrammeList();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+
+        //act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, null);
+        });
+
+        //assert
+        assertEquals("Enrolment repository cannot be null.", exception.getMessage());
+    }
 
 }
-
-
 
 
