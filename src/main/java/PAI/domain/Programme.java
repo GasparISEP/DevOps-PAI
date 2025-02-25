@@ -159,4 +159,6 @@ public class Programme {
         }
         return numberOfYears;
     }
+
+    public boolean hasThisProgrammeName(String name) {return _name.equals(name);}
 }
