@@ -86,6 +86,7 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnSizeOneIfOnlyOneCourseInList() throws Exception {
         // arrange
+        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
         CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
         Course courseDouble = mock(Course.class);
 
@@ -94,7 +95,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(mock(ProgrammeList.class), courseRepositoryDouble);
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
 
         // act
         List<Course> allCourses = US03AddCourseToProgrammeController.getAllCourses();
@@ -106,15 +107,24 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnCourseInList() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
+        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
+        Course courseDouble = mock(Course.class);
+
+        ArrayList<Course> courseList = new ArrayList<>();
+        courseList.add(courseDouble);
+
+        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
+
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+
 
         // act
-        List<Course> allCourses = courseRepository.getAllCourses();
+        List<Course> allCourses = US03AddCourseToProgrammeController.getAllCourses();
 
         // assert
-        Course expectedCourse = new Course("matemática", "MTA", 5, 1);
-        assertEquals(expectedCourse, allCourses.get(0));
+        assertEquals(courseDouble, allCourses.get(0));
     }
 
     @Test
