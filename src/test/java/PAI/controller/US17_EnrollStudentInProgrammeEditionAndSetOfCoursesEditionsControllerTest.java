@@ -37,7 +37,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
@@ -91,7 +92,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("Over 23");
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1);
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
@@ -128,7 +130,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
@@ -169,7 +172,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
@@ -213,7 +217,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                 "Portugal", "20-12-2010", assistantProfessor, 100, department1);
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         Student student = new Student(1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
@@ -419,7 +424,5 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
 
 }
-
-
 
 

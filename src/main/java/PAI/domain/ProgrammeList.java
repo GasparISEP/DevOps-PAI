@@ -2,6 +2,7 @@ package PAI.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ProgrammeList {
     private List<Programme> programmeList;
@@ -39,5 +40,13 @@ public class ProgrammeList {
     public List<Course> getCourseList(Programme programme){
         return programme.getCourseList();
     }
-    
+
+    public Optional<Programme> getProgrammeByName(String name) {
+        for ( Programme programme : programmeList) {
+            if ( programme.hasThisProgrammeName(name)){
+                return Optional.of(programme);
+            }
+        }
+        return Optional.empty();
+    }
 }

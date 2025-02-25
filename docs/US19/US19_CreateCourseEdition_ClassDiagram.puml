@@ -71,6 +71,11 @@ class CourseEdition {
     +whatProgrammeEditionBelongsThisCourseEdition ()
 }
 
+class CourseEditionFactory {
+    +createCourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+}
+
+
 class CourseEditionRepository {
     +CourseEditionRepository()
     +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
@@ -92,12 +97,14 @@ class ProgrammeEditionRepository {
 US19_CreateCourseEditionController "1" ..> "1" ProgrammeEditionRepository
 US19_CreateCourseEditionController "1" ..> "1" CourseEditionRepository
 US19_CreateCourseEditionController "1" ..> "1" ProgrammeList
-CourseEditionRepository "List<CourseEdition>" *-- "0..*" CourseEdition
+CourseEditionRepository "1" ..> "1" CourseEditionFactory
+CourseEditionRepository "List<CourseEdition>" *-- "1" CourseEdition
 ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition
 ProgrammeList "List<Programme>" *-- "0..*" Programme
 Programme "List <Course>" *-- "1..*" Course
 CourseEdition "*" --> "1" ProgrammeEdition
 CourseEdition "1..*" --> "1..*" Course
+CourseEditionFactory "1" --> "1..*" CourseEdition
 
 
 

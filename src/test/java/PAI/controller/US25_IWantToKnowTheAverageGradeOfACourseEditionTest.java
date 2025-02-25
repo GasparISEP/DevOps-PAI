@@ -7,13 +7,16 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
     @Test
     void newGradeStudentRepository() throws Exception {
         //arrange
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
 
         //act
         US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
@@ -38,7 +41,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     void averageGradeInACourseEdition () throws Exception {
 
         //arrange
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
 
 
 
@@ -68,9 +72,21 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
 
+        GradeStudent gradeStudent1 = mock(GradeStudent.class);
+        GradeStudent gradeStudent2 = mock(GradeStudent.class);
 
-        gradeStudentRepository.addGradeToStudent(8, "10-02-2025", student1, courseEdition1);
-        gradeStudentRepository.addGradeToStudent(20, "10-02-2025", student2, courseEdition1);
+
+        when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+
+        when(gradeStudent1.knowGrade()).thenReturn(8.0);
+        when(gradeStudent2.knowGrade()).thenReturn(20.0);
+
+        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+
+        gradeStudentRepository.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
+        gradeStudentRepository.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
 
 
         double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);
@@ -80,4 +96,6 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     }
 
 }
+
+
 
