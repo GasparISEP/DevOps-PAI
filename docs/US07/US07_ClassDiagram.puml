@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class SchoolYear {
+    -_description:String
+    -_startDate:LocalDate
+    -_endDate:LocalDate
+    +SchoolYear(description: String, StartDate: String, EndDate: String)
+    +isSameSchoolYear(otherSchoolYear: SchoolYear)
+    +equals(Object: o)
+}
+
+class SchoolYearRepository {
+    +schoolYearRepository()
+    +addSchoolYear(description: String, StartDate: String, EndDate: String)
+    +schoolYearExists(schoolYear: SchoolYear)
+    +getLatestSchoolYear()
+    +getAllSchoolYears()
+}
+
+class US07_IWantToCreateASchoolYearController {
+   +US07_IWantToCreateASchoolYearController()
+   +addSchoolYear(description:String, startDate:LocalDate, endDate:LocalDate)
+}
+
+US07_IWantToCreateASchoolYearController "1" ---> "schoolYearRepo \n 1" SchoolYearRepository
+SchoolYear "1" ---> "_schoolYearList \n *" SchoolYearRepository
+
+@enduml
