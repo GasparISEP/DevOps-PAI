@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Optional;
 
 public class GradeStudentRepository {
+    private final GradeStudentFactory _gradeStudentFactory;
     private List<GradeStudent> gradeStudentList = new ArrayList<>();
 
+    public GradeStudentRepository (GradeStudentFactory gradeStudentFactory){
+        this._gradeStudentFactory = gradeStudentFactory;
+    }
 
     public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
         try {
-                GradeStudent gradeStudent = new GradeStudent(grade, date, student,courseEdition);
+                GradeStudent gradeStudent = _gradeStudentFactory.newGradeStudent(grade,date,student,courseEdition);
                 gradeStudentList.add(gradeStudent);
                 return Optional.of(gradeStudent);
         }

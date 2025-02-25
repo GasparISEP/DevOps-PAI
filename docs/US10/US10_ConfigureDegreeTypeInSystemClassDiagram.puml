@@ -1,0 +1,26 @@
+@startuml
+title US10: Configure a DegreeType in System
+'left to right direction
+
+class US10_IWantToConfigureDegreeTypesLevelsController {
+    +US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepository : DegreeTypeRepository)
+    +registerDegreeType(name: String, maxEcts: int): boolean
+}
+
+class DegreeType {
+    - name: string
+    - maxEcts: int
+    + nameIsInvalid(): boolean
+    + maxEctsIsInvalid(): boolean
+}
+
+
+class DegreeTypeRepository {
+    +DegreeTypeRepository()
+    +registerDegreeType(name: String, maxEcts: int) :boolean
+}
+
+
+US10_IWantToConfigureDegreeTypesLevelsController "1" ..> "1\n_degreeTypeRepository    " DegreeTypeRepository
+DegreeType "degreeTypesList *      " <-- "1" DegreeTypeRepository
+@enduml

@@ -71,4 +71,6 @@ public class Student {
     public int getUniqueNumber() {
         return _uniqueNumber;
     }
+
+    public boolean hasThisUniqueNumber(int uniqueNumber) {return uniqueNumber == _uniqueNumber;}
 }

@@ -2,12 +2,12 @@ package PAI.controller;
 
 import PAI.domain.*;
 
-public class CreateProgrammeEditionForCurrentSchoolYearController {
+public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     private final ProgrammeEditionRepository _programmeEditionRepository;
     private final SchoolYearRepository _schoolYearRepository;
 
-    public CreateProgrammeEditionForCurrentSchoolYearController (ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository) {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository) {
 
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
