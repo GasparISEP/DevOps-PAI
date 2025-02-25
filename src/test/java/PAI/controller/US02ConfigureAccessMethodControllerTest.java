@@ -42,8 +42,8 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldConfigureAnAccessMethod(){
         //arrange
-        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodRepository amr1 = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr1 = new AccessMethodRepository(accessMethodFactory);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(amr1);
         //act
         boolean isConfigured = ctrl1.configureAccessMethod("Maiores 23");
@@ -54,8 +54,8 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldNotConfigureAnAccessMethod(){
         //arrange
-        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodRepository amr1 = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr1 = new AccessMethodRepository(accessMethodFactory);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(amr1);
         //act
         boolean isConfigured = ctrl1.configureAccessMethod(null);
