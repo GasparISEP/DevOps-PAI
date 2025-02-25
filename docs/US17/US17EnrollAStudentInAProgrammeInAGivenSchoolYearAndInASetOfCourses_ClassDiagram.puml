@@ -104,8 +104,8 @@ class ProgrammeEnrollment {
     +findStudentInEnrollments() : Student
 }
 
-class EnrolmentRepository {
-    +EnrolmentRepository()
+class ProgrammeEnrolmentRepository {
+    +ProgrammeEnrolmentRepository()
     +enrolStudents(student: Student, accessMethod: AccessMethod, programme: Programme, enrolmentDate: String)
     +isStudentEnrolled(student: Student, programme: Programme)
 }
@@ -185,6 +185,6 @@ ProgrammeEditionEnrollment "_listOfProgrammeEditionEnrollment *             " <-
 ProgrammeEdition "_listOfProgrammeEdition *" <-- "1" ProgrammeEditionRepository
 ProgrammeList "1" --> "* _listOfProgrammes" Programme
 CourseEdition "_courseEdition *  " <-- "1   " ProgrammeEdition
-US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "_enrolmentRepository 1          " EnrolmentRepository
-EnrolmentRepository "1" --> "*" ProgrammeEnrollment
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "_programmeEnrolmentRepository 1          " ProgrammeEnrolmentRepository
+ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrollment
 @enduml
