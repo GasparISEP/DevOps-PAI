@@ -1,19 +1,27 @@
 @startuml
-
+title : US18_Create A Programme Edition For The Current School Year
 autonumber
+Actor ASC
 
 participant ":UI" as UI
 participant ":CreateAProgrammeEditionInTheCurrentSchoolYearController" as CPEC
+participant ":ProgrammeList" as PL
 participant ":SchoolYearRepo" as SYR
-'participant ":SchoolYear"
-'participant "ProgrammeList"
-participant "ProgrammeEditionRepo" as PER
-'participant "ProgrammeEdition"
+participant ":ProgrammeEditionRepo" as PER
 
+ASC -> UI ++ #application : I want to create a programme edition for the current school year
+UI -> CPEC ++ #application : getAllProgrammesNames()
+CPEC -> PL ++ #application : getAllProgrammes()
+PL --> CPEC -- : pl1
+CPEC --> UI -- : pl1
+UI -> ASC --  : Which Programme?
+ASC -> UI ++ #application : Programme LEI
+UI -> CPEC ++ #application : createAProgrammeEditionInTheCurrentSY(LEI)
 
-UI -> CPEC ++ #application : createAProgrammeEditionInTheCurrentSY(programme1)
+CPEC -> PL ++ #application : getProgrammeByAcronym(LEI)
+PL --> CPEC -- : programme1
 CPEC -> SYR ++ #application : getLatestSchoolYear()
-SYR --> CPEC ::sy1
+SYR --> CPEC :sy1
 SYR --
 CPEC -> PER ++ #application : createProgrammeEdition(programme1, sy1)
 create "pe1 : ProgrammeEdition" as PE
@@ -22,6 +30,8 @@ PER -> PER : isProgrammeEditionAlreadyRegistered (pe1)
 PER -> PER : add (pe1)
 PER --> CPEC : true
 PER --
-CPEC --> UI : ok!
+CPEC --> UI : true
 CPEC --
+UI --> ASC -- : Programme Edition created for the current school year!
+participant "pl1:List<Programme>"
 @enduml
