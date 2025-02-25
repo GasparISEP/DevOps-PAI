@@ -41,17 +41,17 @@ ASC -> UI : Yes!
 activate UI
 UI -> Controller : enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
 activate Controller
-participant ":EnrolmentRepository" as EnrolmentRepository
-Controller -> EnrolmentRepository : isStudentEnrolled(student, programme)
-activate EnrolmentRepository
-participant "e[i]:Enrollment" as Enrollment
-loop for each "e[i]:Enrollment" as Enrolment
-EnrolmentRepository -> Enrollment : Student: findStudentInEnrollments(student)
-EnrolmentRepository -> Enrollment : Programme: getProgramme()
+participant ":ProgrammeEnrolmentRepository" as ProgrammeEnrolmentRepository
+Controller -> ProgrammeEnrolmentRepository : isStudentEnrolled(student, programme)
+activate ProgrammeEnrolmentRepository
+participant "e[i]:ProgrammeEnrollment" as Enrollment
+loop for each "e[i]:ProgrammeEnrollment" as Enrolment
+ProgrammeEnrolmentRepository -> Enrollment : Student: findStudentInEnrollments(student)
+ProgrammeEnrolmentRepository -> Enrollment : Programme: getProgramme()
 end
 deactivate Enrollment
-EnrolmentRepository --> Controller : True
-deactivate EnrolmentRepository
+ProgrammeEnrolmentRepository --> Controller : True
+deactivate ProgrammeEnrolmentRepository
 participant ":ProgrammeEditionRepository" as ProgrammeEditionRepository
 Controller -> ProgrammeEditionRepository : findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear)
 activate ProgrammeEditionRepository
