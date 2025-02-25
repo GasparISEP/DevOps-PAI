@@ -2,12 +2,19 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 class StudentRepositoryTest {
+
+    @Test
+    void validAttributesCreateObject() throws Exception {
+
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+
+        //act
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+    }
 
     @Test
     void testRegisterDuplicateNIFThrowsException() throws Exception {
@@ -72,13 +79,12 @@ class StudentRepositoryTest {
         Department department = new Department("DCE", "Department of Computer Engineering");
         Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
                 new TeacherCategory("Professor"), 100, department);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
-        programme.enrolStudentInProgramme(student, am1, amr);
-        StudentRepository repository = new StudentRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
+        enrolmentRepository.enrolStudents(student, am1, programme, "21-12-2025");
 
         // Act
-        boolean result = repository.isStudentEnrolledInProgramme(student, programme);
+        boolean result = enrolmentRepository.isStudentEnrolled(student, programme);
 
         // Assert
         assertTrue(result, "The student must be enrolled in the programme.");
@@ -98,18 +104,21 @@ class StudentRepositoryTest {
         Department department = new Department("DCE", "Department of Computer Engineering");
         Teacher teacher = new Teacher("JOD", "Doe", "jod@university.com", "123456789", "R101", "PhD", "Street", "1234-665", "City", "Country", "12-01-2023",
                 new TeacherCategory("Professor"), 100, department);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, degreeType, department, teacher);
-        StudentRepository repository = new StudentRepository();
+        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
+        enrolmentRepository.isStudentEnrolled(student, programme);
 
         // Act
-        boolean result = repository.isStudentEnrolledInProgramme(student, programme);
+        boolean result = enrolmentRepository.isStudentEnrolled(student, programme);
 
         // Assert
         assertFalse(result, "The student should not be enrolled in the programme.");
     }
 
 }
+
+
+
 
 
 

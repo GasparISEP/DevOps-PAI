@@ -14,6 +14,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
     private CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
     private CourseEditionRepository _courseEditionRepository;
     private SchoolYearRepository _schoolYearRepository;
+    private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     public US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
             ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo,
@@ -21,7 +22,8 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
             ProgrammeList programmeList,
             CourseEditionEnrollmentRepository courseEditionEnrollmentRepository,
             CourseEditionRepository courseEditionRepository,
-            SchoolYearRepository schoolYearRepository) {
+            SchoolYearRepository schoolYearRepository,
+            ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
 
         validateProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentRepo);
         validateProgrammeEditionRepository(programmeEditionRepository);
@@ -29,13 +31,14 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         validateCourseEditionEnrollmentRepository(courseEditionEnrollmentRepository);
         validateCourseEditionRepository(courseEditionRepository);
         validateSchoolYearRepository(schoolYearRepository);
+        validateEnrolmentRepository(programmeEnrolmentRepository);
     }
 
     // Enroll a student in a ProgrammeEdition.
     public boolean enrollStudentInProgrammeEditionAndSetOfCoursesEditions(
             Student student, Programme programme, SchoolYear schoolYear ) {
 
-        if (!programme.isStudentEnrolled(student)) {
+        if (!_programmeEnrolmentRepository.isStudentEnrolled(student, programme)) {
             throw new IllegalStateException("Student should enrolled in Programme.");
         }
 
@@ -113,8 +116,14 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         }
         this._schoolYearRepository = schoolYearRepository;
     }
+
+    //Verify if the enrolment list is valid
+    private void validateEnrolmentRepository(ProgrammeEnrolmentRepository enrolmentRepository) {
+        if (enrolmentRepository == null) {
+            throw new IllegalStateException("Enrolment repository cannot be null.");
+        }
+        this._programmeEnrolmentRepository = enrolmentRepository;
+    }
 }
-
-
 
 

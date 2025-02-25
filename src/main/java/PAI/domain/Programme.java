@@ -1,5 +1,6 @@
 package PAI.domain;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,6 @@ public class Programme {
     private Department _department;
     private Teacher _programmeDirector;
     private ArrayList<Course> _courseList = new ArrayList<>();
-    private List<ProgrammeEnrolment> _programmeProgrammeEnrolment;
     private StudyPlan _studyPlan = new StudyPlan();
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
@@ -53,8 +53,6 @@ public class Programme {
         }
         _programmeDirector = programmeDirector;
 
-        _programmeProgrammeEnrolment = new ArrayList<>();
-
     }
 
     private boolean isNameInvalid(String name) {
@@ -72,7 +70,6 @@ public class Programme {
     private boolean isQuantityOfSemestersInvalid(int quantityOfSemesters) {
         return quantityOfSemesters <= 0;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -98,35 +95,6 @@ public class Programme {
         _programmeDirector = teacherDirector;
     }
 
-    public boolean enrolStudentInProgramme(Student student, AccessMethod accessMethod, AccessMethodRepository amr) throws Exception {
-
-        //Verify if access method exists in the access method repository
-        if (!amr.isAccessMethodRegistered(accessMethod)) {
-            throw new Exception("Access method cannot be found in the repository!");
-        }
-
-        //Verify if student is already enrolled in the programme
-        for (ProgrammeEnrolment existingProgrammeEnrolment : _programmeProgrammeEnrolment) {
-            if (existingProgrammeEnrolment.isSameStudent(student))
-                throw new Exception("Student is already enrolled in the programme!");
-        }
-
-        //Creates enrolment and adds it to the _programmeEnrolment list
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(student, accessMethod);
-
-        _programmeProgrammeEnrolment.add(programmeEnrolment);
-
-        return true;
-    }
-
-    public boolean isStudentEnrolled(Student student) {
-        for (ProgrammeEnrolment enrolledStudent : _programmeProgrammeEnrolment) {
-            if (enrolledStudent.findStudentInEnrollments().getUniqueNumber() == student.getUniqueNumber()) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public boolean isInDepartment(Department department) {
         return _department.equals(department);
