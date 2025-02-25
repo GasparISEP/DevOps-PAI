@@ -98,7 +98,7 @@ class SchoolYearRepository {
     +getAllSchoolYears() : List<SchoolYear>
 }
 
-class Enrollment {
+class ProgrammeEnrollment {
     +Enrolment(Student: student, AccessMethod: accessMethod)
     +isSameStudent(Student: student) : boolean
     +findStudentInEnrollments() : Student
@@ -171,8 +171,8 @@ US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1   " CourseEditionRepository
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1   " SchoolYearRepository
 Student "1" --> "_address 1  " Address
-Programme "1    "  --> "_listOfEnrollments   *       " Enrollment
-Student "_student  1                   " <-- "*" Enrollment
+Programme "1    "  --> "_listOfEnrollments   *       " ProgrammeEnrollment
+Student "_student  1                   " <-- "*" ProgrammeEnrollment
 SchoolYearRepository "1 " --> "_listOfSchoolYears   *  " SchoolYear
 ProgrammeEdition "     *        " -->"_schoolYear 1 " SchoolYear
 CourseEditionRepository "1 " --> "  * _listCourseEditions" CourseEdition
@@ -186,5 +186,5 @@ ProgrammeEdition "_listOfProgrammeEdition *" <-- "1" ProgrammeEditionRepository
 ProgrammeList "1" --> "* _listOfProgrammes" Programme
 CourseEdition "_courseEdition *  " <-- "1   " ProgrammeEdition
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "_enrolmentRepository 1          " EnrolmentRepository
-EnrolmentRepository "1" --> "*" Enrollment
+EnrolmentRepository "1" --> "*" ProgrammeEnrollment
 @enduml
