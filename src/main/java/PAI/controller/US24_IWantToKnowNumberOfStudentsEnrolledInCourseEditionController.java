@@ -5,7 +5,7 @@ import PAI.domain.CourseEditionEnrollmentRepository;
 
 public class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController {
 
-    CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
+    private CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
 
     public US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(CourseEditionEnrollmentRepository courseEditionEnrollmentRepository) {
         _courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
