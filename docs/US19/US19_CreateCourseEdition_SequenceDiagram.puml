@@ -10,6 +10,7 @@ participant "pE1:ProgrammeEdition" as PE
 participant ":ProgrammeList" as PL
 participant "p1:Programme" as PG
 participant ":CourseEditionRepository" as CER
+participant ":CourseEditionFactory" as CEF
 
 ASC -> UI ++ #application :  I want to create a Course Edition
 UI -> CT ++ #application: getAllProgrammeEditions()
@@ -37,11 +38,12 @@ UI --> ASC -- : which course??
 ASC -> UI ++ #application : course 1!
 UI -> CT ++ #application : createCourseEdition(c1,pE1)
 CT -> CER ++ #application : createCourseEdition(c1,pE1)
+CER -> CEF ++ #application : createCourseEdition(c1,pE1)
 
 
 create "cE1:CourseEdition" as CE #lightblue
-CER -> CE ++ #application : <create> (c1, pE1)
-CE --> CER -- : cE1
+CEF --> CE : <create> (c1, pE1)
+CEF --> CER -- : cE1
 CER -> CER : isCourseEditionAlreadyInRepository (cE1)
 CER -> CER : addCourseEdition (cE1)
 
