@@ -6,16 +6,16 @@ import java.util.Optional;
 public class AccessMethodRepository {
 
     private final AccessMethodFactory _accessMethodFactory;
-    private ArrayList<AccessMethod> _accessMethodRepository = new ArrayList<>();
+    private final ArrayList<AccessMethod> _accessMethodRepository = new ArrayList<>();
 
     public AccessMethodRepository (AccessMethodFactory accessMethodFactory) {
         _accessMethodFactory = accessMethodFactory;
     }
 
 
-    public Optional <AccessMethod> createAccessMethod (String name){
+    public Optional <AccessMethod> createAccessMethod (String accessMethodName){
         try{
-            AccessMethod accessMethod = new AccessMethod(name);
+            AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
             if(!isAccessMethodRegistered(accessMethod)){
                 _accessMethodRepository.add(accessMethod);
                 return Optional.of(accessMethod);

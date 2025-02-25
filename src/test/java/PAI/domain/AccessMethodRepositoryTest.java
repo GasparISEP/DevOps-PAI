@@ -81,27 +81,31 @@ class AccessMethodRepositoryTest {
 
     //Isolation tests to be made
     @Test
-    void shouldReturnsOptionalWithAccessMethodIfCanBeCreated(){
+    void shouldReturnsOptionalWithAccessMethodIfCanBeCreated() throws InstantiationException {
         // arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodRepository amr1 = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
 
         // act
-        Optional<AccessMethod> result = amr1.createAccessMethod("Maiores 23");
+        Optional<AccessMethod> result = accessMethodRepository.createAccessMethod("Maiores 23");
 
         // assert
         assertTrue(result.isPresent(), "Expected Optional to be present");
     }
 
     @Test
-    void shouldReturnEmptyOptionalIfAccessMethodAlreadyRegistered(){
+    void shouldReturnEmptyOptionalIfAccessMethodAlreadyRegistered() throws InstantiationException {
         // arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodRepository amr1 = new AccessMethodRepository(doubleAccessMethodFactory);
-        amr1.createAccessMethod("Maiores 23");
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        accessMethodRepository.createAccessMethod("Maiores 23");
 
         // act
-        Optional<AccessMethod> result = amr1.createAccessMethod("Maiores 23");
+        Optional<AccessMethod> result = accessMethodRepository.createAccessMethod("Maiores 23");
 
         // assert
         assertFalse(result.isPresent(), "Expected Optional to be empty");
