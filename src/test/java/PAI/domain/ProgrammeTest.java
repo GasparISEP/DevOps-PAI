@@ -569,10 +569,10 @@ class ProgrammeTest {
                 "20-12-2010", assistantProfessor, 100, department);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
         programme.enrolStudentInProgramme(student,am1,amr);
-        Enrolment enrolment = new Enrolment(student, am1);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(student, am1);
 
         // Act
-        Student enrolledStudent = enrolment.findStudentInEnrollments();
+        Student enrolledStudent = programmeEnrolment.findStudentInEnrollments();
 
         // Assert
         assertEquals(student, enrolledStudent, "The student found in the enrolment must be the same as the student created.");

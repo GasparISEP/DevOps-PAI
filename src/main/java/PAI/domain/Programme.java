@@ -14,7 +14,7 @@ public class Programme {
     private Department _department;
     private Teacher _programmeDirector;
     private ArrayList<Course> _courseList = new ArrayList<>();
-    private List<Enrolment> _programmeEnrolment;
+    private List<ProgrammeEnrolment> _programmeProgrammeEnrolment;
     private StudyPlan _studyPlan = new StudyPlan();
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
@@ -53,7 +53,7 @@ public class Programme {
         }
         _programmeDirector = programmeDirector;
 
-        _programmeEnrolment = new ArrayList<>();
+        _programmeProgrammeEnrolment = new ArrayList<>();
 
     }
 
@@ -106,21 +106,21 @@ public class Programme {
         }
 
         //Verify if student is already enrolled in the programme
-        for (Enrolment existingEnrolment : _programmeEnrolment) {
-            if (existingEnrolment.isSameStudent(student))
+        for (ProgrammeEnrolment existingProgrammeEnrolment : _programmeProgrammeEnrolment) {
+            if (existingProgrammeEnrolment.isSameStudent(student))
                 throw new Exception("Student is already enrolled in the programme!");
         }
 
         //Creates enrolment and adds it to the _programmeEnrolment list
-        Enrolment enrolment = new Enrolment(student, accessMethod);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(student, accessMethod);
 
-        _programmeEnrolment.add(enrolment);
+        _programmeProgrammeEnrolment.add(programmeEnrolment);
 
         return true;
     }
 
     public boolean isStudentEnrolled(Student student) {
-        for (Enrolment enrolledStudent : _programmeEnrolment) {
+        for (ProgrammeEnrolment enrolledStudent : _programmeProgrammeEnrolment) {
             if (enrolledStudent.findStudentInEnrollments().getUniqueNumber() == student.getUniqueNumber()) {
                 return true;
             }
