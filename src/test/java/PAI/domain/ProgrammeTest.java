@@ -439,19 +439,18 @@ class ProgrammeTest {
 
 
     @Test
-    void shouldReturnExceptionIfCourseAlreadyExistsInAProgramme() throws Exception {
+    void shouldThrowExceptionIfCourseAlreadyExistsInProgramme() throws Exception {
         //arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
-        lei.addCourseToAProgramme(course1);
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Course courseDouble = mock(Course.class);
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        programme.addCourseToAProgramme(courseDouble);
+
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToAProgramme(course1));
+        assertThrows(Exception.class, () -> programme.addCourseToAProgramme(courseDouble));
     }
 
     @Test
