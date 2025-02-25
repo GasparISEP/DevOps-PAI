@@ -5,7 +5,7 @@ participant ":ProgrammeList" as PL #lightgreen
 ASC -> PL : I want to register a Programme (name, acronym, Ects, Semesters, Department, DegreeType, TeacherDirector)
 activate PL
 create ":Programme" as PG #yellow
-PL -> PG : Create DegreeType (name, acronym, Ects, Semesters, Department, DegreeType, TeacherDirector)
+PL -> PG : Create Programme (name, acronym, Ects, Semesters, Department, DegreeType, TeacherDirector)
 activate PG
 PG -> PG : isNameValid(name)
 PG -> PG : isAcronymValid(acronym)
