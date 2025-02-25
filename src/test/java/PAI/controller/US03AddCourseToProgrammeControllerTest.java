@@ -219,7 +219,7 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldThrowExceptionIfCourseRepositoryIsNull() {
         // arrange
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeList programmeList = mock(ProgrammeList.class);
 
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
