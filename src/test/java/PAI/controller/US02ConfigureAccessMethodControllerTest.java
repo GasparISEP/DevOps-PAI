@@ -43,12 +43,15 @@ class US02ConfigureAccessMethodControllerTest {
         //assert
         assertFalse(isConfigure);
     }
+
     @Test
-    void shouldConfigureAnAccessMethod(){
+    void shouldConfigureAnAccessMethod() throws InstantiationException {
         //arrange
-        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
-        AccessMethodRepository amr1 = new AccessMethodRepository(accessMethodFactory);
-        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(amr1);
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
         //act
         boolean isConfigured = ctrl1.configureAccessMethod("Maiores 23");
         //assert
