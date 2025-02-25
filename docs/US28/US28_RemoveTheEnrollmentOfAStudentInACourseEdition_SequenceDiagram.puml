@@ -4,7 +4,7 @@ title US28: Remove the enrollment of a student in a course edition
 
 actor ASC #Orange/White
 participant ":UI" as UI #DeepPink/White
-participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEdition" as Controller #Violet/White
+participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller" as Controller #Violet/White
 participant ":CourseEditionEnrollmentRepository" as Repository #Cyan/White
 
 ASC -> UI : I want to remove the enrollment of a student in a course edition
