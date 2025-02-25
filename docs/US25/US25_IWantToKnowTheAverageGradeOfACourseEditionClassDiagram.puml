@@ -1,0 +1,51 @@
+@startuml
+title US25: Know the Average Grade of a Course Edition
+'left to right direction
+
+class US25_IWantToKnowTheAverageGradeOfACourseEdition {
+    +US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentList : GradeStudentRepository)
+    +IWantToKnowTheAvgGrade(courseEdition : CourseEdition): double
+
+}
+
+class GradeStudent {
+    -grade: double
+    -date: String
+    +knowGrade()
+}
+
+class GradeStudentRepository {
+    -gradeStudentList: List<GradeStudent>
+    +addGradeToStudent()
+    +knowAverageGrade()
+    +knowApprovalRate()
+}
+
+class Student {
+    -_uniqueNumber:int
+    -_name:String
+    -_NIF:String
+    -_phone:String
+    -_email:String
+    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +isStudentRepeated(students: List<Student>)
+    +hasSameUniqueNumber(Student student)
+}
+
+class CourseEdition {
+    -_programmeEdition: ProgrammeEdition
+    -_course: Course
+    -_ruc: Teacher
+    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+    +Equals(objectToCompare: Object)
+    +setRuc(Teacher: ruc)
+    +whatProgrammeEditionBelongsThisCourseEdition ()
+}
+
+
+GradeStudent "*" --> "1" Student: belongs
+GradeStudent "*" --> "1" CourseEdition: refers to
+
+US25_IWantToKnowTheAverageGradeOfACourseEdition "1" ..> "1\n_gradeStudentList    " GradeStudentRepository
+GradeStudent "gradeStudentList" <-- "1" GradeStudentRepository
+@enduml
