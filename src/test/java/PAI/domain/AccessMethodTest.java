@@ -85,4 +85,28 @@ class AccessMethodTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnTrueIfNameIsAnAccessMethod() throws Exception {
+        // Arrange
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
+        // Act
+        boolean result = am1.hasThisAccessMethodName("Concurso Nacional");
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNameIsAnAccessMethod() throws Exception {
+        // Arrange
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
+        // Act
+        boolean result = am1.hasThisAccessMethodName("Maiores 23");
+
+        // Assert
+        assertFalse(result);
+    }
 }

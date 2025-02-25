@@ -3,6 +3,7 @@ package PAI.domain;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -116,5 +117,48 @@ class ProgrammeListTest {
         assertTrue(courseList.contains(course1), "A lista deve conter o curso Programming");
         assertTrue(courseList.contains(course2), "A lista deve conter o curso Mathematics");
 
+    }
+
+    @Test
+    void shouldReturnProgrammedWithTheRequiredName() throws Exception  {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+
+        ProgrammeList repository = new ProgrammeList();
+
+        repository.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        Optional<Programme> result = repository.getProgrammeByName("Computer Engineering");
+
+        // Assert
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnNullIfProgrammeWithTheRequiredNameDoesNotExist() throws Exception  {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+
+        ProgrammeList repository = new ProgrammeList();
+
+        repository.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        Optional<Programme> result = repository.getProgrammeByName("Space Engineering");
+
+
+        // Assert
+        assertTrue(result.isEmpty());
     }
 }

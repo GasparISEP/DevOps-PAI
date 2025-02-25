@@ -235,4 +235,30 @@ class StudentTest {
         assertEquals(result, 12345);
     }
 
+
+    @Test
+    void shouldReturnTrueIfTheUniqueNumberIsFoundInAStudent() throws Exception {
+        // Arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        // Act
+        boolean result = student1.hasThisUniqueNumber(1);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTheUniqueNumberIsFoundInAStudent() throws Exception {
+        // Arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        // Act
+        boolean result = student1.hasThisUniqueNumber(2);
+
+        // Assert
+        assertFalse(result);
+    }
 }

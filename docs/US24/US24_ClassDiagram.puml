@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class US24_KnowTheNumberOfStudentsEnroledInACourseEditionController {
++US24_KnowTheNumberOfStudentsEnroledInACourseEditionController ()
++IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition)
+}
+
+class CourseEditionEnrollmentRepository {
+    -_courseEditionEnrollments: ArrayList<CourseEditionEnrollment>
+    +CourseEditionEnrollmentRepository ()
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
+    enrollmentDate: LocalDate)
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition)
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition)
+    +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition)
+    +enrollStudentInProgrammeCourseEditions(student :Student, courseEditions : List<CourseEdition>)
+}
+
+class CourseEditionEnrollment {
+    -_enrollmentDate: LocalDate
+    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
+     enrollmentDate: LocalDate)
+    +equals (obj: Object)
+    +findStudentInCourseEditionEnrollment ()
+    +findCourseEditionInEnrollment ()
+    +knowStudent ()
+    +knowCourseEdition ()
+}
+
+US24_KnowTheNumberOfStudentsEnroledInACourseEditionController "1" ---> "_courseEditionEnrollmentRepository 1"CourseEditionEnrollmentRepository
+CourseEditionEnrollmentRepository "1 " ---> " * "CourseEditionEnrollment
+
+
+@enduml
