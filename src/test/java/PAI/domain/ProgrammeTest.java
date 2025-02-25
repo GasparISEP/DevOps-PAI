@@ -563,10 +563,10 @@ class ProgrammeTest {
                 "20-12-2010", assistantProfessor, 100, department);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
         programme.enrolStudentInProgramme(student,am1,amr);
-        Enrolment enrolment = new Enrolment(student, am1);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(student, am1);
 
         // Act
-        Student enrolledStudent = enrolment.findStudentInEnrollments();
+        Student enrolledStudent = programmeEnrolment.findStudentInEnrollments();
 
         // Assert
         assertEquals(student, enrolledStudent, "The student found in the enrolment must be the same as the student created.");
@@ -719,5 +719,41 @@ class ProgrammeTest {
 
         //assert
         assertNotNull(studyPlan);
+    }
+
+    @Test
+    void shouldReturnTrueIfNameIsAProgramme() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        boolean result = p1.hasThisProgrammeName("Computer Engineering");
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNameIsAProgramme() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        boolean result = p1.hasThisProgrammeName("Space Engineering");
+
+        // Assert
+        assertFalse(result);
     }
 }
