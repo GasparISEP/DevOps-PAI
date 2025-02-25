@@ -1,11 +1,13 @@
 package PAI.controller;
 
+import PAI.domain.AccessMethod;
 import PAI.domain.AccessMethodFactory;
 import PAI.domain.AccessMethodRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US02ConfigureAccessMethodControllerTest {
 
@@ -22,7 +24,6 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldNotCreateThisController() {
         //arrange
-        AccessMethodRepository doubleAccessMethodRepository = mock(AccessMethodRepository.class);
         //act
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(null);
         //assert
@@ -30,12 +31,15 @@ class US02ConfigureAccessMethodControllerTest {
     }
 
     @Test
-    void shouldConfigureAccessMethod(){
+    void shouldNotConfigureAccessMethodIfAccessMethodRepositoryIsNull() throws InstantiationException {
         //arrange
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         //act
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(null);
 
-        boolean isConfigure = ctrl1.configureAccessMethod("BlaBla");
+        boolean isConfigure = ctrl1.configureAccessMethod("Maiores 23");
         //assert
         assertFalse(isConfigure);
     }
