@@ -1,10 +1,8 @@
 package PAI.domain;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class StudentTest {
 
@@ -12,7 +10,7 @@ class StudentTest {
     void validAttributesCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -22,7 +20,7 @@ class StudentTest {
     void zeroAsUniqueNumberDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(0, "Rita", "123456789", "963741258", "rita@gmail.com", address1));
@@ -32,7 +30,7 @@ class StudentTest {
     void negativeUniqueNumberDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(-1, "Rita", "123456789", "963741258", "rita@gmail.com", address1));
@@ -42,7 +40,7 @@ class StudentTest {
     void emptyNameDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(1, "", "123456789", "963741258", "rita@gmail.com", address1));
@@ -52,7 +50,7 @@ class StudentTest {
     void blankNameDoesNotCreateAnObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(1, " ", "123456789", "963741258", "rita@gmail.com", address1));
@@ -62,7 +60,7 @@ class StudentTest {
     void nullNameDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(1, null, "123456789", "963741258", "rita@gmail.com", address1));
@@ -72,7 +70,7 @@ class StudentTest {
     void emptyNIFDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(2, "Joaquim", "", "933741758", "joaquim@gmail.com", address1));
@@ -82,7 +80,7 @@ class StudentTest {
     void blankNIFDoesNotCreateAnObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(2, "Joaquim", " ", "933741758", "joaquim@gmail.com", address1));
@@ -92,7 +90,7 @@ class StudentTest {
     void nullNIFDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(2, "Joaquim", null, "933741758", "joaquim@gmail.com", address1));
@@ -102,7 +100,7 @@ class StudentTest {
     void emptyPhoneDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(3, "Rute", "569874126", "", "rute@gmail.com", address1));
@@ -112,7 +110,7 @@ class StudentTest {
     void blankPhoneDoesNotCreateAnObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(2, "Joaquim", "569874126", " ", "joaquim@gmail.com", address1));
@@ -122,7 +120,7 @@ class StudentTest {
     void nullPhoneDoesNotCreateObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(3, "Rute", "32165498", null, "rute@gmail.com", address1));
@@ -132,7 +130,7 @@ class StudentTest {
     void emptyEmailDoesNotCreateObject () throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(4, "Pedro", "159753824", "963996987", "", address1));
@@ -142,7 +140,7 @@ class StudentTest {
     void blankEmailDoesNotCreateAnObject() throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(2, "Joaquim", "569874126", "963996987", " ", address1));
@@ -152,7 +150,7 @@ class StudentTest {
     void nullEmailDoesNotCreateObject () throws Exception {
 
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
 
         //act + assert
         assertThrows(Exception.class, () -> new Student(4, "Pedro", "159753824", "963996987", null, address1));
@@ -161,11 +159,11 @@ class StudentTest {
     @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameUniqueNumber() throws Exception {
         // Arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
 
-        Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
+        Address address2 = mock(Address.class);
         Student student2 = new Student(1, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
 
         // Act
@@ -178,11 +176,11 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTwoStudentsDontHaveTheSameUniqueNumber() throws Exception {
         // Arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
 
-        Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
+        Address address2 = mock(Address.class);
         Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
 
         // Act
@@ -195,8 +193,8 @@ class StudentTest {
     @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameNIF() throws Exception {
         // Arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Address address2 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Address address1 = mock(Address.class);
+        Address address2 = mock(Address.class);
 
         Student student1 = new Student(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
         Student student2 = new Student(12346, "Daniela", "123456789", "911855911", "danijose@gmail.com", address2);
@@ -211,8 +209,8 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTwoStudentsDontHaveTheSameNIF() throws Exception {
         // Arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Address address2 = new Address("Rua das Flores, nº7", "3000-200", "Coimbra", "Portugal");
+        Address address1 = mock(Address.class);
+        Address address2 = mock(Address.class);
 
         Student student1 = new Student(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
         Student student2 = new Student(54321, "João", "112233445", "919999999", "joao@gmail.com", address2);
@@ -222,6 +220,19 @@ class StudentTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTheUniqueNumber() throws Exception {
+        //assert
+        Address address1 = mock(Address.class);
+        Student student1 = new Student(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+
+        //act
+        int result = student1.getUniqueNumber();
+
+        //assert
+        assertEquals(result, 12345);
     }
 
 }
