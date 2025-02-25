@@ -170,20 +170,25 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllProgrammes() throws Exception {
         // arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        ProgrammeList programmeList = new ProgrammeList();
-        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
+        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
+        Programme programmeDouble1 = mock(Programme.class);
+        Programme programmeDouble2 = mock(Programme.class);
 
+        List<Programme> programmeList = new ArrayList<>();
+        programmeList.add(programmeDouble1);
+        programmeList.add(programmeDouble2);
+
+        when(programmeListDouble.getAllProgrammes()).thenReturn(programmeList);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         // act
-        US03_AddCourseToProgrammeController controller = new US03_AddCourseToProgrammeController(programmeList, new CourseRepository());
-        List<Programme> allProgrammes = controller.getAllProgrammes();
+        List<Programme> allProgrammes = US03AddCourseToProgrammeController.getAllProgrammes();
 
         // assert
-        Programme expectedProgramme = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        assertEquals(expectedProgramme, allProgrammes.get(0));
+        assertEquals(2, allProgrammes.size());
+        assertEquals(programmeList.get(0), allProgrammes.get(0));
+        assertEquals(programmeList.get(1), allProgrammes.get(1));
     }
 
     @Test
