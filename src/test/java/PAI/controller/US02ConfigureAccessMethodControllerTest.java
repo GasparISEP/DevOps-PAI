@@ -12,10 +12,9 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldCreateThisController() {
         //arrange
-        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory);
+        AccessMethodRepository doubleAccessMethodRepository = mock(AccessMethodRepository.class);
         //act
-        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
+        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(doubleAccessMethodRepository);
         //assert
         assertNotNull(ctrl1);
 
@@ -23,6 +22,7 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldNotCreateThisController() {
         //arrange
+        AccessMethodRepository doubleAccessMethodRepository = mock(AccessMethodRepository.class);
         //act
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(null);
         //assert
