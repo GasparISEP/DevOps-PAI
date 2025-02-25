@@ -20,6 +20,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         _studentRepository = new StudentRepository();
+        _accessMethodFactory = new AccessMethodFactory();
         _accessMethodRepository = new AccessMethodRepository(_accessMethodFactory);
         _programmeList = new ProgrammeList();
         _programmeEnrolmentRepository = new ProgrammeEnrolmentRepository();
