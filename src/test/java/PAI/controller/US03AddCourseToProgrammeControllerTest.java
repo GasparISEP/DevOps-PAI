@@ -3,10 +3,12 @@ package PAI.controller;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class US03AddCourseToProgrammeControllerTest {
     
@@ -15,13 +17,8 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldCreateAddCourseToProgrammeController() throws Exception {
         // arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        ProgrammeList programmeList = new ProgrammeList();
-        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        CourseRepository courseRepository = mock(CourseRepository.class);
+        ProgrammeList programmeList = mock(ProgrammeList.class);
         //act
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //assert
@@ -32,34 +29,28 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
         // arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1, 100,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        ProgrammeList programmeList = new ProgrammeList();
-        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        Programme lei = programmeList.getAllProgrammes().get(0);
-        lei.addCourseToAProgramme(courseRepository.getAllCourses().get(0));
-        Course course1 = lei.getCourseList().get(0);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
+        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
+        Programme programmeDouble = mock(Programme.class);
+        Course courseDouble = mock(Course.class);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+        when(programmeDouble.addCourseToAProgramme(courseDouble)).thenThrow(new Exception("Course is already added to the programme."));
         //act + assert
         assertThrows(Exception.class, () -> {
-            US03AddCourseToProgrammeController.addCourseToProgramme(lei, course1);
+            US03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         });
     }
 
     @Test
     void shouldAddCourseToProgramme() throws Exception {
         // arrange
-        Programme programme = mock(Programme.class);
-        Course course = mock(Course.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseRepository courseRepository = mock(CourseRepository.class);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        Programme programmeDouble = mock(Programme.class);
+        Course courseDouble = mock(Course.class);
+        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
+        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         //act
-        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(programme, course);
+        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         //assert
         assertTrue(addCourseToProgramme);
     }
