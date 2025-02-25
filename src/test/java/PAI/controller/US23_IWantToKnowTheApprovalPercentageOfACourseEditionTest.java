@@ -7,14 +7,16 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
     @Test
     void gradeStudentInRepository() {
         //arrange
-
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
 
         //act
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(gradeStudentRepository);
@@ -28,7 +30,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     void approvalRateInACourseEdition () throws Exception {
         //arrange
 
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository();
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository();
 
 
@@ -55,6 +58,20 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Student student2 = new Student(2, "João", "123456786", "963741258", "joao@gmail.com", address1);
 
+        GradeStudent gradeStudent1 = mock(GradeStudent.class);
+        GradeStudent gradeStudent2 = mock(GradeStudent.class);
+
+
+        when(gradeStudentFactory.newGradeStudent(8, "10-02-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
+        when(gradeStudentFactory.newGradeStudent(20, "10-02-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+
+        when(gradeStudent1.knowGrade()).thenReturn(8.0);
+        when(gradeStudent2.knowGrade()).thenReturn(20.0);
+
+        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+
+
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
         enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1,currentDate);
 
@@ -69,4 +86,6 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     }
 
 }
+
+
 
