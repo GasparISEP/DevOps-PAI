@@ -3,6 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -19,7 +20,8 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = mock(CourseRepository.class);
         ProgrammeList programmeList = mock(ProgrammeList.class);
         //act
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //assert
         assertNotNull(US03AddCourseToProgrammeController);
     }
@@ -32,7 +34,8 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble = mock(Course.class);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         when(programmeDouble.addCourseToAProgramme(courseDouble)).thenThrow(new Exception("Course is already added to the programme."));
         //act + assert
         assertThrows(Exception.class, () -> {
@@ -47,7 +50,8 @@ public class US03AddCourseToProgrammeControllerTest {
         Course courseDouble = mock(Course.class);
         ProgrammeList programmeListDouble = mock(ProgrammeList.class);
         CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         //act
         boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         //assert
@@ -71,7 +75,8 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeList programmeListDouble = mock(ProgrammeList.class);
         CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
         Programme programmeDouble = mock(Programme.class);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         //act + assert
         assertThrows(Exception.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, null);
@@ -81,10 +86,19 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnSizeOneIfOnlyOneCourseInList() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
+        Course courseDouble = mock(Course.class);
+
+        ArrayList<Course> courseList = new ArrayList<>();
+        courseList.add(courseDouble);
+
+        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(mock(ProgrammeList.class), courseRepositoryDouble);
+
         // act
-        List<Course> allCourses = courseRepository.getAllCourses();
+        List<Course> allCourses = US03AddCourseToProgrammeController.getAllCourses();
+
         // assert
         assertEquals(1, allCourses.size());
     }
