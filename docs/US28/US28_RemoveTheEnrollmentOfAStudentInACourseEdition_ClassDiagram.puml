@@ -1,0 +1,69 @@
+@startuml
+!pragma layout smetana
+
+
+class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
+    +US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(courseEditionEnrollmentRepository: CourseEditionEnrollmentRepository)
+    +removeStudentEnrollment(student: Student, courseEdition: CourseEdition): boolean
+}
+
+class CourseEditionEnrollment {
+    -_enrollmentDate: LocalDate
+    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
+     enrollmentDate: LocalDate)
+    +equals (obj: Object): boolean
+    +findStudentInCourseEditionEnrollment() : Student
+    +findCourseEditionInEnrollment() : CourseEdition
+    +knowStudent(): Object
+    +knowCourseEdition(): Object
+}
+
+class CourseEditionEnrollmentRepository {
+    +CourseEditionEnrollmentRepository ()
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
+    enrollmentDate: LocalDate): boolean
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition) : boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
+    +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition) : int
+    +removeEnrollment (student: Student, courseEdition: CourseEdition) : boolean
+    +enrollStudentInProgrammeEditionCourseEditions (student: Student, courseEditions: List<CourseEdition>) : void
+}
+
+class Student {
+    -_uniqueNumber:int
+    -_name:String
+    -_NIF:String
+    -_phone:String
+    -_email:String
+    -_address:Address
+    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +hasSameUniqueNumber(student: Student) : boolean
+    +hasSameNIF (student: Student) : boolean
+    +getUniqueNumber () : int
+}
+
+class CourseEdition {
+    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+    +Equals(objectToCompare: Object) : boolean
+    +setRuc(Teacher: ruc) : boolean
+    +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEdition
+}
+
+class CourseEditionRepository {
+    +CourseEditionRepository()
+    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition) : boolean
+    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition) : boolean
+    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition) : ProgrammeEdition
+    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc) : boolean
+    +getCourseEditions(): List<CourseEdition>
+    +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<CourseEdition>
+}
+
+
+
+CourseEdition "_listCourseEditions *  " <-- "1" CourseEditionRepository
+CourseEditionEnrollment "*" --> "_student 1" Student
+CourseEditionEnrollment "*" --> "_courseEdition 1  " CourseEdition
+CourseEditionEnrollment "                                *" <-- "1" CourseEditionEnrollmentRepository: _listCourseEditionEnrollment
+US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1"..> "1" CourseEditionEnrollmentRepository
+@enduml

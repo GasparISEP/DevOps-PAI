@@ -3,8 +3,8 @@
 
 actor AcademicServiceCollaborator as ASC #Purple/White
 participant ":UI" as UI #application
-participant ":Controller" as C #application
-participant "cee[i]:CourseEditionEnrollementRepository" as CEER #application
+participant ":US24_IWantToKnowNumberOfStudentsEnrolledInCourseEdition" as C #application
+participant "cee[i]:CourseEditionEnrollmentRepository" as CEER #application
 
 ASC -> UI : I want to get the number of students enrolled in CourseEdition1
 activate UI #application
@@ -13,7 +13,7 @@ activate C #application
 C -> CEER : IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition1)
 activate CEER #application
 
-note right of CEER : Validate if CourseEdition1 is null
+CEER -> CEER : validateCourseEdition(CourseEdition1)
 
 loop cce[i] < _courseEditionEnrollments.size()
     CEER -> CEER : numberOfStudentsEnrolledInCourseEdition(CourseEdition1)

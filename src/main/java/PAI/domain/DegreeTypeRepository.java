@@ -3,10 +3,10 @@ package PAI.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DegreeTypeList {
+public class DegreeTypeRepository {
     private List<DegreeType> degreeTypes;
 
-    public DegreeTypeList () {
+    public DegreeTypeRepository() {
         degreeTypes = new ArrayList<>();
     }
 
