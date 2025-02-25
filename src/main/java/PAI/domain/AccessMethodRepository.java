@@ -5,7 +5,12 @@ import java.util.Optional;
 
 public class AccessMethodRepository {
 
+    private final AccessMethodFactory _accessMethodFactory;
     private ArrayList<AccessMethod> _accessMethodRepository = new ArrayList<>();
+
+    public AccessMethodRepository (AccessMethodFactory accessMethodFactory) {
+        _accessMethodFactory = accessMethodFactory;
+    }
 
 
     public Optional <AccessMethod> createAccessMethod (String name){
@@ -24,7 +29,8 @@ public class AccessMethodRepository {
     }
 
     public boolean registerAccessMethod (String accessMethodName) throws Exception {
-        AccessMethod accessMethod = new AccessMethod(accessMethodName);
+
+        AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
 
         if (isAccessMethodRegistered(accessMethod))
             return false;
