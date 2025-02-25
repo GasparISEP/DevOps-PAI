@@ -95,7 +95,7 @@ TeacherCategory "_teacherCategoryRepository \n*" <-- " 1" TeacherCategoryReposit
 TeacherCareerProgression "*" --> "_category \n1"TeacherCategory
 Teacher "1" --> "_teacherCareerProgressionList \n1..*" TeacherCareerProgression
 Teacher "1" --> "_address \n1" Address
-Teacher "_department \n*" <-- "1" Department
+Teacher "*" --> "_department \n1" Department
 Department "*\n_departments" <-u- "1" DepartmentRepository
 
 @enduml
