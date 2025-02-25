@@ -79,7 +79,7 @@ note left of CourseEditionRepository::setRucInACourseEdition
 end note
 
 note left of CourseEditionRepository::getCourseEditions
-  This method returns all course editions in the repository.
+  This method returns set the Ruc in a course editions, in the repository.
 end note
 
 
@@ -89,11 +89,11 @@ US20_DefineRucForCourseEditionController "  1  " ..> "  1  " CourseEditionReposi
 
 US20_DefineRucForCourseEditionController "  1  " ..> "  1  " TeacherRepository: uses
 
-CourseEditionRepository "  1  " --> "  1..*  " CourseEdition : contains
+CourseEditionRepository " List<CourseEditions> 1  " --> "  1..*  " CourseEdition
 
-TeacherRepository "  1  " --> "  1..*  " Teacher: contains
+TeacherRepository "List<Teachers>  1  " --> "  1..*  " Teacher
 
-CourseEdition "  0..1  " --> "  1  " Teacher: contains RUC
+CourseEdition "  0..1  " --> "  1  " Teacher
 
 
 
