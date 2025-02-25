@@ -43,4 +43,13 @@ public class AccessMethodRepository {
 
         return _accessMethodRepository.contains(accessMethod);
     }
+
+    public Optional <AccessMethod> getAccessMethodByName(String name) {
+        for ( AccessMethod accessMethod : _accessMethodRepository) {
+            if ( accessMethod.hasThisAccessMethodName(name)){
+                return Optional.of(accessMethod);
+            }
+        }
+        return Optional.empty();
+    }
 }

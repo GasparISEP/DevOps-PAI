@@ -430,70 +430,64 @@ class ProgrammeTest {
     @Test
     void shouldReturnTrueIfCourseIsAddedToAProgramme() throws Exception {
         //arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        //act
-        boolean result = lei.addCourseToAProgramme(course1);
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Programme lei = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        Course courseDouble = mock(Course.class);
+         //act
+        boolean result = lei.addCourseToAProgramme(courseDouble);
         //assert
         assertTrue(result);
     }
 
 
     @Test
-    void shouldReturnExceptionIfCourseAlreadyExistsInAProgramme() throws Exception {
+    void shouldThrowExceptionIfCourseAlreadyExistsInProgramme() throws Exception {
         //arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal","20-12-2010", teacherCategory1,100,department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 4, degree1, department1, teacher1);
-        lei.addCourseToAProgramme(course1);
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Course courseDouble = mock(Course.class);
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        programme.addCourseToAProgramme(courseDouble);
+
         //act & assert
-        assertThrows(Exception.class, () -> lei.addCourseToAProgramme(course1));
+        assertThrows(Exception.class, () -> programme.addCourseToAProgramme(courseDouble));
     }
 
     @Test
     void shouldIncreaseCourseListSizeWhenCourseIsAdded() throws Exception {
         // arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
-        int initialSize = lei.getCourseList().size();
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Course courseDouble = mock(Course.class);
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        programme.addCourseToAProgramme(courseDouble);
         // act
-        lei.addCourseToAProgramme(course1);
+        int sizeOfCourseList = programme.getCourseList().size();
         // assert
-        assertEquals(initialSize + 1, lei.getCourseList().size());
+        assertEquals(1, sizeOfCourseList);
     }
 
     @Test
     void shouldContainAddedCourseInCourseList() throws Exception {
         // arrange
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710","A123","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Nº100", "4435-696","Gondomar","Portugal", "20-12-2010", teacherCategory1,100, department1);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseRepository courseRepository = new CourseRepository();
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30, 2, degree1, department1, teacher1);
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        Course courseDouble = mock(Course.class);
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
+                2, degreeTypeDouble, departmentDouble, teacherDouble);
+        programme.addCourseToAProgramme(courseDouble);
         // act
-        lei.addCourseToAProgramme(course1);
+        Course courseInProgramme = programme.getCourseList().get(0);
         // assert
-        assertTrue(lei.getCourseList().contains(course1));
+        assertEquals(courseDouble, courseInProgramme);
     }
 
     //US17
@@ -569,10 +563,10 @@ class ProgrammeTest {
                 "20-12-2010", assistantProfessor, 100, department);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
         programme.enrolStudentInProgramme(student,am1,amr);
-        Enrolment enrolment = new Enrolment(student, am1);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(student, am1);
 
         // Act
-        Student enrolledStudent = enrolment.findStudentInEnrollments();
+        Student enrolledStudent = programmeEnrolment.findStudentInEnrollments();
 
         // Assert
         assertEquals(student, enrolledStudent, "The student found in the enrolment must be the same as the student created.");
@@ -725,5 +719,41 @@ class ProgrammeTest {
 
         //assert
         assertNotNull(studyPlan);
+    }
+
+    @Test
+    void shouldReturnTrueIfNameIsAProgramme() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        boolean result = p1.hasThisProgrammeName("Computer Engineering");
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNameIsAProgramme() throws Exception {
+        // Arrange
+        DegreeType master = new DegreeType("Master", 240);
+        Department cse = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        // Act
+        boolean result = p1.hasThisProgrammeName("Space Engineering");
+
+        // Assert
+        assertFalse(result);
     }
 }

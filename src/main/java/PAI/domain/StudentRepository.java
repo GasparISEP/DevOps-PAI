@@ -2,12 +2,14 @@ package PAI.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentRepository {
 
-    private Programme programme;
     // Create ArrayList to store students
-    private List<Student> _students = new ArrayList<>();
+    private List<Student> _students;
+
+    public StudentRepository() {_students = new ArrayList<>();}
 
     public boolean registerStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
 
@@ -30,8 +32,12 @@ public class StudentRepository {
         return false;
     }
 
-    public boolean isStudentEnrolledInProgramme(Student student, Programme programme) {
-        return programme.isStudentEnrolled(student);
+    public Optional<Student> getStudentByUniqueNumber(int uniqueNumber) {
+        for ( Student student : _students) {
+            if ( student.hasThisUniqueNumber(uniqueNumber)){
+                return Optional.of(student);
+            }
+        }
+        return Optional.empty();
     }
-
 }

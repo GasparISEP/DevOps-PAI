@@ -35,4 +35,6 @@ public class AccessMethod {
         }
         return false;
     }
+
+    public boolean hasThisAccessMethodName(String name) {return _name.equals(name);}
 }
