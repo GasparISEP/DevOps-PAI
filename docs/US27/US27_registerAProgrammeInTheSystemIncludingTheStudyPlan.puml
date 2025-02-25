@@ -9,11 +9,11 @@ participant ":ProgrammeList" as PL #lightblue
 Admin -> UI ++ #application : I Want to register a Programme in the System,\n including a Study Plan.
 UI --> Admin -- : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? \n Department? Programme Director?
 Admin -> UI ++ #application : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! \n Department! Programme Director!
-UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(Name, Acronym, quantityOfEcts, quantityOfSemesters, \n DegreeType,  Department, Programme Director)
-C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector)
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(Name, Acronym, quantityOfEcts, \n quantityOfSemesters,  DegreeType,  Department, Programme Director)
+C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector)
 
 create ":Programme" as P #lightblue
-PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector)
+PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector)
 P -> P : isNameInvalid()
 P -> P : isAcronymInvalid()
 P -> P : isQuantityOfEctsInvalid()
@@ -33,7 +33,7 @@ C --> UI -- : True
 UI --> Admin -- : Success!
 
 ref over Admin
-Courses are added to Programme in a List
+US03_AddCourseToAProgramme.
 
 
 end ref
