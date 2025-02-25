@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class StudentRepositoryTest {
 
@@ -74,7 +75,8 @@ class StudentRepositoryTest {
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         DegreeType degreeType = new DegreeType("Master", 30);
         Department department = new Department("DCE", "Department of Computer Engineering");
@@ -99,7 +101,8 @@ class StudentRepositoryTest {
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         AccessMethod am1 = new AccessMethod("M1");
-        AccessMethodRepository amr = new AccessMethodRepository();
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         DegreeType degreeType = new DegreeType("Master", 30);
         Department department = new Department("DCE", "Department of Computer Engineering");
