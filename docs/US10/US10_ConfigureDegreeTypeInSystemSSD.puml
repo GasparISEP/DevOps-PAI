@@ -1,0 +1,12 @@
+@startuml
+actor Administrator
+
+Administrator -> System ++ #application: I want to configure a DegreeType in the System
+System --> Administrator: Which DegreeType?
+Administrator -> System: Enter DegreeType
+System --> Administrator : sure?
+Administrator -> System: yes!
+System --> Administrator --: OK!
+
+
+@enduml
