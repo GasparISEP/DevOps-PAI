@@ -1,0 +1,63 @@
+@startuml
+!pragma layout smetana
+
+class US12_ChangeProgrammeDirectorInSystem {
+    -_programmeList: List<Programme>
+    +US_iWantToChangeProgrammeDirectorOfProgrammeController(ProgrammeList programmeList)
+    +changeProgrammeDirector(Programme programme, Teacher teacher)
+}
+
+class Programme {
+     - name: string
+     - acronym: string
+     - quantityOfEcts: int
+     - quantityOfSemesters: int
+     - degreeType: DegreeType
+     - department: Department
+     - programmeDirector: Teacher
+     -_courseList: List <Course>
+     -_programmeEnrolment: List<Enrolment>
+     -StudyPlan: _studyPlan
+
+     + equals()
+     + addCourseToProgramme (course: Course)
+     + newProgrammeDirector(): boolean
+     +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
+     +isStudentEnrolled(student: Student)
+     +isInDepartment(department: Department)
+     +getCourseList()
+     +getQuantityOfSemester()
+     +getQuantityOfEcts()
+ }
+
+class ProgrammeList {
+     -_programmeList: List<Programme>
+     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
+     +changeProgrammeDirector(Programme programme, Teacher newDirector)
+     +getAllProgrammes()
+     +getCourseList(programme: Programme)
+}
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     -_academicBackground:String
+     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+     academicBackground: String, street: String, postalCode: String, location: String, country: String,
+     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+     +hasSameAcronym(teacher: Teacher)
+     +hasSameNif(teacher: Teacher)
+     +isInDepartment(department: Department)
+     +hasThisNIF(NIF: String)
+     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
+     +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+}
+
+Programme "1..*" --> "1" Teacher : has a Programme Director
+ProgrammeList "List<Programme>" *--- "0..*" Programme
+US12_ChangeProgrammeDirectorInSystem "1  " ...> "1  " ProgrammeList
+
+@enduml
