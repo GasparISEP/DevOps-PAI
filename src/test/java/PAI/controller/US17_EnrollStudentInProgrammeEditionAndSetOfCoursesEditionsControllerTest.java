@@ -15,7 +15,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
@@ -58,7 +59,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
@@ -104,7 +106,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
@@ -154,7 +157,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testGetAllProgrammes() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
@@ -194,7 +198,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testGetAllSchoolYears() throws Exception {
 
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
@@ -228,7 +233,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
@@ -272,7 +278,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void shouldReturnExceptionIfProgrammeListIsNull (){
         //arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository= new CourseEditionEnrollmentRepository (factoryDouble);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
@@ -293,7 +300,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
         //arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
@@ -314,7 +322,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
         //arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
@@ -336,7 +345,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void shouldReturnExceptionIfSchoolYearRepositoryIsNull (){
         //arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
@@ -358,7 +368,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void shouldReturnExceptionIfEnrolmentRepositoryIsNull (){
         //arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
