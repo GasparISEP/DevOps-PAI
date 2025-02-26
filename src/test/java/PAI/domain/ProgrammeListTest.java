@@ -115,15 +115,18 @@ class ProgrammeListTest {
     }
 
     @Test
-    void shouldReturnProgrammedWithTheRequiredName() throws Exception  {
+    void shouldReturnProgrammeWithTheRequiredName() throws Exception {
         // Arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList list = new ProgrammeList(programmeFactory);
         ProgrammeList repository = new ProgrammeList(programmeFactory);
         DegreeType master = mock(DegreeType.class);
         Department cse = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
 
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        when(programmeFactory.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher))
+                .thenReturn(programme);
 
         repository.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
 
@@ -138,17 +141,22 @@ class ProgrammeListTest {
     void shouldReturnNullIfProgrammeWithTheRequiredNameDoesNotExist() throws Exception  {
         // Arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+
         ProgrammeList list = new ProgrammeList(programmeFactory);
         ProgrammeList repository = new ProgrammeList(programmeFactory);
         DegreeType master = mock(DegreeType.class);
         Department cse = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
 
+        Programme programme = mock(Programme.class);
+
+        when(programmeFactory.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher))
+                .thenReturn(programme);
+
         repository.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
 
         // Act
         Optional<Programme> result = repository.getProgrammeByName("Space Engineering");
-
 
         // Assert
         assertTrue(result.isEmpty());

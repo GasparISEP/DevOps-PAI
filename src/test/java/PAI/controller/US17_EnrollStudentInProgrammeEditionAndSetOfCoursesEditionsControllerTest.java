@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
@@ -157,16 +158,13 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testGetAllProgrammes() throws Exception {
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository= new CourseEditionEnrollmentRepository (factoryDouble);
-        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
-        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
+        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeList programmeList = mock(ProgrammeList.class);
+        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
@@ -176,23 +174,19 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         courseEditionRepository,
                         schoolYearRepository,
                         enrolmentRepository);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", "20-12-2010", new TeacherCategory("Assistant Professor"), 100, department1);
-        programmeList.registerProgramme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1);
-        programmeList.registerProgramme("Computer Science", "CS", 26, 6, master, department1, teacher1);
+
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+
+        when(programmeList.getAllProgrammes()).thenReturn(List.of(programme1, programme2));
 
         // Act
         List<Programme> programmes = controller.getAllProgrammes();
         // Assert
         assertNotNull(programmes, "The list of programmes should not be null.");
         assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
-        assertTrue(programmes.contains(new Programme("Computer Science Engineering", "CSE", 25, 6, master, department1, teacher1)),
-                "The list should contain the programme 'Computer Science Engineering'.");
-        assertTrue(programmes.contains(new Programme("Computer Science", "CS", 26, 6, master, department1, teacher1)),
-                "The list should contain the programme 'Computer Science'.");
+        assertTrue(programmes.contains(programme1));
+        assertTrue(programmes.contains(programme2));
     }
     @Test
     void testGetAllSchoolYears() throws Exception {
