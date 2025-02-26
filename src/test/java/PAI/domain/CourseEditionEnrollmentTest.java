@@ -10,27 +10,19 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.mock;
 
 class CourseEditionEnrollmentTest {
 
     @Test
     void should_return_a_valid_course_edition_enrollment() throws Exception {
         //arrange
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
-        LocalDate currentDate = LocalDate.now();
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        LocalDate enrollmentDate = LocalDate.now();
 
         //act + assert
-        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+        CourseEditionEnrollment enrollment = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
     }
 
     //testing invalid enrollment date
@@ -46,17 +38,9 @@ class CourseEditionEnrollmentTest {
     @MethodSource("provideInvalidEnrollmentDate")
     void testInvalidEnrollmentDate(LocalDate enrollmentDate, String expectedMessage) throws Exception {
         // Arrange
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        Student st1 = mock(Student.class);
+        CourseEdition ce1 = mock(CourseEdition.class);
+
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
             new CourseEditionEnrollment(st1, ce1, enrollmentDate);
@@ -67,15 +51,7 @@ class CourseEditionEnrollmentTest {
     @Test
     void testCourseEditionEnrollmentWhenStudentIsNull() throws Exception {
         // Arrange
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        CourseEdition ce1 = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         // Act & Assert
@@ -88,7 +64,7 @@ class CourseEditionEnrollmentTest {
     @Test
     void testCourseEditionEnrollmentWhenCourseEditionIsNull() throws Exception {
         // Arrange
-        Student student = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", null);
+        Student student = mock(Student.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         // Act & Assert
@@ -101,47 +77,29 @@ class CourseEditionEnrollmentTest {
     @Test
     void shouldReturnFalseIfCourseEditionIsNull_EqualsMethod() throws Exception {
         //arrange
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
-        LocalDate currentDate = LocalDate.now();
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        LocalDate enrollmentDate = LocalDate.now();
 
         //act
-        CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+        CourseEditionEnrollment enrollment = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
         //assert
-        assertFalse(enrollment1.equals(null));
+        assertFalse(enrollment.equals(null));
     }
 
     @Test
     void shouldReturnTrueIfCourseEditionIsEqualThis_EqualsMethod() throws Exception {
         //arrange
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
-        LocalDate currentDate = LocalDate.now();
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        LocalDate enrollmentDate = LocalDate.now();
 
         //act
-        CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+        CourseEditionEnrollment enrollment = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
         //assert
-        assertTrue(enrollment1.equals(enrollment1));
+        assertTrue(enrollment.equals(enrollment));
     }
 
     //US17
@@ -278,23 +236,13 @@ class CourseEditionEnrollmentTest {
     @Test
     void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() throws Exception {
         // Arrange
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
-        LocalDate currentDate = LocalDate.now();
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        LocalDate enrollmentDate = LocalDate.now();
 
         // Act
-        CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, ce1, currentDate);
-        CourseEditionEnrollment enrollment2 = new CourseEditionEnrollment(st1, ce1, currentDate);
+        CourseEditionEnrollment enrollment1 = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment enrollment2 = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
         // Assert
         assertTrue(enrollment1.equals(enrollment2));
