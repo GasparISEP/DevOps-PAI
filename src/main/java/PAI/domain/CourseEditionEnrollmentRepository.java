@@ -9,15 +9,18 @@ public class CourseEditionEnrollmentRepository {
 
     private ArrayList<CourseEditionEnrollment> _courseEditionEnrollments;
 
+    private final CourseEditionEnrollmentFactory _courseEditionEnrollmentFactory;
+
     //constructor
-    public CourseEditionEnrollmentRepository() {
+    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory) {
 
         _courseEditionEnrollments = new ArrayList<>();
+        _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
     }
 
     public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) {
 
-        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
         if (isEnrollmentAlreadyExists(cee1)){
             return false;

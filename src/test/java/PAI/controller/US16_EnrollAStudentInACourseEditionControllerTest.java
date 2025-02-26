@@ -6,14 +6,16 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US16_EnrollAStudentInACourseEditionControllerTest {
 
     @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
-        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionEnrollmentRepository ceeRepository = mock (CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository courseEditionRepository = mock (CourseEditionRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -27,8 +29,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
         //arrange
-        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
+        CourseEditionEnrollmentRepository ceeRepository = mock (CourseEditionEnrollmentRepository.class);
+        ProgrammeEditionEnrollmentRepo peeRepository = mock (ProgrammeEditionEnrollmentRepo.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -42,8 +44,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
         //arrange
-        CourseEditionRepository ceRepository = new CourseEditionRepository();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
+        CourseEditionRepository ceRepository = mock(CourseEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo peeRepository = mock (ProgrammeEditionEnrollmentRepo.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -59,30 +61,20 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnFalseIfStudentIsNotInProgrammeEditionThatHasCourseEdition() throws Exception {
 
         //arrange
-        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo peeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        CourseEditionEnrollmentRepository ceeRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 ceeRepository, peeRepository, courseEditionRepository);
 
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(123,"John","223445667","222333444","123@gmail.com",add1);
-        Student st2 = new Student(124,"John","223445667","222333444","124@gmail.com",add1);
-        Department d1 = new Department("DCE","Department of Computer Engineering");
-        SchoolYear sy1 = new SchoolYear("2024/2025","14-10-2024","30-06-2025");
-        DegreeType dt1 = new DegreeType("Master",30);
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("SWITCH DEV","SDV",30,1,dt1,d1,teacher1);
-        Course c1 = new Course("Development","DEV",5,1);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
-        CourseEdition ce1 = new CourseEdition(c1,pe1);
-        LocalDate currentDate = LocalDate.now();
-        peeRepository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
-        courseEditionRepository.createCourseEdition(c1,pe1);
+        Student st1 = mock (Student.class);
+        Student st2 = mock (Student.class);
+        CourseEdition ce1 = mock (CourseEdition.class);
+        ProgrammeEdition pe1 = mock (ProgrammeEdition.class);
+
+        when (courseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(ce1)).thenReturn(pe1);
+        when (peeRepository.isStudentEnrolledInThisProgrammeEdition(st1, pe1)).thenReturn(false);
 
         //act
         boolean result = controller.enrollStudentInCourseEdition(st2, ce1);
@@ -96,34 +88,21 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment () throws Exception {
 
         //arrange
-        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
+        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo peeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        CourseEditionEnrollmentRepository ceeRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 ceeRepository, peeRepository, courseEditionRepository);
 
-
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(123,"John","223445667","222333444","123@gmail.com",add1);
-        Student st2 = new Student(124,"Marie","223445679","221133444","124@gmail.com",add1);
-        Department d1 = new Department("DCE","Department of Computer Engineering");
-        SchoolYear sy1 = new SchoolYear("2024/2025","14-10-2024","30-06-2025");
-        DegreeType dt1 = new DegreeType("Master",30);
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("SWITCH DEV","SDV",30,1,dt1,d1,teacher1);
-        Course c1 = new Course("Development","DEV",5,1);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
-        CourseEdition ce1 = new CourseEdition(c1,pe1);
-        LocalDate currentDate = LocalDate.now();
+        Student st1 = mock (Student.class);
+        CourseEdition ce1 = mock (CourseEdition.class);
+        ProgrammeEdition pe1 = mock (ProgrammeEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
-        peeRepository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
-        courseEditionRepository.createCourseEdition(c1,pe1);
-        ceeRepository.enrollStudentInACourseEdition(st2,ce1, enrollmentDate);
 
+        when (courseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(ce1)).thenReturn(pe1);
+        when (peeRepository.isStudentEnrolledInThisProgrammeEdition(st1, pe1)).thenReturn(true);
+        when (ceeRepository.enrollStudentInACourseEdition(st1,ce1, enrollmentDate)).thenReturn (true);
 
         //act
         boolean result = controller.enrollStudentInCourseEdition(st1,ce1);
@@ -135,9 +114,10 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseInStudentAndCourseEditionAreNull () throws Exception {
         //arrange
-        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo();
+        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo peeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        CourseEditionEnrollmentRepository ceeRepository = mock(CourseEditionEnrollmentRepository.class);
+
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 ceeRepository, peeRepository, courseEditionRepository);
 
