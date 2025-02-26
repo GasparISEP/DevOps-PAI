@@ -1,4 +1,3 @@
-
 package PAI.controller;
 
 import PAI.domain.*;
@@ -18,7 +17,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         //arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(gradeStudentFactory);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1= mock (CourseEditionEnrollmentRepository.class);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1 = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
         //act
         US22_IWantToGradeAStudentInACourseEdition G1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1,courseEditionEnrollmentRepository1);
         //assert
@@ -28,52 +28,76 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     @Test
     void iWantToGradeAStudentInACourseEdition () throws Exception {
         //arrange
-        GradeStudentRepository gradeStudentRepository1 = mock(GradeStudentRepository.class);
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(gradeStudentFactory);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
 
-        CourseEditionEnrollmentRepository enrollmentRepository= mock (CourseEditionEnrollmentRepository.class);
 
+        //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1,enrollmentRepository);
 
         Student student1 = mock(Student.class);
-
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-
-        when (enrollmentRepository.isStudentEnrolledInCourseEdition(student1,courseEdition1)).thenReturn(true);
+        LocalDate currentDate = LocalDate.now();
 
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
+
+
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
 
         when(gradeStudent1.knowGrade()).thenReturn(20.0);
 
         when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
-        when(gradeStudentRepository1.addGradeToStudent(20, "10-10-2025", student1, courseEdition1))
-                .thenReturn(Optional.of(gradeStudent1));
+        CourseEditionEnrollment enrollment1 = mock(CourseEditionEnrollment.class);
 
-        //act
+        when(enrollment1.knowStudent()).thenReturn(student1);
+        when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
+
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
+
+
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
+
         Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
 
         //assert
+
         assertTrue(optc1.isPresent());
     }
 
     @Test
     void iWantToCheckIfStudentIsEnrolledInCourseEdition () throws Exception {
         //arrange
-        GradeStudentRepository gradeStudentRepository1 = mock (GradeStudentRepository.class);
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(gradeStudentFactory);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
 
-        CourseEditionEnrollmentRepository enrollmentRepository= mock (CourseEditionEnrollmentRepository.class);
-
+        //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1,enrollmentRepository);
 
         Student student1 = mock(Student.class);
-
         CourseEdition courseEdition1 = mock(CourseEdition.class);
+        LocalDate currentDate = LocalDate.now();
+        GradeStudent gradeStudent1 = mock(GradeStudent.class);
 
-        when (enrollmentRepository.isStudentEnrolledInCourseEdition(student1,courseEdition1)).thenReturn(true);
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,LocalDate.now());
+        when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
 
-        // act
+        when(gradeStudent1.knowGrade()).thenReturn(8.0);
+
+        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+
+        CourseEditionEnrollment enrollment1 = mock(CourseEditionEnrollment.class);
+
+        when(enrollment1.knowStudent()).thenReturn(student1);
+        when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
+
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
+
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
 
         Boolean result = controller1.isStudentEnrolledInCourseEdition(student1,courseEdition1);
 
@@ -87,26 +111,23 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         //arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(gradeStudentFactory);
-        CourseEditionEnrollmentRepository enrollmentRepository= mock (CourseEditionEnrollmentRepository.class);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
 
         //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1,enrollmentRepository);
 
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
-        Course c1 = new Course("Informatics", "INF", 6, 1);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
-        CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-        Student student2 = new Student(2, "João", "123456788", "963741258", "joao@gmail.com", address1);
-
+        Student student1 = mock(Student.class);
+        Student student2 = mock(Student.class);
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
         LocalDate currentDate = LocalDate.now();
+
+        CourseEditionEnrollment enrollment1 = mock(CourseEditionEnrollment.class);
+
+        when(enrollment1.knowStudent()).thenReturn(student1);
+        when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
+
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
 
@@ -137,26 +158,24 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentRepository gradeStudentRepository1 = new GradeStudentRepository(gradeStudentFactory);
-        CourseEditionEnrollmentRepository enrollmentRepository= mock (CourseEditionEnrollmentRepository.class);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
 
         //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1,enrollmentRepository);
 
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
-        Course c1 = new Course("Informatics", "INF", 6, 1);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
-        CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-        Student student2 = new Student(2, "João", "123456788", "963741258", "joao@gmail.com", address1);
+        Student student1 = mock(Student.class);
+        Student student2 = mock(Student.class);
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
 
         LocalDate currentDate = LocalDate.now();
+
+        CourseEditionEnrollment enrollment1 = mock(CourseEditionEnrollment.class);
+
+        when(enrollment1.knowStudent()).thenReturn(student1);
+        when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
+
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
 
@@ -186,7 +205,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         //arrange
 
         GradeStudentRepository gradeStudentRepository1 = null;
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1= mock (CourseEditionEnrollmentRepository.class);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1 = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
 
 
         // Act & Assert
@@ -213,8 +233,3 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
     }
 }
-
-
-
-
-
