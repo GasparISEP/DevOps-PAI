@@ -39,6 +39,7 @@ class Student {
     +hasSameUniqueNumber(student: Student) : boolean
     +hasSameNIF (student: Student) : boolean
     +getUniqueNumber () : int
+    +hasThisUniqueNumber (uniqueNumber: int) : boolean
 }
 
 class CourseEdition {
