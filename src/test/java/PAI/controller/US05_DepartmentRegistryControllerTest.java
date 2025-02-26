@@ -1,8 +1,8 @@
 package PAI.controller;
-import PAI.domain.DepartmentFactory;
 import PAI.domain.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class US05_DepartmentRegistryControllerTest {
 
@@ -11,14 +11,11 @@ class US05_DepartmentRegistryControllerTest {
     @Test
     void shouldCreateControllerWhenRepositoryIsValid(){
         // arrange
-        DepartmentFactory factory = new DepartmentFactory();
-        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
+        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
 
-        // Act
+        // Act & assert
         US05_DepartmentRegistryController controller =
-                new US05_DepartmentRegistryController (departmentRepository);
-        //Assert
-        assertNotNull(controller);
+                new US05_DepartmentRegistryController (departmentRepositoryDouble);
     }
 
     //invalid constructor
@@ -40,9 +37,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         String acronym= "DEI";
         String name= "Departamento Engenharia Informática";
-        DepartmentFactory factory= new DepartmentFactory();
-        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
+        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepositoryDouble);
         //act
         boolean result=  controller.registerDepartment(acronym,name);
         //assert
@@ -54,9 +50,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         String acronym=null;
         String name= "Departamento Engenharia Informática";
-        DepartmentFactory factory= new DepartmentFactory();
-        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
+        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepositoryDouble);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(acronym, name);
@@ -71,9 +66,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         String acronym="DEI";
         String name= null;
-        DepartmentFactory factory= new DepartmentFactory();
-        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
+        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepositoryDouble);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(acronym, name);

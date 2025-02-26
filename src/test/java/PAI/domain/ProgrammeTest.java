@@ -1,31 +1,36 @@
 package PAI.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeTest {
+    private Department _department;
+    private Teacher _teacher;
+    private DegreeType _degreeType;
 
-    //test ensures that the isInDepartment method returns false when the program is not associated with the department
+
+    @BeforeEach
+    void setup() throws Exception {
+        _department = mock(Department.class);
+        _teacher = mock(Teacher.class);
+        _degreeType = mock(DegreeType.class);
+
+
+    }
     @Test
     void shouldReturnFalseWhenProgrammeIsNotInDepartment() throws Exception {
         // arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher t1 = new Teacher("CED", "Jane Doe", "ced@isep.ipp.pt", "100056789", "B107",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-
-        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
-        Programme P1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, t1);
+        Programme programme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+        Department department1 = mock(Department.class);
 
         // act
-        boolean result = P1.isInDepartment(department2);
-
+        boolean result = programme.isInDepartment(department1);
         // assert
         assertFalse(result);
     }
@@ -34,17 +39,9 @@ class ProgrammeTest {
     @Test
     void shouldReturnTrueWhenProgrammeIsNotInDepartment() throws Exception {
         // arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher t1 = new Teacher("CED", "Jane Doe", "ced@isep.ipp.pt", "100056789", "B107",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        Programme P1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, t1);
-
+        Programme programme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
         // act
-        boolean result = P1.isInDepartment(department1);
-
+        boolean result = programme.isInDepartment(_department);
         // assert
         assertTrue(result);
     }
@@ -54,44 +51,25 @@ class ProgrammeTest {
     void createAProgramme () throws Exception {
 
         //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        //act + assert
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+        Programme programme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+        //assert
+        assertNotNull(programme);
     }
-
 
     // Test to empty name in Programme
     @Test
     void emptyNameDontCreateAProgramme () throws Exception {
-
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
-        //act + assert
-
-        assertThrows(Exception.class, () -> new Programme("", "CE", 20,6,master,CSE,teacher1));
+        //assert
+        assertThrows(Exception.class, () -> new Programme("", "CE", 20,6,_degreeType,_department,_teacher));
     }
 
 
     // Test to a null name in Programme
     @Test
     void nullNameDontCreateAProgramme () throws Exception {
-
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
 
-        assertThrows(Exception.class, () -> new Programme(null, "CE", 20,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme(null, "CE", 20,6,_degreeType,_department,_teacher));
     }
 
 
@@ -99,152 +77,87 @@ class ProgrammeTest {
     @Test
     void emptyAcronymDontCreateAProgramme () throws Exception {
 
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "", 20,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "", 20,6,_degreeType,_department,_teacher));
     }
 
     // Test to a null Acronym in Programme
     @Test
     void nullAcronymDontCreateAProgramme () throws Exception {
 
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", null, 20,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", null, 20,6,_degreeType,_department,_teacher));
     }
 
-    // Test to check if negative number of ECTS dont create a programme
+    // Test to check if negative number of ECTS doNot create a programme
     @Test
     void lessThan0ECTSDontCreateAProgramme () throws Exception {
 
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", -1,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", -1,6,_degreeType,_department,_teacher));
     }
 
-    // Teste to check if number 0 of ECTS dont create a programme
+    // Test to check if number 0 of ECTS don't create a programme
     @Test
     void zeroECTSDontCreateAProgramme () throws Exception {
 
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 0,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 0,6,_degreeType,_department,_teacher));
     }
 
 
     @Test
     void moreThan30ECTSDontCreateAProgramme () throws Exception {
 
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,6,_degreeType,_department,_teacher));
 
     }
 
     @Test
     void lessThanZeroSemestersDontCreateAProgramme () throws Exception {
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,-1,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,-1,_degreeType,_department,_teacher));
 
     }
 
     @Test
     void ZeroSemestersDontCreateAProgramme () throws Exception {
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,0,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,0,_degreeType,_department,_teacher));
 
     }
 
     @Test
     void specialCharactersInNameDontCreateAProgramme () throws Exception {
-
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
 
-        assertThrows(Exception.class, () -> new Programme("@Computer Science", "CE", 20,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("@Computer Science", "CE", 20,6,_degreeType,_department,_teacher));
     }
 
 
     @Test
     void numbersInAcronymDontCreateAProgramme () throws Exception {
-
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
 
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "123", 20,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "123", 20,6,_degreeType,_department,_teacher));
     }
 
     @Test
     void specialCharactersInAcronymDontCreateAProgramme () throws Exception {
 
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-
         //act + assert
 
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", 20,6,master,CSE,teacher1));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", 20,6,_degreeType,_department,_teacher));
     }
 
     @Test
     void equalsProgrammeReturnTrue () throws Exception {
 
         //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010",assistantProfessor,100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
 
         //act
         boolean result = CE.equals(CEE);
@@ -257,12 +170,8 @@ class ProgrammeTest {
     void notEqualsProgrammeReturnFalse () throws Exception {
 
         //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Programme CEE = new Programme("Computer Engineering", "CEE", 20,6,master,CSE,teacher);
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+        Programme CEE = new Programme("Computer Engineering", "CEE", 20,6,_degreeType,_department,_teacher);
 
         //act
         boolean result = CE.equals(CEE);
@@ -274,13 +183,7 @@ class ProgrammeTest {
     @Test
     void equalsCompareObjectReturnTrue() throws Exception {
 
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
         //act
         boolean result = CE.equals(CE);
 
@@ -292,14 +195,10 @@ class ProgrammeTest {
     void equalsDontCompareDifferentObjectAndReturnFalse() throws Exception {
 
         //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
+       Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
 
         //act
-        boolean result = CE.equals(teacher);
+        boolean result = CE.equals(_teacher);
 
         //assert
         assertFalse(result);
@@ -310,16 +209,12 @@ class ProgrammeTest {
     @Test
     void creatNewProgrammeDirector() throws Exception {
         //arrange
-
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        Teacher teacher1 = new Teacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+        Teacher teacher1 = mock(Teacher.class);
         //act + assert
-        CE.newProgrammeDirector(teacher1);
+         CE.newProgrammeDirector(teacher1);
+
+
     }
 
 
