@@ -374,7 +374,11 @@ class CourseEditionEnrollmentRepositoryTest {
         Student student = mock (Student.class);
         CourseEdition courseEdition = mock (CourseEdition.class);
         CourseEditionEnrollment cee1 = mock (CourseEditionEnrollment.class);
+
+        // mock the factory method to simulate the creation of a CourseEditionEnrollment
         when (doubleCeeFactory.createCourseEditionEnrollment(student,courseEdition,LocalDate.now())).thenReturn(cee1);
+
+        // mock CourseEditionEnrollment methods to return predefined values for testing
         when(cee1.findStudentInCourseEditionEnrollment()).thenReturn(student);
         when(cee1.findCourseEditionInEnrollment()).thenReturn(courseEdition);
 
@@ -394,7 +398,6 @@ class CourseEditionEnrollmentRepositoryTest {
 
         Student student = mock (Student.class);
         CourseEdition courseEdition = mock (CourseEdition.class);
-        CourseEditionEnrollment cee1 = mock (CourseEditionEnrollment.class);
 
         // act and assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -415,11 +418,13 @@ class CourseEditionEnrollmentRepositoryTest {
         CourseEdition ce1 = mock (CourseEdition.class);
 
         // act and assert
+        // test for the case where Student is null
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             repository.removeEnrollment(null, ce1);
         });
         assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
 
+        // test for the case where CourseEdition is null
         thrown = assertThrows(IllegalArgumentException.class, () -> {
             repository.removeEnrollment(st1, null);
         });
@@ -435,7 +440,11 @@ class CourseEditionEnrollmentRepositoryTest {
         Student student = mock (Student.class);
         CourseEdition courseEdition = mock (CourseEdition.class);
         CourseEditionEnrollment cee1 = mock (CourseEditionEnrollment.class);
+
+        // mock the factory method to simulate the creation of a CourseEditionEnrollment
         when (doubleCeeFactory.createCourseEditionEnrollment(student,courseEdition,LocalDate.now())).thenReturn(cee1);
+
+        // mock CourseEditionEnrollment methods to return predefined values for testing
         when(cee1.findStudentInCourseEditionEnrollment()).thenReturn(student);
         when(cee1.findCourseEditionInEnrollment()).thenReturn(courseEdition);
 
