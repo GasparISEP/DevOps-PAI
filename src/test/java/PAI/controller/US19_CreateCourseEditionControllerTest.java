@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 class US19_CreateCourseEditionControllerTest {
 
@@ -241,15 +242,15 @@ class US19_CreateCourseEditionControllerTest {
     }
 
 
-
     @Test
     void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
+        CourseFactory courseFactory = mock(CourseFactory.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
         Course c1 = new Course ("Informatica", "INF", 6, 1);
@@ -291,11 +292,12 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
+        CourseFactory courseFactory = mock(CourseFactory.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
 
@@ -333,12 +335,13 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
+        CourseFactory courseFactory = mock(CourseFactory.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
-        CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
         Course c1 = new Course ("Informatica", "INF", 6, 1);
@@ -380,12 +383,13 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
+        CourseFactory courseFactory = mock(CourseFactory.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
         ProgrammeList programmeList = new ProgrammeList();
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
-        CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
         courseRepository.registerCourse("Matemática", "MAT", 4, 1);
         Course c1 = new Course ("Informatica", "INF", 6, 1);
