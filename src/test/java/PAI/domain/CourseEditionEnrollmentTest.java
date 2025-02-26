@@ -37,11 +37,11 @@ class CourseEditionEnrollmentTest {
     @ParameterizedTest
     @MethodSource("provideInvalidEnrollmentDate")
     void testInvalidEnrollmentDate(LocalDate enrollmentDate, String expectedMessage) throws Exception {
-        // Arrange
+        // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-        // Act + Assert
+        // act + assert
         Exception exception = assertThrows(Exception.class, () -> {
             new CourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
         });
@@ -50,11 +50,11 @@ class CourseEditionEnrollmentTest {
 
     @Test
     void testCourseEditionEnrollmentWhenStudentIsNull() throws Exception {
-        // Arrange
+        // arrange
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
-        // Act & Assert
+        // act & assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new CourseEditionEnrollment(null, courseEditionDouble, enrollmentDate);
         });
@@ -63,11 +63,11 @@ class CourseEditionEnrollmentTest {
 
     @Test
     void testCourseEditionEnrollmentWhenCourseEditionIsNull() throws Exception {
-        // Arrange
+        // arrange
         Student studentDouble = mock(Student.class);
         LocalDate enrollmentDate = LocalDate.now();
 
-        // Act & Assert
+        // act & assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new CourseEditionEnrollment(studentDouble, null, enrollmentDate);
         });
@@ -80,11 +80,9 @@ class CourseEditionEnrollmentTest {
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
-
-        //act
         CourseEditionEnrollment enrollment = new CourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
 
-        //assert
+        // act + assert
         assertFalse(enrollment.equals(null));
     }
 
@@ -97,12 +95,10 @@ class CourseEditionEnrollmentTest {
         CourseEdition courseEditionDouble2 = mock(CourseEdition.class);
         LocalDate enrollmentDate1 = LocalDate.now();
         LocalDate enrollmentDate2 = LocalDate.now();
-
-        //act
         CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(studentDouble1, courseEditionDouble1, enrollmentDate1);
         CourseEditionEnrollment enrollment2 = new CourseEditionEnrollment(studentDouble2, courseEditionDouble2, enrollmentDate2);
 
-        //assert
+        //act + assert
         assertFalse(enrollment1.equals(enrollment2));
     }
 
@@ -239,16 +235,14 @@ class CourseEditionEnrollmentTest {
 
     @Test
     void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() throws Exception {
-        // Arrange
+        // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
-
-        // Act
         CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
         CourseEditionEnrollment enrollment2 = new CourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
 
-        // Assert
+        // act + assert
         assertTrue(enrollment1.equals(enrollment2));
     }
 }
