@@ -7,9 +7,11 @@ import static org.mockito.Mockito.mock;
 
 class CourseEditionTest {
 
+
+    //US19
     @Test
-    //SUT = CourseEdition - ProgrammeEdition and Course isolated
     void shouldCreateCourseEdition() throws Exception {
+        //SUT = CourseEdition - ProgrammeEdition and Course isolated
         //Arrange
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
         Course course = mock (Course.class);
@@ -23,8 +25,8 @@ class CourseEditionTest {
     }
 
     @Test
-        //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
     void shouldNotCreateCourseEditionIfCourseIsNull() throws Exception {
+        //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
         //Arrange
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
         Course course = null;
@@ -35,8 +37,8 @@ class CourseEditionTest {
     }
 
     @Test
-        //SUT = CourseEdition - ProgrammeEdition forced to be null and Course isolated
     void shouldNotCreateCourseEditionIfProgrammeEditionIsNull() throws Exception {
+        //SUT = CourseEdition - ProgrammeEdition forced to be null and Course isolated
         //Arrange
         ProgrammeEdition programmeEdition = null;
         Course course = mock (Course.class);
@@ -47,137 +49,112 @@ class CourseEditionTest {
 
     @Test
     void shouldNotCreateCourseEditionIfProgrammeEditionAndCourseAreNull() throws Exception {
+        //SUT = CourseEdition - ProgrammeEdition and Course forced to be null
         //Arrange
-        //Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(null, null);});
+        ProgrammeEdition programmeEdition = null;
+        Course course = null;
+        //Act + Assert
+        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEdition);});
 
     }
 
     @Test
     void shouldReturnTrueIfCourseEditionEqualsObject()throws Exception {
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Course c1 = new Course ("Informatics", "INF", 6, 1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
-        CourseEdition cE1 = new CourseEdition(c1,pE1);
-        Object cE2 = cE1;
-        //act
-        boolean result = cE1.equals(cE2);
+        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //Arrange
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        Course course = mock (Course.class);
+        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
+        Object courseEdition2 = courseEdition1;
+
+        //Act
+        boolean result = courseEdition1.equals(courseEdition2);
+
         //assert
         assertTrue(result);
     }
 
     @Test
     void shouldReturnFalseIfObjectIsNotCourseEdition() throws Exception{
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Course c1 = new Course ("Informatics", "INF", 6, 1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
-        CourseEdition cE1 = new CourseEdition(c1,pE1);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        //act
-        boolean result = cE1.equals(tc1);
-        //assert
+        //SUT = CourseEdition - ProgrammeEdition, Course and Teacher Category isolated
+        //Arrange
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        Course course = mock (Course.class);
+        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
+        TeacherCategory teacherCategory = mock (TeacherCategory.class);
+
+        //Act
+        boolean result = courseEdition1.equals(teacherCategory);
+
+        //Assert
         assertFalse(result);
     }
 
     @Test
     void shouldReturnTrueIfCourseAndProgrammeEditionOfBothObjectsAreEqual() throws Exception{
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Course c1 = new Course ("Informatics", "INF", 6, 1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
-        CourseEdition cE1 = new CourseEdition(c1,pE1);
-        CourseEdition cE2 = new CourseEdition(c1,pE1);
+        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //Arrange
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        Course course = mock (Course.class);
+        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
+        CourseEdition courseEdition2 = new CourseEdition(course,programmeEdition);
 
-        //act
-        boolean result = cE1.equals(cE2);
-        //assert
+        //Act
+        boolean result = courseEdition1.equals(courseEdition2);
+        //Assert
         assertTrue(result);
     }
 
     @Test
     void shouldReturnFalseIfCoursesAreNotEqualButProgrammeEditionsAreEqual() throws Exception{
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Course c1 = new Course ("Informatics", "INF", 6, 1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
-        CourseEdition cE1 = new CourseEdition(c1,pE1);
+        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //Arrange
+        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
+        Course course1 = mock (Course.class);
+        Course course2 = mock (Course.class);
 
-        Course c2 = new Course ("Matemática", "MAT", 6, 1);
-        CourseEdition cE2 = new CourseEdition(c2,pE1);
+        CourseEdition courseEdition1 = new CourseEdition(course1,programmeEdition1);
+        CourseEdition courseEdition2 = new CourseEdition(course2,programmeEdition1);
 
-        //act
-        boolean result = cE1.equals(cE2);
-        //assert
+        //Act
+        boolean result = courseEdition1.equals(courseEdition2);
+
+        //Assert
         assertFalse(result);
     }
 
     @Test
     void shouldReturnFalseIfCoursesAreEqualButProgrammeEditionsAreNotEqual() throws Exception{
-        //arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 100,CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Course c1 = new Course ("Informatics", "INF", 6, 1);
-        SchoolYear sY2 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2023", "09-12-2024");
-        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
-        ProgrammeEdition pE2 = new ProgrammeEdition (p1, sY2);
-        CourseEdition cE1 = new CourseEdition(c1,pE1);
+        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //Arrange
+        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEdition2 = mock(ProgrammeEdition.class);
+        Course course1 = mock (Course.class);
 
-        CourseEdition cE2 = new CourseEdition(c1,pE2);
+        CourseEdition courseEdition1 = new CourseEdition(course1,programmeEdition1);
+        CourseEdition courseEdition2 = new CourseEdition(course1,programmeEdition2);
 
-        //act
-        boolean result = cE1.equals(cE2);
-        //assert
+        //Act
+        boolean result = courseEdition1.equals(courseEdition2);
+
+        //Assert
         assertFalse(result);
     }
 
+    //US20
     @Test
     void shouldReturnTrueIfRucIsSet() throws Exception {
+        //SUT = CourseEdition - ProgrammeEdition, Course and Teacher isolated
         //Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        Course c1 = new Course("Informatics", "INF", 6, 1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
-        Teacher ruc = new Teacher("AAA", "Joao Costa", "aaa@isep.ipp.pt", "123456780", "A106", "Doutoramento em Artes Circenses, 2004, ISEP", "Rua São Porto", "4249-015", "Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
-        CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
+        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
+        Course course1 = mock (Course.class);
+        Teacher ruc = mock (Teacher.class);
+
+        CourseEdition courseEdition1 = new CourseEdition(course1, programmeEdition1);
 
         //Act
         boolean result = courseEdition1.setRuc(ruc);
+
         //Assert
         assertTrue(result);
     }
