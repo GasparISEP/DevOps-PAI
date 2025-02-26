@@ -12,7 +12,7 @@ class CourseEditionRepositoryTest {
 
     @Test
     void shouldReturnTrueIfCourseEditionHasBeenCreated() throws Exception {
-        //SUT = CourseEditionRepository - CourseEditionFactory and CourseEdition isolated
+        //SUT = CourseEditionRepository -> CourseEditionFactory and CourseEdition as Doubles
         //Arrange
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
@@ -33,7 +33,7 @@ class CourseEditionRepositoryTest {
 
     @Test
     void shouldReturnTrueIfTheAddedCourseEditionHasDifferentCourseButTheSameProgrammeEdition() throws Exception {
-        //SUT = CourseEditionRepository - CourseEditionFactory and CourseEdition isolated
+        //SUT = CourseEditionRepository -> CourseEditionFactory and CourseEdition as Doubles
         //Arrange
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
@@ -57,7 +57,7 @@ class CourseEditionRepositoryTest {
 
     @Test
     void shouldReturnTrueIfTheAddedCourseEditionHasSameCourseButDifferentProgrammeEdition() throws Exception {
-        //SUT = CourseEditionRepository - CourseEditionFactory and CourseEdition isolated
+        //SUT = CourseEditionRepository -> CourseEditionFactory and CourseEdition as Doubles
         //Arrange
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
@@ -79,7 +79,7 @@ class CourseEditionRepositoryTest {
 
     @Test
     void shouldReturnFalseIfTheCourseEditionIsAlreadyRegistered() throws Exception {
-        //SUT = CourseEditionRepository - CourseEditionFactory and CourseEdition isolated
+        //SUT = CourseEditionRepository -> CourseEditionFactory and CourseEdition as Doubles
         //Arrange
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
@@ -101,12 +101,19 @@ class CourseEditionRepositoryTest {
 
 
     @Test
-    void shouldReturnFalseIfCourseAndProgrammeEditionAreNull() throws Exception {
+    void shouldReturnFalseIfCourseOrProgrammeEditionAreNull() throws Exception {
+        //SUT = CourseEditionRepository -> CourseEditionFactory and CourseEdition as Doubles
         //Arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository courseEditionRepository1 = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionRepository courseEditionRepository1 = new CourseEditionRepository(courseEditionFactoryDouble);
+
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+        Course courseDouble1 = mock (Course.class);
+
+        when(courseEditionFactoryDouble.newCourseEdition(courseDouble1, programmeEditionDouble1)).thenThrow();
+
         //Act
-        boolean result = courseEditionRepository1.createAndSaveCourseEdition(null, null);
+        boolean result = courseEditionRepository1.createAndSaveCourseEdition(courseDouble1, programmeEditionDouble1);
         //assert
         assertFalse(result);
     }
