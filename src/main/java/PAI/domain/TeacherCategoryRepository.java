@@ -7,11 +7,19 @@ public class TeacherCategoryRepository {
 
     private List<TeacherCategory> _teacherCategoryRepository;
 
+
     //CONSTRUTOR
-    public TeacherCategoryRepository () {
+
+    public TeacherCategoryRepository () {this(new TeacherCategoryFactory());
+    }
+
+    public TeacherCategoryRepository (TeacherCategoryFactory doubleTeacherCategoryFactory) {
 
         _teacherCategoryRepository = new ArrayList<>();
     }
+
+
+
     //VALIDAÇÕES
 
     public boolean registerTeacherCategory (String name) throws Exception {

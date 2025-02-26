@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.domain.TeacherCategoryFactory;
 import PAI.domain.TeacherCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class US01_ConfigureTeacherCategoryControllerTest {
 
@@ -16,7 +18,8 @@ public class US01_ConfigureTeacherCategoryControllerTest {
     @BeforeEach
     public void setUp() {
         // Arrange
-        repository = new TeacherCategoryRepository();
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        repository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
         controller = new US01_ConfigureTeacherCategoryController(repository);
     }
 

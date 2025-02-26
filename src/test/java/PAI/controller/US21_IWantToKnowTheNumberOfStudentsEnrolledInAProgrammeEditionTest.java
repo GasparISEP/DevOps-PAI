@@ -13,7 +13,8 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
     void shouldCreateControllerWhenRepositoriesAreValid(){
         // Arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
 
 
         // Act
@@ -29,7 +30,8 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
     void shouldThrowExceptionWhenProgrammeEditionEnrollmentRepositoryIsNull(){
         // Arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -41,7 +43,8 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
     void shouldReturnCorrectNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
         // Arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
 
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);

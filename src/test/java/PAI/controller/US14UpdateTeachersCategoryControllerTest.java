@@ -1,17 +1,18 @@
 package PAI.controller;
+
 import PAI.domain.*;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-
 import org.junit.jupiter.params.provider.MethodSource;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 class US14UpdateTeachersCategoryControllerTest {
 
@@ -21,7 +22,8 @@ class US14UpdateTeachersCategoryControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         //Create Teacher Categories and add to Repository
-        tcr1 = new TeacherCategoryRepository();
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        tcr1 = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
         tcr1.registerTeacherCategory("Assistente");
         tcr1.registerTeacherCategory("Efectivo");
         Optional<TeacherCategory> optionalTeacherCategory1 = tcr1.getTeacherCategoryByName("Assistente");

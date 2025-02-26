@@ -6,15 +6,17 @@ import java.util.Optional;
 
 public class ProgrammeEditionRepository {
 
-    private ArrayList<ProgrammeEdition> _programmeEditionRepository;
+    private final ArrayList<ProgrammeEdition> _programmeEditionRepository;
+    private final ProgrammeEditionFactory _programmeEditionFactory;
 
-    public ProgrammeEditionRepository () {
+    public ProgrammeEditionRepository (ProgrammeEditionFactory programmeEditionFactory) {
         _programmeEditionRepository = new ArrayList<>();
+        _programmeEditionFactory = programmeEditionFactory;
     }
 
     public boolean createProgrammeEdition(Programme programme, SchoolYear schoolYear) {
         try {
-            ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+            ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(programme, schoolYear);
             if (!isProgrammeEditionAlreadyRegistered(programmeEdition)) {
                 _programmeEditionRepository.add(programmeEdition);
                 return true;
