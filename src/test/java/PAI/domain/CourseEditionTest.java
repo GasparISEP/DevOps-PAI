@@ -13,11 +13,11 @@ class CourseEditionTest {
     void shouldCreateCourseEdition() throws Exception {
         //SUT = CourseEdition - ProgrammeEdition and Course isolated
         //Arrange
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        Course course = mock (Course.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Course courseDouble = mock (Course.class);
 
         //Act
-        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
 
         //Assert
         assertNotNull(courseEdition1);
@@ -28,11 +28,11 @@ class CourseEditionTest {
     void shouldNotCreateCourseEditionIfCourseIsNull() throws Exception {
         //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
         //Arrange
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course course = null;
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEdition);});
+        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEditionDouble);});
 
     }
 
@@ -41,9 +41,9 @@ class CourseEditionTest {
         //SUT = CourseEdition - ProgrammeEdition forced to be null and Course isolated
         //Arrange
         ProgrammeEdition programmeEdition = null;
-        Course course = mock (Course.class);
+        Course courseDouble = mock (Course.class);
         //Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEdition);});
+        assertThrows(Exception.class, () -> {new CourseEdition(courseDouble, programmeEdition);});
 
     }
 
@@ -51,10 +51,10 @@ class CourseEditionTest {
     void shouldNotCreateCourseEditionIfProgrammeEditionAndCourseAreNull() throws Exception {
         //SUT = CourseEdition - ProgrammeEdition and Course forced to be null
         //Arrange
-        ProgrammeEdition programmeEdition = null;
+        ProgrammeEdition programmeEditionDouble = null;
         Course course = null;
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEdition);});
+        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEditionDouble);});
 
     }
 
@@ -62,9 +62,9 @@ class CourseEditionTest {
     void shouldReturnTrueIfCourseEditionEqualsObject()throws Exception {
         //SUT = CourseEdition - ProgrammeEdition and Course isolated
         //Arrange
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        Course course = mock (Course.class);
-        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Course courseDouble = mock (Course.class);
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
         Object courseEdition2 = courseEdition1;
 
         //Act
@@ -78,13 +78,13 @@ class CourseEditionTest {
     void shouldReturnFalseIfObjectIsNotCourseEdition() throws Exception{
         //SUT = CourseEdition - ProgrammeEdition, Course and Teacher Category isolated
         //Arrange
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        Course course = mock (Course.class);
-        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
-        TeacherCategory teacherCategory = mock (TeacherCategory.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Course courseDouble = mock (Course.class);
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
+        TeacherCategory teacherCategoryDouble = mock (TeacherCategory.class);
 
         //Act
-        boolean result = courseEdition1.equals(teacherCategory);
+        boolean result = courseEdition1.equals(teacherCategoryDouble);
 
         //Assert
         assertFalse(result);
@@ -94,10 +94,10 @@ class CourseEditionTest {
     void shouldReturnTrueIfCourseAndProgrammeEditionOfBothObjectsAreEqual() throws Exception{
         //SUT = CourseEdition - ProgrammeEdition and Course isolated
         //Arrange
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        Course course = mock (Course.class);
-        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
-        CourseEdition courseEdition2 = new CourseEdition(course,programmeEdition);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Course courseDouble = mock (Course.class);
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
+        CourseEdition courseEdition2 = new CourseEdition(courseDouble, programmeEditionDouble);
 
         //Act
         boolean result = courseEdition1.equals(courseEdition2);
@@ -109,12 +109,12 @@ class CourseEditionTest {
     void shouldReturnFalseIfCoursesAreNotEqualButProgrammeEditionsAreEqual() throws Exception{
         //SUT = CourseEdition - ProgrammeEdition and Course isolated
         //Arrange
-        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
-        Course course1 = mock (Course.class);
-        Course course2 = mock (Course.class);
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+        Course courseDouble1 = mock (Course.class);
+        Course courseDouble2 = mock (Course.class);
 
-        CourseEdition courseEdition1 = new CourseEdition(course1,programmeEdition1);
-        CourseEdition courseEdition2 = new CourseEdition(course2,programmeEdition1);
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
+        CourseEdition courseEdition2 = new CourseEdition(courseDouble2, programmeEditionDouble1);
 
         //Act
         boolean result = courseEdition1.equals(courseEdition2);
@@ -127,12 +127,12 @@ class CourseEditionTest {
     void shouldReturnFalseIfCoursesAreEqualButProgrammeEditionsAreNotEqual() throws Exception{
         //SUT = CourseEdition - ProgrammeEdition and Course isolated
         //Arrange
-        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
-        ProgrammeEdition programmeEdition2 = mock(ProgrammeEdition.class);
-        Course course1 = mock (Course.class);
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
+        Course courseDouble1 = mock (Course.class);
 
-        CourseEdition courseEdition1 = new CourseEdition(course1,programmeEdition1);
-        CourseEdition courseEdition2 = new CourseEdition(course1,programmeEdition2);
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
+        CourseEdition courseEdition2 = new CourseEdition(courseDouble1, programmeEditionDouble2);
 
         //Act
         boolean result = courseEdition1.equals(courseEdition2);
@@ -146,14 +146,14 @@ class CourseEditionTest {
     void shouldReturnTrueIfRucIsSet() throws Exception {
         //SUT = CourseEdition - ProgrammeEdition, Course and Teacher isolated
         //Arrange
-        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
-        Course course1 = mock (Course.class);
-        Teacher ruc = mock (Teacher.class);
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+        Course courseDouble1 = mock (Course.class);
+        Teacher rucDouble = mock (Teacher.class);
 
-        CourseEdition courseEdition1 = new CourseEdition(course1, programmeEdition1);
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
 
         //Act
-        boolean result = courseEdition1.setRuc(ruc);
+        boolean result = courseEdition1.setRuc(rucDouble);
 
         //Assert
         assertTrue(result);
