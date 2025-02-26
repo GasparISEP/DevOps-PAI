@@ -4,11 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.ArrayList;
-import java.util.List;
+import static org.mockito.Mockito.mock;
 import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -17,28 +14,28 @@ class TeacherTest {
     @Test
     void shouldReturnTeacherWhenAllFieldsAreValid() throws Exception {
         //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
         //act + assert
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble);
     }
 
     @Test
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws Exception {
         //arrange
-        TeacherCategory tc1 = new TeacherCategory("Math");
-        Department dpt1 = new Department("MAT", "Mathematics");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
         //act + assert
-        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble);
     }
 
     @Test
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws Exception {
         //arrange
-        TeacherCategory tc1 = new TeacherCategory("Math");
-        Department dpt1 = new Department("MAT", "Mathematics");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
         //act + assert
-        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble);
     }
 
 
@@ -68,11 +65,11 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("DED", "Dept1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -100,12 +97,12 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("DED", "Dept1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name , email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name , email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -133,12 +130,12 @@ class TeacherTest {
         String nif = "123456789";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -166,12 +163,12 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -202,12 +199,12 @@ class TeacherTest {
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -229,12 +226,12 @@ class TeacherTest {
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -257,12 +254,12 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, "4432-345", "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -285,12 +282,12 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores", postalCode, "Porto","Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores", postalCode, "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -313,12 +310,12 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085", Location,"Portugal","14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085", Location,"Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -341,12 +338,12 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto", Country,"14-05-2004", tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto", Country,"14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -369,12 +366,12 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department( "DED","Dep1");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto","Portugal",Date, tc1, 100, dpt1);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto","Portugal",Date, tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -383,11 +380,11 @@ class TeacherTest {
     void doesTeacherHaveThisNIF() throws Exception {
 
         // arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
 
         //act
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
 
         //act & assert
         assertTrue(t1.hasThisNIF("123456789"));
@@ -400,9 +397,9 @@ class TeacherTest {
     @Test
     void returnsTrueAfterUpdateWorkingPercentageInTeacherCareerProgression() throws Exception {
         //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
 
         //act
         boolean result = t1.updateWorkingPercentageInTeacherCareerProgression("15-04-2008", 50);
@@ -414,9 +411,9 @@ class TeacherTest {
     @Test
     void returnsExceptionWhenGivenWorkingPercentageIsEqualToPresentWorkingPercentage() throws Exception {
         //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
 
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression("16-10-2015", 70));
@@ -434,9 +431,9 @@ class TeacherTest {
     @MethodSource("provideInvalidDates")
     void throwsExceptionWhenUpdateDateIsNotAfterExistingDate(String date, String expectedMessage) throws Exception {
         //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
 
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date, 50));
@@ -448,13 +445,13 @@ class TeacherTest {
         // Arrange
         String date1 = "22-12-2024";
         String date2 = "25-12-2024";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        TeacherCategory tcDouble = new TeacherCategory ("Professor Adjunto");
+        TeacherCategory tcDouble2 = new TeacherCategory ("Professor Efetivo");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
-        boolean result = t1.updateTeacherCategoryInTeacherCareer(date2, tc2);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble);
+        boolean result = t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2);
 
         // Assert
         assertTrue(result);
@@ -466,8 +463,8 @@ class TeacherTest {
         // Arrange
         TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
         TeacherCategory category2 = new TeacherCategory("Professor Efectivo");
-        Department department = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", category1, 70, department);
+        Department dptDouble = mock(Department.class);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", category1, 70, dptDouble);
         TeacherCareerProgression tcp1 = new TeacherCareerProgression("15-04-2005", category2, 70);
 
         // Act
@@ -485,10 +482,10 @@ class TeacherTest {
         String date2 = "12-12-2024";
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
@@ -500,10 +497,10 @@ class TeacherTest {
         String date1 = "25-12-2024";
         String date2 = "26-12-2024";
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc1));
@@ -515,10 +512,10 @@ class TeacherTest {
         String date1 = "25-12-2024";
         String date2 = "26-12-2024";
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         boolean result = false;
         try {
@@ -538,10 +535,10 @@ class TeacherTest {
         String date2 = "25-12-2024"; // Same date as the initial date
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
@@ -554,10 +551,10 @@ class TeacherTest {
         String date2 = null; // Null date
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
@@ -570,10 +567,10 @@ class TeacherTest {
         String date2 = ""; // Blank date
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
@@ -586,10 +583,10 @@ class TeacherTest {
         String date2 = "25/12/2024"; // Invalid date format
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
@@ -602,10 +599,10 @@ class TeacherTest {
         String date2 = "26-12-2024";
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         TeacherCategory tc2 = null; // Null category
-        Department dpt1 = new Department("MOT", "Mothematics");
+        Department dptDouble = mock(Department.class);
 
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dpt1);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
