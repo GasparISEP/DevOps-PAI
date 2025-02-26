@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionEnrollmentTest {
 
@@ -207,107 +209,41 @@ class ProgrammeEditionEnrollmentTest {
     //US26
     // Test returns true when the department and school year are correctly associated with the enrollment
     @Test
-    void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() throws Exception {
+    void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() {
         // arrange
-        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student1 = new Student (1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("DEI", "Departamento Engenharia Informática");
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "01-09-2024", "31-12-2024");
-        TeacherCategory teacherCategory = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", teacherCategory, 100, department);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher1);
-        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear);
+        Student student1Double = mock(Student.class);
+        Department departmentDouble = mock(Department.class);
+        SchoolYear schoolYearDouble = mock(SchoolYear.class);
+        ProgrammeEdition editionDouble = mock(ProgrammeEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1,edition,enrollmentDate );
+
+        when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble,schoolYearDouble)).thenReturn(true);
+
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1Double,editionDouble,enrollmentDate);
 
         // act
-        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear);
+        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
 
         // assert
         assertTrue(result);
     }
 
-    // Test returns false when school year is not associated with the enrollment
-    @Test
-    void shouldReturnFalseWhenSchoolYearIsNotAssociated() throws Exception {
-        // arrange
-        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student1 = new Student (1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("DEI", "Departamento Engenharia Informática");
-        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2020", "31-07-2021");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher1);
-        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear1);
-        LocalDate enrollmentDate = LocalDate.now();
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1,edition,enrollmentDate );
-
-        // act
-        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear2);
-
-        // assert
-        assertFalse(result);
-    }
-
-    // Test returns false when the department is not associated with the enrollment
-    @Test
-    void shouldReturnFalseWhenDepartmentIsNotAssociated() throws Exception {
-        // arrange
-        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student1 = new Student (1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
-        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear);
-        LocalDate enrollmentDate = LocalDate.now();
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1,edition,enrollmentDate);
-
-        // act
-        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department2, schoolYear);
-
-        // assert
-        assertFalse(result);
-    }
-
     // Test returns false when department and school year are not associated with the enrollment
     @Test
-    void shouldReturnFalseWhenNeitherDepartmentNorSchoolYearAreAssociated() throws Exception {
+    void shouldReturnFalseWhenDepartmentAndSchoolYearAreNotAssociatedWithTheEnrollment() {
         // arrange
-        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student student1 = new Student (1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
-        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2020", "31-07-2021");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, department1);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
-        ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear1);
+        Student student1Double = mock(Student.class);
+        Department departmentDouble = mock(Department.class);
+        SchoolYear schoolYearDouble = mock(SchoolYear.class);
+        ProgrammeEdition editionDouble = mock(ProgrammeEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1,edition,enrollmentDate);
+
+        when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble,schoolYearDouble)).thenReturn(false);
+
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1Double,editionDouble,enrollmentDate);
 
         // act
-        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department2, schoolYear2);
+        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
 
         // assert
         assertFalse(result);
