@@ -10,18 +10,18 @@ class TeacherCategoryRepositoryTest {
 
     @Test
     void shouldReturnTrueIfIsAlreadyRegisteredInTheTeacherCategoryRepository() throws Exception {
-        //arrange
+        // Arrange
         TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
         TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
         when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
         teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
 
-        //act
+        // Act
         boolean result = teacherCategoryRepository.isTeacherCategoryRegistered(doubleTeacherCategory);
 
         // Assert
-        assertFalse(result); //needs correction its assertTrue instead of assertFalse
+        assertTrue(result); //needs correction its assertTrue instead of assertFalse
     }
 
     @Test
