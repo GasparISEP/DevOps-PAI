@@ -3,50 +3,45 @@ package PAI.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class CourseEditionTest {
 
     @Test
+    //SUT = CourseEdition - ProgrammeEdition and Course isolated
     void shouldCreateCourseEdition() throws Exception {
         //Arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 80, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        Course c1 = new Course ("Informatics", "INF", 6, 1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
-        //act
-        CourseEdition courseEdition1 = new CourseEdition(c1,pE1);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        Course course = mock (Course.class);
+
+        //Act
+        CourseEdition courseEdition1 = new CourseEdition(course,programmeEdition);
+
         //Assert
         assertNotNull(courseEdition1);
 
     }
 
     @Test
+        //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
     void shouldNotCreateCourseEditionIfCourseIsNull() throws Exception {
         //Arrange
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "24-03-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);
-        //Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(null, pE1);});
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        Course course = null;
+
+        //Act + Assert
+        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEdition);});
 
     }
 
     @Test
+        //SUT = CourseEdition - ProgrammeEdition forced to be null and Course isolated
     void shouldNotCreateCourseEditionIfProgrammeEditionIsNull() throws Exception {
         //Arrange
-        Course c1 = new Course ("Informatics", "INF", 6, 1);
+        ProgrammeEdition programmeEdition = null;
+        Course course = mock (Course.class);
         //Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(c1, null);});
+        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEdition);});
 
     }
 
