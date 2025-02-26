@@ -17,39 +17,42 @@ class CourseEditionEnrollmentFactoryTest {
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
         //act + assert
-        CourseEditionEnrollment courseEditionEnrollment = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(studentDouble,courseEditionDouble,enrollmentDate);
+        CourseEditionEnrollment courseEditionEnrollment = factory.createCourseEditionEnrollment(studentDouble,courseEditionDouble,enrollmentDate);
     }
     @Test
     void should_throw_an_exception_when_student_is_null(){
         //arrange
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
         CourseEdition courseEdition = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            CourseEditionEnrollmentFactory.createCourseEditionEnrollment(null, courseEdition, enrollmentDate);
+            factory.createCourseEditionEnrollment(null, courseEdition, enrollmentDate);
         });
         assertEquals("Student cannot be null!", exception.getMessage());
     }
     @Test
     void should_throw_an_exception_when_courseEdition_is_null(){
         //arrange
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
         Student student = mock(Student.class);
         LocalDate enrollmentDate = LocalDate.now();
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, null, enrollmentDate);
+            factory.createCourseEditionEnrollment(student, null, enrollmentDate);
         });
         assertEquals("Course edition cannot be null!", exception.getMessage());
     }
     @Test
     void should_throw_an_exception_when_enrollmentDate_is_not_the_current_date(){
         //arrange
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.of(2025,02,01);
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+            factory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
         });
         assertEquals("Enrollment date must be the current day!", exception.getMessage());
     }
