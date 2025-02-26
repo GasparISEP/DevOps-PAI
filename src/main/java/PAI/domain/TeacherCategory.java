@@ -23,6 +23,8 @@ public class TeacherCategory {
     public String getName() {
         return _name;
     }
+
+
     @Override
     public boolean equals (Object objectToCompare){
 
