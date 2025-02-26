@@ -6,120 +6,133 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class CourseTest {
 
     @Test
     void shouldCreateValidCourse() throws Exception {
-        // Arrange
-        // Act
-        Course course1 = new Course("Informatics", "INF", 6, 1);
+        //arrange
+        CourseFactory courseFactory = new CourseFactory();
+        //act
+        Course course = courseFactory.createCourse("Informatics", "INF", 6, 1);
         // Assert
-        assertNotNull(course1);
+        assertNotNull(course);
     }
 
     @Test
-    void shouldReturnExceptionIfCourseNameIsInvalid() throws Exception {
+    void shouldReturnExceptionIfCourseNameIsInvalid()  {
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("", "INF", 6, 1));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("", "INF", 6, 1));
     }
 
     @Test
-    void shouldReturnExceptionIfCourseNameIsNull() throws Exception {
+    void shouldReturnExceptionIfCourseNameIsNull()  {
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course(null, "INF", 6, 1));
+        assertThrows(Exception.class, () -> courseFactory.createCourse(null, "INF", 6, 1));
     }
 
     @Test
-    void shouldReturnExceptionIfAcronymIsNull() throws Exception {
+    void shouldReturnExceptionIfAcronymIsNull() {
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", null, 6, 1));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", null, 6, 1));
     }
 
     @Test
-    void shouldReturnExceptionIfAcronymIsBlank() throws Exception {
+    void shouldReturnExceptionIfAcronymIsBlank(){
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "", 6, 1));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", "", 6, 1));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"^AZ", "A^Z", "AZ^", "áBD", "BsD", "BDá", "A ZD", "AZ D", " AZD", "AZ!", "A!Z", "A!Z", "asd"})
-    void shouldReturnExceptionIfAcronymIsInvalid(String invalidAcronym) throws Exception {
+    void shouldReturnExceptionIfAcronymIsInvalid(String invalidAcronym)  {
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", invalidAcronym, 6, 1));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", invalidAcronym, 6, 1));
     }
 
     @Test
-    void shouldReturnExceptionIfEctsIsLessThanOne() throws Exception{
+    void shouldReturnExceptionIfEctsIsLessThanOne(){
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 0, 1));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", "INF", 0, 1));
     }
 
     @Test
-    void shouldReturnExceptionIfEctsIsHigherThanSixty() throws Exception{
+    void shouldReturnExceptionIfEctsIsHigherThanSixty(){
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 61, 1));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", "INF", 61, 1));
     }
 
     @Test
-    void shouldReturnExceptionIfDurationOfCourseInSemesterIsLessThanOne() throws Exception{
+    void shouldReturnExceptionIfDurationOfCourseInSemesterIsLessThanOne(){
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 60, 0));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", "INF", 60, 0));
     }
 
     @Test
-    void shouldReturnExceptionIfDurationOfCourseInSemesterHasMoreThanOneDecimalDigit() throws Exception{
+    void shouldReturnExceptionIfDurationOfCourseInSemesterHasMoreThanOneDecimalDigit(){
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 25.55, 0));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", "INF", 25.55, 0));
     }
 
     @Test
-    void shouldReturnExceptionIfDurationOfCourseInSemesterIsHigherThanTwo() throws Exception{
+    void shouldReturnExceptionIfDurationOfCourseInSemesterIsHigherThanTwo(){
         //arrange
+        CourseFactory courseFactory = new CourseFactory();
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course("Informatics", "INF", 60, 3));
+        assertThrows(Exception.class, () -> courseFactory.createCourse("Informatics", "INF", 60, 3));
     }
 
     //Equals Method Test
     @Test
     void shouldReturnTrueIfObjectComparedIsTheSameAsThisCourse() throws Exception{
         //arrange
-        Course course1 = new Course("Informatics", "INF", 10, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 10, 1);
         Object objectToCompare = course1;
         //act
         boolean result = course1.equals(objectToCompare);
         //assert
         assertTrue(result);
+        assertSame(course1,objectToCompare);
     }
 
     @Test
     void shouldReturnFalseIfObjectComparedIsNotAnInstanceOfCourse() throws Exception{
         //arrange
-        TeacherCategory teacherCategory = new TeacherCategory("diretor");
-        Department department = new Department("EIA", "Departamento EI");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
-                "238310710", "A123", "Doutoramento em Engenharia Informatica, 2005, ISEP","Rua da Alegria", "4222-232", "Porto", "Portugal","24-05-2010",teacherCategory, 100, department);
-        Course course1 = new Course("Informatics", "INF", 10, 1);
-        Object objectToCompare = teacher;
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 10, 1);
+
+        AccessMethod accessMethodMock = mock(AccessMethod.class);
+        Object objectToCompare = accessMethodMock;
         //act
         boolean result = course1.equals(objectToCompare);
         //assert
@@ -129,8 +142,9 @@ class CourseTest {
     @Test
     void shouldReturnTrueIfObjectComparedHasTheSameAcronymAsOtherCourse() throws Exception{
         //arrange
-        Course course1 = new Course("Informatics", "INF", 10, 1);
-        Course course2 = new Course("Maths", "INF", 5, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 10, 1);
+        Course course2 = courseFactory.createCourse("Maths", "INF", 5, 1);
         //act
         boolean result = course1.equals(course2);
         //assert
@@ -140,8 +154,9 @@ class CourseTest {
     @Test
     void shouldReturnTrueIfObjectComparedHasTheSameNameAsOtherCourse() throws Exception{
         //arrange
-        Course course1 = new Course("Informatics", "INF", 10, 1);
-        Course course2 = new Course("Informatics", "NIF", 5, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 10, 1);
+        Course course2 = courseFactory.createCourse("Informatics", "NIF", 5, 1);
         //act
         boolean result = course1.equals(course2);
         //assert
@@ -151,8 +166,9 @@ class CourseTest {
     @Test
     void shouldReturnFalseIfObjectComparedHasNeitherTheSameNameOrAcronymAsOtherCourse() throws Exception{
         //arrange
-        Course course1 = new Course("Informatics", "INF", 10, 1);
-        Course course2 = new Course("Maths", "MAT", 5, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 10, 1);
+        Course course2 = courseFactory.createCourse("Maths", "MAT", 5, 1);
         //act
         boolean result = course1.equals(course2);
         //assert
@@ -162,7 +178,8 @@ class CourseTest {
     @Test
     void shouldReturnTheDurationCourseInSemester() throws Exception{
         //arrange
-        Course course1 = new Course("Informatics", "INF", 10, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 10, 1);
         //act
         int result = course1.getDurationInSemester();
         //assert
@@ -172,7 +189,8 @@ class CourseTest {
     @Test
     void shouldReturnQuantityCreditsEcts() throws Exception {
         // Arrange
-        Course course1 = new Course("Informatics", "INF", 6, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 6, 1);
         // Act
         double resultado = course1.getQuantityCreditsEcts();
         // Assert
@@ -182,7 +200,8 @@ class CourseTest {
     @Test
     void shouldReturnCourseName() throws Exception {
         // Arrange
-        Course course1 = new Course("Informatics", "INF", 6, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 6, 1);
         // Act
         String resultado = course1.getName();
         // Assert
@@ -192,7 +211,8 @@ class CourseTest {
     @Test
     void shouldReturnCourseAcronym() throws Exception {
         // Arrange
-        Course course1 = new Course("Informatics", "INF", 6, 1);
+        CourseFactory courseFactory = new CourseFactory();
+        Course course1 = courseFactory.createCourse("Informatics", "INF", 6, 1);
         // Act
         String resultado = course1.getAcronym();
         // Assert
