@@ -1,4 +1,5 @@
 package PAI.controller;
+import PAI.domain.DepartmentFactory;
 import PAI.domain.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +11,8 @@ class US05_DepartmentRegistryControllerTest {
     @Test
     void shouldCreateControllerWhenRepositoryIsValid(){
         // arrange
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
 
         // Act
         US05_DepartmentRegistryController controller =
@@ -38,7 +40,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         String acronym= "DEI";
         String name= "Departamento Engenharia Informática";
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
         //act
         boolean result=  controller.registerDepartment(acronym,name);
@@ -51,7 +54,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         String acronym=null;
         String name= "Departamento Engenharia Informática";
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -67,7 +71,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         String acronym="DEI";
         String name= null;
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
