@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 
 public class ProgrammeEnrolment {
 
+    private ProgrammeEnrolmentFactory _programmeEnrolmentFactory;
     private Student _student;
     private AccessMethod _accessMethod;
     private Programme _programme;

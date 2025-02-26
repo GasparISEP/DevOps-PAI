@@ -16,8 +16,10 @@ class CourseEditionEnrollmentFactoryTest {
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
-        //act + assert
+        //act
         CourseEditionEnrollment courseEditionEnrollment = factory.createCourseEditionEnrollment(studentDouble,courseEditionDouble,enrollmentDate);
+        //assert
+        assertNotNull(courseEditionEnrollment);
     }
     @Test
     void should_throw_an_exception_when_student_is_null(){

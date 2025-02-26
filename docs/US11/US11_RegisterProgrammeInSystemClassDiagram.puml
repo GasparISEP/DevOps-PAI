@@ -2,6 +2,12 @@
 !pragma layout smetana
 'left to right direction
 
+class US11_RegisterProgrammeInTheSystem {
+    -_programmeList: List<Programme>
+    +US11_RegisterProgrammeInTheSystem(ProgrammeList programmeList)
+    +registerProgrammeInTheSystem(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector)
+}
+
 class Department {
     -_acronym:String
     -_name:String
@@ -120,5 +126,7 @@ CourseInStudyPlan "*" -left-> "1" Programme: belongs
 
 
 ProgrammeList "List<Programme>" *-- "0..*" Programme
+
+US11_RegisterProgrammeInTheSystem "1   " ....> "1   " ProgrammeList
 
 @enduml

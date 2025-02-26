@@ -1,127 +1,89 @@
 package PAI.domain;
 
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class TeacherCategoryRepositoryTest {
 
     @Test
     void shouldReturnTrueIfIsAlreadyRegisteredInTheTeacherCategoryRepository() throws Exception {
         //arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
-        when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
-        teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
-
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        tcr.registerTeacherCategory("Professor Adjunto");
         //act
-        boolean result = teacherCategoryRepository.isTeacherCategoryRegistered(doubleTeacherCategory);
-
-        // Assert
-        assertFalse(result); //needs correction its assertTrue instead of assertFalse
+        boolean result = tcr.isTeacherCategoryRegistered(tc1);
+        //assert
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfTeacherCategoryIsNotRegisteredInTeacherCategoryRepository() throws Exception {
-        // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory1 = mock(TeacherCategory.class);
-        TeacherCategory doubleTeacherCategory2 = mock(TeacherCategory.class);
-        when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory1);
-
-        // Act
-        boolean result = teacherCategoryRepository.isTeacherCategoryRegistered(doubleTeacherCategory2);
-        // Assert
+    void shouldReturnFalseIfTeacherCategorydIsNotRegisteredInTeacherCategoryRepository() throws Exception {
+        //arrange
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        tcr.registerTeacherCategory("Professor Coordenador");
+        //act
+        boolean result = tcr.isTeacherCategoryRegistered(tc1);
+        //assert
         assertFalse(result);
 
     }
 
     @Test
     void testTeacherCategoryRepositoryCreationValid() {
-        // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-
-        // Act
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-
-        // Assert
-        assertNotNull(teacherCategoryRepository);
+        //arrange
+        //act
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        //assert
+        assertNotNull(tcr);
 
     }
 
     @Test
     void shouldReturnTrueIIfTeacherCategoryIsRegistered() throws Exception {
-
-        // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
-
-        when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
-
-        // Act
-        boolean result = teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
-
-        // Assert
+        //arrange
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        //act
+        boolean result = tcr.registerTeacherCategory("Professor Adjunto");
+        //assert
         assertTrue(result);
-
 
     }
 
     @Test
-    void shouldReturnFalseIfTeacherCategoryCannotBeRegistered() throws Exception {
-        // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
-
-        when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
-        teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
-
-        // Act
-        boolean result = teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
-
-        // Assert
+    void shouldReturnFalseIfTeacherCategoryIsNotRegistered() throws Exception {
+        //arrange
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        tcr.registerTeacherCategory("Professor Adjunto");
+        //act
+        boolean result = tcr.registerTeacherCategory("Professor Adjunto");
+        //assert
         assertFalse(result);
     }
 
     //Testing that the list is not retrieved if empty
-   /* @Test
+    @Test
     void shouldReturnExceptionIfCategoryListIsEmpty() throws IllegalStateException {
         // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        List<TeacherCategory> teacherCategoryList = teacherCategoryRepository.getTeacherCategoriesList();
-
-        // Act
-        teacherCategoryList.clear();
-
-        // Assert
-        assertThrows(IllegalStateException.class, () -> teacherCategoryList.isEmpty());
-
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        // Act + Assert
+        assertThrows(IllegalStateException.class, () -> tcr.getTeacherCategoryList());
     }
-    */
-    //Testing that the retrieved list has registered objects
 
+    //Testing that the retrieved list has registered objects
     @Test
     void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
-     // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
-        when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
-        teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
-
+        // Arrange
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        tcr.registerTeacherCategory("Assistant Professor");
+        tcr.registerTeacherCategory("Coordinating Professor");
         // Act
-        List<TeacherCategory> teacherCategoryList = teacherCategoryRepository.getTeacherCategoriesList();
-
+        List<TeacherCategory> result = tcr.getTeacherCategoryList();
         // Assert
-        assertFalse(teacherCategoryList.isEmpty());
-
-
+        assertEquals(2, result.size());
     }
 }

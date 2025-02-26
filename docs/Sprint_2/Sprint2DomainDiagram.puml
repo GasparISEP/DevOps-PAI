@@ -1,4 +1,5 @@
 @startuml
+!pragma layout smetana
 skinparam linetype polyline
 left to right direction
 hide empty methods
