@@ -5,12 +5,12 @@ public class ProgrammeEdition {
     private Programme _programme;
     private SchoolYear _schoolYear;
 
-    public ProgrammeEdition(Programme programme, SchoolYear schoolYear) {
+    public ProgrammeEdition(Programme programme, SchoolYear schoolYear) throws Exception{
 
         if (programme == null)
-            throw new IllegalArgumentException("Programme cannot be null");
+            throw new Exception("Programme cannot be null");
         if (schoolYear == null)
-            throw new IllegalArgumentException("School year cannot be null");
+            throw new Exception("School year cannot be null");
 
         _programme = programme;
         _schoolYear = schoolYear;
