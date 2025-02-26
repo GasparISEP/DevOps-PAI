@@ -17,12 +17,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearRepository schoolYearRepoDouble= mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble= mock(DepartmentRepository.class);
 
-        // Act
+        // Act & Assert
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble);
-
-        // Assert
-        assertNotNull(controller);
     }
 
     //test when ProgramEditionEnrollmentRepo is null
