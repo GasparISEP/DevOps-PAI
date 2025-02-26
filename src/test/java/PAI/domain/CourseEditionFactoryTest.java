@@ -13,11 +13,11 @@ class CourseEditionFactoryTest {
         //Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
 
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        Course course = mock (Course.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Course courseDouble = mock (Course.class);
 
         //Act
-        CourseEdition result = courseEditionFactory.newCourseEdition(course, programmeEdition);
+        CourseEdition result = courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
 
         //Assert
         assertNotNull(result);
@@ -29,11 +29,11 @@ class CourseEditionFactoryTest {
         //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
         //Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course course = null;
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {courseEditionFactory.newCourseEdition(course, programmeEdition);});
+        assertThrows(Exception.class, () -> {courseEditionFactory.newCourseEdition(course, programmeEditionDouble);});
 
     }
 
@@ -43,10 +43,10 @@ class CourseEditionFactoryTest {
         //Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         ProgrammeEdition programmeEdition = null;
-        Course course = mock (Course.class);
+        Course courseDouble = mock (Course.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {courseEditionFactory.newCourseEdition(course, programmeEdition);});
+        assertThrows(Exception.class, () -> {courseEditionFactory.newCourseEdition(courseDouble, programmeEdition);});
 
     }
 
