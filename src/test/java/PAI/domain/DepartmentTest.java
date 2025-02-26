@@ -1,14 +1,12 @@
 package PAI.domain;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
 import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.mock;
 
 class DepartmentTest {
 
@@ -19,45 +17,37 @@ class DepartmentTest {
         String name = "Department1";
         //act & assert
         Department department = new Department(acronym, name);
-
     }
 
     @Test
-    void shouldReturnDepartment_whenAllTheAtributesAreValid_withDirector () throws Exception {
+    void shouldReturnDepartment_whenAllTheAtributesAreValid_withDirector () {
         //arrange
         String acronym = "DEI";
         String name = "Department1";
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto","Portugal", "20-12-2010", teacherCategory1, 100, department1);
+        Teacher teacherDirectorDouble = mock(Teacher.class);
         //act & assert
-        Department department = new Department(acronym, name,  teacherDirector1);
-
-    }
-@Test
-    void shouldReturnDepartment_whenAllTheAtributesAreValid_withTwoLettersName () throws Exception {
-        //arrange
-        String acronym = "DEI";
-        String name = "DE";
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal","20-12-2010", teacherCategory1, 100, department1);
-        //act & assert
-        Department department = new Department(acronym, name,  teacherDirector1);
-
+        Department department = new Department(acronym, name, teacherDirectorDouble);
     }
 
     @Test
-    void shouldReturnDepartment_whenAllTheAtributesAreValid_withHundredLettersName () throws Exception {
+    void shouldReturnDepartment_whenAllTheAtributesAreValid_withTwoLettersName () {
+        //arrange
+        String acronym = "DEI";
+        String name = "DE";
+        Teacher teacherDirectorDouble = mock(Teacher.class);
+        //act & assert
+        Department department = new Department(acronym, name, teacherDirectorDouble);
+    }
+
+    @Test
+    void shouldReturnDepartment_whenAllTheAtributesAreValid_withHundredLettersName (){
         //arrange
         String acronym = "DEI";
         String name = "D".repeat(100);
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100, department1);
-        //act & assert
-        Department department = new Department(acronym, name,  teacherDirector1);
+        Teacher teacherDirectorDouble = mock(Teacher.class);
 
+        //act & assert
+        Department department = new Department(acronym, name, teacherDirectorDouble);
     }
 
     //testing failure cases of Department's name
@@ -75,15 +65,14 @@ class DepartmentTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidDepartmentsNames")
-    void testInvalidNames(String name, String expectedMessage) throws Exception {
+    void testInvalidNames(String name, String expectedMessage) {
         // Arrange
         String acronym = "DEI";
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100,department1);
+        Teacher teacherDirector1Double = mock(Teacher.class);
+
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Department(acronym, name, teacherDirector1);
+            new Department(acronym, name, teacherDirector1Double);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -106,16 +95,14 @@ class DepartmentTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidDepartmentsAcronyms")
-    void testInvalidAcronyms(String acronym, String expectedMessage) throws Exception {
+    void testInvalidAcronyms(String acronym, String expectedMessage) {
         // Arrange
         String name = "Department1";
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Department department1 = new Department ("DEI", "Dept1");
-        Teacher teacherDirector1 = new Teacher ("AMM","Arlindo Maia" ,"AMM@isep.ipp.pt","213456789","B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100, department1);
+        Teacher teacherDirector1Double = mock(Teacher.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new Department(acronym, name,  teacherDirector1);
+            new Department(acronym, name, teacherDirector1Double);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -124,15 +111,13 @@ class DepartmentTest {
     @Test
     void shouldReturnTrueWhenTeacherIsOfTheDepartment() throws Exception{
         //arrange
-        TeacherCategory teacherCategory1= new TeacherCategory ("categoria1");
-        Department department1 = new Department ( "DEI","Department1");
-        Teacher teacher1 = new Teacher( "JOA","Joao", "JOA@isep.ipp.pt","213456789","B234","Doutoramento em Engenharia Informatica, 2005, ISEP", "Passeio Alegre", "4432-345", "Porto", "Portugal", "20-12-2010", teacherCategory1,100, department1);
+        Teacher teacher1Double = mock(Teacher.class);
+        Department dpt1= new Department("DEI","Engenharia Informática");
         //act
-        boolean result = department1.changeDirector(teacher1);
+        boolean result = dpt1.changeDirector(teacher1Double);
         //assert
         assertTrue (result);
     }
-
 
     //Testing the equals method
     @Test
