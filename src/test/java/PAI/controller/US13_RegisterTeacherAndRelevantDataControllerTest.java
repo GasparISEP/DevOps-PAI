@@ -6,14 +6,17 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     @Test
     void shouldAlwaysCreateObjectController() {
         // Arrange
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
-        DepartmentRepository dpt = new DepartmentRepository();
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository dpt = new DepartmentRepository(factory);
         TeacherRepository tr = new TeacherRepository();
 
         // Act
@@ -23,7 +26,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldReturnExceptionIfCategoriesListIsEmpty() throws IllegalStateException {
         // Arrange
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
         US13_RegisterTeacherAndRelevantDataController tcrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> tcrControllerList.getTeacherCategoriesList());
@@ -32,7 +36,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
         // Arrange
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
         tcr.registerTeacherCategory("Assistant Professor");
         tcr.registerTeacherCategory("Director Professor");
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
@@ -44,7 +49,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     @Test
     void shouldReturnExceptionIfDepartmentsListIsEmpty() throws IllegalStateException {
-        DepartmentRepository dptr = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository dptr = new DepartmentRepository(factory);
         US13_RegisterTeacherAndRelevantDataController dptrControllerList = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> dptrControllerList.getDepartmentsList());
@@ -53,7 +59,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
         // Arrange
-        DepartmentRepository dptr = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository dptr = new DepartmentRepository(factory);
         dptr.registerDepartment("CSE", "Computer Science");
         dptr.registerDepartment("CIV", "Civil Engineering");
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);

@@ -21,7 +21,7 @@ activate UI
 UI -> Controller: **getTeacherCategoriesList()**
 activate Controller
 
-Controller -> TeacherCategoryRepository: **getTeacherCategoriesList()**
+Controller -> TeacherCategoryRepository: **getTeacherCategoryList()**
 activate TeacherCategoryRepository
 
 TeacherCategoryRepository --> Controller: tcList
@@ -37,7 +37,7 @@ HRC -> UI: tc1
 UI -> Controller: **getDepartmentsList()**
 activate Controller
 
-Controller -> DepartmentRepository: **getDepartmentsList()**
+Controller -> DepartmentRepository: **getDepartmentList()**
 activate DepartmentRepository
 
 DepartmentRepository --> Controller: dptList

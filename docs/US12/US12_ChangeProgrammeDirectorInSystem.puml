@@ -1,0 +1,30 @@
+@startuml
+actor ASC
+participant ":UI" as UI
+participant ":Controller_US12" as US12
+participant ":ProgrammeList" as PL #lightgreen
+participant ":Programme" as PG #yellow
+
+ASC -> UI : I want to change Programme Director
+activate UI
+UI --> ASC : Programme? Teacher?
+Deactivate UI
+ASC -> UI : Programme! Teacher!
+activate UI
+UI -> US12 : changeProgrammeDirector(Programme, Teacher)
+activate US12
+US12 -> PL : changeProgrammeDirector(Programme, Teacher)
+activate PL
+PL -> PL : validates if teacher is not Null
+PL -> PG : newProgrammeDirector(Teacher)
+activate PG
+PG --> PL : Programme Director Changed
+deactivate PG
+PL --> US12 : true
+deactivate PL
+US12 --> UI : true
+deactivate US12
+
+UI --> ASC : Success!
+deactivate UI
+@enduml

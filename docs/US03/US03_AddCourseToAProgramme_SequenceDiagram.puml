@@ -1,0 +1,46 @@
+@startuml
+actor ASC
+autonumber
+
+ASC -> UI ++ #application : I want to add Course to a Programme
+
+UI -> ":AddCourseToAProgrammeController" ++ #application: getAllProgrammes()
+
+":AddCourseToAProgrammeController" -> ProgrammeList ++ #application: getAllProgrammes()
+
+ProgrammeList --> ":AddCourseToAProgrammeController" -- #application: programmeList1
+
+":AddCourseToAProgrammeController" --> UI --:  programmeList1
+
+UI --> ASC -- : Which Programme?
+
+ASC -> UI ++ #application: programme1!
+
+UI -> ":AddCourseToAProgrammeController" ++ #application: getAllCourses()
+
+":AddCourseToAProgrammeController" -> CourseRepository ++ #application: getAllCourses()
+
+CourseRepository --> ":AddCourseToAProgrammeController" -- #application: courseList1
+
+":AddCourseToAProgrammeController" --> UI -- : courseList1
+
+UI --> ASC -- : Which Course?
+
+ASC -> UI ++ #application: course1!
+
+
+UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToProgramme (course1)
+
+":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (course1)
+
+":Programme" --> ":AddCourseToAProgrammeController" --: true
+
+":AddCourseToAProgrammeController" --> UI  --: true
+
+UI --> ASC --: true
+
+participant "programmeList1:List<Programme>"
+participant "courseList1:List<Course>"
+participant "programme1:Programme"
+participant "course1:Course"
+@enduml

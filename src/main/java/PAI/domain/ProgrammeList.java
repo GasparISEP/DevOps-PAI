@@ -5,16 +5,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProgrammeList {
+    private final ProgrammeFactory _programmeFactory;
     private List<Programme> programmeList;
 
-    public ProgrammeList() {
+    public ProgrammeList(ProgrammeFactory programmeFactory) {
+        _programmeFactory = programmeFactory;
         programmeList = new ArrayList<>();
     }
 
-
     public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
 
-        Programme programme = new Programme (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector);
+        Programme programme = _programmeFactory.registerProgramme (name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector);
 
         if (programmeList.contains(programme))
             return false;

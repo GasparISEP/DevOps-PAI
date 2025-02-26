@@ -7,11 +7,19 @@ public class TeacherCategoryRepository {
 
     private List<TeacherCategory> _teacherCategoryRepository;
 
+
     //CONSTRUTOR
-    public TeacherCategoryRepository () {
+
+    public TeacherCategoryRepository () {this(new TeacherCategoryFactory());
+    }
+
+    public TeacherCategoryRepository (TeacherCategoryFactory doubleTeacherCategoryFactory) {
 
         _teacherCategoryRepository = new ArrayList<>();
     }
+
+
+
     //VALIDAÇÕES
 
     public boolean registerTeacherCategory (String name) throws Exception {
@@ -39,7 +47,7 @@ public class TeacherCategoryRepository {
     }
 
     // Method to get the list of Teacher Categories
-    public List<TeacherCategory> getTeacherCategoriesList() throws IllegalStateException {
+    public List<TeacherCategory> getTeacherCategoryList() throws IllegalStateException {
         if (_teacherCategoryRepository.isEmpty()) {
             throw new IllegalStateException("Teacher Category list is empty.");
         }

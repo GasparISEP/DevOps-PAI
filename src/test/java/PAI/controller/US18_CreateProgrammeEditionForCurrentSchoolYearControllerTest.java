@@ -11,7 +11,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldCreateController() throws Exception {
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
         //act
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
         //assert
@@ -22,13 +23,14 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldCreateProgrammeEdition() throws Exception{
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "14-05-2007", assistantProfessor, 70, CSE );
-        CourseRepository courseRepository = new CourseRepository();
+
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
 
@@ -44,12 +46,12 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldNotCreateProgrammeEditionIfCurrentSchoolYearIsNull() throws Exception{
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "14-05-2007", assistantProfessor, 70, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
@@ -63,13 +65,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldReturnFalseIfNotCreateProgrammeEdition() throws Exception{
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "14-05-2007", assistantProfessor, 80, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
 
@@ -91,7 +93,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
         US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, syr1);
@@ -105,13 +106,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfSchoolYearRepositoryIsNull() throws Exception{
         //arrange
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, null);

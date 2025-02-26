@@ -1,0 +1,132 @@
+@startuml
+!pragma layout smetana
+'left to right direction
+
+class US11_RegisterProgrammeInTheSystem {
+    -_programmeList: List<Programme>
+    +US11_RegisterProgrammeInTheSystem(ProgrammeList programmeList)
+    +registerProgrammeInTheSystem(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector)
+}
+
+class Department {
+    -_acronym:String
+    -_name:String
+    -_director:Teacher
+    -_departmentTeachers:List<Teacher>
+    -_departmentProgramme:List<Programme>
+    +Department(departmentAcronym: String, departmentName: String)
+    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
+    +hasSameAcronym(department: Department)
+    +hasSameName(department: Department)
+    +changeDirector(furtherDirector: Teacher)
+
+}
+
+class DepartmentRepository {
+    -_departments: List<Department>
+    +departmentRepository()
+    +registerDepartment(departmentAcronym: String, departmentName: String)
+    +getDepartmentsList()
+    +departmentExists(department: Department)
+}
+
+class Programme {
+     - name: string
+     - acronym: string
+     - quantityOfEcts: int
+     - quantityOfSemesters: int
+     - degreeType: DegreeType
+     - department: Department
+     - programmeDirector: Teacher
+     -_courseList: List <Course>
+     -_programmeEnrolment: List<Enrolment>
+     -StudyPlan: _studyPlan
+
+     + equals()
+     + addCourseToProgramme (course: Course)
+     + newProgrammeDirector(): boolean
+     +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
+     +isStudentEnrolled(student: Student)
+     +isInDepartment(department: Department)
+     +getCourseList()
+     +getQuantityOfSemester()
+     +getQuantityOfEcts()
+ }
+
+class ProgrammeList {
+     -_programmeList: List<Programme>
+     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
+     +changeProgrammeDirector(Programme programme, Teacher newDirector)
+     +getAllProgrammes()
+     +getCourseList(programme: Programme)
+}
+
+class DegreeType {
+    - name: string
+    - maxEcts: int
+    + nameIsInvalid(): boolean
+    + maxEctsIsInvalid(): boolean
+}
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     -_academicBackground:String
+     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+     academicBackground: String, street: String, postalCode: String, location: String, country: String,
+     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+     +hasSameAcronym(teacher: Teacher)
+     +hasSameNif(teacher: Teacher)
+     +isInDepartment(department: Department)
+     +hasThisNIF(NIF: String)
+     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
+     +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+}
+
+
+class TeacherRepository {
+    +TeacherRepository()
+    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
+                          address: Address, teacherCategory: TeacherCategory, department: Department)
+    +getTeacherByNIF(NIF: String)
+    +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
+    +getAllTeachers()
+}
+
+
+
+
+class StudyPlan {
+
+    +addCourseToStudyPlan()
+}
+
+class CourseInStudyPlan {
+    -semester: int
+    -curricularYear: int
+    +equals()
+    +getCourse()
+    +getSemester()
+    +getCurricularYear()
+    +getProgramme()
+}
+
+Programme "1..*" --> "1" Teacher : has a Programme Director
+Programme "*" -u-> "1*" Department: assigned to
+DegreeType "1" <-- "*" Programme
+Teacher "1..*" <-- "1" Department: aggregates
+Teacher "1..*" <-- "1" TeacherRepository: _teachers
+Department "1..*" <-left- "1" DepartmentRepository: stores
+StudyPlan "1" <-left- "1..*" CourseInStudyPlan: belongs
+CourseInStudyPlan "*" -left-> "1" Programme: belongs
+
+
+
+ProgrammeList "List<Programme>" *-- "0..*" Programme
+
+US11_RegisterProgrammeInTheSystem "1   " ....> "1   " ProgrammeList
+
+@enduml

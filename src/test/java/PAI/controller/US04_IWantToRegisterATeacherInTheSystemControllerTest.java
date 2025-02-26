@@ -1,17 +1,18 @@
 package PAI.controller;
-
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
     @Test
     void shouldReturnExceptionIfTeacherRepositoryIsNull (){
         //arrange
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -27,7 +28,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnExceptionIfTeacherCategoryRepositoryIsNull (){
         //arrange
         TeacherRepository teacherRepository = new TeacherRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -42,8 +44,9 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnExceptionIfDepartmentRepositoryIsNull (){
         //arrange
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherRepository teacherRepository = new TeacherRepository();
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
+        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -58,9 +61,11 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess () throws Exception {
         //arrange
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherRepository teacherRepository = new TeacherRepository();
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepository, teacherCategoryRepository, departmentRepository);
         TeacherCategory tc1 = new TeacherCategory("Math");
@@ -76,9 +81,11 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidDepartment () throws Exception {
         //arrange
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherRepository teacherRepository = new TeacherRepository();
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepository, teacherCategoryRepository, departmentRepository);
         TeacherCategory tc1 = new TeacherCategory("Math");
@@ -95,8 +102,10 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnFalseIfInvalidTeacherCategory () throws Exception {
         //arrange
         TeacherRepository teacherRepository = new TeacherRepository();
-        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepository, teacherCategoryRepository, departmentRepository);
         TeacherCategory tc1 = new TeacherCategory("Math");
