@@ -245,4 +245,14 @@ class CourseEditionEnrollmentTest {
         // act + assert
         assertTrue(enrollment1.equals(enrollment2));
     }
+    @Test
+    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod_SameReference() throws Exception {
+        // arrange
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        LocalDate enrollmentDate = LocalDate.now();
+        CourseEditionEnrollment enrollment = new CourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
+        // act + assert
+        assertTrue(enrollment.equals(enrollment));
+    }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class US09_EnrolStudentInProgrammeControllerTest {
 
@@ -22,7 +23,8 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         _studentRepository = new StudentRepository();
         _accessMethodFactory = new AccessMethodFactory();
         _accessMethodRepository = new AccessMethodRepository(_accessMethodFactory);
-        _programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        _programmeList = new ProgrammeList(programmeFactory);
         _programmeEnrolmentRepository = new ProgrammeEnrolmentRepository();
         _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
 

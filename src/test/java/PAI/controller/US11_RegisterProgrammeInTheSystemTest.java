@@ -11,7 +11,9 @@ class US11_RegisterProgrammeInTheSystemTest {
     @Test
     void newProgrammeList() throws Exception {
         //arrange
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList list = new ProgrammeList(programmeFactory);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
 
         //act
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeList);
@@ -36,7 +38,8 @@ class US11_RegisterProgrammeInTheSystemTest {
     @Test
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
         // Criar as instâncias reais das classes necessárias
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
 
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeList);
 

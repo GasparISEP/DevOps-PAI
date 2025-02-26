@@ -1,0 +1,17 @@
+@startuml
+actor ASC
+participant ":SYSTEM" as UI
+
+
+ASC -> UI : I want to change Programme Director
+
+UI --> ASC : Programme? Teacher?
+Deactivate UI
+ASC -> UI : Programme! Teacher!
+
+
+
+
+UI --> ASC : Success!
+
+@enduml
