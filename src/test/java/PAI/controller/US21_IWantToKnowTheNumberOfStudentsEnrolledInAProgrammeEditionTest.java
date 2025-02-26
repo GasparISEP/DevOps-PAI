@@ -6,14 +6,17 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
 
     @Test
     void shouldCreateControllerWhenRepositoriesAreValid(){
         // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
+        ProgrammeEditionFactory programmeEditionFactory = mock(ProgrammeEditionFactory.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
 
 
@@ -29,8 +32,9 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionEnrollmentRepositoryIsNull(){
         // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
+        ProgrammeEditionFactory programmeEditionFactory = mock(ProgrammeEditionFactory.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
 
         // Act & Assert
@@ -42,31 +46,39 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
     @Test
     void shouldReturnCorrectNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
         // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo();
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
+        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
+        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
 
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        Department department1Double = mock(Department.class);
+        SchoolYear schoolYear1Double = mock(SchoolYear.class);
+
+        Student student1Double = mock(Student.class);
+        Student student2Double = mock(Student.class);
+        ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
+
         LocalDate currentDate = LocalDate.now();
 
-        int NumberOfStudentsEnrolledInAProgrammeEdition = 1;
+        when(edition1Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
+
+        ProgrammeEditionEnrollment enrollMock1 = mock(ProgrammeEditionEnrollment.class);
+        when(enrollMock1.getStudentUniqueNumber()).thenReturn(1);
+        when(enrollMock1.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
+        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student1Double, edition1Double,currentDate)).thenReturn(enrollMock1);
+
+        ProgrammeEditionEnrollment enrollMock2 = mock(ProgrammeEditionEnrollment.class);
+        when(enrollMock2.getStudentUniqueNumber()).thenReturn(2);
+        when(enrollMock2.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
+        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student2Double, edition1Double,currentDate)).thenReturn(enrollMock2);
+
+        int NumberOfStudentsEnrolledInAProgrammeEdition = 2;
 
         // Act
-        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controlador1 = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo);
+        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controlador1 = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(repository);
 
-        programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
-        int result = controlador1.IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
+        repository.enrollStudentInProgrammeEdition(student1Double, edition1Double, currentDate);
+        repository.enrollStudentInProgrammeEdition(student2Double, edition1Double, currentDate);
+
+        int result = controlador1.IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(edition1Double);
 
         // Assert
         assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
