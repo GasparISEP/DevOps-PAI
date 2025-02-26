@@ -16,9 +16,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfCourseEditionIsCreated() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Course course = new Course("Informatics", "INF", 6, 1);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
@@ -45,9 +47,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseCourseIsNull() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new Programme("Computer Engineering", "CE", 20, 6,
@@ -73,9 +77,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionIsNull() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Course course = new Course("Informatics", "INF", 6, 1);
 
@@ -89,9 +95,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionAndCourseAreNull() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
         // Act
@@ -104,9 +112,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() throws Exception {
         //Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
@@ -130,9 +140,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void ShouldReturnSizeOfListOfProgrammeEditionsForMethodGetAllProgrammeEditions() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
@@ -170,9 +182,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfListOfProgrammeEditionsContainsProgrammeEdition() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
@@ -207,9 +221,11 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfListOfProgrammeEditionsNotContainsProgrammeEdition() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
                 new DegreeType("Master", 240),
@@ -246,9 +262,11 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         CourseRepository courseRepository = new CourseRepository(courseFactory);
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
@@ -293,9 +311,11 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
         CourseRepository courseRepository = new CourseRepository(courseFactory);
         courseRepository.registerCourse("Informatica", "INF", 6, 1);
@@ -336,9 +356,11 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
         CourseRepository courseRepository = new CourseRepository(courseFactory);
@@ -384,9 +406,11 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
         // Arrange
         CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeList programmeList = new ProgrammeList();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
 
         CourseRepository courseRepository = new CourseRepository(courseFactory);

@@ -9,7 +9,10 @@ public class ProgrammeEditionEnrollmentRepo {
 
     private List<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
 
-    public ProgrammeEditionEnrollmentRepo() {
+    private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
+
+    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory) {
+        _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
         _programmeEditionEnrollments = new ArrayList<>();
     }
 
@@ -17,7 +20,7 @@ public class ProgrammeEditionEnrollmentRepo {
         if (programmeEdition == null || student == null) {
             throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
         }
-        ProgrammeEditionEnrollment programmeEditionEnroll = new ProgrammeEditionEnrollment(student, programmeEdition, localDate);
+        ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student, programmeEdition, localDate);
         checkIfThisEnrollmentAlreadyExists(programmeEditionEnroll);
         _programmeEditionEnrollments.add(programmeEditionEnroll);
 

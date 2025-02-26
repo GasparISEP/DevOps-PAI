@@ -83,7 +83,7 @@ public class CourseEditionEnrollmentRepository {
     }
 
     //US28
-    // Method to remove
+    // Method to remove the enrollment of a student in a specific course edition
     public boolean removeEnrollment(Student student, CourseEdition courseEdition) {
         // Finds the enrollment for the student and the course edition
         Optional<CourseEditionEnrollment> enrollmentToRemove = findByStudentAndEdition(student, courseEdition);

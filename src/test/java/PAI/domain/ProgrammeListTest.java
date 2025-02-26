@@ -6,21 +6,22 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeListTest {
 
     @Test
     void shouldRegisterValidProgramme() throws Exception {
         // Arrange
-        ProgrammeList list = new ProgrammeList();
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
-        //act + assert
-        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList list = new ProgrammeList(programmeFactory);
+        DegreeType master = mock(DegreeType.class);
+        Department CSE = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
 
+        //act + assert
+        Programme CE = mock(Programme.class);
 
         // Act
         boolean result = list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
@@ -33,12 +34,11 @@ class ProgrammeListTest {
     @Test
     void duplicatedShouldNotRegisterValidProgramme() throws Exception {
         // Arrange
-        ProgrammeList list = new ProgrammeList();
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList list = new ProgrammeList(programmeFactory);
+        DegreeType master = mock(DegreeType.class);
+        Department CSE = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
 
         // Act
         list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
@@ -51,15 +51,12 @@ class ProgrammeListTest {
     @Test
     void changeProgrammedDirectorOfValidProgramme() throws Exception {
         // Arrange
-        ProgrammeList list = new ProgrammeList();
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100,CSE);
-        Teacher teacher1 = new Teacher("ABC", "John Travis", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList list = new ProgrammeList(programmeFactory);
+        Teacher teacher1 = mock(Teacher.class);
+
         //act + assert
-        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        Programme CE = mock(Programme.class);
 
         // Act
         boolean result = list.changeProgrammeDirector(CE,teacher1);
@@ -71,15 +68,11 @@ class ProgrammeListTest {
     @Test
     void dontChangeProgrammedDirectorOfValidProgramme() throws Exception {
         // Arrange
-        ProgrammeList list = new ProgrammeList();
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor, 100,CSE);
-        Teacher teacher1 = new Teacher("ABC", "John Travis", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList list = new ProgrammeList(programmeFactory);
+
         //act + assert
-        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        Programme CE = mock(Programme.class);
 
         // Act
         boolean result = list.changeProgrammeDirector(CE,null);
@@ -91,26 +84,28 @@ class ProgrammeListTest {
     @Test
     void shouldReturnCourseList() throws Exception {
         //arrange
-        ProgrammeList programmeList = new ProgrammeList();
-        CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 25, 1);
-        Course course2 = new Course("Mathematics", "MATH", 25, 2);
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        CourseRepository courseRepository = mock(CourseRepository.class);
+        Course course1 = mock(Course.class);
+        Course course2 = mock(Course.class);
+        Programme programme = mock(Programme.class);
+        DegreeType degreeType1 = mock(DegreeType.class);
+        Department department1 = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
+
+        when(programmeFactory.registerProgramme("Engenharia Informática","LEI",20,2,degreeType1,department1,teacher)).thenReturn(programme);
+        ProgrammeList list = new ProgrammeList(programmeFactory);
+
+        when(programme.addCourseToAProgramme(course1)).thenReturn(true);
+        when(programme.addCourseToAProgramme(course2)).thenReturn(true);
+
+        when(programme.getCourseList()).thenReturn(List.of(course1,course2));
+
 
         // act
-        courseRepository.registerCourse("Programming", "PROG", 25, 1);
-        courseRepository.registerCourse("Mathematics", "MATH", 25, 2);
-
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
-
-        List<Course> courseList = programmeList.getCourseList(programme);
+        List<Course> courseList = list.getCourseList(programme);
 
         //assert
         assertEquals(2, courseList.size(), "O número de cursos deve ser 2");
@@ -120,16 +115,18 @@ class ProgrammeListTest {
     }
 
     @Test
-    void shouldReturnProgrammedWithTheRequiredName() throws Exception  {
+    void shouldReturnProgrammeWithTheRequiredName() throws Exception {
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList repository = new ProgrammeList(programmeFactory);
+        DegreeType master = mock(DegreeType.class);
+        Department cse = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
 
-        ProgrammeList repository = new ProgrammeList();
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+
+        when(programmeFactory.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher))
+                .thenReturn(programme);
 
         repository.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
 
@@ -143,20 +140,23 @@ class ProgrammeListTest {
     @Test
     void shouldReturnNullIfProgrammeWithTheRequiredNameDoesNotExist() throws Exception  {
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
 
-        ProgrammeList repository = new ProgrammeList();
+        ProgrammeList list = new ProgrammeList(programmeFactory);
+        ProgrammeList repository = new ProgrammeList(programmeFactory);
+        DegreeType master = mock(DegreeType.class);
+        Department cse = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
+
+        Programme programme = mock(Programme.class);
+
+        when(programmeFactory.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher))
+                .thenReturn(programme);
 
         repository.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
 
         // Act
         Optional<Programme> result = repository.getProgrammeByName("Space Engineering");
-
 
         // Assert
         assertTrue(result.isEmpty());

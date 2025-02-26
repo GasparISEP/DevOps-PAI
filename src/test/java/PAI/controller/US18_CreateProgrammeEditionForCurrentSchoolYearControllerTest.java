@@ -11,7 +11,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldCreateController() throws Exception {
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
         //act
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
         //assert
@@ -22,7 +23,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldCreateProgrammeEdition() throws Exception{
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -44,7 +46,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldNotCreateProgrammeEditionIfCurrentSchoolYearIsNull() throws Exception{
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -62,7 +65,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldReturnFalseIfNotCreateProgrammeEdition() throws Exception{
         //arrange
         SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -102,7 +106,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfSchoolYearRepositoryIsNull() throws Exception{
         //arrange
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository();
+        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");

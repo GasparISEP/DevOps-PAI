@@ -19,9 +19,8 @@ class CourseEditionEnrollment {
 }
 
 class CourseEditionEnrollmentRepository {
-    +CourseEditionEnrollmentRepository ()
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
-    enrollmentDate: LocalDate): boolean
+    +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory)
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate): boolean
     +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition) : boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
     +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition) : int
@@ -40,30 +39,29 @@ class Student {
     +hasSameUniqueNumber(student: Student) : boolean
     +hasSameNIF (student: Student) : boolean
     +getUniqueNumber () : int
+    +hasThisUniqueNumber (uniqueNumber: int) : boolean
 }
 
 class CourseEdition {
+    -_course: Course
+    -_programmeEdition: ProgrammeEdition
+    -_ruc: Teacher
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object) : boolean
     +setRuc(Teacher: ruc) : boolean
     +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEdition
 }
 
-class CourseEditionRepository {
-    +CourseEditionRepository()
-    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition) : boolean
-    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition) : boolean
-    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition) : ProgrammeEdition
-    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc) : boolean
-    +getCourseEditions(): List<CourseEdition>
-    +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<CourseEdition>
-}
+class CourseEditionEnrollmentFactory {
+    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
+    }
 
 
 
-CourseEdition "_listCourseEditions *  " <-- "1" CourseEditionRepository
+
 CourseEditionEnrollment "*" --> "_student 1" Student
 CourseEditionEnrollment "*" --> "_courseEdition 1  " CourseEdition
 CourseEditionEnrollment "                                *" <-- "1" CourseEditionEnrollmentRepository: _listCourseEditionEnrollment
-US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1"..> "1" CourseEditionEnrollmentRepository
+US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1"..> "1" CourseEditionEnrollmentRepository : uses
+CourseEditionEnrollmentRepository "1" ..> "1" CourseEditionEnrollmentFactory : creates
 @enduml
