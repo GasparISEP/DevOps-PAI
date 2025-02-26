@@ -25,7 +25,7 @@ class CourseEditionTest {
     }
 
     @Test
-    void shouldNotCreateCourseEditionIfCourseIsNull() throws Exception {
+    void shouldThowExceptionIfCourseIsNull() throws Exception {
         //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
@@ -37,7 +37,7 @@ class CourseEditionTest {
     }
 
     @Test
-    void shouldNotCreateCourseEditionIfProgrammeEditionIsNull() throws Exception {
+    void shouldThowExceptionIfProgrammeEditionIsNull() throws Exception {
         //SUT = CourseEdition - ProgrammeEdition forced to be null and Course isolated
         //Arrange
         ProgrammeEdition programmeEdition = null;
@@ -48,7 +48,7 @@ class CourseEditionTest {
     }
 
     @Test
-    void shouldNotCreateCourseEditionIfProgrammeEditionAndCourseAreNull() throws Exception {
+    void shouldThowExceptionIfProgrammeEditionAndCourseAreNull() throws Exception {
         //SUT = CourseEdition - ProgrammeEdition and Course forced to be null
         //Arrange
         ProgrammeEdition programmeEditionDouble = null;
