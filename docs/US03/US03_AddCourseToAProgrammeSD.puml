@@ -1,42 +1,37 @@
 @startuml
 actor ASC
+autonumber
 
 ASC -> UI ++ #application : I want to add Course to a Programme
 
-UI -> ":AddCourseToAProgrammeController" ++ #application: getProgrammeList
+UI -> ":AddCourseToAProgrammeController" ++ #application: getAllProgrammes()
 
-":AddCourseToAProgrammeController" -> ProgrammeList --++ #application: getAllProgrammes
+":AddCourseToAProgrammeController" -> ProgrammeList ++ #application: getAllProgrammes()
 
-ProgrammeList -> ProgrammeList : getProgrammeList()
+ProgrammeList --> ":AddCourseToAProgrammeController" -- #application: programmeList1
 
-ProgrammeList --> ":AddCourseToAProgrammeController" --++ #application: all Programmes
+":AddCourseToAProgrammeController" --> UI --:  programmeList1
 
-":AddCourseToAProgrammeController" --> UI --: all Programmes
+UI --> ASC -- : Which Programme?
 
-UI --> ASC : Which Programme?
+ASC -> UI ++ #application: programme1!
 
-ASC -> UI: Programme 1!
+UI -> ":AddCourseToAProgrammeController" ++ #application: getAllCourses()
 
-UI -> ":AddCourseToAProgrammeController" ++ #application: getCourseList
+":AddCourseToAProgrammeController" -> CourseRepository ++ #application: getAllCourses()
 
-":AddCourseToAProgrammeController" -> CourseRepository --++ #application: getCourseList
+CourseRepository --> ":AddCourseToAProgrammeController" -- #application: courseList1
 
-CourseRepository -> CourseRepository : getAllCourses()
+":AddCourseToAProgrammeController" --> UI -- : courseList1
 
-CourseRepository --> ":AddCourseToAProgrammeController" ++-- #application: all Courses
+UI --> ASC -- : Which Course?
 
-":AddCourseToAProgrammeController" --> UI -- : all Courses
-
-UI --> ASC : Which Course?
-
-ASC -> UI : Course 1!
+ASC -> UI ++ #application: course1!
 
 
-UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToAProgramme (Course 1)
+UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToProgramme (course1)
 
-":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (Course 1)
-
-":Programme" -> ":Programme"  #application : addCourseToAProgramme (Course 1)
+":AddCourseToAProgrammeController" -> ":Programme" ++ #application : addCourseToAProgramme (course1)
 
 ":Programme" --> ":AddCourseToAProgrammeController" --: true
 
@@ -44,4 +39,8 @@ UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToAProgramme
 
 UI --> ASC --: true
 
+participant "programmeList1:List<Programme>"
+participant "courseList1:List<Course>"
+participant "programme1:Programme"
+participant "course1:Course"
 @enduml
