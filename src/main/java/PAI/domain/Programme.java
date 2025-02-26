@@ -15,7 +15,7 @@ public class Programme {
     private Department _department;
     private Teacher _programmeDirector;
     private ArrayList<Course> _courseList = new ArrayList<>();
-    private StudyPlan _studyPlan = new StudyPlan();
+    private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
         if (isNameInvalid(name)) {
@@ -52,6 +52,8 @@ public class Programme {
             throw new IllegalArgumentException("Insert a valid Programme Director");
         }
         _programmeDirector = programmeDirector;
+
+        _studyPlan = new StudyPlan();
 
     }
 

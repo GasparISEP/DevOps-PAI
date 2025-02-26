@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
 
     @Test
-    void testRegisterProgrammeInTheSystemFailure() throws Exception{
+    void testRegisterProgrammeInTheSystemFailure() {
         //arrange
         ProgrammeList programmeList = null;
 
@@ -43,7 +43,6 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
-
 
         // Chamar o metodo a testar
         boolean result = controller.addCourseToStudyPlan(1, 1, course1, programme);
@@ -97,13 +96,12 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
         Course course1 = new Course("Programming", "PROG", 5, 1);
-        Course course2 = new Course("Programminga", "PRO", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
 
         // Testar erro ao tentar adicionar um curso inválido
         Exception exception = assertThrows(Exception.class, () -> {
-            controller.addCourseToStudyPlan(1, 1, course2, null);
+            controller.addCourseToStudyPlan(1, 1, course1, null);
         });
 
         assertEquals("Programme cannot be null.", exception.getMessage());

@@ -25,7 +25,7 @@ class StudyPlanTest {
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
 
         programme.addCourseToAProgramme(course1);
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
 
         // assert
         assertTrue(addCourse1ToStudyPlan);
@@ -54,8 +54,8 @@ class StudyPlanTest {
 
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
-        boolean addCourse2ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course2, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        boolean addCourse2ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course2, programme);
 
         // assert
         assertTrue(addCourse1ToStudyPlan);
@@ -82,7 +82,7 @@ class StudyPlanTest {
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
 
         programme.addCourseToAProgramme(course1);
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
 
         // assert
         assertTrue(addCourse1ToStudyPlan);
@@ -111,11 +111,11 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
 
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
 
         // assert
         assertTrue(addCourse1ToStudyPlan);
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,1, course2, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, course2, programme));
     }
 
     @Test
@@ -137,8 +137,8 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
 
         // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(0,1, course1, programme));
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(3,1, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(0, 1, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(3, 1, course1, programme));
     }
 
     @Test
@@ -160,8 +160,8 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
 
         // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,0, course1, programme));
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,4, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 0, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 4, course1, programme));
     }
 
     @Test
@@ -183,7 +183,7 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
 
         // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(2,3, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(2, 3, course1, programme));
     }
 
     @Test
@@ -205,7 +205,7 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
 
         // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,3, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 3, course1, programme));
     }
 
     @Test
@@ -279,9 +279,9 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course2);
         programme.addCourseToAProgramme(course3);
 
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
-        boolean addCourse2ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1,course2, programme);
-        boolean addCourse3ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1,course3, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        boolean addCourse2ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course2, programme);
+        boolean addCourse3ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course3, programme);
 
         // assert
         assertTrue(addCourse1ToStudyPlan);
@@ -306,7 +306,7 @@ class StudyPlanTest {
         // act
         courseRepository.registerCourse("Annual Course", "ANNUAL", 12, 2);
         programme.addCourseToAProgramme(course1);
-        boolean annualCourse = studyPlan.addCourseToStudyPlan(1,3, course1, programme);
+        boolean annualCourse = studyPlan.addCourseToStudyPlan(1, 3, course1, programme);
 
         // assert
         assertTrue(annualCourse);
@@ -337,13 +337,13 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course2);
         programme.addCourseToAProgramme(annualCourse);
 
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
-        boolean addCourse2ToStudyPlan = studyPlan.addCourseToStudyPlan(2,1, course2, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        boolean addCourse2ToStudyPlan = studyPlan.addCourseToStudyPlan(2, 1, course2, programme);
 
         //assert
         assertTrue(addCourse1ToStudyPlan);
         assertTrue(addCourse2ToStudyPlan);
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,1, annualCourse, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, annualCourse, programme));
     }
 
     @Test
@@ -368,11 +368,11 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
 
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
 
         //assert
         assertTrue(addCourse1ToStudyPlan);
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,1, course2, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, course2, programme));
     }
 
     @Test
@@ -397,11 +397,11 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
 
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(2,1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(2, 1, course1, programme);
 
         //assert
         assertTrue(addCourse1ToStudyPlan);
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,1, course2, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, course2, programme));
     }
 
     @Test
@@ -423,7 +423,7 @@ class StudyPlanTest {
         programme.addCourseToAProgramme(course1);
 
         // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(2,1, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(2, 1, course1, programme));
     }
 
     @Test
@@ -468,5 +468,4 @@ class StudyPlanTest {
         assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course1, programme));
         assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course2, programme)); // Não deve lançar erro
     }
-
 }
