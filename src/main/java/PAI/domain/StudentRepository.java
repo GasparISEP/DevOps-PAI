@@ -6,14 +6,18 @@ import java.util.Optional;
 
 public class StudentRepository {
 
+    private StudentFactory _studentFactory;
     // Create ArrayList to store students
-    private List<Student> _students;
+    private List<Student> _students = new ArrayList<>();
 
-    public StudentRepository() {_students = new ArrayList<>();}
+    // Creates a default StudentFactory and calls the next constructor (constructor delegation)
+    public StudentRepository() { this(new StudentFactory()); }
+    // Constructor to be directly used for isolated testing
+    public StudentRepository(StudentFactory studentFactory) { _studentFactory = studentFactory; }
 
     public boolean registerStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
 
-        Student newStudent = new Student(uniqueNumber, name, NIF, phone, email, address);
+        Student newStudent = _studentFactory.newStudent(uniqueNumber, name, NIF, phone, email, address);
 
         if (isStudentRepeated(newStudent)) {
             throw new Exception("Duplicate unique number or NIF detected. Student cannot be added.");

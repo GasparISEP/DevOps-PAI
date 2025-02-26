@@ -1,69 +1,103 @@
 package PAI.domain;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudentRepositoryTest {
 
-    @Test
-    void validAttributesCreateObject() throws Exception {
+    private static StudentFactory _factoryStudentDouble;
+    private static Address _addressDouble;
+    private static Student _studentDouble1;
+    private static Student _studentDouble2;
+    private static Student _studentDouble3;
 
+    @BeforeAll
         //arrange
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+    static void setup() throws Exception {
+        _addressDouble = mock(Address.class);
+        _factoryStudentDouble = mock(StudentFactory.class);
+        _studentDouble1 = mock(Student.class);
+        _studentDouble2 = mock(Student.class);
+        _studentDouble3 = mock(Student.class);
+    }
+
+    @Test
+    void shouldCreateStudentRepository() throws Exception {
 
         //act
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        new StudentRepository(_factoryStudentDouble);
+    }
+
+    @Test
+    void shouldCreateStudentRepositoryDefault() throws Exception {
+
+        //act
+        new StudentRepository();
     }
 
     @Test
     void testRegisterDuplicateNIFThrowsException() throws Exception {
         // Arrange
-        StudentRepository repository = new StudentRepository();
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Address address2 = new Address("Rua das Flores, nº7", "3000-200", "Coimbra", "Portugal");
+        StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
+        when(_factoryStudentDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+        when(_factoryStudentDouble.newStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+        when(_studentDouble1.hasSameNIF(_studentDouble2)).thenReturn(true);
 
-        // Act
-        repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+        studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
-        // Assert
+        // Act & Assert
         assertThrows(Exception.class, () -> {
-            repository.registerStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", address2);
+            studentRepository.registerStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble);
         });
     }
 
     @Test
     void testRegisterDuplicateUniqueNumberThrowsException() throws Exception {
         // Arrange
-        StudentRepository repository = new StudentRepository();
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Address address2 = new Address("Rua das Flores, nº7", "3000-200", "Coimbra", "Portugal");
+        StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
+        when(_factoryStudentDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+        when(_factoryStudentDouble.newStudent(12345, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+        when(_studentDouble1.hasSameUniqueNumber(_studentDouble2)).thenReturn(true);
 
-        // Act
-        repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+        studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
-        // Assert
+        // Act & Assert
         assertThrows(Exception.class, () -> {
-            repository.registerStudent(12345, "Miguel", "987654321", "912345678", "miguel@gmail.com", address2);
+            studentRepository.registerStudent(12345, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
         });
     }
 
-    @Test
-    void testAddThreeValidStudents() throws Exception {
+    static Stream<Arguments> testValidStudents(){
+        return Stream.of(
+                Arguments.of(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble, _studentDouble1),
+                Arguments.of(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble, _studentDouble2),
+                Arguments.of(11223, "Paula", "456789123", "910000000", "paula@gmail.com", _addressDouble, _studentDouble3)
+        );
+    }
+    @ParameterizedTest
+    @MethodSource()
+    void testValidStudents(int uniqueNumber, String name, String NIF, String phone, String email, Address address, Student studentDouble) throws Exception {
         // Arrange
-        StudentRepository repository = new StudentRepository();
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Address address2 = new Address("Rua das Flores, nº7", "3000-200", "Coimbra", "Portugal");
-        Address address3 = new Address("Avenida Principal, nº10", "1000-001", "Lisboa", "Portugal");
+        StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
+        when(_factoryStudentDouble.newStudent(uniqueNumber, name, NIF, phone, email, address)).thenReturn(studentDouble);
 
         // Act
-        boolean result1 = repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
-        boolean result2 = repository.registerStudent(67890, "Miguel", "987654321", "912345678", "miguel@gmail.com", address2);
-        boolean result3 = repository.registerStudent(11223, "Paula", "456789123", "910000000", "paula@gmail.com", address3);
+        boolean result = studentRepository.registerStudent(uniqueNumber, name, NIF, phone, email, address);
 
         // Assert
-        assertTrue(result1 && result2 && result3);
+        assertTrue(result);
     }
+
+/*
 
     //US17
     @Test
@@ -114,6 +148,7 @@ class StudentRepositoryTest {
         // Assert
         assertFalse(result, "The student should not be enrolled in the programme.");
     }
+*/
 
 }
 

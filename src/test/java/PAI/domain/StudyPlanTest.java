@@ -3,6 +3,7 @@ package PAI.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 
 class StudyPlanTest {
@@ -10,21 +11,17 @@ class StudyPlanTest {
     @Test
     void shouldRegisterCourseInStudyPlan() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 5, 1); // Curso com 5 créditos
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        CourseRepository courseRepository = mock(CourseRepository.class);
+        Course course1 = mock(Course.class);
+        DegreeType master = mock(DegreeType.class);
+        Department cse = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = programme.getStudyPlan();
+        courseRepository.registerCourse("Programming", "PROG", 5, 1);
+        programme.addCourseToAProgramme(course1);
 
         // act
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
-
-        programme.addCourseToAProgramme(course1);
         boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
 
         // assert
@@ -35,58 +32,46 @@ class StudyPlanTest {
     @Test
     void shouldRegisterTwoCoursesInStudyPlan() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 5, 1);
-        Course course2 = new Course("Programminga", "PRO", 5, 1); // Mesmo curso (nome e acrónimo iguais)
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        CourseRepository courseRepository = mock(CourseRepository.class);
+        Course course1 = mock(Course.class);
+        Course course2 = mock(Course.class);
+        DegreeType master = mock(DegreeType.class);
+        Department cse = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = programme.getStudyPlan();
-
-        // act
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programminga", "PRO", 5, 1);
-
-
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+
+        // act
         boolean addCourse2ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course2, programme);
 
         // assert
-        assertTrue(addCourse1ToStudyPlan);
         assertTrue(addCourse2ToStudyPlan);
     }
 
     @Test
     void shouldNotAllowDuplicateCoursesInStudyPlan() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 5, 1); // Curso com 5 créditos
-        Course course2 = new Course("Programming", "PROG", 5, 1); // Mesmo curso (nome e acrónimo iguais)
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        CourseRepository courseRepository = mock(CourseRepository.class);
+        Course course1 = mock(Course.class);
+        DegreeType master = mock(DegreeType.class);
+        Department cse = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = programme.getStudyPlan();
 
-        // act
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
 
+        courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+
 
         // assert
-        assertTrue(addCourse1ToStudyPlan);
-        assertThrows(Exception.class, () -> programme.addCourseToAProgramme(course2));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,1,course1,programme));
     }
 
     @Test
