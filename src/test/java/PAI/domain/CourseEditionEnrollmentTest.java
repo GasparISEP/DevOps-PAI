@@ -17,12 +17,13 @@ class CourseEditionEnrollmentTest {
     @Test
     void should_return_a_valid_course_edition_enrollment() throws Exception {
         //arrange
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         //act + assert
-        CourseEditionEnrollment enrollment = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment enrollment = factory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
     }
 
     //testing invalid enrollment date
@@ -38,12 +39,13 @@ class CourseEditionEnrollmentTest {
     @MethodSource("provideInvalidEnrollmentDate")
     void testInvalidEnrollmentDate(LocalDate enrollmentDate, String expectedMessage) throws Exception {
         // Arrange
-        Student st1 = mock(Student.class);
-        CourseEdition ce1 = mock(CourseEdition.class);
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
         // Act + Assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new CourseEditionEnrollment(st1, ce1, enrollmentDate);
+            factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -51,12 +53,13 @@ class CourseEditionEnrollmentTest {
     @Test
     void testCourseEditionEnrollmentWhenStudentIsNull() throws Exception {
         // Arrange
-        CourseEdition ce1 = mock(CourseEdition.class);
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new CourseEditionEnrollment(null, ce1, enrollmentDate);
+            factory.createCourseEditionEnrollment(null, courseEditionDouble, enrollmentDate);
         });
         assertEquals("Student cannot be null!", exception.getMessage());
     }
@@ -64,12 +67,13 @@ class CourseEditionEnrollmentTest {
     @Test
     void testCourseEditionEnrollmentWhenCourseEditionIsNull() throws Exception {
         // Arrange
-        Student student = mock(Student.class);
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+        Student studentDouble = mock(Student.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new CourseEditionEnrollment(student, null, enrollmentDate);
+            factory.createCourseEditionEnrollment(studentDouble, null, enrollmentDate);
         });
         assertEquals("Course edition cannot be null!", exception.getMessage());
     }
@@ -77,12 +81,13 @@ class CourseEditionEnrollmentTest {
     @Test
     void shouldReturnFalseIfCourseEditionIsNull_EqualsMethod() throws Exception {
         //arrange
-        Student student = mock(Student.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         //act
-        CourseEditionEnrollment enrollment = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment enrollment = factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
 
         //assert
         assertFalse(enrollment.equals(null));
@@ -91,12 +96,13 @@ class CourseEditionEnrollmentTest {
     @Test
     void shouldReturnTrueIfCourseEditionIsEqualThis_EqualsMethod() throws Exception {
         //arrange
-        Student student = mock(Student.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         //act
-        CourseEditionEnrollment enrollment = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment enrollment = factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
 
         //assert
         assertTrue(enrollment.equals(enrollment));
@@ -236,13 +242,14 @@ class CourseEditionEnrollmentTest {
     @Test
     void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() throws Exception {
         // Arrange
-        Student student = mock(Student.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
         // Act
-        CourseEditionEnrollment enrollment1 = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
-        CourseEditionEnrollment enrollment2 = CourseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment enrollment1 = factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
+        CourseEditionEnrollment enrollment2 = factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
 
         // Assert
         assertTrue(enrollment1.equals(enrollment2));
