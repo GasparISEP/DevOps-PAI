@@ -32,6 +32,6 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
     }
 
     public List<Department> getAllDepartments() {
-        return _departmentRepository.getDepartmentsList();
+        return _departmentRepository.getDepartmentList();
     }
 }

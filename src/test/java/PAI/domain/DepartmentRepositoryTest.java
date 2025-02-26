@@ -79,7 +79,7 @@ class DepartmentRepositoryTest {
         DepartmentFactory factory= new DepartmentFactory();
         DepartmentRepository tcr = new DepartmentRepository(factory);
         // Act + Assert
-        assertThrows(IllegalStateException.class, () -> tcr.getDepartmentsList());
+        assertThrows(IllegalStateException.class, () -> tcr.getDepartmentList());
     }
 
     //Testing that the retrieved list has registered objects
@@ -91,7 +91,7 @@ class DepartmentRepositoryTest {
         tcr.registerDepartment("CSE", "Computer Science");
         tcr.registerDepartment("CIV", "Civil Engineering");
         // Act
-        List<Department> result = tcr.getDepartmentsList();
+        List<Department> result = tcr.getDepartmentList();
         // Assert
         assertEquals(2, result.size());
     }

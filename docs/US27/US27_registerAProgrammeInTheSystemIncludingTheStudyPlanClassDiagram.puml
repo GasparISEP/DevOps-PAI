@@ -138,10 +138,10 @@ Programme "*" -u-> "1*" Department: assigned to
 DegreeType "1" <-- "*" Programme
 Teacher "1..*" <-left- "1" Department: aggregates
 Teacher "1..*" <-- "1" TeacherRepository: _teachers
-Department "1..*" <-- "1" DepartmentRepository: stores
+Department "1..*" <-right- "1" DepartmentRepository: stores
 Course "1..*" -- "1" CourseRepository
-StudyPlan "1" <-left- "1..*" CourseInStudyPlan: belongs
-CourseInStudyPlan "*" -left-> "1" Programme: belongs
+StudyPlan "1" <-down- "1..*" CourseInStudyPlan: belongs
+StudyPlan "*" -left-> "1" Programme: belongs
 CourseInStudyPlan "0..1" <-- "1" Course: happens
 
 

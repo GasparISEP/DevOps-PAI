@@ -71,7 +71,7 @@ class TeacherCategoryRepositoryTest {
         // Arrange
         TeacherCategoryRepository tcr = new TeacherCategoryRepository();
         // Act + Assert
-        assertThrows(IllegalStateException.class, () -> tcr.getTeacherCategoriesList());
+        assertThrows(IllegalStateException.class, () -> tcr.getTeacherCategoryList());
     }
 
     //Testing that the retrieved list has registered objects
@@ -82,7 +82,7 @@ class TeacherCategoryRepositoryTest {
         tcr.registerTeacherCategory("Assistant Professor");
         tcr.registerTeacherCategory("Coordinating Professor");
         // Act
-        List<TeacherCategory> result = tcr.getTeacherCategoriesList();
+        List<TeacherCategory> result = tcr.getTeacherCategoryList();
         // Assert
         assertEquals(2, result.size());
     }
