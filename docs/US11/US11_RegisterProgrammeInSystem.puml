@@ -1,0 +1,36 @@
+@startuml
+actor ASC as Admin
+
+participant ":UI" as UI #lightblue
+participant ":ControllerUS11" as C #lightblue
+participant ":ProgrammeList" as PL #lightblue
+
+
+Admin -> UI ++ #application : I Want to register a Programme in the System.
+UI --> Admin -- : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? \n Department? Programme Director?
+Admin -> UI ++ #application : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! \n Department! Programme Director!
+UI -> C ++ #application : registerProgrammeInTheSystem(Name, Acronym, quantityOfEcts, \n quantityOfSemesters,  DegreeType,  Department, Programme Director)
+C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector)
+
+create ":Programme" as P #lightblue
+PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector)
+P -> P : isNameInvalid()
+P -> P : isAcronymInvalid()
+P -> P : isQuantityOfEctsInvalid()
+P -> P : isQuantityOfSemestersInvalid()
+
+create ":StudyPlan" as SP #lightblue
+P -> SP ++ #application : StudyPlan()
+SP --> P -- : List<CourseInStudyPlan> SP1
+
+P --> PL -- : P1
+
+PL -> PL : contains(P1)
+PL -> PL : add(P1)
+
+PL --> C -- : True
+C --> UI -- : True
+UI --> Admin -- : Success!
+
+
+@enduml

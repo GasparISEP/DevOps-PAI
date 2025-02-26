@@ -1,0 +1,28 @@
+@startuml
+actor admin
+autonumber
+
+title: US02_Sequence Diagram_Configure Access Method in System
+
+admin -> UI ++ #application : I want to configure access method
+UI --> admin -- : access method name?
+admin -> UI ++ #application :(accessMethodName)
+UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (accessMethodName)
+
+ConfigureAccessMethodController -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : createAccessMethod (accessMethodName)
+AccessMethodRepository -> ":AccessMethodFactory" as AccessMethodFactory ++ #application : createAccessMethod (accessMethodName)
+
+create "ac1:AccessMethod" as AccessMethod
+AccessMethodFactory -> AccessMethod ++ #application  : <create> (accessMethodName)
+AccessMethod -> AccessMethod : isAccessMethodNameValid (accessMethodName);
+
+AccessMethod --> AccessMethodFactory -- : ac1
+AccessMethodFactory --> AccessMethodRepository -- : ac1
+AccessMethodRepository -> AccessMethodRepository : isAccessMethodRegistered (ac1)
+AccessMethodRepository -> AccessMethodRepository : registerAccessMethod (accessMethodName)
+
+AccessMethodRepository --> ConfigureAccessMethodController --: ac1
+
+ConfigureAccessMethodController --> UI --: true
+UI --> admin --: Access Method configured
+@enduml

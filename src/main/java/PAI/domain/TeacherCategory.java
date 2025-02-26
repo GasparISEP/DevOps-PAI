@@ -31,10 +31,7 @@ public class TeacherCategory {
         }
         TeacherCategory testCategory = (TeacherCategory) objectToCompare;
 
-        if (_name.equals(testCategory._name)) {
-            return true;
-        }
-        return false;
+        return _name.equals(testCategory._name);
     }
 
 }
