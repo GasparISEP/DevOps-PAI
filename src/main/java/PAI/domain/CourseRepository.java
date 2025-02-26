@@ -10,7 +10,7 @@ public class CourseRepository {
 
 
 //Constructor delegation calls automatic the courseFactory
-    //public CourseRepository () { this(new CourseFactory()); }
+    public CourseRepository () { this(new CourseFactory()); }
 
     public CourseRepository (CourseFactory courseFactory){
 
