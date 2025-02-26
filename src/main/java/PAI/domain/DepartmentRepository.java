@@ -1,23 +1,23 @@
 package PAI.domain;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentRepository {
 
     private List<Department> _departments;
+    private final DepartmentFactory _departmentFactory;
 
     //constructor
-    public DepartmentRepository() {
+    public DepartmentRepository(DepartmentFactory departmentFactory) {
+        _departmentFactory = departmentFactory;
         _departments = new ArrayList<>();
     }
 
     public boolean registerDepartment(String acronym, String name) throws Exception {
 
-        Department department = new Department(acronym,name);
-
-        compareDepartmentAcronymAndNameInList(department);
-        _departments.add(department);
+        Department newDepartment = _departmentFactory.newDepartment(acronym,name);
+        compareDepartmentAcronymAndNameInList(newDepartment);
+        _departments.add(newDepartment);
 
         return true;
     }

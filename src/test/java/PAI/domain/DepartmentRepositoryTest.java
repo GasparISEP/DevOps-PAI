@@ -12,7 +12,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldRegisterValidDepartment() throws Exception {
         // Arrange
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
 
         // Act
         boolean result = repository.registerDepartment("CSE", "Computer Science");
@@ -25,7 +26,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldRegisterMultipleDifferentDepartments() throws Exception {
         // Arrange
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
 
         // Act
         boolean result1 = repository.registerDepartment("CSE", "Computer Science");
@@ -40,7 +42,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldThrowExceptionForDuplicateAcronym() {
         // Arrange
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
 
         // Act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -56,7 +59,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldThrowExceptionForDuplicateName() {
         // Arrange
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
 
         // Act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -72,7 +76,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnExceptionIfDepartmentListIsEmpty() throws IllegalStateException {
         // Arrange
-        DepartmentRepository tcr = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository tcr = new DepartmentRepository(factory);
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> tcr.getDepartmentsList());
     }
@@ -81,7 +86,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
         // Arrange
-        DepartmentRepository tcr = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository tcr = new DepartmentRepository(factory);
         tcr.registerDepartment("CSE", "Computer Science");
         tcr.registerDepartment("CIV", "Civil Engineering");
         // Act
@@ -94,7 +100,8 @@ class DepartmentRepositoryTest {
     void shouldReturnTrueIfDepartmentExistsInDepartmentRepository() throws Exception {
         // Arrange
         Department department1= new Department("DEF","Departamento Engenharia Física");
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
         repository.registerDepartment("DEF", "Departamento Engenharia Física");
         repository.registerDepartment("DEC", "Departamento de Engenharia Civil");
 
@@ -109,7 +116,8 @@ class DepartmentRepositoryTest {
     void shouldReturnFalseIfDepartmentDoesNotExistInDepartmentRepository() throws Exception {
         // Arrange
         Department department1= new Department("DEQ","Departamento Engenharia Química");
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
         repository.registerDepartment("DEF", "Departamento Engenharia Física");
         repository.registerDepartment("DEC", "Departamento Engenharia Civil");
 
@@ -124,7 +132,8 @@ class DepartmentRepositoryTest {
     void shouldReturnFalseIfDepartmentIsNull() throws Exception {
         // Arrange
         Department department1= null;
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
         repository.registerDepartment("DEF", "Departamento Engenharia Física");
         repository.registerDepartment("DEC", "Departamento Engenharia Civil");
 
@@ -138,7 +147,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnTrueIfUpdateDepartmentDirector() throws Exception {
         //arrange
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
         repository.registerDepartment("DEF", "Departamento Engenharia Física");
         Department dpt1 = new Department("DEF", "Departamento Engenharia Física");
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
@@ -154,7 +164,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfTeacherDoesNotBelongToDepartment() throws Exception {
         //arrange
-        DepartmentRepository repository = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository repository = new DepartmentRepository(factory);
         repository.registerDepartment("DEF", "Departamento Engenharia Física");
         Department dpt1 = new Department("DEF", "Departamento Engenharia Física");
         Department dpt2 = new Department("DED", "Software Engineering");
@@ -170,7 +181,8 @@ class DepartmentRepositoryTest {
         @Test
         void shouldReturnFalseIfTeacherIsNull () throws Exception {
             //arrange
-            DepartmentRepository repository = new DepartmentRepository();
+            DepartmentFactory factory= new DepartmentFactory();
+            DepartmentRepository repository = new DepartmentRepository(factory);
             repository.registerDepartment("DEF", "Departamento Engenharia Física");
             Department dpt1 = new Department("DEF", "Departamento Engenharia Física");
 
