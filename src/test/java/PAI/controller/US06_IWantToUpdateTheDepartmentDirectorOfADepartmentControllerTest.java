@@ -1,10 +1,7 @@
 package PAI.controller;
-
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
@@ -25,7 +22,8 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     @Test
     void shouldReturnFalseIfDepartmentIsNull () throws Exception {
         //arrange
-        DepartmentRepository dr1 = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository dr1 = new DepartmentRepository(factory);
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -41,7 +39,8 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     @Test
     void shouldReturnFalseIfTeacherIsNull () throws Exception {
         //arrange
-        DepartmentRepository dr1 = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository dr1 = new DepartmentRepository(factory);
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
         Department dpt1 = new Department("MAT", "Mathematics");
 
@@ -55,7 +54,8 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     @Test
     void shouldReturnTrueIfUpdateDepartmentDirector () throws Exception {
         //arrange
-        DepartmentRepository dr1 = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository dr1 = new DepartmentRepository(factory);
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -72,7 +72,8 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     @Test
     void shouldReturnFalseIfTeacherDoesNotBelongToDepartment () throws Exception {
         //arrange
-        DepartmentRepository dr1 = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository dr1 = new DepartmentRepository(factory);
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -92,7 +93,8 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     void testGetAllDepartments() throws Exception {
 
         // Arrange
-        DepartmentRepository dr1 = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository dr1 = new DepartmentRepository(factory);
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
         dr1.registerDepartment("MAT", "Mathematics");
         dr1.registerDepartment("DED","Informatic Engineering");

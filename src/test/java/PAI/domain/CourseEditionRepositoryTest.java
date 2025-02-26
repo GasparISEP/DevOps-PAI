@@ -15,7 +15,6 @@ class CourseEditionRepositoryTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010",assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -35,7 +34,6 @@ class CourseEditionRepositoryTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Course c1 = new Course ("Informatica", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -57,7 +55,6 @@ class CourseEditionRepositoryTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY2 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -80,7 +77,7 @@ class CourseEditionRepositoryTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
+
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -102,7 +99,6 @@ class CourseEditionRepositoryTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
@@ -141,7 +137,6 @@ class CourseEditionRepositoryTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010",assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -164,7 +159,6 @@ class CourseEditionRepositoryTest {
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010",assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         Course c1 = new Course ("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -192,7 +186,6 @@ class CourseEditionRepositoryTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         Course c1 = new Course("Informática", "INF", 6, 1);
         Course c2 = new Course("Matemática", "MAT", 6, 1);
@@ -226,7 +219,6 @@ class CourseEditionRepositoryTest {
 
         SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
         DegreeType degreeType = new DegreeType("Master", 30);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
 
@@ -254,7 +246,6 @@ class CourseEditionRepositoryTest {
 
         SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
         DegreeType degreeType = new DegreeType("Master", 30);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
         ProgrammeEdition pe1 = new ProgrammeEdition(programme, schoolYear);
 
@@ -280,7 +271,6 @@ class CourseEditionRepositoryTest {
 
         SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
         DegreeType degreeType = new DegreeType("Master", 30);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
         ProgrammeEdition pe1 = new ProgrammeEdition(programme, schoolYear);
 
@@ -310,7 +300,6 @@ class CourseEditionRepositoryTest {
 
         SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
         DegreeType degreeType = new DegreeType("Master", 30);
-        CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
         ProgrammeEdition pe1 = new ProgrammeEdition(programme, schoolYear);
 
@@ -337,7 +326,6 @@ class CourseEditionRepositoryTest {
                 "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010",
                 assistantProfessor, 100, CSE);
 
-        CourseRepository courseRepository = new CourseRepository();
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition (p1, sY1);

@@ -181,6 +181,7 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldThrowExceptionWhenStudentOrCourseEditionIsNull() throws Exception {
         // Arrange
+        CourseFactory courseFactory = mock(CourseFactory.class);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
 
@@ -192,7 +193,7 @@ class CourseEditionEnrollmentRepositoryTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher pd1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
-        CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
         Programme p1 = new Programme("SWITCH DEV","SDV",30,1,dt1,d1,pd1);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
@@ -213,6 +214,7 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnOptionalEmptyWhenNoEnrollmentFound() throws Exception {
         // Arrange
+        CourseFactory courseFactory = mock(CourseFactory.class);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
 
@@ -224,7 +226,7 @@ class CourseEditionEnrollmentRepositoryTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher pd1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
-        CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
         Programme p1 = new Programme("SWITCH DEV","SDV",30,1,dt1,d1,pd1);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);
@@ -242,6 +244,7 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnEmptyWhenStudentIsNotEnrolledInCourseEdition() throws Exception {
         // Arrange
+        CourseFactory courseFactory = mock(CourseFactory.class);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
 
@@ -253,7 +256,7 @@ class CourseEditionEnrollmentRepositoryTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher pd1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
-        CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
         Programme p1 = new Programme("SWITCH DEV","SDV",30,1,dt1,d1,pd1);
         Course c1 = new Course("Development","DEV",5,1);
         ProgrammeEdition pe1 = new ProgrammeEdition(p1,sy1);

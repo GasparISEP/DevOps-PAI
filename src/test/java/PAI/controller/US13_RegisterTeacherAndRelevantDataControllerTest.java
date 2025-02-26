@@ -13,7 +13,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldAlwaysCreateObjectController() {
         // Arrange
         TeacherCategoryRepository tcr = new TeacherCategoryRepository();
-        DepartmentRepository dpt = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository dpt = new DepartmentRepository(factory);
         TeacherRepository tr = new TeacherRepository();
 
         // Act
@@ -44,7 +45,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     @Test
     void shouldReturnExceptionIfDepartmentsListIsEmpty() throws IllegalStateException {
-        DepartmentRepository dptr = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository dptr = new DepartmentRepository(factory);
         US13_RegisterTeacherAndRelevantDataController dptrControllerList = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> dptrControllerList.getDepartmentsList());
@@ -53,7 +55,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
         // Arrange
-        DepartmentRepository dptr = new DepartmentRepository();
+        DepartmentFactory factory= new DepartmentFactory();
+        DepartmentRepository dptr = new DepartmentRepository(factory);
         dptr.registerDepartment("CSE", "Computer Science");
         dptr.registerDepartment("CIV", "Civil Engineering");
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);

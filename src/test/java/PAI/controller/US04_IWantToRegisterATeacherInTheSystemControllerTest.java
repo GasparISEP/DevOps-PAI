@@ -1,8 +1,6 @@
 package PAI.controller;
-
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class US04_IWantToRegisterATeacherInTheSystemControllerTest {
@@ -11,7 +9,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnExceptionIfTeacherRepositoryIsNull (){
         //arrange
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -27,7 +26,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnExceptionIfTeacherCategoryRepositoryIsNull (){
         //arrange
         TeacherRepository teacherRepository = new TeacherRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -60,7 +60,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         //arrange
         TeacherRepository teacherRepository = new TeacherRepository();
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepository, teacherCategoryRepository, departmentRepository);
         TeacherCategory tc1 = new TeacherCategory("Math");
@@ -78,7 +79,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         //arrange
         TeacherRepository teacherRepository = new TeacherRepository();
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepository, teacherCategoryRepository, departmentRepository);
         TeacherCategory tc1 = new TeacherCategory("Math");
@@ -96,7 +98,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         //arrange
         TeacherRepository teacherRepository = new TeacherRepository();
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository();
-        DepartmentRepository departmentRepository = new DepartmentRepository();
+        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentRepository departmentRepository = new DepartmentRepository(factory);
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepository, teacherCategoryRepository, departmentRepository);
         TeacherCategory tc1 = new TeacherCategory("Math");
