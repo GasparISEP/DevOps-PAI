@@ -2,7 +2,7 @@ package PAI.domain;
 
 public class TeacherRepositoryFactory {
 
-    public TeacherRepository newTeacherRepository() {
-        return new TeacherRepository();
+    public TeacherRepository newTeacherRepository(TeacherFactory teacherFactory) {
+        return new TeacherRepository(teacherFactory);
     }
 }

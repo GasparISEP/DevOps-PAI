@@ -16,7 +16,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
-        TeacherRepository repo2 = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         // Arrange Teacher Ruc
@@ -54,7 +55,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
-        TeacherRepository repo2 = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         DegreeType master = new DegreeType("Master", 240);
@@ -86,7 +88,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         //Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
-        TeacherRepository repo2 = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
 
@@ -125,7 +128,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         //Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
-        TeacherRepository repo2 = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         repo2.registerTeacher( "AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
@@ -151,7 +155,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
-        TeacherRepository repo2 = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         // Arrange Teacher and CourseEdition setup
@@ -183,7 +188,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
-        TeacherRepository repo2 = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "24-03-2010", new TeacherCategory("Assistant Professor"), 80, new Department("CSE", "Computer Science"));
 

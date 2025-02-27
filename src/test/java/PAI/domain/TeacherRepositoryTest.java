@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class TeacherRepositoryTest {
 
@@ -13,7 +14,8 @@ class TeacherRepositoryTest {
     @Test
     void shouldCreateValidTeacher() throws Exception {
         // Arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -30,7 +32,8 @@ class TeacherRepositoryTest {
     @Test
     public void testRegisterValidTeacher() throws Exception {
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
         //act
@@ -46,7 +49,8 @@ class TeacherRepositoryTest {
     @Test
     public void testRegisterTeacherWithDuplicateAcronym() throws Exception {
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -63,7 +67,8 @@ class TeacherRepositoryTest {
     @Test
     public void testRegisterTeacherWithDuplicateNif() throws Exception {
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -78,7 +83,8 @@ class TeacherRepositoryTest {
     @Test
     void shouldReturnANewListOfTeachersWithSameSize() throws Exception {
         //ARRANGE
-        TeacherRepository repo1 = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -104,7 +110,8 @@ class TeacherRepositoryTest {
     void shouldReturnTeacherWhenNIFMatches() throws Exception {
 
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -122,7 +129,8 @@ class TeacherRepositoryTest {
     void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() throws Exception {
 
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -139,7 +147,8 @@ class TeacherRepositoryTest {
     void shouldReturnEmptyOptionalWhenNIFIsEmpty() throws Exception {
 
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -156,7 +165,8 @@ class TeacherRepositoryTest {
     void shouldReturnEmptyOptionalWhenNIFIsBlank() throws Exception {
 
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
@@ -173,7 +183,8 @@ class TeacherRepositoryTest {
     void shouldReturnEmptyOptionalWhenNIFIsNull() throws Exception {
 
         //arrange
-        TeacherRepository repository = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repository = new TeacherRepository(teacherFactory);
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
 
