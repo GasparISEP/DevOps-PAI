@@ -241,4 +241,22 @@ class ProgrammeEditionEnrollmentTest {
         // assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnStudentUniqueNumber() {
+        // Arrange
+        Student studentMock = mock(Student.class);
+        when(studentMock.getUniqueNumber()).thenReturn(12345);
+
+        ProgrammeEdition editionMock = mock(ProgrammeEdition.class);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentMock, editionMock, LocalDate.now());
+
+        // Act
+        int uniqueNumber = enrollment.getStudentUniqueNumber();
+
+        // Assert
+        assertEquals(12345, uniqueNumber);
+    }
+
+
 }
