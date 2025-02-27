@@ -2,31 +2,36 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 class StudyPlanTest {
 
     @Test
     void shouldRegisterCourseInStudyPlan() throws Exception {
+
         // arrange
-        CourseRepository courseRepository = mock(CourseRepository.class);
-        Course course1 = mock(Course.class);
-        DegreeType master = mock(DegreeType.class);
-        Department cse = mock(Department.class);
-        Teacher teacher = mock(Teacher.class);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = programme.getStudyPlan();
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
-        programme.addCourseToAProgramme(course1);
+        StudyPlan studyPlan = new StudyPlan();
+        Programme programme = mock(Programme.class);
+        Course course = mock(Course.class);
+        when(programme.getCourseList()).thenReturn(List.of(course));
+
+        when(programme.getQuantityOfSemester()).thenReturn(6);
+        when(programme.calculateNumberOfYears(6)).thenReturn(3);
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
 
         // act
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course, programme);
 
         // assert
         assertTrue(addCourse1ToStudyPlan);
-
     }
 
     @Test
