@@ -15,27 +15,27 @@ import static org.mockito.Mockito.never;
 class CourseEditionEnrollmentRepositoryTest {
 
     @Test
-    void shouldReturnTrueWithAValidCourseEditionEnrollment () throws Exception {
+    void shouldReturnTrueWithAValidCourseEditionEnrollment () {
         //arrange
-        CourseEditionEnrollmentFactory ceeFactoryDouble = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (ceeFactoryDouble);
+        CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory);
 
         LocalDate currentDate = LocalDate.now();
-        Student st1 = mock(Student.class);
-        CourseEdition ce1 = mock(CourseEdition.class);
-        CourseEditionEnrollment cee1 = mock(CourseEditionEnrollment.class);
+        Student doubleSt1 = mock(Student.class);
+        CourseEdition doubleCe1 = mock(CourseEdition.class);
+        CourseEditionEnrollment doubleCee1 = mock(CourseEditionEnrollment.class);
 
-        when (ceeFactoryDouble.createCourseEditionEnrollment(st1,ce1,currentDate)).thenReturn(cee1);
+        when (doubleCeeFactory.createCourseEditionEnrollment(doubleSt1,doubleCe1,currentDate)).thenReturn(doubleCee1);
 
         //act
-        boolean result = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
+        boolean result = repository.enrollStudentInACourseEdition(doubleSt1,doubleCe1,currentDate);
 
         //assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnTrueWithTwoValidCourseEditionEnrollments () throws Exception {
+    void shouldReturnTrueWithTwoValidCourseEditionEnrollments () {
         //arrange
         CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory);
@@ -64,22 +64,22 @@ class CourseEditionEnrollmentRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenCourseEditionEnrollmentAlreadyExists() throws Exception {
+    void shouldReturnFalseWhenCourseEditionEnrollmentAlreadyExists() {
         //arrange
         CourseEditionEnrollmentFactory doubleCeeFactory= mock (CourseEditionEnrollmentFactory.class);
-
-        Student st1 = mock(Student.class);
-        CourseEdition ce1 = mock(CourseEdition.class);
-        LocalDate currentDate = LocalDate.now();
-        CourseEditionEnrollment cee1 = mock(CourseEditionEnrollment.class);
-
-        when (doubleCeeFactory.createCourseEditionEnrollment(st1,ce1,currentDate)).thenReturn(cee1);
-
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory);
-        repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
+
+        Student doubleSt1 = mock(Student.class);
+        CourseEdition doubleCe1 = mock(CourseEdition.class);
+        LocalDate currentDate = LocalDate.now();
+        CourseEditionEnrollment doubleCee1 = mock(CourseEditionEnrollment.class);
+
+        when (doubleCeeFactory.createCourseEditionEnrollment(doubleSt1,doubleCe1,currentDate)).thenReturn(doubleCee1);
+
+        repository.enrollStudentInACourseEdition(doubleSt1,doubleCe1,currentDate);
 
         //act
-        boolean result2 = repository.enrollStudentInACourseEdition(st1,ce1,currentDate);
+        boolean result2 = repository.enrollStudentInACourseEdition(doubleSt1,doubleCe1,currentDate);
 
         //assert
         assertFalse(result2);
@@ -127,7 +127,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertFalse(repository.isStudentEnrolledInCourseEdition(student2, ce1));
     }
 
-    //US17
+
     @Test
     void shouldReturnCourseEditionEnrollmentWhenStudentIsEnrolled() throws Exception {
         // Arrange
@@ -153,7 +153,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals(result.get().findCourseEditionInEnrollment(), ce1, "The course edition enrolled is correct.");
     }
 
-    //US17
+
     @Test
     void shouldReturnCourseEditionFromEnrollment() throws Exception {
         // Arrange
@@ -179,7 +179,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals(ce1, result.get().findCourseEditionInEnrollment(), "The course edition returned should match the one in the enrollment.");
     }
 
-    //US17
+
     @Test
     void shouldThrowExceptionWhenStudentOrCourseEditionIsNull() throws Exception {
         // Arrange
@@ -199,13 +199,12 @@ class CourseEditionEnrollmentRepositoryTest {
         });
         assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
     }
-    //US17
+
     @Test
     void shouldReturnOptionalEmptyWhenNoEnrollmentFound() throws Exception {
         // Arrange
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
-        Student st1 =mock(Student.class);
         Student st2 = mock(Student.class);
         CourseEdition ce1= mock(CourseEdition.class);
 
@@ -216,7 +215,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertFalse(result.isPresent(), "The result should be empty if the student is not enrolled in the course edition.");
     }
 
-    //US17
+
     @Test
     void shouldReturnEmptyWhenStudentIsNotEnrolledInCourseEdition() throws Exception {
         // Arrange
@@ -234,7 +233,7 @@ class CourseEditionEnrollmentRepositoryTest {
     }
 
 
-    // US24
+
 
     @Test
     void shouldReturnNumberOfStudentsEnrolledInCourseEdition() throws Exception {
@@ -328,7 +327,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals("Course edition cannot be null.", exception.getMessage());
     }
 
-    //US28
+
     @Test
     public void removeExistingEnrollment() throws Exception {
         // arrange
@@ -496,6 +495,5 @@ class CourseEditionEnrollmentRepositoryTest {
         // Assert
         assertEquals(0, studentsEnrolled);
     }
-
 
 }

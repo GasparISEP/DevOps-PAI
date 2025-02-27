@@ -9,7 +9,7 @@ class US16_EnrollAStudentInACourseEditionController {
 }
 
 class CourseEditionEnrollmentFactory{
-    +createCourseEditionEnrollment(Student: student, CourseEdition: courseEdition, LocalDate: enrollmentDate)
+    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
 }
 
 class CourseEditionEnrollment {
@@ -20,7 +20,7 @@ class CourseEditionEnrollment {
 }
 
 class CourseEditionEnrollmentRepository {
-    +CourseEditionEnrollmentRepository ()
+    +CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory)
     +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
     enrollmentDate: LocalDate): boolean
 }
@@ -34,7 +34,7 @@ class ProgrammeEditionEnrollment {
 }
 
 class ProgrammeEditionEnrollmentRepo {
-    +ProgrammeEditionEnrollmentRepo()
+    +ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrollmentFactory)
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
 }
 
@@ -63,21 +63,20 @@ class CourseEdition {
 }
 
 class CourseEditionRepository {
-    +CourseEditionRepository()
+    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
     +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition) : ProgrammeEdition
 }
 
-CourseEdition "_listCourseEditions  *" <-- "1" CourseEditionRepository
-Student "_student  1         " <-- "*" CourseEditionEnrollment
+CourseEdition "_listCourseEditions  *      " <-- "1" CourseEditionRepository
+Student "_student  1             " <-- "*" CourseEditionEnrollment
 CourseEditionEnrollment "*" --> "_courseEdition  1        " CourseEdition
-CourseEditionEnrollment "   *        " <-- "1" CourseEditionEnrollmentRepository: _listCourseEditionEnrollment
 CourseEditionEnrollmentFactory "  1  " --> " _courseEditionEnrollment    1        " CourseEditionEnrollment
-CourseEditionEnrollmentFactory "_courseEditionEnrollmentFactory 1  " <-- "   1 " CourseEditionEnrollmentRepository
-ProgrammeEditionEnrollment "*" --> "1    _student           " Student
-ProgrammeEditionEnrollment " *  _listProgrammeEditionEnrollment    " <-u- "1 " ProgrammeEditionEnrollmentRepo
-US16_EnrollAStudentInACourseEditionController "1"..> "1" CourseEditionRepository
+CourseEditionEnrollmentFactory "_courseEditionEnrollmentFactory 1          " <-- "   1 " CourseEditionEnrollmentRepository
+ProgrammeEditionEnrollment " *" --> "1    _student                 " Student
+ProgrammeEditionEnrollment " *  _listProgrammeEditionEnrollment    " <-- "1 " ProgrammeEditionEnrollmentRepo
+US16_EnrollAStudentInACourseEditionController "1 "..> "1      " CourseEditionRepository
 US16_EnrollAStudentInACourseEditionController "1 "..> "  1" ProgrammeEditionEnrollmentRepo
-US16_EnrollAStudentInACourseEditionController "1"..> "1  " CourseEditionEnrollmentRepository
+US16_EnrollAStudentInACourseEditionController "1"..> "1       " CourseEditionEnrollmentRepository
 Address "_address  1   " <-- " 1  " Student
 
 @enduml

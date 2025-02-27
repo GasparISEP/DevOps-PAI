@@ -5,18 +5,19 @@ import java.util.List;
 
 public class CourseEditionRepository {
 
-    private ArrayList<CourseEdition> _courseEditionRepository;
+    private List<CourseEdition> _courseEditionRepository;
+    private final CourseEditionFactory _courseEditionFactory;
 
-    public CourseEditionRepository() {
-
+    public CourseEditionRepository(CourseEditionFactory courseEditionFactory) {
+        _courseEditionFactory = courseEditionFactory;
         _courseEditionRepository = new ArrayList<>();
 
     }
 
-    public boolean createCourseEdition(Course course, ProgrammeEdition programmeEdition) {
+    public boolean createAndSaveCourseEdition(Course course, ProgrammeEdition programmeEdition) {
 
         try {
-            CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+            CourseEdition courseEdition = _courseEditionFactory.newCourseEdition(course, programmeEdition);
             if (isCourseEditionAlreadyInRepository(courseEdition))
                 return false;
 

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionRepositoryTest {
 
@@ -244,4 +246,117 @@ class ProgrammeEditionRepositoryTest {
         assertNotNull(result);
         assertEquals(p1, result);
     }
+
+    @Test
+    void shouldReturnValidProgrammeEditionRepositoryMock() {
+        // SUT = ProgrammeEditionRepository
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+
+        // Act
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        // Assert
+        assertNotNull(programmeEditionRepository);
+    }
+
+    @Test
+    void shouldReturnTrueIfProgrammeEditionIsCreatedMock() throws Exception {
+        // SUT = ProgrammeEditionRepository + ProgrammeEditionFactory
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        Programme programmeMock = mock(Programme.class);
+        SchoolYear schoolYearMock = mock(SchoolYear.class);
+        ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
+
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+
+        // Act
+        boolean result = programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIsAlreadyExistsInTheRepositoryMock() throws Exception {
+        // SUT = ProgrammeEditionRepository + ProgrammeEditionFactory
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        Programme programmeMock = mock(Programme.class);
+        SchoolYear schoolYearMock = mock(SchoolYear.class);
+        ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
+
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+        programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
+
+        // Act
+        boolean result = programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeIsInvalidMock() throws Exception {
+        // SUT = ProgrammeEditionRepository + ProgrammeEditionFactory
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        Programme programmeMock = null;
+        SchoolYear schoolYearMock = mock(SchoolYear.class);
+
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenThrow(new Exception("Programme cannot be Null"));
+
+        // Act
+        boolean result = programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIsInvalidMock() throws Exception {
+        // SUT = ProgrammeEditionRepository + ProgrammeEditionFactory
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        Programme programmeMock = mock(Programme.class);
+        SchoolYear schoolYearMock = null;
+
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenThrow(new Exception("Programme cannot be Null"));
+
+        // Act
+        boolean result = programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
+
+        // Assert
+        assertFalse(result);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

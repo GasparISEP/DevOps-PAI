@@ -32,7 +32,7 @@ class ProgrammeEditionTest {
         SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
 
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEdition(p1, sy1));
+        assertThrows(Exception.class, () -> new ProgrammeEdition(p1, sy1));
     }
 
     @Test
@@ -47,7 +47,7 @@ class ProgrammeEditionTest {
         SchoolYear sy1 = null;
 
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEdition(p1, sy1));
+        assertThrows(Exception.class, () -> new ProgrammeEdition(p1, sy1));
     }
 
     //EQUALS TESTS

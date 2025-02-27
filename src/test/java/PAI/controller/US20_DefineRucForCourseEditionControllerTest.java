@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class US20_DefineRucForCourseEditionControllerTest {
 
@@ -13,7 +14,8 @@ class US20_DefineRucForCourseEditionControllerTest {
     void shouldSuccessfullyDefineRucForCourseEdition() throws Exception {
 
         // Arrange
-        CourseEditionRepository repo1 = new CourseEditionRepository();
+        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
@@ -38,7 +40,7 @@ class US20_DefineRucForCourseEditionControllerTest {
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition cE1 = new CourseEdition(c1, pE1);
 
-        repo1.createCourseEdition(c1, pE1);
+        repo1.createAndSaveCourseEdition(c1, pE1);
 
         // Act
         boolean result = ctrl1.defineRucForCourseEdition(cE1, t1);
@@ -50,7 +52,8 @@ class US20_DefineRucForCourseEditionControllerTest {
     @Test
     void shouldNotRedefineRucIfRucAlreadyExists() throws Exception {
         // Arrange
-        CourseEditionRepository repo1 = new CourseEditionRepository();
+        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
@@ -65,7 +68,7 @@ class US20_DefineRucForCourseEditionControllerTest {
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
 
         Course c1 = new Course("Informatics", "INF", 6, 1);
-        repo1.createCourseEdition(c1, pE1);
+        repo1.createAndSaveCourseEdition(c1, pE1);
 
         CourseEdition cE1 = new CourseEdition(c1, pE1);
         ctrl1.defineRucForCourseEdition(cE1, teacher);  // First RUC definition
@@ -81,8 +84,8 @@ class US20_DefineRucForCourseEditionControllerTest {
     void shouldReturnTwoCourseEditionsWhenTwoAreRegistered() throws Exception {
 
         //Arrange
-
-        CourseEditionRepository repo1 = new CourseEditionRepository();
+        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
@@ -99,10 +102,10 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         //Arrange CourseEdition
         Course c1 = new Course ("Informatics", "INF", 6, 1);
-        repo1.createCourseEdition(c1, pE1);
+        repo1.createAndSaveCourseEdition(c1, pE1);
 
         Course c2 = new Course ("Cidadania", "CID", 6, 1);
-        repo1.createCourseEdition(c2, pE1);
+        repo1.createAndSaveCourseEdition(c2, pE1);
 
         //Act
 
@@ -120,7 +123,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         Department department = new Department("MAT", "Mathematics");
 
         //Arrange
-        CourseEditionRepository repo1 = new CourseEditionRepository();
+        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
@@ -145,7 +149,8 @@ class US20_DefineRucForCourseEditionControllerTest {
     void shouldNotDefineRucForCourseEditionIfTeacherIsNull() throws Exception {
 
         // Arrange
-        CourseEditionRepository repo1 = new CourseEditionRepository();
+        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
@@ -163,7 +168,7 @@ class US20_DefineRucForCourseEditionControllerTest {
         CourseEdition cE1 = new CourseEdition(c1, pE1);
 
         // Register the CourseEdition in the repository
-        repo1.createCourseEdition(c1, pE1); // Ensure the CourseEdition is added to the repository
+        repo1.createAndSaveCourseEdition(c1, pE1); // Ensure the CourseEdition is added to the repository
 
         // Act
         boolean result = ctrl1.defineRucForCourseEdition(cE1, null); // Passing null as Teacher
@@ -176,7 +181,8 @@ class US20_DefineRucForCourseEditionControllerTest {
     void shouldThrowExceptionIfCourseEditionIsNull() throws Exception {
 
         // Arrange
-        CourseEditionRepository repo1 = new CourseEditionRepository();
+        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
         TeacherRepository repo2 = new TeacherRepository();
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "24-03-2010", new TeacherCategory("Assistant Professor"), 80, new Department("CSE", "Computer Science"));

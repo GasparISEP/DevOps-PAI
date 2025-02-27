@@ -26,9 +26,9 @@ public class US19_CreateCourseEditionController {
     }
 
     public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) {
-            if(!_courseEditionRepository.createCourseEdition(course, programmeEdition))
+            if(!_courseEditionRepository.createAndSaveCourseEdition(course, programmeEdition))
                 return false;
-        _courseEditionRepository.createCourseEdition(course, programmeEdition);
+        _courseEditionRepository.createAndSaveCourseEdition(course, programmeEdition);
             return true;
     }
 }

@@ -3,6 +3,8 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
 
@@ -20,84 +22,78 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     }
 
     @Test
-    void shouldReturnFalseIfDepartmentIsNull () throws Exception {
+    void shouldReturnFalseIfDepartmentIsNull () {
         //arrange
-        DepartmentFactory factory = new DepartmentFactory();
-        DepartmentRepository dr1 = new DepartmentRepository(factory);
-        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        DepartmentRepository dr1Double = mock(DepartmentRepository.class);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1Double);
+        Teacher t1Double = mock(Teacher.class);
 
         //act
-        boolean result = controller.updateDepartmentDirector(null, t1);
+        boolean result = controller.updateDepartmentDirector(null, t1Double);
 
         //assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseIfTeacherIsNull () throws Exception {
+    void shouldReturnFalseIfTeacherIsNull () {
         //arrange
-        DepartmentFactory factory = new DepartmentFactory();
-        DepartmentRepository dr1 = new DepartmentRepository(factory);
-        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
-        Department dpt1 = new Department("MAT", "Mathematics");
+        DepartmentRepository dr1Double = mock(DepartmentRepository.class);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1Double);
+        Department dpt1Double = mock(Department.class);
 
         //act
-        boolean result = controller.updateDepartmentDirector(dpt1, null);
+        boolean result = controller.updateDepartmentDirector(dpt1Double, null);
 
         //assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnTrueIfUpdateDepartmentDirector () throws Exception {
+    void shouldReturnTrueIfUpdateDepartmentDirector (){
         //arrange
-        DepartmentFactory factory = new DepartmentFactory();
-        DepartmentRepository dr1 = new DepartmentRepository(factory);
-        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
-        dr1.registerDepartment("MAT", "Mathematics");
+        DepartmentRepository dr1Double = mock(DepartmentRepository.class);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1Double);
+        Department dpt1Double = mock(Department.class);
+        Teacher t1Double = mock(Teacher.class);
+
+        when(dr1Double.updateOfDepartmentDirector(dpt1Double, t1Double)).thenReturn(true);
 
         //act
-        boolean result = controller.updateDepartmentDirector(dpt1, t1);
+        boolean result = controller.updateDepartmentDirector(dpt1Double, t1Double);
 
         //assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfTeacherDoesNotBelongToDepartment () throws Exception {
+    void shouldReturnFalseIfUpdateDepartmentDirectorNotSucessfull (){
         //arrange
-        DepartmentFactory factory = new DepartmentFactory();
-        DepartmentRepository dr1 = new DepartmentRepository(factory);
-        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Department dpt2 = new Department("DED", "Software Engineering");
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt2);
-        dr1.registerDepartment("MAT", "Mathematics");
+        DepartmentRepository dr1Double = mock(DepartmentRepository.class);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1Double);
+        Department dpt1Double = mock(Department.class);
+        Teacher t1Double = mock(Teacher.class);
+
+        when(dr1Double.updateOfDepartmentDirector(dpt1Double, t1Double)).thenReturn(false);
 
         //act
-        boolean result = controller.updateDepartmentDirector(dpt1, t1);
+        boolean result = controller.updateDepartmentDirector(dpt1Double, t1Double);
 
         //assert
         assertFalse(result);
     }
 
-
     @Test
     void testGetAllDepartments() throws Exception {
-
         // Arrange
-        DepartmentFactory factory = new DepartmentFactory();
-        DepartmentRepository dr1 = new DepartmentRepository(factory);
-        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
-        dr1.registerDepartment("MAT", "Mathematics");
-        dr1.registerDepartment("DED","Informatic Engineering");
+        DepartmentRepository dr1Double = mock(DepartmentRepository.class);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
+                new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1Double);
+
+        List<Department> departmentList = mock(List.class);
+
+        when(departmentList.size()).thenReturn(2);
+        when(dr1Double.getDepartmentList()).thenReturn(departmentList);
 
         // Act
         List<Department> departments = controller.getAllDepartments();
@@ -105,5 +101,4 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         // Assert
         assertEquals(2, departments.size());
     }
-
 }
