@@ -4,22 +4,21 @@ participant UI #application
 participant ":Controller" #application
 participant ":ProgrammeEditionRepo" #application
 participant ":ProgrammeEditionEnrollmentRepo" #application
+participant "programmeEditionRepo1:ProgrammeEditionRepo"#application
+participant "programmeEdition1:ProgrammeEdition" #application
 
 autonumber
 
-ASC -> UI  ++ #application : I want to get all ProgrammeEditions
+ASC -> UI  ++ #application : I want to know the number of students enrolled in a ProgrammeEdition
 UI -> ":Controller" ++ #application: getallProgrammeEditions()
 ":Controller" -> ":ProgrammeEditionRepo" ++ #application: getallProgrammeEditions()
-":ProgrammeEditionRepo" -> ":ProgrammeEditionRepo"  #application: getAllProgrammeEditions()
-":ProgrammeEditionRepo" --> ":Controller" -- : List<ProgrammeEdition>
+":ProgrammeEditionRepo" --> ":Controller" -- : programmeEditionRepo1
 ":Controller" --> UI -- : List<ProgrammeEdition>
 UI --> ASC -- : which ProgrammeEdition?
-ASC -> UI ++ #application: I want :PE1
-UI -> ":Controller" ++ #application: :PE1
-":Controller" -> ":ProgrammeEditionEnrollmentRepo" ++ #application : :ProgrammeEditionEnrollmentRepo.getNumberOfStudentsEnrolled(:PE1)
-
-":ProgrammeEditionEnrollmentRepo" -> ":ProgrammeEditionEnrollmentRepo" #application : getNumberOfStudentsEnrolled()
-":ProgrammeEditionEnrollmentRepo" --> ":Controller" -- #application : total students enrolled in a ProgrammeEdition
-":Controller" --> "UI" -- #application : total students enrolled in a ProgrammeEdition
-"UI" --> ASC -- #application : total students enrolled in a ProgrammeEdition
+ASC -> UI ++ #application: programmeEdition1!
+UI -> ":Controller" ++ #application: iWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition()
+":Controller" -> ":ProgrammeEditionEnrollmentRepo" ++ #application : getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1)
+":ProgrammeEditionEnrollmentRepo" --> ":Controller" -- #application : int
+":Controller" --> "UI" -- #application : int
+"UI" --> ASC -- #application : int
 @enduml

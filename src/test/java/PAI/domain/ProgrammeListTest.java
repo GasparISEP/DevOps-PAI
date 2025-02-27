@@ -2,6 +2,7 @@ package PAI.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,9 +21,6 @@ class ProgrammeListTest {
         Department CSE = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
 
-        //act + assert
-        Programme CE = mock(Programme.class);
-
         // Act
         boolean result = list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
@@ -33,6 +31,7 @@ class ProgrammeListTest {
 
     @Test
     void duplicatedShouldNotRegisterValidProgramme() throws Exception {
+
         // Arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList list = new ProgrammeList(programmeFactory);
@@ -85,7 +84,6 @@ class ProgrammeListTest {
     void shouldReturnCourseList() throws Exception {
         //arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        CourseRepository courseRepository = mock(CourseRepository.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
         Programme programme = mock(Programme.class);
@@ -142,12 +140,10 @@ class ProgrammeListTest {
         // Arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
 
-        ProgrammeList list = new ProgrammeList(programmeFactory);
         ProgrammeList repository = new ProgrammeList(programmeFactory);
         DegreeType master = mock(DegreeType.class);
         Department cse = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
-
         Programme programme = mock(Programme.class);
 
         when(programmeFactory.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher))
@@ -160,5 +156,47 @@ class ProgrammeListTest {
 
         // Assert
         assertTrue(result.isEmpty());
+    }
+    @Test
+    void shouldReturnAListOfProgrammes()throws Exception {
+
+        //Arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeRepo = new ProgrammeList(programmeFactory);
+
+        String name1 = "Informatica";
+        String acronym1 = "INF";
+        int quantityOfEcts1 = 80;
+        int quantityOfSemesters1 = 4;
+        DegreeType master1 = mock(DegreeType.class);
+        Department cse1 = mock(Department.class);
+        Teacher teacher1 = mock(Teacher.class);
+
+        String name2 = "Informatica";
+        String acronym2= "INF";
+        int quantityOfEcts2 = 80;
+        int quantityOfSemesters2 = 4;
+        DegreeType master2 = mock(DegreeType.class);
+        Department cse2 = mock(Department.class);
+        Teacher teacher2 = mock(Teacher.class);
+
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1)).thenReturn(programme1);
+        when(programmeFactory.registerProgramme(name2, acronym2, quantityOfEcts2,quantityOfSemesters2, master2, cse2, teacher2)).thenReturn(programme2);
+
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1);
+        programmeRepo.registerProgramme(name2, acronym2, quantityOfEcts2,quantityOfSemesters2, master2, cse2, teacher2);
+
+        //Act
+        List<Programme> programmeList = programmeRepo.getAllProgrammes();
+
+        //Assert
+
+        assertEquals(2,programmeList.size());
+        assertTrue(programmeList.contains(programme1));
+        assertTrue(programmeList.contains(programme2));
+
     }
 }

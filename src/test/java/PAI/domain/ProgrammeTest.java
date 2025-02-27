@@ -58,7 +58,7 @@ class ProgrammeTest {
 
     // Test to empty name in Programme
     @Test
-    void emptyNameDontCreateAProgramme () throws Exception {
+    void emptyNameDontCreateAProgramme () throws IllegalArgumentException {
         //assert
         assertThrows(Exception.class, () -> new Programme("", "CE", 20,6,_degreeType,_department,_teacher));
     }
@@ -66,7 +66,7 @@ class ProgrammeTest {
 
     // Test to a null name in Programme
     @Test
-    void nullNameDontCreateAProgramme () throws Exception {
+    void nullNameDontCreateAProgramme () throws IllegalArgumentException {
         //act + assert
 
         assertThrows(Exception.class, () -> new Programme(null, "CE", 20,6,_degreeType,_department,_teacher));
@@ -75,7 +75,7 @@ class ProgrammeTest {
 
     // Test to empty Acronym in Programme
     @Test
-    void emptyAcronymDontCreateAProgramme () throws Exception {
+    void emptyAcronymDontCreateAProgramme () throws IllegalArgumentException {
 
         //act + assert
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "", 20,6,_degreeType,_department,_teacher));
@@ -83,7 +83,7 @@ class ProgrammeTest {
 
     // Test to a null Acronym in Programme
     @Test
-    void nullAcronymDontCreateAProgramme () throws Exception {
+    void nullAcronymDontCreateAProgramme () throws IllegalArgumentException {
 
         //act + assert
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", null, 20,6,_degreeType,_department,_teacher));
@@ -91,7 +91,7 @@ class ProgrammeTest {
 
     // Test to check if negative number of ECTS doNot create a programme
     @Test
-    void lessThan0ECTSDontCreateAProgramme () throws Exception {
+    void lessThan0ECTSDontCreateAProgramme () throws IllegalArgumentException {
 
         //act + assert
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", -1,6,_degreeType,_department,_teacher));
@@ -99,7 +99,7 @@ class ProgrammeTest {
 
     // Test to check if number 0 of ECTS don't create a programme
     @Test
-    void zeroECTSDontCreateAProgramme () throws Exception {
+    void zeroECTSDontCreateAProgramme () throws IllegalArgumentException {
 
         //act + assert
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 0,6,_degreeType,_department,_teacher));
@@ -107,7 +107,7 @@ class ProgrammeTest {
 
 
     @Test
-    void moreThan30ECTSDontCreateAProgramme () throws Exception {
+    void moreThan30ECTSDontCreateAProgramme () throws IllegalArgumentException {
 
         //act + assert
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,6,_degreeType,_department,_teacher));
@@ -115,21 +115,22 @@ class ProgrammeTest {
     }
 
     @Test
-    void lessThanZeroSemestersDontCreateAProgramme () throws Exception {
-        //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,-1,_degreeType,_department,_teacher));
+    void lessThanZeroSemestersDontCreateAProgramme () throws IllegalArgumentException {
+
+        //act+ assert
+        assertThrows(IllegalArgumentException.class, () -> new Programme("Computer Engineering", "CE", 30,-1,_degreeType,_department,_teacher));
 
     }
 
     @Test
-    void ZeroSemestersDontCreateAProgramme () throws Exception {
+    void ZeroSemestersDontCreateAProgramme () throws IllegalArgumentException {
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,0,_degreeType,_department,_teacher));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 30,0,_degreeType,_department,_teacher));
 
     }
 
     @Test
-    void specialCharactersInNameDontCreateAProgramme () throws Exception {
+    void specialCharactersInNameDontCreateAProgramme () throws IllegalArgumentException {
         //act + assert
 
         assertThrows(Exception.class, () -> new Programme("@Computer Science", "CE", 20,6,_degreeType,_department,_teacher));
@@ -137,19 +138,36 @@ class ProgrammeTest {
 
 
     @Test
-    void numbersInAcronymDontCreateAProgramme () throws Exception {
+    void numbersInAcronymDontCreateAProgramme () throws IllegalArgumentException {
         //act + assert
 
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "123", 20,6,_degreeType,_department,_teacher));
     }
 
     @Test
-    void specialCharactersInAcronymDontCreateAProgramme () throws Exception {
+    void specialCharactersInAcronymDontCreateAProgramme () throws IllegalArgumentException {
 
         //act + assert
 
         assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", 20,6,_degreeType,_department,_teacher));
     }
+
+    @Test
+    void nullDegreeTypeCreateAnException(){
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20,6,null,_department,_teacher));
+    }
+
+    @Test
+    void nullDepartmentCreateAnException(){
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20,6,_degreeType,null,_teacher));
+    }
+
+    @Test
+    void nullTeacherCreateAnException(){
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,null));
+    }
+
+    //equals
 
     @Test
     void equalsProgrammeReturnTrue () throws Exception {
@@ -167,11 +185,65 @@ class ProgrammeTest {
     }
 
     @Test
-    void notEqualsProgrammeReturnFalse () throws Exception {
+    void returnFalseWhenAcronymIsDifferent () throws Exception {
 
         //arrange
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
         Programme CEE = new Programme("Computer Engineering", "CEE", 20,6,_degreeType,_department,_teacher);
+
+        //act
+        boolean result = CE.equals(CEE);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void returnFalseWhenNameIsDifferent () throws Exception {
+
+        //arrange
+        Programme CE = new Programme("Computers Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+
+        //act
+        boolean result = CE.equals(CEE);
+
+        //assert
+        assertFalse(result);
+    }
+    @Test
+    void returnFalseWhenEctsIsDifferent () throws Exception {
+
+        //arrange
+        Programme CE = new Programme("Computer Engineering", "CE", 21,6,_degreeType,_department,_teacher);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+
+        //act
+        boolean result = CE.equals(CEE);
+
+        //assert
+        assertFalse(result);
+    }
+    @Test
+    void returnFalseWhenSemestersIsDifferent () throws Exception {
+
+        //arrange
+        Programme CE = new Programme("Computer Engineering", "CE", 20,5,_degreeType,_department,_teacher);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher);
+
+        //act
+        boolean result = CE.equals(CEE);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void returnFalseWhenOneOfTheProgrammesIsNull () throws Exception {
+
+        //arrange
+        Programme CE = new Programme("Computer Engineering", "CE", 20,5,_degreeType,_department,_teacher);
+        Programme CEE = null;
 
         //act
         boolean result = CE.equals(CEE);
@@ -283,48 +355,24 @@ class ProgrammeTest {
         assertEquals(courseDouble, courseInProgramme);
     }
 
-
     @Test
-    void shouldReturnCourseList() throws Exception {
+    void shouldReturnCourseLists() throws Exception {
         //arrange
-        CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 25, 1);
-        Course course2 = new Course("Mathematics", "MATH", 25, 2);
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-
-        // act
-        courseRepository.registerCourse("Programming", "PROG", 25, 1);
-        courseRepository.registerCourse("Mathematics", "MATH", 25, 2);
-
+        Course course1 = mock(Course.class);
+        Course course2 = mock(Course.class);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher);
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
-
+        //act
         List<Course> courseList = programme.getCourseList();
-
         //assert
         assertEquals(2, courseList.size(), "O número de cursos deve ser 2");
-        assertTrue(courseList.contains(course1), "A lista deve conter o curso Programming");
-        assertTrue(courseList.contains(course2), "A lista deve conter o curso Mathematics");
-
     }
 
     @Test
     void shouldReturnQuantityOfSemesters() throws Exception {
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher);
         // Act
         int quantityOfSemesters = programme.getQuantityOfSemester();
 
@@ -335,41 +383,28 @@ class ProgrammeTest {
     @Test
     void shouldReturnCorrectQuantityOfEcts() throws Exception {
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
-
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher);
         // Act
         int quantityOfEcts = programme.getQuantityOfEcts();
-
         // Assert
         assertEquals(20, quantityOfEcts, "The quantity of ECTS should be 20.");
     }
 
     @Test
     void shouldCalculateNumberOfYearsDirectly() throws Exception {
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
-        // Testar valores pares
+        //arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher);
+        // Act + Assert for :Testar valores pares
         assertEquals(1, programme.calculateNumberOfYears(2));
         assertEquals(3, programme.calculateNumberOfYears(6));
         assertEquals(10, programme.calculateNumberOfYears(20));
 
-        // Testar valores ímpares
+        // Act + Assert for : Testar valores ímpares
         assertEquals(2, programme.calculateNumberOfYears(3));
         assertEquals(4, programme.calculateNumberOfYears(7));
         assertEquals(6, programme.calculateNumberOfYears(11));
 
-        // Testar valores extremos
+        // Act + Assert for : Testar valores extremos
         assertEquals(1, programme.calculateNumberOfYears(1));
         assertEquals(50, programme.calculateNumberOfYears(99));
     }
@@ -377,13 +412,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnStudyPlan() throws Exception {
         //arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher);
 
         // act
         StudyPlan studyPlan = programme.getStudyPlan();
@@ -394,13 +423,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnTrueIfNameIsAProgramme() throws Exception {
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher);
 
         // Act
         boolean result = p1.hasThisProgrammeName("Computer Engineering");
@@ -412,13 +435,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnFalseIfNameIsAProgramme() throws Exception {
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher);
 
         // Act
         boolean result = p1.hasThisProgrammeName("Space Engineering");

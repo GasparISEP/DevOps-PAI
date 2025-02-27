@@ -46,12 +46,8 @@ public class US09_EnrolStudentInProgrammeController {
 
     public boolean enrolStudent(Student s1, AccessMethod am1, Programme p1, String date) throws Exception {
         validateEnrolmentParameters(s1, am1, p1, date);
-
-        if (!_accessMethodRepository.isAccessMethodRegistered(am1)) {
-            throw new Exception("Access method not registered");
-        }
-
-        return _programmeEnrolmentRepository.enrolStudents(s1, am1, p1, date);
+        _programmeEnrolmentRepository.enrolStudents(s1, am1, p1, date);
+        return true;
     }
 
     private void validateEnrolmentParameters(Student s1, AccessMethod am1, Programme p1, String date) throws Exception {

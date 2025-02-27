@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import static org.mockito.Mockito.mock;
+
+import java.util.IllegalFormatWidthException;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -12,7 +14,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class TeacherTest {
     @Test
-    void shouldReturnTeacherWhenAllFieldsAreValid() throws Exception {
+    void shouldReturnTeacherWhenAllFieldsAreValid() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
@@ -21,7 +23,7 @@ class TeacherTest {
     }
 
     @Test
-    void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws Exception {
+    void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
@@ -30,7 +32,7 @@ class TeacherTest {
     }
 
     @Test
-    void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws Exception {
+    void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
@@ -58,7 +60,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidTeacherAcronyms")
-    void testInvalidAcronyms(String acronym, String expectedMessage) throws Exception {
+    void testInvalidAcronyms(String acronym, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String nif = "123456789";
@@ -68,7 +70,7 @@ class TeacherTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -90,7 +92,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidTeacherNames")
-    void testInvalidNames(String name, String expectedMessage) throws Exception {
+    void testInvalidNames(String name, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String acronym = "MMM";
         String nif = "123456789";
@@ -101,7 +103,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name , email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -134,7 +136,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -156,7 +158,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidTeacherNIF")
-    void testInvalidNIF(String nif, String expectedMessage) throws Exception {
+    void testInvalidNIF(String nif, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -167,7 +169,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -192,7 +194,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidTeacherPhoneNumber")
-    void testInvalidPhoneNumber(String phoneNumber, String expectedMessage) throws Exception {
+    void testInvalidPhoneNumber(String phoneNumber, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -203,7 +205,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -219,7 +221,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidAcademicBackground")
-    void testInvalidAcademicBackground(String academicBackground, String expectedMessage) throws Exception {
+    void testInvalidAcademicBackground(String academicBackground, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -230,7 +232,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -246,7 +248,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidStreet")
-    void testInvalidStreet(String street, String expectedMessage) throws Exception {
+    void testInvalidStreet(String street, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -258,7 +260,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -274,7 +276,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidPostalCode")
-    void testInvalidPostalCode(String postalCode, String expectedMessage) throws Exception {
+    void testInvalidPostalCode(String postalCode, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -286,7 +288,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores", postalCode, "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -302,7 +304,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidLocation")
-    void testInvalidLocation(String Location, String expectedMessage) throws Exception {
+    void testInvalidLocation(String Location, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -314,7 +316,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085", Location,"Portugal","14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -330,7 +332,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidCountry")
-    void testInvalidCountry(String Country, String expectedMessage) throws Exception {
+    void testInvalidCountry(String Country, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -342,7 +344,7 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto", Country,"14-05-2004", tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
@@ -358,7 +360,7 @@ class TeacherTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidDate")
-    void testInvalidDate(String Date, String expectedMessage) throws Exception {
+    void testInvalidDate(String Date, String expectedMessage) throws IllegalArgumentException {
         // Arrange
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
@@ -370,14 +372,14 @@ class TeacherTest {
         Department dptDouble = mock(Department.class);
 
         // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto","Portugal",Date, tcDouble, 100, dptDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void doesTeacherHaveThisNIF() throws Exception {
+    void doesTeacherHaveThisNIF() throws IllegalArgumentException {
 
         // arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -395,7 +397,7 @@ class TeacherTest {
     }
 
     @Test
-    void returnsTrueAfterUpdateWorkingPercentageInTeacherCareerProgression() throws Exception {
+    void returnsTrueAfterUpdateWorkingPercentageInTeacherCareerProgression() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
@@ -409,7 +411,7 @@ class TeacherTest {
     }
 
     @Test
-    void returnsExceptionWhenGivenWorkingPercentageIsEqualToPresentWorkingPercentage() throws Exception {
+    void returnsExceptionWhenGivenWorkingPercentageIsEqualToPresentWorkingPercentage() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
@@ -429,7 +431,7 @@ class TeacherTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidDates")
-    void throwsExceptionWhenUpdateDateIsNotAfterExistingDate(String date, String expectedMessage) throws Exception {
+    void throwsExceptionWhenUpdateDateIsNotAfterExistingDate(String date, String expectedMessage) throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);

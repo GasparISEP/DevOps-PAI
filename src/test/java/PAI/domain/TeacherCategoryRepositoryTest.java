@@ -10,18 +10,20 @@ class TeacherCategoryRepositoryTest {
 
     @Test
     void shouldReturnTrueIfIsAlreadyRegisteredInTheTeacherCategoryRepository() throws Exception {
-        //arrange
+        // Arrange
         TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        //TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        //creating a real instance of TeacherCategory, to ensure that the equals method is used as intended. This is crucial for the contains method in your isTeacherCategoryRegistered method to work correctly.
+        TeacherCategory doubleTeacherCategory = new TeacherCategory("Professor Adjunto");
         when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
         teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
 
-        //act
+        // Act
         boolean result = teacherCategoryRepository.isTeacherCategoryRegistered(doubleTeacherCategory);
 
         // Assert
-        assertFalse(result); //needs correction its assertTrue instead of assertFalse
+        assertTrue(result);
     }
 
     @Test
@@ -42,6 +44,7 @@ class TeacherCategoryRepositoryTest {
 
     @Test
     void testTeacherCategoryRepositoryCreationValid() {
+
         // Arrange
         TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
 
@@ -90,30 +93,20 @@ class TeacherCategoryRepositoryTest {
     }
 
     //Testing that the list is not retrieved if empty
-   /* @Test
+    @Test
     void shouldReturnExceptionIfCategoryListIsEmpty() throws IllegalStateException {
         // Arrange
-<<<<<<< HEAD
         TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        List<TeacherCategory> teacherCategoryList = teacherCategoryRepository.getTeacherCategoriesList();
-=======
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository();
+
         // Act + Assert
-        assertThrows(IllegalStateException.class, () -> tcr.getTeacherCategoryList());
-    }
->>>>>>> fe1333455c8d4b87d085baf6eb295081ef41d1c7
+        assertThrows(IllegalStateException.class, () -> teacherCategoryRepository.getTeacherCategoryList());
 
-        // Act
-        teacherCategoryList.clear();
 
-        // Assert
-        assertThrows(IllegalStateException.class, () -> teacherCategoryList.isEmpty());
 
     }
-    */
+
     //Testing that the retrieved list has registered objects
-
     @Test
     void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
      // Arrange

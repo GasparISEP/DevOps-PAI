@@ -6,20 +6,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class CourseTest {
 
     @Test
     void shouldCreateValidCourse() throws Exception {
-        // Arrange
-        // Act
-        Course course1 = new Course("Informatics", "INF", 6, 1);
+        //arrange
+
+        //act
+        Course course = new Course("Informatics", "INF", 6, 1);
         // Assert
-        assertNotNull(course1);
+        assertNotNull(course);
     }
 
     @Test
-    void shouldReturnExceptionIfCourseNameIsInvalid() throws Exception {
+    void shouldReturnExceptionIfCourseNameIsInvalid()  {
         //arrange
         //act
         //assert
@@ -27,15 +29,15 @@ class CourseTest {
     }
 
     @Test
-    void shouldReturnExceptionIfCourseNameIsNull() throws Exception {
+    void shouldReturnExceptionIfCourseNameIsNull()  {
         //arrange
         //act
         //assert
-        assertThrows(Exception.class, () -> new Course(null, "INF", 6, 1));
+        assertThrows(Exception.class, () ->  new Course(null, "INF", 6, 1));
     }
 
     @Test
-    void shouldReturnExceptionIfAcronymIsNull() throws Exception {
+    void shouldReturnExceptionIfAcronymIsNull() {
         //arrange
         //act
         //assert
@@ -43,7 +45,7 @@ class CourseTest {
     }
 
     @Test
-    void shouldReturnExceptionIfAcronymIsBlank() throws Exception {
+    void shouldReturnExceptionIfAcronymIsBlank(){
         //arrange
         //act
         //assert
@@ -52,7 +54,7 @@ class CourseTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"^AZ", "A^Z", "AZ^", "áBD", "BsD", "BDá", "A ZD", "AZ D", " AZD", "AZ!", "A!Z", "A!Z", "asd"})
-    void shouldReturnExceptionIfAcronymIsInvalid(String invalidAcronym) throws Exception {
+    void shouldReturnExceptionIfAcronymIsInvalid(String invalidAcronym)  {
         //arrange
         //act
         //assert
@@ -60,7 +62,7 @@ class CourseTest {
     }
 
     @Test
-    void shouldReturnExceptionIfEctsIsLessThanOne() throws Exception{
+    void shouldReturnExceptionIfEctsIsLessThanOne(){
         //arrange
         //act
         //assert
@@ -68,7 +70,7 @@ class CourseTest {
     }
 
     @Test
-    void shouldReturnExceptionIfEctsIsHigherThanSixty() throws Exception{
+    void shouldReturnExceptionIfEctsIsHigherThanSixty(){
         //arrange
         //act
         //assert
@@ -76,7 +78,7 @@ class CourseTest {
     }
 
     @Test
-    void shouldReturnExceptionIfDurationOfCourseInSemesterIsLessThanOne() throws Exception{
+    void shouldReturnExceptionIfDurationOfCourseInSemesterIsLessThanOne(){
         //arrange
         //act
         //assert
@@ -84,7 +86,7 @@ class CourseTest {
     }
 
     @Test
-    void shouldReturnExceptionIfDurationOfCourseInSemesterHasMoreThanOneDecimalDigit() throws Exception{
+    void shouldReturnExceptionIfDurationOfCourseInSemesterHasMoreThanOneDecimalDigit(){
         //arrange
         //act
         //assert
@@ -92,7 +94,7 @@ class CourseTest {
     }
 
     @Test
-    void shouldReturnExceptionIfDurationOfCourseInSemesterIsHigherThanTwo() throws Exception{
+    void shouldReturnExceptionIfDurationOfCourseInSemesterIsHigherThanTwo(){
         //arrange
         //act
         //assert
@@ -103,23 +105,23 @@ class CourseTest {
     @Test
     void shouldReturnTrueIfObjectComparedIsTheSameAsThisCourse() throws Exception{
         //arrange
+
         Course course1 = new Course("Informatics", "INF", 10, 1);
         Object objectToCompare = course1;
         //act
         boolean result = course1.equals(objectToCompare);
         //assert
         assertTrue(result);
+        assertSame(course1,objectToCompare);
     }
 
     @Test
     void shouldReturnFalseIfObjectComparedIsNotAnInstanceOfCourse() throws Exception{
         //arrange
-        TeacherCategory teacherCategory = new TeacherCategory("diretor");
-        Department department = new Department("EIA", "Departamento EI");
-        Teacher teacher = new Teacher("ASD", "Artur Silva Dias", "asd@gmail.com",
-                "238310710", "A123", "Doutoramento em Engenharia Informatica, 2005, ISEP","Rua da Alegria", "4222-232", "Porto", "Portugal","24-05-2010",teacherCategory, 100, department);
         Course course1 = new Course("Informatics", "INF", 10, 1);
-        Object objectToCompare = teacher;
+
+        AccessMethod accessMethodMock = mock(AccessMethod.class);
+        Object objectToCompare = accessMethodMock;
         //act
         boolean result = course1.equals(objectToCompare);
         //assert
@@ -129,6 +131,7 @@ class CourseTest {
     @Test
     void shouldReturnTrueIfObjectComparedHasTheSameAcronymAsOtherCourse() throws Exception{
         //arrange
+
         Course course1 = new Course("Informatics", "INF", 10, 1);
         Course course2 = new Course("Maths", "INF", 5, 1);
         //act
@@ -151,6 +154,7 @@ class CourseTest {
     @Test
     void shouldReturnFalseIfObjectComparedHasNeitherTheSameNameOrAcronymAsOtherCourse() throws Exception{
         //arrange
+
         Course course1 = new Course("Informatics", "INF", 10, 1);
         Course course2 = new Course("Maths", "MAT", 5, 1);
         //act
