@@ -166,58 +166,45 @@ class CourseEditionRepositoryTest {
         assertFalse(result);
     }
 
-    //US17
+
     @Test
     void shouldReturnCourseEditionsWithSameProgrammeEdition() throws Exception {
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        Course c1 = new Course("Informática", "INF", 6, 1);
-        Course c2 = new Course("Matemática", "MAT", 6, 1);
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        Course doubleCourse1 = mock(Course.class);
+        Course doubleCourse2 = mock(Course.class);
+        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
 
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory);
-        courseEditionRepository.createAndSaveCourseEdition(c1, pe1);
-        courseEditionRepository.createAndSaveCourseEdition(c2, pe1);
+        courseEditionRepository.createAndSaveCourseEdition(doubleCourse1, doubleProgrammeEdition1);
+        courseEditionRepository.createAndSaveCourseEdition(doubleCourse2, doubleProgrammeEdition1);
+
 
         // Act
-        List<CourseEdition> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(pe1);
+        List<CourseEdition> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition1);
 
         // Assert
         assertEquals(2, result.size());
-        assertTrue(result.contains(new CourseEdition(c1, pe1)));
-        assertTrue(result.contains(new CourseEdition(c2, pe1)));
-        assertTrue(result.contains(new CourseEdition(c1,pe1)));
-        assertTrue(result.contains(new CourseEdition(c2,pe1)));
+        assertTrue(result.contains(new CourseEdition(doubleCourse1, doubleProgrammeEdition1)));
+        assertTrue(result.contains(new CourseEdition(doubleCourse2, doubleProgrammeEdition1)));
+
     }
 
 
     @Test
     void shouldReturnProgrammeEditionWhenCourseEditionExists() throws Exception {
         // Arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
-        Address address = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Department department = new Department("DCE", "Department of Computer Engineering");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher director = new Teacher("JOE", "Joe Doe", "joe@isep.pt", "123456789", "B106","Phd","Rua das Flores","4433-445","Porto","Portugal","14-10-2024",assistantProfessor,100,department);
+        Course doubleCourse1 = mock(Course.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionFactory doubleCourseEditionFactory = mock(CourseEditionFactory.class);
+        CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactory);
 
-        SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
-        DegreeType degreeType = new DegreeType("Master", 30);
-        Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1, programmeEdition)).thenReturn(courseEdition);
 
-        Course course = new Course("Development", "DEV", 5, 1);
-        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+        repository.createAndSaveCourseEdition(doubleCourse1, programmeEdition);
 
-        repository.createAndSaveCourseEdition(course, programmeEdition);
+        when(repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition)).thenReturn(programmeEdition);
 
         // Act
         ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
