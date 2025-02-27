@@ -119,8 +119,7 @@ class StudentRepositoryTest {
         studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
         studentRepository.registerStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
 
-        when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
-        when(_studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
+        when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound) || _studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
 
         // Act
         Optional<Student> studentNotFound = studentRepository.getStudentByUniqueNumber(uniqueNumberToBeFound);
