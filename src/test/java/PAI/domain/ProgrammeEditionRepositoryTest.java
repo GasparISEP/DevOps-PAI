@@ -247,6 +247,11 @@ class ProgrammeEditionRepositoryTest {
 //        assertEquals(p1, result);
 //    }
 
+
+
+//                                            ISOLATED UNIT TESTS
+
+
     @Test
     void shouldReturnValidProgrammeEditionRepositoryMock() {
         // SUT = ProgrammeEditionRepository
@@ -476,25 +481,30 @@ class ProgrammeEditionRepositoryTest {
         assertTrue(result.contains(programmeEditionMock2));
         assertTrue(result.contains(programmeEditionMock3));
     }
+
+    @Test
+    void shouldReturnProgrammeOfAProgrammeEdition() throws Exception {
+        // SUT = ProgrammeEditionRepository - findProgrammeInProgrammeEdition
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        Programme programmeMock = mock(Programme.class);
+        SchoolYear schoolYearMock = mock(SchoolYear.class);
+        SchoolYear schoolYearMock2 = mock(SchoolYear.class);
+        ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEditionMock2 = mock(ProgrammeEdition.class);
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock2)).thenReturn(programmeEditionMock2);
+
+        programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
+        programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock2);
+        when (programmeEditionMock.findProgrammeInProgrammeEdition()).thenReturn(programmeMock);
+
+        //Act
+        Programme result = programmeEditionRepository.findProgrammeInProgrammeEdition(programmeEditionMock);
+
+        //assert
+        assertEquals(programmeMock, result);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
