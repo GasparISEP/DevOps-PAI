@@ -44,6 +44,8 @@ class StudentRepositoryTest {
         // Arrange
         StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
 
+        when(_factoryStudentDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+        when(_factoryStudentDouble.newStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
         when(_studentDouble1.hasSameNIF(_studentDouble2)).thenReturn(true);
 
         studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
