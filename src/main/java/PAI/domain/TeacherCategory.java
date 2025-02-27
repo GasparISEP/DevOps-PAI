@@ -23,6 +23,8 @@ public class TeacherCategory {
     public String getName() {
         return _name;
     }
+
+
     @Override
     public boolean equals (Object objectToCompare){
 
@@ -33,5 +35,19 @@ public class TeacherCategory {
 
         return _name.equals(testCategory._name);
     }
+//@Override
+//public boolean equals(Object o) {
+//    if (this == o) return true;
+//    if (o == null || getClass() != o.getClass()) return false;
+//    TeacherCategory that = (TeacherCategory) o;
+//    return _name.equals(that._name);
+//}
+
+    @Override
+    public int hashCode() {
+        return _name.hashCode();
+    }
+
+
 
 }

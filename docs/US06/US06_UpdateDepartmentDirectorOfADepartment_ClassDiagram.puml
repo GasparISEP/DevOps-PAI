@@ -12,14 +12,11 @@ class Department {
     -_name:String
     +Department(departmentAcronym: String, departmentName: String)
     +Department(departmentAcronym: String, departmentName: String,director: Teacher)
-    +hasSameAcronym(department: Department) : boolean
-    +hasSameName(department: Department) : boolean
     +changeDirector(furtherDirector: Teacher) : boolean
 }
 
 class DepartmentRepository {
-    +departmentRepository()
-    +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
+    +departmentRepository(departmentFactory : DepartmentFactory )
     +updateOfDepartmentDirector (department: Department, furtherDirector: Teacher) :boolean
 }
 
@@ -31,8 +28,6 @@ class Teacher {
      -_phoneNumber:String
      +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
      address: Address, teacherCategory: TeacherCategory, department: Department)
-     +hasSameAcronym(teacher: Teacher) : boolean
-     +hasSameNif(teacher: Teacher) : boolean
      +isInDepartment(department: Department) :boolean
 }
 

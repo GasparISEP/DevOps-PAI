@@ -20,6 +20,11 @@ class DepartmentRepository {
     +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
 }
 
-US05_RegisterADepartmentController "1" ..> "1\n_departmentRepo    " DepartmentRepository
+class DepartmentFactory {
+    +newDepartment(acronym: String, acronym: name): Department
+}
+
+US05_RegisterADepartmentController "1" ..> "       1\n_departmentRepo    " DepartmentRepository
 Department "_departmentsList *      " <-- "1" DepartmentRepository
+DepartmentFactory "1" <.. "1" DepartmentRepository
 @enduml

@@ -1,0 +1,26 @@
+package PAI.domain;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
+class TeacherFactoryTest {
+
+    @Test
+    void shouldCreateTeacher() {
+
+        //arrange
+        TeacherFactory tf1 = new TeacherFactory();
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
+
+        //act
+        Teacher teacher = tf1.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789",
+                "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
+                tcDouble, 70, dptDouble);
+
+        //assert
+        assertNotNull(teacher);
+    }
+}

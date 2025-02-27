@@ -1,9 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.Teacher;
-import PAI.domain.TeacherCategory;
-import PAI.domain.TeacherCategoryRepository;
-import PAI.domain.TeacherRepository;
+import PAI.domain.*;
 
 import java.util.Optional;
 
@@ -11,10 +8,15 @@ public class US14_UpdateTeachersCategoryController {
 
     private TeacherRepository _teacherRepository;
     private TeacherCategoryRepository _teacherCategoryRepository;
+    private final TeacherCategoryRepositoryFactory _teacherCategoryRepositoryFactory;
+    private final TeacherRepositoryFactory _teacherRepositoryFactory;
 
-    public US14_UpdateTeachersCategoryController(TeacherRepository teacherRepository, TeacherCategoryRepository teacherCategoryRepository){
-        this._teacherRepository = teacherRepository;
-        this._teacherCategoryRepository = teacherCategoryRepository;
+    public US14_UpdateTeachersCategoryController(TeacherRepositoryFactory teacherRepositoryFactory, TeacherCategoryRepositoryFactory teacherCategoryRepositoryFactory) {
+        _teacherRepositoryFactory = teacherRepositoryFactory;
+        _teacherCategoryRepositoryFactory = teacherCategoryRepositoryFactory;
+
+        _teacherRepository = _teacherRepositoryFactory.newTeacherRepository();
+        _teacherCategoryRepository = _teacherCategoryRepositoryFactory.newTeacherCategoryRepository();
     }
 
     public boolean updateTeacherCategory(String date, String teacherNIF, String teacherCategoryName) {
