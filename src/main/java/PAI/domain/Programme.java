@@ -131,4 +131,8 @@ public class Programme {
     }
 
     public boolean hasThisProgrammeName(String name) {return _name.equals(name);}
+
+    public String getAcronym() {
+        return _acronym;
+    }
 }

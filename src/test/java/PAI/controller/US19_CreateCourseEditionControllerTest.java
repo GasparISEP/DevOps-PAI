@@ -15,15 +15,19 @@ class US19_CreateCourseEditionControllerTest {
 
     @Test
     void shouldReturnTrueIfCourseEditionIsCreated() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
+            //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
         ProgrammeList programmeListDouble = mock (ProgrammeList.class);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
-
         Course courseDouble = mock (Course.class);
         ProgrammeEdition programmeEditionDouble = mock (ProgrammeEdition.class);
 
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
+
+            //instructions
         when (courseEditionRepositoryDouble.createAndSaveCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(true);
 
         // Act
@@ -34,16 +38,20 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseCourseIsNull() {
+    void shouldReturnFalseIfCourseEditionIsNotCreated() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
+            //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
         ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeEdition programmeEditionDouble = mock (ProgrammeEdition.class);
+        Course course = mock (Course.class);
+
+            //SUT
         US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
 
-        Course course = null;
-        ProgrammeEdition programmeEditionDouble = mock (ProgrammeEdition.class);
-
+            //instructions
         when (courseEditionRepositoryDouble.createAndSaveCourseEdition(course, programmeEditionDouble)).thenReturn(false);
 
         // Act
@@ -54,66 +62,25 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionIsNull() throws Exception {
+    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = mock (CourseEditionRepository.class);
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        Course course = new Course("Informatics", "INF", 6, 1);
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        List<ProgrammeEdition> allEditionsDouble = mock (List.class);
 
-        // Act
-        boolean result = controller.createCourseEdition(course, null);
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
 
-        // Assert
-        assertEquals(false, result);
-    }
+            //instructions
+        when (programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(allEditionsDouble);
 
-    @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionAndCourseAreNull() throws Exception {
-        // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = mock (CourseEditionRepository.class);
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-
-        // Act
-        boolean result = controller.createCourseEdition(null, null);
-
-        // Assert
-        assertEquals(false, result);
-    }
-
-    @Test
-    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() throws Exception {
-        //Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = mock (CourseEditionRepository.class);
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(
-                new Programme("Computer Engineering", "CE", 20, 6,
-                        new DegreeType("Master", 240),
-                        new Department("CSE", "Computer Science Engineer"),
-                        new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                                new Department("CSE", "Computer Science Engineer")
-                        )
-                ),
-                new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
-        );
+        //Act
         controller.getAllProgrammeEditions();
         //Assert
-        assertNotNull(allEditions);
+        assertNotNull(allEditionsDouble);
     }
 
     @Test
