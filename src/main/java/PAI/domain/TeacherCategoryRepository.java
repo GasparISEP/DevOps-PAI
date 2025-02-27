@@ -6,18 +6,16 @@ import java.util.Optional;
 public class TeacherCategoryRepository {
 
     private List<TeacherCategory> _teacherCategoryRepository;
-    private TeacherCategoryFactory teacherCategoryFactory;
+
 
     //CONSTRUTOR
 
-    public TeacherCategoryRepository () {
-        this(new TeacherCategoryFactory());
+    public TeacherCategoryRepository () {this(new TeacherCategoryFactory());
     }
 
     public TeacherCategoryRepository (TeacherCategoryFactory doubleTeacherCategoryFactory) {
 
         _teacherCategoryRepository = new ArrayList<>();
-        teacherCategoryFactory = doubleTeacherCategoryFactory;
     }
 
 
@@ -26,7 +24,7 @@ public class TeacherCategoryRepository {
 
     public boolean registerTeacherCategory (String name) throws Exception {
 
-        TeacherCategory teacherCategory = teacherCategoryFactory.createTeacherCategory(name);
+        TeacherCategory teacherCategory = new TeacherCategory (name);
 
         if (isTeacherCategoryRegistered(teacherCategory))
             return false;

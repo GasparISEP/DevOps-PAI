@@ -13,7 +13,9 @@ class TeacherCategoryRepositoryTest {
         // Arrange
         TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        //TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        //creating a real instance of TeacherCategory, to ensure that the equals method is used as intended. This is crucial for the contains method in your isTeacherCategoryRegistered method to work correctly.
+        TeacherCategory doubleTeacherCategory = new TeacherCategory("Professor Adjunto");
         when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
         teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
 
@@ -21,7 +23,7 @@ class TeacherCategoryRepositoryTest {
         boolean result = teacherCategoryRepository.isTeacherCategoryRegistered(doubleTeacherCategory);
 
         // Assert
-        assertTrue(result); //needs correction its assertTrue instead of assertFalse
+        assertTrue(result);
     }
 
     @Test

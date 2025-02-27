@@ -30,7 +30,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
         US13_RegisterTeacherAndRelevantDataController tcrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
         // Act + Assert
-        assertThrows(IllegalStateException.class, () -> tcrControllerList.getTeacherCategoriesList());
+        assertThrows(IllegalStateException.class, () -> tcrControllerList.getTeacherCategoryList());
     }
 
     @Test
@@ -42,7 +42,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         tcr.registerTeacherCategory("Director Professor");
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
         // Act
-        List<TeacherCategory> result = controller.getTeacherCategoriesList();
+        List<TeacherCategory> result = controller.getTeacherCategoryList();
         // Assert
         assertEquals(2, result.size());
     }
