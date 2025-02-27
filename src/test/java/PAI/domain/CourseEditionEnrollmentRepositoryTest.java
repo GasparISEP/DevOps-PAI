@@ -127,7 +127,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertFalse(repository.isStudentEnrolledInCourseEdition(student2, ce1));
     }
 
-    //US17
+
     @Test
     void shouldReturnCourseEditionEnrollmentWhenStudentIsEnrolled() throws Exception {
         // Arrange
@@ -153,7 +153,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals(result.get().findCourseEditionInEnrollment(), ce1, "The course edition enrolled is correct.");
     }
 
-    //US17
+
     @Test
     void shouldReturnCourseEditionFromEnrollment() throws Exception {
         // Arrange
@@ -179,7 +179,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals(ce1, result.get().findCourseEditionInEnrollment(), "The course edition returned should match the one in the enrollment.");
     }
 
-    //US17
+
     @Test
     void shouldThrowExceptionWhenStudentOrCourseEditionIsNull() throws Exception {
         // Arrange
@@ -199,13 +199,12 @@ class CourseEditionEnrollmentRepositoryTest {
         });
         assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
     }
-    //US17
+
     @Test
     void shouldReturnOptionalEmptyWhenNoEnrollmentFound() throws Exception {
         // Arrange
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
-        Student st1 =mock(Student.class);
         Student st2 = mock(Student.class);
         CourseEdition ce1= mock(CourseEdition.class);
 
@@ -216,7 +215,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertFalse(result.isPresent(), "The result should be empty if the student is not enrolled in the course edition.");
     }
 
-    //US17
+
     @Test
     void shouldReturnEmptyWhenStudentIsNotEnrolledInCourseEdition() throws Exception {
         // Arrange
@@ -234,7 +233,7 @@ class CourseEditionEnrollmentRepositoryTest {
     }
 
 
-    // US24
+
 
     @Test
     void shouldReturnNumberOfStudentsEnrolledInCourseEdition() throws Exception {
@@ -328,7 +327,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals("Course edition cannot be null.", exception.getMessage());
     }
 
-    //US28
+
     @Test
     public void removeExistingEnrollment() throws Exception {
         // arrange
@@ -496,6 +495,5 @@ class CourseEditionEnrollmentRepositoryTest {
         // Assert
         assertEquals(0, studentsEnrolled);
     }
-
 
 }
