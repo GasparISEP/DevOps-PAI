@@ -233,21 +233,11 @@ class CourseEditionRepositoryTest {
         //arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
-        Department department = new Department("DCE", "Department of Computer Engineering");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher director = new Teacher("JOE", "Joe Doe", "joe@isep.pt", "123456789", "B106","Phd","Rua das Flores","4433-445","Porto","Portugal","14-10-2024",assistantProfessor,100,department);
-
-        SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
-        DegreeType degreeType = new DegreeType("Master", 30);
-        Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
-        ProgrammeEdition pe1 = new ProgrammeEdition(programme, schoolYear);
-
-        Course c1 = new Course("Development", "DEV", 5, 1);
-        CourseEdition courseEdition = new CourseEdition(c1, pe1);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
-            repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
+            repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEditionDouble);
         });
 
         // assert
@@ -256,58 +246,50 @@ class CourseEditionRepositoryTest {
 
     @Test
     void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListWithElements() throws Exception {
-        //arrange
+        // arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
-        Department department = new Department("DCE", "Department of Computer Engineering");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher director = new Teacher("JOE", "Joe Doe", "joe@isep.pt", "123456789", "B106","Phd","Rua das Flores","4433-445","Porto","Portugal","14-10-2024",assistantProfessor,100,department);
 
-        SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
-        DegreeType degreeType = new DegreeType("Master", 30);
-        Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
-        ProgrammeEdition pe1 = new ProgrammeEdition(programme, schoolYear);
+        ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
+        Course mockCourse1 = mock(Course.class);
+        Course mockCourse2 = mock(Course.class);
 
-        Course c1 = new Course("Development", "DEV", 5, 1);
-        CourseEdition courseEdition = new CourseEdition(c1, pe1);
+        CourseEdition existingCourseEditionDouble = mock(CourseEdition.class);
+        CourseEdition courseEditionToFindDouble = mock(CourseEdition.class);
 
-        ProgrammeEdition pe2 = new ProgrammeEdition(programme, schoolYear);
-        Course c2 = new Course("Laboratory", "LAB", 5, 1);
-
-        repository.createAndSaveCourseEdition(c2, pe2);
+        repository.createAndSaveCourseEdition(mockCourse1, mockProgrammeEdition);
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
-            repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
+            repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEditionToFindDouble);
         });
 
+        // assert
         assertEquals("The course edition does not belong to the course Edition Repository.", exception.getMessage());
     }
 
     @Test
     void shouldReturnTheProgrammeEditionThatBelongsToACourseEdition() throws Exception {
         //arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionFactory courseEditionFactory = mock(CourseEditionFactory.class);
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
-        Department department = new Department("DCE", "Department of Computer Engineering");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher director = new Teacher("JOE", "Joe Doe", "joe@isep.pt", "123456789", "B106","Phd","Rua das Flores","4433-445","Porto","Portugal","14-10-2024",assistantProfessor,100,department);
 
-        SchoolYear schoolYear = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
-        DegreeType degreeType = new DegreeType("Master", 30);
-        Programme programme = new Programme("SWITCH DEV", "SDV", 30, 1, degreeType, department, director);
-        ProgrammeEdition pe1 = new ProgrammeEdition(programme, schoolYear);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Course courseDouble = mock(Course.class);
 
-        Course c1 = new Course("Development", "DEV", 5, 1);
-        CourseEdition courseEdition = new CourseEdition(c1, pe1);
-        repository.createAndSaveCourseEdition(c1, pe1);
+        when(courseEditionDouble.whatProgrammeEditionBelongsThisCourseEdition()).thenReturn(programmeEditionDouble);
+        when(courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(courseEditionDouble);
+
+        repository.createAndSaveCourseEdition(courseDouble, programmeEditionDouble);
 
         //act
-        ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
+        ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEditionDouble);
 
         //assert
-        assertEquals (pe1,result);
+        assertEquals(programmeEditionDouble, result);
     }
+
     @Test
     void shouldReturnListOfCourseEditions() throws Exception {
         //arrange
