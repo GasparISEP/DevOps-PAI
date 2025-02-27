@@ -258,5 +258,17 @@ class ProgrammeEditionEnrollmentTest {
         assertEquals(12345, uniqueNumber);
     }
 
+    @Test
+    void shouldReturnFalseIfObjectIsDifferent_EqualsMethod() {
+        // Arrange
+        Student st1 = mock(Student.class);
+        ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
+        LocalDate currentDate = LocalDate.now();
+
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(st1, pe1, currentDate);
+
+        // Act & Assert
+        assertFalse(enrollment.equals(new Object()));
+    }
 
 }
