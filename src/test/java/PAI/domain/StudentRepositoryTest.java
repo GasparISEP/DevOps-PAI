@@ -131,7 +131,7 @@ class StudentRepositoryTest {
 
 /*
 
-    //US17
+
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInProgramme() throws Exception {
         // Arrange
@@ -156,7 +156,7 @@ class StudentRepositoryTest {
         assertTrue(result, "The student must be enrolled in the programme.");
     }
 
-    //US17
+
     @Test
     void shouldReturnFalseIfStudentIsNotEnrolledInProgramme() throws Exception {
         // Arrange
