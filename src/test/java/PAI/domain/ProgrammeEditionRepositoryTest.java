@@ -426,6 +426,56 @@ class ProgrammeEditionRepositoryTest {
         // Assert
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void shouldReturnEmptyListIfRepositoryHasNoProgrammeEditions() {
+        // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        // Act
+        List<ProgrammeEdition> result = programmeEditionRepository.getAllProgrammeEditions();
+
+        // Assert
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldReturnListNotEmptyIfRepositoryHasProgrammeEditions() throws Exception {
+        // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
+        // Arrange
+        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+
+        SchoolYear schoolYearMock = mock(SchoolYear.class);
+        SchoolYear schoolYearMock2 = mock(SchoolYear.class);
+        SchoolYear schoolYearMock3 = mock(SchoolYear.class);
+
+        Programme  programmeMock = mock(Programme.class);
+
+        ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEditionMock2 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEditionMock3 = mock(ProgrammeEdition.class);
+
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock2)).thenReturn(programmeEditionMock2);
+        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock3)).thenReturn(programmeEditionMock3);
+
+
+        programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
+        programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock2);
+        programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock3);
+
+        // Act
+        List<ProgrammeEdition> result = programmeEditionRepository.getAllProgrammeEditions();
+
+        // Assert
+        assertEquals(3, result.size());
+        assertTrue(result.contains(programmeEditionMock));
+        assertTrue(result.contains(programmeEditionMock2));
+        assertTrue(result.contains(programmeEditionMock3));
+    }
 }
 
 
