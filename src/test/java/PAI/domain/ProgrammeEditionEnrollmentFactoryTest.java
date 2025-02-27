@@ -12,8 +12,7 @@ public class ProgrammeEditionEnrollmentFactoryTest {
         // Arrange
         ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
         Student student = mock(Student.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        LocalDate enrollmentDate = LocalDate.of(2025, 2, 26);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);LocalDate enrollmentDate = LocalDate.now();
 
         // Act
         ProgrammeEditionEnrollment enrollment = factory.newProgrammeEditionEnrollment(student, programmeEdition, enrollmentDate);
