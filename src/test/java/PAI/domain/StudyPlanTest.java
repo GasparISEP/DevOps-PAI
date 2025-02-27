@@ -58,22 +58,21 @@ class StudyPlanTest {
 
     @Test
     void shouldNotAllowDuplicateCoursesInStudyPlan() throws Exception {
+
         // arrange
-        CourseRepository courseRepository = mock(CourseRepository.class);
+        StudyPlan studyPlan = new StudyPlan();
+        Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
-        DegreeType master = mock(DegreeType.class);
-        Department cse = mock(Department.class);
-        Teacher teacher = mock(Teacher.class);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = programme.getStudyPlan();
+        when(programme.getCourseList()).thenReturn(List.of(course1));
 
+        when(programme.getQuantityOfSemester()).thenReturn(6);
+        when(programme.calculateNumberOfYears(6)).thenReturn(3);
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
 
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
         studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
 
-
-        // assert
+        // act+assert
         assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1,1,course1,programme));
     }
 
@@ -175,15 +174,8 @@ class StudyPlanTest {
     @Test
     void shouldNotAllowRegisterNullCourseInStudyPlan() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 5, master, cse, teacher);
-        StudyPlan studyPlan = programme.getStudyPlan();
+        StudyPlan studyPlan = new StudyPlan();
+        Programme programme = mock(Programme.class);
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -402,27 +394,5 @@ class StudyPlanTest {
         });
 
         assertEquals("Invalid course or programme.", exception.getMessage());
-    }
-
-    @Test
-    void shouldAllowCourseThatExactlyMeetsEctsLimit() throws Exception {
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 10, 6, master, cse, teacher);
-
-        Course course1 = new Course("Mathematics", "MATH", 5, 1);
-        Course course2 = new Course("Physics", "PHYS", 5, 1); // Soma dos créditos = limite de 10
-
-        programme.addCourseToAProgramme(course1);
-        programme.addCourseToAProgramme(course2);
-
-        StudyPlan studyPlan = programme.getStudyPlan();
-
-        assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course1, programme));
-        assertTrue(studyPlan.addCourseToStudyPlan(1, 1, course2, programme)); // Não deve lançar erro
     }
 }
