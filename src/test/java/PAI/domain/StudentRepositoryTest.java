@@ -1,12 +1,9 @@
 package PAI.domain;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.stream.Stream;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -14,20 +11,18 @@ import static org.mockito.Mockito.when;
 
 class StudentRepositoryTest {
 
-    private static StudentFactory _factoryStudentDouble;
-    private static Address _addressDouble;
-    private static Student _studentDouble1;
-    private static Student _studentDouble2;
-    private static Student _studentDouble3;
+    private StudentFactory _factoryStudentDouble;
+    private Address _addressDouble;
+    private Student _studentDouble1;
+    private Student _studentDouble2;
 
-    @BeforeAll
+    @BeforeEach
         //arrange
-    static void setup() throws Exception {
+    void setup() throws Exception {
         _addressDouble = mock(Address.class);
         _factoryStudentDouble = mock(StudentFactory.class);
         _studentDouble1 = mock(Student.class);
         _studentDouble2 = mock(Student.class);
-        _studentDouble3 = mock(Student.class);
     }
 
     @Test
@@ -48,8 +43,7 @@ class StudentRepositoryTest {
     void testRegisterDuplicateNIFThrowsException() throws Exception {
         // Arrange
         StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
-        when(_factoryStudentDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-        when(_factoryStudentDouble.newStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+
         when(_studentDouble1.hasSameNIF(_studentDouble2)).thenReturn(true);
 
         studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
@@ -76,25 +70,63 @@ class StudentRepositoryTest {
         });
     }
 
-    static Stream<Arguments> testValidStudents(){
-        return Stream.of(
-                Arguments.of(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble, _studentDouble1),
-                Arguments.of(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble, _studentDouble2),
-                Arguments.of(11223, "Paula", "456789123", "910000000", "paula@gmail.com", _addressDouble, _studentDouble3)
-        );
-    }
-    @ParameterizedTest
-    @MethodSource()
-    void testValidStudents(int uniqueNumber, String name, String NIF, String phone, String email, Address address, Student studentDouble) throws Exception {
+    @Test
+    void shouldReturnTrueWhenValidStudentsAreRegistered() throws Exception {
         // Arrange
         StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
-        when(_factoryStudentDouble.newStudent(uniqueNumber, name, NIF, phone, email, address)).thenReturn(studentDouble);
+        when(_factoryStudentDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+        when(_factoryStudentDouble.newStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+        when(_studentDouble2.hasSameUniqueNumber(_studentDouble1) && _studentDouble2.hasSameNIF(_studentDouble1)).thenReturn(false);
+
+        studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
         // Act
-        boolean result = studentRepository.registerStudent(uniqueNumber, name, NIF, phone, email, address);
+        boolean result = studentRepository.registerStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
 
         // Assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnOptionalWithStudentIfStudentWithSpecificNIFIsFound() throws Exception {
+        // Arrange
+        int uniqueNumberToBeFound = 67890;
+        StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
+        when(_factoryStudentDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+        when(_factoryStudentDouble.newStudent(uniqueNumberToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+
+        studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+        studentRepository.registerStudent(uniqueNumberToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+
+        when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
+        when(_studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(true);
+
+        // Act
+        Optional<Student> studentFound = studentRepository.getStudentByUniqueNumber(uniqueNumberToBeFound);
+
+        // Assert
+        assertEquals(studentFound.get(), _studentDouble2);
+    }
+
+    @Test
+    void shouldReturnOptionalWithoutStudentIfStudentWithSpecificNIFIsNotFound() throws Exception {
+        // Arrange
+        int uniqueNumberToBeFound = 12345;
+        StudentRepository studentRepository = new StudentRepository(_factoryStudentDouble);
+        when(_factoryStudentDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+        when(_factoryStudentDouble.newStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+
+        studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+        studentRepository.registerStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+
+        when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
+        when(_studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
+
+        // Act
+        Optional<Student> studentNotFound = studentRepository.getStudentByUniqueNumber(uniqueNumberToBeFound);
+
+        // Assert
+        assertTrue(studentNotFound.isEmpty());
     }
 
 /*
