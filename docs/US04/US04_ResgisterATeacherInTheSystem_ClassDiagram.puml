@@ -14,26 +14,36 @@ class Department {
     -_acronym:String
     -_name:String
     +Department(departmentAcronym: String, departmentName: String)
-    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
+    +Department(departmentAcronym: String, departmentName: String, teacherDirector: Teacher)
     +hasSameAcronym(department: Department) : boolean
     +hasSameName(department: Department) : boolean
     +changeDirector(furtherDirector: Teacher) : boolean
+    +equals(objToCompare: Object) : boolean
 }
 
 class DepartmentRepository {
-    +departmentRepository()
+    +departmentRepository(departmentFactory: DepartmentFactory)
     +registerDepartment(departmentAcronym: String, departmentName: String) : boolean
+    +getDepartmentList(): List<Department>
+    +departmentExists(department: Department): boolean
+    +updateOfDepartmentDirector(department: Department, furtherDirector: Teacher): boolean
 }
 
 class TeacherCategory {
     -_name:String
     + TeacherCategory (name:String)
+    +getName(): String
+    +equals(objToCompare: Object): boolean
+    +hashCode(): int
 }
 
 class TeacherCategoryRepository {
     +TeacherCategoryRepository()
+    +TeacherCategoryRepository(doubleTeacherCategoryFactory: TeacherCategoryFactory)
     +registerTeacherCategory (teacherCategoryName: String) : boolean
     +isTeacherCategoryRegistered(teacherCategory: TeacherCategory) : boolean
+    +getTeacherCategoryByName(name: String): Optional<TeacherCategory>
+    +getTeacherCategoryList(): List<TeacherCategory>
 }
 
 class Teacher {
@@ -42,11 +52,15 @@ class Teacher {
      -_email:String
      -_nif:String
      -_phoneNumber:String
+     -_academicBackground:String
      +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
-     address: Address, teacherCategory: TeacherCategory, department: Department)
+     academicBackground: String, street: String, postalCode: String, location: String, country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department)
      +hasSameAcronym(teacher: Teacher) : boolean
      +hasSameNif(teacher: Teacher) : boolean
      +isInDepartment(department: Department) : boolean
+     +hasThisNif(nif: String): boolean
+     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int): boolean
+     +updateTeacherCategoryInTeacherCareer(date: String, teacherCategory: TeacherCategory): boolean
 }
 
 class TeacherRepository {

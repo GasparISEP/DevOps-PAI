@@ -10,12 +10,13 @@ public class US14_UpdateTeachersCategoryController {
     private TeacherCategoryRepository _teacherCategoryRepository;
     private final TeacherCategoryRepositoryFactory _teacherCategoryRepositoryFactory;
     private final TeacherRepositoryFactory _teacherRepositoryFactory;
+    private TeacherFactory teacherFactory;
 
-    public US14_UpdateTeachersCategoryController(TeacherRepositoryFactory teacherRepositoryFactory, TeacherCategoryRepositoryFactory teacherCategoryRepositoryFactory) {
+    public US14_UpdateTeachersCategoryController(TeacherRepositoryFactory teacherRepositoryFactory, TeacherCategoryRepositoryFactory teacherCategoryRepositoryFactory, TeacherFactory teacherFactory) {
         _teacherRepositoryFactory = teacherRepositoryFactory;
         _teacherCategoryRepositoryFactory = teacherCategoryRepositoryFactory;
 
-        _teacherRepository = _teacherRepositoryFactory.newTeacherRepository();
+        _teacherRepository = _teacherRepositoryFactory.newTeacherRepository(teacherFactory);
         _teacherCategoryRepository = _teacherCategoryRepositoryFactory.newTeacherCategoryRepository();
     }
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionTest {
 
@@ -284,7 +285,7 @@ class ProgrammeEditionTest {
 //                                ISOLATED UNIT TESTS
 
     @Test
-    void shouldCreateAValidProgrammeEdition() throws Exception {
+    void shouldCreateAValidProgrammeEditionMock() throws Exception {
         // SUT = ProgrammeEdition
         // Arrange
         Programme programme = mock(Programme.class);
@@ -298,7 +299,7 @@ class ProgrammeEditionTest {
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeGivenAsAParameterToCreateProgrammeEditionIsNull() {
+    void shouldThrowExceptionIfProgrammeGivenAsAParameterToCreateProgrammeEditionIsNullMock() {
         // SUT = ProgrammeEdition
         // Arrange
         Programme programme = null;
@@ -309,7 +310,7 @@ class ProgrammeEditionTest {
     }
 
     @Test
-    void shouldThrowExceptionIfSchoolYearGivenAsAParameterToCreateProgrammeEditionIsNull() {
+    void shouldThrowExceptionIfSchoolYearGivenAsAParameterToCreateProgrammeEditionIsNullMock() {
         // SUT = ProgrammeEdition
         // Arrange
         Programme programme = mock(Programme.class);
@@ -317,5 +318,192 @@ class ProgrammeEditionTest {
 
         // Act & Assert
         assertThrows(Exception.class, () -> new ProgrammeEdition(programme, schoolYear));
+    }
+
+    @Test
+    void shouldReturnFalseIfObjectComparedIsNotProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - equals
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
+        // Act
+        boolean result = programmeEdition.equals(programme);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTwoProgrammeEditionsHaveTheSameProgrammesAndSchoolYearsMock() throws Exception {
+        // SUT = ProgrammeEdition - equals
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme, schoolYear);
+
+        when(schoolYear.isSameSchoolYear(schoolYear)).thenReturn(true);
+
+        // Act
+        boolean result = programmeEdition.equals(programmeEdition2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionsHaveDifferentSchoolYearsMock() throws Exception {
+        // SUT = ProgrammeEdition - equals
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme, schoolYear2);
+
+        when(schoolYear.isSameSchoolYear(schoolYear2)).thenReturn(false);
+
+        // Act
+        boolean result = programmeEdition.equals(programmeEdition2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionsHaveDifferentProgrammeMock() throws Exception {
+        // SUT = ProgrammeEdition - equals
+        // Arrange
+        Programme programme = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2, schoolYear);
+
+        when(schoolYear.isSameSchoolYear(schoolYear)).thenReturn(true);
+
+        // Act
+        boolean result = programmeEdition.equals(programmeEdition2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnProgrammeOfProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - findProgrammeInProgrammeEdition
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
+        // Act
+        Programme getProgramme= programmeEdition.findProgrammeInProgrammeEdition();
+
+        // Assert
+        assertEquals(programme, getProgramme);
+    }
+
+    @Test
+    void shouldReturnSchoolYearOfProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - findProgrammeInProgrammeEdition
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
+        // Act
+        SchoolYear getSchoolYear= programmeEdition.findSchoolYearInProgrammeEdition();
+
+        // Assert
+        assertEquals(schoolYear, getSchoolYear);
+    }
+
+    @Test
+    void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociatedToTheProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - isEditionAssociatedToDepartmentAndSchoolYear
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Department department = mock(Department.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        when(programme.isInDepartment(department)).thenReturn(true);
+        when(schoolYear.isSameSchoolYear(schoolYear2)).thenReturn(true);
+
+        // Act
+        boolean result = programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenDepartmentIsNotAssociatedToTheProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - isEditionAssociatedToDepartmentAndSchoolYear
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Department department = mock(Department.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        when(programme.isInDepartment(department)).thenReturn(false);
+        when(schoolYear.isSameSchoolYear(schoolYear2)).thenReturn(true);
+
+        // Act
+        boolean result = programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenSchoolYearIsNotAssociatedToTheProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - isEditionAssociatedToDepartmentAndSchoolYear
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Department department = mock(Department.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        when(programme.isInDepartment(department)).thenReturn(true);
+        when(schoolYear.isSameSchoolYear(schoolYear2)).thenReturn(false);
+
+        // Act
+        boolean result = programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenSchoolYearAndDepartmentAreNotAssociatedToTheProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - isEditionAssociatedToDepartmentAndSchoolYear
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Department department = mock(Department.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        when(programme.isInDepartment(department)).thenReturn(false);
+        when(schoolYear.isSameSchoolYear(schoolYear2)).thenReturn(false);
+
+        // Act
+        boolean result = programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear2);
+
+        // Assert
+        assertFalse(result);
     }
 }
