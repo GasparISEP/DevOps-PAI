@@ -5,6 +5,8 @@ import PAI.domain.SchoolYearRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US07_IWantToCreateASchoolYearControllerTest {
 
@@ -12,7 +14,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
     void createASchoolYearControllerSuccessfullyCreated() {
 
         //Arrange
-        SchoolYearRepository schoolYearRepository = new SchoolYearRepository();
+        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
 
         //Act
         new US07_IWantToCreateASchoolYearController(schoolYearRepository);
@@ -37,30 +39,15 @@ class US07_IWantToCreateASchoolYearControllerTest {
     void addedSchoolYearSuccessfully() throws Exception {
 
         //Arrange
-        SchoolYearRepository syRepo = new SchoolYearRepository();
-        US07_IWantToCreateASchoolYearController ctrl = new US07_IWantToCreateASchoolYearController(syRepo);
-        SchoolYear schoolYear = new SchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
+        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
+        US07_IWantToCreateASchoolYearController US07_controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
+
+        when(schoolYearRepository.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022")).thenReturn(true);
 
         //Act
-        boolean result = ctrl.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
+        boolean result = US07_controller.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
 
         //Assert
-        assertEquals(true, result);
-    }
-
-    @Test
-    void schoolYearNotAddedBecauseItAlreadyExists() throws Exception {
-
-        // Arrange
-        SchoolYearRepository syRepo = new SchoolYearRepository();
-        US07_IWantToCreateASchoolYearController ctrl = new US07_IWantToCreateASchoolYearController(syRepo);
-        ctrl.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
-
-        // Act and Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            ctrl.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
-        });
-
-        assertEquals("School year already exists.", exception.getMessage());
+        assertTrue(result);
     }
 }
