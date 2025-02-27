@@ -199,4 +199,65 @@ class ProgrammeListTest {
         assertTrue(programmeList.contains(programme2));
 
     }
+    @Test
+    void shouldReturnAProgrammeByAcronym() throws Exception {
+
+        //Arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeRepo = new ProgrammeList(programmeFactory);
+
+        String name1 = "MATEMATICA";
+        String acronym1 = "MAT";
+        int quantityOfEcts1 = 90;
+        int quantityOfSemesters1 = 4;
+        DegreeType master1 = mock(DegreeType.class);
+        Department cse1 = mock(Department.class);
+        Teacher teacher1 = mock(Teacher.class);
+
+        Programme programme1 = mock(Programme.class);
+
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1)).thenReturn(programme1);
+        when(programme1.getAcronym()).thenReturn(acronym1);
+
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1);
+
+        //Act
+        Programme programme = programmeRepo.getProgrammeByAcronym(acronym1);
+
+        //Assert
+        assertNotNull(programme);
+        assertEquals(programme,programme1);
+
+    }
+    @Test
+    void shouldNotReturnAProgrammeByAcronym() throws Exception {
+
+        //Arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeRepo = new ProgrammeList(programmeFactory);
+
+        String name1 = "MATEMATICA";
+        String acronym1 = "MAT";
+        int quantityOfEcts1 = 90;
+        int quantityOfSemesters1 = 4;
+        DegreeType master1 = mock(DegreeType.class);
+        Department cse1 = mock(Department.class);
+        Teacher teacher1 = mock(Teacher.class);
+
+        Programme programme1 = mock(Programme.class);
+
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1)).thenReturn(programme1);
+        when(programme1.getAcronym()).thenReturn(acronym1);
+
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1);
+
+        //Act
+        Programme programme = programmeRepo.getProgrammeByAcronym("ENG");
+
+        //Assert
+        assertNull(programme);
+
+
+    }
+
 }
