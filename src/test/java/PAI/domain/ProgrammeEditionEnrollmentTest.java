@@ -50,6 +50,7 @@ class ProgrammeEditionEnrollmentTest {
                 arguments(LocalDate.of (2026,1,23), "Enrollment date must be the current day!")
         );
     }
+
     @ParameterizedTest
     @MethodSource("provideInvalidEnrollmentDate")
     void testInvalidEnrollmentDate (LocalDate enrollmentDate, String expectedMessage) throws Exception {
@@ -93,14 +94,14 @@ class ProgrammeEditionEnrollmentTest {
 
     @Test
     void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() throws Exception {
-        // Arrange
-        Student studentDouble = mock(Student.class);
-        ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
+        // Arrange with mock objects
+        Student studentMock = mock(Student.class);
+        ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
         LocalDate currentDate = LocalDate.now();
 
         // Act
-        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentDouble, peDouble, currentDate);
-        ProgrammeEditionEnrollment enrollment2 = new ProgrammeEditionEnrollment(studentDouble, peDouble, currentDate);
+        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentMock, programmeEditionMock, currentDate);
+        ProgrammeEditionEnrollment enrollment2 = new ProgrammeEditionEnrollment(studentMock, programmeEditionMock, currentDate);
 
         // Assert
         assertTrue(enrollment1.equals(enrollment2));
@@ -140,6 +141,7 @@ class ProgrammeEditionEnrollmentTest {
         assertEquals(studentDouble, foundStudent);
     }
 
+    //US26
     // Test returns true when the department and school year are correctly associated with the enrollment
     @Test
     void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() {
