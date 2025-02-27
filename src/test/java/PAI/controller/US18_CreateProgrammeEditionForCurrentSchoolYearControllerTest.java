@@ -174,7 +174,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
 
         Programme p1 = mock(Programme.class);
-
+        
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, sy, pl);
 
         when (sy.getCurrentSchoolYear()).thenReturn(null);
