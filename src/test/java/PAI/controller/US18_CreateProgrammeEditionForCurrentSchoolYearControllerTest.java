@@ -163,4 +163,26 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         assertEquals(2, result.size());
         verify(programmeList).getAllProgrammes();
     }
+    @Test
+    void shouldNotCreateProgrammeEditionIfSchoolYearIsNull() throws Exception{
+
+        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - CreateProgrammeEditionInTheCurrentSchoolYear
+
+        // Arrange
+        ProgrammeList pl = mock(ProgrammeList.class);
+        SchoolYearRepository sy = mock(SchoolYearRepository.class);
+        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
+
+        Programme p1 = mock(Programme.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, sy, pl);
+
+        when (sy.getCurrentSchoolYear()).thenReturn(null);
+
+        // Act
+        boolean result = controller.createAProgrammeEditionInTheCurrentSchoolYear(p1);
+
+        // Assert
+        assertFalse(result);
+    }
 }
