@@ -3,6 +3,7 @@ package PAI.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class ProgrammeEditionTest {
 
@@ -280,5 +281,41 @@ class ProgrammeEditionTest {
         assertFalse(result);
     }
 
+//                                ISOLATED UNIT TESTS
 
+    @Test
+    void shouldCreateAValidProgrammeEdition() throws Exception {
+        // SUT = ProgrammeEdition
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        // Act
+        ProgrammeEdition ProgrammeEdition = new ProgrammeEdition(programme, schoolYear);
+
+        // Assert
+        assertNotNull(ProgrammeEdition);
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeGivenAsAParameterToCreateProgrammeEditionIsNull() {
+        // SUT = ProgrammeEdition
+        // Arrange
+        Programme programme = null;
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        // Act & Assert
+        assertThrows(Exception.class, () -> new ProgrammeEdition(programme, schoolYear));
+    }
+
+    @Test
+    void shouldThrowExceptionIfSchoolYearGivenAsAParameterToCreateProgrammeEditionIsNull() {
+        // SUT = ProgrammeEdition
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = null;
+
+        // Act & Assert
+        assertThrows(Exception.class, () -> new ProgrammeEdition(programme, schoolYear));
+    }
 }
