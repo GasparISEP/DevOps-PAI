@@ -22,6 +22,7 @@ class US14UpdateTeachersCategoryControllerTest {
     private static TeacherRepository tr1;
     private static TeacherCategoryRepositoryFactory teacherCategoryRepositoryFactory;
     private static TeacherRepositoryFactory teacherRepositoryFactory;
+    private static TeacherFactory teacherFactory;
 
     @BeforeAll
     static void setUp() throws Exception {
@@ -33,13 +34,13 @@ class US14UpdateTeachersCategoryControllerTest {
         tr1 = mock(TeacherRepository.class);
 
         when(teacherCategoryRepositoryFactory.newTeacherCategoryRepository()).thenReturn(tcr1);
-        when(teacherRepositoryFactory.newTeacherRepository()).thenReturn(tr1);
+        when(teacherRepositoryFactory.newTeacherRepository(teacherFactory)).thenReturn(tr1);
 
     }
 
     @Test
     void shouldCreateUpdateTeachersCategoryController() {
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory);
+        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory, teacherFactory);
     }
 
     static Stream<Arguments> testValues() {
@@ -58,7 +59,7 @@ class US14UpdateTeachersCategoryControllerTest {
     @ParameterizedTest
     @MethodSource("testValues")
     void inputsAreNullOrBlank_UnsuccessfullyUpdatedCategory(String date, String teacherNIF, String teacherCategoryName) {
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory);
+        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory, teacherFactory);
         assertThrows(IllegalArgumentException.class, () -> controller1.updateTeacherCategory(date, teacherNIF, teacherCategoryName));
     }
 
@@ -78,9 +79,9 @@ class US14UpdateTeachersCategoryControllerTest {
         when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));
 
         when(teacherCategoryRepositoryFactory.newTeacherCategoryRepository()).thenReturn(tcr1);
-        when(teacherRepositoryFactory.newTeacherRepository()).thenReturn(tr1);
+        when(teacherRepositoryFactory.newTeacherRepository(teacherFactory)).thenReturn(tr1);
 
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory);
+        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory, teacherFactory);
 
         boolean result = controller1.updateTeacherCategory("30-01-2025", "213784542", "Efectivo");
 
@@ -93,9 +94,9 @@ class US14UpdateTeachersCategoryControllerTest {
         when(tr1.getTeacherByNIF("111111111")).thenReturn(Optional.empty());
 
         when(teacherCategoryRepositoryFactory.newTeacherCategoryRepository()).thenReturn(tcr1);
-        when(teacherRepositoryFactory.newTeacherRepository()).thenReturn(tr1);
+        when(teacherRepositoryFactory.newTeacherRepository(teacherFactory)).thenReturn(tr1);
 
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory);
+        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory, teacherFactory);
 
         assertThrows(IllegalArgumentException.class, () -> controller1.updateTeacherCategory("30-01-2025", "111111111", "Efectivo"));
     }
@@ -111,7 +112,7 @@ class US14UpdateTeachersCategoryControllerTest {
         when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));
         when(tcr1.getTeacherCategoryByName("Doutor")).thenReturn(Optional.empty());
 
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory);
+        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(teacherRepositoryFactory, teacherCategoryRepositoryFactory, teacherFactory);
 
         assertThrows(IllegalArgumentException.class, () -> controller1.updateTeacherCategory("30-01-2025", "213784542", "Doutor"));
     }

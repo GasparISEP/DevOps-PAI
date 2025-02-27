@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class US15_UpdateTeacherWorkingPercentageControllerTest {
 
@@ -17,7 +18,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void newUpdateTeacherWorkingPercentageController () {
 
         //Arrange
-        TeacherRepository repo = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo = new TeacherRepository(teacherFactory);
 
         //Act
         new US15_UpdateTeacherWorkingPercentageController(repo);
@@ -39,7 +41,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void successfullyGetsTeacherByNIF () throws Exception {
 
         //arrange
-        TeacherRepository repo = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repo = new TeacherRepository(teacherFactory);
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -56,7 +59,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void returnsEmptyOptionalWhenNIFNotFoundInTeacherRepository () throws Exception {
 
         //arrange
-        TeacherRepository repo = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repo = new TeacherRepository(teacherFactory);
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -82,7 +86,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void throwsExceptionWhenNIFIsNullBlankOrEmpty(String NIF) throws Exception {
 
         //arrange
-        TeacherRepository repo = new TeacherRepository();
+        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherRepository repo = new TeacherRepository(teacherFactory);
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -99,7 +104,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void successfullyUpdatesTeacherWorkingPercentage () throws Exception {
 
         //arrange
-        TeacherRepository repo = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo = new TeacherRepository(teacherFactory);
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -116,7 +122,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void throwsExceptionIfGivenWorkingPercentageIsTheSameAsLastRegisteredWorkingPercentage () throws Exception {
 
         //arrange
-        TeacherRepository repo = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo = new TeacherRepository(teacherFactory);
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
@@ -141,7 +148,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void throwsExceptionIfGivenDateIsNotAfterLastRegisteredDate(String date, String expectedException) throws Exception {
 
         //arrange
-        TeacherRepository repo = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo = new TeacherRepository(teacherFactory);
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
