@@ -114,6 +114,8 @@ class StudyPlanTest {
 
         // act + assert
         assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(0, 1, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(3, 1, course1, programme));
+
     }
 
     @Test
@@ -130,6 +132,8 @@ class StudyPlanTest {
 
         // act + assert
         assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 0, course1, programme));
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 4, course1, programme));
+
     }
 
     @Test
@@ -260,6 +264,9 @@ class StudyPlanTest {
         when(programme.getStudyPlan()).thenReturn(studyPlan);
         when(course1.getQuantityCreditsEcts()).thenReturn(26.0);
         when(course2.getQuantityCreditsEcts()).thenReturn(26.0);
+        when(annualCourse.getDurationInSemester()).thenReturn(2);
+        when(annualCourse.getName()).thenReturn("Annual Course");
+        when(annualCourse.getAcronym()).thenReturn("ANNUAL");
         when(annualCourse.getQuantityCreditsEcts()).thenReturn(10.0);
         when(programme.getQuantityOfSemester()).thenReturn(6);
         when(programme.calculateNumberOfYears(6)).thenReturn(3);
@@ -273,89 +280,83 @@ class StudyPlanTest {
 
     @Test
     void shouldNotAllowRegisterAnnualCourseIfNotEnoughSpaceInFirstSemester() throws Exception {
+
         // arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
-        //CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 25, 1);
-        Course course2 = new Course("Mathematics", "MATH", 25, 2);
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = programme.getStudyPlan();
+        StudyPlan studyPlan = new StudyPlan();
+        Programme programme = mock(Programme.class);
+        Course course1 = mock(Course.class);
+        Course course2 = mock(Course.class);
+        Course annualCourse = mock(Course.class);
 
-        // act
-        courseRepository.registerCourse("Programming", "PROG", 25, 1);
-        courseRepository.registerCourse("Mathematics", "MATH", 25, 2);
+        when(programme.getCourseList()).thenReturn(List.of(course1, course2, annualCourse));
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
+        when(course1.getQuantityCreditsEcts()).thenReturn(26.0);
+        when(course2.getQuantityCreditsEcts()).thenReturn(5.0);
+        when(annualCourse.getDurationInSemester()).thenReturn(2);
+        when(annualCourse.getName()).thenReturn("Annual Course");
+        when(annualCourse.getAcronym()).thenReturn("ANNUAL");
+        when(annualCourse.getQuantityCreditsEcts()).thenReturn(10.0);
+        when(programme.getQuantityOfSemester()).thenReturn(6);
+        when(programme.calculateNumberOfYears(6)).thenReturn(3);
+        when(programme.getQuantityOfEcts()).thenReturn(30);
+        studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        studyPlan.addCourseToStudyPlan(2, 1, course2, programme);
 
-        programme.addCourseToAProgramme(course1);
-        programme.addCourseToAProgramme(course2);
+        // act + assert
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, annualCourse, programme));
 
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
-
-        //assert
-        assertTrue(addCourse1ToStudyPlan);
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, course2, programme));
     }
 
     @Test
     void shouldNotAllowRegisterAnnualCourseIfNotEnoughSpaceInSecondSemester() throws Exception {
-        // arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
-        //CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 25, 1);
-        Course course2 = new Course("Mathematics", "MATH", 25, 2);
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = programme.getStudyPlan();
+        //arrange
+        StudyPlan studyPlan = new StudyPlan();
+        Programme programme = mock(Programme.class);
+        Course course1 = mock(Course.class);
+        Course course2 = mock(Course.class);
+        Course annualCourse = mock(Course.class);
 
-        // act
-        courseRepository.registerCourse("Programming", "PROG", 25, 1);
-        courseRepository.registerCourse("Mathematics", "MATH", 25, 2);
+        when(programme.getCourseList()).thenReturn(List.of(course1, course2, annualCourse));
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
+        when(course1.getQuantityCreditsEcts()).thenReturn(6.0);
+        when(course2.getQuantityCreditsEcts()).thenReturn(26.0);
+        when(annualCourse.getDurationInSemester()).thenReturn(2);
+        when(annualCourse.getName()).thenReturn("Annual Course");
+        when(annualCourse.getAcronym()).thenReturn("ANNUAL");
+        when(annualCourse.getQuantityCreditsEcts()).thenReturn(10.0);
+        when(programme.getQuantityOfSemester()).thenReturn(6);
+        when(programme.calculateNumberOfYears(6)).thenReturn(3);
+        when(programme.getQuantityOfEcts()).thenReturn(30);
+        studyPlan.addCourseToStudyPlan(1, 1, course1, programme);
+        studyPlan.addCourseToStudyPlan(2, 1, course2, programme);
 
-        programme.addCourseToAProgramme(course1);
-        programme.addCourseToAProgramme(course2);
-
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(2, 1, course1, programme);
-
-        //assert
-        assertTrue(addCourse1ToStudyPlan);
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, course2, programme));
+        // act + assert
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(1, 1, annualCourse, programme));
     }
 
     @Test
     void shouldNotAllowAnnualCourseInInvalidSemester() throws Exception {
-        // arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
-        //CourseRepository courseRepository = new CourseRepository();
-        Course course1 = new Course("Programming", "PROG", 5, 2);
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-        StudyPlan studyPlan = programme.getStudyPlan();
 
-        // act
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
-        programme.addCourseToAProgramme(course1);
+        //arrange
+        StudyPlan studyPlan = new StudyPlan();
+        Programme programme = mock(Programme.class);
+        Course annualCourse = mock(Course.class);
 
-        // assert
-        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(2, 1, course1, programme));
+        when(programme.getCourseList()).thenReturn(List.of(annualCourse));
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
+        when(annualCourse.getDurationInSemester()).thenReturn(2);
+        when(annualCourse.getName()).thenReturn("Annual Course");
+        when(annualCourse.getAcronym()).thenReturn("ANNUAL");
+        when(annualCourse.getQuantityCreditsEcts()).thenReturn(10.0);
+        when(programme.getQuantityOfSemester()).thenReturn(6);
+        when(programme.calculateNumberOfYears(6)).thenReturn(3);
+        when(programme.getQuantityOfEcts()).thenReturn(30);
+
+        // act + assert
+        assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(2, 1, annualCourse, programme));
     }
+
+
 
     @Test
     void shouldThrowExceptionWhenRegisteringCourseNotInProgramme() throws Exception {
