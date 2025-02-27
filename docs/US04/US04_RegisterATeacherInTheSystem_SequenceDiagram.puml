@@ -8,6 +8,7 @@ participant ":US04_IWantToRegisterATeacherInTheSystemController" as Controller
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
 participant ":DepartmentRepository" as DepartmentRepository
 participant ":TeacherRepository" as TeacherRepository
+participant ":TeacherFactory" as TeacherFactory
 participant "t1:Teacher" as Teacher
 participant "t[i]:Teacher" as TeacherI
 
@@ -31,12 +32,18 @@ Controller -> DepartmentRepository : isDepartmentInDepartmentRepository(category
 activate DepartmentRepository
 DepartmentRepository -->Controller : True!
 deactivate DepartmentRepository
-Controller -> TeacherRepository: registerTeacher(acronym, name, email, nif, phoneNumber, address, category, department)
+Controller -> TeacherRepository: registerTeacher(acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
 activate TeacherRepository
-TeacherRepository -> Teacher **: createTeacher (acronym, name, email, nif, phoneNumber, address, category, department)
+
+TeacherRepository -> TeacherFactory: createTeacher (acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
+activate TeacherFactory
+TeacherFactory -> Teacher **: createTeacher (acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
 activate Teacher
-Teacher --> TeacherRepository: t1
+Teacher -> Teacher: isValid
+Teacher --> TeacherFactory: t1
 deactivate Teacher
+TeacherFactory --> TeacherRepository: t1
+deactivate TeacherFactory
 loop for each Teacher t[i] in TeacherRepository
 TeacherRepository -> TeacherI: compareTeacherAcronymAndNifInList (t1:Teacher)
 activate TeacherI

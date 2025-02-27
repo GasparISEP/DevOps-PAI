@@ -17,7 +17,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
         DepartmentFactory factory = new DepartmentFactory();
         DepartmentRepository dpt = new DepartmentRepository(factory);
-        TeacherRepository tr = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository tr = new TeacherRepository(teacherFactory);
 
         // Act
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcr, dpt, tr);
@@ -75,7 +76,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         TeacherCategory tc = new TeacherCategory("Assistant Professor");
         Department dpt = new Department("CSE", "Computer Science");
-        TeacherRepository teacherRepository = new TeacherRepository();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository teacherRepository = new TeacherRepository(teacherFactory);
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(
                 null, null, teacherRepository
         );

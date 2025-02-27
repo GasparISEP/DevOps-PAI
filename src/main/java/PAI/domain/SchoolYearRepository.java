@@ -7,14 +7,16 @@ import java.util.List;
 public class SchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
+    private SchoolYearFactory _schoolYearFactory;
 
-    public SchoolYearRepository() {
+    public SchoolYearRepository(SchoolYearFactory schoolYearFactory) {
         this._schoolYearList = new ArrayList<>();
+        this._schoolYearFactory = schoolYearFactory;
     }
 
     public boolean addSchoolYear(String description, String startDate, String endDate) throws Exception {
 
-        SchoolYear newSchoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear newSchoolYear = _schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
         // Check if the school year already exists in the list
         if(schoolYearExists(newSchoolYear)){
