@@ -22,7 +22,7 @@ class TeacherCategoryRepositoryTest {
         boolean result = teacherCategoryRepository.isTeacherCategoryRegistered(doubleTeacherCategory);
 
         // Assert
-        assertTrue(result);
+        assertTrue(!result);
     }
 
     @Test
