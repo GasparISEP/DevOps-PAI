@@ -4,13 +4,15 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
     @Test
     void shouldCreateController() throws Exception {
         //arrange
-        SchoolYearRepository syr1 = new SchoolYearRepository();
+        SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
         //act
@@ -22,22 +24,24 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldCreateProgrammeEdition() throws Exception{
         //arrange
-        SchoolYearRepository syr1 = new SchoolYearRepository();
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        SchoolYearFactory doubleSchoolYearFactory = mock(SchoolYearFactory.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
 
-        DegreeType master = new DegreeType("Master",240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal", "14-05-2007", assistantProfessor, 70, CSE );
+        when(doubleSchoolYearFactory.createSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024")).thenReturn(doubleSchoolYear);
 
-        Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
-        syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
+        doubleSchoolYearRepository.addSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
+        when(doubleSchoolYearRepository.getCurrentSchoolYear()).thenReturn(doubleSchoolYear);
+
+        when(doubleProgrammeEditionRepository.createProgrammeEdition(doubleProgramme,doubleSchoolYear)).thenReturn(true);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(doubleProgrammeEditionRepository, doubleSchoolYearRepository);
 
         //act
-        boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);
+        boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(doubleProgramme);
         //assert
         assertTrue(isCreated);
     }
@@ -45,7 +49,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldNotCreateProgrammeEditionIfCurrentSchoolYearIsNull() throws Exception{
         //arrange
-        SchoolYearRepository syr1 = new SchoolYearRepository();
+        SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
         DegreeType master = new DegreeType("Master",240);
@@ -64,7 +68,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfNotCreateProgrammeEdition() throws Exception{
         //arrange
-        SchoolYearRepository syr1 = new SchoolYearRepository();
+        SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 
@@ -87,7 +91,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfProgrammeEditionRepositoryIsNull() throws Exception{
         //arrange
-        SchoolYearRepository syr1 = new SchoolYearRepository();
+        SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
