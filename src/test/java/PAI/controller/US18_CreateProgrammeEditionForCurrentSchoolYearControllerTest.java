@@ -15,8 +15,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         //act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1, programmeList);
         //assert
         assertNotNull(controller);
     }
@@ -24,6 +26,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldCreateProgrammeEdition() throws Exception{
         //arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
         SchoolYearFactory doubleSchoolYearFactory = mock(SchoolYearFactory.class);
@@ -38,7 +42,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         when(doubleProgrammeEditionRepository.createProgrammeEdition(doubleProgramme,doubleSchoolYear)).thenReturn(true);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(doubleProgrammeEditionRepository, doubleSchoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(doubleProgrammeEditionRepository, doubleSchoolYearRepository, programmeList);
 
         //act
         boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(doubleProgramme);
@@ -49,6 +53,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldNotCreateProgrammeEditionIfCurrentSchoolYearIsNull() throws Exception{
         //arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
@@ -59,7 +65,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
         //act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1, programmeList);
         boolean isCreated = controller.createAProgrammeEditionInTheCurrentSchoolYear(p1);
         //assert
         assertFalse(isCreated);
@@ -68,6 +74,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfNotCreateProgrammeEdition() throws Exception{
         //arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
@@ -79,7 +87,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, syr1, programmeList);
 
         //act
         ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);
@@ -92,14 +100,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldReturnFalseIfProgrammeEditionRepositoryIsNull() throws Exception{
         //arrange
         SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
-
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         syr1.addSchoolYear("Ano letivo", "01-09-2024", "30-06-2025");
-        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, syr1);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, syr1, programmeList);
 
         //act
         boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);
@@ -112,6 +121,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         //arrange
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -119,7 +130,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto","4249-015","Porto", "Portugal","20-12-2010", assistantProfessor,100, CSE);
         Programme p1 = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, null);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1, null, programmeList);
 
         //act
         boolean isCreated = ctrl.createAProgrammeEditionInTheCurrentSchoolYear(p1);

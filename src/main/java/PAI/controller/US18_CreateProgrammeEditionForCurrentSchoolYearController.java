@@ -2,15 +2,19 @@ package PAI.controller;
 
 import PAI.domain.*;
 
+import java.util.List;
+
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     private final ProgrammeEditionRepository _programmeEditionRepository;
     private final SchoolYearRepository _schoolYearRepository;
+    private final ProgrammeList _programmeList;
 
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository) {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository, ProgrammeList programmeList) {
 
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
+        _programmeList = programmeList;
     }
 
     public boolean createAProgrammeEditionInTheCurrentSchoolYear (Programme programme){
@@ -24,5 +28,4 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
         return isCreated;
     }
-
 }
