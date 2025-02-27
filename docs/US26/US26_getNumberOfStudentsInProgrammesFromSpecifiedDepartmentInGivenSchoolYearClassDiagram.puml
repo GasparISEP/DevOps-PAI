@@ -12,27 +12,17 @@ class Department {
     -_name: String
     -_acronym: String
     +Department(acronym: String, name: String)
-    +Department(acronym: String,name: String, teacherDirector: Teacher)
-    +hasSameAcronym(department: Department): boolean
-    +hasSameName(department: Department): boolean
-    +changeDirector(furtherDirector: Teacher): boolean
     + equals(obj: Object): boolean
 }
 
 class DepartmentRepository {
-    +DepartmentRepository()
-    +registerDepartment(acronym: String, name: String): boolean
-    +getDepartmentsList(): List<Department>
+    +DepartmentRepository(departmentFactory: DepartmentFactory)
     +departmentExists(department: Department): boolean
-    +updateOfDepartmentDirector(department: Department, teacher: Teacher): boolean
 }
 
 class ProgrammeEditionEnrollmentRepo {
-    +ProgrammeEditionEnrollmentRepo()
-    +enrollStudentInAProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition, localDate: LocalDate): Optional<ProgrammeEditionEnrollment>
-    +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition): boolean
+    +ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrollmentFactory)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear): int
-    +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition): int
 }
 
 class ProgrammeEditionEnrollment {
@@ -40,17 +30,11 @@ class ProgrammeEditionEnrollment {
     +ProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition, _enrollmentDate: LocalDate)
     +isEnrollmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear): boolean
     +getStudentUniqueNumber(): int
-    +equals(obj: Object): boolean
-    +findProgrammeEditionInEnrollment(): ProgrammeEdition
-    +findStudentInProgrammeEdition(): Student
 }
 
 class SchoolYearRepository {
-    +SchoolYearRepository()
-    +addSchoolYear(description: String, startDate: String, endDate: String): boolean
+    +SchoolYearRepository(schoolYearFactory: SchoolYearFactory)
     +schoolYearExists(schoolYear: SchoolYear): boolean
-    +getCurrentSchoolYear(): SchoolYear
-    +getAllSchoolYears(): List<SchoolYear>
 }
 
 class SchoolYear {
@@ -59,16 +43,10 @@ class SchoolYear {
     -_endDate: LocalDate
     +SchoolYear(description: String, startDate: String, endDate: String)
     +isSameSchoolYear(newSchoolYear: SchoolYear): boolean
-    +getEndDate(): LocalDate
-    +getStartDate(): LocalDate
-    +equals(o: Object): boolean
 }
 
 class ProgrammeEdition {
     +ProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
-    +equals(other: Object): boolean
-    +findProgrammeInProgrammeEdition(): Programme
-    +findSchoolYearInProgrammeEdition(): SchoolYear
     +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear): boolean
 }
 
@@ -78,17 +56,7 @@ class Programme {
     -_quantityOfEcts: int
     -_quantityOfSemesters: int
     +Programme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType, department: Department, programmeDirector: Teacher)
-    +equals(o: Object): boolean
-    +addCourseToAProgramme(course: Course): boolean
-    +newProgrammeDirector(teacherDirector: Teacher)
-    +enrolStudentInProgramme(student: Student, acessMethod: AcessMethod, amr: AcessMethodRepository): boolean
-    +isStudentEnrolled(student: Student): boolean
     +isInDepartment (department: Department): boolean
-    +getCourseList(): List<Course>
-    +getQuantityOfSemester(): int
-    +getQuantityOfEcts(): int
-    +getStudyPlan(): StudyPlan
-    +calculateNumberOfYears(quantityOfSemesters: int): int
 }
 
 Class Student {
@@ -98,17 +66,13 @@ Class Student {
     -phone: String
     -email: String
     +Student(uniqueNumber: int, name: String, NIF: String,phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Students>): boolean
-    +hasSameUniqueNumber(student: Student): boolean
     +getUniqueNumber(): int
 }
-
-
 
 Department "*\n _departmentsList " <-- " 1  " DepartmentRepository
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "        1\n_departmentRepository " DepartmentRepository
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "                      _schoolYearRepository 1  " SchoolYearRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "                    1\n_PEERepo"  ProgrammeEditionEnrollmentRepo
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1"   ..> "      1\n_peeRepo"  ProgrammeEditionEnrollmentRepo
 ProgrammeEditionEnrollmentRepo "1" --> "_programmeEditionEnrollmentList  * " ProgrammeEditionEnrollment
 SchoolYearRepository "1" --> "_schoolYearList\n                       *" SchoolYear
 ProgrammeEdition "           *\n_programme" <-- "1" Programme
