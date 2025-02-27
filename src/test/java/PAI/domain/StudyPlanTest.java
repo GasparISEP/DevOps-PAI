@@ -274,7 +274,9 @@ class StudyPlanTest {
     @Test
     void shouldNotAllowRegisterAnnualCourseIfNotEnoughSpaceInFirstSemester() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
+        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
+        //CourseRepository courseRepository = new CourseRepository();
         Course course1 = new Course("Programming", "PROG", 25, 1);
         Course course2 = new Course("Mathematics", "MATH", 25, 2);
         DegreeType master = new DegreeType("Master", 240);
@@ -303,7 +305,9 @@ class StudyPlanTest {
     @Test
     void shouldNotAllowRegisterAnnualCourseIfNotEnoughSpaceInSecondSemester() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
+        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
+        //CourseRepository courseRepository = new CourseRepository();
         Course course1 = new Course("Programming", "PROG", 25, 1);
         Course course2 = new Course("Mathematics", "MATH", 25, 2);
         DegreeType master = new DegreeType("Master", 240);
@@ -332,7 +336,9 @@ class StudyPlanTest {
     @Test
     void shouldNotAllowAnnualCourseInInvalidSemester() throws Exception {
         // arrange
-        CourseRepository courseRepository = new CourseRepository();
+        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseRepository courseRepository = new CourseRepository(courseFactory);
+        //CourseRepository courseRepository = new CourseRepository();
         Course course1 = new Course("Programming", "PROG", 5, 2);
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
