@@ -28,4 +28,8 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
         return isCreated;
     }
+
+    public List<Programme> getProgrammeList(){
+        return _programmeList.getAllProgrammes();
+    }
 }

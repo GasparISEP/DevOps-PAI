@@ -3,9 +3,10 @@ package PAI.controller;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
@@ -138,5 +139,28 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         assertFalse(isCreated);
     }
 
+//                                    ISOLATED UNIT TESTS
 
+    @Test
+    void shouldReturnListOfProgrammesInTheRepository() throws Exception {
+        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - getProgrammeList
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
+        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeList programmeList = mock(ProgrammeList.class);
+        Teacher teacher = mock(Teacher.class);
+        DegreeType master = mock(DegreeType.class);
+        Department cse = mock(Department.class);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController ctrl = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+        List<Programme> expectedProgrammes = List.of(new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher), new Programme("Matemática", "MAT", 20, 6, master, cse, teacher));
+        when(ctrl.getProgrammeList()).thenReturn(expectedProgrammes);
+
+        // Act
+        List<Programme> result = ctrl.getProgrammeList();
+
+        // Assert
+        assertEquals(expectedProgrammes, result);
+        assertEquals(2, result.size());
+        verify(programmeList).getAllProgrammes();
+    }
 }
