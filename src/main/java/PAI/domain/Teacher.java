@@ -23,6 +23,8 @@ public class Teacher {
 
     private List<TeacherCareerProgression> _teacherCareerProgressionList;
 
+    private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
+
 
     //constructor
     public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage,
