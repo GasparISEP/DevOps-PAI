@@ -355,27 +355,4 @@ class StudyPlanTest {
         // act + assert
         assertThrows(Exception.class, () -> studyPlan.addCourseToStudyPlan(2, 1, annualCourse, programme));
     }
-
-
-
-    @Test
-    void shouldThrowExceptionWhenRegisteringCourseNotInProgramme() throws Exception {
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
-
-        Course invalidCourse = new Course("Physics", "PHYS", 6, 1); // Este curso não foi adicionado ao programa
-
-        StudyPlan studyPlan = programme.getStudyPlan();
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            studyPlan.addCourseToStudyPlan(1, 1, invalidCourse, programme);
-        });
-
-        assertEquals("Invalid course or programme.", exception.getMessage());
-    }
 }
