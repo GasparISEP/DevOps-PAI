@@ -394,4 +394,36 @@ class ProgrammeEditionTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnProgrammeOfProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - findProgrammeInProgrammeEdition
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
+        // Act
+        Programme getProgramme= programmeEdition.findProgrammeInProgrammeEdition();
+
+        // Assert
+        assertEquals(programme, getProgramme);
+    }
+
+    @Test
+    void shouldReturnSchoolYearOfProgrammeEditionMock() throws Exception {
+        // SUT = ProgrammeEdition - findProgrammeInProgrammeEdition
+        // Arrange
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
+        // Act
+        SchoolYear getSchoolYear= programmeEdition.findSchoolYearInProgrammeEdition();
+
+        // Assert
+        assertEquals(schoolYear, getSchoolYear);
+    }
 }
