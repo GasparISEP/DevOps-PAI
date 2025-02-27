@@ -443,4 +443,29 @@ class ProgrammeTest {
         // Assert
         assertFalse(result);
     }
+    @Test
+    void shouldNotReturnAcronym() throws Exception {
+
+        //Arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher);
+
+        //Act
+        String expectedAcronym = programme.getAcronym();
+
+        //Assert
+        assertNotEquals("Invalid",expectedAcronym);
+    }
+
+    @Test
+    void shouldReturnAcronym() throws Exception {
+
+        //Arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher);
+
+        //Act
+        String expectedAcronym = programme.getAcronym();
+
+        //Assert
+        assertEquals("CE", expectedAcronym);
+    }
 }
