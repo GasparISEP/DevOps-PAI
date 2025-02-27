@@ -1,0 +1,20 @@
+Fragmento do código
+
+@startuml
+!pragma layout smetana
+
+class TeacherCategory {
+    -_name:String
+    + TeacherCategory (name:String)
+}
+
+class TeacherCategoryRepository {
+    +TeacherCategoryRepository()
+    +registerTeacherCategory (teacherCategoryName: String)
+    +isTeacherCategoryRegistered(teacherCategory: TeacherCategory)
+    +getTeacherCategoriesList()
+}
+
+TeacherCategory "1..*" <.. "1" TeacherCategoryRepository: _teacherCategoryRepository
+
+@enduml

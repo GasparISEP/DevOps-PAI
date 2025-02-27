@@ -7,8 +7,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
     +US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo: ProgrammeEditionEnrollmentRepo, programmeEditionRepository: ProgrammeEditionRepository, programmeList ProgrammeList,
     courseEditionEnrollmentRepository: CourseEditionEnrollmentRepository, courseEditionRepository: CourseEditionRepository, schoolYearRepository: SchoolYearRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
     +enrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(student: Student, programme: Programme, schoolYear: SchoolYear)
-    +getAllProgrammes()
-    +getAllSchoolYears()
+    +getAllProgrammes(): List<Programme>
+    +getAllSchoolYears(): List<SchoolYear>
 }
 class CourseEditionEnrollment {
     -_enrollmentDate: LocalDate

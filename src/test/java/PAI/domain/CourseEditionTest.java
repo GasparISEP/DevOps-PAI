@@ -11,7 +11,7 @@ class CourseEditionTest {
     //US19
     @Test
     void shouldCreateCourseEdition() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //SUT = CourseEdition -> ProgrammeEdition and Course as Doubles
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
@@ -25,42 +25,39 @@ class CourseEditionTest {
     }
 
     @Test
-    void shouldThowExceptionIfCourseIsNull() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
+    void shouldThrowExceptionIfCourseIsNull(){
+        //SUT = CourseEdition -> ProgrammeEdition as Double and Course forced to be null
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
-        Course course = null;
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEditionDouble);});
+        assertThrows(Exception.class, () -> {new CourseEdition(null, programmeEditionDouble);});
 
     }
 
     @Test
-    void shouldThowExceptionIfProgrammeEditionIsNull() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition forced to be null and Course isolated
+    void shouldThrowExceptionIfProgrammeEditionIsNull() {
+        //SUT = CourseEdition -> ProgrammeEdition forced to be null and Course as Double
         //Arrange
-        ProgrammeEdition programmeEdition = null;
         Course courseDouble = mock (Course.class);
-        //Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(courseDouble, programmeEdition);});
+
+        //Act + Assert
+        assertThrows(Exception.class, () -> {new CourseEdition(courseDouble, null);});
 
     }
 
     @Test
-    void shouldThowExceptionIfProgrammeEditionAndCourseAreNull() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition and Course forced to be null
+    void shouldThrowExceptionIfProgrammeEditionAndCourseAreNull() {
+        //SUT = CourseEdition -> ProgrammeEdition and Course forced to be null
         //Arrange
-        ProgrammeEdition programmeEditionDouble = null;
-        Course course = null;
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(course, programmeEditionDouble);});
+        assertThrows(Exception.class, () -> {new CourseEdition(null, null);});
 
     }
 
     @Test
     void shouldReturnTrueIfCourseEditionEqualsObject()throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //SUT = CourseEdition -> ProgrammeEdition and Course as Doubles
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
@@ -76,7 +73,7 @@ class CourseEditionTest {
 
     @Test
     void shouldReturnFalseIfObjectIsNotCourseEdition() throws Exception{
-        //SUT = CourseEdition - ProgrammeEdition, Course and Teacher Category isolated
+        //SUT = CourseEdition -> ProgrammeEdition, Course and Teacher Category as Doubles
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
@@ -92,7 +89,7 @@ class CourseEditionTest {
 
     @Test
     void shouldReturnTrueIfCourseAndProgrammeEditionOfBothObjectsAreEqual() throws Exception{
-        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //SUT = CourseEdition -> ProgrammeEdition and Course as Doubles
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
@@ -107,7 +104,7 @@ class CourseEditionTest {
 
     @Test
     void shouldReturnFalseIfCoursesAreNotEqualButProgrammeEditionsAreEqual() throws Exception{
-        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //SUT = CourseEdition -> ProgrammeEdition and Course as Doubles
         //Arrange
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
@@ -125,7 +122,7 @@ class CourseEditionTest {
 
     @Test
     void shouldReturnFalseIfCoursesAreEqualButProgrammeEditionsAreNotEqual() throws Exception{
-        //SUT = CourseEdition - ProgrammeEdition and Course isolated
+        //SUT = CourseEdition -> ProgrammeEdition and Course as Doubles
         //Arrange
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
@@ -144,7 +141,7 @@ class CourseEditionTest {
     //US20
     @Test
     void shouldReturnTrueIfRucIsSet() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition, Course and Teacher isolated
+        //SUT = CourseEdition -> ProgrammeEdition, Course and Teacher as Doubles
         //Arrange
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
