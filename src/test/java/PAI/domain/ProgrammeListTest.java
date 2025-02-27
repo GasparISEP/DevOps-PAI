@@ -20,9 +20,6 @@ class ProgrammeListTest {
         Department CSE = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
 
-        //act + assert
-        Programme CE = mock(Programme.class);
-
         // Act
         boolean result = list.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
@@ -33,6 +30,7 @@ class ProgrammeListTest {
 
     @Test
     void duplicatedShouldNotRegisterValidProgramme() throws Exception {
+
         // Arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
         ProgrammeList list = new ProgrammeList(programmeFactory);
@@ -85,7 +83,6 @@ class ProgrammeListTest {
     void shouldReturnCourseList() throws Exception {
         //arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        CourseRepository courseRepository = mock(CourseRepository.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
         Programme programme = mock(Programme.class);
@@ -142,7 +139,6 @@ class ProgrammeListTest {
         // Arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
 
-        ProgrammeList list = new ProgrammeList(programmeFactory);
         ProgrammeList repository = new ProgrammeList(programmeFactory);
         DegreeType master = mock(DegreeType.class);
         Department cse = mock(Department.class);
