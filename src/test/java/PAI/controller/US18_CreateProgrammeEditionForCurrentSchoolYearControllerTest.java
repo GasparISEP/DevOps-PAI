@@ -11,15 +11,20 @@ import static org.mockito.Mockito.*;
 class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
     @Test
-    void shouldCreateController() throws Exception {
+    void shouldCreateController() {
         //arrange
-        SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
+        SchoolYearFactory schoolYearFactoryMock = mock(SchoolYearFactory.class);
+        SchoolYearRepository syr1 = new SchoolYearRepository(schoolYearFactoryMock);
+
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
+
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
+        ProgrammeList pl1 = new ProgrammeList(programmeFactory);
+
         //act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1, programmeList);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1, pl1);
+
         //assert
         assertNotNull(controller);
     }
@@ -142,6 +147,20 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 //                                    ISOLATED UNIT TESTS
 
     @Test
+    void shouldCreateControllerMock() {
+        //arrange
+        SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
+        ProgrammeEditionRepository per1 = mock(ProgrammeEditionRepository.class);
+        ProgrammeList pl1 = mock(ProgrammeList.class);
+
+        //act
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(per1,syr1, pl1);
+
+        //assert
+        assertNotNull(controller);
+    }
+
+    @Test
     void shouldReturnListOfProgrammesInTheRepository() throws Exception {
         // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - getProgrammeList
         // Arrange
@@ -174,7 +193,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
 
         Programme p1 = mock(Programme.class);
-        
+
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, sy, pl);
 
         when (sy.getCurrentSchoolYear()).thenReturn(null);
