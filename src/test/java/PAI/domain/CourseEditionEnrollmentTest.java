@@ -38,20 +38,20 @@ class CourseEditionEnrollmentTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidEnrollmentDate")
-    void testInvalidEnrollmentDate(LocalDate enrollmentDate, String expectedMessage) throws Exception {
+    void testInvalidEnrollmentDate(LocalDate enrollmentDate, String expectedMessage) throws IllegalArgumentException {
         // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
         // act + assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new CourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void testCourseEditionEnrollmentWhenStudentIsNull() throws Exception {
+    void testCourseEditionEnrollmentWhenStudentIsNull() throws IllegalArgumentException {
         // arrange
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
@@ -64,7 +64,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void testCourseEditionEnrollmentWhenCourseEditionIsNull() throws Exception {
+    void testCourseEditionEnrollmentWhenCourseEditionIsNull() throws IllegalArgumentException {
         // arrange
         Student studentDouble = mock(Student.class);
         LocalDate enrollmentDate = LocalDate.now();
@@ -77,7 +77,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseEditionIsNull_EqualsMethod() throws Exception {
+    void shouldReturnFalseIfCourseEditionIsNull_EqualsMethod() {
         //arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -89,7 +89,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseEditionIsEqualThis_EqualsMethod() throws Exception {
+    void shouldReturnTrueIfCourseEditionIsEqualThis_EqualsMethod() {
         //arrange
         Student studentDouble1 = mock(Student.class);
         Student studentDouble2= mock(Student.class);
@@ -186,7 +186,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() throws Exception {
+    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() {
         // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -198,7 +198,7 @@ class CourseEditionEnrollmentTest {
         assertTrue(enrollment1.equals(enrollment2));
     }
     @Test
-    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod_SameReference() throws Exception {
+    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod_SameReference() {
         // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
