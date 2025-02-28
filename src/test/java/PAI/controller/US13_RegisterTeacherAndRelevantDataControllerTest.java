@@ -7,6 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US13_RegisterTeacherAndRelevantDataControllerTest {
 
@@ -37,15 +38,22 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
         // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        tcr.registerTeacherCategory("Assistant Professor");
-        tcr.registerTeacherCategory("Director Professor");
-        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
+        TeacherCategoryRepository doubleTeacherCategoryRepository = mock(TeacherCategoryRepository.class);
+        DepartmentRepository doubleDepartmentRepository = mock(DepartmentRepository.class);
+        TeacherRepository doubleTeacherRepository = mock(TeacherRepository.class);
+        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(doubleTeacherCategoryRepository, doubleDepartmentRepository, doubleTeacherRepository);
+
+        TeacherCategory teacherCategoryMock1 = mock(TeacherCategory.class);
+        TeacherCategory teacherCategoryMock2 = mock(TeacherCategory.class);
+        when(doubleTeacherCategoryRepository.getTeacherCategoryList()).thenReturn(List.of(teacherCategoryMock1, teacherCategoryMock2));
+
         // Act
         List<TeacherCategory> result = controller.getTeacherCategoryList();
+
         // Assert
         assertEquals(2, result.size());
+        assertTrue(result.contains(teacherCategoryMock1));
+        assertTrue(result.contains(teacherCategoryMock2));
     }
 
     @Test
