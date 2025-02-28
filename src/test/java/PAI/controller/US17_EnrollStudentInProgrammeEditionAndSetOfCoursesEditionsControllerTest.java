@@ -17,48 +17,48 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_Success() throws Exception {
         // Arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        Programme programme = mock(Programme.class);
-        SchoolYear schoolYear = mock(SchoolYear.class);
-        Student student = mock(Student.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        Student doubleStudent = mock(Student.class);
+        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
                         programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
+                        doubleProgrammeEditionRepository,
+                        doubleProgrammeList,
+                        doubleCourseEditionEnrollmentRepository,
+                        doubleCourseEditionRepository,
+                        doubleSchoolYearRepository,
+                        doubleProgrammeEnrolmentRepository);
 
-        CourseEdition ce1 = mock(CourseEdition.class);
-        CourseEdition ce2 = mock(CourseEdition.class);
+        CourseEdition doubleCe1 = mock(CourseEdition.class);
+        CourseEdition doubleCe2 = mock(CourseEdition.class);
 
-        when(programmeEnrolmentRepository.isStudentEnrolled(student, programme))
+        when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudent, doubleProgramme))
                 .thenReturn(true);
 
-        when(programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear))
-                .thenReturn(Optional.of(programmeEdition));
+        when(doubleProgrammeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(doubleProgramme, doubleSchoolYear))
+                .thenReturn(Optional.of(doubleProgrammeEdition));
 
-        when(courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition)).thenReturn(List.of(ce1, ce2));
+        when(doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition)).thenReturn(List.of(doubleCe1, doubleCe2));
 
-        when(programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)).thenReturn(false);
+        when(programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(false);
 
-        when(courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce1)).thenReturn(true);
+        when(doubleCourseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe1)).thenReturn(true);
 
-        when(courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce2)).thenReturn(true);
+        when(doubleCourseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe2)).thenReturn(true);
 
         // Act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear);
-        boolean result2 = courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce1);
-        boolean result3 = courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student, ce2);
+        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+        boolean result2 = doubleCourseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe1);
+        boolean result3 = doubleCourseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe2);
 
         // Assert
         assertTrue(result, "Student should be enrolled in Programme.");
@@ -69,31 +69,31 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() throws Exception {
         // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        Programme programme = mock(Programme.class);
-        SchoolYear schoolYear = mock(SchoolYear.class);
-        Student student = mock(Student.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        Student doubleStudent = mock(Student.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
+                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionRepository,
+                        doubleProgrammeList,
+                        doubleCourseEditionEnrollmentRepository,
+                        doubleCourseEditionRepository,
+                        doubleSchoolYearRepository,
+                        doubleProgrammeEnrolmentRepository);
 
-        programmeEditionRepository.createProgrammeEdition(programme, schoolYear);
+        doubleProgrammeEditionRepository.createProgrammeEdition(doubleProgramme, doubleSchoolYear);
         // Act & Assert:
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear);
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
         });
         assertEquals("Student should be enrolled in Programme.", exception.getMessage());
     }
@@ -101,32 +101,32 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() throws Exception {
         // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        Programme programme = mock(Programme.class);
-        SchoolYear schoolYear = mock(SchoolYear.class);
-        Student student = mock(Student.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        Student doubleStudent = mock(Student.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
+                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionRepository,
+                        doubleProgrammeList,
+                        doubleCourseEditionEnrollmentRepository,
+                        doubleCourseEditionRepository,
+                        doubleSchoolYearRepository,
+                        doubleProgrammeEnrolmentRepository);
 
-        when(programmeEnrolmentRepository.isStudentEnrolled(student, programme))
+        when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudent, doubleProgramme))
                 .thenReturn(true);
         // Act & Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear);
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
         });
         assertEquals("Programme edition not found for the given school year.", exception.getMessage());
     }
@@ -134,34 +134,34 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() throws Exception {
         // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        Programme programme = mock(Programme.class);
-        SchoolYear schoolYear = mock(SchoolYear.class);
-        Student student = mock(Student.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        Student doubleStudent = mock(Student.class);
+        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
+                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionRepository,
+                        doubleProgrammeList,
+                        doubleCourseEditionEnrollmentRepository,
+                        doubleCourseEditionRepository,
+                        doubleSchoolYearRepository,
+                        doubleProgrammeEnrolmentRepository);
 
-        when(programmeEnrolmentRepository.isStudentEnrolled(student, programme)).thenReturn(true);
-        when(programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear)).thenReturn(Optional.of(programmeEdition));
+        when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudent, doubleProgramme)).thenReturn(true);
+        when(doubleProgrammeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(doubleProgramme, doubleSchoolYear)).thenReturn(Optional.of(doubleProgrammeEdition));
 
-        when(programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)).thenReturn(true);
+        when(doubleProgrammeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(true);
         // Act & Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear);
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
         });
         assertEquals("Student is already enrolled in the programme edition.", exception.getMessage());
     }
@@ -169,58 +169,58 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() throws Exception {
         // Mocks
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        Programme programme = mock(Programme.class);
-        SchoolYear schoolYear = mock(SchoolYear.class);
-        Student student = mock(Student.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        Student doubleStudent = mock(Student.class);
+        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
+                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionRepository,
+                        doubleProgrammeList,
+                        doubleCourseEditionEnrollmentRepository,
+                        doubleCourseEditionRepository,
+                        doubleSchoolYearRepository,
+                        doubleProgrammeEnrolmentRepository);
 
         CourseEdition ce1 = mock(CourseEdition.class);
         CourseEdition ce2 = mock(CourseEdition.class);
 
-        when(programmeEnrolmentRepository.isStudentEnrolled(student, programme))
+        when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudent, doubleProgramme))
                 .thenReturn(true);
 
 
-        when(programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear))
-                .thenReturn(Optional.of(programmeEdition));
+        when(doubleProgrammeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(doubleProgramme, doubleSchoolYear))
+                .thenReturn(Optional.of(doubleProgrammeEdition));
 
 
-        when(courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition))
+        when(doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition))
                 .thenReturn(List.of(ce1, ce2));
 
 
-        when(courseEditionEnrollmentRepository.findByStudentAndEdition(student, ce1))
-                .thenReturn(Optional.of(new CourseEditionEnrollment(student, ce1, LocalDate.now())));
+        when(doubleCourseEditionEnrollmentRepository.findByStudentAndEdition(doubleStudent, ce1))
+                .thenReturn(Optional.of(new CourseEditionEnrollment(doubleStudent, ce1, LocalDate.now())));
 
-        when(courseEditionEnrollmentRepository.findByStudentAndEdition(student, ce2))
-                .thenReturn(Optional.of(new CourseEditionEnrollment(student, ce2, LocalDate.now())));
+        when(doubleCourseEditionEnrollmentRepository.findByStudentAndEdition(doubleStudent, ce2))
+                .thenReturn(Optional.of(new CourseEditionEnrollment(doubleStudent, ce2, LocalDate.now())));
 
 
         doThrow(new IllegalStateException("This course edition enrollment is already in the list."))
-                .when(courseEditionEnrollmentRepository)
+                .when(doubleCourseEditionEnrollmentRepository)
                 .enrollStudentInProgrammeCourseEditions(any(Student.class), anyList());
 
         // Act + Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear);
+            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
         });
 
         assertEquals("This course edition enrollment is already in the list.", exception.getMessage());
@@ -229,84 +229,84 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testGetAllProgrammes() throws Exception {
         // Arrange
-         ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
-         ProgrammeList programmeList = mock(ProgrammeList.class);
-         CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-         CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-         ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+         ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
          US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        enrolmentRepository);
+                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionRepository,
+                        doubleProgrammeList,
+                        doubleCourseEditionEnrollmentRepository,
+                        doubleCourseEditionRepository,
+                        doubleSchoolYearRepository,
+                        doubleEnrolmentRepository);
 
-        Programme programme1 = mock(Programme.class);
-        Programme programme2 = mock(Programme.class);
+        Programme doubleProgramme1 = mock(Programme.class);
+        Programme doubleProgramme2 = mock(Programme.class);
 
-        when(programmeList.getAllProgrammes()).thenReturn(List.of(programme1, programme2));
+        when(doubleProgrammeList.getAllProgrammes()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
 
         // Act
-        List<Programme> programmes = controller.getAllProgrammes();
+        List<Programme> doubleProgrammes = controller.getAllProgrammes();
         // Assert
-        assertNotNull(programmes, "The list of programmes should not be null.");
-        assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
-        assertTrue(programmes.contains(programme1));
-        assertTrue(programmes.contains(programme2));
+        assertNotNull(doubleProgrammes, "The list of programmes should not be null.");
+        assertEquals(2, doubleProgrammes.size(), "The list of programmes should contain exactly 2 programmes.");
+        assertTrue(doubleProgrammes.contains(doubleProgramme1));
+        assertTrue(doubleProgrammes.contains(doubleProgramme2));
     }
 
     @Test
     void testGetAllSchoolYears() throws Exception {
 
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
-                        programmeEditionRepository,
-                        programmeList,
-                        courseEditionEnrollmentRepository,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        enrolmentRepository);
-        SchoolYear schoolYear1 = mock(SchoolYear.class);
-        SchoolYear schoolYear2 = mock(SchoolYear.class);
+                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionRepository,
+                        doubleProgrammeList,
+                        doubleCourseEditionEnrollmentRepository,
+                        doubleCourseEditionRepository,
+                        doubleSchoolYearRepository,
+                        doubleEnrolmentRepository);
+        SchoolYear doubleSchoolYear1 = mock(SchoolYear.class);
+        SchoolYear doubleSchoolYear2 = mock(SchoolYear.class);
 
-        when(schoolYearRepository.getAllSchoolYears()).thenReturn(List.of(schoolYear1, schoolYear2));
+        when(doubleSchoolYearRepository.getAllSchoolYears()).thenReturn(List.of(doubleSchoolYear1, doubleSchoolYear2));
         // Act
-        List<SchoolYear> schoolYears = controller.getAllSchoolYears();
+        List<SchoolYear> doubleSchoolYears = controller.getAllSchoolYears();
         // Assert
-        assertNotNull(schoolYears, "The list of school years should not be null.");
-        assertEquals(2, schoolYears.size(), "The list of school years should contain exactly 2 years.");
-        assertTrue(schoolYears.contains(schoolYear1));
-        assertTrue(schoolYears.contains(schoolYear2));
+        assertNotNull(doubleSchoolYears, "The list of school years should not be null.");
+        assertEquals(2, doubleSchoolYears.size(), "The list of school years should contain exactly 2 years.");
+        assertTrue(doubleSchoolYears.contains(doubleSchoolYear1));
+        assertTrue(doubleSchoolYears.contains(doubleSchoolYear2));
     }
 
     @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(null,programmeEditionRepository,
-                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, enrolmentRepository);
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(null,doubleProgrammeEditionRepository,
+                    doubleProgrammeList, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
         //assert
         assertEquals("Programme edition enrollment repository cannot be null.", exception.getMessage());
@@ -315,17 +315,17 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfProgrammeEditionRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,null,
-                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, enrolmentRepository);
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo,null,
+                    doubleProgrammeList, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
         //assert
@@ -335,17 +335,17 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfProgrammeListIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    null, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, enrolmentRepository);
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+                    null, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
         //assert
@@ -355,17 +355,17 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    programmeList, null, courseEditionRepository, schoolYearRepository, enrolmentRepository);
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+                    doubleProgrammeList, null, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
         //assert
@@ -375,17 +375,17 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    programmeList, courseEditionEnrollmentRepository, null, schoolYearRepository, enrolmentRepository);
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+                    doubleProgrammeList, doubleCourseEditionEnrollmentRepository, null, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
         //assert
@@ -395,17 +395,17 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfSchoolYearRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        ProgrammeEnrolmentRepository enrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, null, enrolmentRepository);
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+                    doubleProgrammeList, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, null, doubleEnrolmentRepository);
         });
 
         //assert
@@ -415,17 +415,17 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfEnrolmentRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-        CourseEditionRepository courseEditionRepository = mock(CourseEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
-                    programmeList, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, null);
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+                    doubleProgrammeList, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, null);
         });
 
         //assert
