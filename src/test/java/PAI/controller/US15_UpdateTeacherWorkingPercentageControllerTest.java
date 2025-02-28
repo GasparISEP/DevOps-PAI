@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US15_UpdateTeacherWorkingPercentageControllerTest {
 
@@ -18,21 +19,20 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void newUpdateTeacherWorkingPercentageController () {
 
         //Arrange
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo = new TeacherRepository(teacherFactory);
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
 
         //Act
-        new US15_UpdateTeacherWorkingPercentageController(repo);
+        new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
     }
 
     @Test
     void testConstructorWithNullRepository() {
         // Arrange
-        TeacherRepository repo = null;
+        TeacherRepository teacherRepository = null;
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US15_UpdateTeacherWorkingPercentageController(repo);
+            new US15_UpdateTeacherWorkingPercentageController(teacherRepository);
         });
         assertEquals("Teacher Repository cannot be null", exception.getMessage());
     }
@@ -41,12 +41,11 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void successfullyGetsTeacherByNIF () throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repo = new TeacherRepository(teacherFactory);
-        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        repo.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
+        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
+        Teacher teacherDouble = mock(Teacher.class);
+
+        when(repositoryDouble.getTeacherByNIF("123456789")).thenReturn(Optional.of(teacherDouble));
 
         //act
         Optional<Teacher> optT1 = ctrl.getTeacherByNIF("123456789");
@@ -59,12 +58,10 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void returnsEmptyOptionalWhenNIFNotFoundInTeacherRepository () throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repo = new TeacherRepository(teacherFactory);
-        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        repo.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
+        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
+
+        when(repositoryDouble.getTeacherByNIF("477123321")).thenReturn(Optional.empty());
 
         //act
         Optional<Teacher> optT1 = ctrl.getTeacherByNIF("987654321");
@@ -86,12 +83,10 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void throwsExceptionWhenNIFIsNullBlankOrEmpty(String NIF) throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repo = new TeacherRepository(teacherFactory);
-        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        repo.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
+        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
+
+        when(repositoryDouble.getTeacherByNIF(NIF)).thenReturn(Optional.empty());
 
         //act
         Optional<Teacher> optT1 = ctrl.getTeacherByNIF(NIF);
@@ -104,15 +99,14 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void successfullyUpdatesTeacherWorkingPercentage () throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo = new TeacherRepository(teacherFactory);
-        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
+        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
+        Teacher teacherDouble = mock(Teacher.class);
+
+        when(teacherDouble.updateWorkingPercentageInTeacherCareerProgression("15-04-2008", 50)).thenReturn(true);
 
         //act
-        boolean result = ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacher,"15-04-2008", 50);
+        boolean result = ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacherDouble,"15-04-2008", 50);
 
         //assert
         assertTrue(result);
@@ -122,15 +116,14 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void throwsExceptionIfGivenWorkingPercentageIsTheSameAsLastRegisteredWorkingPercentage () throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo = new TeacherRepository(teacherFactory);
-        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
+        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
+        Teacher teacherDouble = mock(Teacher.class);
+        when(teacherDouble.updateWorkingPercentageInTeacherCareerProgression("15-04-2008", 70))
+                .thenThrow(new IllegalArgumentException("Working percentage must be different than the last working percentage!"));
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacher,"15-04-2008", 70));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacherDouble,"15-04-2008", 70));
 
         //assert
         assertEquals("Working percentage must be different than the last working percentage!", exception.getMessage());
@@ -148,15 +141,15 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void throwsExceptionIfGivenDateIsNotAfterLastRegisteredDate(String date, String expectedException) throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo = new TeacherRepository(teacherFactory);
-        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repo);
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dpt1);
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
+        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
+        Teacher teacherDouble = mock(Teacher.class);
+
+        when(teacherDouble.updateWorkingPercentageInTeacherCareerProgression(date, 50))
+                .thenThrow(new IllegalArgumentException("Date must be greater than the last date registered!"));
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacher,date, 50));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacherDouble, date, 50));
 
         //assert
         assertEquals(expectedException, exception.getMessage());
