@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         //US28
         @Test
-        public void removeExistingEnrollment() throws IllegalArgumentException {
+        void removeExistingEnrollment() throws IllegalArgumentException {
             // arrange
             CourseEditionEnrollmentRepository repository = mock(CourseEditionEnrollmentRepository.class);
             US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
@@ -29,7 +29,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         }
 
         @Test
-        public void removeNonExistingEnrollment() throws IllegalArgumentException {
+        void removeNonExistingEnrollment() throws IllegalArgumentException {
             // arrange
             CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
             CourseEditionEnrollmentRepository repository= new CourseEditionEnrollmentRepository (factoryDouble);
@@ -77,7 +77,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     }
 
     @Test
-    public void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
+    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
         // arrange
         CourseEditionEnrollmentRepository repository = mock(CourseEditionEnrollmentRepository.class);
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
