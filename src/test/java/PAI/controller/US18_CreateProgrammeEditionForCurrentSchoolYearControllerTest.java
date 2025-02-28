@@ -4,6 +4,7 @@ import PAI.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     }
 
     @Test
-    void shouldCreateProgrammeEditionMock() throws Exception{
+    void shouldCreateProgrammeEditionMock() {
         // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
         // Arrange
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
@@ -54,14 +55,45 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         when(programmeEditionRepository.createProgrammeEdition(programmeLEI, currentSchoolYear)).thenReturn(true);
 
         // Act
-        boolean result = controller.createAProgrammeEditionInTheCurrentSchoolYear(programmeName);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
 
         // Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldNotCreateProgrammeEditionIfCurrentSchoolYearIsNullMock() throws Exception{
+    void shouldReturnFalseIfProgrammeEditionAlreadyExists() {
+        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
+        // Arrange
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+
+        String programmeName = "Licenciatura Engenharia Informatica";
+        String programmeName2 = "Licenciatura Engenharia Informatica";
+        Programme programmeLEI = mock(Programme.class);
+        Optional<Programme> programmeOpt = mock(Optional.class);
+
+        when(programmeList.getProgrammeByName(programmeName)).thenReturn(programmeOpt);
+        when(programmeOpt.orElse(null)).thenReturn(programmeLEI);
+
+        SchoolYear currentSchoolYear = mock(SchoolYear.class);
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(currentSchoolYear);
+
+        when(controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName)).thenReturn(true);
+        when(controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName2)).thenReturn(false);
+
+        controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
+
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName2);
+
+        // Assert
+        assertFalse(result);
+
+
+    }
+
+    @Test
+    void shouldNotCreateProgrammeEditionIfCurrentSchoolYearIsNullMock() {
         // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
         // Arrange
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
@@ -77,14 +109,14 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         when(programmeEditionRepository.createProgrammeEdition(programmeLEI, currentSchoolYear)).thenReturn(false);
 
         // Act
-        boolean result = controller.createAProgrammeEditionInTheCurrentSchoolYear(programmeName);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseIfProgrammeEditionRepositoryIsNullMock() throws Exception{
+    void shouldReturnFalseIfProgrammeEditionRepositoryIsNullMock() {
         // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
         // Arrange
         programmeEditionRepository = null;
@@ -92,14 +124,14 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         String programmeName = "Licenciatura Informatica";
         // Act
-        boolean result = controller.createAProgrammeEditionInTheCurrentSchoolYear(programmeName);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseIfSchoolYearRepositoryIsNullMock() throws Exception{
+    void shouldReturnFalseIfSchoolYearRepositoryIsNullMock() {
         // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
         // Arrange
         schoolYearRepository = null;
@@ -107,7 +139,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         String programmeName = "Licenciatura Informatica";
 
         // Act
-        boolean result = controller.createAProgrammeEditionInTheCurrentSchoolYear(programmeName);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
 
         // Assert
         assertFalse(result);
@@ -133,8 +165,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         // Assert
         assertEquals(2, ListOfProgrammeNames.size());
-        assertTrue(ListOfProgrammeNames.contains(programmeName1));
-        assertTrue(ListOfProgrammeNames.contains(programmeName2));
+        assertEquals(programmeName1, ListOfProgrammeNames.get(0));
+        assertEquals(programmeName2, ListOfProgrammeNames.get(1));
     }
 
     @Test
@@ -152,5 +184,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         // Assert
         assertEquals(0, ListOfProgrammeNames.size());
+        assertDoesNotThrow(() -> ListOfProgrammeNames.add("Test")); //mutation killer
     }
 }

@@ -17,7 +17,7 @@ PL --> CPEC -- : programmeNamesList
 CPEC --> UI -- : programmeNamesList
 UI -> ASC --  : Which Programme?
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
-UI -> CPEC ++ #application : createAProgrammeEditionInTheCurrentSchoolYear(Licenciatura Engenharia Informática)
+UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(Licenciatura Engenharia Informática)
 
 CPEC -> PL ++ #application : getProgrammeByName(Licenciatura Engenharia Informática)
 PL --> CPEC -- : programme

@@ -26,7 +26,7 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         return _programmeList.getAllProgrammeNames();
     }
 
-    public boolean createAProgrammeEditionInTheCurrentSchoolYear (String programmeName){
+    public boolean createAProgrammeEditionForTheCurrentSchoolYear(String programmeName){
 
         if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
 
