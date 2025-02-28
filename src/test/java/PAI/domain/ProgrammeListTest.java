@@ -260,5 +260,53 @@ class ProgrammeListTest {
 
     }
 
+    @Test
+    void shouldReturnAListOfProgrammeNamesMock() throws Exception {
+        // SUT = ProgrammeList - getAllProgrammeNames
+        // Arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeRepo = new ProgrammeList(programmeFactory);
 
+        String name1 = "MATEMATICA";
+        String name2 = "ENGENHARIA";
+        String acronym1 = "MAT";
+        int quantityOfEcts1 = 90;
+        int quantityOfSemesters1 = 4;
+        DegreeType master1 = mock(DegreeType.class);
+        Department cse1 = mock(Department.class);
+        Teacher teacher1 = mock(Teacher.class);
+
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1)).thenReturn(programme1);
+        when(programmeFactory.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1)).thenReturn(programme2);
+
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1);
+        programmeRepo.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1);
+
+        when(programme1.getProgrammeName()).thenReturn(name1);
+        when(programme2.getProgrammeName()).thenReturn(name2);
+
+        // Act
+        List <String> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
+
+        // Assert
+        assertEquals(2,listOfProgrammeNames.size());
+        assertTrue(listOfProgrammeNames.contains(name1));
+        assertTrue(listOfProgrammeNames.contains(name2));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfProgrammeNamesIfThereAreNoProgrammesInTheProgrammeListMock() throws Exception {
+        // SUT = ProgrammeList - getAllProgrammeNames
+        // Arrange
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeList programmeRepo = new ProgrammeList(programmeFactory);
+
+        // Act
+        List <String> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
+
+        // Assert
+        assertEquals(0,listOfProgrammeNames.size());
+    }
 }

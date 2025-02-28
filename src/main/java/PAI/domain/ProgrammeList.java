@@ -59,4 +59,13 @@ public class ProgrammeList {
         }
         return null;
     }
+
+    public List<String>  getAllProgrammeNames() {
+
+        List<String> list = new ArrayList<>();
+        for (Programme programme : programmeList) {
+            list.add(programme.getProgrammeName());
+        }
+        return list;
+    }
 }
