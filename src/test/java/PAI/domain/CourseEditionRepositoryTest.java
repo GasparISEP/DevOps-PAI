@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -300,23 +301,29 @@ class CourseEditionRepositoryTest {
     @Test
     void shouldReturnCourseEditionsWithSameProgrammeEdition() throws Exception {
         // Arrange
+        CourseEditionFactory doubleCourseEditionFactory = mock(CourseEditionFactory.class);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactory);
         Course doubleCourse1 = mock(Course.class);
         Course doubleCourse2 = mock(Course.class);
+        CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
+        CourseEdition doubleCourseEdition2 = mock(CourseEdition.class);
         ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
 
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory);
+       when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1,doubleProgrammeEdition1)).thenReturn(doubleCourseEdition1);
+       when(doubleCourseEditionFactory.newCourseEdition(doubleCourse2,doubleProgrammeEdition1)).thenReturn(doubleCourseEdition2);
+       when(doubleCourseEdition1.whatProgrammeEditionBelongsThisCourseEdition()).thenReturn(doubleProgrammeEdition1);
+       when(doubleCourseEdition2.whatProgrammeEditionBelongsThisCourseEdition()).thenReturn(doubleProgrammeEdition1);
+
         courseEditionRepository.createAndSaveCourseEdition(doubleCourse1, doubleProgrammeEdition1);
         courseEditionRepository.createAndSaveCourseEdition(doubleCourse2, doubleProgrammeEdition1);
-
 
         // Act
         List<CourseEdition> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition1);
 
         // Assert
         assertEquals(2, result.size());
-        assertTrue(result.contains(new CourseEdition(doubleCourse1, doubleProgrammeEdition1)));
-        assertTrue(result.contains(new CourseEdition(doubleCourse2, doubleProgrammeEdition1)));
+        assertTrue(result.contains(doubleCourseEdition1));
+        assertTrue(result.contains(doubleCourseEdition2));
 
     }
 
@@ -325,23 +332,23 @@ class CourseEditionRepositoryTest {
     void shouldReturnProgrammeEditionWhenCourseEditionExists() throws Exception {
         // Arrange
         Course doubleCourse1 = mock(Course.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+        CourseEdition doubleCourseEdition = mock(CourseEdition.class);
         CourseEditionFactory doubleCourseEditionFactory = mock(CourseEditionFactory.class);
         CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactory);
 
-        when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1, programmeEdition)).thenReturn(courseEdition);
+        when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1, doubleProgrammeEdition)).thenReturn(doubleCourseEdition);
 
-        repository.createAndSaveCourseEdition(doubleCourse1, programmeEdition);
+        repository.createAndSaveCourseEdition(doubleCourse1, doubleProgrammeEdition);
 
-        when(repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition)).thenReturn(programmeEdition);
+        when(repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition)).thenReturn(doubleProgrammeEdition);
 
         // Act
-        ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
+        ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition);
 
         // Assert
         assertNotNull(result, "The returned ProgrammeEdition should not be null.");
-        assertEquals(programmeEdition, result, "The returned ProgrammeEdition should match the one associated with the CourseEdition.");
+        assertEquals(doubleProgrammeEdition, result, "The returned ProgrammeEdition should match the one associated with the CourseEdition.");
     }
 
     //US16
