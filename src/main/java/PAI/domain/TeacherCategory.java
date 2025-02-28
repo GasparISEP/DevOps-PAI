@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import java.util.Objects;
+
 public class TeacherCategory {
 
     private String _name;
@@ -24,30 +26,17 @@ public class TeacherCategory {
         return _name;
     }
 
-
     @Override
-    public boolean equals (Object objectToCompare){
-
-        if (!(objectToCompare instanceof TeacherCategory)) {
-            return false;
-        }
-        TeacherCategory testCategory = (TeacherCategory) objectToCompare;
-
-        return _name.equals(testCategory._name);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        TeacherCategory that = (TeacherCategory) obj;
+        return Objects.equals(_name, that._name); // Compare names
     }
-//@Override
-//public boolean equals(Object o) {
-//    if (this == o) return true;
-//    if (o == null || getClass() != o.getClass()) return false;
-//    TeacherCategory that = (TeacherCategory) o;
-//    return _name.equals(that._name);
-//}
 
     @Override
     public int hashCode() {
-        return _name.hashCode();
+        return Objects.hash(_name); // Hash based on name
     }
-
-
 
 }
