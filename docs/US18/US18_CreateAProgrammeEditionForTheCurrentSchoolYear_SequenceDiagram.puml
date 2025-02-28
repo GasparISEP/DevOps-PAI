@@ -4,17 +4,17 @@ autonumber
 Actor ASC
 
 participant ":UI" as UI
-participant ":CreateAProgrammeEditionInTheCurrentSchoolYearController" as CPEC
+participant ":CreateAProgrammeEditionForTheCurrentSchoolYearController" as CPEC
 participant ":ProgrammeList" as PL
-participant ":SchoolYearRepo" as SYR
-participant ":ProgrammeEditionRepo" as PER
+participant ":SchoolYearRepository" as SYR
+participant ":ProgrammeEditionRepository" as PER
 participant ":ProgrammeEditionFactory" as PEF
 
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
-UI -> CPEC ++ #application : getAllProgrammesNames()
-CPEC -> PL ++ #application : getAllProgrammesNames()
-PL --> CPEC -- : programmeNameList
-CPEC --> UI -- : programmeNameList
+UI -> CPEC ++ #application : getAllProgrammeNames()
+CPEC -> PL ++ #application : getAllProgrammeNames()
+PL --> CPEC -- : programmeNamesList
+CPEC --> UI -- : programmeNamesList
 UI -> ASC --  : Which Programme?
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
 UI -> CPEC ++ #application : createAProgrammeEditionInTheCurrentSchoolYear(Licenciatura Engenharia Informática)
@@ -37,7 +37,7 @@ PER --
 CPEC --> UI : true
 CPEC --
 UI --> ASC -- : Programme Edition created for the current school year!
-participant "programmeList:List<Programme>"
+participant "programmeNameList:List<String>"
 participant "programme:Programme"
 participant "currentSchoolYear:SchoolYear"
 @enduml
