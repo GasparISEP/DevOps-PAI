@@ -14,53 +14,56 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldAlwaysCreateObjectController() {
         // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        DepartmentFactory factory = new DepartmentFactory();
-        DepartmentRepository dpt = new DepartmentRepository(factory);
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository tr = new TeacherRepository(teacherFactory);
+        TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
+        DepartmentRepository dptDouble = mock(DepartmentRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
 
         // Act
-        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcr, dpt, tr);
+        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptDouble, trDouble);
     }
 
     @Test
     void shouldReturnExceptionIfCategoriesListIsEmpty() throws IllegalStateException {
         // Arrange
-        TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
-        TeacherCategoryRepository tcr = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        US13_RegisterTeacherAndRelevantDataController tcrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcr, null, null);
+        TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
+        DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
+        US13_RegisterTeacherAndRelevantDataController tcrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptrDouble, trDouble);
+
+        when(tcrDouble.getTeacherCategoryList()).thenThrow(new IllegalStateException("Teacher Category list is empty."));
+
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> tcrControllerList.getTeacherCategoryList());
     }
 
-    @Test
-    void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
-        // Arrange
-        TeacherCategoryRepository doubleTeacherCategoryRepository = mock(TeacherCategoryRepository.class);
-        DepartmentRepository doubleDepartmentRepository = mock(DepartmentRepository.class);
-        TeacherRepository doubleTeacherRepository = mock(TeacherRepository.class);
-        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(doubleTeacherCategoryRepository, doubleDepartmentRepository, doubleTeacherRepository);
 
-        TeacherCategory teacherCategoryMock1 = mock(TeacherCategory.class);
-        TeacherCategory teacherCategoryMock2 = mock(TeacherCategory.class);
-        when(doubleTeacherCategoryRepository.getTeacherCategoryList()).thenReturn(List.of(teacherCategoryMock1, teacherCategoryMock2));
+    @Test
+    void shouldReturnCategoryListWithRegisteredCategories() {
+        // Arrange
+        DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
+        TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        List<TeacherCategory> tcListDouble = List.of(tcDouble);
+        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptrDouble, trDouble);
+
+        when(tcrDouble.getTeacherCategoryList()).thenReturn(tcListDouble);
 
         // Act
         List<TeacherCategory> result = controller.getTeacherCategoryList();
-
         // Assert
-        assertEquals(2, result.size());
-        assertTrue(result.contains(teacherCategoryMock1));
-        assertTrue(result.contains(teacherCategoryMock2));
+        assertEquals(result, tcListDouble);
     }
 
     @Test
     void shouldReturnExceptionIfDepartmentsListIsEmpty() throws IllegalStateException {
-        DepartmentFactory factory= new DepartmentFactory();
-        DepartmentRepository dptr = new DepartmentRepository(factory);
-        US13_RegisterTeacherAndRelevantDataController dptrControllerList = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);
+        TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
+        DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
+        US13_RegisterTeacherAndRelevantDataController dptrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptrDouble, trDouble);
+
+        when(dptrDouble.getDepartmentList()).thenThrow(new IllegalStateException("Department list is empty."));
+
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> dptrControllerList.getDepartmentsList());
     }
@@ -80,21 +83,27 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldRegisterTeacher() throws Exception {
+    void shouldRegisterTeacher() {
         // Arrange
-        TeacherCategory tc = new TeacherCategory("Assistant Professor");
-        Department dpt = new Department("CSE", "Computer Science");
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository teacherRepository = new TeacherRepository(teacherFactory);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
+        TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
+        DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
+
+        when(trDouble.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
+                "123456789", "B146", "12-05-2019, PhD, ISEP",
+                "123 Main St", "12345", "Cityville", "Countryland",
+                "23-01-2025", tcDouble, 100, dptDouble)).thenReturn(true);
+
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(
-                null, null, teacherRepository
-        );
+                tcrDouble, dptrDouble, trDouble);
 
         // Act
         boolean result = controller.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
                 "123 Main St", "12345", "Cityville", "Countryland",
-                "23-01-2025", tc, 100, dpt);
+                "23-01-2025", tcDouble, 100, dptDouble);
 
         // Assert
         assertTrue(result);
