@@ -104,9 +104,9 @@ class CourseEditionEnrollmentTest {
         assertFalse(enrollment1.equals(enrollment2));
     }
 
-    //US17
+
     @Test
-    void shouldReturnCourseEditionFromEnrollment() throws Exception {
+    void shouldReturnCourseEditionFromEnrollment()  {
         // Arrange
         Student st1 = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -121,7 +121,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnStudentInCourseEditionEnrollment() throws Exception {
+    void shouldReturnStudentInCourseEditionEnrollment()  {
         // Arrange
         Student st1 = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -168,9 +168,9 @@ class CourseEditionEnrollmentTest {
         assertEquals(doubleCe1, returnedCourseEdition);
     }
 
-    //US17
+
     @Test
-    void shouldReturnStudentInCourseEdition() throws Exception {
+    void shouldReturnStudentInCourseEdition() {
         // Arrange
         Student st1 = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
