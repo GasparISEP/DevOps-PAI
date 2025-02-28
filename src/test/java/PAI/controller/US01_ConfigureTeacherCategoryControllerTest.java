@@ -60,4 +60,40 @@ public class US01_ConfigureTeacherCategoryControllerTest {
         assertTrue(result);
         verify(repository).registerTeacherCategory(categoryName); // Verify that the method was called
     }
+
+    @Test
+    public void testAddCategoryWithSpecialCharacters() throws Exception { //Ensures that category names with special characters are handled properly
+        // Arrange
+        String specialCharCategory = "Comp#Sci!";
+
+        when(repository.registerTeacherCategory(specialCharCategory)).thenReturn(true);
+
+        // Act
+        boolean result = controller.configureTeacherCategory(specialCharCategory);
+
+        // Assert
+        assertTrue(result);
+        verify(repository).registerTeacherCategory(specialCharCategory);
+    }
+
+    @Test
+    public void testCaseSensitivityInCategoryNames() throws Exception { //Ensures that the system handles case sensitivity properly.
+        // Arrange
+        String categoryLower = "math";
+        String categoryUpper = "Math";
+
+        when(repository.registerTeacherCategory(categoryLower)).thenReturn(true);
+        when(repository.registerTeacherCategory(categoryUpper)).thenReturn(true);
+
+        // Act
+        boolean resultLower = controller.configureTeacherCategory(categoryLower);
+        boolean resultUpper = controller.configureTeacherCategory(categoryUpper);
+
+        // Assert
+        assertTrue(resultLower);
+        assertTrue(resultUpper);
+        verify(repository).registerTeacherCategory(categoryLower);
+        verify(repository).registerTeacherCategory(categoryUpper);
+    }
+
 }
