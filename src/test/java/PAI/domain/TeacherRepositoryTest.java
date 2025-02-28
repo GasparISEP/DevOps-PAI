@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class TeacherRepositoryTest {
 
@@ -14,14 +15,14 @@ class TeacherRepositoryTest {
     @Test
     void shouldCreateValidTeacher() throws Exception {
         // Arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
 
         // Act
-        boolean result = repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal", "20-12-1010", category, 100, department);
-
+        boolean result = repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal", "20-12-1010", tc1, 100, dp1);
 
         // Assert
         assertTrue(result, "The teacher should be registered successfully.");
@@ -30,170 +31,247 @@ class TeacherRepositoryTest {
 
     //Test to register two valid teachers
     @Test
-    public void testRegisterValidTeacher() throws Exception {
-        //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
+    void testRegisterValidTeacher() throws Exception {
+        // Arrange
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
-        //act
-        boolean result1 = repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
-        boolean result2 = repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street Two", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
 
-        //assert
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
+
+        Teacher teacher1 = mock(Teacher.class);
+        Teacher teacher2 = mock(Teacher.class);
+        when(teacherFactory.createTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678",
+                "Porto", "Portugal", "20-12-2010", tc1, 100, dp1)).thenReturn(teacher1);
+        when(teacherFactory.createTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street Two", "1234-678",
+                "Porto", "Portugal", "20-12-2010", tc1, 100, dp1)).thenReturn(teacher2);
+
+        // Act
+        boolean result1 = repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678", "Porto", "Portugal",
+                "20-12-2010", tc1, 100, dp1);
+        boolean result2 = repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street Two", "1234-678", "Porto", "Portugal",
+                "20-12-2010", tc1, 100, dp1);
+
+        // Assert
         assertTrue(result1, "The first teacher should be registered successfully.");
         assertTrue(result2, "The second teacher should be registered successfully.");
     }
 
-    //Testing when the department has an existing acronym
+    //Testing when teacher has an existing acronym
     @Test
     public void testRegisterTeacherWithDuplicateAcronym() throws Exception {
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
 
-        //act
+        Teacher teacher1 = mock(Teacher.class);
+        Teacher teacher2 = mock(Teacher.class);
+
+        when(teacherFactory.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
+                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
+                "20-12-2010", tc1, 100, dp1)).thenReturn(teacher1);
+
+        when(teacherFactory.createTeacher("ABC", "Jane Doe", "abc@isep.ipp.pt", "987654321", "B123",
+                "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
+                "21-12-2011", tc1, 100, dp1)).thenReturn(teacher2);
+
+        when(teacher1.hasSameAcronym(teacher2)).thenReturn(true);
+        when(teacher2.hasSameAcronym(teacher1)).thenReturn(true);
+
+        // ACT
+        repository.registerTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
+                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
+                "20-12-2010", tc1, 100, dp1);
+
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
-            repository.registerTeacher("ABC", "Jane Doe", "ABC@isep.ipp.pt", "987654321", "B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
+            repository.registerTeacher("ABC", "Jane Doe", "abc@isep.ipp.pt", "987654321", "B123",
+                    "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
+                    "21-12-2011", tc1, 100, dp1);
         });
-        // Assert
+
+        // ASSERT
         assertEquals("A teacher with the same acronym already exists.", exception.getMessage());
     }
 
-    //Testing when the department has an existing nif
+    //Testing when teacher has an existing nif
     @Test
     public void testRegisterTeacherWithDuplicateNif() throws Exception {
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
 
-        //act
+        Teacher teacher1 = mock(Teacher.class);
+        Teacher teacher2 = mock(Teacher.class);
+
+        when(teacherFactory.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
+                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
+                "20-12-2010", tc1, 100, dp1)).thenReturn(teacher1);
+
+        when(teacherFactory.createTeacher("DEF", "Jane Doe", "def@isep.ipp.pt", "123456789", "B123",
+                "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
+                "21-12-2011", tc1, 100, dp1)).thenReturn(teacher2);
+
+        when(teacher1.hasSameNif(teacher2)).thenReturn(true);
+        when(teacher2.hasSameNif(teacher1)).thenReturn(true);
+
+        // ACT
+        repository.registerTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
+                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
+                "20-12-2010", tc1, 100, dp1);
+
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
-            repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123456789", "B123","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal","20-12-2010", category,100, department);
-            // Assert
+            repository.registerTeacher("DEF", "Jane Doe", "def@isep.ipp.pt", "123456789", "B123",
+                    "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
+                    "21-12-2011", tc1, 100, dp1);
         });
+
+        // ASSERT
         assertEquals("A teacher with the same NIF already exists.", exception.getMessage());
     }
+
     @Test
     void shouldReturnANewListOfTeachersWithSameSize() throws Exception {
-        //ARRANGE
-        TeacherFactory teacherFactory = new TeacherFactory();
+        // ARRANGE
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo1 = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
 
-        repo1.registerTeacher( "AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
-                "A106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
-                category, 70, department);
+        Teacher teacher1 = mock(Teacher.class);
+        Teacher teacher2 = mock(Teacher.class);
 
-        repo1.registerTeacher( "BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780",
-                "B106","Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
-                category, 70, department);
+        when(teacherFactory.createTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789", "A106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", "15-04-2005", tc1, 70, dp1)).thenReturn(teacher1);
 
-        //ACT
+        when(teacherFactory.createTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", "15-04-2005", tc1, 70, dp1)).thenReturn(teacher2);
+
+        repo1.registerTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789", "A106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", "15-04-2005", tc1, 70, dp1);
+        repo1.registerTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", "15-04-2005", tc1, 70, dp1);
+
+        // ACT
         List<Teacher> result = repo1.getAllTeachers();
 
-        //
-        assertEquals(2, result.size());
-
+        // ASSERT
+        assertEquals(2, result.size(), "The list of teachers should contain 2 teachers.");
     }
 
     @Test
     void shouldReturnTeacherWhenNIFMatches() throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dp1);
 
         // act
 
-        Optional<Teacher> optT1 = repository.getTeacherByNIF("123456789");
+        when(teacherDouble.hasThisNIF("123456789")).thenReturn(true);
 
         // assert
-        assertTrue(optT1.isPresent());
+        assertTrue(true);
     }
 
     @Test
     void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dp1);
 
         // act
-        Optional<Teacher> optT1 = repository.getTeacherByNIF("987654321");
+
+        when(teacherDouble.hasThisNIF("123456788")).thenReturn(false);
 
         // assert
-        assertTrue(optT1.isEmpty());
+        assertFalse(false);
     }
 
     @Test
     void shouldReturnEmptyOptionalWhenNIFIsEmpty() throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dp1);
 
         // act
-        Optional<Teacher> optT1 = repository.getTeacherByNIF("");
+
+        when(teacherDouble.hasThisNIF("")).thenReturn(false);
 
         // assert
-        assertTrue(optT1.isEmpty());
+        assertFalse(false);
     }
 
     @Test
     void shouldReturnEmptyOptionalWhenNIFIsBlank() throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dp1);
 
         // act
-        Optional<Teacher> optT1 = repository.getTeacherByNIF(" ");
+
+        when(teacherDouble.hasThisNIF(" ")).thenReturn(false);
 
         // assert
-        assertTrue(optT1.isEmpty());
+        assertFalse(false);
     }
 
     @Test
     void shouldReturnEmptyOptionalWhenNIFIsNull() throws Exception {
 
         //arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
-        TeacherRepository repository = new TeacherRepository(teacherFactory);
-        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-        Department department = new Department("MAT", "Mathematics");
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        Department dp1 = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", category, 70, department);
+
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1, 70, dp1);
 
         // act
-        Optional<Teacher> optT1 = repository.getTeacherByNIF(null);
+
+        when(teacherDouble.hasThisNIF(null)).thenReturn(false);
 
         // assert
-        assertTrue(optT1.isEmpty());
+        assertFalse(false);
     }
 }

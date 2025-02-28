@@ -66,8 +66,7 @@ public class CourseEditionEnrollmentRepository {
         validateCourseEdition(courseEdition);
 
         int count = 0;
-        for (int i = 0; i < _courseEditionEnrollments.size(); i++) {
-            CourseEditionEnrollment enrollment = _courseEditionEnrollments.get(i);
+        for (CourseEditionEnrollment enrollment : _courseEditionEnrollments) {
             if (enrollment.knowCourseEdition().equals(courseEdition)) {
                 count++;
             }

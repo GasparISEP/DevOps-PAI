@@ -8,16 +8,11 @@ public class US14_UpdateTeachersCategoryController {
 
     private TeacherRepository _teacherRepository;
     private TeacherCategoryRepository _teacherCategoryRepository;
-    private final TeacherCategoryRepositoryFactory _teacherCategoryRepositoryFactory;
-    private final TeacherRepositoryFactory _teacherRepositoryFactory;
     private TeacherFactory _teacherFactory;
 
-    public US14_UpdateTeachersCategoryController(TeacherRepositoryFactory teacherRepositoryFactory, TeacherCategoryRepositoryFactory teacherCategoryRepositoryFactory, TeacherFactory teacherFactory) {
-        _teacherRepositoryFactory = teacherRepositoryFactory;
-        _teacherCategoryRepositoryFactory = teacherCategoryRepositoryFactory;
-
-        _teacherRepository = _teacherRepositoryFactory.newTeacherRepository(_teacherFactory);
-        _teacherCategoryRepository = _teacherCategoryRepositoryFactory.newTeacherCategoryRepository();
+    public US14_UpdateTeachersCategoryController(TeacherRepository teacherRepository, TeacherCategoryRepository teacherCategoryRepository) {
+        _teacherRepository = teacherRepository;
+        _teacherCategoryRepository = teacherCategoryRepository;
     }
 
     public boolean updateTeacherCategory(String date, String teacherNIF, String teacherCategoryName) {
@@ -31,15 +26,15 @@ public class US14_UpdateTeachersCategoryController {
             throw new IllegalArgumentException("Teacher Category is invalid");
         }
         else {
-        Optional<Teacher> optionalTeacher = _teacherRepository.getTeacherByNIF(teacherNIF);
-        Teacher teacher = optionalTeacher.orElseThrow(() ->
-                new IllegalArgumentException("Teacher with NIF " + teacherNIF + " not found"));
-        Optional<TeacherCategory> optionalTeacherCategory = _teacherCategoryRepository.getTeacherCategoryByName(teacherCategoryName);
-        TeacherCategory teacherCategory = optionalTeacherCategory.orElseThrow(() ->
-                new IllegalArgumentException("Teacher Category with name " + teacherCategoryName + " not found"));
+            Optional<Teacher> optionalTeacher = _teacherRepository.getTeacherByNIF(teacherNIF);
+            Teacher teacher = optionalTeacher.orElseThrow(() ->
+                    new IllegalArgumentException("Teacher with NIF " + teacherNIF + " not found"));
+            Optional<TeacherCategory> optionalTeacherCategory = _teacherCategoryRepository.getTeacherCategoryByName(teacherCategoryName);
+            TeacherCategory teacherCategory = optionalTeacherCategory.orElseThrow(() ->
+                    new IllegalArgumentException("Teacher Category with name " + teacherCategoryName + " not found"));
 
-        teacher.updateTeacherCategoryInTeacherCareer(date, teacherCategory);
-        return true;
+            teacher.updateTeacherCategoryInTeacherCareer(date, teacherCategory);
+            return true;
         }
     }
 }
