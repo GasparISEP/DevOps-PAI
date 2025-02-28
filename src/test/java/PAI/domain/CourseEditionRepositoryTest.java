@@ -351,7 +351,6 @@ class CourseEditionRepositoryTest {
         assertEquals(doubleProgrammeEdition, result, "The returned ProgrammeEdition should match the one associated with the CourseEdition.");
     }
 
-    //US16
     @Test
     void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListEmpty() throws Exception {
         //arrange
@@ -371,15 +370,14 @@ class CourseEditionRepositoryTest {
     @Test
     void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListWithElements() throws Exception {
         // arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionFactory courseEditionFactory = mock(CourseEditionFactory.class);
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
-
-        ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
-        Course mockCourse1 = mock(Course.class);
-
+        ProgrammeEdition ProgrammeEditionDouble = mock(ProgrammeEdition.class);
+        Course CourseDouble = mock(Course.class);
         CourseEdition courseEditionToFindDouble = mock(CourseEdition.class);
 
-        repository.createAndSaveCourseEdition(mockCourse1, mockProgrammeEdition);
+        when(courseEditionFactory.newCourseEdition(any(), any())).thenReturn(mock(CourseEdition.class));
+        repository.createAndSaveCourseEdition(CourseDouble, ProgrammeEditionDouble);
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {

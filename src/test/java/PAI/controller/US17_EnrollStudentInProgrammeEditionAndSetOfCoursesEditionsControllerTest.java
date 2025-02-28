@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_Success() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_Success() {
         // Arrange
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -67,7 +67,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() {
         // Arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -99,7 +99,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() {
         // Arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -132,7 +132,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() throws Exception {
+    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() {
         // Arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -167,7 +167,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     }
 
     @Test
-    void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() throws Exception {
+    void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() {
         // Mocks
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);

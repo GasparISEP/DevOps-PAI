@@ -4,6 +4,7 @@ import PAI.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
@@ -25,9 +26,12 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         return _programmeList.getAllProgrammeNames();
     }
 
-    public boolean createAProgrammeEditionInTheCurrentSchoolYear (Programme programme){
+    public boolean createAProgrammeEditionInTheCurrentSchoolYear (String programmeName){
 
         if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
+
+        Optional<Programme> programmeOpt = _programmeList.getProgrammeByName(programmeName);
+        Programme programme = programmeOpt.orElse(null);
 
         SchoolYear currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
         if(currentSchoolYear == null) return false;
@@ -35,9 +39,5 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         boolean isCreated = _programmeEditionRepository.createProgrammeEdition(programme, currentSchoolYear);
 
         return isCreated;
-    }
-
-    public List<Programme> getProgrammeList(){
-        return _programmeList.getAllProgrammes();
     }
 }
