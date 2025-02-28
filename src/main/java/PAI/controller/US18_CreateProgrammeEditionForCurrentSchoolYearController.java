@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
@@ -15,6 +16,13 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
         _programmeList = programmeList;
+    }
+
+    public List<String> getAllProgrammeNames(){
+
+        if (_programmeList == null)
+            return new ArrayList<>();
+        return _programmeList.getAllProgrammeNames();
     }
 
     public boolean createAProgrammeEditionInTheCurrentSchoolYear (Programme programme){

@@ -7,7 +7,7 @@ participant ":UI" as UI
 participant ":CreateAProgrammeEditionForTheCurrentSchoolYearController" as CPEC
 participant ":ProgrammeList" as PL
 participant ":SchoolYearRepository" as SYR
-participant ":ProgrammeEditionRepository" as PER
+participant ":ProgrammeEditionRepository-" as PER
 participant ":ProgrammeEditionFactory" as PEF
 
 ASC -> UI ++ #application : I want to create a programme edition for the current school year

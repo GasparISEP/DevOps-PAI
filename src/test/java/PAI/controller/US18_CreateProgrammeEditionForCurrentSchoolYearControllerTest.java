@@ -148,6 +148,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
     @Test
     void shouldCreateControllerMock() {
+        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController
         //arrange
         SchoolYearRepository syr1 = mock(SchoolYearRepository.class);
         ProgrammeEditionRepository per1 = mock(ProgrammeEditionRepository.class);
@@ -203,5 +204,46 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnAListOfAllProgrammeNamesFromRProgrammeList () {
+        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - getAllProgrammeNames
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
+        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeList programmeList = mock(ProgrammeList.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+
+        String programmeName1 = "Licenciatura em Engenharia Informatica";
+        String programmeName2 = "Mestrado em Engenharia Informatica";
+
+        when(programmeList.getAllProgrammeNames()).thenReturn(List.of(programmeName1, programmeName2));
+
+        // Act
+        List <String> ListOfProgrammeNames = controller.getAllProgrammeNames();
+
+        // Assert
+        assertEquals(2, ListOfProgrammeNames.size());
+        assertTrue(ListOfProgrammeNames.contains(programmeName1));
+        assertTrue(ListOfProgrammeNames.contains(programmeName2));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfProgrammeNamesFromRepositoryIfProgrammeListIsNull() {
+        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - getAllProgrammeNames
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
+        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
+        ProgrammeList programmeList = null;
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+
+        // Act
+        List <String> ListOfProgrammeNames = controller.getAllProgrammeNames();
+
+        // Assert
+        assertEquals(0, ListOfProgrammeNames.size());
     }
 }
