@@ -135,4 +135,8 @@ public class Programme {
     public String getAcronym() {
         return _acronym;
     }
+
+    public String getProgrammeName() {
+        return _name;
+    }
 }

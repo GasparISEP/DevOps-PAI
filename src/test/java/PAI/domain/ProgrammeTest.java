@@ -468,4 +468,16 @@ class ProgrammeTest {
         //Assert
         assertEquals("CE", expectedAcronym);
     }
+
+    @Test
+    void shouldReturnProgrammeName() throws Exception {
+        // Arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher);
+
+        // Act
+        String expectedProgrammeName = programme.getProgrammeName();
+
+        // Assert
+        assertEquals("Computer Engineering", expectedProgrammeName);
+    }
 }
