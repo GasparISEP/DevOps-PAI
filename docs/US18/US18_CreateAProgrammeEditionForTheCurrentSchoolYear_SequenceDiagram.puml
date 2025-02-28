@@ -11,15 +11,15 @@ participant ":ProgrammeEditionRepo" as PER
 participant ":ProgrammeEditionFactory" as PEF
 
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
-UI -> CPEC ++ #application : getAllProgrammes()
-CPEC -> PL ++ #application : getAllProgrammes()
-PL --> CPEC -- : programmeList
-CPEC --> UI -- : programmeList
+UI -> CPEC ++ #application : getAllProgrammesNames()
+CPEC -> PL ++ #application : getAllProgrammesNames()
+PL --> CPEC -- : programmeNameList
+CPEC --> UI -- : programmeNameList
 UI -> ASC --  : Which Programme?
-ASC -> UI ++ #application : Programme LEI
-UI -> CPEC ++ #application : createAProgrammeEditionInTheCurrentSchoolYear(LEI)
+ASC -> UI ++ #application : Licenciatura Engenharia Informática
+UI -> CPEC ++ #application : createAProgrammeEditionInTheCurrentSchoolYear(Licenciatura Engenharia Informática)
 
-CPEC -> PL ++ #application : getProgrammeByAcronym(LEI)
+CPEC -> PL ++ #application : getProgrammeByName(Licenciatura Engenharia Informática)
 PL --> CPEC -- : programme
 CPEC -> SYR ++ #application : getCurrentSchoolYear()
 SYR --> CPEC : currentSchoolYear
