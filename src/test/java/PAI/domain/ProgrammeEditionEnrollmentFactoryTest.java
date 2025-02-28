@@ -8,19 +8,20 @@ import java.time.LocalDate;
 public class ProgrammeEditionEnrollmentFactoryTest {
 
     @Test
-    void shouldCreateProgrammeEditionEnrollment() throws Exception {
+    void shouldCreateProgrammeEditionEnrollment()  {
         // Arrange
         ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
         Student student = mock(Student.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);LocalDate enrollmentDate = LocalDate.now();
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        LocalDate enrollmentDate = LocalDate.now();
 
         // Act
         ProgrammeEditionEnrollment enrollment = factory.newProgrammeEditionEnrollment(student, programmeEdition, enrollmentDate);
 
         // Assert
-        assertNotNull(enrollment); // Checks that ProgrammeEditionEnrollment object is not null
-        assertEquals(student, enrollment.findStudentInProgrammeEdition()); // Checks if student matches
-        assertEquals(programmeEdition, enrollment.findProgrammeEditionInEnrollment()); // Checks if programmeEdition matches
+        assertNotNull(enrollment);
+        assertEquals(student, enrollment.findStudentInProgrammeEdition());
+        assertEquals(programmeEdition, enrollment.findProgrammeEditionInEnrollment());
     }
 
     @Test
@@ -28,7 +29,7 @@ public class ProgrammeEditionEnrollmentFactoryTest {
         // Arrange
         ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        LocalDate enrollmentDate = LocalDate.of(2025, 2, 26);
+        LocalDate enrollmentDate = LocalDate.now();
 
         // Act & Assert
         assertThrows(Exception.class, () -> factory.newProgrammeEditionEnrollment(null, programmeEdition, enrollmentDate));
@@ -39,7 +40,7 @@ public class ProgrammeEditionEnrollmentFactoryTest {
         // Arrange
         ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
         Student student = mock(Student.class);
-        LocalDate enrollmentDate = LocalDate.of(2025, 2, 26);
+        LocalDate enrollmentDate = LocalDate.now();
 
         // Act & Assert
         assertThrows(Exception.class, () -> factory.newProgrammeEditionEnrollment(student, null, enrollmentDate));

@@ -105,7 +105,7 @@ class CourseEditionEnrollmentRepositoryTest {
     }
 
     @Test
-    void shouldConfirmStudentIsNotEnrollInACourseEdition () throws Exception {
+    void shouldConfirmStudentIsNotEnrollInACourseEdition () {
         //arrange
         CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory);
@@ -128,7 +128,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
 
     @Test
-    void shouldReturnCourseEditionEnrollmentWhenStudentIsEnrolled() throws Exception {
+    void shouldReturnCourseEditionEnrollmentWhenStudentIsEnrolled() {
         // Arrange
         CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory);
@@ -156,7 +156,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
 
     @Test
-    void shouldReturnCourseEditionFromEnrollment() throws Exception {
+    void shouldReturnCourseEditionFromEnrollment() {
         // Arrange
         CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory);
@@ -184,7 +184,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
 
     @Test
-    void shouldThrowExceptionWhenStudentOrCourseEditionIsNull() throws Exception {
+    void shouldThrowExceptionWhenStudentOrCourseEditionIsNull() {
         // Arrange
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
@@ -205,7 +205,7 @@ class CourseEditionEnrollmentRepositoryTest {
     }
 
     @Test
-    void shouldReturnOptionalEmptyWhenNoEnrollmentFound() throws Exception {
+    void shouldReturnOptionalEmptyWhenNoEnrollmentFound() {
         // Arrange
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
@@ -222,7 +222,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
 
     @Test
-    void shouldReturnEmptyWhenStudentIsNotEnrolledInCourseEdition() throws Exception {
+    void shouldReturnEmptyWhenStudentIsNotEnrolledInCourseEdition() {
         // Arrange
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (factoryDouble);
@@ -236,8 +236,6 @@ class CourseEditionEnrollmentRepositoryTest {
         // Assert
         assertFalse(result.isPresent(), "Expected no enrollment to be found");
     }
-
-
 
 
     @Test
@@ -330,7 +328,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
 
     @Test
-    public void removeExistingEnrollment() throws Exception {
+    public void removeExistingEnrollment() {
         // arrange
         CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (doubleCeeFactory);
