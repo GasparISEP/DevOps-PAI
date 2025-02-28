@@ -325,23 +325,23 @@ class CourseEditionRepositoryTest {
     void shouldReturnProgrammeEditionWhenCourseEditionExists() throws Exception {
         // Arrange
         Course doubleCourse1 = mock(Course.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+        CourseEdition doubleCourseEdition = mock(CourseEdition.class);
         CourseEditionFactory doubleCourseEditionFactory = mock(CourseEditionFactory.class);
         CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactory);
 
-        when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1, programmeEdition)).thenReturn(courseEdition);
+        when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1, doubleProgrammeEdition)).thenReturn(doubleCourseEdition);
 
-        repository.createAndSaveCourseEdition(doubleCourse1, programmeEdition);
+        repository.createAndSaveCourseEdition(doubleCourse1, doubleProgrammeEdition);
 
-        when(repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition)).thenReturn(programmeEdition);
+        when(repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition)).thenReturn(doubleProgrammeEdition);
 
         // Act
-        ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
+        ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition);
 
         // Assert
         assertNotNull(result, "The returned ProgrammeEdition should not be null.");
-        assertEquals(programmeEdition, result, "The returned ProgrammeEdition should match the one associated with the CourseEdition.");
+        assertEquals(doubleProgrammeEdition, result, "The returned ProgrammeEdition should match the one associated with the CourseEdition.");
     }
 
     //US16
