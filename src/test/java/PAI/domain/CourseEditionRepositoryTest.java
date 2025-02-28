@@ -348,7 +348,7 @@ class CourseEditionRepositoryTest {
     @Test
     void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListEmpty() throws Exception {
         //arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+        CourseEditionFactory courseEditionFactory = mock(CourseEditionFactory.class);
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
@@ -369,9 +369,7 @@ class CourseEditionRepositoryTest {
 
         ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
         Course mockCourse1 = mock(Course.class);
-        Course mockCourse2 = mock(Course.class);
 
-        CourseEdition existingCourseEditionDouble = mock(CourseEdition.class);
         CourseEdition courseEditionToFindDouble = mock(CourseEdition.class);
 
         repository.createAndSaveCourseEdition(mockCourse1, mockProgrammeEdition);

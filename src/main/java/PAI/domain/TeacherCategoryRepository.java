@@ -6,25 +6,22 @@ import java.util.Optional;
 public class TeacherCategoryRepository {
 
     private List<TeacherCategory> _teacherCategoryRepository;
+    private TeacherCategoryFactory teacherCategoryFactory;// Store the factory
 
 
-    //CONSTRUTOR
 
     public TeacherCategoryRepository () {this(new TeacherCategoryFactory());
     }
 
-    public TeacherCategoryRepository (TeacherCategoryFactory doubleTeacherCategoryFactory) {
-
+    public TeacherCategoryRepository(TeacherCategoryFactory teacherCategoryFactory) {
+        this.teacherCategoryFactory = teacherCategoryFactory; // Assign the factory
         _teacherCategoryRepository = new ArrayList<>();
     }
 
 
-
-    //VALIDAÇÕES
-
     public boolean registerTeacherCategory (String name) throws Exception {
 
-        TeacherCategory teacherCategory = new TeacherCategory (name);
+        TeacherCategory teacherCategory = teacherCategoryFactory.createTeacherCategory(name);
 
         if (isTeacherCategoryRegistered(teacherCategory))
             return false;
@@ -36,6 +33,8 @@ public class TeacherCategoryRepository {
 
         return _teacherCategoryRepository.contains(teacherCategory);
     }
+
+
     // New method to retrieve a category by name (support all the operations required by the controller)
     public Optional<TeacherCategory> getTeacherCategoryByName(String name) {
         for (TeacherCategory category : _teacherCategoryRepository) {

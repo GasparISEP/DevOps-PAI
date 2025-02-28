@@ -13,7 +13,9 @@ class TeacherCategoryRepositoryTest {
         // Arrange
         TeacherCategoryFactory doubleTeacherCategoryFactory = mock(TeacherCategoryFactory.class);
         TeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepository(doubleTeacherCategoryFactory);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        //TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        //mock (mock(TeacherCategory.class)) breaks equals(), so we need to create a new real instance
+        TeacherCategory doubleTeacherCategory = new TeacherCategory("Professor Adjunto"); //mock(TeacherCategory.class);
 
         when(doubleTeacherCategoryFactory.createTeacherCategory("Professor Adjunto")).thenReturn(doubleTeacherCategory);
         teacherCategoryRepository.registerTeacherCategory("Professor Adjunto");
@@ -22,7 +24,7 @@ class TeacherCategoryRepositoryTest {
         boolean result = teacherCategoryRepository.isTeacherCategoryRegistered(doubleTeacherCategory);
 
         // Assert
-        assertTrue(!result);
+        assertTrue(result);
     }
 
     @Test
