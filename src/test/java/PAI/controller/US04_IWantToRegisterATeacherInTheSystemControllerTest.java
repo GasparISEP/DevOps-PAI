@@ -65,6 +65,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
         TeacherCategory tc1Double = mock(TeacherCategory.class);
         Department dpt1Double = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
@@ -74,7 +75,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(true);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1Double, 70, dpt1Double);
+        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1Double, 70, dpt1Double, TCPfactoryDouble);
         //assert
         assertTrue(result);
     }
@@ -87,6 +88,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
         TeacherCategory tc1Double = mock(TeacherCategory.class);
         Department dpt1Double = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
@@ -96,7 +98,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(false);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1Double, 70, dpt1Double);
+        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1Double, 70, dpt1Double, TCPfactoryDouble);
         //assert
         assertFalse(result);
     }
@@ -109,6 +111,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
         TeacherCategory tc1Double = mock(TeacherCategory.class);
         Department dpt1Double = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
@@ -118,7 +121,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(true);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1Double, 70, dpt1Double);
+        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tc1Double, 70, dpt1Double, TCPfactoryDouble);
         //assert
         assertFalse(result);
     }

@@ -6,7 +6,6 @@ import java.time.format.DateTimeParseException;
 
 public class ProgrammeEnrolment {
 
-    private ProgrammeEnrolmentFactory _programmeEnrolmentFactory;
     private Student _student;
     private AccessMethod _accessMethod;
     private Programme _programme;
@@ -18,7 +17,6 @@ public class ProgrammeEnrolment {
         _accessMethod = accessMethod;
         _programme = programme;
         _date = validateAndFormatDate(date);
-
     }
 
     private LocalDate validateAndFormatDate(String date) throws IllegalArgumentException {
@@ -36,7 +34,7 @@ public class ProgrammeEnrolment {
         return formattedDate;
     }
 
-    public Student findStudentInEnrollments(){
+    public Student getStudentFromEnrolment(){
         return _student;
     }
 
@@ -45,10 +43,9 @@ public class ProgrammeEnrolment {
                 this._programme.equals(programmeEnrolment._programme);
     }
 
-    public Programme getProgramme () {
+    public Programme getProgrammeFromEnrolment() {
         return _programme;
     }
-
 }
 
 

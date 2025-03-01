@@ -4,12 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import static org.mockito.Mockito.mock;
+import org.mockito.Mockito;
+import org.mockito.stubbing.Stubber;
 
 import java.util.IllegalFormatWidthException;
+import java.util.List;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.*;
 
 
 class TeacherTest {
@@ -18,8 +21,9 @@ class TeacherTest {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         //act + assert
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble, TCPfactoryDouble);
     }
 
     @Test
@@ -27,8 +31,9 @@ class TeacherTest {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         //act + assert
-        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble);
+        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble, TCPfactoryDouble);
     }
 
     @Test
@@ -36,8 +41,9 @@ class TeacherTest {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         //act + assert
-        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble);
+        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", "15-04-2005", tcDouble, 70, dptDouble, TCPfactoryDouble);
     }
 
 
@@ -69,9 +75,10 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -101,10 +108,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name , email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name , email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -134,10 +142,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -167,10 +176,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -203,10 +213,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -230,10 +241,11 @@ class TeacherTest {
         String phoneNumber = "B123";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground,"Passeio Alegre", "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -258,10 +270,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, "4432-345", "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -286,10 +299,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores", postalCode, "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores", postalCode, "Porto","Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -314,10 +328,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085", Location,"Portugal","14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085", Location,"Portugal","14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -342,10 +357,11 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto", Country,"14-05-2004", tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto", Country,"14-05-2004", tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -368,25 +384,28 @@ class TeacherTest {
         String email = "MMM@isep.ipp.pt";
         String phoneNumber = "B123";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
+
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+
+        when(TCPfactoryDouble.createTeacherCareerProgression(Date, tcDouble, 100)).thenThrow(new IllegalArgumentException("Date cannot be empty!"));
+
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto","Portugal",Date, tcDouble, 100, dptDouble);
+            new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, "Rua das Flores","4444-085","Porto","Portugal", Date, tcDouble, 100, dptDouble, TCPfactoryDouble);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
     void doesTeacherHaveThisNIF() throws IllegalArgumentException {
-
         // arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
-
-        //act
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble, TCPfactoryDouble);
 
         //act & assert
         assertTrue(t1.hasThisNIF("123456789"));
@@ -399,26 +418,56 @@ class TeacherTest {
     @Test
     void returnsTrueAfterUpdateWorkingPercentageInTeacherCareerProgression() throws IllegalArgumentException {
         //arrange
+        String date1 = "15-04-2005";
+        String date2 = "17-04-2005";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
+
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression UpdatedTCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 50)).thenReturn(UpdatedTCPdouble);
+
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+        when(UpdatedTCPdouble.isDateAfter(TCPdouble)).thenReturn(true);
 
         //act
-        boolean result = t1.updateWorkingPercentageInTeacherCareerProgression("15-04-2008", 50);
+        boolean result = t1.updateWorkingPercentageInTeacherCareerProgression(date2, 50);
 
         //assert
         assertTrue(result);
+        verify(TCPfactoryDouble).createTeacherCareerProgression(date2, tcDouble, 50);
     }
 
     @Test
     void returnsExceptionWhenGivenWorkingPercentageIsEqualToPresentWorkingPercentage() throws IllegalArgumentException {
         //arrange
+        String date1 = "15-04-2005";
+        String date2 = "17-04-2005";
+
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
+
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression UpdatedTCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenReturn(UpdatedTCPdouble);
+
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+        when(UpdatedTCPdouble.isDateAfter(TCPdouble)).thenReturn(true);
 
         //act + assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression("16-10-2015", 70));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, 70));
         assertEquals("Working percentage must be different than the last working percentage!", exception.getMessage());
     }
 
@@ -431,97 +480,164 @@ class TeacherTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidDates")
-    void throwsExceptionWhenUpdateDateIsNotAfterExistingDate(String date, String expectedMessage) throws IllegalArgumentException {
+    void throwsExceptionWhenUpdateDateIsNotAfterExistingDate(String date2, String expectedMessage) throws IllegalArgumentException {
         //arrange
+        String date1 = "15-04-2005";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", tcDouble, 70, dptDouble);
+
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression UpdatedTCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 100)).thenReturn(UpdatedTCPdouble);
+
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+        when(!UpdatedTCPdouble.isDateAfter(TCPdouble)).thenThrow(new IllegalArgumentException("Date must be greater than the last date registered!"));
 
         //act + assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date, 50));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, 100));
         assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_SuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_SuccessfulTest() throws IllegalArgumentException {
         // Arrange
         String date1 = "22-12-2024";
         String date2 = "25-12-2024";
-        TeacherCategory tcDouble = new TeacherCategory ("Professor Adjunto");
-        TeacherCategory tcDouble2 = new TeacherCategory ("Professor Efetivo");
+
+        TeacherCategory tcDouble1 = mock(TeacherCategory.class);
+        TeacherCategory tcDouble2 = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble1 = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression TCPdouble2 = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble1, 70)).thenReturn(TCPdouble1);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenReturn(TCPdouble2);
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble1, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble1.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble1.getCategory()).thenReturn(tcDouble1);
+        when(TCPdouble2.isDateAfter(TCPdouble1)).thenReturn(true);
+
+        boolean result = t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2);
+
+        // Act + Assert
+        assertTrue(result);
+        verify(TCPfactoryDouble).createTeacherCareerProgression(date2, tcDouble2, 70); // Verifies that the factory was called  to create a new TCP object.
+    }
+
+    @Test
+    void verifyIfTeacherCategoryWasUpdatedFromTC1toTC2_SuccessfulTest() throws IllegalArgumentException {
+
+        // Arrange
+        String date1 = "14-04-2005";
+        String date2 = "15-04-2005";
+
+        TeacherCategory tcDouble1 = mock(TeacherCategory.class);
+        TeacherCategory tcDouble2 = mock(TeacherCategory.class);
+        Department dptDouble = mock(Department.class);
+
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble1 = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression TCPdouble2 = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble1, 70)).thenReturn(TCPdouble1);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenReturn(TCPdouble2);
+
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble1, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble1.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble1.getCategory()).thenReturn(tcDouble1);
+        when(TCPdouble2.isDateAfter(TCPdouble1)).thenReturn(true);
+
         // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble);
         boolean result = t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2);
 
         // Assert
         assertTrue(result);
+        verify(TCPfactoryDouble).createTeacherCareerProgression(date2, tcDouble2, 70); //Verifies if a TCP object was created with given parameters by the factory.
     }
 
     @Test
-    void verifyIfTeacherCategoryWasUpdatedFromTC1toTC2_SuccessfulTest() throws Exception{
-
-        // Arrange
-        TeacherCategory category1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory category2 = new TeacherCategory("Professor Efectivo");
-        Department dptDouble = mock(Department.class);
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", "15-04-2005", category1, 70, dptDouble);
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression("15-04-2005", category2, 70);
-
-        // Act
-        t1.updateTeacherCategoryInTeacherCareer("16-07-2005", category2);
-        TeacherCategory updatedTeacherCategory = tcp1.getCategory();
-
-        // Assert
-        assertEquals(category2.getName(), updatedTeacherCategory.getName());
-    }
-
-    @Test
-    void updateTeacherCategory_InTeacherCareer_OlderDate_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_OlderDate_UnsuccessfulTest() throws IllegalArgumentException {
         // Arrange
         String date1 = "25-12-2024";
         String date2 = "12-12-2024";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("The date must be greater than the last date registered!"));
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble));
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_SameCategory_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_SameCategory_UnsuccessfulTest() throws IllegalArgumentException {
         //arrange
         String date1 = "25-12-2024";
         String date2 = "26-12-2024";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("The Teacher Category provided is already active."));
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc1));
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble));
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_SameCategoryReturnValue_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_SameCategoryReturnValue_UnsuccessfulTest() throws IllegalArgumentException {
         // Arrange
         String date1 = "25-12-2024";
         String date2 = "26-12-2024";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("The Teacher Category provided is already active."));
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
 
         boolean result = false;
+
         try {
-            result = t1.updateTeacherCategoryInTeacherCareer(date2, tc1);
+            result = t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble);
         } catch (IllegalArgumentException e) {
             // Expected exception
         }
@@ -531,82 +647,127 @@ class TeacherTest {
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_SameDateEdgeCase_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_SameDateEdgeCase_UnsuccessfulTest() throws IllegalArgumentException {
         // Arrange
         String date1 = "25-12-2024";
         String date2 = "25-12-2024"; // Same date as the initial date
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
+
+        TeacherCategory tcDouble1 = mock(TeacherCategory.class);
+        TeacherCategory tcDouble2 = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression UpdatedTCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble1, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenReturn(UpdatedTCPdouble);
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble1, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble1);
+
+        when(!UpdatedTCPdouble.isDateAfter(TCPdouble)).thenThrow(new IllegalArgumentException("The date must be greater than the last date registered!"));
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2));
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_NullDate_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_NullDate_UnsuccessfulTest() throws IllegalArgumentException {
         // Arrange
-        String date1 = "25-12-2024";
-        String date2 = null; // Null date
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
+        String date1 = "20-12-2024";
+        String date2 = null;
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("Date cannot be empty!"));
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble));
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_BlankDate_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_BlankDate_UnsuccessfulTest() throws IllegalArgumentException {
         // Arrange
-        String date1 = "25-12-2024";
-        String date2 = ""; // Blank date
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
+        String date1 = "20-12-2024";
+        String date2 = " "; // Blank date
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("Date cannot be empty!"));
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble));
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_InvalidDateFormat_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_InvalidDateFormat_UnsuccessfulTest() throws IllegalArgumentException {
         // Arrange
-        String date1 = "25-12-2024";
+        String date1 = "24-12-2024";
         String date2 = "25/12/2024"; // Invalid date format
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Efectivo");
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."));
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble));
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_NullCategory_UnsuccessfulTest() throws Exception {
+    void updateTeacherCategory_InTeacherCareer_NullCategory_UnsuccessfulTest() throws IllegalArgumentException {
         // Arrange
-        String date1 = "25-12-2024";
-        String date2 = "26-12-2024";
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = null; // Null category
+        String date1 = "26-12-2024";
+        String date2 = "27-12-2024";
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        TeacherCategory tc = null; // Null category
         Department dptDouble = mock(Department.class);
 
-        // Act
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tc1, 70, dptDouble);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
+        when(TCPfactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(TCPdouble);
+        when(TCPfactoryDouble.createTeacherCareerProgression(date2, tc, 70)).thenThrow(new IllegalArgumentException("Teacher category cannot be null."));
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc2));
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", date1, tcDouble, 70, dptDouble, TCPfactoryDouble);
+        // Set up behaviors needed for the System Under Test
+        when(TCPdouble.getWorkingPercentage()).thenReturn(70);
+        when(TCPdouble.getCategory()).thenReturn(tcDouble);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc));
     }
 }

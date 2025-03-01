@@ -15,10 +15,7 @@ class CourseInStudyPlanTest {
         Course course1 = new Course("Programming", "PROG", 5, 1); // Curso com 5 créditos
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
         StudyPlan studyPlan = programme.getStudyPlan();
         programme.addCourseToAProgramme(course1);
@@ -60,10 +57,7 @@ class CourseInStudyPlanTest {
         Course course2 = new Course("Mathematics", "MATH", 6, 1);
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
 
         programme.addCourseToAProgramme(course1);
@@ -110,10 +104,7 @@ class CourseInStudyPlanTest {
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
 
         programme.addCourseToAProgramme(course1);

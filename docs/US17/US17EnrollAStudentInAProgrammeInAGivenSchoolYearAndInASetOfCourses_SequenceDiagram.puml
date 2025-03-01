@@ -46,8 +46,8 @@ Controller -> ProgrammeEnrolmentRepository : isStudentEnrolled(student, programm
 activate ProgrammeEnrolmentRepository
 participant "e[i]:ProgrammeEnrollment" as Enrollment
 loop for each "e[i]:ProgrammeEnrollment" as Enrolment
-ProgrammeEnrolmentRepository -> Enrollment : Student: findStudentInEnrollments(student)
-ProgrammeEnrolmentRepository -> Enrollment : Programme: getProgramme()
+ProgrammeEnrolmentRepository -> Enrollment : Student: getStudentFromEnrolment()
+ProgrammeEnrolmentRepository -> Enrollment : Programme: getProgrammeFromEnrolment()
 end
 deactivate Enrollment
 ProgrammeEnrolmentRepository --> Controller : True

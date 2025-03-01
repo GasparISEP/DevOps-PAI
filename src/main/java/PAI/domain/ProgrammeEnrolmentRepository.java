@@ -34,8 +34,8 @@ public class ProgrammeEnrolmentRepository {
 
     public boolean isStudentEnrolled (Student student, Programme programme) {
         for (ProgrammeEnrolment existingEnrolment : _enrolmentList) {
-            if (existingEnrolment.findStudentInEnrollments().getUniqueNumber() ==
-                    student.getUniqueNumber() && existingEnrolment.getProgramme().equals(programme)) {
+            if (existingEnrolment.getStudentFromEnrolment().getUniqueNumber() ==
+                    student.getUniqueNumber() && existingEnrolment.getProgrammeFromEnrolment().equals(programme)) {
                 return true;
             }
         }

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.mock;
 
 class ProgrammeEnrolmentTest {
 
@@ -20,10 +21,7 @@ class ProgrammeEnrolmentTest {
         AccessMethod am1 = new AccessMethod("M1");
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Teacher teacher = mock(Teacher.class);
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
 
 
@@ -52,10 +50,7 @@ class ProgrammeEnrolmentTest {
         AccessMethod am1 = new AccessMethod("M1");
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, cse);
+        Teacher teacher = mock(Teacher.class);
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, cse, teacher);
 
         //act & assert
@@ -73,14 +68,13 @@ class ProgrammeEnrolmentTest {
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1,am1,CE,"17-09-2005");
 
         //act
-        Student result = programmeEnrolment1.findStudentInEnrollments();
+        Student result = programmeEnrolment1.getStudentFromEnrolment();
 
         //assert
         assertEquals(student1,result);
@@ -96,8 +90,7 @@ class ProgrammeEnrolmentTest {
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1,am1,CE,"17-09-2005");
@@ -121,8 +114,7 @@ class ProgrammeEnrolmentTest {
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student2,am1,CE,"17-09-2005");
@@ -143,14 +135,12 @@ class ProgrammeEnrolmentTest {
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
         DegreeType master1 = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor1 = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor1, 100, CSE);
+        Teacher teacher1 = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master1, CSE, teacher1);
 
         DegreeType master2 = new DegreeType("Master", 240);
         Department SSE = new Department("CSE", "Space Science Engineer");
-        TeacherCategory assistantProfessor2 = new TeacherCategory("Assistant Professor");
-        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor2, 100, CSE);
+        Teacher teacher2 = mock(Teacher.class);
         Programme SE = new Programme("Space Engineering", "SE", 20, 6, master2, SSE, teacher2);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1,am1,CE,"17-09-2005");
@@ -174,14 +164,12 @@ class ProgrammeEnrolmentTest {
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
         DegreeType master1 = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor1 = new TeacherCategory("Assistant Professor");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor1, 100, CSE);
+        Teacher teacher1 = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master1, CSE, teacher1);
 
         DegreeType master2 = new DegreeType("Master", 240);
         Department SSE = new Department("CSE", "Space Science Engineer");
-        TeacherCategory assistantProfessor2 = new TeacherCategory("Assistant Professor");
-        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor2, 100, CSE);
+        Teacher teacher2 = mock(Teacher.class);
         Programme SE = new Programme("Space Engineering", "SE", 20, 6, master2, SSE, teacher2);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1,am1,CE,"17-09-2005");
@@ -203,17 +191,15 @@ class ProgrammeEnrolmentTest {
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1,am1,CE,"17-09-2005");
 
         //act
-        Programme result = programmeEnrolment1.getProgramme();
+        Programme result = programmeEnrolment1.getProgrammeFromEnrolment();
 
         //assert
         assertEquals(CE,result);
     }
-
 }
