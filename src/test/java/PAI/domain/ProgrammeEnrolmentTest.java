@@ -74,7 +74,7 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1,am1,CE,"17-09-2005");
 
         //act
-        Student result = programmeEnrolment1.findStudentInEnrollments();
+        Student result = programmeEnrolment1.getStudentFromEnrolment();
 
         //assert
         assertEquals(student1,result);
@@ -197,7 +197,7 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1,am1,CE,"17-09-2005");
 
         //act
-        Programme result = programmeEnrolment1.getProgramme();
+        Programme result = programmeEnrolment1.getProgrammeFromEnrolment();
 
         //assert
         assertEquals(CE,result);
