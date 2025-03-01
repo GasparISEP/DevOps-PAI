@@ -21,7 +21,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             String acronym, String name, String email, String nif, String phoneNumber,
             String academicBackground, String street, String postalCode, String location,
             String country, String date, TeacherCategory category,
-            int workingPercentage, Department department ) {
+            int workingPercentage, Department department, TeacherCareerProgressionFactory CareerProgressionFactory) {
 
         if(!isCategoryInTeacherCategoryRepository(category)){
             return false;
@@ -32,7 +32,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
 
         _teacherRepository.registerTeacher(
                 acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,
-                location,country,date,category,workingPercentage,department);
+                location,country,date,category,workingPercentage,department, CareerProgressionFactory);
         return true;
     }
 

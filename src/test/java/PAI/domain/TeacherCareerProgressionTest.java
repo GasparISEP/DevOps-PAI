@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.mock;
 
 class TeacherCareerProgressionTest {
 
@@ -21,10 +22,10 @@ class TeacherCareerProgressionTest {
     @MethodSource("provideValidAttributes")
     void createsObjectWithValidAttributes(String date, int workingPercentage) throws Exception {
         // Arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        TeacherCategory tc1Double = mock(TeacherCategory.class);
 
         //act + assert
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression(date, tc1, workingPercentage);
+        TeacherCareerProgression tcp1 = new TeacherCareerProgression(date, tc1Double, workingPercentage);
     }
 
     @Test
@@ -56,10 +57,10 @@ class TeacherCareerProgressionTest {
     @MethodSource("provideInvalidAttributes")
     void invalidAttributesDoNotCreateObject(String date, int workingPercentage, String expectedMessage) throws Exception {
         //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        TeacherCategory tc1Double = mock(TeacherCategory.class);
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression(date, tc1, workingPercentage));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression(date, tc1Double, workingPercentage));
 
         //assert
         assertEquals(expectedMessage, exception.getMessage());
@@ -76,14 +77,14 @@ class TeacherCareerProgressionTest {
     @MethodSource("provideValidCategories")
     void getCategoryReturnsCorrectCategory(String date, String categoryName, int workingPercentage) throws Exception {
         //arrange
-        TeacherCategory tc = new TeacherCategory(categoryName);
-        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tc, workingPercentage);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tcDouble, workingPercentage);
 
         //act
         TeacherCategory result = TCP.getCategory();
 
         //assert
-        assertEquals(tc, result);
+        assertEquals(tcDouble, result);
     }
 
     public static Stream<Arguments> provideValidWorkingPercentages() {
@@ -98,8 +99,8 @@ class TeacherCareerProgressionTest {
     void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, String categoryName, int expectedWorkingPercentage) throws Exception {
 
         //arrange
-        TeacherCategory tc = new TeacherCategory(categoryName);
-        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tc, workingPercentage);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tcDouble, workingPercentage);
 
         //act
         int result = TCP.getWorkingPercentage();
@@ -120,10 +121,10 @@ class TeacherCareerProgressionTest {
     @MethodSource("provideDates")
     void shouldReturnTrueIfGivenDateIsAfterLastDate(String date1, String date2, String tc, boolean expectedResult) throws Exception {
         // Arrange
-        TeacherCategory tc1 = new TeacherCategory(tc);
+        TeacherCategory tc1Double = mock(TeacherCategory.class);
 
-        TeacherCareerProgression TCP1 = new TeacherCareerProgression(date1, tc1, 50);
-        TeacherCareerProgression TCP2 = new TeacherCareerProgression(date2, tc1, 60);
+        TeacherCareerProgression TCP1 = new TeacherCareerProgression(date1, tc1Double, 50);
+        TeacherCareerProgression TCP2 = new TeacherCareerProgression(date2, tc1Double, 60);
 
         // Act
         boolean result = TCP2.isDateAfter(TCP1);
@@ -131,5 +132,4 @@ class TeacherCareerProgressionTest {
         // Assert
         assertEquals(expectedResult, result);
     }
-
 }
