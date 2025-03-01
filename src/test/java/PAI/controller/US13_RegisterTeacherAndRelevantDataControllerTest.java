@@ -28,6 +28,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
+
+
         US13_RegisterTeacherAndRelevantDataController tcrControllerList = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptrDouble, trDouble);
 
         when(tcrDouble.getTeacherCategoryList()).thenThrow(new IllegalStateException("Teacher Category list is empty."));
@@ -51,6 +53,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Act
         List<TeacherCategory> result = controller.getTeacherCategoryList();
+
         // Assert
         assertEquals(result, tcListDouble);
     }
@@ -83,18 +86,19 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldRegisterTeacher() {
+    void shouldRegisterTeacher() throws Exception {
         // Arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
         TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         when(trDouble.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
                 "123 Main St", "12345", "Cityville", "Countryland",
-                "23-01-2025", tcDouble, 100, dptDouble)).thenReturn(true);
+                "23-01-2025", tcDouble, 100, dptDouble, TCPfactoryDouble)).thenReturn(true);
 
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(
                 tcrDouble, dptrDouble, trDouble);
@@ -103,7 +107,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         boolean result = controller.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
                 "123 Main St", "12345", "Cityville", "Countryland",
-                "23-01-2025", tcDouble, 100, dptDouble);
+                "23-01-2025", tcDouble, 100, dptDouble, TCPfactoryDouble);
 
         // Assert
         assertTrue(result);

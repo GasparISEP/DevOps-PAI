@@ -21,8 +21,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
@@ -48,8 +47,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
@@ -77,8 +75,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
         ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
@@ -107,8 +104,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         DegreeType master = new DegreeType("Master",240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua São Tomé Porto","4249-015","Porto", "Portugal", "20-12-2010", assistantProfessor,100, CSE);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,master,CSE,teacher);
         ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
 
@@ -135,11 +131,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
         ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         enrolmentRepository.enrolStudents(student, am1, CE, "21-12-2025");
@@ -166,11 +158,7 @@ class ProgrammeEnrolmentRepositoryTest {
         amr.registerAccessMethod("M1");
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
         ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         enrolmentRepository.enrolStudents(student, am1, CE, "21-12-2025");
@@ -195,11 +183,7 @@ class ProgrammeEnrolmentRepositoryTest {
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory);
         amr.registerAccessMethod("M1");
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
+        Teacher teacher = mock(Teacher.class);
         Programme CE = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
         ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository();
         enrolmentRepository.enrolStudents(student, am1, CE, "21-12-2025");
@@ -218,11 +202,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
 
         // Act
@@ -238,11 +218,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         DegreeType master = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", assistantProfessor, 100, department);
+        Teacher teacher = mock(Teacher.class);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher);
         String differentClassObject = "Not a Programme";
 
@@ -252,5 +228,4 @@ class ProgrammeEnrolmentRepositoryTest {
         // Assert
         assertFalse(result, "The equals method should return false when comparing with an object of a different class.");
     }
-
 }

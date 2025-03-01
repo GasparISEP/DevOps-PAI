@@ -37,11 +37,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         int quantityOfSemesters = 6;
         DegreeType degreeType = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                new Department("CSE", "Computer Science Engineer"));
+        Teacher teacher = mock(Teacher.class);
         //CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
         Course course1 = new Course("Programming", "PROG", 5, 1);
@@ -69,11 +65,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         int quantityOfSemesters = 6;
         DegreeType degreeType = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                new Department("CSE", "Computer Science Engineer"));
+        Teacher teacher = mock(Teacher.class);
 
         boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
 
@@ -96,11 +88,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         int quantityOfSemesters = 6;
         DegreeType degreeType = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                new Department("CSE", "Computer Science Engineer"));
+        Teacher teacher = mock(Teacher.class);
         //CourseRepository courseRepository = new CourseRepository();
         Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
         Course course1 = new Course("Programming", "PROG", 5, 1);
