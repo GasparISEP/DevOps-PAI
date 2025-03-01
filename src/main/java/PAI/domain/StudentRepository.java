@@ -10,7 +10,9 @@ public class StudentRepository {
     // Create ArrayList to store students
     private List<Student> _students;
 
-
+    // Creates a default StudentFactory and StudentListFactory and calls the next constructor (constructor delegation)
+    public StudentRepository() { this(new StudentFactory(), new StudentListFactory()); }
+    // Constructor to be directly used for isolated testing
     public StudentRepository(StudentFactory studentFactory, StudentListFactory studentListFactory) {
         _studentFactory = studentFactory;
         _students = studentListFactory.newArrayList();
@@ -36,9 +38,7 @@ public class StudentRepository {
         }
         return false;
     }
-    // Creates a default StudentFactory and StudentListFactory and calls the next constructor (constructor delegation)
-    public StudentRepository() { this(new StudentFactory(), new StudentListFactory()); }
-    // Constructor to be directly used for isolated testing
+
     public Optional<Student> getStudentByUniqueNumber(int uniqueNumber) {
         for ( Student student : _students) {
             if ( student.hasThisUniqueNumber(uniqueNumber)){
