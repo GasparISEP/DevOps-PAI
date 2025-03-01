@@ -171,16 +171,15 @@ class ProgrammeEditionTest {
     //US26
     //Test ensures that method returns true when both the department and school year are correctly associated with the programme edition
     @Test
-    void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() throws Exception {
+    void shouldReturnTrueWhenEditionIsAssociatedToDepartmentAndSchoolYear() throws Exception {
+        //SUT: ProgrammeEdition
         // arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("DEI", "Departamento Engenharia Informática");
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "01-09-2024", "31-12-2024");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = mock(Teacher.class);
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher1);
+        Department department =  mock(Department.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Programme programme = mock(Programme.class);
+        when(programme.isInDepartment(department)).thenReturn(true);
+        when(schoolYear.isSameSchoolYear(schoolYear)).thenReturn(true);
         ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear);
-
         // act
         boolean result = edition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
 
@@ -191,14 +190,16 @@ class ProgrammeEditionTest {
     //Test ensures that method returns false when schoolYear is not associated with the programme edition
     @Test
     void shouldReturnFalseWhenSchoolYearIsNotAssociated() throws Exception {
+        //SUT: ProgrammeEdition
         // arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department = new Department("DEI", "Departamento Engenharia Informática");
-        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear("Ana letivo de", "01-09-2020", "31-07-2021");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = mock(Teacher.class);
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher1);
+        Department department =  mock(Department.class);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+        Programme programme = mock(Programme.class);
+
+
+        when(programme.isInDepartment(department)).thenReturn(true);
+        when(schoolYear1.isSameSchoolYear(schoolYear2)).thenReturn(false);
         ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear1);
 
         // act
@@ -211,14 +212,17 @@ class ProgrammeEditionTest {
     //Test ensures that method returns false when department is not associated with the programme edition
     @Test
     void shouldReturnFalseWhenDepartmentIsNotAssociated() throws Exception {
+        //SUT: ProgrammeEdition
         // arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = mock(Teacher.class);
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Department department1 =  mock(Department.class);
+        Department department2 =  mock(Department.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Programme programme = mock(Programme.class);
+
+
+        when(programme.isInDepartment(department1)).thenReturn(true);
+        when(programme.isInDepartment(department2)).thenReturn(false);
+        when(schoolYear.isSameSchoolYear(schoolYear)).thenReturn(true);
         ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear);
 
         // act
@@ -231,17 +235,17 @@ class ProgrammeEditionTest {
     //Test ensures that method returns false when department and schoolYear are not associated with the programme edition
     @Test
     void shouldReturnFalseWhenNeitherDepartmentNorSchoolYearAreAssociated() throws Exception {
+        //SUT: ProgrammeEdition
         // arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
-        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear("Ana letivo de", "01-09-2020", "31-07-2021");
-        Address addressIsep = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = mock(Teacher.class);
-        Programme programme = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1);
+        Department department1 = mock(Department.class);
+        Department department2 = mock(Department.class);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+        Programme programme = mock(Programme.class);
         ProgrammeEdition edition = new ProgrammeEdition(programme, schoolYear1);
-
+        when(programme.isInDepartment(department1)).thenReturn(false);
+        when(programme.isInDepartment(department2)).thenReturn(false);
+        when(schoolYear1.isSameSchoolYear(schoolYear2)).thenReturn(false);
         // act
         boolean result = edition.isEditionAssociatedToDepartmentAndSchoolYear(department2, schoolYear2);
 
