@@ -75,8 +75,8 @@ class SchoolYearRepository {
 
 class ProgrammeEnrollment {
     +ProgrammeEnrolment(student: Student, accessMethod: AccessMethod)
-    +findStudentInEnrollments() : Student
-    +getProgramme() : Programme
+    +getStudentFromEnrolment() : Student
+    +getProgrammeFromEnrolment() : Programme
 }
 
 class ProgrammeEnrolmentRepository {

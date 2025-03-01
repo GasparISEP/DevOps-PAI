@@ -206,7 +206,7 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolment enrolment = new ProgrammeEnrolment(student, am1, CE, "12-12-2025");
 
         // Act
-        Student enrolledStudent = enrolment.findStudentInEnrollments();
+        Student enrolledStudent = enrolment.getStudentFromEnrolment();
 
         // Assert
         assertEquals(student, enrolledStudent, "The student found in the enrolment must be the same as the student created.");
