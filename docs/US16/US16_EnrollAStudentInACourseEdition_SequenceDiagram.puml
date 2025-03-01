@@ -59,12 +59,10 @@ activate CourseEditionEnrollmentFactory
 create "cee1:CourseEditionEnrollment"
 CourseEditionEnrollmentFactory -> "cee1:CourseEditionEnrollment" : createCourseEditionEnrollment (st1, ce1, enrollmentDate)
 activate "cee1:CourseEditionEnrollment"
-"cee1:CourseEditionEnrollment" -> "cee1:CourseEditionEnrollment" :isValid
 "cee1:CourseEditionEnrollment" --> CourseEditionEnrollmentFactory: cee1
 deactivate "cee1:CourseEditionEnrollment"
 CourseEditionEnrollmentFactory --> CourseEditionEnrollmentRepository: cee1
 deactivate CourseEditionEnrollmentFactory
-CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: isThisEnrollmentAlreadyExists (cee1)
 CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: add (cee1)
 CourseEditionEnrollmentRepository --> Controller: True
 deactivate CourseEditionEnrollmentRepository
