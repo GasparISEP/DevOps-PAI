@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,61 +8,53 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ProgrammeEditionTest {
+    private Programme _programme;
+    private SchoolYear _schoolYear;
+    private ProgrammeEdition _programmeEdition;
+
+
+    @BeforeEach
+    void setup() throws Exception {
+        _programme = mock(Programme.class);
+        _schoolYear = mock(SchoolYear.class);
+        _programmeEdition = new ProgrammeEdition(_programme, _schoolYear);
+    }
 
     //CONSTRUCTOR TESTS
     @Test
     void validProgrammeAndSchoolYearCreatesAProgrammeEdition() throws Exception {
-        // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-
-        // Act
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        //SUT: ProgrammeEdition
 
         // Assert
-        assertNotNull(pe1);
+        assertNotNull(_programmeEdition);
     }
 
     @Test
     void shouldThrowExceptionWhenProgrammeIsNull() throws Exception {
-        // Arrange
-        Programme p1 = null;
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        //SUT: ProgrammeEdition
 
         // Act + Assert
-        assertThrows(Exception.class, () -> new ProgrammeEdition(p1, sy1));
+        assertThrows(Exception.class, () -> new ProgrammeEdition(null, _schoolYear));
     }
 
     @Test
     void shouldThrowExceptionWhenSchoolYearIsNull() throws Exception {
-        // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        SchoolYear sy1 = null;
+        //SUT: ProgrammeEdition
 
         // Act + Assert
-        assertThrows(Exception.class, () -> new ProgrammeEdition(p1, sy1));
+        assertThrows(Exception.class, () -> new ProgrammeEdition(_programme, null));
     }
 
     //EQUALS TESTS
     @Test
     void shouldReturnFalseIfObjectComparedIsNotProgrammeEdition() throws Exception {
+        //SUT: ProgrammeEdition
+
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        AccessMethod am1 = new AccessMethod("M23");
+        AccessMethod am1 = mock(AccessMethod.class);
 
         // Act
-        boolean result = pe1.equals(am1);
+        boolean result = _programmeEdition.equals(am1);
 
         // Assert
         assertFalse(result);
@@ -69,17 +62,15 @@ class ProgrammeEditionTest {
 
     @Test
     void shouldReturnTrueIfTwoProgrammeEditionsHaveTheSameProgrammesAndSchoolYears() throws Exception {
+        //SUT: ProgrammeEdition
+
         // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        ProgrammeEdition pe2 = new ProgrammeEdition(p1, sy1);
+        ProgrammeEdition pe2 = new ProgrammeEdition(_programme, _schoolYear);
+        when(_schoolYear.isSameSchoolYear(_schoolYear)).thenReturn(true);
 
         // Act
-        boolean result = pe1.equals(pe2);
+
+        boolean result = _programmeEdition.equals(pe2);
 
         // Assert
         assertTrue(result);
@@ -87,18 +78,14 @@ class ProgrammeEditionTest {
 
     @Test
     void shouldReturnFalseIfTwoProgrammeEditionsHaveDifferentProgrammesAndSameSchoolYears() throws Exception {
-        // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        Programme p2 = new Programme("Computer Science", "CC", 20, 6, master, CSE, teacher);
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        ProgrammeEdition pe2 = new ProgrammeEdition(p2, sy1);
+        //SUT: ProgrammeEdition
 
+        // Arrange
+        Programme p2 = mock(Programme.class);
+        ProgrammeEdition pe2 = new ProgrammeEdition(p2, _schoolYear);
+        when(_schoolYear.isSameSchoolYear(_schoolYear)).thenReturn(true);
         // Act
-        boolean result = pe1.equals(pe2);
+        boolean result = _programmeEdition.equals(pe2);
 
         // Assert
         assertFalse(result);
@@ -106,18 +93,14 @@ class ProgrammeEditionTest {
 
     @Test
     void shouldReturnFalseIfTwoProgrammeEditionsHaveDifferentSchoolYearsAndSameProgramme() throws Exception {
-        // Arrange
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        SchoolYear sy2 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2026");
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        ProgrammeEdition pe2 = new ProgrammeEdition(p1, sy2);
+        //SUT: ProgrammeEdition
 
+        // Arrange
+        SchoolYear sy2 = mock(SchoolYear.class);
+        ProgrammeEdition pe2 = new ProgrammeEdition(_programme, sy2);
+        when(_schoolYear.isSameSchoolYear(sy2)).thenReturn(false);
         // Act
-        boolean result = pe1.equals(pe2);
+        boolean result = _programmeEdition.equals(pe2);
 
         // Assert
         assertFalse(result);
@@ -126,46 +109,40 @@ class ProgrammeEditionTest {
     //US17
     @Test
     void testEqualsWithDifferentObjectType() throws Exception {
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        DegreeType master = new DegreeType("Master", 240);
-        Teacher teacher1 = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
-        ProgrammeEdition edition1 = new ProgrammeEdition(p1, sy1);
+        //SUT: ProgrammeEdition
 
-        assertFalse(edition1.equals("Not a ProgrammeEdition"));
+        // Act + Assert
+        assertFalse(_programmeEdition.equals("Not a ProgrammeEdition"));
     }
 
     //US17
     @Test
     void testFindProgrammeInProgrammeEdition() throws Exception {
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        DegreeType master = new DegreeType("Master", 240);
-        Teacher teacher1 = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(p1, sy1);
+        //SUT: ProgrammeEdition
 
+        // Arrange
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(_programme, _schoolYear);
+
+        // act
         Programme result = programmeEdition.findProgrammeInProgrammeEdition();
 
+        // Assert
         assertNotNull(result);
-        assertEquals(p1, result);
+        assertEquals(_programme, result);
     }
 
     //US17
     @Test
     void testFindSchoolYearInProgrammeEdition() throws Exception {
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher1 = mock(Teacher.class);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher1);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(p1, sy1);
+        //SUT: ProgrammeEdition
 
+        // Arrange
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(_programme, _schoolYear);
+        //act
         SchoolYear result = programmeEdition.findSchoolYearInProgrammeEdition();
-
+        // Assert
         assertNotNull(result);
-        assertEquals(sy1, result);
+        assertEquals(_schoolYear, result);
     }
 
     //US26
@@ -174,7 +151,7 @@ class ProgrammeEditionTest {
     void shouldReturnTrueWhenEditionIsAssociatedToDepartmentAndSchoolYear() throws Exception {
         //SUT: ProgrammeEdition
         // arrange
-        Department department =  mock(Department.class);
+        Department department = mock(Department.class);
         SchoolYear schoolYear = mock(SchoolYear.class);
         Programme programme = mock(Programme.class);
         when(programme.isInDepartment(department)).thenReturn(true);
@@ -192,7 +169,7 @@ class ProgrammeEditionTest {
     void shouldReturnFalseWhenSchoolYearIsNotAssociated() throws Exception {
         //SUT: ProgrammeEdition
         // arrange
-        Department department =  mock(Department.class);
+        Department department = mock(Department.class);
         SchoolYear schoolYear1 = mock(SchoolYear.class);
         SchoolYear schoolYear2 = mock(SchoolYear.class);
         Programme programme = mock(Programme.class);
@@ -214,8 +191,8 @@ class ProgrammeEditionTest {
     void shouldReturnFalseWhenDepartmentIsNotAssociated() throws Exception {
         //SUT: ProgrammeEdition
         // arrange
-        Department department1 =  mock(Department.class);
-        Department department2 =  mock(Department.class);
+        Department department1 = mock(Department.class);
+        Department department2 = mock(Department.class);
         SchoolYear schoolYear = mock(SchoolYear.class);
         Programme programme = mock(Programme.class);
 
@@ -376,7 +353,7 @@ class ProgrammeEditionTest {
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
 
         // Act
-        Programme getProgramme= programmeEdition.findProgrammeInProgrammeEdition();
+        Programme getProgramme = programmeEdition.findProgrammeInProgrammeEdition();
 
         // Assert
         assertEquals(programme, getProgramme);
@@ -392,7 +369,7 @@ class ProgrammeEditionTest {
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
 
         // Act
-        SchoolYear getSchoolYear= programmeEdition.findSchoolYearInProgrammeEdition();
+        SchoolYear getSchoolYear = programmeEdition.findSchoolYearInProgrammeEdition();
 
         // Assert
         assertEquals(schoolYear, getSchoolYear);
