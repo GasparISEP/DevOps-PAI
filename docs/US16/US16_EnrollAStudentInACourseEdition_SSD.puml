@@ -9,8 +9,8 @@ System --> ASC: Here is a list of programme editions the student is enrolled in 
 ASC -> System: Enter programme edition.
 System --> ASC: Here is a list of course editions that belongs to this programme edition. What course edition?
 ASC -> System: Enter course edition.
-System --> ASC: Sure
-ASC -> System: Yes
-System --> ASC: Ok
+System --> ASC: Sure?
+ASC -> System: Yes!
+System --> ASC: Ok!
 
 @enduml
