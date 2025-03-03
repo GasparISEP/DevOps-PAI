@@ -22,16 +22,6 @@ public class US03AddCourseToProgrammeControllerTest {
         courseRepositoryDouble = mock(CourseRepository.class);
         us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
     }
-    @Test
-    void shouldCreateAddCourseToProgrammeController() throws Exception {
-        // arrange
-        //act
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
-        //assert
-        assertNotNull(US03AddCourseToProgrammeController);
-    }
-
 
     @Test
     void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
@@ -69,7 +59,7 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseIsNull() throws Exception {
+    void shouldThrowExceptionIfCourseIsNull() {
         // arrange
         Programme programmeDouble = mock(Programme.class);
         //act + assert
