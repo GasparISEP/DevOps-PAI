@@ -160,8 +160,6 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllCourses() throws Exception {
         // arrange
-        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
-        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
         Course courseDouble1 = mock(Course.class);
         Course courseDouble2 = mock(Course.class);
 
@@ -171,15 +169,13 @@ public class US03AddCourseToProgrammeControllerTest {
 
         when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
 
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         // act
-        List<Course> allCourses = US03AddCourseToProgrammeController.getAllCourses();
+        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
 
         // assert
-        assertEquals(courseList.size(), allCourses.size());
-        assertEquals(courseList.get(0), allCourses.get(0));
-        assertEquals(courseList.get(1), allCourses.get(1));
+        assertEquals(courseList.size(), result.size());
+        assertEquals(courseList.get(0), result.get(0));
+        assertEquals(courseList.get(1), result.get(1));
     }
 
     @Test
