@@ -23,6 +23,36 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
+    void shouldNotCreateCreateObjectControllerWhenTeacherCategoryRepositoryIsNull() {
+        // Arrange
+        DepartmentRepository dptDouble = mock(DepartmentRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(null, dptDouble, trDouble));
+    }
+
+    @Test
+    void shouldNotCreateCreateObjectControllerWhenDepartmentRepositoryIsNull() {
+        // Arrange
+        TeacherCategoryRepository tcDouble = mock(TeacherCategoryRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(tcDouble, null, trDouble));
+    }
+
+    @Test
+    void shouldNotCreateCreateObjectControllerWhenTeacherRepositoryIsNull() {
+        // Arrange
+        TeacherCategoryRepository tcDouble = mock(TeacherCategoryRepository.class);
+        DepartmentRepository dptDouble = mock(DepartmentRepository.class);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(tcDouble, dptDouble, null));
+    }
+
+    @Test
     void shouldReturnExceptionIfCategoriesListIsEmpty() throws IllegalStateException {
         // Arrange
         TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
@@ -74,15 +104,19 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
         // Arrange
-        DepartmentFactory factory= new DepartmentFactory();
-        DepartmentRepository dptr = new DepartmentRepository(factory);
-        dptr.registerDepartment("CSE", "Computer Science");
-        dptr.registerDepartment("CIV", "Civil Engineering");
-        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(null, dptr, null);
+        TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
+        DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
+        TeacherRepository trDouble = mock(TeacherRepository.class);
+        US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptrDouble, trDouble);
+        Department dptDouble = mock(Department.class);
+        List<Department> dptListDouble = List.of(dptDouble);
+
+        when(dptrDouble.getDepartmentList()).thenReturn(dptListDouble);
+
         // Act
         List<Department> result = controller.getDepartmentsList();
         // Assert
-        assertEquals(2, result.size());
+        assertEquals(result, dptListDouble);
     }
 
     @Test

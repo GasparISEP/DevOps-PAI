@@ -10,6 +10,18 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
     //Constructor
     public US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepository teacherCategoryRepository, DepartmentRepository departmentRepository, TeacherRepository teacherRepository) {
+        if (teacherCategoryRepository == null) {
+            throw new IllegalArgumentException("Teacher Category Repository cannot be null");
+        }
+
+        if (departmentRepository == null) {
+            throw new IllegalArgumentException("Department Repository cannot be null");
+        }
+
+        if (teacherRepository == null) {
+            throw new IllegalArgumentException("Teacher Repository cannot be null");
+        }
+
         this._teacherCategoryRepository = teacherCategoryRepository;
         this._departmentRepository = departmentRepository;
         this._teacherRepository = teacherRepository;
