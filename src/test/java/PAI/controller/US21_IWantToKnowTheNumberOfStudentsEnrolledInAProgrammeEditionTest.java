@@ -17,7 +17,8 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
         ProgrammeEditionFactory programmeEditionFactory = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
+        ProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
 
 
         // Act
@@ -35,7 +36,8 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
         ProgrammeEditionFactory programmeEditionFactory = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
+        ProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->

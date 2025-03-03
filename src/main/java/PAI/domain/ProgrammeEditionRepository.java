@@ -6,11 +6,11 @@ import java.util.Optional;
 
 public class ProgrammeEditionRepository {
 
-    private final ArrayList<ProgrammeEdition> _programmeEditionRepository;
+    private final List<ProgrammeEdition> _programmeEditionList;
     private final ProgrammeEditionFactory _programmeEditionFactory;
 
-    public ProgrammeEditionRepository (ProgrammeEditionFactory programmeEditionFactory) {
-        _programmeEditionRepository = new ArrayList<>();
+    public ProgrammeEditionRepository (ProgrammeEditionFactory programmeEditionFactory, ProgrammeEditionListFactory programmeEditionListFactory) {
+        _programmeEditionList = programmeEditionListFactory.getProgrammeEditionList();
         _programmeEditionFactory = programmeEditionFactory;
     }
 
@@ -18,7 +18,7 @@ public class ProgrammeEditionRepository {
         try {
             ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(programme, schoolYear);
             if (!isProgrammeEditionAlreadyRegistered(programmeEdition)) {
-                _programmeEditionRepository.add(programmeEdition);
+                _programmeEditionList.add(programmeEdition);
                 return true;
             }
 
@@ -31,13 +31,13 @@ public class ProgrammeEditionRepository {
 
     private boolean isProgrammeEditionAlreadyRegistered(ProgrammeEdition programmeEdition) {
 
-        return _programmeEditionRepository.contains(programmeEdition);
+        return _programmeEditionList.contains(programmeEdition);
     }
 
     public Optional<ProgrammeEdition> findProgrammeEditionBySchoolYearAndProgramme(
             Programme programme,
             SchoolYear schoolYear) {
-        for (ProgrammeEdition programmeEdition : _programmeEditionRepository) {
+        for (ProgrammeEdition programmeEdition : _programmeEditionList) {
             if (programmeEdition.findProgrammeInProgrammeEdition().equals(programme) &&
                     programmeEdition.findSchoolYearInProgrammeEdition().equals(schoolYear)) {
                 return Optional.of(programmeEdition);
@@ -47,7 +47,7 @@ public class ProgrammeEditionRepository {
     }
 
     public List<ProgrammeEdition> getAllProgrammeEditions() {
-        return _programmeEditionRepository;
+        return _programmeEditionList;
     }
 
     public Programme findProgrammeInProgrammeEdition(ProgrammeEdition programmeEdition) {

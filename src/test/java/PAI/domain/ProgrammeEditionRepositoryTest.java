@@ -257,9 +257,10 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
 
         // Act
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         // Assert
         assertNotNull(programmeEditionRepository);
@@ -270,7 +271,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
@@ -290,7 +292,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
@@ -311,7 +314,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = null;
         SchoolYear schoolYearMock = mock(SchoolYear.class);
@@ -330,7 +334,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = null;
@@ -349,7 +354,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
@@ -372,7 +378,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
@@ -396,7 +403,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         Programme programmeMock2 = mock(Programme.class);
@@ -420,7 +428,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
@@ -437,7 +446,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         // Act
         List<ProgrammeEdition> result = programmeEditionRepository.getAllProgrammeEditions();
@@ -451,7 +461,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         SchoolYear schoolYearMock2 = mock(SchoolYear.class);
@@ -487,7 +498,8 @@ class ProgrammeEditionRepositoryTest {
         // SUT = ProgrammeEditionRepository - findProgrammeInProgrammeEdition
         // Arrange
         ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock);
+        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
