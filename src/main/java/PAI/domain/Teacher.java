@@ -108,6 +108,8 @@ public class Teacher {
     private void validateAcademicBackground(String academicBackground) throws IllegalArgumentException {
         if (academicBackground == null || academicBackground.isBlank())
             throw new IllegalArgumentException("Teacher's academic background must be a non-empty String.");
+
+        this._academicBackground = academicBackground;
     }
 
     public boolean hasSameAcronym(Teacher teacher) {

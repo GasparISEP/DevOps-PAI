@@ -10,8 +10,10 @@ participant "tcList:List<TeacherCategories>" as tcList #Yellow/Silver
 participant ":DepartmentRepository" as DepartmentRepository #Cyan/Silver
 participant "dptList:List<Departments>" as dptList #Yellow/Silver
 participant ":TeacherRepository" as TeacherRepository #Cyan/Silver
+participant "t1:TeacherFactory" as TeacherFactory #Yellow/Silver
 participant "t1:Teacher" as Teacher #Yellow/Silver
 participant "addrs1:Address" as Address #Yellow/Silver
+participant "tcp1:TeacherCareerProgressionFactory" as TeacherCareerProgressionFactory #Yellow/Silver
 participant "tcp1:TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
 
 
@@ -65,7 +67,10 @@ activate Controller
 Controller -> TeacherRepository: **registerTeacher**(acronym, name, email, nif, phoneNumber, street, postcode, location, country,\nacademicBackground, workingPercentage, date, tc1, dpt1)
 activate TeacherRepository
 
-TeacherRepository -> Teacher **: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
+TeacherRepository -> TeacherFactory: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
+activate TeacherFactory
+
+TeacherFactory -> Teacher **: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
 activate Teacher
 
 Teacher -> Address **: **createAddress** (street, postcode, location, country)
@@ -74,16 +79,28 @@ activate Address
 Address --> Teacher: addrs1
 deactivate Address
 
-Teacher -> TeacherCareerProgression **: **createTeacherCareerProgressionList** (date, tc1, workingPercentage)
+Teacher -> TeacherCareerProgressionFactory: **createTeacherCareerProgressionList** (date, tc1, workingPercentage)
+activate TeacherCareerProgressionFactory
+
+TeacherCareerProgressionFactory -> TeacherCareerProgression **: **createTeacherCareerProgressionList** (date, tc1, workingPercentage)
 activate TeacherCareerProgression
 
-TeacherCareerProgression --> Teacher: tcp1
+TeacherCareerProgression --> TeacherCareerProgressionFactory: tcp1
 deactivate TeacherCareerProgression
+
+TeacherCareerProgressionFactory --> Teacher: tcp1
+deactivate TeacherCareerProgressionFactory
 
 Teacher -> Teacher: add(tcp1)
 
-Teacher --> TeacherRepository: t1
+Teacher --> TeacherFactory: t1
+deactivate Teacher
 
+TeacherFactory --> TeacherRepository: t1
+
+deactivate TeacherFactory
+
+activate Teacher
 ref over TeacherRepository, Teacher
     Check if a teacher is already registered
 end ref
