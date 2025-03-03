@@ -25,6 +25,6 @@ class DepartmentFactory {
 }
 
 US05_RegisterADepartmentController "1" ..> "       1\n_departmentRepo    " DepartmentRepository
-Department "_departmentsList *      " <-- "1" DepartmentRepository
-DepartmentFactory "1" <.. "1" DepartmentRepository
+Department "1" <- "1" DepartmentFactory
+DepartmentFactory "1\n _departmentFactory" <.. "1" DepartmentRepository
 @enduml
