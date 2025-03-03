@@ -69,7 +69,7 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldReturnSizeOneIfOnlyOneCourseInList() throws Exception {
+    void shouldReturnSizeOneIfOnlyOneCourseInList(){
         // arrange
         Course courseDouble = mock(Course.class);
 
@@ -86,10 +86,8 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldReturnCourseInList() throws Exception {
+    void shouldReturnCourseInList() {
         // arrange
-        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
-        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
         Course courseDouble = mock(Course.class);
 
         ArrayList<Course> courseList = new ArrayList<>();
@@ -97,14 +95,11 @@ public class US03AddCourseToProgrammeControllerTest {
 
         when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
 
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
-
         // act
-        List<Course> allCourses = US03AddCourseToProgrammeController.getAllCourses();
+        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
 
         // assert
-        assertEquals(courseDouble, allCourses.get(0));
+        assertEquals(courseDouble, result.get(0));
     }
 
     @Test
