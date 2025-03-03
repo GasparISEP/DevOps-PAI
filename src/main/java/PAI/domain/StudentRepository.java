@@ -7,12 +7,8 @@ import java.util.Optional;
 public class StudentRepository {
 
     private StudentFactory _studentFactory;
-    // Create ArrayList to store students
     private List<Student> _students;
 
-    // Creates a default StudentFactory and StudentListFactory and calls the next constructor (constructor delegation)
-    public StudentRepository() { this(new StudentFactory(), new StudentListFactory()); }
-    // Constructor to be directly used for isolated testing
     public StudentRepository(StudentFactory studentFactory, StudentListFactory studentListFactory) {
         _studentFactory = studentFactory;
         _students = studentListFactory.newArrayList();

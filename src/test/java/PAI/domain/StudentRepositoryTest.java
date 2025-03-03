@@ -46,13 +46,6 @@ class StudentRepositoryTest {
         }
 
         @Test
-        void shouldCreateStudentRepositoryDefault() throws Exception {
-
-            //act
-            new StudentRepository();
-        }
-
-        @Test
         void testRegisterDuplicateNIFThrowsException() throws Exception {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryDouble, _studentListFactoryDouble);
