@@ -51,7 +51,7 @@ class ProgrammeEnrolmentTest {
         return Stream.of(
                 arguments(""),
                 arguments(" "),
-                arguments((Object) null),
+                arguments((String) null),
                 arguments("2024-12-10"),
                 arguments("10/12/2024"),
                 arguments("10 de dezembro de 2024"),
@@ -88,7 +88,7 @@ class ProgrammeEnrolmentTest {
         return Stream.of(
                 arguments(""),
                 arguments(" "),
-                arguments((Object) null),
+                arguments((String) null),
                 arguments("2024-12-10"),
                 arguments("10/12/2024"),
                 arguments("10 de dezembro de 2024"),
