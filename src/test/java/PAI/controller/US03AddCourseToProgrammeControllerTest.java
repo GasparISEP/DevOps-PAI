@@ -1,27 +1,33 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class US03AddCourseToProgrammeControllerTest {
-    
-    
-    
+
+    private US03_AddCourseToProgrammeController us03AddCourseToProgrammeController;
+    private ProgrammeList programmeListDouble;
+    private CourseRepository courseRepositoryDouble;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        programmeListDouble = mock(ProgrammeList.class);
+        courseRepositoryDouble = mock(CourseRepository.class);
+        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+    }
     @Test
     void shouldCreateAddCourseToProgrammeController() throws Exception {
         // arrange
-        CourseRepository courseRepository = mock(CourseRepository.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
         //act
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         //assert
         assertNotNull(US03AddCourseToProgrammeController);
     }
@@ -30,16 +36,13 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
         // arrange
-        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
-        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble = mock(Course.class);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+
         when(programmeDouble.addCourseToAProgramme(courseDouble)).thenThrow(new Exception("Course is already added to the programme."));
         //act + assert
         assertThrows(Exception.class, () -> {
-            US03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
+            us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         });
     }
 
@@ -48,12 +51,8 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble = mock(Course.class);
-        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
-        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         //act
-        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
+        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         //assert
         assertTrue(addCourseToProgramme);
     }
@@ -72,14 +71,10 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldThrowExceptionIfCourseIsNull() throws Exception {
         // arrange
-        ProgrammeList programmeListDouble = mock(ProgrammeList.class);
-        CourseRepository courseRepositoryDouble = mock(CourseRepository.class);
         Programme programmeDouble = mock(Programme.class);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
         //act + assert
         assertThrows(Exception.class, () -> {
-            US03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, null);
+            us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, null);
         });
     }
 
