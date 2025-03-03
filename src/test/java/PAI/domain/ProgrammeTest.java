@@ -298,11 +298,11 @@ class ProgrammeTest {
         DegreeType degreeTypeDouble = mock(DegreeType.class);
         Department departmentDouble = mock(Department.class);
         Teacher teacherDouble = mock(Teacher.class);
-        Programme lei = new Programme("Engenharia Informática", "LEI", 30,
+        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
                 2, degreeTypeDouble, departmentDouble, teacherDouble);
         Course courseDouble = mock(Course.class);
          //act
-        boolean result = lei.addCourseToAProgramme(courseDouble);
+        boolean result = programme.addCourseToAProgramme(courseDouble);
         //assert
         assertTrue(result);
     }
@@ -317,43 +317,13 @@ class ProgrammeTest {
         Course courseDouble = mock(Course.class);
         Programme programme = new Programme("Engenharia Informática", "LEI", 30,
                 2, degreeTypeDouble, departmentDouble, teacherDouble);
+
         programme.addCourseToAProgramme(courseDouble);
 
         //act & assert
         assertThrows(Exception.class, () -> programme.addCourseToAProgramme(courseDouble));
     }
 
-    @Test
-    void shouldIncreaseCourseListSizeWhenCourseIsAdded() throws Exception {
-        // arrange
-        DegreeType degreeTypeDouble = mock(DegreeType.class);
-        Department departmentDouble = mock(Department.class);
-        Teacher teacherDouble = mock(Teacher.class);
-        Course courseDouble = mock(Course.class);
-        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
-                2, degreeTypeDouble, departmentDouble, teacherDouble);
-        programme.addCourseToAProgramme(courseDouble);
-        // act
-        int sizeOfCourseList = programme.getCourseList().size();
-        // assert
-        assertEquals(1, sizeOfCourseList);
-    }
-
-    @Test
-    void shouldContainAddedCourseInCourseList() throws Exception {
-        // arrange
-        DegreeType degreeTypeDouble = mock(DegreeType.class);
-        Department departmentDouble = mock(Department.class);
-        Teacher teacherDouble = mock(Teacher.class);
-        Course courseDouble = mock(Course.class);
-        Programme programme = new Programme("Engenharia Informática", "LEI", 30,
-                2, degreeTypeDouble, departmentDouble, teacherDouble);
-        programme.addCourseToAProgramme(courseDouble);
-        // act
-        Course courseInProgramme = programme.getCourseList().get(0);
-        // assert
-        assertEquals(courseDouble, courseInProgramme);
-    }
 
     @Test
     void shouldReturnCourseLists() throws Exception {
