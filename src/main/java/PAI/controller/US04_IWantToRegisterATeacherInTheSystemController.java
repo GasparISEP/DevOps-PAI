@@ -4,9 +4,9 @@ import PAI.domain.*;
 
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
-    private TeacherRepository _teacherRepository;
-    private TeacherCategoryRepository _teacherCategoryRepository;
-    private DepartmentRepository _departmentRepository;
+    private final TeacherRepository _teacherRepository;
+    private final TeacherCategoryRepository _teacherCategoryRepository;
+    private final DepartmentRepository _departmentRepository;
 
     public US04_IWantToRegisterATeacherInTheSystemController( TeacherRepository teacherRepository,
                                                               TeacherCategoryRepository teacherCategoryRepository,
@@ -15,6 +15,10 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
         validateTeacherRepository(teacherRepository);
         validateTeacherCategoryRepository(teacherCategoryRepository);
         validateDepartmentRepository(departmentRepository);
+
+        this._teacherRepository = teacherRepository;
+        this._teacherCategoryRepository = teacherCategoryRepository;
+        this._departmentRepository = departmentRepository;
     }
 
     public boolean registerATeacherInTheSystem(
@@ -48,18 +52,15 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
         if (teacherRepository == null) {
             throw new IllegalStateException("TeacherRepository is null.");
         }
-        this._teacherRepository = teacherRepository;
     }
     private void validateTeacherCategoryRepository(TeacherCategoryRepository teacherCategoryRepository) {
         if (teacherCategoryRepository == null) {
             throw new IllegalStateException("TeacherCategoryRepository is null.");
         }
-        this._teacherCategoryRepository =teacherCategoryRepository;
     }
     private void validateDepartmentRepository(DepartmentRepository departmentRepository) {
         if (departmentRepository == null) {
             throw new IllegalStateException("DepartmentRepository is null.");
         }
-        this._departmentRepository = departmentRepository;
     }
 }
