@@ -32,7 +32,7 @@ public class TeacherCategoryRepository {
 
         public Optional<TeacherCategory> getTeacherCategoryByName(String name) {
             for (TeacherCategory category : _teacherCategoryRepository) {
-                if (category.getName().equals(name)) {
+                if (category.getName().equalsIgnoreCase(name)) {
                     return Optional.of(category);
                 }
             }
