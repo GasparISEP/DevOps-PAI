@@ -124,6 +124,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -131,8 +132,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland",
-                "23-01-2025", tcDouble, 100, dptDouble, TCPfactoryDouble)).thenReturn(true);
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble,"23-01-2025", tcDouble, 100, dptDouble, TCPfactoryDouble)).thenReturn(true);
 
         US13_RegisterTeacherAndRelevantDataController controller = new US13_RegisterTeacherAndRelevantDataController(
                 tcrDouble, dptrDouble, trDouble);
@@ -140,8 +140,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Act
         boolean result = controller.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland",
-                "23-01-2025", tcDouble, 100, dptDouble, TCPfactoryDouble);
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble,"23-01-2025", tcDouble, 100, dptDouble, TCPfactoryDouble);
 
         // Assert
         assertTrue(result);

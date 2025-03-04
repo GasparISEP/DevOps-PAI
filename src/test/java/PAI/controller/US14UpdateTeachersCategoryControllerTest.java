@@ -61,6 +61,7 @@ class US14UpdateTeachersCategoryControllerTest {
         TeacherCategoryFactory tcf1 = mock(TeacherCategoryFactory.class);
         TeacherCategory tc1 = new TeacherCategory("Assistente");
         TeacherCategory tc2 = new TeacherCategory("Efectivo");
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         when(tcf1.createTeacherCategory("Assistente")).thenReturn(tc1);
@@ -70,7 +71,7 @@ class US14UpdateTeachersCategoryControllerTest {
         Teacher teacher = mock(Teacher.class);
 
         when(t1.createTeacher("EDC", "Eugénio Cardoso", "edc@isep.ipp.pt", "213784542", "B106", "Mestrado Engenharia, ISEP",
-                "Rua da Pedra", "4300-020", "Porto", "Portugal", "28-01-2025", tc1, 75, dp1, TCPfactoryDouble))
+                "Rua da Pedra", "4300-020", "Porto", "Portugal", addressFactoryDouble, "28-01-2025", tc1, 75, dp1, TCPfactoryDouble))
                 .thenReturn(teacher);
 
         when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));
@@ -97,19 +98,21 @@ class US14UpdateTeachersCategoryControllerTest {
     }
 
     @Test
-    void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdateddTeachersCategory() throws Exception {
+    void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdatedTeachersCategory() throws Exception {
 
         Department dp1 = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCategoryFactory tcf1 = mock(TeacherCategoryFactory.class);
         TeacherCategory tc1 = new TeacherCategory("Assistente");
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+
         when(tcf1.createTeacherCategory("Assistente")).thenReturn(tc1);
 
 
         TeacherFactory t1 = mock(TeacherFactory.class);
         Teacher teacher = mock(Teacher.class);
         when(t1.createTeacher("EDC", "Eugénio Cardoso", "edc@isep.ipp.pt", "213784542", "B106", "Mestrado Engenharia, ISEP",
-                "Rua da Pedra", "4300-020", "Porto", "Portugal", "28-01-2025", tc1, 75, dp1, TCPfactoryDouble))
+                "Rua da Pedra", "4300-020", "Porto", "Portugal", addressFactoryDouble, "28-01-2025", tc1, 75, dp1, TCPfactoryDouble))
                 .thenReturn(teacher);
 
         when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));

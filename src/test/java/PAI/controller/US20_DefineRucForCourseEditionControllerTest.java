@@ -112,6 +112,7 @@ class US20_DefineRucForCourseEditionControllerTest {
         //Arrange Teacher
         TeacherCategory category = new TeacherCategory("Professor Adjunto");
         Department department = new Department("MAT", "Mathematics");
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
 
         //Arrange
@@ -124,12 +125,12 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         when(teacherFactory.createTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
                 "A106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
                 category, 70, department, TCPfactoryDouble)).thenReturn(teacher1);
 
         when(teacherFactory.createTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780",
                 "B106","Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
                 category, 70, department, TCPfactoryDouble)).thenReturn(teacher2);
 
         TeacherRepository repo2 = new TeacherRepository(teacherFactory);
@@ -137,12 +138,12 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         repo2.registerTeacher( "AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
                 "A106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
                 category, 70, department, TCPfactoryDouble);
 
         repo2.registerTeacher( "BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780",
                 "B106","Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", "15-04-2005",
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
                 category, 70, department, TCPfactoryDouble);
 
         //Act

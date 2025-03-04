@@ -38,10 +38,10 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to register the Teacher object
-    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage,
+    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, AddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
                                    Department department, TeacherCareerProgressionFactory CareerProgressionFactory) throws IllegalArgumentException {
 
-        _teacherRepository.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, date, category, workingPercentage, department, CareerProgressionFactory);
+        _teacherRepository.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, addressFactory, date, category, workingPercentage, department, CareerProgressionFactory);
 
         return true;
     }

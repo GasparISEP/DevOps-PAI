@@ -19,6 +19,8 @@ public class Teacher {
 
     private Address _address;
 
+    private AddressFactory _addressFactory;
+
     private Department _department;
 
     private List<TeacherCareerProgression> _teacherCareerProgressionList;
@@ -26,8 +28,9 @@ public class Teacher {
     private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
 
     //constructor
-    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage,
+    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, AddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
                    Department department, TeacherCareerProgressionFactory teacherCareerProgressionFactory) throws IllegalArgumentException {
+
         validateAcronym(acronym);
         validateName(name);
         validateEmail(email);
@@ -35,7 +38,7 @@ public class Teacher {
         validatePhoneNumber(phoneNumber);
         validateAcademicBackground(academicBackground);
 
-        this._address = new Address (street, postalCode, location,country);
+        this._address = addressFactory.createAddress(street, postalCode, location, country);
 
         this._teacherCareerProgressionList = new ArrayList<>();
         this._teacherCareerProgressionFactory = teacherCareerProgressionFactory;

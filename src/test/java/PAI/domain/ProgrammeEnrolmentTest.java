@@ -24,10 +24,11 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+                "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
 
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
@@ -73,10 +74,11 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+                "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
 
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
@@ -122,8 +124,9 @@ class ProgrammeEnrolmentTest {
 
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto","Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
 
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
@@ -162,8 +165,9 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
 
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
@@ -209,8 +213,9 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
 
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
@@ -254,14 +259,15 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
 
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
         DegreeType dt2 = new DegreeType("Master", 240);
         Department dpt2 = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
-        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc2, 100, dpt2, tcpFactory);
+        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
 
         Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2);
 
@@ -309,14 +315,15 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
 
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
         DegreeType dt2 = new DegreeType("Master", 240);
         Department dpt2 = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
-        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc2, 100, dpt2, tcpFactory);
+        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
 
         Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2);
 
@@ -359,8 +366,9 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", tc1, 100, dpt1, tcpFactory);
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
 
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
 
