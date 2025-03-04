@@ -1,30 +1,31 @@
 package PAI.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ProgrammeEditionEnrollmentRepo {
 
-    private List<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
+    private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
 
     private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
 
     public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory) {
         _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
-        _programmeEditionEnrollments = new ArrayList<>();
+        _programmeEditionEnrollments = new HashSet<>();
     }
 
-    public Optional<ProgrammeEditionEnrollment> enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition, LocalDate localDate) {
+    public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition, LocalDate localDate) {
         if (programmeEdition == null || student == null) {
             throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
         }
         ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student, programmeEdition, localDate);
-        checkIfThisEnrollmentAlreadyExists(programmeEditionEnroll);
-        _programmeEditionEnrollments.add(programmeEditionEnroll);
 
-        return Optional.of(programmeEditionEnroll);
+        boolean isPEEnrollmentAddedToRepository = _programmeEditionEnrollments.add(programmeEditionEnroll);
+
+        if(!isPEEnrollmentAddedToRepository){
+            return false;
+        }
+        return true;
     }
 
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
@@ -34,14 +35,6 @@ public class ProgrammeEditionEnrollmentRepo {
             }
         }
         return false;
-    }
-
-    private void checkIfThisEnrollmentAlreadyExists(ProgrammeEditionEnrollment programmeEditionEnrollment) throws IllegalArgumentException {
-        for (ProgrammeEditionEnrollment existingEnrollment : _programmeEditionEnrollments) {
-            if (existingEnrollment.equals(programmeEditionEnrollment)) {
-                throw new IllegalArgumentException("This programme edition enrollment is already in the list.");
-            }
-        }
     }
 
     //US26- number of students enrolled in all programmes associated to a department, in a given school year

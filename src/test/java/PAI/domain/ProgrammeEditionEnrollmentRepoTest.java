@@ -53,16 +53,13 @@ class ProgrammeEditionEnrollmentRepoTest {
         ProgrammeEditionEnrollment enrollMock = mock(ProgrammeEditionEnrollment.class);
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st1,pe1,currentDate))
                 .thenReturn(enrollMock);
-
-        //act
         repository.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
-        });
+        //act
+        boolean result = repository.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
 
         //assert
-        assertEquals("This programme edition enrollment is already in the list.", thrown.getMessage());
+        assertFalse(result);
     }
 
     @Test
@@ -78,10 +75,10 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st1,pe1,currentDate)).thenReturn(enrollMock);
 
         //act
-        Optional<ProgrammeEditionEnrollment> result = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
+        boolean result = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
 
         //assert
-        assertTrue(result.isPresent(), "The student was enrolled in a programme edition successfully.");
+        assertTrue(result);
     }
 
     @Test
@@ -100,12 +97,12 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st1,pe1,currentDate)).thenReturn(enrollMock1);
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st2,pe2,currentDate)).thenReturn(enrollMock2);
         //act
-        Optional<ProgrammeEditionEnrollment> result1 = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
-        Optional<ProgrammeEditionEnrollment> result2 = repository.enrollStudentInProgrammeEdition(st2,pe2,currentDate);
+        boolean result1 = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
+        boolean result2 = repository.enrollStudentInProgrammeEdition(st2,pe2,currentDate);
 
         //assert
-        assertTrue(result1.isPresent(), "The student was enrolled in a programme edition successfully.");
-        assertTrue(result2.isPresent(), "The student was enrolled in a programme edition successfully.");
+        assertTrue(result1);
+        assertTrue(result2);
 
     }
 
