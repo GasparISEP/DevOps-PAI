@@ -80,8 +80,6 @@ class SchoolYearRepositoryTest {
         when(schoolYearFactoryDouble.createSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024"))
                 .thenReturn(schoolYearDouble2);
 
-        repository.addSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
-
         when(schoolYearDouble1.isSameSchoolYear(schoolYearDouble2)).thenReturn(true);
 
         // Act & Assert
@@ -103,6 +101,7 @@ class SchoolYearRepositoryTest {
 
         repository.addSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
         repository.addSchoolYear("School Year 24/25", "01-09-2024", "31-08-2025");
+
         when(schoolYearDouble1.getStartDate()).thenReturn(LocalDate.of(2023, 9, 1));
         when(schoolYearDouble1.getEndDate()).thenReturn(LocalDate.of(2024, 8, 31));
         when(schoolYearDouble2.getStartDate()).thenReturn(LocalDate.of(2024, 9, 1));
@@ -123,12 +122,12 @@ class SchoolYearRepositoryTest {
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
 
-        when(schoolYearFactoryDouble.createSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024"))
+        when(schoolYearFactoryDouble.createSchoolYear("School Year 26/27", "01-09-2025", "31-08-2026"))
                 .thenReturn(schoolYearDouble1);
         when(schoolYearFactoryDouble.createSchoolYear("School Year 24/25", "01-09-2024", "31-08-2025"))
                 .thenReturn(schoolYearDouble2);
 
-        repository.addSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+        repository.addSchoolYear("School Year 26/27", "01-09-2025", "31-08-2026");
         repository.addSchoolYear("School Year 24/25", "01-09-2024", "31-08-2025");
         when(schoolYearDouble1.getStartDate()).thenReturn(LocalDate.of(2026, 9, 1));
         when(schoolYearDouble1.getEndDate()).thenReturn(LocalDate.of(2027, 8, 31));

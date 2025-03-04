@@ -6,14 +6,17 @@ import java.util.List;
 public class ProgrammeEnrolmentRepository {
 
     private List<ProgrammeEnrolment> _enrolmentList;
+    private ProgrammeEnrolmentFactory _programmeEnrolmentFactory;
 
-    public ProgrammeEnrolmentRepository(){
+    public ProgrammeEnrolmentRepository(ProgrammeEnrolmentFactory programmeEnrolmentFactory){
+
         _enrolmentList = new ArrayList<>();
+        _programmeEnrolmentFactory = programmeEnrolmentFactory;
     }
 
     public boolean enrolStudents(Student student, AccessMethod accessMethod, Programme programme, String enrolmentDate) throws Exception {
 
-        ProgrammeEnrolment newProgrammeEnrolment = new ProgrammeEnrolment (student, accessMethod, programme, enrolmentDate);
+        ProgrammeEnrolment newProgrammeEnrolment = _programmeEnrolmentFactory.createProgrammeEnrolment (student, accessMethod, programme, enrolmentDate);
 
         //Checks if Enrolment is repeated
         if(!isEnrolmentRepeated(newProgrammeEnrolment)) {
