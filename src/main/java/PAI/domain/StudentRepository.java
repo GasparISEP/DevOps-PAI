@@ -7,13 +7,12 @@ import java.util.Optional;
 public class StudentRepository {
 
     private StudentFactory _studentFactory;
-    // Create ArrayList to store students
-    private List<Student> _students = new ArrayList<>();
+    private List<Student> _students;
 
-    // Creates a default StudentFactory and calls the next constructor (constructor delegation)
-    public StudentRepository() { this(new StudentFactory()); }
-    // Constructor to be directly used for isolated testing
-    public StudentRepository(StudentFactory studentFactory) { _studentFactory = studentFactory; }
+    public StudentRepository(StudentFactory studentFactory, StudentListFactory studentListFactory) {
+        _studentFactory = studentFactory;
+        _students = studentListFactory.newArrayList();
+    }
 
     public boolean registerStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
 

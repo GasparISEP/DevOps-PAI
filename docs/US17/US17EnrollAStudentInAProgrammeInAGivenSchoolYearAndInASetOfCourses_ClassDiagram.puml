@@ -75,8 +75,8 @@ class SchoolYearRepository {
 
 class ProgrammeEnrollment {
     +ProgrammeEnrolment(student: Student, accessMethod: AccessMethod)
-    +findStudentInEnrollments() : Student
-    +getProgramme() : Programme
+    +getStudentFromEnrolment() : Student
+    +getProgrammeFromEnrolment() : Programme
 }
 
 class ProgrammeEnrolmentRepository {
@@ -142,7 +142,7 @@ CourseEditionEnrollment "*" --> "1 _courseEdition" CourseEdition
 CourseEditionEnrollment "_listOfCourseEditionEnrollment *  " <-- "1" CourseEditionEnrollmentRepository
 ProgrammeEdition "_programmeEdition 1                " <-- " * " ProgrammeEditionEnrollment
 ProgrammeEditionEnrollment "* " --> "_student 1   " Student
-ProgrammeEditionEnrollment "_programmeEditionEnrollmentFactory 1" <-- "1      " ProgrammeEditionEnrollmentFactory
+ProgrammeEditionEnrollment "_programmeEditionEnrollment 1" <-- "1      " ProgrammeEditionEnrollmentFactory
 ProgrammeEditionEnrollmentFactory " _programmeEditionEnrollmentFactory  1" <-- "1           " ProgrammeEditionEnrollmentRepo
 ProgrammeList "1     " --> " _listOfProgrammes *" Programme
 CourseEdition "_courseEdition *  " <-- "1   " ProgrammeEdition

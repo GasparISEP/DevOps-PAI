@@ -38,20 +38,20 @@ class CourseEditionEnrollmentTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidEnrollmentDate")
-    void testInvalidEnrollmentDate(LocalDate enrollmentDate, String expectedMessage) throws Exception {
+    void testInvalidEnrollmentDate(LocalDate enrollmentDate, String expectedMessage) throws IllegalArgumentException {
         // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
         // act + assert
-        Exception exception = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new CourseEditionEnrollment(studentDouble, courseEditionDouble, enrollmentDate);
         });
         assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void testCourseEditionEnrollmentWhenStudentIsNull() throws Exception {
+    void testCourseEditionEnrollmentWhenStudentIsNull() throws IllegalArgumentException {
         // arrange
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
@@ -64,7 +64,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void testCourseEditionEnrollmentWhenCourseEditionIsNull() throws Exception {
+    void testCourseEditionEnrollmentWhenCourseEditionIsNull() throws IllegalArgumentException {
         // arrange
         Student studentDouble = mock(Student.class);
         LocalDate enrollmentDate = LocalDate.now();
@@ -77,7 +77,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseEditionIsNull_EqualsMethod() throws Exception {
+    void shouldReturnFalseIfCourseEditionIsNull_EqualsMethod() {
         //arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -89,7 +89,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseEditionIsEqualThis_EqualsMethod() throws Exception {
+    void shouldReturnTrueIfCourseEditionIsEqualThis_EqualsMethod() {
         //arrange
         Student studentDouble1 = mock(Student.class);
         Student studentDouble2= mock(Student.class);
@@ -104,9 +104,9 @@ class CourseEditionEnrollmentTest {
         assertFalse(enrollment1.equals(enrollment2));
     }
 
-    //US17
+
     @Test
-    void shouldReturnCourseEditionFromEnrollment() throws Exception {
+    void shouldReturnCourseEditionFromEnrollment()  {
         // Arrange
         Student st1 = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -121,7 +121,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnStudentInCourseEditionEnrollment() throws Exception {
+    void shouldReturnStudentInCourseEditionEnrollment()  {
         // Arrange
         Student st1 = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -138,56 +138,39 @@ class CourseEditionEnrollmentTest {
     @Test
     void should_return_a_valid_Student() throws Exception {
         //arrange
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        Student doubleSt1 = mock (Student.class);
+        CourseEdition doubleCe1 = mock(CourseEdition.class);
         LocalDate currentDate = LocalDate.now();
 
-        //act
-        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(doubleSt1, doubleCe1, currentDate);
 
+        //act
         Object returnedStudent = cee1.knowStudent();
 
         //assert
-        assertEquals(st1, returnedStudent);
+        assertEquals(doubleSt1, returnedStudent);
 
     }
 
     @Test
     void should_return_a_valid_course_edition() throws Exception {
         //arrange
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student(1, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        Course c1 = new Course("c1", "CC", 30, 2);
-        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("JSM", "John Smith", "jsm@isep.ipp.pt", "123456789", "B180","PhD","Rua do Caminho","4554-565","Porto","Portugal","10-10-2024",assistantProfessor,50,CSE);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-        CourseEdition ce1 = new CourseEdition(c1, pe1);
+        Student doubleSt1 = mock (Student.class);
+        CourseEdition doubleCe1 = mock(CourseEdition.class);
         LocalDate currentDate = LocalDate.now();
 
-        //act
-        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(st1, ce1, currentDate);
+        CourseEditionEnrollment cee1 = new CourseEditionEnrollment(doubleSt1, doubleCe1, currentDate);
 
+        //act
         Object returnedCourseEdition = cee1.knowCourseEdition();
+
         //assert
-        assertEquals(ce1, returnedCourseEdition);
+        assertEquals(doubleCe1, returnedCourseEdition);
     }
 
-    //US17
+
     @Test
-    void shouldReturnStudentInCourseEdition() throws Exception {
+    void shouldReturnStudentInCourseEdition() {
         // Arrange
         Student st1 = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -203,7 +186,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() throws Exception {
+    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod() {
         // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -215,7 +198,7 @@ class CourseEditionEnrollmentTest {
         assertTrue(enrollment1.equals(enrollment2));
     }
     @Test
-    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod_SameReference() throws Exception {
+    void shouldReturnTrueIfAllFieldsAreEqual_EqualsMethod_SameReference() {
         // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);

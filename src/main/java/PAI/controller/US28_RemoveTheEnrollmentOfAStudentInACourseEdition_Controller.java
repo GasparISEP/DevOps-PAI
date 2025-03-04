@@ -17,7 +17,6 @@ public class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
             courseEditionEnrollmentRepository.removeEnrollment(student, courseEdition);
 
         } catch (Exception e) {
-//            e.printStackTrace();
             return false;
         }
         return true;

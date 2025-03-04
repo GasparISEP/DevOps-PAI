@@ -46,8 +46,8 @@ Controller -> ProgrammeEnrolmentRepository : isStudentEnrolled(student, programm
 activate ProgrammeEnrolmentRepository
 participant "e[i]:ProgrammeEnrollment" as Enrollment
 loop for each "e[i]:ProgrammeEnrollment" as Enrolment
-ProgrammeEnrolmentRepository -> Enrollment : Student: findStudentInEnrollments(student)
-ProgrammeEnrolmentRepository -> Enrollment : Programme: getProgramme()
+ProgrammeEnrolmentRepository -> Enrollment : Student: getStudentFromEnrolment()
+ProgrammeEnrolmentRepository -> Enrollment : Programme: getProgrammeFromEnrolment()
 end
 deactivate Enrollment
 ProgrammeEnrolmentRepository --> Controller : True
@@ -69,14 +69,12 @@ activate ProgrammeEditionEnrollmentRepo
 participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
 loop for each "pee[i]:ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
 participant ":Student" as Student
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment: ProgrammeEditionEnrollment: findProgrammeEditionInEnrollment()
 ProgrammeEditionEnrollmentRepo -> Student: ProgrammeEditionEnrollment: getUniqueNumber()
 participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment: ProgrammeEditionEnrollment: findProgrammeEditionInEnrollment()
 end
 ProgrammeEditionEnrollmentRepo --> Controller : False
 deactivate "ProgrammeEditionEnrollmentRepo"
-
-participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
 Controller -> ProgrammeEditionEnrollmentRepo : enrollStudentInProgrammeEdition(student, pe1, LocalDate)
 activate "ProgrammeEditionEnrollmentRepo"
 participant ":ProgrammeEditionEnrollmentFactory" as ProgrammeEditionEnrollmentFactory
@@ -85,24 +83,23 @@ activate ProgrammeEditionEnrollmentFactory
 create "pee1:ProgrammeEditionEnrollment"
 ProgrammeEditionEnrollmentFactory -> "pee1:ProgrammeEditionEnrollment" : createProgrammeEditionEnrollment(student, pe1, LocalDate)
 activate "pee1:ProgrammeEditionEnrollment"
-"pee1:ProgrammeEditionEnrollment" -> "pee1:ProgrammeEditionEnrollment" :isValid
 "pee1:ProgrammeEditionEnrollment" --> ProgrammeEditionEnrollmentFactory: pee1
 deactivate "pee1:ProgrammeEditionEnrollment"
-
 ProgrammeEditionEnrollmentFactory --> ProgrammeEditionEnrollmentRepo: pee1
 deactivate ProgrammeEditionEnrollmentFactory
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentRepo : checkIfThisEnrollmentAlreadyExists(pee1)
 ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentRepo : add(pee1)
 ProgrammeEditionEnrollmentRepo --> Controller : True
 deactivate ProgrammeEditionEnrollmentRepo
 participant ":CourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository : findCourseEditionsByProgrammeEdition(pee1)
 participant ":CourseEdition" as CourseEdition
-
 participant ":CourseEdition" as CourseEdition
 activate CourseEditionRepository
-loop for each "cee[i]:CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
+loop for each "cee[i]:CourseEditionRepository" as CourseEditionRepository
 CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
+activate CourseEdition
+CourseEdition --> CourseEditionRepository :  ce1
+deactivate CourseEdition
 CourseEditionRepository -> CourseEditionRepository :  add(ce1)
 end
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository

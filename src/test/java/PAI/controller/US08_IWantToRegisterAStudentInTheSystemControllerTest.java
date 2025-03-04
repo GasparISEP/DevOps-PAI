@@ -1,6 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.Address;
+import PAI.domain.StudentFactory;
+import PAI.domain.StudentListFactory;
 import PAI.domain.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +21,9 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     @Test
     void IWantToRegisterAStudentInTheSystemControllerConstructorTestWithoutIsolation() {
         //arrange
-        StudentRepository studentRepository = new StudentRepository();
+        StudentFactory sFactory = new StudentFactory();
+        StudentListFactory studentList = new StudentListFactory();
+        StudentRepository studentRepository = new StudentRepository(sFactory, studentList);
         //act
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentRepository);
     }
@@ -47,7 +51,9 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void registerStudentWithValidParametersReturnsTrueWithoutIsolation() throws Exception {
         //arrange
         Address address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        StudentRepository studentRepository = new StudentRepository();
+        StudentFactory sFactory = new StudentFactory();
+        StudentListFactory studentList = new StudentListFactory();
+        StudentRepository studentRepository = new StudentRepository(sFactory, studentList);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentRepository);
 
         //act
@@ -86,7 +92,9 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void throwsExceptionIfNIFOrUniqueNumberAreRepeatedWithoutIsolation(int uniqueNumber, String NIF) throws Exception {
         //arrange
         Address address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        StudentRepository studentRepository = new StudentRepository();
+        StudentFactory sFactory = new StudentFactory();
+        StudentListFactory studentList = new StudentListFactory();
+        StudentRepository studentRepository = new StudentRepository(sFactory, studentList);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentRepository);
         ctrl.registerStudent(1, "Rita", "123456789", "963741258", "rita@gmail.com", address);
 

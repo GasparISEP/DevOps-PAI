@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 class ProgrammeEditionEnrollmentRepoTest {
 
     @Test
-    void shouldThrowExceptionWhenStudentIsNull() throws Exception {
+    void shouldThrowExceptionWhenStudentIsNull() throws IllegalArgumentException {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -25,7 +25,7 @@ class ProgrammeEditionEnrollmentRepoTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeEditionIsNull() throws Exception {
+    void shouldThrowExceptionWhenProgrammeEditionIsNull() throws IllegalArgumentException {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -42,7 +42,7 @@ class ProgrammeEditionEnrollmentRepoTest {
     }
 
     @Test
-    void shouldReturnAnExceptionWhenProgrammeEditionEnrollmentAlreadyExists() throws Exception {
+    void shouldReturnAnExceptionWhenProgrammeEditionEnrollmentAlreadyExists() throws IllegalArgumentException {
         //arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -53,20 +53,17 @@ class ProgrammeEditionEnrollmentRepoTest {
         ProgrammeEditionEnrollment enrollMock = mock(ProgrammeEditionEnrollment.class);
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st1,pe1,currentDate))
                 .thenReturn(enrollMock);
-
-        //act
         repository.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
-        });
+        //act
+        boolean result = repository.enrollStudentInProgrammeEdition(st1, pe1, currentDate);
 
         //assert
-        assertEquals("This programme edition enrollment is already in the list.", thrown.getMessage());
+        assertFalse(result);
     }
 
     @Test
-    void shouldReturnAValidProgrammeEditionEnrollment () throws Exception {
+    void shouldReturnAValidProgrammeEditionEnrollment () {
         //arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -78,14 +75,14 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st1,pe1,currentDate)).thenReturn(enrollMock);
 
         //act
-        Optional<ProgrammeEditionEnrollment> result = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
+        boolean result = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
 
         //assert
-        assertTrue(result.isPresent(), "The student was enrolled in a programme edition successfully.");
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnATwoValidProgrammeEditionEnrollments () throws Exception {
+    void shouldReturnATwoValidProgrammeEditionEnrollments () {
         //arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -100,17 +97,17 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st1,pe1,currentDate)).thenReturn(enrollMock1);
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(st2,pe2,currentDate)).thenReturn(enrollMock2);
         //act
-        Optional<ProgrammeEditionEnrollment> result1 = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
-        Optional<ProgrammeEditionEnrollment> result2 = repository.enrollStudentInProgrammeEdition(st2,pe2,currentDate);
+        boolean result1 = repository.enrollStudentInProgrammeEdition(st1,pe1,currentDate);
+        boolean result2 = repository.enrollStudentInProgrammeEdition(st2,pe2,currentDate);
 
         //assert
-        assertTrue(result1.isPresent(), "The student was enrolled in a programme edition successfully.");
-        assertTrue(result2.isPresent(), "The student was enrolled in a programme edition successfully.");
+        assertTrue(result1);
+        assertTrue(result2);
 
     }
 
     @Test
-    void shouldReturnTrueIfStudentIsEnrolledInProgrammeEdition() throws Exception {
+    void shouldReturnTrueIfStudentIsEnrolledInProgrammeEdition() {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -135,7 +132,7 @@ class ProgrammeEditionEnrollmentRepoTest {
     }
 
     @Test
-    void shouldReturnFalseIfStudentIsNotEnrolledInProgrammeEdition() throws Exception {
+    void shouldReturnFalseIfStudentIsNotEnrolledInProgrammeEdition() {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -159,7 +156,7 @@ class ProgrammeEditionEnrollmentRepoTest {
         assertFalse(repository.isStudentEnrolledInThisProgrammeEdition(st1, pe2));
     }
 
-    //US26
+
     @Test
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndSchoolYear(){
 
@@ -175,7 +172,6 @@ class ProgrammeEditionEnrollmentRepoTest {
         Student student2Double = mock(Student.class);
         Student student3Double = mock(Student.class);
 
-        //to ensure that each student double has a different unique number
         when(student1Double.getUniqueNumber()).thenReturn(1);
         when(student2Double.getUniqueNumber()).thenReturn(2);
         when(student3Double.getUniqueNumber()).thenReturn(3);
@@ -199,7 +195,7 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(enrollMock3.findProgrammeEditionInEnrollment()).thenReturn(edition3Double);
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student3Double,edition3Double,currentDate)).thenReturn(enrollMock3);
 
-       // only student 1 and 2 will be counted,  since edition3 is not associated with the department/school year
+
         repository.enrollStudentInProgrammeEdition(student1Double, edition1Double, currentDate);
         repository.enrollStudentInProgrammeEdition(student2Double, edition2Double, currentDate);
         repository.enrollStudentInProgrammeEdition(student3Double, edition3Double, currentDate);
@@ -220,14 +216,13 @@ class ProgrammeEditionEnrollmentRepoTest {
         Department department1Double = mock(Department.class);
         SchoolYear schoolYear1Double = mock(SchoolYear.class);
 
-
         ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
         ProgrammeEdition edition2Double = mock(ProgrammeEdition.class);
 
         when(edition1Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(false);
         when(edition2Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(false);
 
-        //to ensure that each student double has a different unique number
+
         Student student1Double = mock(Student.class);
         Student student2Double = mock(Student.class);
 
@@ -249,7 +244,6 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(enrollMock2.findProgrammeEditionInEnrollment()).thenReturn(edition2Double);
         when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student2Double,edition2Double,currentDate)).thenReturn(enrollMock2);
 
-        //no students will be counted,since editionDouble is not associated with the department and school year
         repository.enrollStudentInProgrammeEdition(student1Double, edition1Double, currentDate);
         repository.enrollStudentInProgrammeEdition(student2Double, edition2Double, currentDate);
 
@@ -260,7 +254,7 @@ class ProgrammeEditionEnrollmentRepoTest {
         assertEquals(0, result);
     }
 
-    //Test counting when there is a student enrolled in multiple programme editions (the student should be counted only once)
+
     @Test
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInMultipleEditions() {
         // arrange
@@ -293,7 +287,7 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(enrollMock1.isEnrollmentAssociatedToDepartmentAndSchoolYear(department1Double,schoolYear1Double)).thenReturn(true);
         when(enrollMock2.isEnrollmentAssociatedToDepartmentAndSchoolYear(department1Double,schoolYear1Double)).thenReturn(true);
 
-        //the same student is enrolled in two different editions but should be counted only once
+
         repository.enrollStudentInProgrammeEdition(student1Double, edition1Double, currentDate);
         repository.enrollStudentInProgrammeEdition(student1Double, edition2Double, currentDate);
 
@@ -304,10 +298,9 @@ class ProgrammeEditionEnrollmentRepoTest {
         assertEquals(1, result);
     }
 
-    //US21
-    //Test counting 2 students enrolled in a programme edition
+
     @Test
-    void shouldReturnNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception {
+    void shouldReturnNumberOfStudentsEnrolledInAProgrammeEdition()  {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -344,9 +337,9 @@ class ProgrammeEditionEnrollmentRepoTest {
         assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
     }
 
-    //Test counting when there are no students enrolled in a programme edition
+
     @Test
-    void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() throws Exception {
+    void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
@@ -361,9 +354,9 @@ class ProgrammeEditionEnrollmentRepoTest {
         assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
     }
 
-    //Test counting in a programme edition different from the one where the students are enrolled
+
     @Test
-    void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() throws Exception {
+    void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);

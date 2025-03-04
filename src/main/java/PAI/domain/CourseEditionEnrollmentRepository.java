@@ -1,20 +1,18 @@
 package PAI.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class CourseEditionEnrollmentRepository {
 
-    private ArrayList<CourseEditionEnrollment> _courseEditionEnrollments;
+    private Set<CourseEditionEnrollment> _courseEditionEnrollments;
 
     private final CourseEditionEnrollmentFactory _courseEditionEnrollmentFactory;
 
     //constructor
     public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory) {
 
-        _courseEditionEnrollments = new ArrayList<>();
+        _courseEditionEnrollments = new HashSet<>();
         _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
     }
 
@@ -22,22 +20,12 @@ public class CourseEditionEnrollmentRepository {
 
         CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
 
-        if (isEnrollmentAlreadyExists(cee1)){
+        boolean isEnrollmentAddedToRepository = _courseEditionEnrollments.add(cee1);
+
+        if (!isEnrollmentAddedToRepository) {
             return false;
         }
-
-        _courseEditionEnrollments.add(cee1);
-
         return true;
-    }
-
-    //check if this enrollment already exists
-    private boolean isEnrollmentAlreadyExists (CourseEditionEnrollment courseEditionEnrollment) throws IllegalArgumentException {
-
-        if (_courseEditionEnrollments.contains(courseEditionEnrollment)) {
-            return true;
-        }
-        return false;
     }
 
     public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {
@@ -48,7 +36,6 @@ public class CourseEditionEnrollmentRepository {
         }
         return false;
     }
-
 
     public Optional<CourseEditionEnrollment> findByStudentAndEdition(Student student, CourseEdition courseEdition) {
         if (student == null || courseEdition == null) {
@@ -66,8 +53,7 @@ public class CourseEditionEnrollmentRepository {
         validateCourseEdition(courseEdition);
 
         int count = 0;
-        for (int i = 0; i < _courseEditionEnrollments.size(); i++) {
-            CourseEditionEnrollment enrollment = _courseEditionEnrollments.get(i);
+        for (CourseEditionEnrollment enrollment : _courseEditionEnrollments) {
             if (enrollment.knowCourseEdition().equals(courseEdition)) {
                 count++;
             }
@@ -95,7 +81,7 @@ public class CourseEditionEnrollmentRepository {
     }
 
 
-    public void enrollStudentInProgrammeCourseEditions(Student student,  List<CourseEdition> courseEditions) {
+    public void enrollStudentInProgrammeCourseEditions(Student student,  List<CourseEdition> courseEditions){
 
         for (CourseEdition courseEdition : courseEditions) {
             Optional<CourseEditionEnrollment> existingEnrollment = findByStudentAndEdition(student, courseEdition);

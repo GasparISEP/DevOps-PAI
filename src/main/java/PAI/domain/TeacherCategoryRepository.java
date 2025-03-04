@@ -6,52 +6,45 @@ import java.util.Optional;
 public class TeacherCategoryRepository {
 
     private List<TeacherCategory> _teacherCategoryRepository;
+    private TeacherCategoryFactory teacherCategoryFactory;// Store the factory
 
-
-    //CONSTRUTOR
-
-    public TeacherCategoryRepository () {this(new TeacherCategoryFactory());
+    // Constructor
+    public TeacherCategoryRepository () {
+        this(new TeacherCategoryFactory());
     }
 
-    public TeacherCategoryRepository (TeacherCategoryFactory doubleTeacherCategoryFactory) {
-
+    public TeacherCategoryRepository(TeacherCategoryFactory teacherCategoryFactory) {
+        this.teacherCategoryFactory = teacherCategoryFactory; // Initialize the factory
         _teacherCategoryRepository = new ArrayList<>();
     }
 
 
-
-    //VALIDAÇÕES
-
     public boolean registerTeacherCategory (String name) throws Exception {
 
-        TeacherCategory teacherCategory = new TeacherCategory (name);
+        TeacherCategory teacherCategory = teacherCategoryFactory.createTeacherCategory(name);
 
-        if (isTeacherCategoryRegistered(teacherCategory))
-            return false;
-
-        _teacherCategoryRepository.add(teacherCategory);
+        if (getTeacherCategoryByName(name).isPresent()) {
+            return false; // Return false if category is already present
+        }
+        _teacherCategoryRepository.add(teacherCategory); // Add the category if not found
         return true;
     }
-    public boolean isTeacherCategoryRegistered(TeacherCategory teacherCategory) {
 
-        return _teacherCategoryRepository.contains(teacherCategory);
-    }
-    // New method to retrieve a category by name (support all the operations required by the controller)
-    public Optional<TeacherCategory> getTeacherCategoryByName(String name) {
-        for (TeacherCategory category : _teacherCategoryRepository) {
-            if (category.getName().equals(name)) {
-                return Optional.of(category);
+        public Optional<TeacherCategory> getTeacherCategoryByName(String name) {
+            for (TeacherCategory category : _teacherCategoryRepository) {
+                if (category.getName().equals(name)) {
+                    return Optional.of(category);
+                }
             }
+            return Optional.empty();  // Return Optional.empty() if not found
         }
-        return Optional.empty();
-    }
 
     // Method to get the list of Teacher Categories
-    public List<TeacherCategory> getTeacherCategoryList() throws IllegalStateException {
-        if (_teacherCategoryRepository.isEmpty()) {
-            throw new IllegalStateException("Teacher Category list is empty.");
+        public List<TeacherCategory> getTeacherCategoryList() throws IllegalStateException {
+            if (_teacherCategoryRepository.isEmpty()) {
+                throw new IllegalStateException("Teacher Category list is empty.");
+            }
+            return _teacherCategoryRepository;
         }
-        return _teacherCategoryRepository;
-    }
 
 }
