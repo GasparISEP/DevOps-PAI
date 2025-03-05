@@ -15,18 +15,20 @@ public class ProgrammeEditionEnrollmentRepo {
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition, LocalDate localDate) {
-        if (programmeEdition == null || student == null) {
-            throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
-        }
-        ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student, programmeEdition, localDate);
+        try {
+            if (programmeEdition == null || student == null) {
+                throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
+            }
 
-        boolean isPEEnrollmentAddedToRepository = _programmeEditionEnrollments.add(programmeEditionEnroll);
+            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
+                    .newProgrammeEditionEnrollment(student, programmeEdition, localDate);
 
-        if(!isPEEnrollmentAddedToRepository){
+            return _programmeEditionEnrollments.add(programmeEditionEnroll);
+        } catch (Exception e) {
             return false;
         }
-        return true;
     }
+
 
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {

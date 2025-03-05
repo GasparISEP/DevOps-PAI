@@ -33,4 +33,17 @@ public class DegreeType {
         }
         return false;
     }
+
+    @Override
+    public boolean equals(Object objectToCompare) {
+
+        if (!(objectToCompare instanceof DegreeType)) {
+            return false;
+        }
+
+        DegreeType degreeType = (DegreeType) objectToCompare;
+
+        return _name.equals(degreeType._name) && _maxEcts == degreeType._maxEcts;
+    }
 }
+

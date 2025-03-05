@@ -29,11 +29,17 @@ public class US03AddCourseToProgrammeControllerTest {
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble = mock(Course.class);
 
-        when(programmeDouble.addCourseToAProgramme(courseDouble)).thenThrow(new Exception("Course is already added to the programme."));
+        when(programmeDouble.addCourseToAProgramme(courseDouble))
+                .thenReturn(true)
+                .thenThrow(new Exception("Course is already added to the programme."));
+        // act
+        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         //act + assert
-        assertThrows(Exception.class, () -> {
+        assertTrue(addCourseToProgramme);
+        Exception exception = assertThrows(Exception.class, () -> {
             us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         });
+        assertEquals("Course is already added to the programme.", exception.getMessage());
     }
 
     @Test
@@ -120,7 +126,7 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldReturnProgrammeInList() throws Exception {
+    void shouldReturnProgrammeInList()  {
         // arrange
         Programme programmeDouble = mock(Programme.class);
 
@@ -158,7 +164,7 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldReturnAllCourses() throws Exception {
+    void shouldReturnAllCourses() {
         // arrange
         Course courseDouble1 = mock(Course.class);
         Course courseDouble2 = mock(Course.class);
