@@ -449,4 +449,47 @@ class ProgrammeTest {
         // Assert
         assertEquals("Computer Engineering", expectedProgrammeName);
     }
+
+    @Test
+    void shouldReturnDegreeType()throws Exception {
+        // Arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _programmeCourseListFactory);
+        // Act
+        DegreeType degreeType = programme.getDegreeType();
+        //assert
+        assertNotNull(degreeType);
+    }
+
+    @Test
+    void shouldReturnDepartment()throws Exception {
+        // Arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _programmeCourseListFactory);
+        // Act
+        Department department = programme.getDepartment();
+        //assert
+        assertNotNull(department);
+    }
+
+    @Test
+    void shouldReturnProgrammeDirector()throws Exception {
+        // Arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _programmeCourseListFactory);
+        // Act
+        Teacher director = programme.getProgrammeDirector();
+        //assert
+        assertNotNull(director);
+    }
+
+    @Test
+    void shouldReturnProgrammeCourseListFactory()throws Exception {
+        // Arrange
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _programmeCourseListFactory);
+        // Act
+        ProgrammeCourseListFactory programmeCourseListFactory = programme.getPprogrammeCourseListFactory();
+        //assert
+        assertNotNull(programmeCourseListFactory);
+    }
+
+
+
 }
