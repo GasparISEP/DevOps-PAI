@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.*;
 
 class StudentRepositoryTest {
@@ -20,12 +20,13 @@ class StudentRepositoryTest {
     class TestsWithIsolation {
         private StudentFactory _studentFactoryDouble;
         private StudentListFactory _studentListFactoryDouble;
+        private Iterator _iterator;
         private Address _addressDouble;
         private Student _studentDouble1;
         private Student _studentDouble2;
 
         @BeforeEach
-            //arrange
+        //arrange
         void setup() {
             _studentFactoryDouble = mock(StudentFactory.class);
             _studentListFactoryDouble = mock(StudentListFactory.class);
@@ -34,8 +35,13 @@ class StudentRepositoryTest {
             _studentDouble1 = mock(Student.class);
             _studentDouble2 = mock(Student.class);
 
-            ArrayList<Student> studentListDouble = new ArrayList<>();
-            when(_studentListFactoryDouble.newArrayList()).thenReturn(studentListDouble);
+            // Create ArrayList mock
+            ArrayList<Student> _studentListDouble = mock(ArrayList.class);
+            when(_studentListFactoryDouble.newArrayList()).thenReturn(_studentListDouble);
+            // Configure ArrayList behaviour
+            when(_studentListDouble.add(_studentDouble1)).thenReturn(true);
+            _iterator = mock(Iterator.class);
+            when(_studentListDouble.iterator()).thenReturn(_iterator);
         }
 
         @Test
@@ -52,14 +58,17 @@ class StudentRepositoryTest {
 
             when(_studentFactoryDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
             when(_studentFactoryDouble.newStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_iterator.hasNext()).thenReturn(false, true, false);
+            when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble1.hasSameNIF(_studentDouble2)).thenReturn(true);
 
             studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
             // Act & Assert
-            assertThrows(Exception.class, () -> {
+            Exception exception = assertThrows(Exception.class, () -> {
                 studentRepository.registerStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble);
             });
+            assertEquals(exception.getMessage(), "Duplicate unique number or NIF detected. Student cannot be added.");
         }
 
         @Test
@@ -68,14 +77,17 @@ class StudentRepositoryTest {
             StudentRepository studentRepository = new StudentRepository(_studentFactoryDouble, _studentListFactoryDouble);
             when(_studentFactoryDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
             when(_studentFactoryDouble.newStudent(12345, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_iterator.hasNext()).thenReturn(false, true, false);
+            when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble1.hasSameUniqueNumber(_studentDouble2)).thenReturn(true);
 
             studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
             // Act & Assert
-            assertThrows(Exception.class, () -> {
+            Exception exception = assertThrows(Exception.class, () -> {
                 studentRepository.registerStudent(12345, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
             });
+            assertEquals(exception.getMessage(), "Duplicate unique number or NIF detected. Student cannot be added.");
         }
 
         @Test
@@ -84,6 +96,8 @@ class StudentRepositoryTest {
             StudentRepository studentRepository = new StudentRepository(_studentFactoryDouble, _studentListFactoryDouble);
             when(_studentFactoryDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
             when(_studentFactoryDouble.newStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_iterator.hasNext()).thenReturn(false, true, false);
+            when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble2.hasSameUniqueNumber(_studentDouble1) && _studentDouble2.hasSameNIF(_studentDouble1)).thenReturn(false);
 
             studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
@@ -102,12 +116,17 @@ class StudentRepositoryTest {
             StudentRepository studentRepository = new StudentRepository(_studentFactoryDouble, _studentListFactoryDouble);
             when(_studentFactoryDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
             when(_studentFactoryDouble.newStudent(uniqueNumberToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_iterator.hasNext()).thenReturn(false, true, false);
+            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
             studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
             studentRepository.registerStudent(uniqueNumberToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
 
             when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
             when(_studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(true);
+
+            when(_iterator.hasNext()).thenReturn(true, true);
+            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
             // Act
             Optional<Student> studentFound = studentRepository.getStudentByUniqueNumber(uniqueNumberToBeFound);
@@ -123,11 +142,19 @@ class StudentRepositoryTest {
             StudentRepository studentRepository = new StudentRepository(_studentFactoryDouble, _studentListFactoryDouble);
             when(_studentFactoryDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
             when(_studentFactoryDouble.newStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_iterator.hasNext()).thenReturn(false, true, false);
+            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
             studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
             studentRepository.registerStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
 
             when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound) || _studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
+
+            when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
+            when(_studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
+
+            when(_iterator.hasNext()).thenReturn(true, true, false);
+            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
             // Act
             Optional<Student> studentNotFound = studentRepository.getStudentByUniqueNumber(uniqueNumberToBeFound);

@@ -231,43 +231,23 @@ class TeacherRepositoryTest {
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
+        when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                .thenReturn(teacherDouble);
 
         repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
 
-        // Act
-
         when(teacherDouble.hasThisNIF("123456789")).thenReturn(true);
 
+        // Act
+
+        Optional<Teacher> result = repo1.getTeacherByNIF("123456789");
+
         // assert
-        assertTrue(true);
+        assertTrue(result.isPresent());
     }
 
     @Test
     void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() throws Exception {
-
-        //arrange
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
-        TeacherCategory tc1 = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
-        Department dp1 = mock(Department.class);
-        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        Teacher teacherDouble = mock(Teacher.class);
-
-
-        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
-
-        // act
-
-        when(teacherDouble.hasThisNIF("123456788")).thenReturn(false);
-
-        // assert
-        assertFalse(false);
-    }
-
-    @Test
-    void shouldReturnEmptyOptionalWhenNIFIsEmpty() throws Exception {
-
         // Arrange
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo1 = new TeacherRepository(teacherFactory);
@@ -277,21 +257,56 @@ class TeacherRepositoryTest {
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
+        when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                .thenReturn(teacherDouble);
 
-        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+
+        when(teacherDouble.hasThisNIF("123456788")).thenReturn(false);
 
         // Act
+        Optional<Teacher> result = repo1.getTeacherByNIF("123456788");
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenNIFIsEmpty() throws Exception {
+        // Arrange
+        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherRepository repo1 = new TeacherRepository(teacherFactory);
+        TeacherCategory tc1 = mock(TeacherCategory.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Department dp1 = mock(Department.class);
+        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        Teacher teacherDouble = mock(Teacher.class);
+
+        when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                .thenReturn(teacherDouble);
+
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
 
         when(teacherDouble.hasThisNIF("")).thenReturn(false);
 
+        // Act
+        Optional<Teacher> result = repo1.getTeacherByNIF("");
+
         // Assert
-        assertFalse(false);
+        assertFalse(result.isPresent());
     }
 
     @Test
     void shouldReturnEmptyOptionalWhenNIFIsBlank() throws Exception {
-
-        //arrange
+        // Arrange
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo1 = new TeacherRepository(teacherFactory);
         TeacherCategory tc1 = mock(TeacherCategory.class);
@@ -300,21 +315,27 @@ class TeacherRepositoryTest {
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
+        when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                .thenReturn(teacherDouble);
 
-        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
-
-        // act
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
 
         when(teacherDouble.hasThisNIF(" ")).thenReturn(false);
 
-        // assert
-        assertFalse(false);
+        // Act
+        Optional<Teacher> result = repo1.getTeacherByNIF(" ");
+
+        // Assert
+        assertFalse(result.isPresent());
     }
 
     @Test
     void shouldReturnEmptyOptionalWhenNIFIsNull() throws Exception {
-
-        //arrange
+        // Arrange
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo1 = new TeacherRepository(teacherFactory);
         TeacherCategory tc1 = mock(TeacherCategory.class);
@@ -323,14 +344,21 @@ class TeacherRepositoryTest {
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
+        when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                .thenReturn(teacherDouble);
 
-        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
-
-        // act
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
 
         when(teacherDouble.hasThisNIF(null)).thenReturn(false);
 
-        // assert
-        assertFalse(false);
+        // Act
+        Optional<Teacher> result = repo1.getTeacherByNIF(null);
+
+        // Assert
+        assertFalse(result.isPresent());
     }
 }

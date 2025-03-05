@@ -8,9 +8,9 @@ public class CourseEditionRepository {
     private List<CourseEdition> _courseEditionRepository;
     private final CourseEditionFactory _courseEditionFactory;
 
-    public CourseEditionRepository(CourseEditionFactory courseEditionFactory) {
+    public CourseEditionRepository(CourseEditionFactory courseEditionFactory, CourseEditionListFactory courseEditionListFactory) {
         _courseEditionFactory = courseEditionFactory;
-        _courseEditionRepository = new ArrayList<>();
+        _courseEditionRepository = courseEditionListFactory.newArrayList();
 
     }
 

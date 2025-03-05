@@ -38,8 +38,9 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         DegreeType degreeType = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         //CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
+        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory);
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);
@@ -66,8 +67,9 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         DegreeType degreeType = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
-        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
+        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory);
 
         assertTrue(result);
     }
@@ -89,8 +91,10 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         DegreeType degreeType = new DegreeType("Master", 240);
         Department department = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+
         //CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
+        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory);
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         programme.addCourseToAProgramme(course1);

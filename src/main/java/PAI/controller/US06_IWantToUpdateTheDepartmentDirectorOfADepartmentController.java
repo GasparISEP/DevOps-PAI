@@ -8,11 +8,12 @@ import java.util.List;
 
 public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 
-    private DepartmentRepository _departmentRepository;
+    private final DepartmentRepository _departmentRepository;
 
     public US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(DepartmentRepository departmentRepository) {
 
         validateDepartmentRepository (departmentRepository);
+        this._departmentRepository = departmentRepository;
     }
 
     public boolean updateDepartmentDirector(Department department, Teacher teacher) {
@@ -28,7 +29,6 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
             throw new IllegalArgumentException("Department Repository cannot be null!");
         }
 
-        this._departmentRepository = departmentRepository;
     }
 
     public List<Department> getAllDepartments() {
