@@ -9,11 +9,11 @@ participant ":ProgrammeList" as PL #lightblue
 Admin -> UI ++ #application : I Want to register a Programme in the System.
 UI --> Admin -- : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? \n Department? Programme Director?
 Admin -> UI ++ #application : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! \n Department! Programme Director!
-UI -> C ++ #application : registerProgrammeInTheSystem(Name, Acronym, quantityOfEcts, \n quantityOfSemesters,  DegreeType,  Department, Programme Director, programmeCourseListFactory)
-C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector, programmeCourseListFactory)
+UI -> C ++ #application : registerProgrammeInTheSystem(Name, Acronym, quantityOfEcts, \n quantityOfSemesters,  DegreeType,  Department, Programme Director, programmeCourseListFactoryImpl)
+C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector, programmeCourseListFactoryImpl)
 
 create ":Programme" as P #lightblue
-PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector, programmeCourseListFactory)
+PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector, programmeCourseListFactoryImpl)
 P -> P : isNameInvalid()
 P -> P : isAcronymInvalid()
 P -> P : isQuantityOfEctsInvalid()
