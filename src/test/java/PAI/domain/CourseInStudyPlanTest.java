@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEnrolmentTest {
 
@@ -114,7 +115,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnStudentFromEnrolmentWithoutIsolation() throws Exception {
+    void shouldReturnTrueIfStudentsAreTheSameWithoutIsolation() throws Exception {
         //arrange
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -135,14 +136,14 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
         //act
-        Student result = programmeEnrolment1.getStudentFromEnrolment();
+        boolean result = programmeEnrolment1.hasSameStudent(student1);
 
         //assert
-        assertEquals(student1,result);
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnStudentFromEnrolmentWithIsolation() {
+    void shouldReturnTrueIfStudentsAreTheSameWithIsolation() {
         //arrange
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
@@ -150,11 +151,32 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
 
+        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(true);
+
         //act
-        Student result = programmeEnrolment.getStudentFromEnrolment();
+        boolean result = programmeEnrolment.hasSameStudent(studentDouble);
 
         //assert
-        assertEquals(studentDouble,result);
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfStudentsAreNotTheSameWithIsolation() {
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        Student studentDouble2 = mock(Student.class);
+        AccessMethod accessMethodDouble = mock(AccessMethod.class);
+        Programme programmeDouble = mock(Programme.class);
+
+        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(studentDouble1, accessMethodDouble, programmeDouble, "12-04-2020");
+
+        when(studentDouble1.hasSameUniqueNumber(studentDouble2)).thenReturn(false);
+
+        //act
+        boolean result = programmeEnrolmentDouble.hasSameStudent(studentDouble2);
+
+        //assert
+        assertFalse(result);
     }
 
     @Test
@@ -364,7 +386,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnProgrammeFromEnrolmentWithoutIsolation() throws Exception {
+    void shouldReturnTrueIfProgrammesAreTheSameWithoutIsolation() throws Exception {
         //arrange
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -383,14 +405,14 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
         //act
-        Programme result = programmeEnrolment1.getProgrammeFromEnrolment();
+        boolean result = programmeEnrolment1.hasSameProgramme(programme1);
 
         //assert
-        assertEquals(programme1,result);
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnProgrammeFromEnrolmentWithIsolation() {
+    void shouldReturnTrueIfProgrammesAreTheSameWithIsolation() {
         //arrange
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
@@ -399,9 +421,26 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
 
         //act
-        Programme result = programmeEnrolment1.getProgrammeFromEnrolment();
+        boolean result = programmeEnrolment1.hasSameProgramme(programmeDouble);
 
         //assert
-        assertEquals(programmeDouble,result);
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammesAreNotTheSameWithIsolation() {
+        //arrange
+        Student studentDouble = mock(Student.class);
+        AccessMethod accessMethodDouble = mock(AccessMethod.class);
+        Programme programmeDouble1 = mock(Programme.class);
+        Programme programmeDouble2 = mock(Programme.class);
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble1,"17-09-2005");
+
+        //act
+        boolean result = programmeEnrolment1.hasSameProgramme(programmeDouble2);
+
+        //assert
+        assertFalse(result);
     }
 }

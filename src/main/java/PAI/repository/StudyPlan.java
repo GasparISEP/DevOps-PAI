@@ -1,4 +1,10 @@
-package PAI.domain;
+package PAI.repository;
+
+import PAI.domain.Course;
+import PAI.domain.CourseFactory;
+import PAI.domain.CourseInStudyPlan;
+import PAI.domain.Programme;
+import PAI.factory.CourseInStudyPlanFactory;
 
 import java.util.ArrayList;
 import java.util.List;

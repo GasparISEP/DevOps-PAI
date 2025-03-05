@@ -1,7 +1,9 @@
 package PAI.domain;
 
 
-import java.util.ArrayList;
+
+import PAI.repository.StudyPlan;
+
 import java.util.List;
 import java.util.Objects;
 

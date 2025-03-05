@@ -1,6 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeFactory;
+import PAI.repository.ProgrammeList;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.DegreeTypeRepository;
+import PAI.repository.DegreeTypeRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
