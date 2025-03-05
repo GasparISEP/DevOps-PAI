@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.AccessMethod;
-import PAI.factory.AccessMethodListFactory;
+import PAI.factory.AccessMethodArrayListFactory;
 import PAI.factory.AccessMethodFactory;
 
 import java.util.List;
@@ -12,9 +12,9 @@ public class AccessMethodRepository {
     private final AccessMethodFactory _accessMethodFactory;
     private final List<AccessMethod> _accessMethodRepository;
 
-    public AccessMethodRepository (AccessMethodFactory accessMethodFactory, AccessMethodListFactory accessMethodListFactory) {
+    public AccessMethodRepository (AccessMethodFactory accessMethodFactory, AccessMethodArrayListFactory accessMethodArrayListFactory) {
         _accessMethodFactory = accessMethodFactory;
-        _accessMethodRepository = accessMethodListFactory.createAccessMethodArrayList();
+        _accessMethodRepository = accessMethodArrayListFactory.createAccessMethodArrayList();
     }
 
 
