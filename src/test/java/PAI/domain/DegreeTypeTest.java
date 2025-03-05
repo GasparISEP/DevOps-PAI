@@ -34,4 +34,15 @@ class DegreeTypeTest {
         assertThrows(Exception.class, () -> new DegreeType("Master", -1));
     }
 
+    @Test
+    void testMaxEctsBoundary() {
+        Exception exceptionZero = assertThrows(IllegalArgumentException.class, () ->
+                new DegreeType("Bachelor", 0));
+        assertEquals("The number os ECTS cannot be 0 or below", exceptionZero.getMessage());
+
+        Exception exceptionNegative = assertThrows(IllegalArgumentException.class, () ->
+                new DegreeType("Bachelor", -1));
+        assertEquals("The number os ECTS cannot be 0 or below", exceptionNegative.getMessage());
+    }
+
 }
