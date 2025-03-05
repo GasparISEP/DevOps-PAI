@@ -10,7 +10,7 @@ participant ":DepartmentRepo" as DepartmentRepo #Cyan/White
 participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrolRepo #Cyan/White
 participant "pee[i]:ProgrammeEditionEnrollment" as ProgrammeEditionEnrollmenti #Cyan/White
 participant ":Student" as Student #Cyan/White
-participant ":StudentUniqueNumbers" as StudentUniqueNumbers #Cyan/White
+participant ":studentUniqueNumbers" as StudentUniqueNumbers #Cyan/White
 participant ":ProgrammeEdition" as ProgrammeEdition #Cyan/White
 participant ":SchoolYear" as SchoolYear #Cyan/White
 participant ":Programme" as Programme #Cyan/White
@@ -37,16 +37,9 @@ deactivate DepartmentRepo
 Controller -> ProgrammeEditionEnrolRepo: countStudentsInProgrammesFromDepartmentInSchoolYear(d1,sy1)
 activate ProgrammeEditionEnrolRepo
 
-ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new ArrayList<>()
+ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new HashSet<>()
 activate StudentUniqueNumbers
 loop for each ProgrammeEditionEnrollment[i] in ProgrammeEditionEnrolRepo
-ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrollmenti: getStudentUniqueNumber ()
-activate ProgrammeEditionEnrollmenti
-ProgrammeEditionEnrollmenti -> Student:getUniqueNumber
-activate Student
-Student -->ProgrammeEditionEnrollmenti: uniqueNumber
-deactivate Student
-ProgrammeEditionEnrollmenti --> ProgrammeEditionEnrolRepo: uniqueNumber
 ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrollmenti :isEnrollmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
 ProgrammeEditionEnrollmenti -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEdition
@@ -62,10 +55,15 @@ ProgrammeEdition-->ProgrammeEditionEnrollmenti: true
 deactivate ProgrammeEdition
 ProgrammeEditionEnrollmenti-->ProgrammeEditionEnrolRepo: true
 deactivate ProgrammeEditionEnrollmenti
-alt !studentUniqueNumbers.contains(uniqueNumber)
 alt isEnrollmentAssociatedToDepartmentAndSchoolYear
+ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrollmenti: getStudentUniqueNumber ()
+activate ProgrammeEditionEnrollmenti
+ProgrammeEditionEnrollmenti -> Student:getUniqueNumber
+activate Student
+Student -->ProgrammeEditionEnrollmenti: uniqueNumber
+deactivate Student
+ProgrammeEditionEnrollmenti --> ProgrammeEditionEnrolRepo: uniqueNumber
 ProgrammeEditionEnrolRepo-> StudentUniqueNumbers: add(uniqueNumber)
-end
 end
 end
 StudentUniqueNumbers -> ProgrammeEditionEnrolRepo: studentUniqueNumbers.size()
