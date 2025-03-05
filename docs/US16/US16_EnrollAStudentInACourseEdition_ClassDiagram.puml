@@ -21,6 +21,10 @@ class CourseEditionEnrollment {
     +equals (obj: Object): boolean
 }
 
+class CourseEditionEnrollmentListFactory {
+    +getCourseEditionEnrollmentList(): Set<CourseEditionEnrollment>
+}
+
 class CourseEditionEnrollmentRepository {
     +CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory)
     +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
@@ -68,15 +72,16 @@ class CourseEditionRepository {
 }
 
 CourseEdition "_listCourseEditions  *         " <-- "1" CourseEditionRepository
-Student "_student  1             " <-- "*" CourseEditionEnrollment
+Student "_student  1                 " <-- "*" CourseEditionEnrollment
 CourseEditionEnrollment "*" --> "_courseEdition  1        " CourseEdition
 CourseEditionEnrollmentFactory "  1  " --> " _courseEditionEnrollment    1        " CourseEditionEnrollment
-CourseEditionEnrollmentFactory "_courseEditionEnrollmentFactory 1          " <-- "   1 " CourseEditionEnrollmentRepository
-ProgrammeEditionEnrollment " *" --> "1    _student                 " Student
-ProgrammeEditionEnrollment " *  _listProgrammeEditionEnrollment    " <-- "1 " ProgrammeEditionEnrollmentRepo
+CourseEditionEnrollmentFactory "_courseEditionEnrollmentFactory 1                " <-- "   1 " CourseEditionEnrollmentRepository
+ProgrammeEditionEnrollment " *" --> "_student 1                          " Student
+ProgrammeEditionEnrollment " *  _listProgrammeEditionEnrollment    " <-- "1  " ProgrammeEditionEnrollmentRepo
 US16_EnrollAStudentInACourseEditionController "1 "..> "1      " CourseEditionRepository
-US16_EnrollAStudentInACourseEditionController "1 "..> "  1" ProgrammeEditionEnrollmentRepo
-US16_EnrollAStudentInACourseEditionController "1"..> "1       " CourseEditionEnrollmentRepository
+US16_EnrollAStudentInACourseEditionController "1"..> "  1" ProgrammeEditionEnrollmentRepo
+US16_EnrollAStudentInACourseEditionController "1 "..> "1             " CourseEditionEnrollmentRepository
 Address "_address  1   " <-- " 1  " Student
+CourseEditionEnrollmentListFactory "1  " <-- "1  " CourseEditionEnrollmentRepository
 
 @enduml

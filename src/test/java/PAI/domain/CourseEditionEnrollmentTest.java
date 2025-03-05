@@ -89,7 +89,7 @@ class CourseEditionEnrollmentTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseEditionIsEqualThis_EqualsMethod() {
+    void shouldReturnFalseIfCourseEditionIsEqualThis_EqualsMethod() {
         //arrange
         Student studentDouble1 = mock(Student.class);
         Student studentDouble2= mock(Student.class);
