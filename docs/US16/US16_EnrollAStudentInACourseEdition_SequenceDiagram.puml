@@ -6,12 +6,52 @@ participant ":UI" as UI
 ASC -> UI: I want to enroll a student in a course edition!
 activate UI
 UI --> ASC: What Student?
-
 deactivate UI
+
 ASC -> UI: Enter the student!
 activate UI
-UI --> ASC: What CourseEdition?
+participant ":US16_EnrollAStudentInACourseEditionController" as Controller
+UI -> Controller: getProgrammeEditionsThatStudentIsEnrolled (student)
+activate Controller
+participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepository
+Controller -> ProgrammeEditionEnrollmentRepository: getProgrammeEditionsThatStudentIsEnrolled (student)
+activate ProgrammeEditionEnrollmentRepository
+loop for each "pe[i]:ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
+participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
+ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollment :  findStudentInProgrammeEditionEnrollment()
+activate ProgrammeEditionEnrollment
+ProgrammeEditionEnrollment --> ProgrammeEditionEnrollmentRepository : pe1
+deactivate ProgrammeEditionEnrollment
+ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollmentRepository :  add(pe1)
+end
+ProgrammeEditionEnrollmentRepository --> Controller: ListOfProgrammeEditions
+deactivate ProgrammeEditionEnrollmentRepository
+Controller --> UI: ListOfProgrammeEditions
+deactivate Controller
+UI --> ASC: Here is a list of programme editions the student is enrolled in. What Programme Edition?
 deactivate UI
+
+ASC -> UI: Enter the programme edition!
+activate UI
+UI -> Controller: getCourseEditionsOfProgrammeEdition (programmeEdition)
+activate Controller
+participant ":CourseEditionRepository" as CourseEditionRepository
+Controller -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEdition)
+activate CourseEditionRepository
+loop for each "ce[i]:CourseEditionRepository" as CourseEditionRepository
+CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
+activate CourseEdition
+CourseEdition --> CourseEditionRepository : ce1
+deactivate CourseEdition
+CourseEditionRepository -> CourseEditionRepository :  add(ce1)
+end
+CourseEditionRepository --> Controller: ListOfCourseEditions
+deactivate CourseEditionRepository
+Controller --> UI: ListOfCourseEditions
+deactivate Controller
+UI --> ASC: Here is a list of Course Editions! What Course Edition?
+deactivate UI
+
 ASC -> UI: Enter the course edition!
 activate UI
 UI --> ASC: Sure?
@@ -19,36 +59,8 @@ deactivate UI
 ASC -> UI: Yes!
 activate UI
 
-participant ":US16_EnrollAStudentInACourseEditionController" as Controller
 UI -> Controller: enrollStudentInCourseEdition (student, courseEdition)
 activate Controller
-
-participant ":CourseEditionRepository" as CourseEditionRepository
-Controller -> CourseEditionRepository: findWhichProgrammeEditionBelongsToACourseEdition (courseEdition)
-activate CourseEditionRepository
-loop for each "ce[i]:CourseEditionRepository as CourseEditionRepository"
-participant ":CourseEdition" as CourseEdition
-CourseEditionRepository -> CourseEdition: CourseEdition: whatProgrammeEditionBelongsThisCourseEdition()
-activate CourseEdition
-CourseEdition --> CourseEditionRepository: pe1
-deactivate CourseEdition
-end
-CourseEditionRepository --> Controller: pe1
-deactivate CourseEditionRepository
-
-
-participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
-Controller -> ProgrammeEditionEnrollmentRepo: isStudentEnrolledInThisProgrammeEdition (student, pe1)
-activate ProgrammeEditionEnrollmentRepo
-loop for each "pee1[i]:ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
-participant ":Student" as Student
-ProgrammeEditionEnrollmentRepo -> Student: ProgrammeEditionEnrollment: getUniqueNumber()
-participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollment: ProgrammeEditionEnrollment: findProgrammeEditionInEnrollment()
-end
-ProgrammeEditionEnrollmentRepo -->Controller: True
-deactivate ProgrammeEditionEnrollmentRepo
-
 
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
 Controller -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (st1, ce1, enrollmentDate)
