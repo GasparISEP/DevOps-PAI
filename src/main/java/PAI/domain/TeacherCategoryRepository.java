@@ -1,21 +1,18 @@
 package PAI.domain;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
 public class TeacherCategoryRepository {
 
-    private List<TeacherCategory> _teacherCategoryRepository;
+    private List<TeacherCategory> teacherCategoryRepositoryList;
     private TeacherCategoryFactory teacherCategoryFactory;// Store the factory
 
-    // Constructor
-    public TeacherCategoryRepository () {
-        this(new TeacherCategoryFactory());
-    }
 
-    public TeacherCategoryRepository(TeacherCategoryFactory teacherCategoryFactory) {
-        this.teacherCategoryFactory = teacherCategoryFactory; // Initialize the factory
-        _teacherCategoryRepository = new ArrayList<>();
+    // Constructor taking both the factory and the repository list factory
+    public TeacherCategoryRepository(TeacherCategoryFactory teacherCategoryFactory, TeacherCategoryRepositoryListFactory teacherCategoryRepositoryListFactory) {
+        this.teacherCategoryFactory = teacherCategoryFactory;
+        this.teacherCategoryRepositoryList = teacherCategoryRepositoryListFactory.getTeacherCategoryList();
     }
 
 
@@ -26,12 +23,12 @@ public class TeacherCategoryRepository {
         if (getTeacherCategoryByName(name).isPresent()) {
             return false; // Return false if category is already present
         }
-        _teacherCategoryRepository.add(teacherCategory); // Add the category if not found
+        teacherCategoryRepositoryList.add(teacherCategory); // Add the category if not found
         return true;
     }
 
         public Optional<TeacherCategory> getTeacherCategoryByName(String name) {
-            for (TeacherCategory category : _teacherCategoryRepository) {
+            for (TeacherCategory category : teacherCategoryRepositoryList) {
                 if (category.getName().equalsIgnoreCase(name)) {
                     return Optional.of(category);
                 }
@@ -41,10 +38,10 @@ public class TeacherCategoryRepository {
 
     // Method to get the list of Teacher Categories
         public List<TeacherCategory> getTeacherCategoryList() throws IllegalStateException {
-            if (_teacherCategoryRepository.isEmpty()) {
+            if (teacherCategoryRepositoryList.isEmpty()) {
                 throw new IllegalStateException("Teacher Category list is empty.");
             }
-            return _teacherCategoryRepository;
+            return teacherCategoryRepositoryList;
         }
 
 }
