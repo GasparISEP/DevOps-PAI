@@ -4,6 +4,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.GradeStudentFactory;
 import PAI.repository.GradeStudentRepository;
+import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 
 
