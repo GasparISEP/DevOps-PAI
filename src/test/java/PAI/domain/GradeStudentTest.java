@@ -242,6 +242,30 @@ class GradeStudentTest {
     assertFalse(result);
 }
 
+    @Test
+    void testGradeBoundaries() throws Exception {
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        // Testa o limite inferior (0)
+        GradeStudent gradeStudentMin = new GradeStudent(0.0, "10-12-2023", student, courseEdition);
+        assertEquals(0.0, gradeStudentMin.knowGrade());
+
+        // Testa o limite superior (20)
+        GradeStudent gradeStudentMax = new GradeStudent(20.0, "10-12-2023", student, courseEdition);
+        assertEquals(20.0, gradeStudentMax.knowGrade());
+
+        // Testa um valor abaixo do limite inferior (-0.1)
+        Exception exceptionLow = assertThrows(IllegalArgumentException.class, () ->
+                new GradeStudent(-0.1, "10-12-2023", student, courseEdition));
+        assertEquals("Grade should be between 0 and 20", exceptionLow.getMessage());
+
+        // Testa um valor acima do limite superior (20.1)
+        Exception exceptionHigh = assertThrows(IllegalArgumentException.class, () ->
+                new GradeStudent(20.1, "10-12-2023", student, courseEdition));
+        assertEquals("Grade should be between 0 and 20", exceptionHigh.getMessage());
+    }
+
 
 
 }
