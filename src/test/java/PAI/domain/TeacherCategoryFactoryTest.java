@@ -37,6 +37,30 @@ public class TeacherCategoryFactoryTest {
             assertEquals(categoryName, category.getName());  // Check the name of the returned category
         }
     }
+
+    @Test
+    void shouldCreateTeacherCategoryDirectly() throws Exception {
+        // Arrange
+        String categoryName = "Professor Adjunto";
+
+        // Mocking the construction of TeacherCategory directly
+        try (MockedConstruction<TeacherCategory> mockedConstruction = mockConstruction(
+                TeacherCategory.class,
+                (mock, context) -> {
+                    String actualName = (String) context.arguments().get(0);
+                    when(mock.getName()).thenReturn(actualName);
+                })) {
+
+            // Act: Call the constructor directly instead of using a factory
+            TeacherCategory category = new TeacherCategory(categoryName);
+
+            // Assert
+            List<TeacherCategory> createdInstances = mockedConstruction.constructed();
+            assertEquals(1, createdInstances.size());
+            assertEquals(categoryName, createdInstances.get(0).getName());
+            assertEquals(categoryName, category.getName());
+        }
+    }
     @Test
     void shouldThrowExceptionWithNullName() {
         // Arrange
