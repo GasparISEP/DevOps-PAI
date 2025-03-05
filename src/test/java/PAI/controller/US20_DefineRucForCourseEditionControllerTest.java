@@ -15,7 +15,8 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
@@ -48,7 +49,8 @@ class US20_DefineRucForCourseEditionControllerTest {
     void shouldNotRedefineRucIfRucAlreadyExists() throws Exception {
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
@@ -80,7 +82,8 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         //Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
@@ -123,7 +126,8 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         //Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
 
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         Teacher teacher1 = mock(Teacher.class);
@@ -164,7 +168,8 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
@@ -196,7 +201,8 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         // Arrange
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherRepository repo2 = new TeacherRepository(teacherFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);

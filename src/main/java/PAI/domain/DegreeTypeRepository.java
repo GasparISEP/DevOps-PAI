@@ -11,9 +11,11 @@ public class DegreeTypeRepository {
     }
 
     public boolean registerDegreeType (String name, int maxEcts) throws Exception{
-        DegreeType degreeType = new DegreeType(name,maxEcts);
+        DegreeType degreeType = new DegreeType(name, maxEcts);
+        if(degreeTypes.equals(degreeType)) {
+            return false;
+        }
         degreeTypes.add(degreeType);
-
         return true;
 
     }

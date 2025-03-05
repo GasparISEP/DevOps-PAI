@@ -8,37 +8,33 @@ import static org.mockito.Mockito.*;
 class ProgrammeEditionEnrollmentRepoTest {
 
     @Test
-    void shouldThrowExceptionWhenStudentIsNull() throws IllegalArgumentException {
+    void shouldReturnFalseWhenStudentIsNull() {
         // Arrange
         ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
         LocalDate currentDate = LocalDate.now();
 
-        // Act & Assert
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.enrollStudentInProgrammeEdition(null, pe1, currentDate);
-        });
+        // Act
+        boolean result = repository.enrollStudentInProgrammeEdition(null, pe1, currentDate);
 
         // Assert
-        assertEquals("ProgrammeEdition and Student cannot be null.", thrown.getMessage());
+        assertFalse(result, "Expected enrollment to fail when Student is null.");
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeEditionIsNull() throws IllegalArgumentException {
+    void shouldReturnFalseWhenProgrammeEditionIsNull() {
         // Arrange
-        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory= mock(ProgrammeEditionEnrollmentFactory.class);
+        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
         ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
         Student st1 = mock(Student.class);
         LocalDate currentDate = LocalDate.now();
 
-        // Act & Assert
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.enrollStudentInProgrammeEdition(st1, null, currentDate);
-        });
+        // Act
+        boolean result = repository.enrollStudentInProgrammeEdition(st1, null, currentDate);
 
         // Assert
-        assertEquals("ProgrammeEdition and Student cannot be null.", thrown.getMessage());
+        assertFalse(result, "Expected enrollment to fail when ProgrammeEdition is null.");
     }
 
     @Test
