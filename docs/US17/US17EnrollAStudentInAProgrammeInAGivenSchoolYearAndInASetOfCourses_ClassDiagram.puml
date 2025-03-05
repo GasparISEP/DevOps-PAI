@@ -57,10 +57,6 @@ class ProgrammeList {
      +getAllProgrammes() : List<Programme>
 }
 
-class ProgrammeListFactory {
-    +newArrayList() : List<Programme>
-}
-
 class SchoolYear {
     -_description:String
     -_startData:String
@@ -148,8 +144,7 @@ ProgrammeEdition "_programmeEdition 1                " <-- " * " ProgrammeEditio
 ProgrammeEditionEnrollment "* " --> "_student 1   " Student
 ProgrammeEditionEnrollment "_programmeEditionEnrollment 1" <-- "1      " ProgrammeEditionEnrollmentFactory
 ProgrammeEditionEnrollmentFactory " _programmeEditionEnrollmentFactory  1" <-- "1           " ProgrammeEditionEnrollmentRepo
-ProgrammeList "1" --> "1" ProgrammeListFactory
-ProgrammeList "1     " ..> " _listOfProgrammes * " Programme
+ProgrammeList "1     " --> " _listOfProgrammes *" Programme
 CourseEdition "_courseEdition *  " <-- "1   " ProgrammeEdition
 
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrollment

@@ -12,35 +12,35 @@ public class Student {
     private Address _address;
 
     //constructor validation
-    public Student(int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws IllegalArgumentException {
+    public Student(int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
 
         //validação Student Unique Number
         if (isUniqueNumberInvalid(uniqueNumber))
-            throw new IllegalArgumentException("Student's identification number must be greater than zero!");
+            throw new Exception("Student's identification number must be greater than zero!");
 
         _uniqueNumber = uniqueNumber;
 
         //Student name validation
         if (areParametersInvalid(name))
-            throw new IllegalArgumentException("Student's name cannot be empty!");
+            throw new Exception("Student's name cannot be empty!");
 
         _name = name;
 
         //Student NIF validation
         if (areParametersInvalid(NIF))
-            throw new IllegalArgumentException("Student's NIF cannot be empty!");
+            throw new Exception("Student's NIF cannot be empty!");
 
         _NIF = NIF;
 
         //Student phone validation
         if (areParametersInvalid(phone))
-            throw new IllegalArgumentException("Student's phone cannot be empty!");
+            throw new Exception("Student's phone cannot be empty!");
 
         _phone = phone;
 
         //Student email validation
         if (areParametersInvalid(email))
-            throw new IllegalArgumentException("Student's email cannot be empty!");
+            throw new Exception("Student's email cannot be empty!");
 
         _email = email;
 

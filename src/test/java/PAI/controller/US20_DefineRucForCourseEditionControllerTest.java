@@ -28,9 +28,9 @@ class US20_DefineRucForCourseEditionControllerTest {
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = mock(ProgrammeCourseListFactoryImpl.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactoryImpl);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
@@ -58,9 +58,9 @@ class US20_DefineRucForCourseEditionControllerTest {
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = mock(ProgrammeCourseListFactoryImpl.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactoryImpl);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
 
@@ -92,9 +92,9 @@ class US20_DefineRucForCourseEditionControllerTest {
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = mock(ProgrammeCourseListFactoryImpl.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactoryImpl);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory);
 
 
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -178,9 +178,9 @@ class US20_DefineRucForCourseEditionControllerTest {
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = mock(ProgrammeCourseListFactoryImpl.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactoryImpl);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);

@@ -1,6 +1,7 @@
 package PAI.domain;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,10 +15,10 @@ public class Programme {
     private Department _department;
     private Teacher _programmeDirector;
     private List<Course> _courseList;
-    private ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl;
+    private ProgrammeCourseListFactory _programmeCourseListFactory;
     private StudyPlan _studyPlan;
 
-    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl) throws Exception {
+    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory) throws Exception {
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
         }
@@ -55,9 +56,9 @@ public class Programme {
 
         _studyPlan = new StudyPlan();
 
-        _programmeCourseListFactoryImpl = programmeCourseListFactoryImpl;
+        _programmeCourseListFactory = programmeCourseListFactory;
 
-        _courseList = _programmeCourseListFactoryImpl.createCourseList();
+        _courseList = _programmeCourseListFactory.createCourseList();
 
     }
 

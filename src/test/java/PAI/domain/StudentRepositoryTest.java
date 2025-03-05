@@ -1,7 +1,5 @@
 package PAI.domain;
 
-import PAI.factory.StudentFactory;
-import PAI.factory.StudentListFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
