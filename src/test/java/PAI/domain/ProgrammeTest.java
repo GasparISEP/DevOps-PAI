@@ -7,6 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 class ProgrammeTest {
@@ -292,11 +293,15 @@ class ProgrammeTest {
     // AddCourseToASemesterOfProgramme tests
 
     @Test
-    void shouldReturnTrueIfCourseIsAddedToAProgramme() throws Exception {
+    void shouldReturnTrueIfCourseIsAddedToAProgrammeCourseList() throws Exception {
         //arrange
         DegreeType degreeTypeDouble = mock(DegreeType.class);
         Department departmentDouble = mock(Department.class);
         Teacher teacherDouble = mock(Teacher.class);
+        List<Course> courseListDouble = mock(List.class);
+        when(_programmeCourseListFactoryImpl.createCourseList())
+                .thenReturn(courseListDouble);
+
         Programme programme = new Programme("Engenharia Informática", "LEI", 30,
                 2, degreeTypeDouble, departmentDouble, teacherDouble, _programmeCourseListFactory);
         Course courseDouble = mock(Course.class);
@@ -314,10 +319,12 @@ class ProgrammeTest {
         Department departmentDouble = mock(Department.class);
         Teacher teacherDouble = mock(Teacher.class);
         Course courseDouble = mock(Course.class);
+        List<Course> courseListDouble = mock(List.class);
+        when(_programmeCourseListFactoryImpl.createCourseList())
+                .thenReturn(courseListDouble);
+        when(courseListDouble.contains(courseDouble)).thenReturn(true);
         Programme programme = new Programme("Engenharia Informática", "LEI", 30,
                 2, degreeTypeDouble, departmentDouble, teacherDouble, _programmeCourseListFactory);
-
-        programme.addCourseToAProgramme(courseDouble);
 
         //act & assert
         assertThrows(Exception.class, () -> programme.addCourseToAProgramme(courseDouble));
