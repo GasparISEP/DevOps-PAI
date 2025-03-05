@@ -299,7 +299,7 @@ class ProgrammeTest {
         Department departmentDouble = mock(Department.class);
         Teacher teacherDouble = mock(Teacher.class);
         List<Course> courseListDouble = mock(List.class);
-        when(_programmeCourseListFactoryImpl.createCourseList())
+        when(_programmeCourseListFactory.createCourseList())
                 .thenReturn(courseListDouble);
 
         Programme programme = new Programme("Engenharia Informática", "LEI", 30,
@@ -320,7 +320,7 @@ class ProgrammeTest {
         Teacher teacherDouble = mock(Teacher.class);
         Course courseDouble = mock(Course.class);
         List<Course> courseListDouble = mock(List.class);
-        when(_programmeCourseListFactoryImpl.createCourseList())
+        when(_programmeCourseListFactory.createCourseList())
                 .thenReturn(courseListDouble);
         when(courseListDouble.contains(courseDouble)).thenReturn(true);
         Programme programme = new Programme("Engenharia Informática", "LEI", 30,

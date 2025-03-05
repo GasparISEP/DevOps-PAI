@@ -3,9 +3,7 @@ package PAI.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgrammeCourseListFactoryImpl implements ProgrammeCourseListFactory {
+public interface ProgrammeCourseListFactoryImpl  {
 
-    public List<Course> createCourseList() {
-        return new ArrayList<>();
-    }
+    List<Course> createCourseList();
 }
