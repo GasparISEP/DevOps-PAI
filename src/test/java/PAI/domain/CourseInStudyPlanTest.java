@@ -16,7 +16,9 @@ class CourseInStudyPlanTest {
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory);
         StudyPlan studyPlan = programme.getStudyPlan();
         programme.addCourseToAProgramme(course1);
         boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
@@ -58,7 +60,9 @@ class CourseInStudyPlanTest {
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory);
 
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
@@ -105,7 +109,9 @@ class CourseInStudyPlanTest {
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory);
 
         programme.addCourseToAProgramme(course1);
 

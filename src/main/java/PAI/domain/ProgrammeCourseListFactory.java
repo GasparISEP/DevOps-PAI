@@ -1,10 +1,11 @@
 package PAI.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProgrammeCourseListFactory {
 
-    public ArrayList<Course> createCourseList() {
+    public List<Course> createCourseList() {
         return new ArrayList<>();
     }
 }

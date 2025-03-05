@@ -2,8 +2,7 @@ package PAI.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class ProgrammeCourseListFactoryTest {
 
@@ -12,7 +11,7 @@ public class ProgrammeCourseListFactoryTest {
         // arrange
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         // act
-        ArrayList<Course> courseArrayList = programmeCourseListFactory.createCourseList();
+        List<Course> courseArrayList = programmeCourseListFactory.createCourseList();
         // assert
         assertNotNull(courseArrayList);
     }
