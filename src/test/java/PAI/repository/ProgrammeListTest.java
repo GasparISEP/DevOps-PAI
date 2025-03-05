@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.factory.ProgrammeFactory;
+import PAI.repository.ProgrammeList;
 import org.junit.jupiter.api.Test;
 
 
