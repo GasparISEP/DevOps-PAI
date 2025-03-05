@@ -61,9 +61,9 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = mock(ProgrammeCourseListFactoryImpl.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
-        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl);
+        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory);
 
         assertTrue(result);
     }
