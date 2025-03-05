@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.repository;
 
 import org.junit.jupiter.api.Test;
 
