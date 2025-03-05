@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.AccessMethod;
-import PAI.domain.AccessMethodRepository;
+import PAI.repository.AccessMethodRepository;
 
 import java.util.Optional;
 

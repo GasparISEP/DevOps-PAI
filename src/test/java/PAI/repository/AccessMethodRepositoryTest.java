@@ -1,8 +1,10 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.AccessMethod;
+import PAI.factory.AccessMethodFactory;
+import PAI.factory.AccessMethodListFactory;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

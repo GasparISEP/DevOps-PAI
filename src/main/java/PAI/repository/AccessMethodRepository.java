@@ -1,6 +1,9 @@
-package PAI.domain;
+package PAI.repository;
 
-import java.util.ArrayList;
+import PAI.domain.AccessMethod;
+import PAI.factory.AccessMethodListFactory;
+import PAI.factory.AccessMethodFactory;
+
 import java.util.List;
 import java.util.Optional;
 

@@ -1,9 +1,9 @@
 package PAI.controller;
 
 import PAI.domain.AccessMethod;
-import PAI.domain.AccessMethodFactory;
-import PAI.domain.AccessMethodListFactory;
-import PAI.domain.AccessMethodRepository;
+import PAI.factory.AccessMethodFactory;
+import PAI.factory.AccessMethodListFactory;
+import PAI.repository.AccessMethodRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

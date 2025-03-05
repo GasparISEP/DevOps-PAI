@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.factory;
 
 import org.junit.jupiter.api.Test;
 
