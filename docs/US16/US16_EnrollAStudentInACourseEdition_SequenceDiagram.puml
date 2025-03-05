@@ -22,7 +22,11 @@ ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollment :  findStuden
 activate ProgrammeEditionEnrollment
 ProgrammeEditionEnrollment --> ProgrammeEditionEnrollmentRepository : pe1
 deactivate ProgrammeEditionEnrollment
-ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollmentRepository :  add(pe1)
+participant ":ProgrammeEditionEnrollmentListFactory" as ProgrammeEditionEnrollmentListFactory
+ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollmentListFactory:  add(pe1)
+activate ProgrammeEditionEnrollmentListFactory
+ProgrammeEditionEnrollmentListFactory --> ProgrammeEditionEnrollmentRepository: true
+deactivate ProgrammeEditionEnrollmentListFactory
 end
 ProgrammeEditionEnrollmentRepository --> Controller: ListOfProgrammeEditions
 deactivate ProgrammeEditionEnrollmentRepository
@@ -43,7 +47,11 @@ CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCours
 activate CourseEdition
 CourseEdition --> CourseEditionRepository : ce1
 deactivate CourseEdition
-CourseEditionRepository -> CourseEditionRepository :  add(ce1)
+participant ":CourseEditionListFactory" as CourseEditionListFactory
+CourseEditionRepository -> CourseEditionListFactory :  add(ce1)
+activate CourseEditionListFactory
+CourseEditionListFactory --> CourseEditionRepository: true
+deactivate CourseEditionListFactory
 end
 CourseEditionRepository --> Controller: ListOfCourseEditions
 deactivate CourseEditionRepository
@@ -75,7 +83,11 @@ activate "cee1:CourseEditionEnrollment"
 deactivate "cee1:CourseEditionEnrollment"
 CourseEditionEnrollmentFactory --> CourseEditionEnrollmentRepository: cee1
 deactivate CourseEditionEnrollmentFactory
-CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository: add (cee1)
+participant ":CourseEditionEnrollmentListFactory" as CourseEditionEnrollmentListFactory
+CourseEditionEnrollmentRepository --> CourseEditionEnrollmentListFactory: add (cee1)
+activate CourseEditionEnrollmentListFactory
+CourseEditionEnrollmentListFactory -> CourseEditionEnrollmentRepository: true
+deactivate CourseEditionEnrollmentListFactory
 CourseEditionEnrollmentRepository --> Controller: True
 deactivate CourseEditionEnrollmentRepository
 Controller --> UI: True

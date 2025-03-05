@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.CourseEditionEnrollmentRepository;
+import PAI.repository.CourseEditionEnrollmentRepository;
 import PAI.domain.CourseEdition;
 import PAI.domain.Student;
 

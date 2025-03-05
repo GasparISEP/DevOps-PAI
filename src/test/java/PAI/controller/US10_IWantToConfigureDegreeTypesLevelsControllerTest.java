@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.DegreeTypeRepository;
+import PAI.repository.DegreeTypeRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,6 +48,21 @@ class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
 
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldntRegisterDegreeType() throws Exception {
+        //arrange
+        DegreeTypeRepository degreeTypeRepository = mock(DegreeTypeRepository.class);
+        US10_IWantToConfigureDegreeTypesLevelsController controller = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepository);
+        String name = "Master";
+        int maxEcts = 30;
+
+        when(degreeTypeRepository.registerDegreeType(name, maxEcts)).thenReturn(false);
+
+        boolean result = controller.registerDegreeType(name, maxEcts);
+
+        assertFalse(result);
     }
 
 }

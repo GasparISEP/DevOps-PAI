@@ -3,9 +3,10 @@ package PAI.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherCategoryRepositoryListFactory {
+public class TeacherCategoryRepositoryListFactory implements TeacherCategoryRepositoryListFactoryInterface{
 
-    public List <TeacherCategory> getTeacherCategoryList() {
+    @Override
+    public List <TeacherCategory> getTeacherCategoryList()  {
         return new ArrayList<>();
     }
 }

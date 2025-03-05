@@ -1,4 +1,7 @@
-package PAI.domain;
+package PAI.repository;
+
+import PAI.domain.*;
+import PAI.factory.ProgrammeFactory;
 
 import java.util.ArrayList;
 import java.util.List;

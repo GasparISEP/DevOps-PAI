@@ -1,4 +1,6 @@
-package PAI.domain;
+package PAI.repository;
+
+import PAI.domain.DegreeType;
 
 import java.util.ArrayList;
 import java.util.List;

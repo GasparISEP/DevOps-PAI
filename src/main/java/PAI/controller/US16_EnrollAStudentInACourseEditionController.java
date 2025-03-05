@@ -1,8 +1,10 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.CourseEditionEnrollmentRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class US16_EnrollAStudentInACourseEditionController {
 

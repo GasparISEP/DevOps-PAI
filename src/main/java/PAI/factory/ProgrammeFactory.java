@@ -1,4 +1,6 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.*;
 
 public class ProgrammeFactory {
     public Programme registerProgramme (String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory) throws Exception{

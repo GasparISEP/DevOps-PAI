@@ -1,20 +1,31 @@
-Fragmento do código
-
 @startuml
 !pragma layout smetana
 
 class TeacherCategory {
-    -_name:String
-    + TeacherCategory (name:String)
+    - name: String
+    + TeacherCategory(name: String)
+    + getName(): String
+}
+
+class TeacherCategoryFactory {
+    + createTeacherCategory(name: String): TeacherCategory
 }
 
 class TeacherCategoryRepository {
-    +TeacherCategoryRepository()
-    +registerTeacherCategory (teacherCategoryName: String)
-    +isTeacherCategoryRegistered(teacherCategory: TeacherCategory)
-    +getTeacherCategoriesList()
+    - teacherCategoryRepositoryList: List<TeacherCategory>
+    - teacherCategoryFactory: TeacherCategoryFactory
+    + TeacherCategoryRepository(teacherCategoryFactory: TeacherCategoryFactory, teacherCategoryRepositoryListFactory: TeacherCategoryRepositoryListFactory)
+    + registerTeacherCategory(name: String): boolean
+    + getTeacherCategoryByName(name: String): Optional<TeacherCategory>
+    + getTeacherCategoryList(): List<TeacherCategory>
 }
 
-TeacherCategory "1..*" <.. "1" TeacherCategoryRepository: _teacherCategoryRepository
+class TeacherCategoryRepositoryListFactory {
+    + getTeacherCategoryList(): List<TeacherCategory>
+}
+
+TeacherCategoryFactory --> TeacherCategory
+TeacherCategoryRepositoryListFactory --> TeacherCategoryRepository
+TeacherCategory "1..*" --> "1" TeacherCategoryRepository: teacherCategoryRepositoryList
 
 @enduml
