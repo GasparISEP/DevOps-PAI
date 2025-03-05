@@ -4,14 +4,18 @@ skinparam sequenceMessageAlign center
 actor ASC
 participant ":UI" as UI
 participant "ctrl1:EnrolAStudentInProgrammeController" as CTL
-participant "sr1:studentRepository" as SR
+participant "sr1:StudentRepository" as SR
+participant "sf1:StudentFactory" as SF
 participant "s[i]:Student" as S
 participant "amr1:AccessMethodRepository" as AMR
+participant "amf1:AccessMethodFactory" as AMF
 participant "am[i]:AccessMethod" as AM
 participant "prL1:ProgrammeList" as PR
+participant "pf1:ProgrammeFactory" as PF
 participant "p[i]:Programme" as P
-participant "er1:EnrolmentRepository" as ER
-participant "e[i]:Enrolment" as E
+participant "per1:ProgrammeEnrolmentRepository" as ER
+participant "pef1:ProgrammeEnrolmentFactory" as PEF
+participant "pe[i]:ProgrammeEnrolment" as E
 
 ASC -> UI : I want to enrol a student in a programme.
 activate UI
@@ -61,23 +65,29 @@ deactivate PR
 
 CTL -> ER: enrolStudent(s1, am1, p1, date)
 activate ER
-create "e1:Enrolment" as E
-ER -> E: createEnrolment(student, accessMethod, programme, date)
+create "pe1:ProgrammeEnrolment" as E
+ER -> PEF: createProgrammeEnrolment(student, accessMethod, programme, date)
+activate PEF
+PEF -> E: createProgrammeEnrolment(student, accessMethod, programme, date)
+
 activate E
 E -> E : validateAndFormatDate(date)
-E --> ER: e1
+E --> PEF: pe1
 deactivate E
+PEF --> ER: pe1
+deactivate PEF
+
 
 ER -> ER : isEnrolmentRepeated
 
 loop for each Enrolment in enrolmentRepository
-    ER -> E : hasSameEnrolment(e1)
+    ER -> E : hasSameEnrolment(pe1)
     activate E
     E --> ER : False
     deactivate E
 end
 
-ER -> ER: enrolmentList.add(e1)
+ER -> ER: enrolmentList.add(pe1)
 ER --> CTL: True
 deactivate ER
 CTL --> UI : True
