@@ -5,10 +5,11 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
@@ -16,10 +17,16 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     void newGradeStudentRepository() throws Exception {
         //arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
+        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
+
+        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+
+        when(gradeStudentListFactory.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
+
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
 
         //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
         //assert
         assertNotNull(average1);
@@ -42,10 +49,16 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         //arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
+        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
+
+        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+
+        when(gradeStudentListFactory.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
+
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
 
         //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
@@ -64,8 +77,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
-        gradeStudentRepository.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
-        gradeStudentRepository.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
+        list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
+        list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
 
 
         double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);
@@ -75,6 +88,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     }
 
 }
+
+
 
 
 

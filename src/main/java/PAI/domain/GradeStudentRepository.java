@@ -1,15 +1,16 @@
 package PAI.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class GradeStudentRepository {
     private final GradeStudentFactory _gradeStudentFactory;
-    private List<GradeStudent> gradeStudentList = new ArrayList<>();
+    private List<GradeStudent> gradeStudentList;
 
-    public GradeStudentRepository (GradeStudentFactory gradeStudentFactory){
+    public GradeStudentRepository (GradeStudentFactory gradeStudentFactory, GradeStudentListFactory gradeStudentList){
+//        if (gradeStudentList != null || gradeStudentFactory != null)
         this._gradeStudentFactory = gradeStudentFactory;
+        this.gradeStudentList = gradeStudentList.newArrayList();
     }
 
     public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
