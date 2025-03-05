@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.AccessMethodRepository;
 
 import java.util.Optional;
 

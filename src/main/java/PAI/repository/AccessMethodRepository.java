@@ -1,15 +1,20 @@
-package PAI.domain;
+package PAI.repository;
 
-import java.util.ArrayList;
+import PAI.domain.AccessMethod;
+import PAI.factory.AccessMethodListFactory;
+import PAI.factory.AccessMethodFactory;
+
+import java.util.List;
 import java.util.Optional;
 
 public class AccessMethodRepository {
 
     private final AccessMethodFactory _accessMethodFactory;
-    private final ArrayList<AccessMethod> _accessMethodRepository = new ArrayList<>();
+    private final List<AccessMethod> _accessMethodRepository;
 
-    public AccessMethodRepository (AccessMethodFactory accessMethodFactory) {
+    public AccessMethodRepository (AccessMethodFactory accessMethodFactory, AccessMethodListFactory accessMethodListFactory) {
         _accessMethodFactory = accessMethodFactory;
+        _accessMethodRepository = accessMethodListFactory.createAccessMethodArrayList();
     }
 
 

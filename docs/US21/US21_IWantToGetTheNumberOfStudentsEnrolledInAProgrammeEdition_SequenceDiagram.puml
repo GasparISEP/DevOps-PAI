@@ -1,0 +1,25 @@
+@startuml US21
+actor ASC
+participant UI #application
+participant ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" #application
+participant "ProgrammeEditionRepo" #application
+participant ":ProgrammeEditionEnrollmentRepo" #application
+participant "programmeEditionList1:List<ProgrammeEdition>"#application
+participant "programmeEdition1:ProgrammeEdition" #application
+
+autonumber
+
+ASC -> UI  ++ #application : I want to know the number of students enrolled in a ProgrammeEdition
+UI -> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" ++ #application: getAllProgrammeEditions()
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -> "ProgrammeEditionRepo" ++ #application: getAllProgrammeEditions()
+"ProgrammeEditionRepo" --> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -- : programmeEditionList1
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" --> UI -- : programmeEditionList1
+UI --> ASC -- : which ProgrammeEdition?
+
+ASC -> UI ++ #application: programmeEdition1!
+UI -> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" ++ #application: iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1)
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -> ":ProgrammeEditionEnrollmentRepo" ++ #application : getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1)
+":ProgrammeEditionEnrollmentRepo" --> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -- #application : int
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" --> "UI" -- #application : int
+"UI" --> ASC -- #application : int
+@enduml

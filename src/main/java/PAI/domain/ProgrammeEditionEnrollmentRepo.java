@@ -15,18 +15,20 @@ public class ProgrammeEditionEnrollmentRepo {
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition, LocalDate localDate) {
-        if (programmeEdition == null || student == null) {
-            throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
-        }
-        ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student, programmeEdition, localDate);
+        try {
+            if (programmeEdition == null || student == null) {
+                throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
+            }
 
-        boolean isPEEnrollmentAddedToRepository = _programmeEditionEnrollments.add(programmeEditionEnroll);
+            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
+                    .newProgrammeEditionEnrollment(student, programmeEdition, localDate);
 
-        if(!isPEEnrollmentAddedToRepository){
+            return _programmeEditionEnrollments.add(programmeEditionEnroll);
+        } catch (Exception e) {
             return false;
         }
-        return true;
     }
+
 
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
@@ -39,16 +41,13 @@ public class ProgrammeEditionEnrollmentRepo {
 
     //US26- number of students enrolled in all programmes associated to a department, in a given school year
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
-        List<Integer> studentUniqueNumbers = new ArrayList<>();
+        Set<Integer> studentUniqueNumbers = new HashSet<>();
 
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
-            Integer studentUniqueNumber = enrollment.getStudentUniqueNumber();
-
-            if (!studentUniqueNumbers.contains(studentUniqueNumber)) {
-                if (enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
-                    studentUniqueNumbers.add(studentUniqueNumber);
+            if (enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
+                Integer studentUniqueNumber = enrollment.getStudentUniqueNumber();
+                studentUniqueNumbers.add(studentUniqueNumber);
                 }
-            }
         }
         return studentUniqueNumbers.size();
     }

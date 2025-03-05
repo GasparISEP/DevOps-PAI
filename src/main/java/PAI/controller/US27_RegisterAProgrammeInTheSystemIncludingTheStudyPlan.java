@@ -16,8 +16,8 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
     }
 
     // Metodo para o Controlador de US de registar Programme no sistema
-    public boolean registerProgrammeInTheSystemIncludingStudyPlan(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
-        _programmeList.registerProgramme(name, acronym,  quantityOfEcts,  quantityOfSemesters,  degreeType, department, programmeDirector);
+    public boolean registerProgrammeInTheSystemIncludingStudyPlan(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory) throws Exception {
+        _programmeList.registerProgramme(name, acronym,  quantityOfEcts,  quantityOfSemesters,  degreeType, department, programmeDirector, programmeCourseListFactory);
         return true;
     }
 

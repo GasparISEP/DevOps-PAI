@@ -38,7 +38,7 @@ public class US01_ConfigureTeacherCategoryControllerTest {
 
         when(repository.registerTeacherCategory(categoryName))
                 .thenReturn(true) // First call succeeds
-                .thenThrow(new Exception("Category already exists.")); // Second call throws an exception
+                .thenReturn(false); // Return false if category already exists
 
         // Act & Assert
         controller.configureTeacherCategory(categoryName); // First call works

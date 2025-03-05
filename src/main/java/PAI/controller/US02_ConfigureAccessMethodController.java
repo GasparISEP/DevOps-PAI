@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.AccessMethod;
-import PAI.domain.AccessMethodRepository;
+import PAI.repository.AccessMethodRepository;
 
 import java.util.Optional;
 
@@ -19,8 +19,8 @@ public class US02_ConfigureAccessMethodController {
         _accessMethodRepository = accessMethodRepository;
 
     }
-    //Configure Access Method
 
+    //Configure Access Method
     public boolean configureAccessMethod(String accessMethodName) {
         if (this._accessMethodRepository == null) {
             return false;
