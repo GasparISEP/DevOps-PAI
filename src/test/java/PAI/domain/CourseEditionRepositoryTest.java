@@ -18,12 +18,13 @@ class CourseEditionRepositoryTest {
         //Arrange
             //Doubles' instantiation
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
         CourseEdition courseEditionDouble = mock (CourseEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when(courseEditionFactoryDouble.newCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(courseEditionDouble);
@@ -42,6 +43,7 @@ class CourseEditionRepositoryTest {
         //Arrange
             //Doubles' instantiation
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
         Course courseDouble2 = mock (Course.class);
@@ -49,7 +51,7 @@ class CourseEditionRepositoryTest {
         CourseEdition courseEditionDouble2 = mock (CourseEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when(courseEditionFactoryDouble.newCourseEdition(courseDouble1, programmeEditionDouble)).thenReturn(courseEditionDouble1);
@@ -71,6 +73,7 @@ class CourseEditionRepositoryTest {
         //Arrange
             //Doubles' instantiation
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
@@ -78,7 +81,7 @@ class CourseEditionRepositoryTest {
         CourseEdition courseEditionDouble2 = mock (CourseEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when(courseEditionFactoryDouble.newCourseEdition(courseDouble1, programmeEditionDouble1)).thenReturn(courseEditionDouble1);
@@ -98,12 +101,13 @@ class CourseEditionRepositoryTest {
         //Arrange
             //Doubles' instantiation
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
         CourseEdition courseEditionDouble1 = mock (CourseEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when(courseEditionFactoryDouble.newCourseEdition(courseDouble1, programmeEditionDouble1)).thenReturn(courseEditionDouble1);
@@ -126,11 +130,12 @@ class CourseEditionRepositoryTest {
         //Arrange
             //Doubles' instantiation
         CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository1 = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository1 = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when(courseEditionFactoryDouble.newCourseEdition(courseDouble1, programmeEditionDouble1)).thenThrow();
@@ -149,14 +154,15 @@ class CourseEditionRepositoryTest {
         //SUT = CourseEditionRepository -> CourseEditionFactory, CourseEdition and RUC as Doubles
         //Arrange
             //Doubles' instantiation
-        CourseEditionFactory courseEditionFactoryDouble = mock(CourseEditionFactory.class);
+        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         CourseEdition courseEditionDouble = mock (CourseEdition.class);
         Teacher rucDouble = mock (Teacher.class);
         Course courseDouble = mock (Course.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when (courseEditionFactoryDouble.newCourseEdition(courseDouble,programmeEditionDouble)).thenReturn(courseEditionDouble);
@@ -178,14 +184,15 @@ class CourseEditionRepositoryTest {
         //SUT = CourseEditionRepository -> CourseEditionFactory, CourseEdition and RUC as Doubles
         //Arrange
             //Doubles' instantiation
-        CourseEditionFactory courseEditionFactoryDouble = mock(CourseEditionFactory.class);
+        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         CourseEdition courseEditionDouble = mock (CourseEdition.class);
         Teacher rucDouble = mock (Teacher.class);
         Course courseDouble = mock (Course.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when (courseEditionFactoryDouble.newCourseEdition(courseDouble,programmeEditionDouble)).thenReturn(courseEditionDouble);
@@ -206,7 +213,8 @@ class CourseEditionRepositoryTest {
         //SUT = CourseEditionRepository -> CourseEditionFactory, CourseEdition as Doubles
         //Arrange
             //Doubles' instantiation
-        CourseEditionFactory courseEditionFactoryDouble = mock(CourseEditionFactory.class);
+        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         CourseEdition courseEditionDouble1 = mock (CourseEdition.class);
         CourseEdition courseEditionDouble2 = mock (CourseEdition.class);
         Course courseDouble1 = mock (Course.class);
@@ -215,7 +223,7 @@ class CourseEditionRepositoryTest {
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when (courseEditionFactoryDouble.newCourseEdition(courseDouble1,programmeEditionDouble1)).thenReturn(courseEditionDouble1);
@@ -237,7 +245,8 @@ class CourseEditionRepositoryTest {
         //SUT = CourseEditionRepository -> CourseEditionFactory, CourseEdition as Doubles
         //Arrange
             //Doubles' instantiation
-        CourseEditionFactory courseEditionFactoryDouble = mock(CourseEditionFactory.class);
+        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         CourseEdition courseEditionDouble1 = mock (CourseEdition.class);
         CourseEdition courseEditionDouble2 = mock (CourseEdition.class);
         Course courseDouble1 = mock (Course.class);
@@ -246,7 +255,7 @@ class CourseEditionRepositoryTest {
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when (courseEditionFactoryDouble.newCourseEdition(courseDouble1,programmeEditionDouble1)).thenReturn(courseEditionDouble1);
@@ -270,7 +279,8 @@ class CourseEditionRepositoryTest {
         //SUT = CourseEditionRepository -> CourseEditionFactory, CourseEdition as Doubles
         //Arrange
             //Doubles' instantiation
-        CourseEditionFactory courseEditionFactoryDouble = mock(CourseEditionFactory.class);
+        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
         CourseEdition courseEditionDouble1 = mock (CourseEdition.class);
         CourseEdition courseEditionDouble2 = mock (CourseEdition.class);
         Course courseDouble1 = mock (Course.class);
@@ -279,7 +289,7 @@ class CourseEditionRepositoryTest {
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
         when (courseEditionFactoryDouble.newCourseEdition(courseDouble1,programmeEditionDouble1)).thenReturn(courseEditionDouble1);
@@ -302,7 +312,8 @@ class CourseEditionRepositoryTest {
     void shouldReturnCourseEditionsWithSameProgrammeEdition() throws Exception {
         // Arrange
         CourseEditionFactory doubleCourseEditionFactory = mock(CourseEditionFactory.class);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactory);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactory, courseEditionListFactoryDouble);
         Course doubleCourse1 = mock(Course.class);
         Course doubleCourse2 = mock(Course.class);
         CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
@@ -335,7 +346,9 @@ class CourseEditionRepositoryTest {
         ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
         CourseEdition doubleCourseEdition = mock(CourseEdition.class);
         CourseEditionFactory doubleCourseEditionFactory = mock(CourseEditionFactory.class);
-        CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactory);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
+
+        CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactory,courseEditionListFactoryDouble);
 
         when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1, doubleProgrammeEdition)).thenReturn(doubleCourseEdition);
 
@@ -355,7 +368,8 @@ class CourseEditionRepositoryTest {
     void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListEmpty() throws Exception {
         //arrange
         CourseEditionFactory courseEditionFactory = mock(CourseEditionFactory.class);
-        CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
+        CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactoryDouble);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
         // act
@@ -371,7 +385,8 @@ class CourseEditionRepositoryTest {
     void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListWithElements() throws Exception {
         // arrange
         CourseEditionFactory courseEditionFactory = mock(CourseEditionFactory.class);
-        CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
+        CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactoryDouble);
         ProgrammeEdition ProgrammeEditionDouble = mock(ProgrammeEdition.class);
         Course CourseDouble = mock(Course.class);
         CourseEdition courseEditionToFindDouble = mock(CourseEdition.class);
@@ -392,7 +407,8 @@ class CourseEditionRepositoryTest {
     void shouldReturnTheProgrammeEditionThatBelongsToACourseEdition() throws Exception {
         //arrange
         CourseEditionFactory courseEditionFactory = mock(CourseEditionFactory.class);
-        CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
+        CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactoryDouble);
 
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
