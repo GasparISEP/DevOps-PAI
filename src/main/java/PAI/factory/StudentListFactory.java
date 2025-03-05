@@ -1,4 +1,7 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.Student;
+import PAI.domain.StudentListFactoryInterface;
 
 import java.util.ArrayList;
 
