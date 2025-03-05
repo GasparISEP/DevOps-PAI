@@ -54,6 +54,18 @@ public class GradeStudent {
             }
         }
 
+    public LocalDate get_date() {
+        return _date;
+    }
+
+    public Student get_student() {
+        return _student;
+    }
+
+    public CourseEdition get_courseEdition() {
+        return _courseEdition;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
