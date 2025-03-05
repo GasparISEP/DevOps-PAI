@@ -1,4 +1,6 @@
-package PAI.domain;
+package PAI.repository;
+
+import PAI.domain.*;
 
 import java.time.LocalDate;
 import java.util.*;
