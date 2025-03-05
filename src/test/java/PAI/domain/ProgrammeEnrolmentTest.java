@@ -29,8 +29,8 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = new ProgrammeCourseListFactoryImpl();
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl);
 
 
         //act
@@ -79,9 +79,9 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = new ProgrammeCourseListFactoryImpl();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl);
 
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(student1, am1, programme1, date));
@@ -128,9 +128,9 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto","Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = new ProgrammeCourseListFactoryImpl();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
@@ -170,9 +170,9 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = new ProgrammeCourseListFactoryImpl();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student1, am1, programme1,"15-10-2010");
@@ -219,9 +219,9 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = new ProgrammeCourseListFactoryImpl();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, am1, programme1,"17-09-2005");
@@ -266,16 +266,16 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
 
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory1 = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory1);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl1);
 
         DegreeType dt2 = new DegreeType("Master", 240);
         Department dpt2 = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
         Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
 
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactory1);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactoryImpl1);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student1, am1, programme2,"15-10-2010");
@@ -322,17 +322,17 @@ class ProgrammeEnrolmentTest {
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
         AddressFactory addressFactory = new AddressFactory();
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = new ProgrammeCourseListFactoryImpl();
 
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl);
 
         DegreeType dt2 = new DegreeType("Master", 240);
         Department dpt2 = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
         Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
 
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactory);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactoryImpl);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, am1, programme2,"15-10-2010");
@@ -376,9 +376,9 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl = new ProgrammeCourseListFactoryImpl();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactoryImpl);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
