@@ -3,11 +3,11 @@ package PAI.controller;
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.ProgrammeEditionEnrollmentRepo;
 
-public class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition {
+public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
     private ProgrammeEditionEnrollmentRepo _programmeEditionEnrollmentRepo;
 
-    public US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo){
+    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo){
 
         if(programmeEditionEnrollmentRepo == null){
             throw new IllegalArgumentException("Programme Edition Enrollment Repository is null");
@@ -16,7 +16,7 @@ public class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition {
         _programmeEditionEnrollmentRepo = programmeEditionEnrollmentRepo;
     }
 
-    public int IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
+    public int iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
         return _programmeEditionEnrollmentRepo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition);
     }
 }

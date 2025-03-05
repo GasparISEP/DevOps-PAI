@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
+class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTest {
 
     @Test
     void shouldCreateControllerWhenRepositoriesAreValid(){
@@ -22,8 +22,8 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
 
 
         // Act
-        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controller =
-                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionEnrollmentRepo);
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrollmentRepo);
 
         // Assert
         assertNotNull(controller);
@@ -41,7 +41,7 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(null));
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null));
 
     }
 
@@ -75,12 +75,12 @@ class US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionTest {
         int NumberOfStudentsEnrolledInAProgrammeEdition = 2;
 
         // Act
-        US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition controlador1 = new US21_IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(repository);
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controlador1 = new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(repository);
 
         repository.enrollStudentInProgrammeEdition(student1Double, edition1Double, currentDate);
         repository.enrollStudentInProgrammeEdition(student2Double, edition1Double, currentDate);
 
-        int result = controlador1.IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEdition(edition1Double);
+        int result = controlador1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(edition1Double);
 
         // Assert
         assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
