@@ -9,8 +9,8 @@ class AccessMethodListFactoryTest {
     @Test
     void shouldCreateArrayList() {
         //arrange
-        AccessMethodListFactory accessMethodListFactory = new AccessMethodListFactory();
+        AccessMethodArrayListFactory accessMethodArrayListFactory = new AccessMethodArrayListFactory();
         //act + assert
-        assertNotNull(accessMethodListFactory);
+        assertNotNull(accessMethodArrayListFactory);
     }
 }

@@ -23,6 +23,7 @@ class AccessMethodFactoryTest {
         assertNotNull(accessMethod);
         assertEquals(1, mockAccessMethod.constructed().size());
 
+        //O objeto isolado deve existir
         AccessMethod doubleAccessMethod = mockAccessMethod.constructed().get(0);
         assertNotNull(doubleAccessMethod);
         }
