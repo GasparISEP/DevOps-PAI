@@ -1,9 +1,10 @@
 
 package PAI.domain;
 
+import PAI.factory.GradeStudentFactory;
+import PAI.repository.GradeStudentRepository;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

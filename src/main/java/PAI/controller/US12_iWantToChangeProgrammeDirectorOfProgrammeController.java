@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.Programme;
-import PAI.domain.ProgrammeList;
+import PAI.repository.ProgrammeList;
 import PAI.domain.Teacher;
 
 public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {

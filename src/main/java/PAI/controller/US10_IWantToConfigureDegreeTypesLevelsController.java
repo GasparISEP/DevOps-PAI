@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.DegreeTypeRepository;
+import PAI.repository.DegreeTypeRepository;
 
 
 public class US10_IWantToConfigureDegreeTypesLevelsController {
