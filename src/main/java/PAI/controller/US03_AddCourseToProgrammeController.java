@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.domain.Course;
 import PAI.domain.CourseRepository;
 import PAI.domain.Programme;
-import PAI.domain.ProgrammeList;
+import PAI.repository.ProgrammeList;
 
 import java.util.List;
 

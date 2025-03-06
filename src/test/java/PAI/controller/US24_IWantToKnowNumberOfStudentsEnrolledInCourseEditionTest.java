@@ -1,9 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,11 +15,10 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
     @Test
     void checksIfControllerInitializes() {
         // Arrange
-        CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository repo= new CourseEditionEnrollmentRepository (factoryDouble);
+        CourseEditionEnrollmentRepository repoDouble = mock(CourseEditionEnrollmentRepository.class);
 
         // Act
-        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repo);
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
         // Assert
         // Check if the controller is properly initialized
@@ -30,11 +28,11 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
     @Test
     void IWantToKnowNumberOfStudentsEnrolledInCourseEdition() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repo = mock (CourseEditionEnrollmentRepository.class);
-        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repo);
+        CourseEditionEnrollmentRepository repoDouble = mock(CourseEditionEnrollmentRepository.class);
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        when (repo.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(1);
+        when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(1);
 
         // Act
         int studentsEnrolled = controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(courseEdition1);
@@ -46,11 +44,11 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
     @Test
     void IWantToKnowNumberOfStudentsEnrolledInCourseEditionForMoreThan1Student() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repo= mock (CourseEditionEnrollmentRepository.class);
-        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repo);
+        CourseEditionEnrollmentRepository repoDouble = mock(CourseEditionEnrollmentRepository.class);
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        when (repo.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(2);
+        when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(2);
 
         // Act
         int studentsEnrolled = controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(courseEdition1);
@@ -62,11 +60,11 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
     @Test
     void IWantToKnowNumberOfStudentsEnrolledInCourseEditionWhenCourseEditionMoreThanOneAndStudentMoreThanOne() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repo= mock (CourseEditionEnrollmentRepository.class);
-        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repo);
+        CourseEditionEnrollmentRepository repoDouble = mock(CourseEditionEnrollmentRepository.class);
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        when (repo.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(1);
+        when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(1);
 
         //Act
         int studentsEnrolled = controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(courseEdition1);
@@ -78,13 +76,13 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
     @Test
     void IWantToKnowNumberOfStudentsEnrolledInCourseEditionWhenCourseEditionMoreThanOneAndStudentsOnlyEnrolledInOneCourseEdition() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repo= mock (CourseEditionEnrollmentRepository.class);
-        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repo);
+        CourseEditionEnrollmentRepository repoDouble = mock(CourseEditionEnrollmentRepository.class);
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
-        when (repo.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(0);
-        when (repo.numberOfStudentsEnrolledInCourseEdition(courseEdition2)).thenReturn(2);
+        when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(0);
+        when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition2)).thenReturn(2);
 
         // Act
         int studentsEnrolled = controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(courseEdition2);
@@ -96,11 +94,11 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
     @Test
     void IWantToKnowNumberOfStudentsEnrolledInCourseEditionWhenCourseEditionDoesNotHaveStudentsEnrolled() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repo= mock (CourseEditionEnrollmentRepository.class);
-        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repo);
+        CourseEditionEnrollmentRepository repoDouble = mock(CourseEditionEnrollmentRepository.class);
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        when (repo.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(0);
+        when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(0);
 
         //Act
         int studentsEnrolled = controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(courseEdition1);
@@ -110,18 +108,18 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
     }
 
     @Test
-    void testIWantToKnowNumberOfStudentsEnrolledInCourseEdition_NullCourseEdition_ShouldThrowException() {
+    void testIWantToKnowNumberOfStudentsEnrolledInCourseEdition_NullCourseEdition_ShouldThrowException() throws Exception {
         // Arrange
-        CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository repository= new CourseEditionEnrollmentRepository (factoryDouble);
-        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repository);
+        CourseEditionEnrollmentRepository repoDouble = mock(CourseEditionEnrollmentRepository.class);
+        US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
+
+        when(controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(null)).thenThrow(new IllegalArgumentException("Course edition cannot be null."));
 
         // Act & Assert
         Exception exception = assertThrows(Exception.class, () -> {
             controller.IWantToKnowNumberOfStudentsEnrolledInCourseEdition(null);
         });
 
-        // Assert
         assertEquals("Course edition cannot be null.", exception.getMessage());
     }
 }

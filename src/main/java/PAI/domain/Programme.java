@@ -1,7 +1,9 @@
 package PAI.domain;
 
 
-import java.util.ArrayList;
+
+import PAI.repository.StudyPlan;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -14,10 +16,11 @@ public class Programme {
     private DegreeType _degreeType;
     private Department _department;
     private Teacher _programmeDirector;
-    private ArrayList<Course> _courseList = new ArrayList<>();
+    private List<Course> _courseList;
+    private ProgrammeCourseListFactory _programmeCourseListFactory;
     private StudyPlan _studyPlan;
 
-    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
+    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory) throws Exception {
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
         }
@@ -55,6 +58,10 @@ public class Programme {
 
         _studyPlan = new StudyPlan();
 
+        _programmeCourseListFactory = programmeCourseListFactory;
+
+        _courseList = _programmeCourseListFactory.createCourseList();
+
     }
 
     private boolean isNameInvalid(String name) {
@@ -79,6 +86,12 @@ public class Programme {
         Programme programme = (Programme) o;
         return _quantityOfEcts == programme._quantityOfEcts && _quantityOfSemesters == programme._quantityOfSemesters &&
                 Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
+    }
+
+    //Wrapper for equals
+    public boolean isEquals (Programme programme) {
+
+        return this.equals(programme);
     }
 
     //Method to add Course
@@ -139,4 +152,22 @@ public class Programme {
     public String getProgrammeName() {
         return _name;
     }
+
+    public DegreeType getDegreeType() {
+        return _degreeType;
+    }
+
+    public Department getDepartment() {
+        return _department;
+    }
+
+    public Teacher getProgrammeDirector() {
+        return _programmeDirector;
+    }
+
+    public ProgrammeCourseListFactory getPprogrammeCourseListFactory() {
+        return _programmeCourseListFactory;
+    }
+
+
 }

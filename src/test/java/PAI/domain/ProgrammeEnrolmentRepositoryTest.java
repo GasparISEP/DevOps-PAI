@@ -87,11 +87,9 @@ class ProgrammeEnrolmentRepositoryTest {
 
         programmeEnrolmentRepository.enrolStudents(studentDouble, accessMethodDouble, programmeDouble, "12-04-2020");
 
-        when(programmeEnrolmentDouble.getStudentFromEnrolment()).thenReturn(studentDouble);
+        when(programmeEnrolmentDouble.hasSameStudent(studentDouble)).thenReturn(true);
 
-        when(studentDouble.getUniqueNumber()).thenReturn(1);
-
-        when(programmeEnrolmentDouble.getProgrammeFromEnrolment()).thenReturn(programmeDouble);
+        when(programmeEnrolmentDouble.hasSameProgramme(programmeDouble)).thenReturn(true);
 
         // Act
         boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentDouble, programmeDouble);
@@ -117,13 +115,9 @@ class ProgrammeEnrolmentRepositoryTest {
 
         programmeEnrolmentRepository.enrolStudents(studentDouble1, accessMethodDouble, programmeDouble, "12-04-2020");
 
-        when(programmeEnrolmentDouble.getStudentFromEnrolment()).thenReturn(studentDouble1);
+        when(programmeEnrolmentDouble.hasSameStudent(studentDouble2)).thenReturn(false);
 
-        when(studentDouble1.getUniqueNumber()).thenReturn(1);
-
-        when(studentDouble2.getUniqueNumber()).thenReturn(2);
-
-        when(programmeEnrolmentDouble.getProgrammeFromEnrolment()).thenReturn(programmeDouble);
+        when(programmeEnrolmentDouble.hasSameProgramme(programmeDouble)).thenReturn(true);
 
         // Act
         boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentDouble2, programmeDouble);
@@ -148,11 +142,9 @@ class ProgrammeEnrolmentRepositoryTest {
 
         programmeEnrolmentRepository.enrolStudents(studentDouble, accessMethodDouble, programmeDouble1, "12-04-2020");
 
-        when(programmeEnrolmentDouble.getStudentFromEnrolment()).thenReturn(studentDouble);
+        when(programmeEnrolmentDouble.hasSameStudent(studentDouble)).thenReturn(true);
 
-        when(studentDouble.getUniqueNumber()).thenReturn(1);
-
-        when(programmeEnrolmentDouble.getProgrammeFromEnrolment()).thenReturn(programmeDouble1);
+        when(programmeEnrolmentDouble.hasSameProgramme(programmeDouble2)).thenReturn(false);
 
         // Act
         boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentDouble, programmeDouble2);

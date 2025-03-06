@@ -1,6 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.ProgrammeEditionRepository;
+import PAI.repository.ProgrammeList;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

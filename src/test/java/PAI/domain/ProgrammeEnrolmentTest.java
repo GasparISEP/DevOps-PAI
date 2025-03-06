@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEnrolmentTest {
 
@@ -29,8 +30,8 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
 
 
         //act
@@ -79,8 +80,9 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
 
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(student1, am1, programme1, date));
@@ -113,7 +115,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnStudentFromEnrolmentWithoutIsolation() throws Exception {
+    void shouldReturnTrueIfStudentsAreTheSameWithoutIsolation() throws Exception {
         //arrange
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -127,20 +129,21 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto","Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
         //act
-        Student result = programmeEnrolment1.getStudentFromEnrolment();
+        boolean result = programmeEnrolment1.hasSameStudent(student1);
 
         //assert
-        assertEquals(student1,result);
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnStudentFromEnrolmentWithIsolation() {
+    void shouldReturnTrueIfStudentsAreTheSameWithIsolation() {
         //arrange
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
@@ -148,11 +151,32 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
 
+        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(true);
+
         //act
-        Student result = programmeEnrolment.getStudentFromEnrolment();
+        boolean result = programmeEnrolment.hasSameStudent(studentDouble);
 
         //assert
-        assertEquals(studentDouble,result);
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfStudentsAreNotTheSameWithIsolation() {
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        Student studentDouble2 = mock(Student.class);
+        AccessMethod accessMethodDouble = mock(AccessMethod.class);
+        Programme programmeDouble = mock(Programme.class);
+
+        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(studentDouble1, accessMethodDouble, programmeDouble, "12-04-2020");
+
+        when(studentDouble1.hasSameUniqueNumber(studentDouble2)).thenReturn(false);
+
+        //act
+        boolean result = programmeEnrolmentDouble.hasSameStudent(studentDouble2);
+
+        //assert
+        assertFalse(result);
     }
 
     @Test
@@ -168,8 +192,9 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student1, am1, programme1,"15-10-2010");
@@ -216,8 +241,9 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, am1, programme1,"17-09-2005");
@@ -262,14 +288,16 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
 
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        ProgrammeCourseListFactory programmeCourseListFactory1 = new ProgrammeCourseListFactory();
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory1);
 
         DegreeType dt2 = new DegreeType("Master", 240);
         Department dpt2 = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
         Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
 
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactory1);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student1, am1, programme2,"15-10-2010");
@@ -316,16 +344,17 @@ class ProgrammeEnrolmentTest {
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
         AddressFactory addressFactory = new AddressFactory();
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
 
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
 
         DegreeType dt2 = new DegreeType("Master", 240);
         Department dpt2 = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
         Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
 
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactory);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, am1, programme2,"15-10-2010");
@@ -357,7 +386,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnProgrammeFromEnrolmentWithoutIsolation() throws Exception {
+    void shouldReturnTrueIfProgrammesAreTheSameWithoutIsolation() throws Exception {
         //arrange
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -369,20 +398,21 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
 
-        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
         //act
-        Programme result = programmeEnrolment1.getProgrammeFromEnrolment();
+        boolean result = programmeEnrolment1.hasSameProgramme(programme1);
 
         //assert
-        assertEquals(programme1,result);
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnProgrammeFromEnrolmentWithIsolation() {
+    void shouldReturnTrueIfProgrammesAreTheSameWithIsolation() {
         //arrange
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
@@ -391,9 +421,26 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
 
         //act
-        Programme result = programmeEnrolment1.getProgrammeFromEnrolment();
+        boolean result = programmeEnrolment1.hasSameProgramme(programmeDouble);
 
         //assert
-        assertEquals(programmeDouble,result);
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammesAreNotTheSameWithIsolation() {
+        //arrange
+        Student studentDouble = mock(Student.class);
+        AccessMethod accessMethodDouble = mock(AccessMethod.class);
+        Programme programmeDouble1 = mock(Programme.class);
+        Programme programmeDouble2 = mock(Programme.class);
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble1,"17-09-2005");
+
+        //act
+        boolean result = programmeEnrolment1.hasSameProgramme(programmeDouble2);
+
+        //assert
+        assertFalse(result);
     }
 }

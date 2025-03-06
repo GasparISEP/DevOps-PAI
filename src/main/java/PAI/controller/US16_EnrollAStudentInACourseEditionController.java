@@ -1,8 +1,11 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.ProgrammeEditionEnrollmentRepo;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class US16_EnrollAStudentInACourseEditionController {
 
@@ -19,16 +22,14 @@ public class US16_EnrollAStudentInACourseEditionController {
         validateCourseEditionRepository (courseEditionRepository);
     }
 
+    //show a list of course editions that belongs to a course edition for student choose a course edition
+    public List<CourseEdition> getCourseEditionsOfProgrammeEdition (ProgrammeEdition programmeEdition) {
+        return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+    }
+
+    //enroll a student in a course edition
     public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition) throws Exception {
         if (student == null || courseEdition == null){
-            return false;
-        }
-
-        //find what programme edition belongs to this course edition
-        ProgrammeEdition programmeEdition = _courseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
-
-        // Verify if student belongs to programme edition that has the course edition passed as an attribute
-        if (!_peeRepository.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
             return false;
         }
 

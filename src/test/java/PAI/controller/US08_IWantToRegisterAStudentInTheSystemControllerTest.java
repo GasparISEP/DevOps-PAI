@@ -1,8 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.Address;
-import PAI.domain.StudentFactory;
-import PAI.domain.StudentListFactory;
+import PAI.factory.StudentFactory;
+import PAI.factory.StudentListFactory;
 import PAI.domain.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

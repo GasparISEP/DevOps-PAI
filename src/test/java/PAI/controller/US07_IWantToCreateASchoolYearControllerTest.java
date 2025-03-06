@@ -36,7 +36,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
     }
 
     @Test
-    void addedSchoolYearSuccessfully() throws Exception {
+    void shouldReturnTrueWhenYearIsSuccessfullyAdded() throws Exception {
 
         //Arrange
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
@@ -49,5 +49,20 @@ class US07_IWantToCreateASchoolYearControllerTest {
 
         //Assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenYearCanNotBeAdded() throws Exception {
+
+        //Arrange
+        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
+        US07_IWantToCreateASchoolYearController US07_controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
+
+        when(schoolYearRepository.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022")).
+                thenThrow(new IllegalArgumentException("School year already exists."));
+
+        //Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> { US07_controller.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
+        });
     }
 }

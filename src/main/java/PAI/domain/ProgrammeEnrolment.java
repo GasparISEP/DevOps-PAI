@@ -34,8 +34,10 @@ public class ProgrammeEnrolment {
         return formattedDate;
     }
 
-    public Student getStudentFromEnrolment(){
-        return _student;
+    public boolean hasSameStudent(Student student){
+
+        return _student.hasSameUniqueNumber(student);
+
     }
 
     public boolean hasSameEnrolment(ProgrammeEnrolment programmeEnrolment){
@@ -43,8 +45,8 @@ public class ProgrammeEnrolment {
                 this._programme.equals(programmeEnrolment._programme);
     }
 
-    public Programme getProgrammeFromEnrolment() {
-        return _programme;
+    public boolean hasSameProgramme(Programme programme) {
+        return _programme.equals(programme);
     }
 }
 

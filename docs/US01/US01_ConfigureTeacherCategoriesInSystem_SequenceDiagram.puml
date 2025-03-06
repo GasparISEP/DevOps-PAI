@@ -1,26 +1,27 @@
 @startuml
 actor admin
 
-
-
 admin -> ":UI" as UI ++ #application : I want to configure TeacherCategory
 UI --> admin -- : categoryName?
 
-admin -> UI ++ #application :(categoryName)
-
+admin -> UI ++ #application : (categoryName)
 
 UI -> ":ConfigureTeacherCategoryController" as ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
 
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
+participant ":TeacherCategoryFactory" as TeacherCategoryFactory
+
 ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : registerTeacherCategory(categoryName)
 
-create "tc1:TeacherCategory" as TeacherCategory
-TeacherCategoryRepository -> TeacherCategory ++ #application : <create>(categoryName)
-TeacherCategory -> TeacherCategory: isNameValid(categoryName)
-TeacherCategory --> TeacherCategoryRepository -- ::tc1
-TeacherCategoryRepository -> TeacherCategoryRepository : isTeacherCategoryRegistered (tc1)
-TeacherCategoryRepository -> TeacherCategoryRepository : registerTeacherCategory(categoryName)
+TeacherCategoryRepository -> TeacherCategoryRepository : getTeacherCategoryByName(categoryName)
+TeacherCategoryRepository --> ConfigureTeacherCategoryController --: false (if exists)
 
+ConfigureTeacherCategoryController -> TeacherCategoryFactory ++ #application : createTeacherCategory(categoryName)
+TeacherCategoryFactory --> "tc1:TeacherCategory" as TeacherCategory ++ #application : <create>(categoryName)
+
+TeacherCategory -> TeacherCategory : isNameValid(categoryName)
+
+TeacherCategoryRepository -> TeacherCategoryRepository : add(tc1)
 TeacherCategoryRepository --> ConfigureTeacherCategoryController --: true
 
 ConfigureTeacherCategoryController --> UI --: true
