@@ -41,7 +41,7 @@ class AccessMethodRepository {
     +AccessMethodRepository(accessMethodFactory : AccessMethodFactory, accessMethodListFactory : AccessMethodListFactory)
     +registerAccessMethod(accessMethodName: String) : boolean
     -isAccessMethodRegistered(accessMethod: AccessMethod) : boolean
-    +getAccessMethodByName
+    +getAccessMethodByName() : AccessMethod
 }
 'uses
 AccessMethodRepository --> AccessMethodFactory

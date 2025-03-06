@@ -15,7 +15,7 @@ class AccessMethodRepositoryTest {
 
 
     @Test
-    void shouldReturnTrueIfIsAlreadyRegisteredInTheAccessMethodRepository() throws Exception {
+    void shouldNotRegisterAccessMethodIfIsAlreadyRegisteredInTheAccessMethodRepository() throws Exception {
         //arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
         AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
@@ -24,25 +24,23 @@ class AccessMethodRepositoryTest {
         when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         accessMethodRepository.registerAccessMethod("Maiores 23");
         //act
-        boolean result = accessMethodRepository.isAccessMethodRegistered(doubleAccessMethod);
+        boolean result = accessMethodRepository.registerAccessMethod("Maiores 23");
         //assert
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseIfAccessMethodIsNotRegisteredInAccessMethodRepository() throws Exception {
+    void shouldRegisterAccessMethodIfNotRegisteredInAccessMethodRepository() throws Exception {
         //arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
         AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
         AccessMethodRepository accessMethodRepository = new AccessMethodRepository (doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
-        AccessMethod doubleAccessMethod1 = mock(AccessMethod.class);
-        AccessMethod doubleAccessMethod2 = mock(AccessMethod.class);
-        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod1);
-        accessMethodRepository.registerAccessMethod("Maiores 23");
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         //act
-        boolean result = accessMethodRepository.isAccessMethodRegistered(doubleAccessMethod2);
+        boolean result = accessMethodRepository.registerAccessMethod("Maiores 23");
         //assert
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test

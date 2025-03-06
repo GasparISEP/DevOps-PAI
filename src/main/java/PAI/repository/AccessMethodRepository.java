@@ -29,7 +29,7 @@ public class AccessMethodRepository {
         return true;
     }
 
-    public boolean isAccessMethodRegistered(AccessMethod accessMethod) {
+    private boolean isAccessMethodRegistered(AccessMethod accessMethod) {
 
         return _accessMethodRepository.contains(accessMethod);
     }
