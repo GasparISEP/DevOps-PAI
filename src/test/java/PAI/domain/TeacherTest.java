@@ -722,7 +722,7 @@ class TeacherTest {
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_SameCategory_UnsuccessfulTest() throws IllegalArgumentException {
+    void updateTeacherCategory_InTeacherCareer_SameCategory_ExceptionIsCaughtTest() throws IllegalArgumentException {
         //arrange
         String date1 = "25-12-2024";
         String date2 = "26-12-2024";
@@ -750,7 +750,7 @@ class TeacherTest {
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_SameCategoryReturnValue_UnsuccessfulTest() throws IllegalArgumentException {
+    void updateTeacherCategory_InTeacherCareer_SameCategory_ReturnValueWhenExceptionIsExpectedTest() throws IllegalArgumentException {
         // Arrange
         String date1 = "25-12-2024";
         String date2 = "26-12-2024";
@@ -786,7 +786,7 @@ class TeacherTest {
     }
 
     @Test
-    void updateTeacherCategory_InTeacherCareer_SameDateEdgeCase_UnsuccessfulTest() throws IllegalArgumentException {
+    void updateTeacherCategory_InTeacherCareer_SameDateEdgeCase_ShouldReturnFalseTest() throws IllegalArgumentException {
         // Arrange
         String date1 = "25-12-2024";
         String date2 = "25-12-2024"; // Same date as the initial date
