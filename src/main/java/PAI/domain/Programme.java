@@ -1,7 +1,9 @@
 package PAI.domain;
 
 
-import java.util.ArrayList;
+
+import PAI.repository.StudyPlan;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -144,4 +146,22 @@ public class Programme {
     public String getProgrammeName() {
         return _name;
     }
+
+    public DegreeType getDegreeType() {
+        return _degreeType;
+    }
+
+    public Department getDepartment() {
+        return _department;
+    }
+
+    public Teacher getProgrammeDirector() {
+        return _programmeDirector;
+    }
+
+    public ProgrammeCourseListFactory getPprogrammeCourseListFactory() {
+        return _programmeCourseListFactory;
+    }
+
+
 }

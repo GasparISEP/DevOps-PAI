@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.ProgrammeEdition;
-import PAI.domain.ProgrammeEditionEnrollmentRepo;
+import PAI.repository.ProgrammeEditionEnrollmentRepo;
 
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 

@@ -2,6 +2,7 @@ package PAI.repository;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.GradeStudent;
+import PAI.domain.GradeStudentListFactory;
 import PAI.domain.Student;
 import PAI.factory.GradeStudentFactory;
 
@@ -11,16 +12,18 @@ import java.util.Optional;
 
 public class GradeStudentRepository {
     private final GradeStudentFactory _gradeStudentFactory;
-    private List<GradeStudent> gradeStudentList = new ArrayList<>();
+    private List<GradeStudent> _gradeStudentList;
 
-    public GradeStudentRepository (GradeStudentFactory gradeStudentFactory){
+    public GradeStudentRepository (GradeStudentFactory gradeStudentFactory, GradeStudentListFactory gradeStudentListFactory){
         this._gradeStudentFactory = gradeStudentFactory;
+        _gradeStudentList = gradeStudentListFactory.newArrayList();
     }
+
 
     public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
         try {
                 GradeStudent gradeStudent = _gradeStudentFactory.newGradeStudent(grade,date,student,courseEdition);
-                gradeStudentList.add(gradeStudent);
+                _gradeStudentList.add(gradeStudent);
                 return Optional.of(gradeStudent);
         }
         catch (Exception ex) {
@@ -31,7 +34,7 @@ public class GradeStudentRepository {
         int numOfStudent = 0;
         double sumGrade = 0;
 
-        for (GradeStudent gradeStudent: gradeStudentList) {
+        for (GradeStudent gradeStudent: _gradeStudentList) {
             if (gradeStudent.hasThisCourseEdition(courseEdition)) {
                 double grade = gradeStudent.knowGrade();
                 sumGrade += grade;
@@ -49,7 +52,7 @@ public class GradeStudentRepository {
         int totalApprovalStudents = 0;
         int totalOfStudents = 0;
 
-        for (GradeStudent gradeStudent : gradeStudentList) {
+        for (GradeStudent gradeStudent : _gradeStudentList) {
             if (gradeStudent.hasThisCourseEdition(courseEdition)) {
                 totalOfStudents++;
                 if (gradeStudent.knowGrade() >= 10) {

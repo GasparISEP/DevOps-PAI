@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.domain.AccessMethod;
 import PAI.factory.AccessMethodFactory;
-import PAI.factory.AccessMethodListFactory;
+import PAI.factory.AccessMethodArrayListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -18,8 +18,8 @@ class AccessMethodRepositoryTest {
     void shouldReturnTrueIfIsAlreadyRegisteredInTheAccessMethodRepository() throws Exception {
         //arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository (doubleAccessMethodFactory,doubleAccessMethodListFactory);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository (doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
         when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         accessMethodRepository.registerAccessMethod("Maiores 23");
@@ -33,8 +33,8 @@ class AccessMethodRepositoryTest {
     void shouldReturnFalseIfAccessMethodIsNotRegisteredInAccessMethodRepository() throws Exception {
         //arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository (doubleAccessMethodFactory, doubleAccessMethodListFactory);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository (doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         AccessMethod doubleAccessMethod1 = mock(AccessMethod.class);
         AccessMethod doubleAccessMethod2 = mock(AccessMethod.class);
         when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod1);
@@ -49,9 +49,9 @@ class AccessMethodRepositoryTest {
     void testAccessMethodListCreationValid() {
         //arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
         //act
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory,doubleAccessMethodListFactory);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         //assert
         assertNotNull(accessMethodRepository);
     }
@@ -60,8 +60,8 @@ class AccessMethodRepositoryTest {
     void shouldReturnTrueIfAccessMethodIsRegistered() throws Exception {
         //arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodListFactory);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
 
         when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
@@ -75,8 +75,8 @@ class AccessMethodRepositoryTest {
     void shouldReturnFalseIfAccessMethodCannotBeRegistered() throws Exception {
         //arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodListFactory);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
         when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         accessMethodRepository.registerAccessMethod("Maiores 23");
@@ -90,8 +90,8 @@ class AccessMethodRepositoryTest {
     void shouldReturnsOptionalWithAccessMethodIfCanBeCreated() throws InstantiationException {
         // arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodListFactory);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
         when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
 
@@ -106,8 +106,8 @@ class AccessMethodRepositoryTest {
     void shouldReturnEmptyOptionalIfAccessMethodAlreadyRegistered() throws InstantiationException {
         // arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodListFactory);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
         when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         accessMethodRepository.createAccessMethod("Maiores 23");
@@ -123,8 +123,8 @@ class AccessMethodRepositoryTest {
     void shouldReturnEmptyOptionalIfAccessMethodCannotBeCreated() throws InstantiationException {
         // arrange
         AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodListFactory doubleAccessMethodListFactory = mock(AccessMethodListFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodListFactory);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
         when(doubleAccessMethodFactory.createAccessMethod("")).thenThrow(new InstantiationException("Cannot create AccessMethod"));
 
         // act

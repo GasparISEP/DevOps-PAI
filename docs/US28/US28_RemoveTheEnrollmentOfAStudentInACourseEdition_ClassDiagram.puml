@@ -9,6 +9,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
 
 class CourseEditionEnrollment {
     -_enrollmentDate: LocalDate
+    -_isActive: boolean
     +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
      enrollmentDate: LocalDate)
     +equals (obj: Object): boolean
@@ -16,6 +17,8 @@ class CourseEditionEnrollment {
     +findCourseEditionInEnrollment() : CourseEdition
     +knowStudent(): Object
     +knowCourseEdition(): Object
+    +isEnrollmentActive(): boolean
+    +deactivateEnrollment(): void
 }
 
 class CourseEditionEnrollmentRepository {
@@ -52,9 +55,9 @@ class CourseEdition {
     +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEdition
 }
 
-class CourseEditionEnrollmentFactory {
+class CourseEditionEnrollmentFactory{
     +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
-    }
+}
 
 
 
@@ -63,5 +66,5 @@ CourseEditionEnrollment "*" --> "_student 1" Student
 CourseEditionEnrollment "*" --> "_courseEdition 1  " CourseEdition
 CourseEditionEnrollment "                                *" <-- "1" CourseEditionEnrollmentRepository: _listCourseEditionEnrollment
 US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1"..> "1" CourseEditionEnrollmentRepository : uses
-CourseEditionEnrollmentRepository "1" ..> "1" CourseEditionEnrollmentFactory : creates
+CourseEditionEnrollmentRepository "1" ..> "1" CourseEditionEnrollmentFactory
 @enduml

@@ -1,7 +1,10 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.CourseEdition;
+import PAI.domain.CourseEditionEnrollment;
+import PAI.domain.CourseEditionEnrollmentFactory;
+import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDate;
 import java.util.List;
