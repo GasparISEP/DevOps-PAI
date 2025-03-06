@@ -17,22 +17,7 @@ public class AccessMethodRepository {
         _accessMethodRepository = accessMethodArrayListFactory.createAccessMethodArrayList();
     }
 
-
-    public Optional <AccessMethod> createAccessMethod (String accessMethodName){
-        try{
-            AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
-            if(!isAccessMethodRegistered(accessMethod)){
-                _accessMethodRepository.add(accessMethod);
-                return Optional.of(accessMethod);
-            }
-
-            return Optional.empty();
-
-        } catch (InstantiationException e) {
-            return Optional.empty();
-        }
-    }
-
+    //register accessMethod
     public boolean registerAccessMethod (String accessMethodName) throws Exception {
 
         AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
@@ -57,4 +42,20 @@ public class AccessMethodRepository {
         }
         return Optional.empty();
     }
+
+    //might be useful in the future
+    //    public Optional <AccessMethod> createAccessMethod (String accessMethodName){
+//        try{
+//            AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
+//            if(!isAccessMethodRegistered(accessMethod)){
+//                _accessMethodRepository.add(accessMethod);
+//                return Optional.of(accessMethod);
+//            }
+//
+//            return Optional.empty();
+//
+//        } catch (InstantiationException e) {
+//            return Optional.empty();
+//        }
+//    }
 }
