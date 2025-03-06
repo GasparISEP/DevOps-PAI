@@ -8,7 +8,7 @@ participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEditionController" as C
 participant ":CourseEditionEnrollmentRepository" as Repository
 participant ":CourseEditionEnrollment" as Enrollment
 
-ASC -> UI : I want to deactivate the enrollment of a student in a course edition
+ASC -> UI : I want to remove the enrollment of a student in a course edition
 UI --> ASC : What student?
 ASC -> UI : Student!
 UI --> ASC : What course edition?
