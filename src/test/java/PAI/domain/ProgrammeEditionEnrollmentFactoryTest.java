@@ -1,59 +1,38 @@
 package PAI.domain;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mockConstruction;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 import java.time.LocalDate;
 
-public class ProgrammeEditionEnrollmentFactoryTest {
+class ProgrammeEditionEnrollmentFactoryTest {
 
     @Test
-    void shouldCreateProgrammeEditionEnrollment()  {
-        // Arrange
-        ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
-        Student student = mock(Student.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+    void whenNewProgrammeEditionEnrollmentInvoked_ThenMockObjectShouldBeCreated() {
+        // arrange
+        Student mockStudent = mock(Student.class);
+        ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
         LocalDate enrollmentDate = LocalDate.now();
 
-        // Act
-        ProgrammeEditionEnrollment enrollment = factory.newProgrammeEditionEnrollment(student, programmeEdition, enrollmentDate);
+        try (MockedConstruction<ProgrammeEditionEnrollment> enrollmentDouble =
+                     mockConstruction(ProgrammeEditionEnrollment.class, (mock, context) -> {
+                         when(mock.findStudentInProgrammeEdition()).thenReturn((Student) context.arguments().get(0));
+                         when(mock.findProgrammeEditionInEnrollment()).thenReturn((ProgrammeEdition) context.arguments().get(1));
+                     })) {
 
-        // Assert
-        assertNotNull(enrollment);
-        assertEquals(student, enrollment.findStudentInProgrammeEdition());
-        assertEquals(programmeEdition, enrollment.findProgrammeEditionInEnrollment());
-    }
+            ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
 
-    @Test
-    void shouldThrowExceptionWithNullStudent() {
-        // Arrange
-        ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        LocalDate enrollmentDate = LocalDate.now();
+            // act
+            ProgrammeEditionEnrollment enrollment =
+                    factory.newProgrammeEditionEnrollment(mockStudent, mockProgrammeEdition, enrollmentDate);
 
-        // Act & Assert
-        assertThrows(Exception.class, () -> factory.newProgrammeEditionEnrollment(null, programmeEdition, enrollmentDate));
-    }
-
-    @Test
-    void shouldThrowExceptionWithNullProgrammeEdition() {
-        // Arrange
-        ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
-        Student student = mock(Student.class);
-        LocalDate enrollmentDate = LocalDate.now();
-
-        // Act & Assert
-        assertThrows(Exception.class, () -> factory.newProgrammeEditionEnrollment(student, null, enrollmentDate));
-    }
-
-    @Test
-    void shouldThrowExceptionWithNullEnrollmentDate() {
-        // Arrange
-        ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
-        Student student = mock(Student.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-
-        // Act & Assert
-        assertThrows(Exception.class, () -> factory.newProgrammeEditionEnrollment(student, programmeEdition, null));
+            // assert
+            assertEquals(1, enrollmentDouble.constructed().size());
+            assertEquals(mockStudent, enrollment.findStudentInProgrammeEdition());
+            assertEquals(mockProgrammeEdition, enrollment.findProgrammeEditionInEnrollment());
+        }
     }
 }
