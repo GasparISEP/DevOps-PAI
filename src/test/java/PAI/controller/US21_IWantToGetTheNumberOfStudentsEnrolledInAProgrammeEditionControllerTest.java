@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeEditionEnrollmentFactory;
 import PAI.factory.ProgrammeEditionFactory;
 import PAI.factory.ProgrammeEditionListFactory;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;

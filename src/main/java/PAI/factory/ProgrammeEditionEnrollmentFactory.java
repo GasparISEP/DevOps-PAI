@@ -1,4 +1,9 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.ProgrammeEdition;
+import PAI.domain.ProgrammeEditionEnrollment;
+import PAI.domain.ProgrammeEditionEnrollmentFactoryInterface;
+import PAI.domain.Student;
 
 import java.time.LocalDate;
 

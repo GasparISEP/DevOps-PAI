@@ -1,9 +1,12 @@
-package PAI.domain;
+package PAI.factory;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mockConstruction;
 
+import PAI.domain.ProgrammeEdition;
+import PAI.domain.ProgrammeEditionEnrollment;
+import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 import java.time.LocalDate;
