@@ -1,0 +1,40 @@
+package PAI.factory;
+
+import PAI.domain.Address;
+import PAI.domain.Student;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
+import org.mockito.internal.util.MockCreationValidator;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class StudentFactoryTest {
+
+    @Test
+    void newStudent() {
+        //arrange
+        StudentFactory studentFactory = new StudentFactory();
+        Address address = mock(Address.class);
+        int uniqueNumber = 1;
+
+        try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
+
+                int actualUniqueNumber = (int) context.arguments().get(0);
+                when(mock.getUniqueNumber()).thenReturn(actualUniqueNumber);
+        })) {
+            //act
+            Student student = studentFactory.newStudent(uniqueNumber, "Daniela", "123456789", "963741258", "rita@gmail.com", address);
+
+            //assert
+            List<Student> students = studentDouble.constructed();
+            assertEquals(1, students.size());
+
+            assertEquals(uniqueNumber, studentDouble.constructed().get(0).getUniqueNumber());
+            assertEquals(uniqueNumber, student.getUniqueNumber());
+
+        }
+    }
+}
