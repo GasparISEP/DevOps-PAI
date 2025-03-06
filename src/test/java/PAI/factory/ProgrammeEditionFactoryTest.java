@@ -1,5 +1,8 @@
-package PAI.domain;
+package PAI.factory;
 
+import PAI.domain.Programme;
+import PAI.domain.ProgrammeEdition;
+import PAI.domain.SchoolYear;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
