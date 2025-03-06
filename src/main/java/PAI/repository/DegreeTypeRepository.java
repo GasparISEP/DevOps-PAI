@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.DegreeType;
-import PAI.domain.DegreeTypeFactory;
+import PAI.factory.DegreeTypeFactory;
 
 import java.util.ArrayList;
 import java.util.List;

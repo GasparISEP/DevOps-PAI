@@ -1,6 +1,6 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.DegreeTypeFactoryImpl;
+import PAI.domain.DegreeType;
 
 public class DegreeTypeFactory implements DegreeTypeFactoryImpl {
 

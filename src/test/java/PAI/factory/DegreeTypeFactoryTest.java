@@ -1,11 +1,8 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.GradeStudentFactory;
+import PAI.domain.DegreeType;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mockConstruction;

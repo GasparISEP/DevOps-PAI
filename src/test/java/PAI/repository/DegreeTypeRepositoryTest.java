@@ -1,10 +1,7 @@
 package PAI.repository;
 
-import PAI.domain.DegreeType;
-import PAI.domain.DegreeTypeFactory;
+import PAI.factory.DegreeTypeFactory;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.mockito.Mockito.mock;
 
