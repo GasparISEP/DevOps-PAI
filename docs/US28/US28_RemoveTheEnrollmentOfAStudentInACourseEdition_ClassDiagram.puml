@@ -1,7 +1,6 @@
 @startuml
 !pragma layout smetana
 
-
 class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
     +US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(courseEditionEnrollmentRepository: CourseEditionEnrollmentRepository)
     +removeStudentEnrollment(student: Student, courseEdition: CourseEdition): boolean
@@ -55,16 +54,14 @@ class CourseEdition {
     +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEdition
 }
 
-class CourseEditionEnrollmentFactory{
+class CourseEditionEnrollmentFactory {
     +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
 }
 
-
-
-
 CourseEditionEnrollment "*" --> "_student 1" Student
-CourseEditionEnrollment "*" --> "_courseEdition 1  " CourseEdition
-CourseEditionEnrollment "                                *" <-- "1" CourseEditionEnrollmentRepository: _listCourseEditionEnrollment
-US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1"..> "1" CourseEditionEnrollmentRepository : uses
-CourseEditionEnrollmentRepository "1" ..> "1" CourseEditionEnrollmentFactory
+CourseEditionEnrollment "*" --> "_courseEdition 1    " CourseEdition
+CourseEditionEnrollmentRepository"   1  " ..> "    _courseEditionEnrollments *  "CourseEditionEnrollment
+CourseEditionEnrollmentFactory "1" ..> "      _courseEditionEnrollment 1"CourseEditionEnrollment
+CourseEditionEnrollmentRepository "1" --> "1 _courseEditionEnrollmentFactory      " CourseEditionEnrollmentFactory
+US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1" CourseEditionEnrollmentRepository : uses
 @enduml
