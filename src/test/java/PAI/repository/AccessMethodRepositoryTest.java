@@ -97,6 +97,40 @@ class AccessMethodRepositoryTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldGetAccessMethodByName() throws InstantiationException {
+        //arrange
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        accessMethodRepository.registerAccessMethod("Maiores 23");
+        when(doubleAccessMethod.hasThisAccessMethodName("Maiores 23")).thenReturn(true);
+        //act
+        Optional<AccessMethod> optionalAccessMethod = accessMethodRepository.getAccessMethodByName("Maiores 23");
+        AccessMethod result = optionalAccessMethod.get();
+        //assert
+        assertEquals(doubleAccessMethod,result);
+    }
+
+    @Test
+    void shouldNotGetAccessMethodByNameIfNotInRepository() throws InstantiationException {
+        //arrange
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        accessMethodRepository.registerAccessMethod("Maiores 23");
+        when(doubleAccessMethod.hasThisAccessMethodName("Maiores 23")).thenReturn(false);
+        //act
+        Optional<AccessMethod> optionalAccessMethod = accessMethodRepository.getAccessMethodByName("Maiores 23");
+
+        //assert
+        assertEquals(Optional.empty(),optionalAccessMethod);
+    }
+
 //    @Test
 //    void shouldReturnsOptionalWithAccessMethodIfCanBeCreated() throws InstantiationException {
 //        // arrange
