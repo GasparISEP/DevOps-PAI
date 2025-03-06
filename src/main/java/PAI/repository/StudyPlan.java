@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.Course;
-import PAI.domain.CourseFactory;
+import PAI.factory.CourseFactory;
 import PAI.domain.CourseInStudyPlan;
 import PAI.domain.Programme;
 import PAI.factory.CourseInStudyPlanFactory;

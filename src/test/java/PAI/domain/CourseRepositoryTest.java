@@ -1,8 +1,9 @@
 package PAI.domain;
 
+import PAI.factory.CourseFactory;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -88,7 +89,7 @@ class CourseRepositoryTest {
 
         //Act
 
-        ArrayList<Course> listCourses = courseRepository.getAllCourses();
+        List<Course> listCourses = courseRepository.getAllCourses();
 
         // Assert
         assertEquals(2, listCourses.size());

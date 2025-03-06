@@ -1,6 +1,5 @@
 package PAI.domain;
 
-import PAI.factory.ProgrammeCourseListFactory;
 import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
 
