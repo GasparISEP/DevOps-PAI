@@ -55,6 +55,9 @@ class CourseEdition {
     +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEdition
 }
 
+class CourseEditionEnrollmentFactory{
+    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
+}
 
 
 
@@ -63,4 +66,5 @@ CourseEditionEnrollment "*" --> "_student 1" Student
 CourseEditionEnrollment "*" --> "_courseEdition 1  " CourseEdition
 CourseEditionEnrollment "                                *" <-- "1" CourseEditionEnrollmentRepository: _listCourseEditionEnrollment
 US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1"..> "1" CourseEditionEnrollmentRepository : uses
+CourseEditionEnrollmentRepository "1" ..> "1" CourseEditionEnrollmentFactory
 @enduml
