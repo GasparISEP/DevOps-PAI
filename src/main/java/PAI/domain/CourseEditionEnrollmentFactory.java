@@ -1,8 +1,9 @@
 package PAI.domain;
 
-import java.time.LocalDate;
+import PAI.factory.CourseEditionEnrollmentFactoryInterface;
 
-public class CourseEditionEnrollmentFactory {
+
+public class CourseEditionEnrollmentFactory implements CourseEditionEnrollmentFactoryInterface {
 
     public CourseEditionEnrollment createCourseEditionEnrollment(Student student, CourseEdition courseEdition) {
         return new CourseEditionEnrollment(student, courseEdition);
