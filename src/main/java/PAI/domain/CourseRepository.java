@@ -1,13 +1,15 @@
 package PAI.domain;
 
+import PAI.factory.AccessMethodFactory;
+import PAI.factory.CourseFactory;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class CourseRepository {
 
-    private ArrayList<Course> _courseRepository;
-
-    private CourseFactory _courseFactory;
-
+    private final CourseFactory _courseFactory;
+    private final List<Course> _courseRepository;
 
 //Constructor delegation calls automatic the courseFactory
    // public CourseRepository () { this(new CourseFactory()); }
@@ -15,8 +17,7 @@ public class CourseRepository {
     public CourseRepository (CourseFactory courseFactory){
 
         this._courseFactory = courseFactory;
-
-        _courseRepository = new ArrayList<>();
+       _courseRepository = new ArrayList<>();
     }
 
     public boolean registerCourse (String courseName, String acronym, double quantityCreditsECTS, int durationCourseInSemester) throws Exception {
@@ -35,7 +36,7 @@ public class CourseRepository {
         return _courseRepository.contains(course);
     }
 
-    public ArrayList<Course> getAllCourses() {
+    public List<Course> getAllCourses() {
         return _courseRepository;
     }
 }
