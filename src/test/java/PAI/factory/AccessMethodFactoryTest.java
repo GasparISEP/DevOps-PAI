@@ -37,4 +37,4 @@ class AccessMethodFactoryTest {
         //assert
         assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(""));
     }
-    }
+}

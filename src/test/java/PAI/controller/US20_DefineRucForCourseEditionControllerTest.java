@@ -3,6 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.CourseEditionFactory;
 import PAI.factory.CourseEditionListFactory;
+import PAI.factory.ProgrammeCourseListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

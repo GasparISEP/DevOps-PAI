@@ -1,6 +1,7 @@
-package PAI.domain;
+package PAI.factory;
 
-import java.util.ArrayList;
+import PAI.domain.Course;
+
 import java.util.List;
 
 public interface ProgrammeCourseListFactoryImpl  {
