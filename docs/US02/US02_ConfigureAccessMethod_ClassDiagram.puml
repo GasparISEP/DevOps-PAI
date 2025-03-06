@@ -1,0 +1,59 @@
+@startuml
+
+class AccessMethod
+interface IAccessMethodFactory
+class AccessMethodFactory
+interface IAccessMethodListFactory
+class AccessMethodArrayListFactory
+class AccessMethodRepository
+class US02_ConfigureAccessMethod_Controller
+
+class AccessMethod {
+    -_accessMethodName:String
+    +AccessMethod(accessMethodName: String)
+    +equals(Object: o) : boolean
+    +hasThisAccessMethodName(accessMethodName: String) : boolean
+    -isAccessMethodNameValid((accessMethodName: String) : boolean
+}
+
+Interface IAccessMethodFactory {
+    +createAccessMethod(accessMethodName: String) : AccessMethod
+}
+
+class AccessMethodFactory {
+    +createAccessMethod(accessMethodName: String) : AccessMethod
+}
+'implements
+AccessMethodFactory ..|> IAccessMethodFactory
+
+
+Interface IAccessMethodListFactory {
+ +createAccessMethodArrayList() : List<AccessMethod>
+}
+
+class AccessMethodArrayListFactory {
+    +createAccessMethodArrayList() : ArrayList<AccessMethod>
+}
+'implements
+AccessMethodArrayListFactory ..|> IAccessMethodListFactory
+
+class AccessMethodRepository {
+    +AccessMethodRepository(accessMethodFactory : AccessMethodFactory, accessMethodListFactory : AccessMethodListFactory)
+    +registerAccessMethod(accessMethodName: String) : boolean
+    -isAccessMethodRegistered(accessMethod: AccessMethod) : boolean
+    +getAccessMethodByName
+}
+'uses
+AccessMethodRepository --> AccessMethodFactory
+AccessMethodRepository --> AccessMethodArrayListFactory
+
+class US02_ConfigureAccessMethod_Controller {
+    +US02_ConfigureAccessMethod_Controller(accessMethodRepository : AccessMethodRepository)
+    +configureAccessMethod(accessMethodName: String) : boolean
+}
+'uses
+US02_ConfigureAccessMethod_Controller --> AccessMethodRepository
+
+'creates
+AccessMethodFactory ..> AccessMethod
+@enduml

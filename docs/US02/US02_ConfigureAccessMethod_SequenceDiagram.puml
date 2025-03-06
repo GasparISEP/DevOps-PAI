@@ -9,7 +9,7 @@ UI --> admin -- : access method name?
 admin -> UI ++ #application :(accessMethodName)
 UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (accessMethodName)
 
-ConfigureAccessMethodController -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : createAccessMethod (accessMethodName)
+ConfigureAccessMethodController -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : registerAccessMethod (accessMethodName)
 AccessMethodRepository -> ":AccessMethodFactory" as AccessMethodFactory ++ #application : createAccessMethod (accessMethodName)
 
 create "ac1:AccessMethod" as AccessMethod
@@ -21,7 +21,7 @@ AccessMethodFactory --> AccessMethodRepository -- : ac1
 AccessMethodRepository -> AccessMethodRepository : isAccessMethodRegistered (ac1)
 AccessMethodRepository -> AccessMethodRepository : registerAccessMethod (accessMethodName)
 
-AccessMethodRepository --> ConfigureAccessMethodController --: ac1
+AccessMethodRepository --> ConfigureAccessMethodController --: true
 
 ConfigureAccessMethodController --> UI --: true
 UI --> admin --: Access Method configured
