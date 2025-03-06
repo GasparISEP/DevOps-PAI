@@ -1,7 +1,8 @@
-package PAI.domain;
+package PAI.factory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import PAI.domain.Course;
 import PAI.factory.ProgrammeCourseListFactory;
 import org.junit.jupiter.api.Test;
 import java.util.List;
