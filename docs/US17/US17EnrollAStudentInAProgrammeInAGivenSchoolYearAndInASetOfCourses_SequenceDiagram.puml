@@ -87,7 +87,11 @@ activate "pee1:ProgrammeEditionEnrollment"
 deactivate "pee1:ProgrammeEditionEnrollment"
 ProgrammeEditionEnrollmentFactory --> ProgrammeEditionEnrollmentRepo: pee1
 deactivate ProgrammeEditionEnrollmentFactory
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentRepo : add(pee1)
+create "pe[i]:ProgrammeEditionArrayList"
+ProgrammeEditionEnrollmentRepo -> "pe[i]:ProgrammeEditionArrayList":  add(pee1)
+activate "pe[i]:ProgrammeEditionArrayList"
+ProgrammeEditionEnrollmentRepo <-- "pe[i]:ProgrammeEditionArrayList":  True
+deactivate "pe[i]:ProgrammeEditionArrayList"
 ProgrammeEditionEnrollmentRepo --> Controller : True
 deactivate ProgrammeEditionEnrollmentRepo
 participant ":CourseEditionRepository" as CourseEditionRepository
@@ -95,12 +99,26 @@ Controller -> CourseEditionRepository : findCourseEditionsByProgrammeEdition(pee
 participant ":CourseEdition" as CourseEdition
 participant ":CourseEdition" as CourseEdition
 activate CourseEditionRepository
-loop for each "cee[i]:CourseEditionRepository" as CourseEditionRepository
+CourseEditionRepository -> CourseEditionListFactory: newArrayList()
+activate CourseEditionListFactory
+participant ":CourseEditionListFactory" as CourseEditionListFactory
+create "ce[i]:CourseEditionArrayList"
+CourseEditionListFactory -> "ce[i]:CourseEditionArrayList": newArrayList ()
+activate "ce[i]:CourseEditionArrayList"
+"ce[i]:CourseEditionArrayList" --> CourseEditionListFactory: EmptyList<CourseEdition>
+deactivate "ce[i]:CourseEditionArrayList"
+CourseEditionListFactory --> CourseEditionRepository: EmptyList<CourseEdition>
+deactivate CourseEditionListFactory
+loop for each "ce[i]:CourseEditionRepository" as CourseEditionRepository
 CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
 activate CourseEdition
-CourseEdition --> CourseEditionRepository :  ce1
+CourseEdition --> CourseEditionRepository : ce1
 deactivate CourseEdition
-CourseEditionRepository -> CourseEditionRepository :  add(ce1)
+participant ":CourseEditionArrayList" as CourseEditionArrayList
+CourseEditionRepository -> "ce[i]:CourseEditionArrayList" :  add(ce1)
+activate "ce[i]:CourseEditionArrayList"
+"ce[i]:CourseEditionArrayList" --> CourseEditionRepository: True
+deactivate "ce[i]:CourseEditionArrayList"
 end
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
 CourseEditionRepository -> CourseEditionEnrollmentRepository : ListOfCourseEditions
@@ -108,9 +126,13 @@ deactivate CourseEditionRepository
 participant ":CourseEditionEnrollment" as CourseEditionEnrollment
 activate CourseEditionEnrollmentRepository
 loop for each "cee[i]:CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
-CourseEditionEnrollmentRepository -> CourseEditionEnrollment : findByStudentAndEdition(student, ce[i])
+CourseEditionEnrollmentRepository -> CourseEditionEnrollment : findByStudentAndEdition(student, cee[i])
 CourseEditionEnrollmentRepository -> CourseEditionEnrollment : isPresent()
-CourseEditionEnrollmentRepository -> CourseEditionEnrollmentRepository : enrollStudentInACourseEdition(student, ce1, LocalDate)
+create CourseEditionEnrollmentHashSet
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentHashSet : enrollStudentInACourseEdition(student, cee1, LocalDate)
+activate CourseEditionEnrollmentHashSet
+CourseEditionEnrollmentHashSet --> CourseEditionEnrollmentRepository : True
+deactivate CourseEditionEnrollmentHashSet
 end
 CourseEditionEnrollmentRepository --> Controller : True
 deactivate CourseEditionEnrollmentRepository
