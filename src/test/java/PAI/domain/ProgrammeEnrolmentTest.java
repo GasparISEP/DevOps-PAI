@@ -49,7 +49,7 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"20-03-2010");
     }
 
-    public static Stream<Arguments> provideInvalidDate() {
+    public static Stream<Arguments> provideInvalidDateForTestWithoutIsolation() {
         return Stream.of(
                 arguments(""),
                 arguments(" "),
@@ -64,8 +64,8 @@ class ProgrammeEnrolmentTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideInvalidDate")
-    void invalidDateDoesNotCreateObjectWithoutIsolation(String date) throws Exception {
+    @MethodSource("provideInvalidDateForTestWithoutIsolation")
+    void invalidDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation(String date) throws Exception {
         //arrange
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -104,7 +104,7 @@ class ProgrammeEnrolmentTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidDateForTestWithIsolation")
-    void invalidDateDoesNotCreateObjectWithIsolation(String date) {
+    void invalidDateDoesNotCreateObjectAndThrowsExceptionWithIsolation(String date) {
         //arrange
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
@@ -184,6 +184,7 @@ class ProgrammeEnrolmentTest {
         //arrange
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
 
         DegreeType dt1 = new DegreeType("Master", 240);
@@ -216,6 +217,9 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble, accessMethodDouble2, programmeDouble,"15-10-2010");
+
+        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(true);
+        when(programmeDouble.isEquals(programmeDouble)).thenReturn(true);
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -265,6 +269,9 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, accessMethodDouble, programmeDouble,"15-10-2010");
+
+        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(false);
+        when(programmeDouble.isEquals(programmeDouble)).thenReturn(true);
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -317,9 +324,11 @@ class ProgrammeEnrolmentTest {
         Programme programmeDouble = mock(Programme.class);
         Programme programmeDouble2 = mock(Programme.class);
 
-
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble2,"15-10-2010");
+
+        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(true);
+        when(programmeDouble.isEquals(programmeDouble)).thenReturn(false);
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -378,6 +387,9 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, accessMethodDouble, programmeDouble2,"15-10-2010");
 
+        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(false);
+        when(programmeDouble.isEquals(programmeDouble)).thenReturn(false);
+
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
 
@@ -420,11 +432,47 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble,"17-09-2005");
 
+        when(programmeDouble.isEquals(programmeDouble)).thenReturn(true);
+
+
         //act
         boolean result = programmeEnrolment1.hasSameProgramme(programmeDouble);
 
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammesAreNotTheSameWithoutIsolation() throws Exception {
+        //arrange
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+
+        DegreeType dt2 = new DegreeType("Master", 240);
+        Department dpt2 = new Department("CSE", "Space Science Engineer");
+        TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
+        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
+
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactory);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory);
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
+
+        //act
+        boolean result = programmeEnrolment1.hasSameProgramme(programme2);
+
+        //assert
+        assertFalse(result);
     }
 
     @Test
@@ -436,6 +484,8 @@ class ProgrammeEnrolmentTest {
         Programme programmeDouble2 = mock(Programme.class);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble1,"17-09-2005");
+
+        when(programmeDouble1.isEquals(programmeDouble2)).thenReturn(false);
 
         //act
         boolean result = programmeEnrolment1.hasSameProgramme(programmeDouble2);
