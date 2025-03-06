@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 class StudentFactoryTest {
 
     @Test
-    void newStudent() {
+    void shouldCreateStudentWhenConstructorIsCalled() {
         //arrange
         StudentFactory studentFactory = new StudentFactory();
         Address address = mock(Address.class);
