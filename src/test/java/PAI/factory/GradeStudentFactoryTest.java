@@ -1,6 +1,8 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.GradeStudentFactory;
+import PAI.domain.CourseEdition;
+import PAI.domain.GradeStudent;
+import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
