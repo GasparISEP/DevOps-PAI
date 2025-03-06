@@ -1,10 +1,8 @@
 package PAI.factory;
-
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class AccessMethodListFactoryTest {
+class AccessMethodArrayListFactoryTest {
 
     @Test
     void shouldCreateArrayList() {

@@ -1,6 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeEditionEnrollmentFactory;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -16,14 +17,14 @@ public class ProgrammeEditionEnrollmentRepo {
         _programmeEditionEnrollments = new HashSet<>();
     }
 
-    public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition, LocalDate localDate) {
+    public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         try {
             if (programmeEdition == null || student == null) {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
             ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
-                    .newProgrammeEditionEnrollment(student, programmeEdition, localDate);
+                    .newProgrammeEditionEnrollment(student, programmeEdition);
 
             return _programmeEditionEnrollments.add(programmeEditionEnroll);
         } catch (Exception e) {

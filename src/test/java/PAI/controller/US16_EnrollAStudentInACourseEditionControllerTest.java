@@ -98,9 +98,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         Student doubleSt1 = mock (Student.class);
         CourseEdition doubleCe1 = mock (CourseEdition.class);
-        LocalDate enrollmentDate = LocalDate.now();
 
-        when (doubleCeeRepository .enrollStudentInACourseEdition(doubleSt1,doubleCe1 , enrollmentDate)).thenReturn (true);
+        when (doubleCeeRepository .enrollStudentInACourseEdition(doubleSt1,doubleCe1)).thenReturn (true);
 
         //act
         boolean result = controller.enrollStudentInCourseEdition(doubleSt1,doubleCe1 );

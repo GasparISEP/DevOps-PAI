@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactory;
 import PAI.factory.ProgrammeListArrayListFactory;
 import PAI.repository.ProgrammeList;

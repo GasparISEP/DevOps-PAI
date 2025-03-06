@@ -56,7 +56,6 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        LocalDate currentDate = LocalDate.now();
 
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
 
@@ -72,10 +71,10 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
         Optional<GradeStudent> optc1 = controller1.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
 
@@ -103,7 +102,6 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        LocalDate currentDate = LocalDate.now();
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
 
 
@@ -118,9 +116,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
         Boolean result = controller1.isStudentEnrolledInCourseEdition(student1,courseEdition1);
 
@@ -149,16 +147,15 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        LocalDate currentDate = LocalDate.now();
 
         CourseEditionEnrollment enrollment1 = mock(CourseEditionEnrollment.class);
 
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
         GradeStudent gradeStudent2 = mock(GradeStudent.class);
@@ -203,16 +200,14 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
-        LocalDate currentDate = LocalDate.now();
-
         CourseEditionEnrollment enrollment1 = mock(CourseEditionEnrollment.class);
 
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1, currentDate)).thenReturn(enrollment1);
+        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,currentDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
 
