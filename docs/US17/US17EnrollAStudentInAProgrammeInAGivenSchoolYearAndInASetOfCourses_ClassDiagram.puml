@@ -50,12 +50,20 @@ class ProgrammeEditionEnrollmentFactory {
     +newProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition, enrollmentDate: LocalDate)
 }
 
+interface ProgrammeEditionEnrollmentFactoryInterface{
+    +newProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition, enrollmentDate: LocalDate)
+}
+
 class ProgrammeEditionEnrollmentListFactory{
-    +newArrayList(): List<ProgrammeEditionEnrollment>
+    +newProgrammeEditionEnrollmentList(): Set<ProgrammeEditionEnrollment>
 }
 
 class ProgrammeEditionEnrollmentArrayList{
-     +add(): boolean
+     +add(programmeEditionEnrollment: ProgrammeEditionEnrollment): boolean
+}
+
+interface ProgrammeEditionEnrollmentListFactoryInterface {
+    +newProgrammeEditionEnrollmentList(): Set<ProgrammeEditionEnrollment>
 }
 
 class Programme {
@@ -187,7 +195,7 @@ CourseEditionEnrollment "*" --> "1 _listOfcourseEdition              " CourseEdi
 CourseEditionEnrollment "1" <-- "1" CourseEditionEnrollment
 ProgrammeEdition "_programmeEdition 1                " <-- " * " ProgrammeEditionEnrollment
 ProgrammeEditionEnrollment "* " --> "_student 1   " Student
-ProgrammeEditionEnrollmentRepo "1 " --> "_listOfProgrammeEditionEnrollment *                         " ProgrammeEditionEnrollment
+ProgrammeEditionEnrollmentRepo "1 " ..>"_listOfProgrammeEditionEnrollment *        " ProgrammeEditionEnrollment
 ProgrammeEditionEnrollmentRepo"1     " -u-> "1 " ProgrammeEditionEnrollmentListFactory
 ProgrammeEditionEnrollmentRepo "1" --> "1" ProgrammeEditionEnrollmentArrayList
 ProgrammeEditionEnrollmentArrayList "1" <.. "1" ProgrammeEditionEnrollmentListFactory
@@ -195,6 +203,8 @@ ProgrammeEditionEnrollmentArrayList "1         " .u.> " *  " ProgrammeEditionEnr
 ProgrammeEditionEnrollmentRepo "1 " --> "1" ProgrammeEditionEnrollmentFactory
 ProgrammeList "1     " --> " _listOfProgrammes *" Programme
 CourseEdition "_listOfCourseEdition *  " <-- "1   " ProgrammeEdition
-
+ProgrammeEditionEnrollmentFactoryInterface <|.. ProgrammeEditionEnrollmentFactory
+ProgrammeEditionEnrollmentListFactoryInterface <|.. ProgrammeEditionEnrollmentListFactory
+ProgrammeEditionEnrollmentFactory ..> ProgrammeEditionEnrollment
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrollment
 @enduml
