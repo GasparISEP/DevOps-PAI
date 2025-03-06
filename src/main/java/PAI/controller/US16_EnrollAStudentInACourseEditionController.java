@@ -33,7 +33,7 @@ public class US16_EnrollAStudentInACourseEditionController {
             return false;
         }
 
-        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
+        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition);
         return true;
     }
 

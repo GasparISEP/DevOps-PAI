@@ -62,7 +62,6 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
         GradeStudent gradeStudent2 = mock(GradeStudent.class);
-        LocalDate localDate = LocalDate.now();
 
 
         when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
@@ -75,8 +74,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,localDate);
-        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1,localDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1);
 
         list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);

@@ -21,9 +21,9 @@ public class CourseEditionEnrollmentRepository {
         _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
     }
 
-    public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) {
+    public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition) {
 
-        CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition);
 
         boolean isEnrollmentAddedToRepository = _courseEditionEnrollments.add(cee1);
 
@@ -93,7 +93,7 @@ public class CourseEditionEnrollmentRepository {
             if (existingEnrollment.isPresent()) {
                 throw new IllegalStateException("This course edition enrollment is already in the list.");
             }
-            enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
+            enrollStudentInACourseEdition(student, courseEdition);
         }
     }
 }
