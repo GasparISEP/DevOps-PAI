@@ -2,6 +2,7 @@ package PAI.controller;
 
 
 import PAI.domain.*;
+import PAI.repository.DepartmentRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
 
 public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {

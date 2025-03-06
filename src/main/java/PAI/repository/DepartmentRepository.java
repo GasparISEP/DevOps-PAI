@@ -1,4 +1,8 @@
-package PAI.domain;
+package PAI.repository;
+import PAI.domain.Department;
+import PAI.domain.Teacher;
+import PAI.factory.DepartmentFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 

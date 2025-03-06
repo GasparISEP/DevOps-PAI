@@ -1,5 +1,7 @@
 package PAI.controller;
 import PAI.domain.*;
+import PAI.repository.DepartmentRepository;
+
 import java.util.List;
 
 public class US13_RegisterTeacherAndRelevantDataController {

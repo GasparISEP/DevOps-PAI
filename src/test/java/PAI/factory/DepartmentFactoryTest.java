@@ -1,4 +1,5 @@
-package PAI.domain;
+package PAI.factory;
+import PAI.domain.Department;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 import java.util.List;

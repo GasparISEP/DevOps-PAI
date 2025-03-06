@@ -123,7 +123,7 @@ public class Teacher {
         return this._nif.equals(teacher._nif);
     }
 
-    protected boolean isInDepartment(Department department) {
+    public boolean isInDepartment(Department department) {
         return _department == department;
     }
 

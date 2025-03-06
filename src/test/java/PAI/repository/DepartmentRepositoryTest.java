@@ -1,4 +1,7 @@
-package PAI.domain;
+package PAI.repository;
+import PAI.domain.Department;
+import PAI.domain.Teacher;
+import PAI.factory.DepartmentFactory;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
