@@ -84,6 +84,19 @@ class AccessMethodRepositoryTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnFalseIfAccessMethodNameIsInvalid() throws Exception{
+        //arrange
+        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
+        when(doubleAccessMethodFactory.createAccessMethod("")).thenThrow(new InstantiationException("Cannot create AccessMethod, because invalid name"));
+        //act
+        boolean result = accessMethodRepository.registerAccessMethod("");
+        //asser
+        assertFalse(result);
+    }
+
 //    @Test
 //    void shouldReturnsOptionalWithAccessMethodIfCanBeCreated() throws InstantiationException {
 //        // arrange

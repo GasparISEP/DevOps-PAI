@@ -18,15 +18,18 @@ public class AccessMethodRepository {
     }
 
     //register accessMethod
-    public boolean registerAccessMethod (String accessMethodName) throws Exception {
+    public boolean registerAccessMethod (String accessMethodName) {
+        try {
+            AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
 
-        AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
+            if (isAccessMethodRegistered(accessMethod))
+                return false;
 
-        if (isAccessMethodRegistered(accessMethod))
-            return false;
-
-        _accessMethodRepository.add(accessMethod);
-        return true;
+            _accessMethodRepository.add(accessMethod);
+            return true;
+        } catch (Exception e) {
+           return false;
+        }
     }
 
     private boolean isAccessMethodRegistered(AccessMethod accessMethod) {
