@@ -88,6 +88,12 @@ public class Programme {
                 Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
     }
 
+    //Wrapper for equals
+    public boolean isEquals (Programme programme) {
+
+        return this.equals(programme);
+    }
+
     //Method to add Course
     public boolean addCourseToAProgramme(Course course) throws Exception {
 

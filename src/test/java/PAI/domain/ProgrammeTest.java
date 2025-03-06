@@ -277,7 +277,27 @@ class ProgrammeTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnTrueIfProgrammesIsEqualWithIsolation() throws Exception {
+        //arrange
+        Programme existingProgramme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher, _programmeCourseListFactory) ;
+        Programme thisProgramme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher, _programmeCourseListFactory) ;
+        //act
+        boolean result = existingProgramme.isEquals(thisProgramme);
+        //assert
+        assertTrue(result);
+    }
 
+    @Test
+    void shouldReturnFalseIfProgrammesIsNotEqualWithIsolation() throws Exception {
+        //arrange
+        Programme existingProgramme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory) ;
+        Programme thisProgramme = new Programme("Engenharia Informática", "LEI", 30, 2, _degreeType, _department, _teacher, _programmeCourseListFactory) ;
+        //act
+        boolean result = existingProgramme.isEquals(thisProgramme);
+        //assert
+        assertFalse(result);
+    }
 
     @Test
     void creatNewProgrammeDirector() throws Exception {
