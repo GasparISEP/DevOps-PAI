@@ -208,10 +208,8 @@ class DepartmentTest {
     void testShouldReturnFalseWhenNullDepartment() throws Exception{
         // Arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = null;
-
         // Act & Assert
-        assertFalse(department1.equals(department2));
+        assertFalse(department1.equals(null));
     }
 
     @Test
@@ -222,5 +220,41 @@ class DepartmentTest {
 
         // Act & Assert
         assertFalse(department1.equals(schoolYear1));
+    }
+
+    @Test
+    void shouldReturnTrueWhenSameObjectIsCompared() throws Exception {
+        // arrange
+        Department department = new Department("DEI", "Departamento Engenharia Informática");
+
+        // act & assert
+        assertTrue(department.equals(department));
+    }
+
+    @Test
+    void shouldReturnDepartmentName() throws Exception {
+        // arrange
+        String name = "Departamento Engenharia Informática";
+        String acronym= "DEI";
+        Department department = new Department(acronym,name);
+
+        // act
+        String actualName = department.getName();
+
+        // assert
+        assertEquals(name, actualName);
+    }
+
+    @Test
+    void shouldReturnDepartmentAcronym() throws Exception {
+        // arrange
+        String acronym = "DEI";
+        String name= "Departamento Engenharia Informática";
+        Department department = new Department(acronym, name);
+        // act
+        String actualAcronym = department.getAcronym();
+
+        // assert
+        assertEquals(acronym, actualAcronym);
     }
 }

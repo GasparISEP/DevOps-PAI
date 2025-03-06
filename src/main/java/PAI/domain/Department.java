@@ -9,7 +9,6 @@ public class Department {
     private String _name;
     private String _acronym;
     private Teacher _director;
-    private List <Programme> _departmentProgramme;
 
     //constructor
     public Department(String acronym, String name) throws Exception {
@@ -67,4 +66,8 @@ public class Department {
         Department that = (Department) obj;
         return Objects.equals(_name, that._name) && Objects.equals(_acronym, that._acronym);
     }
+
+    public String getName() { return _name; }
+
+    public String getAcronym() { return _acronym; }
 }
