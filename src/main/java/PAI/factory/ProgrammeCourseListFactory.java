@@ -1,4 +1,6 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.Course;
 
 import java.util.ArrayList;
 import java.util.List;
