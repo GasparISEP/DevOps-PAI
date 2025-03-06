@@ -15,7 +15,6 @@ class ProgrammeEditionEnrollmentFactoryTest {
         // arrange
         Student mockStudent = mock(Student.class);
         ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
-        LocalDate enrollmentDate = LocalDate.now();
 
         try (MockedConstruction<ProgrammeEditionEnrollment> enrollmentDouble =
                      mockConstruction(ProgrammeEditionEnrollment.class, (mock, context) -> {
@@ -27,7 +26,7 @@ class ProgrammeEditionEnrollmentFactoryTest {
 
             // act
             ProgrammeEditionEnrollment enrollment =
-                    factory.newProgrammeEditionEnrollment(mockStudent, mockProgrammeEdition, enrollmentDate);
+                    factory.newProgrammeEditionEnrollment(mockStudent, mockProgrammeEdition);
 
             // assert
             assertEquals(1, enrollmentDouble.constructed().size());

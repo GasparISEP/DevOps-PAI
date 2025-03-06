@@ -62,7 +62,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         }
 
         // Enroll student in programmeEdition
-        _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition, LocalDate.now());
+        _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition);
 
         List<CourseEdition> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
 
