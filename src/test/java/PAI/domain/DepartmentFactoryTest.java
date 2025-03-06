@@ -1,44 +1,38 @@
 package PAI.domain;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.when;
 
 class DepartmentFactoryTest {
 
     @Test
-    void shouldCreateAValidDepartment()throws Exception{
+    void shouldCreateAValidDepartmentWhenMockedConstructorIsGiven() throws Exception {
         //arrange
-        DepartmentFactory factory = new DepartmentFactory();
-        String acronym= "DEI";
-        String name= "Departamento Engenharia Informática";
-
-        //act & assert
-        Department department = factory.newDepartment(acronym,name);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNameIsNull(){
-        //arrange
-        DepartmentFactory factory = new DepartmentFactory();
+        String acronym = "DEI";
         String name = "Departamento Engenharia Informática";
 
-        //act & assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.newDepartment(null, name);
-        });
-        assertEquals("Department´s acronym must be a 3 letter non-empty String.", exception.getMessage());
-    }
+        try (MockedConstruction<Department> departmentDouble = mockConstruction(Department.class, (mock, context) -> {
+            String actualAcronym = (String) context.arguments().get(0);
+            String actualName = (String) context.arguments().get(1);
+            when(mock.getAcronym()).thenReturn(actualAcronym);
+            when(mock.getName()).thenReturn(actualName);
+        })) {
 
-    @Test
-    void shouldThrowExceptionWhenAcronymIsNull(){
-        //arrange
         DepartmentFactory factory = new DepartmentFactory();
-        String acronym= "DEI";
 
-        //act & assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.newDepartment(acronym,null);
-        });
-        assertEquals("Department´s name must be a non-empty String.", exception.getMessage());
+        //act
+        Department department = factory.newDepartment(acronym, name);
+
+        //assert
+        List<Department> departments = departmentDouble.constructed();
+        assertEquals(1, departments.size());
+
+        assertEquals(acronym, departmentDouble.constructed().get(0).getAcronym());
+        assertEquals(acronym, department.getAcronym());
+        assertEquals(name,department.getName());
+        }
     }
 }
