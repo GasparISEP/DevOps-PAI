@@ -422,20 +422,22 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldEnrollStudentWhenStudentNotEnrolled() {
         // Arrange
-        CourseEditionEnrollmentRepository repoMock = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionEnrollmentFactory doubleCeeFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(doubleCeeFactory);
 
         Student doubleStudent = mock(Student.class);
         CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
-        CourseEdition doubleCourseEdition2 = mock(CourseEdition.class);
+        CourseEditionEnrollment doubleEnrollment = mock(CourseEditionEnrollment.class);
 
-        when(repoMock.findByStudentAndEdition(doubleStudent, doubleCourseEdition1)).thenReturn(Optional.empty());
-        when(repoMock.findByStudentAndEdition(doubleStudent, doubleCourseEdition2)).thenReturn(Optional.empty());
+        when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment);
+        when(doubleEnrollment.findStudentInCourseEditionEnrollment()).thenReturn(doubleStudent);
+        when(doubleEnrollment.findCourseEditionInEnrollment()).thenReturn(doubleCourseEdition1);
 
         // Act
-        repoMock.enrollStudentInProgrammeCourseEditions(doubleStudent, List.of(doubleCourseEdition1, doubleCourseEdition2));
+        repository.enrollStudentInACourseEdition(doubleStudent, doubleCourseEdition1);
 
         // Assert
-        verify(repoMock, times(1)).enrollStudentInProgrammeCourseEditions(doubleStudent, List.of(doubleCourseEdition1, doubleCourseEdition2));
+        assertTrue(repository.findByStudentAndEdition(doubleStudent, doubleCourseEdition1).isPresent());
     }
 
     @Test
@@ -477,14 +479,17 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnZeroWhenThereAreNoEnrollmentsInCourseEdition() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository doubleRepo = mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionEnrollmentFactory doubleFactory = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(doubleFactory);
 
+        Student doubleStudent = mock(Student.class);
         CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
 
-        when(doubleRepo.numberOfStudentsEnrolledInCourseEdition(doubleCourseEdition1)).thenReturn(0);
+        when(doubleFactory.createCourseEditionEnrollment(doubleStudent,doubleCourseEdition1)).thenReturn(null);
 
         // Act
-        int studentsEnrolled = doubleRepo.numberOfStudentsEnrolledInCourseEdition(doubleCourseEdition1);
+
+        int studentsEnrolled = repository.numberOfStudentsEnrolledInCourseEdition(doubleCourseEdition1);
 
         // Assert
         assertEquals(0, studentsEnrolled);
