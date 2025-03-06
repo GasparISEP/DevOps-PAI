@@ -1,6 +1,11 @@
-package PAI.domain;
+package PAI.repository;
 
-import java.util.ArrayList;
+import PAI.domain.Programme;
+import PAI.domain.ProgrammeEdition;
+import PAI.factory.ProgrammeEditionListFactory;
+import PAI.domain.SchoolYear;
+import PAI.factory.ProgrammeEditionFactory;
+
 import java.util.List;
 import java.util.Optional;
 

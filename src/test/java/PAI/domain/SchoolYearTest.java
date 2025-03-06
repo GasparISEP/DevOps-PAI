@@ -198,6 +198,20 @@ class SchoolYearTest {
         // Assert
         assertEquals(startDate, lc);
     }
+
+    @Test
+    void shouldReturnDescriptionFromSchoolYear() throws Exception {
+        // Arrange
+        SchoolYear sy1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+
+        // Act
+        String description = sy1.getDescription();
+
+        // Assert
+        assertEquals("School Year 23/24", description);
+    }
+
+
     //US17
     @Test
     void shouldReturnTrueForEqualSchoolYears() throws Exception {

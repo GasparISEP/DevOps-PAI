@@ -1,5 +1,10 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.Programme;
+import PAI.domain.ProgrammeEdition;
+import PAI.domain.SchoolYear;
+import PAI.factory.ProgrammeEditionFactory;
+import PAI.factory.ProgrammeEditionListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

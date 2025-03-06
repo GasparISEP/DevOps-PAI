@@ -1,7 +1,10 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeEditionFactory;
+import PAI.factory.ProgrammeEditionListFactory;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
+import PAI.repository.ProgrammeEditionRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
