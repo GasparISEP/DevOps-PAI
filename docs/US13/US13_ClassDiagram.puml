@@ -1,6 +1,10 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+top to bottom direction
+
+skinparam ranksep 180
+skinparam nodesep 180
 
 class US13_RegisterTeacherAndRelevantDataController {
 +US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepository teacherCategoryRepository, DepartmentRepository departmentRepository,
@@ -34,6 +38,11 @@ String street, String postalCode, String location, String country, String date, 
 +getTeacherByNIF(String NIF)
 }
 
+class TeacherFactory {
++createTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+               String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
+}
+
 class Teacher {
 -_acronym:String
  -_name:String
@@ -51,12 +60,20 @@ class Teacher {
  +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
 }
 
+class AddressFactory {
++createAddress(street: String, postalCode: String, location: String, country: String)
+}
+
 class Address {
 -_street:String
  -_postalCode: String
  -_location: String
  -_country: String
  +Address(street: String, postalCode: String, location: String, country: String)
+}
+
+class TeacherCareerProgressionFactory {
++createTeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
 }
 
 class TeacherCareerProgression {
@@ -87,15 +104,24 @@ class Department {
 +equals(Object obj)
 }
 
-US13_RegisterTeacherAndRelevantDataController "\n1" ..> "_teacherCategoryRepository \n1"TeacherCategoryRepository
-US13_RegisterTeacherAndRelevantDataController "1" ..> "_departments \n1"DepartmentRepository
-US13_RegisterTeacherAndRelevantDataController "1" ..> "teachers \n1\n"TeacherRepository
-TeacherRepository "1" --> "teachers \n*"Teacher
-TeacherCategory "_teacherCategoryRepository \n*" <-- " 1" TeacherCategoryRepository
-TeacherCareerProgression "*" --> "_category \n1"TeacherCategory
-Teacher "1" --> "_teacherCareerProgressionList \n1..*" TeacherCareerProgression
-Teacher "1" --> "_address \n1" Address
-Teacher "*" --> "_department \n1" Department
-Department "*\n_departments" <-u- "1" DepartmentRepository
+US13_RegisterTeacherAndRelevantDataController "\n1" .r.> "_tcList \n1"TeacherCategoryRepository
+US13_RegisterTeacherAndRelevantDataController "1" .l.> "_dptList \n1"DepartmentRepository
+US13_RegisterTeacherAndRelevantDataController "1" .d.> "teacher \n1\n"TeacherRepository
+
+TeacherCategoryRepository " 1" *-d- "_teacherCategory \n*" TeacherCategory
+TeacherCareerProgression "\n*" *-l- "_teacherCategory \n1"TeacherCategory
+
+TeacherRepository "1" ..d.> "teacher \n*"TeacherFactory
+TeacherFactory "1 " -d-> "teacher \n*"Teacher
+
+Teacher "1" .d.> "_address \n1\n" AddressFactory
+AddressFactory "1" -d-> "_address \n1" Address
+
+Teacher "1" ..> "_tcp \n1..*\n" TeacherCareerProgressionFactory
+TeacherCareerProgressionFactory "\n1" -u-> "_tcp \n1" TeacherCareerProgression
+
+DepartmentRepository "1" *-d- "*\n_dpt  " Department
+Teacher "*" ..> "_department \n1" Department
+
 
 @enduml
