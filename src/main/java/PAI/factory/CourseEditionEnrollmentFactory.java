@@ -1,6 +1,8 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.CourseEditionEnrollmentFactoryInterface;
+import PAI.domain.CourseEdition;
+import PAI.domain.CourseEditionEnrollment;
+import PAI.domain.Student;
 
 
 public class CourseEditionEnrollmentFactory implements CourseEditionEnrollmentFactoryInterface {

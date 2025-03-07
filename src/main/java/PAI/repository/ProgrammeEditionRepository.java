@@ -15,7 +15,7 @@ public class ProgrammeEditionRepository {
     private final ProgrammeEditionFactory _programmeEditionFactory;
 
     public ProgrammeEditionRepository (ProgrammeEditionFactory programmeEditionFactory, ProgrammeEditionListFactory programmeEditionListFactory) {
-        _programmeEditionList = programmeEditionListFactory.getProgrammeEditionList();
+        _programmeEditionList = programmeEditionListFactory.createProgrammeEditionArrayList();
         _programmeEditionFactory = programmeEditionFactory;
     }
 

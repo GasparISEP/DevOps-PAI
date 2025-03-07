@@ -1,15 +1,12 @@
 package PAI.domain;
 
-import net.bytebuddy.asm.Advice;
+import PAI.factory.CourseEditionEnrollmentListFactory;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class CourseEditionEnrollmentListFactoryTest {
 

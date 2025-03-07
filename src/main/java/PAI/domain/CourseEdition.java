@@ -45,8 +45,5 @@ public class CourseEdition {
         return _course;
     }
 
-    public ProgrammeEdition getProgrammeEdition() {
-        return _programmeEdition;
-    }
 }
 

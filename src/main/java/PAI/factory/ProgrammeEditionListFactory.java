@@ -5,9 +5,10 @@ import PAI.domain.ProgrammeEdition;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgrammeEditionListFactory {
+public class ProgrammeEditionListFactory implements ProgrammeEditionListFactoryInterface {
 
-    public List<ProgrammeEdition> getProgrammeEditionList() {
+    @Override
+    public List<ProgrammeEdition> createProgrammeEditionArrayList() {
         return new ArrayList<>();
     }
 }
