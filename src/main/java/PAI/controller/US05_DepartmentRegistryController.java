@@ -1,5 +1,5 @@
 package PAI.controller;
-import PAI.domain.DepartmentRepository;
+import PAI.repository.DepartmentRepository;
 
 public class US05_DepartmentRegistryController {
 

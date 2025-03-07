@@ -21,10 +21,8 @@ class ProgrammeEditionEnrollmentTest {
         Student studentDouble = mock(Student.class);
         ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
 
-        LocalDate currentDate = LocalDate.now();
-
         //act + assert
-        ProgrammeEditionEnrollment pee1 = new ProgrammeEditionEnrollment(studentDouble,peDouble,currentDate);
+        ProgrammeEditionEnrollment pee1 = new ProgrammeEditionEnrollment(studentDouble,peDouble);
     }
 
     @Test
@@ -32,7 +30,7 @@ class ProgrammeEditionEnrollmentTest {
         //arrange
 
         //act + assert
-        assertThrows(Exception.class, () -> new ProgrammeEditionEnrollment (null,null,null));
+        assertThrows(Exception.class, () -> new ProgrammeEditionEnrollment (null,null));
     }
 
     @Test
@@ -40,7 +38,7 @@ class ProgrammeEditionEnrollmentTest {
         //arrange
         Student studentDouble = mock(Student.class);
         //act + assert
-        assertThrows(Exception.class, () -> new ProgrammeEditionEnrollment (studentDouble,null,LocalDate.now()));
+        assertThrows(Exception.class, () -> new ProgrammeEditionEnrollment (studentDouble,null));
     }
 
     public static Stream<Arguments> provideInvalidEnrollmentDate() {
@@ -51,28 +49,14 @@ class ProgrammeEditionEnrollmentTest {
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("provideInvalidEnrollmentDate")
-    void testInvalidEnrollmentDate (LocalDate enrollmentDate, String expectedMessage) throws Exception {
-        // Arrange
-        Student studentDouble = mock(Student.class);
-        ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
-        // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            new ProgrammeEditionEnrollment(studentDouble, peDouble, enrollmentDate);
-        });
-        assertEquals(expectedMessage, exception.getMessage());
-    }
-
     @Test
     void shouldReturnFalseIfProgrammeEditionIsNull_EqualsMethod() throws Exception {
         //arrange
         Student studentDouble = mock(Student.class);
         ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
-        LocalDate currentDate = LocalDate.now();
 
         //act
-        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentDouble, peDouble, currentDate);
+        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentDouble, peDouble);
 
         //assert
         assertFalse(enrollment1.equals(null));
@@ -83,10 +67,9 @@ class ProgrammeEditionEnrollmentTest {
         //arrange
         Student studentDouble = mock(Student.class);
         ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
-        LocalDate currentDate = LocalDate.now();
 
         //act
-        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentDouble, peDouble, currentDate);
+        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentDouble, peDouble);
 
         //assert
         assertTrue(enrollment1.equals(enrollment1));
@@ -97,11 +80,10 @@ class ProgrammeEditionEnrollmentTest {
         // Arrange with mock objects
         Student studentMock = mock(Student.class);
         ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
-        LocalDate currentDate = LocalDate.now();
 
         // Act
-        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentMock, programmeEditionMock, currentDate);
-        ProgrammeEditionEnrollment enrollment2 = new ProgrammeEditionEnrollment(studentMock, programmeEditionMock, currentDate);
+        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(studentMock, programmeEditionMock);
+        ProgrammeEditionEnrollment enrollment2 = new ProgrammeEditionEnrollment(studentMock, programmeEditionMock);
 
         // Assert
         assertTrue(enrollment1.equals(enrollment2));
@@ -112,9 +94,8 @@ class ProgrammeEditionEnrollmentTest {
         // Arrange
         Student studentDouble = mock(Student.class);
         ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
-        LocalDate currentDate = LocalDate.now();
 
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentDouble, peDouble, currentDate);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentDouble, peDouble);
 
         // Act
         ProgrammeEdition foundProgrammeEdition = enrollment.findProgrammeEditionInEnrollment();
@@ -129,9 +110,8 @@ class ProgrammeEditionEnrollmentTest {
         // Arrange
         Student studentDouble = mock(Student.class);
         ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
-        LocalDate currentDate = LocalDate.now();
 
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentDouble, peDouble, currentDate);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentDouble, peDouble);
 
         // Act
         Student foundStudent = enrollment.findStudentInProgrammeEdition();
@@ -150,11 +130,10 @@ class ProgrammeEditionEnrollmentTest {
         Department departmentDouble = mock(Department.class);
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
         ProgrammeEdition editionDouble = mock(ProgrammeEdition.class);
-        LocalDate enrollmentDate = LocalDate.now();
 
         when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble,schoolYearDouble)).thenReturn(true);
 
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1Double,editionDouble,enrollmentDate);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1Double,editionDouble);
 
         // act
         boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
@@ -175,7 +154,7 @@ class ProgrammeEditionEnrollmentTest {
 
         when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble,schoolYearDouble)).thenReturn(false);
 
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1Double,editionDouble,enrollmentDate);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(student1Double,editionDouble);
 
         // act
         boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
@@ -191,7 +170,7 @@ class ProgrammeEditionEnrollmentTest {
         when(studentMock.getUniqueNumber()).thenReturn(12345);
 
         ProgrammeEdition editionMock = mock(ProgrammeEdition.class);
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentMock, editionMock, LocalDate.now());
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentMock, editionMock);
 
         // Act
         int uniqueNumber = enrollment.getStudentUniqueNumber();
@@ -207,7 +186,7 @@ class ProgrammeEditionEnrollmentTest {
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
         LocalDate currentDate = LocalDate.now();
 
-        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(st1, pe1, currentDate);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(st1, pe1);
 
         // Act & Assert
         assertFalse(enrollment.equals(new Object()));
@@ -221,8 +200,8 @@ class ProgrammeEditionEnrollmentTest {
         ProgrammeEdition edition = mock(ProgrammeEdition.class);
         LocalDate currentDate = LocalDate.now();
 
-        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(student1, edition, currentDate);
-        ProgrammeEditionEnrollment enrollment2 = new ProgrammeEditionEnrollment(student2, edition, currentDate);
+        ProgrammeEditionEnrollment enrollment1 = new ProgrammeEditionEnrollment(student1, edition);
+        ProgrammeEditionEnrollment enrollment2 = new ProgrammeEditionEnrollment(student2, edition);
 
         // Act & Assert
         assertFalse(enrollment1.equals(enrollment2));

@@ -3,6 +3,8 @@ import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
 
+import PAI.repository.DepartmentRepository;
+
 import java.util.List;
 
 public class US13_RegisterTeacherAndRelevantDataController {

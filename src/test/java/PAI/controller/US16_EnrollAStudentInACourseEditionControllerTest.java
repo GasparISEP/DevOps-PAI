@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.ProgrammeEditionEnrollmentRepo;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 class US16_EnrollAStudentInACourseEditionControllerTest {
 
+    //testing constructor of US16 controller
     @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
@@ -58,10 +60,9 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         assertEquals("Course edition enrollment repository cannot be null!", exception.getMessage());
     }
 
-
+    //testing get Course Editions of Programme Edition Method
     @Test
-    void shouldReturnFalseIfStudentIsNotInProgrammeEditionThatHasCourseEdition() throws Exception {
-
+    void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition(){
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
@@ -70,22 +71,20 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 doubleCeeRepository, doublePeeRepository, doubleCourseEditionRepository);
 
-        Student doubleSt1 = mock (Student.class);
-        Student doubleSt2 = mock (Student.class);
-        CourseEdition doubleCe1 = mock (CourseEdition.class);
-        ProgrammeEdition doublePe1 = mock (ProgrammeEdition.class);
+        ProgrammeEdition doubleProgrammeEdition = mock (ProgrammeEdition.class);
+        CourseEdition doubleCourseEdition1 = mock (CourseEdition.class);
+        CourseEdition doubleCourseEdition2 = mock (CourseEdition.class);
 
-        when (doubleCourseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCe1)).thenReturn(doublePe1);
-        when (doublePeeRepository.isStudentEnrolledInThisProgrammeEdition(doubleSt1, doublePe1)).thenReturn(false);
+        when (doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
 
         //act
-        boolean result = controller.enrollStudentInCourseEdition(doubleSt2, doubleCe1);
+        List<CourseEdition> result = controller.getCourseEditionsOfProgrammeEdition (doubleProgrammeEdition);
 
         //assert
-        assertFalse(result);
+        assertEquals (2, result.size());
     }
 
-
+    //testing enroll a student in a course edition method
     @Test
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment () throws Exception {
 
@@ -99,12 +98,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         Student doubleSt1 = mock (Student.class);
         CourseEdition doubleCe1 = mock (CourseEdition.class);
-        ProgrammeEdition doublePe1 = mock (ProgrammeEdition.class);
-        LocalDate enrollmentDate = LocalDate.now();
 
-        when (doubleCourseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCe1)).thenReturn(doublePe1);
-        when (doublePeeRepository.isStudentEnrolledInThisProgrammeEdition(doubleSt1, doublePe1)).thenReturn(true);
-        when (doubleCeeRepository .enrollStudentInACourseEdition(doubleSt1,doubleCe1 , enrollmentDate)).thenReturn (true);
+        when (doubleCeeRepository .enrollStudentInACourseEdition(doubleSt1,doubleCe1)).thenReturn (true);
 
         //act
         boolean result = controller.enrollStudentInCourseEdition(doubleSt1,doubleCe1 );

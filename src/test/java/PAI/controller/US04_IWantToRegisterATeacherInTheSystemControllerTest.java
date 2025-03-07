@@ -2,6 +2,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.repository.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;

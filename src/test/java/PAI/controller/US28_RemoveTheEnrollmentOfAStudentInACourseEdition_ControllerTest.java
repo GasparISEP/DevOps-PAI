@@ -29,8 +29,9 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         @Test
         void removeNonExistingEnrollment() throws IllegalArgumentException {
             // arrange
-            CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-            CourseEditionEnrollmentRepository repository= new CourseEditionEnrollmentRepository (factoryDouble);
+            CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
+            CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+            CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
             US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
             Student student = mock (Student.class);
             CourseEdition courseEdition = mock (CourseEdition.class);
@@ -45,8 +46,9 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         @Test
         void removeEnrollment_WithNullCourseEdition_ShouldThrowException() throws IllegalArgumentException {
             // arrange
-            CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-            CourseEditionEnrollmentRepository repository= new CourseEditionEnrollmentRepository (factoryDouble);
+            CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
+            CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+            CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
             US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
 
             Student std1 = mock (Student.class);
@@ -61,8 +63,9 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeEnrollment_WithNullStudent_ShouldThrowException() throws IllegalArgumentException {
         // arrange
-        CourseEditionEnrollmentFactory factoryDouble = mock(CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(factoryDouble);
+        CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
 
         CourseEdition ce1 = mock(CourseEdition.class);

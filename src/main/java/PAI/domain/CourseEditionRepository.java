@@ -1,5 +1,8 @@
 package PAI.domain;
 
+import PAI.factory.CourseEditionFactory;
+import PAI.factory.CourseEditionListFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 

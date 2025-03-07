@@ -1,51 +1,36 @@
 package PAI.domain;
 
+import PAI.factory.CourseFactory;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mockConstruction;
 
 class CourseFactoryTest {
 
     @Test
-    void shouldCreateCourse() throws Exception {
-        //arrange
-        CourseFactory courseFactory = new CourseFactory();
-        //act
-        Course course = courseFactory.createCourse("Matemática", "MAT", 10, 1);
-        //assert
-        assertNotNull(course);
-    }
+    void shouldCreateCourseWhenConstructorIsInvoked() throws Exception {
 
-    @Test
-    void shouldNotCreateCourseIfCourseHasNoName() throws Exception {
-        //arrange
-        CourseFactory courseFactory = new CourseFactory();
-        //act + assert
-        assertThrows(Exception.class, () -> courseFactory.createCourse("", "MAT", 10, 1));
-    }
+        //Arrange
 
-    @Test
-    void shouldNotCreateCourseIfCourseHasNoAcronym() throws Exception {
-        //arrange
-        CourseFactory courseFactory = new CourseFactory();
-        //act + assert
-        assertThrows(Exception.class, () -> courseFactory.createCourse("Matemática", "", 10, 1));
-    }
+        String name = "Informatics";
+        String acronym = "INF";
+        double quantityOfEcts = 6;
+        int durationCourseInSemester = 1;
 
-    @Test
-    void shouldNotCreateCourseIfCourseHasZeroQuantityCreditsETC() throws Exception {
-        //arrange
-        CourseFactory courseFactory = new CourseFactory();
-        //act + assert
-        assertThrows(Exception.class, () -> courseFactory.createCourse("Matemática", "MAT", 0, 1));
-    }
-    @Test
-    void shouldNotCreateCourseIfCourseHasZeroDurationCourseSemester() throws Exception {
-        //arrange
-        CourseFactory courseFactory = new CourseFactory();
-        //act + assert
-        assertThrows(Exception.class, () -> courseFactory.createCourse("Matemática", "MAT", 1, 0));
-    }
+        // Act
+        try (MockedConstruction<Course> courseMocked = mockConstruction(Course.class)) {
 
+            // SUT
+            CourseFactory courseFactory = new CourseFactory();
 
+            Course course = courseFactory.createCourse(name, acronym, quantityOfEcts, durationCourseInSemester);
+
+            // Assert
+            assertNotNull(course);
+            assertEquals(1, courseMocked.constructed().size());
+        }
+    }
 }

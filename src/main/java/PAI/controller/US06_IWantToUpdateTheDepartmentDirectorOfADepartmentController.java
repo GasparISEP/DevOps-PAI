@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.Department;
-import PAI.domain.DepartmentRepository;
+import PAI.repository.DepartmentRepository;
 import PAI.domain.Teacher;
 
 import java.util.List;

@@ -214,17 +214,11 @@ class SchoolYearRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenSchoolYearIsNull() throws Exception{
+    void shouldReturnFalseWhenSchoolYearIsNull() {
         // Arrange
         SchoolYear schoolYear = null;
         SchoolYearFactory schoolYearFactoryDouble = mock(SchoolYearFactory.class);
         SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryDouble);
-        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
-
-        when(schoolYearFactoryDouble.createSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024"))
-                .thenReturn(schoolYearDouble1);
-
-        repository.addSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
 
         // Act
         boolean result = repository.schoolYearExists(schoolYear);

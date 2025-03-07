@@ -1,9 +1,6 @@
 package PAI.repository;
 
-import PAI.domain.CourseEdition;
-import PAI.domain.CourseEditionEnrollment;
-import PAI.domain.CourseEditionEnrollmentFactory;
-import PAI.domain.Student;
+import PAI.domain.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -15,15 +12,15 @@ public class CourseEditionEnrollmentRepository {
     private final CourseEditionEnrollmentFactory _courseEditionEnrollmentFactory;
 
     //constructor
-    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory) {
+    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory, CourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory) {
 
-        _courseEditionEnrollments = new HashSet<>();
+        _courseEditionEnrollments = courseEditionEnrollmentListFactory.getCourseEditionEnrollmentList();
         _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
     }
 
-    public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition, LocalDate enrollmentDate) {
+    public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition) {
 
-        CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition, enrollmentDate);
+        CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition);
 
         boolean isEnrollmentAddedToRepository = _courseEditionEnrollments.add(cee1);
 
@@ -93,7 +90,7 @@ public class CourseEditionEnrollmentRepository {
             if (existingEnrollment.isPresent()) {
                 throw new IllegalStateException("This course edition enrollment is already in the list.");
             }
-            enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
+            enrollStudentInACourseEdition(student, courseEdition);
         }
     }
 }

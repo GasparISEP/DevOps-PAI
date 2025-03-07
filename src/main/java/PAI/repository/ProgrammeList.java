@@ -1,7 +1,9 @@
 package PAI.repository;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactory;
+import PAI.factory.ProgrammeListArrayListFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +11,21 @@ import java.util.Optional;
 
 public class ProgrammeList {
     private final ProgrammeFactory _programmeFactory;
-    private List<Programme> programmeList;
+    private final List<Programme> _programmeList;
 
-    public ProgrammeList(ProgrammeFactory programmeFactory) {
+    public ProgrammeList(ProgrammeFactory programmeFactory, ProgrammeListArrayListFactory programmeListArrayListFactory) {
         _programmeFactory = programmeFactory;
-        programmeList = new ArrayList<>();
+        _programmeList = programmeListArrayListFactory.newProgrammeArrayList();
     }
 
     public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory) throws Exception {
 
         Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory);
 
-        if (programmeList.contains(programme))
+        if (_programmeList.contains(programme))
             return false;
 
-        programmeList.add(programme);
+        _programmeList.add(programme);
         return true;
     }
 
@@ -38,7 +40,7 @@ public class ProgrammeList {
     }
 
     public List<Programme> getAllProgrammes() {
-        return new ArrayList<>(programmeList);
+        return _programmeList;
     }
 
     public List<Course> getCourseList(Programme programme) {
@@ -46,7 +48,7 @@ public class ProgrammeList {
     }
 
     public Optional<Programme> getProgrammeByName(String name) {
-        for (Programme programme : programmeList) {
+        for (Programme programme : _programmeList) {
             if (programme.hasThisProgrammeName(name)) {
                 return Optional.of(programme);
             }
@@ -55,7 +57,7 @@ public class ProgrammeList {
     }
 
     public Programme getProgrammeByAcronym(String acronym) {
-        for (Programme programme : programmeList) {
+        for (Programme programme : _programmeList) {
             if (programme.getAcronym().equals(acronym)){
                 return programme;
             }
@@ -66,7 +68,7 @@ public class ProgrammeList {
     public List<String>  getAllProgrammeNames() {
 
         List<String> list = new ArrayList<>();
-        for (Programme programme : programmeList) {
+        for (Programme programme : _programmeList) {
             list.add(programme.getProgrammeName());
         }
         return list;
