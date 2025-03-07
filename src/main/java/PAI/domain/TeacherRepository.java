@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.factory.TeacherFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
