@@ -14,7 +14,19 @@ activate Controller
 participant ":ProgrammeList" as ProgrammeList
 Controller -> ProgrammeList : getAllProgrammes()
 activate ProgrammeList
-ProgrammeList --> Controller : listOfProgrammes
+participant ":ProgrammeListArrayListFactory" as ProgrammeListArrayListFactory
+ProgrammeList -> ProgrammeListArrayListFactory : copyProgrammeArrayList(List<Programme>)
+activate ProgrammeListArrayListFactory
+create "copyPgmList[i]:ProgrammeListArrayListFactory"
+ProgrammeListArrayListFactory -> "copyPgmList[i]:ProgrammeListArrayListFactory": copyProgrammeArrayList(List<Programme>)
+activate "copyPgmList[i]:ProgrammeListArrayListFactory"
+"copyPgmList[i]:ProgrammeListArrayListFactory" --> ProgrammeListArrayListFactory: EmptyList<Programme>
+deactivate "copyPgmList[i]:ProgrammeListArrayListFactory"
+ProgrammeListArrayListFactory --> ProgrammeList : copyOfProgrammeList
+deactivate ProgrammeListArrayListFactory
+
+
+ProgrammeList --> Controller : copyOfProgrammeList
 deactivate ProgrammeList
 Controller --> UI : listOfProgrammes
 deactivate Controller

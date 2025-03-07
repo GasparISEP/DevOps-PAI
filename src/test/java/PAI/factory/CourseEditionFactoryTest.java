@@ -21,10 +21,7 @@ class CourseEditionFactoryTest {
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
 
-            //SUT
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-
-
+            //instructions
         try (MockedConstruction<CourseEdition> courseEditionDouble = mockConstruction(CourseEdition.class,(courseEditionMock, context) -> {
             Course actualCourse = (Course) context.arguments().get(0);
             ProgrammeEdition actualProgrammeEdition = (ProgrammeEdition) context.arguments().get(1);
@@ -32,10 +29,13 @@ class CourseEditionFactoryTest {
             when(courseEditionMock.getProgrammeEdition()).thenReturn(actualProgrammeEdition);
         })) {
 
+                //SUT
+            CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+
             // Act
             CourseEdition courseEdition = courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
 
-            // Assert
+            // Asserts
             assertNotNull(courseEdition);
             assertEquals(courseDouble, courseEdition.getCourse());
             assertEquals(programmeEditionDouble, courseEdition.getProgrammeEdition());
@@ -46,5 +46,4 @@ class CourseEditionFactoryTest {
             assertEquals(courseEdition, courseEditions.get(0));
         }
     }
-
 }
