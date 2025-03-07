@@ -6,9 +6,11 @@ import PAI.domain.ProgrammeEnrolment;
 import PAI.domain.Student;
 
 public class ProgrammeEnrolmentFactory implements ProgrammeEnrolmentFactoryInterface {
-    public ProgrammeEnrolment createProgrammeEnrolment (Student student, AccessMethod accessMethod, Programme programme, String date) {
+
+    public ProgrammeEnrolment createProgrammeEnrolment (Student student, AccessMethod accessMethod, Programme programme, String date) throws IllegalArgumentException {
+
         if (!isFactoryArgumentValid(student) || !isFactoryArgumentValid(accessMethod) || !isFactoryArgumentValid(programme) || !isFactoryArgumentValid(date)) {
-            throw new IllegalArgumentException("Argument cannot be null or blank");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
         return new ProgrammeEnrolment(student, accessMethod, programme, date);
     }
@@ -16,11 +18,6 @@ public class ProgrammeEnrolmentFactory implements ProgrammeEnrolmentFactoryInter
     private boolean isFactoryArgumentValid(Object argument) {
         if (argument == null) {
             return false;
-        }
-        if (argument instanceof String) {
-            if(((String) argument).isBlank()) {
-                return false;
-            }
         }
         return true;
     }
