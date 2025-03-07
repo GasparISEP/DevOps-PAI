@@ -9,6 +9,8 @@ import PAI.repository.ProgrammeEditionRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -17,75 +19,71 @@ import static org.mockito.Mockito.when;
 class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTest {
 
     @Test
-    void shouldCreateControllerWhenRepositoriesAreValid(){
+    void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull(){
         // Arrange
-        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
-        ProgrammeEditionFactory programmeEditionFactory = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+        ProgrammeEditionRepository programmeEditionRepositoryNull = null;
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
 
-
-        // Act
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrollmentRepo);
-
-        // Assert
-        assertNotNull(controller);
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryNull,programmeEditionEnrollmentRepo));
 
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeEditionEnrollmentRepositoryIsNull(){
+    void shouldThrowExceptionIfProgrammeEditionEnrollmentRepositoryIsNull(){
         // Arrange
-        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
-
-        ProgrammeEditionFactory programmeEditionFactory = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactory.class);
-
+        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepoNull = null;
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null));
+        assertThrows(IllegalArgumentException.class, () ->
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository,programmeEditionEnrollmentRepoNull));
+
+    }
+
+    @Test
+    void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList(){
+        // Arrange
+        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+
+        ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
+        programmeEditionList.add(programmeEdition);
+
+        // SUT
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrollmentRepo);
+
+        //Instructions
+        when(programmeEditionRepository.getAllProgrammeEditions()).thenReturn(programmeEditionList);
+
+        // Act
+        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
+
+        // Assert
+        assertEquals(1, result.size());
 
     }
 
     @Test
     void shouldReturnCorrectNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
         // Arrange
-        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory);
+        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
 
-        Department department1Double = mock(Department.class);
-        SchoolYear schoolYear1Double = mock(SchoolYear.class);
+        //SUT
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble ,programmeEditionEnrollmentRepoDouble);
 
-        Student student1Double = mock(Student.class);
-        Student student2Double = mock(Student.class);
-        ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
-
-        when(edition1Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
-
-        ProgrammeEditionEnrollment enrollMock1 = mock(ProgrammeEditionEnrollment.class);
-        when(enrollMock1.getStudentUniqueNumber()).thenReturn(1);
-        when(enrollMock1.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
-        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student1Double, edition1Double)).thenReturn(enrollMock1);
-
-        ProgrammeEditionEnrollment enrollMock2 = mock(ProgrammeEditionEnrollment.class);
-        when(enrollMock2.getStudentUniqueNumber()).thenReturn(2);
-        when(enrollMock2.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
-        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student2Double, edition1Double)).thenReturn(enrollMock2);
-
-        int NumberOfStudentsEnrolledInAProgrammeEdition = 2;
+        //Instructions
+        when(programmeEditionEnrollmentRepoDouble.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble)).thenReturn(1);
 
         // Act
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controlador1 = new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(repository);
-
-        repository.enrollStudentInProgrammeEdition(student1Double, edition1Double);
-        repository.enrollStudentInProgrammeEdition(student2Double, edition1Double);
-
-        int result = controlador1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(edition1Double);
-
+        int result = controller.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble);
         // Assert
-        assertEquals(NumberOfStudentsEnrolledInAProgrammeEdition, result);
+        assertEquals(1, result);
     }
 }
