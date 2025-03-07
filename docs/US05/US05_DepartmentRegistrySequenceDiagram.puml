@@ -38,17 +38,10 @@ deactivate Department
 DepartmentFactory --> DepartmentRepository: d1
 deactivate DepartmentFactory
 
-loop for each Department d[i] in DepartmentRepository
-DepartmentRepository -> Departmenti: compareDepartmentAcronymAndNameInList(d1:Department)
-activate Departmenti
-Departmenti --> DepartmentRepository: Acronym and name are valid.
-deactivate Departmenti
-end
-
-DepartmentRepository -> Departmenti: add (d1:Department)
-activate Departmenti
-Departmenti --> DepartmentRepository: Department registered
-deactivate Departmenti
+DepartmentRepository -> DepartmentRepository: add (d1:Department)
+activate DepartmentRepository
+DepartmentRepository --> DepartmentRepository: Department registered
+deactivate DepartmentRepository
 DepartmentRepository --> Controller: Department registered
 deactivate DepartmentRepository
 Controller --> UI: Department registered
