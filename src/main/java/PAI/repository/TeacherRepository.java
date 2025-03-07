@@ -1,9 +1,10 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
-
 import PAI.factory.TeacherFactory;
+import PAI.factory.TeacherListFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,9 @@ public class TeacherRepository {
     private TeacherFactory _teacherFactory;
 
     //constructor
-    public TeacherRepository(TeacherFactory teacherFactory){
+    public TeacherRepository(TeacherFactory teacherFactory, TeacherListFactory teacherListFactory){
 
-        teachers=new ArrayList<>();
+        teachers = teacherListFactory.newArrayList();
         _teacherFactory = teacherFactory;
     }
 

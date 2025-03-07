@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.domain.CourseEdition;
 import PAI.repository.CourseEditionRepository;
 import PAI.domain.Teacher;
-import PAI.domain.TeacherRepository;
+import PAI.repository.TeacherRepository;
 import java.util.List;
 
 public class US20_DefineRucForCourseEditionController {
