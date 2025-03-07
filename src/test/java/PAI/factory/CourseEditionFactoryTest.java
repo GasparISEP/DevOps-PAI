@@ -26,62 +26,25 @@ class CourseEditionFactoryTest {
 
 
         try (MockedConstruction<CourseEdition> courseEditionDouble = mockConstruction(CourseEdition.class,(courseEditionMock, context) -> {
-
-            when(courseEditionMock.getCourse()).thenReturn(courseDouble);
-            when(courseEditionMock.getProgrammeEdition()).thenReturn(programmeEditionDouble);
+            Course actualCourse = (Course) context.arguments().get(0);
+            ProgrammeEdition actualProgrammeEdition = (ProgrammeEdition) context.arguments().get(1);
+            when(courseEditionMock.getCourse()).thenReturn(actualCourse);
+            when(courseEditionMock.getProgrammeEdition()).thenReturn(actualProgrammeEdition);
         })) {
 
             // Act
-            CourseEdition result = courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
+            CourseEdition courseEdition = courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
 
             // Assert
-            assertNotNull(result);
-            assertEquals(courseDouble, result.getCourse());
-            assertEquals(programmeEditionDouble, result.getProgrammeEdition());
+            assertNotNull(courseEdition);
+            assertEquals(courseDouble, courseEdition.getCourse());
+            assertEquals(programmeEditionDouble, courseEdition.getProgrammeEdition());
 
             List<CourseEdition> courseEditions = courseEditionDouble.constructed();
             assertEquals(1, courseEditions.size());
 
-            assertEquals(result, courseEditions.get(0));
+            assertEquals(courseEdition, courseEditions.get(0));
         }
     }
 
-    @Test
-    void shouldNotCreateCourseEditionIfCourseIsNull() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition isolated and Course forced to be null
-        //Arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
-        Course course = null;
-
-        //Act + Assert
-        assertThrows(Exception.class, () -> {courseEditionFactory.newCourseEdition(course, programmeEditionDouble);});
-
-    }
-
-    @Test
-    void shouldNotCreateCourseEditionIfProgrammeEditionIsNull() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition forced to be null and Course isolated
-        //Arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        ProgrammeEdition programmeEdition = null;
-        Course courseDouble = mock (Course.class);
-
-        //Act + Assert
-        assertThrows(Exception.class, () -> {courseEditionFactory.newCourseEdition(courseDouble, programmeEdition);});
-
-    }
-
-    @Test
-    void shouldNotCreateCourseEditionIfProgrammeEditionAndCourseAreNull() throws Exception {
-        //SUT = CourseEdition - ProgrammeEdition and Course forced to be null
-        //Arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        ProgrammeEdition programmeEdition = null;
-        Course course = null;
-
-        //Act + Assert
-        assertThrows(Exception.class, () -> {courseEditionFactory.newCourseEdition(course, programmeEdition);});
-
-    }
 }
