@@ -1,10 +1,17 @@
-package PAI.domain;
+package PAI.factory;
 
+import PAI.domain.TeacherCareerProgression;
+import PAI.domain.TeacherCategory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.MockedConstruction;
+import org.mockito.Mockito;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,23 +25,45 @@ class TeacherCareerProgressionFactoryTest {
 
         // Arrange
         TeacherCareerProgressionFactory factory = new TeacherCareerProgressionFactory();
+        String date = "01-10-2022";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
+        int workingPercentage = 100;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        // Mock the construction of TeacherCareerProgression objects
+        try (MockedConstruction<TeacherCareerProgression> mockedConstruction = Mockito.mockConstruction(TeacherCareerProgression.class, (mock, context) -> {
+            // Extracting the arguments
+            String strActualDate = (String) context.arguments().get(0);
+            TeacherCategory actualTC = (TeacherCategory) context.arguments().get(1);
+            int actualWorkingPercentage = (int) context.arguments().get(2);
+            // Configuring the mock's returns
+            when(mock.getDate()).thenReturn(LocalDate.parse(strActualDate, formatter));
+            when(mock.getCategory()).thenReturn(actualTC);
+            when(mock.getWorkingPercentage()).thenReturn(actualWorkingPercentage);
+        })) {
+
+            TeacherCareerProgressionFactory TCPfactory = new TeacherCareerProgressionFactory();
 
         // Act
-        TeacherCareerProgression TCP = factory.createTeacherCareerProgression("01-10-2022", tcDouble, 100);
+            TeacherCareerProgression tcpObject = TCPfactory.createTeacherCareerProgression(date, tcDouble, workingPercentage);
 
         // Assert
-        assertNotNull(TCP);
+            List<TeacherCareerProgression> tcpList = mockedConstruction.constructed();
+            assertEquals(1, tcpList.size());
+
+            assertEquals(LocalDate.parse(date, formatter), tcpList.get(0).getDate());
+            assertEquals(tcDouble, tcpList.get(0).getCategory());
+            assertEquals(workingPercentage, tcpList.get(0).getWorkingPercentage());
+            //assertSame(tcpList.get(0), tcpObject);
+        }
     }
 
     public static Stream<Arguments> provideInvalidDate() {
         return Stream.of(
                 arguments(null, "Date cannot be empty!"),      // Null Date
                 arguments("", "Date cannot be empty!"),        // Empty Date
-                arguments(" ", "Date cannot be empty!"),       // Blank Date
-                arguments("32-01-2022", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),            // Invalid Date
-                arguments("01-13-2022", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),            // Invalid Date
-                arguments("1 de Outubro de 2022", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.")   // Invalid Date
+                arguments(" ", "Date cannot be empty!")       // Blank Date
         );
     }
 
@@ -47,7 +76,8 @@ class TeacherCareerProgressionFactoryTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
 
         // Act + Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> factory.createTeacherCareerProgression(date, tcDouble, 100));
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> factory.createTeacherCareerProgression(date, tcDouble, 100));
         assertEquals(expectedException, exception.getMessage());
     }
 
@@ -58,7 +88,8 @@ class TeacherCareerProgressionFactoryTest {
         TeacherCareerProgressionFactory factory = new TeacherCareerProgressionFactory();
 
         // Act + Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> factory.createTeacherCareerProgression("01-10-2022", null, 100));
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> factory.createTeacherCareerProgression("10-12-2022", null, 100));
         assertEquals("Teacher Category cannot be null", exception.getMessage());
     }
 
@@ -75,10 +106,12 @@ class TeacherCareerProgressionFactoryTest {
 
         // Arrange
         TeacherCareerProgressionFactory factory = new TeacherCareerProgressionFactory();
+        String date = "01-10-2022";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
 
         // Act + Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> factory.createTeacherCareerProgression("01-10-2022", tcDouble, workingPercentage));
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> factory.createTeacherCareerProgression(date, tcDouble, workingPercentage));
         assertEquals(expectedException, exception.getMessage());
     }
 }

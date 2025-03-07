@@ -1,5 +1,8 @@
 package PAI.domain;
 
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
+
 public class TeacherFactory {
 
     public Teacher createTeacher(String acronym, String name, String email, String nif, String phoneNumber,
