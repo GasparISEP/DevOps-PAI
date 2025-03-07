@@ -14,18 +14,24 @@ class AccessMethodFactoryTest {
     @Test
     void givenMockedConstructorAccessMethodFactoryShouldCreateAccessMethod() throws InstantiationException {
         //arrange
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
         String accessMethodName = "Maiores 23";
-        try (MockedConstruction<AccessMethod> mockAccessMethod = mockConstruction(AccessMethod.class)) {
-            AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        try (MockedConstruction<AccessMethod> mockAccessMethod = mockConstruction(AccessMethod.class, (mock, context) ->{
+            String actualName = (String) context.arguments().get(0);
+            when(mock.hasThisAccessMethodName(accessMethodName)).thenReturn(true);
+            })) {
         //act
         AccessMethod accessMethod = accessMethodFactory.createAccessMethod(accessMethodName);
         //assert
         assertNotNull(accessMethod);
-        assertEquals(1, mockAccessMethod.constructed().size());
+        assertTrue(accessMethod.hasThisAccessMethodName(accessMethodName));
 
         //O objeto isolado deve existir
+        assertEquals(1, mockAccessMethod.constructed().size());
         AccessMethod doubleAccessMethod = mockAccessMethod.constructed().get(0);
         assertNotNull(doubleAccessMethod);
+        assertEquals(accessMethod,doubleAccessMethod);
+        assertTrue(doubleAccessMethod.hasThisAccessMethodName(accessMethodName));
         }
     }
 
