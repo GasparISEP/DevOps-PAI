@@ -4,5 +4,5 @@ import PAI.domain.Course;
 import java.util.List;
 
 public interface CourseListFactoryInterface {
-    List<Course> newArrayList();
+    List<Course> createCourseList();
 }

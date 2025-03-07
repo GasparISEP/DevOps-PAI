@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CourseListFactory implements CourseListFactoryInterface {
 
-    public List<Course> newArrayList() {
+    public List<Course> createCourseList() {
         return new ArrayList<>();
     }
 }
