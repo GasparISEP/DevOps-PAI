@@ -50,20 +50,21 @@ class Teacher {
 class StudyPlan {
 }
 
+class ArrayList {
+}
 
 
 
-
-US03addCourseToProgrammeController --> Programme
-US03addCourseToProgrammeController --> CourseRepository
-US03addCourseToProgrammeController --> ProgrammeList
-Programme --> ProgrammeCourseListFactory
-ProgrammeCourseListFactory ..|> ProgrammeCourseListFactoryImpl
-Programme --> DegreeType
-Programme --> Department
-Programme --> Teacher
-Programme --> StudyPlan
-Programme --> Course
-
+US03addCourseToProgrammeController "1" --> "uses 1" Programme
+US03addCourseToProgrammeController "1" --> "uses 1" CourseRepository
+US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeList
+Programme "1" --> "uses 1" ProgrammeCourseListFactory
+ProgrammeCourseListFactory ..|> "implements" ProgrammeCourseListFactoryImpl
+ProgrammeCourseListFactory "1" --> "creates 1" ArrayList
+Programme "1" --> "uses 1" DegreeType
+Programme "1" --> "uses 1" Department
+Programme "1" --> "uses 1" Teacher
+Programme "1" --> "uses 1" StudyPlan
+Programme "1" o-- "contains *" Course
 
 @enduml
