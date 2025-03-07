@@ -12,6 +12,7 @@ participant "dptList:List<Departments>" as dptList #Yellow/Silver
 participant ":TeacherRepository" as TeacherRepository #Cyan/Silver
 participant "t1:TeacherFactory" as TeacherFactory #Yellow/Silver
 participant "t1:Teacher" as Teacher #Yellow/Silver
+participant "addrs1:AddressFactory" as AddressFactory #Yellow/Silver
 participant "addrs1:Address" as Address #Yellow/Silver
 participant "tcp1:TeacherCareerProgressionFactory" as TeacherCareerProgressionFactory #Yellow/Silver
 participant "tcp1:TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
@@ -73,11 +74,17 @@ activate TeacherFactory
 TeacherFactory -> Teacher **: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
 activate Teacher
 
-Teacher -> Address **: **createAddress** (street, postcode, location, country)
+Teacher -> AddressFactory: **createAddress** (street, postcode, location, country)
+activate AddressFactory
+
+AddressFactory -> Address **: **createAddress** (street, postcode, location, country)
 activate Address
 
-Address --> Teacher: addrs1
+Address --> AddressFactory: addrs1
 deactivate Address
+
+AddressFactory --> Teacher: addrs1
+deactivate AddressFactory
 
 Teacher -> TeacherCareerProgressionFactory: **createTeacherCareerProgressionList** (date, tc1, workingPercentage)
 activate TeacherCareerProgressionFactory
@@ -91,7 +98,7 @@ deactivate TeacherCareerProgression
 TeacherCareerProgressionFactory --> Teacher: tcp1
 deactivate TeacherCareerProgressionFactory
 
-Teacher -> Teacher: add(tcp1)
+Teacher -> Teacher: tcpList.add(tcp1)
 
 Teacher --> TeacherFactory: t1
 deactivate Teacher
@@ -106,7 +113,6 @@ ref over TeacherRepository, Teacher
 end ref
 
 TeacherRepository -> TeacherRepository: add (t1)
-
 deactivate Teacher
 
 TeacherRepository --> Controller: True

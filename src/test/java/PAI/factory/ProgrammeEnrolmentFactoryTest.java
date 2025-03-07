@@ -57,10 +57,10 @@ class ProgrammeEnrolmentFactoryTest {
 
     // Method to create doubles for tests with isolation
     private Object[] createDoublesForTestsWithIsolation() {
-        Student student = mock(Student.class);
-        AccessMethod am = mock(AccessMethod.class);
-        Programme programme = mock(Programme.class);
-        return new Object[]{student, am, programme};
+        Student studentDouble = mock(Student.class);
+        AccessMethod accessMethodDouble = mock(AccessMethod.class);
+        Programme programmeDouble = mock(Programme.class);
+        return new Object[]{studentDouble, accessMethodDouble, programmeDouble};
     }
 
     @Test
@@ -105,6 +105,7 @@ class ProgrammeEnrolmentFactoryTest {
             ProgrammeEnrolment result = peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date);
 
         //assert
+            //
             List<ProgrammeEnrolment> constructed = programmeEnrolmentDouble.constructed();
             ProgrammeEnrolment created = (constructed).get(0);
             assertEquals(created, result);
@@ -112,7 +113,7 @@ class ProgrammeEnrolmentFactoryTest {
     }
 
     @Test
-    void shouldReturnExceptionIfStudentIsNullWithoutIsolation() throws Exception{
+    void shouldReturnExceptionIfStudentIsNullWithoutIsolation() throws Exception {
         //arrange
         ProgrammeEnrolmentFactory peFactory = new ProgrammeEnrolmentFactory();
 
@@ -137,7 +138,7 @@ class ProgrammeEnrolmentFactoryTest {
     }
 
     @Test
-    void shouldReturnExceptionIfAccessMethodIsNullWithoutIsolation() throws Exception{
+    void shouldReturnExceptionIfAccessMethodIsNullWithoutIsolation() throws Exception {
         //arrange
         ProgrammeEnrolmentFactory peFactory = new ProgrammeEnrolmentFactory();
 
@@ -162,7 +163,7 @@ class ProgrammeEnrolmentFactoryTest {
     }
 
     @Test
-    void shouldReturnExceptionIfProgrammeIsNullWithoutIsolation() throws Exception{
+    void shouldReturnExceptionIfProgrammeIsNullWithoutIsolation() throws Exception {
         //arrange
         ProgrammeEnrolmentFactory peFactory = new ProgrammeEnrolmentFactory();
 
@@ -173,7 +174,7 @@ class ProgrammeEnrolmentFactoryTest {
     }
 
     @Test
-    void shouldReturnExceptionIfProgrammeIsNullWithIsolation()  {
+    void shouldReturnExceptionIfProgrammeIsNullWithIsolation() {
         //arrange
         ProgrammeEnrolmentFactory peFactory = new ProgrammeEnrolmentFactory();
 
@@ -187,18 +188,18 @@ class ProgrammeEnrolmentFactoryTest {
     }
 
     @Test
-    void shouldReturnExceptionIfDateIsNullWithoutIsolation() throws Exception{
+    void shouldReturnExceptionIfDateIsNullWithoutIsolation() throws Exception {
         //arrange
         ProgrammeEnrolmentFactory peFactory = new ProgrammeEnrolmentFactory();
 
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme,null));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, null));
     }
 
     @Test
-    void shouldReturnExceptionIfDateIsNullWithIsolation()  {
+    void shouldReturnExceptionIfDateIsNullWithIsolation() {
         //arrange
         ProgrammeEnrolmentFactory peFactory = new ProgrammeEnrolmentFactory();
 
