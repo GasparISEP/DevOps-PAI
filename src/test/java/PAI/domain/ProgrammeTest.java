@@ -335,7 +335,7 @@ class ProgrammeTest {
 
 
     @Test
-    void shouldThrowExceptionIfCourseAlreadyExistsInProgramme() throws Exception {
+    void shouldReturnFalseIfCourseAlreadyExistsInProgramme() throws Exception {
         //arrange
         DegreeType degreeTypeDouble = mock(DegreeType.class);
         Department departmentDouble = mock(Department.class);
@@ -347,9 +347,10 @@ class ProgrammeTest {
         when(courseListDouble.contains(courseDouble)).thenReturn(true);
         Programme programme = new Programme("Engenharia Informática", "LEI", 30,
                 2, degreeTypeDouble, departmentDouble, teacherDouble, _programmeCourseListFactory);
-
-        //act & assert
-        assertThrows(Exception.class, () -> programme.addCourseToAProgramme(courseDouble));
+        // act
+        boolean result = programme.addCourseToAProgramme(courseDouble);
+        // assert
+       assertFalse(result);
     }
 
 

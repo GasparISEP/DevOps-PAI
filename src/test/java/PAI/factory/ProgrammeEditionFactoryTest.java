@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionFactoryTest {
 
@@ -16,11 +17,14 @@ class ProgrammeEditionFactoryTest {
         ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
         Programme programme = mock(Programme.class);
         SchoolYear schoolYear = mock(SchoolYear.class);
+        when(programme.getProgrammeName()).thenReturn("Programme");
 
         // Act
         ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programme, schoolYear);
 
         // Assert
         assertNotNull(programmeEdition);
+        assertEquals("Programme", programmeEdition.findProgrammeInProgrammeEdition().getProgrammeName());
+        assertEquals(programmeEdition.findSchoolYearInProgrammeEdition(), schoolYear);
     }
 }
