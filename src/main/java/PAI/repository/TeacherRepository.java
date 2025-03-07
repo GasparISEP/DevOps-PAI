@@ -1,11 +1,8 @@
 package PAI.repository;
 
-import PAI.domain.Department;
-import PAI.domain.Teacher;
-import PAI.domain.TeacherCategory;
+import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
-
 import PAI.factory.TeacherFactory;
 import PAI.factory.TeacherListFactory;
 
