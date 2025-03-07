@@ -1,6 +1,7 @@
 package PAI.domain;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.TeacherFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
