@@ -1,6 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.repository.DepartmentRepository;
 
 public class US04_IWantToRegisterATeacherInTheSystemController {

@@ -1,4 +1,9 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.*;
+
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
 
 public class TeacherFactory {
 

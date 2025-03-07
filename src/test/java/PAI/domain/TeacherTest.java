@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -919,5 +921,128 @@ class TeacherTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tc));
+    }
+
+    @Test
+    void testShouldReturnTrueForTeachersWithSameAcronym() throws Exception {
+        //Arrange
+        String date1 = "26-12-2024";
+        String date2 = "27-12-2024";
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble);
+        Teacher t2 = new Teacher("CBB", "João Fonseca", "cbb@isep.ipp.pt", "744872363", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", addressFactoryDouble, date2, tcDouble, 70, dptDouble, tcpFactoryDouble);
+
+        //act
+        boolean result= t1.hasSameAcronym(t2);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void testShouldReturnFalseForTeachersWithDifferentAcronym() throws Exception {
+        //Arrange
+        String date1 = "26-12-2024";
+        String date2 = "27-12-2024";
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble);
+        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "744872363", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", addressFactoryDouble, date2, tcDouble, 70, dptDouble, tcpFactoryDouble);
+
+        //act
+        boolean result= t1.hasSameAcronym(t2);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void testShouldReturnTrueForTeachersWithSameNIF() throws Exception {
+        //Arrange
+        String date1 = "26-12-2024";
+        String date2 = "27-12-2024";
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble);
+        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "234542322", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", addressFactoryDouble, date2, tcDouble, 70, dptDouble, tcpFactoryDouble);
+
+        //act
+        boolean result= t1.hasSameNif(t2);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void testShouldReturnFalseForTeachersWithDifferentNIF() throws Exception {
+        //Arrange
+        String date1 = "26-12-2024";
+        String date2 = "27-12-2024";
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble);
+        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "744872363", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", addressFactoryDouble, date2, tcDouble, 70, dptDouble, tcpFactoryDouble);
+
+        //act
+        boolean result= t1.hasSameNif(t2);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void testIfTeacherIsInASpecificDepartment() throws Exception {
+        //Arrange
+        String date1 = "26-12-2024";
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Department dptDouble = mock(Department.class);
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble);
+
+        //act
+        boolean result = t1.isInDepartment(dptDouble);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void testIfTeacherIsNotInASpecificDepartment() throws Exception {
+        //Arrange
+        String date1 = "26-12-2024";
+
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Department dptDouble1 = mock(Department.class);
+        Department dptDouble2 = mock(Department.class);
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble1, tcpFactoryDouble);
+
+        //act
+        boolean result = t1.isInDepartment(dptDouble2);
+
+        //assert
+        assertFalse(result);
     }
 }

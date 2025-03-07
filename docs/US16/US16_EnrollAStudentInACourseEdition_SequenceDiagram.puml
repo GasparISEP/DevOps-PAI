@@ -11,11 +11,12 @@ deactivate UI
 ASC -> UI: Enter the student!
 activate UI
 participant ":US16_EnrollAStudentInACourseEditionController" as Controller
-UI -> Controller: getProgrammeEditionsThatStudentIsEnrolled (student)
+UI -> Controller: findProgrammeEditionsThatStudentIsEnrolled (student)
 activate Controller
 participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepository
-Controller -> ProgrammeEditionEnrollmentRepository: getProgrammeEditionsThatStudentIsEnrolled (student)
+Controller -> ProgrammeEditionEnrollmentRepository: findProgrammeEditionsThatStudentIsEnrolled (student)
 activate ProgrammeEditionEnrollmentRepository
+participant ":ProgrammeEditionListFactory" as ProgrammeEditionListFactory
 ProgrammeEditionEnrollmentRepository -> ProgrammeEditionListFactory: newArrayList ()
 participant ":ProgrammeEditionListFactory" as ProgrammeEditionListFactory
 activate ProgrammeEditionListFactory
@@ -32,7 +33,6 @@ ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollment :  findStuden
 activate ProgrammeEditionEnrollment
 ProgrammeEditionEnrollment --> ProgrammeEditionEnrollmentRepository : pe1
 deactivate ProgrammeEditionEnrollment
-'participant ":ProgrammeEditionArrayList" as ProgrammeEditionArrayList
 ProgrammeEditionEnrollmentRepository -> "pe[i]:ProgrammeEditionArrayList":  add(pe1)
 activate "pe[i]:ProgrammeEditionArrayList"
 "pe[i]:ProgrammeEditionArrayList" --> ProgrammeEditionEnrollmentRepository: true
@@ -47,11 +47,12 @@ deactivate UI
 
 ASC -> UI: Enter the programme edition!
 activate UI
-UI -> Controller: getCourseEditionsOfProgrammeEdition (programmeEdition)
+UI -> Controller: findCourseEditionsByProgrammeEdition (programmeEdition)
 activate Controller
 participant ":CourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEdition)
 activate CourseEditionRepository
+participant ":CourseEditionListFactory" as CourseEditionListFactory
 CourseEditionRepository -> CourseEditionListFactory: newArrayList()
 activate CourseEditionListFactory
 participant ":CourseEditionListFactory" as CourseEditionListFactory
@@ -63,11 +64,11 @@ deactivate "ce[i]:CourseEditionArrayList"
 CourseEditionListFactory --> CourseEditionRepository: EmptyList<CourseEdition>
 deactivate CourseEditionListFactory
 loop for each "ce[i]:CourseEditionRepository" as CourseEditionRepository
+participant ":CourseEdition" as CourseEdition
 CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
 activate CourseEdition
 CourseEdition --> CourseEditionRepository : ce1
 deactivate CourseEdition
-participant ":CourseEditionArrayList" as CourseEditionArrayList
 CourseEditionRepository -> "ce[i]:CourseEditionArrayList" :  add(ce1)
 activate "ce[i]:CourseEditionArrayList"
 "ce[i]:CourseEditionArrayList" --> CourseEditionRepository: true
