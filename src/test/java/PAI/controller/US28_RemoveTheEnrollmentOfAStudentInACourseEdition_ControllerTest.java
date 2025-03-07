@@ -1,6 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.CourseEditionEnrollmentFactory;
+import PAI.factory.CourseEditionEnrollmentListFactory;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 

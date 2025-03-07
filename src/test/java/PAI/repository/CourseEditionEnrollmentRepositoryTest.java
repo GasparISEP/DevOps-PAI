@@ -1,9 +1,10 @@
 package PAI.repository;
 
 import PAI.domain.*;
+import PAI.factory.CourseEditionEnrollmentFactory;
+import PAI.factory.CourseEditionEnrollmentListFactory;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

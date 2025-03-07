@@ -1,58 +1,60 @@
 package PAI.domain;
 
+import PAI.factory.CourseEditionEnrollmentFactory;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
+import org.mockito.MockedConstruction;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
 
 
 class CourseEditionEnrollmentFactoryTest {
 
     @Test
-    void should_create_a_valid_courseEditionEnrollment(){
+    void should_not_return_null_when_creating_courseEditionEnrollment() {
+        try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
+            // Arrange
+            CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+            Student studentDouble = mock(Student.class);
+            CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-        //arrange
+            // Act
+            CourseEditionEnrollment courseEditionEnrollment = factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
 
-        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
-        Student studentDouble = mock(Student.class);
-        CourseEdition courseEditionDouble = mock(CourseEdition.class);
-
-        //act
-
-        CourseEditionEnrollment courseEditionEnrollment = factory.createCourseEditionEnrollment(studentDouble,courseEditionDouble);
-
-        //assert
-
-        assertNotNull(courseEditionEnrollment);
+            // Assert
+            assertNotNull(courseEditionEnrollment);
+        }
     }
     @Test
-    void should_throw_an_exception_when_student_is_null(){
+    void should_create_exactly_one_instance_of_CourseEditionEnrollment() {
+        try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
+            // Arrange
+            CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+            Student studentDouble = mock(Student.class);
+            CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-        //arrange
+            // Act
+            factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
 
-        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
-        CourseEdition courseEdition = mock(CourseEdition.class);
-
-        //act + assert
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.createCourseEditionEnrollment(null, courseEdition);
-        });
-        assertEquals("Student cannot be null!", exception.getMessage());
+            // Assert
+            assertEquals(1, mockEnrollments.constructed().size());
+        }
     }
     @Test
-    void should_throw_an_exception_when_courseEdition_is_null(){
-        //arrange
+    void should_create_instance_of_CourseEditionEnrollment_class() {
+        try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
+            // Arrange
+            CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+            Student studentDouble = mock(Student.class);
+            CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-        CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
-        Student student = mock(Student.class);
+            // Act
+            factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
 
-        //act + assert
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.createCourseEditionEnrollment(student, null);
-        });
-        assertEquals("Course edition cannot be null!", exception.getMessage());
+            // Assert
+            assertEquals(CourseEditionEnrollment.class, mockEnrollments.constructed().get(0).getClass());
+        }
     }
 }
