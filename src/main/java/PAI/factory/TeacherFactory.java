@@ -2,10 +2,7 @@ package PAI.factory;
 
 import PAI.domain.*;
 
-import PAI.factory.AddressFactory;
-import PAI.factory.TeacherCareerProgressionFactory;
-
-public class TeacherFactory {
+public class TeacherFactory implements TeacherFactoryInterface {
 
     public Teacher createTeacher(String acronym, String name, String email, String nif, String phoneNumber,
                                  String academicBackground, String street, String postalCode, String location,

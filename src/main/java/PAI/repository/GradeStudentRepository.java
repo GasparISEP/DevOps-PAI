@@ -15,7 +15,15 @@ public class GradeStudentRepository {
     private List<GradeStudent> _gradeStudentList;
 
     public GradeStudentRepository (GradeStudentFactory gradeStudentFactory, GradeStudentListFactory gradeStudentListFactory){
+        if (gradeStudentFactory == null){
+            throw new IllegalArgumentException("Factory cannot be null!");
+        }
         this._gradeStudentFactory = gradeStudentFactory;
+
+        if (gradeStudentListFactory == null) {
+            throw new IllegalArgumentException("Factory cannot be null!");
+
+        }
         _gradeStudentList = gradeStudentListFactory.newArrayList();
     }
 

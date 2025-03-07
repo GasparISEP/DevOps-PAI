@@ -1,6 +1,6 @@
 @startuml
 title US05: Register a Department in the System
-'left to right direction
+'left to right direction'
 
 class US05_RegisterADepartmentController {
     +US05_RegisterADepartmentController(departmentRepo: DepartmentRepository)
@@ -13,10 +13,12 @@ class Department {
     +Department(departmentAcronym: String, departmentName: String)
     +hasSameAcronym(department: Department) : boolean
     +hasSameName(department: Department) : boolean
+    +getName(): String
+    +getAcronym(): String
 }
 
 class DepartmentRepository {
-    +departmentRepository()
+    + departmentRepository(departmentFactory: DepartmentFactory, departmentListFactory: DepartmentListFactory )
     +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
 }
 
@@ -24,7 +26,20 @@ class DepartmentFactory {
     +newDepartment(acronym: String, acronym: name): Department
 }
 
-US05_RegisterADepartmentController "1" ..> "       1\n_departmentRepo    " DepartmentRepository
+class DepartmentListFactory {
+    +newDepartmentList: ArrayList<>
+}
+
+class ArrayList {
+    +add()
+}
+
+DepartmentRepository "1" ..> "*" Department
+DepartmentRepository "1" -> "1" ArrayList
+Department "1" <- "1" ArrayList
+DepartmentRepository "1" ..> "_departmentsList 1" DepartmentListFactory
+DepartmentListFactory "1" ..> "1" ArrayList
+US05_RegisterADepartmentController "1  " ..> "            1\n_departmentRepo    " DepartmentRepository
 Department "1" <- "1" DepartmentFactory
 DepartmentFactory "1\n _departmentFactory" <.. "1" DepartmentRepository
 @enduml

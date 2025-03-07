@@ -1,5 +1,9 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.Course;
+import PAI.domain.CourseEdition;
+import PAI.domain.ProgrammeEdition;
+import PAI.domain.Teacher;
 import PAI.factory.CourseEditionFactory;
 import PAI.factory.CourseEditionListFactory;
 

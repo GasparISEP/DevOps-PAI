@@ -1,13 +1,9 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
-import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeList;
-import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.*;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

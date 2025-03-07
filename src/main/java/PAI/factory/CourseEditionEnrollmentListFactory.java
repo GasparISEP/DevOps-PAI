@@ -1,6 +1,6 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.CourseEditionEnrollmentListFactoryInterface;
+import PAI.domain.CourseEditionEnrollment;
 
 import java.util.HashSet;
 import java.util.Set;
