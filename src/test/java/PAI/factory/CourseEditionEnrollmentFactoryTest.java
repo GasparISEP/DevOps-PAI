@@ -1,6 +1,8 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.CourseEditionEnrollmentFactory;
+import PAI.domain.CourseEdition;
+import PAI.domain.CourseEditionEnrollment;
+import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -15,45 +17,45 @@ class CourseEditionEnrollmentFactoryTest {
     @Test
     void should_not_return_null_when_creating_courseEditionEnrollment() {
         try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
-            // Arrange
+            // arrange
             CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
             Student studentDouble = mock(Student.class);
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-            // Act
+            // act
             CourseEditionEnrollment courseEditionEnrollment = factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
 
-            // Assert
+            // assert
             assertNotNull(courseEditionEnrollment);
         }
     }
     @Test
     void should_create_exactly_one_instance_of_CourseEditionEnrollment() {
         try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
-            // Arrange
+            // arrange
             CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
             Student studentDouble = mock(Student.class);
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-            // Act
+            // act
             factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
 
-            // Assert
+            // assert
             assertEquals(1, mockEnrollments.constructed().size());
         }
     }
     @Test
     void should_create_instance_of_CourseEditionEnrollment_class() {
         try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
-            // Arrange
+            // arrange
             CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
             Student studentDouble = mock(Student.class);
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-            // Act
+            // act
             factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
 
-            // Assert
+            // assert
             assertEquals(CourseEditionEnrollment.class, mockEnrollments.constructed().get(0).getClass());
         }
     }

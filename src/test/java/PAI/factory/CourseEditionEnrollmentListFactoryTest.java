@@ -1,6 +1,6 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.CourseEditionEnrollmentListFactory;
+import PAI.domain.CourseEditionEnrollment;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
