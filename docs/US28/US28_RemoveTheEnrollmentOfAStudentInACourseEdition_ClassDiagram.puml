@@ -42,7 +42,7 @@ class CourseEdition {
 }
 
 class CourseEditionEnrollmentFactory {
-    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
+    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition)
 }
 
 CourseEditionEnrollment "*" --> "_student 1" Student
