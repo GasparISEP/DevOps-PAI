@@ -66,11 +66,8 @@ class DepartmentRepositoryTest {
         repository.registerDepartment("CSE", "Computer Science");
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            repository.registerDepartment("CSE", "Civil Engineering");
-        });
-
-        assertEquals("Department with that acronym already exists.", exception.getMessage());
+        boolean result = repository.registerDepartment("CSE", "Civil Engineering");
+        assertFalse(result);
     }
 
      //Testing when the department has an existing name
@@ -91,11 +88,8 @@ class DepartmentRepositoryTest {
          repository.registerDepartment("CSB", "Civil Engineering");
 
          // Act & Assert
-         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-             repository.registerDepartment("CSE", "Civil Engineering");
-         });
-
-         assertEquals("Department with that name already exists.", exception.getMessage());
+         boolean result = repository.registerDepartment("CSE", "Civil Engineering");
+         assertFalse(result);
     }
 
     //Testing that the list should not be retrieved if empty

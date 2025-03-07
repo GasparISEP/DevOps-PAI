@@ -18,17 +18,20 @@ public class DepartmentRepository {
     }
 
     public boolean registerDepartment(String acronym, String name) throws Exception {
-        Department newDepartment = _departmentFactory.newDepartment(acronym, name);
+        Department newDepartment = _departmentFactory.newDepartment(acronym,name);
 
         for (Department existingDepartment : _departments) {
             if (existingDepartment.hasSameAcronym(newDepartment)) {
-                throw new IllegalArgumentException("Department with that acronym already exists.");
+                return false; // Retorna falso se o acrônimo já existe
             }
             if (existingDepartment.hasSameName(newDepartment)) {
-                throw new IllegalArgumentException("Department with that name already exists.");
+                return false; // Retorna falso se o nome já existe
             }
         }
-        return _departments.add(newDepartment);
+
+        _departments.add(newDepartment);
+
+        return true;
     }
 
     // Method to get the list of Departments
