@@ -1,0 +1,116 @@
+@startuml
+
+class US18_CreateProgrammeEditionForCurrentSchoolYearController
+class ProgrammeEditionRepository
+class ProgrammeEditionFactory
+class ProgrammeEditionListFactory
+interface ProgrammeEditionFactoryInterface
+interface ProgrammeEditionListFactoryInterface
+class ProgrammeEdition
+
+class US18_CreateProgrammeEditionForCurrentSchoolYearController {
+    + US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository : ProgrammeEditionRepository, schoolYearRepository : SchoolYearRepository, programmeList : ProgrammeList)
+    + getAllProgrammeNames() : List<String>
+    + createAProgrammeEditionForTheCurrentSchoolYear(programmeName : String) : boolean
+}
+
+class ProgrammeEditionRepository {
+    + ProgrammeEditionRepository(programmeEditionFactory : ProgrammeEditionFactory, programmeEditionListFactory : ProgrammeEditionListFactory)
+    + createProgrammeEdition(programme : Programme, schoolYear : SchoolYear) : boolean
+    - isProgrammeEditionAlreadyRegistered(programmeEdition : ProgrammeEdition ) : boolean
+    + findProgrammeEditionBySchoolYearAndProgramme(programme : Programme, schoolYear : SchoolYear) : Optional <ProgrammeEdition>
+    + getAllProgrammeEditions() : List<ProgrammeEdition>
+    + findProgrammeInProgrammeEdition(programmeEdition : ProgrammeEdition) : ProgrammeEdition
+}
+'uses
+US18_CreateProgrammeEditionForCurrentSchoolYearController "1" --> "uses 1" ProgrammeEditionRepository
+
+class ProgrammeEditionFactory {
+    + createProgrammeEdition(programme : Programme, schoolYear : SchoolYear) : ProgrammeEdition
+}
+
+class ProgrammeEditionListFactory {
+    + createProgrammeEditionArrayList() : ArrayList<ProgrammeEdition>
+}
+'uses
+ProgrammeEditionRepository "1 " --> "uses 1"ProgrammeEditionFactory
+ProgrammeEditionRepository "1" --> "uses 1" ProgrammeEditionListFactory
+
+interface ProgrammeEditionFactoryInterface {
+    + createProgrammeEdition(programme : Programme, schoolYear : SchoolYear) : ProgrammeEdition
+}
+
+interface ProgrammeEditionListFactoryInterface {
+    + createProgrammeEditionArrayList() : List<ProgrammeEdition>
+}
+'implements
+ProgrammeEditionListFactory ..|> "implements" ProgrammeEditionListFactoryInterface
+ProgrammeEditionFactory ..|> "implements" ProgrammeEditionFactoryInterface
+
+class ProgrammeEdition {
+    + ProgrammeEdition(programme : Programme,  schoolYear : SchoolYear)
+    + equals (object : Object) : boolean
+    + findProgrammeInProgrammeEdition() : Programme
+    + findSchoolYearInProgrammeEdition() : SchoolYear
+    + isEditionAssociatedToDepartmentAndSchoolYear(department : Department, schoolYear : SchoolYear) : boolean
+}
+'creates
+ProgrammeEditionFactory "1" ..> " creates *" ProgrammeEdition
+
+class AccessMethod
+interface IAccessMethodFactory
+class AccessMethodFactory
+interface IAccessMethodListFactory
+class AccessMethodArrayListFactory
+class AccessMethodRepository
+class US02_ConfigureAccessMethod_Controller
+
+class AccessMethod {
+    -_accessMethodName:String
+    +AccessMethod(accessMethodName: String)
+    +equals(Object: o) : boolean
+    +hasThisAccessMethodName(accessMethodName: String) : boolean
+    -isAccessMethodNameValid((accessMethodName: String) : boolean
+}
+
+Interface IAccessMethodFactory {
+    +createAccessMethod(accessMethodName: String) : AccessMethod
+}
+
+class AccessMethodFactory {
+    +createAccessMethod(accessMethodName: String) : AccessMethod
+}
+'implements
+AccessMethodFactory ..|> "implements" IAccessMethodFactory
+
+
+Interface IAccessMethodListFactory {
+ +createAccessMethodArrayList() : List<AccessMethod>
+}
+
+class AccessMethodArrayListFactory {
+    +createAccessMethodArrayList() : ArrayList<AccessMethod>
+}
+'implements
+AccessMethodArrayListFactory ..|> "implements" IAccessMethodListFactory
+
+class AccessMethodRepository {
+    +AccessMethodRepository(accessMethodFactory : AccessMethodFactory, accessMethodListFactory : AccessMethodListFactory)
+    +registerAccessMethod(accessMethodName: String) : boolean
+    -isAccessMethodRegistered(accessMethod: AccessMethod) : boolean
+    +getAccessMethodByName() : AccessMethod
+}
+'uses
+AccessMethodRepository "1 " --> "uses 1"AccessMethodFactory
+AccessMethodRepository "1" --> "uses 1" AccessMethodArrayListFactory
+
+class US02_ConfigureAccessMethod_Controller {
+    +US02_ConfigureAccessMethod_Controller(accessMethodRepository : AccessMethodRepository)
+    +configureAccessMethod(accessMethodName: String) : boolean
+}
+'uses
+US02_ConfigureAccessMethod_Controller "1" --> "uses 1" AccessMethodRepository
+
+'creates
+AccessMethodFactory "1" ..> " creates *" AccessMethod
+@enduml
