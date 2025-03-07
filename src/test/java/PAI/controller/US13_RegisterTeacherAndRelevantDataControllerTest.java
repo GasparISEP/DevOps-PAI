@@ -4,6 +4,7 @@ import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.repository.DepartmentRepository;
+import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

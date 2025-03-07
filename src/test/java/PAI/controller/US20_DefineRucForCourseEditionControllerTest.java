@@ -1,12 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.factory.AddressFactory;
-import PAI.factory.TeacherCareerProgressionFactory;
-import PAI.factory.CourseEditionFactory;
-import PAI.factory.CourseEditionListFactory;
-import PAI.factory.ProgrammeCourseListFactory;
-import PAI.factory.TeacherFactory;
+import PAI.factory.*;
+import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -24,7 +20,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
+        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         // Arrange Teacher Ruc
@@ -58,7 +55,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
+        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         DegreeType master = new DegreeType("Master", 240);
@@ -91,7 +89,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
+        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
 
@@ -149,7 +148,8 @@ class US20_DefineRucForCourseEditionControllerTest {
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
                 category, 70, department, TCPfactoryDouble)).thenReturn(teacher2);
 
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
+        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         repo2.registerTeacher( "AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
@@ -177,7 +177,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
+        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
         // Arrange Teacher and CourseEdition setup
@@ -210,7 +211,8 @@ class US20_DefineRucForCourseEditionControllerTest {
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory);
+        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
         Teacher t1 = mock(Teacher.class);
         // Act + Assert
