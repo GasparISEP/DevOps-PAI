@@ -1,27 +1,31 @@
 package PAI.repository;
 
 import PAI.domain.DegreeType;
+import PAI.factory.DegreeTypeFactory;
+import PAI.factory.DegreeTypeListFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DegreeTypeRepository {
-    private List<DegreeType> degreeTypes;
+    private final DegreeTypeFactory _degreeTypeFactory;
+    private final List<DegreeType> _degreeTypeRepository;
 
-    public DegreeTypeRepository() {
-        degreeTypes = new ArrayList<>();
+    public DegreeTypeRepository(DegreeTypeFactory degreeTypeFactory, DegreeTypeListFactory degreeTypeListFactory) {
+        _degreeTypeFactory = degreeTypeFactory;
+        _degreeTypeRepository = degreeTypeListFactory.createDegreeTypeList();
     }
 
-    public boolean registerDegreeType (String name, int maxEcts) throws Exception{
-        DegreeType degreeType = new DegreeType(name, maxEcts);
-        if(degreeTypes.equals(degreeType)) {
-            return false;
+    public boolean registerDegreeType(String name, int maxEcts) throws Exception {
+        DegreeType degreeType = _degreeTypeFactory.addNewDegreeType(name, maxEcts);
+
+        for (DegreeType dt : _degreeTypeRepository) {
+            if (dt.equals(degreeType)) {
+                return false;
+            }
         }
-        degreeTypes.add(degreeType);
+
+        _degreeTypeRepository.add(degreeType);
         return true;
-
     }
-
-
-
 }
+

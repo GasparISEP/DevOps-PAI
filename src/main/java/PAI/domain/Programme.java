@@ -2,6 +2,7 @@ package PAI.domain;
 
 
 
+import PAI.factory.ProgrammeCourseListFactory;
 import PAI.repository.StudyPlan;
 
 import java.util.List;
@@ -86,6 +87,12 @@ public class Programme {
         Programme programme = (Programme) o;
         return _quantityOfEcts == programme._quantityOfEcts && _quantityOfSemesters == programme._quantityOfSemesters &&
                 Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
+    }
+
+    //Wrapper for equals
+    public boolean isEquals (Programme programme) {
+
+        return this.equals(programme);
     }
 
     //Method to add Course

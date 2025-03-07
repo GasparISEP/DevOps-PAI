@@ -2,10 +2,10 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -98,9 +98,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         Student doubleSt1 = mock (Student.class);
         CourseEdition doubleCe1 = mock (CourseEdition.class);
-        LocalDate enrollmentDate = LocalDate.now();
 
-        when (doubleCeeRepository .enrollStudentInACourseEdition(doubleSt1,doubleCe1 , enrollmentDate)).thenReturn (true);
+        when (doubleCeeRepository .enrollStudentInACourseEdition(doubleSt1,doubleCe1)).thenReturn (true);
 
         //act
         boolean result = controller.enrollStudentInCourseEdition(doubleSt1,doubleCe1 );

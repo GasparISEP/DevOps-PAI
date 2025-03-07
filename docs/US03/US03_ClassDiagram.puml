@@ -1,0 +1,70 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class US03addCourseToProgrammeController {
+    - programmeList: ProgrammeList
+    - courseRepository: CourseRepository
+    + getAllProgrammes(): List<Programme>
+    + getAllCourses(): List<Course>
+    + addCourseToProgramme(programme: Programme, course: Course): boolean
+}
+class Programme {
+    - _name: String
+    - _acronym: String
+    - _quantityOfEcts: int
+    - _quantityOfSemesters: int
+    - _degreeType: DegreeType
+    - _department: Department
+    - _programmeDirector: Teacher
+    - _courseList: List<Course>
+    - _programmeCourseListFactory: ProgrammeCourseListFactory
+    - _studyPlan: StudyPlan
+    + addCourseToAProgramme(course: Course)
+}
+class ProgrammeCourseListFactory {
+    + createCourseList(): List<Course>
+}
+
+interface ProgrammeCourseListFactoryImpl {
+    + createCourseList(): List<Course>
+}
+
+class CourseRepository {
+}
+
+class ProgrammeList {
+}
+
+class Course {
+}
+
+class DegreeType {
+}
+
+class Department {
+}
+
+class Teacher {
+}
+
+class StudyPlan {
+}
+
+class ArrayList {
+}
+
+
+
+US03addCourseToProgrammeController "1" --> "uses 1" Programme
+US03addCourseToProgrammeController "1" --> "uses 1" CourseRepository
+US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeList
+Programme "1" --> "uses 1" ProgrammeCourseListFactory
+ProgrammeCourseListFactory ..|> "implements" ProgrammeCourseListFactoryImpl
+ProgrammeCourseListFactory "1" --> "creates 1" ArrayList
+Programme "1" --> "uses 1" DegreeType
+Programme "1" --> "uses 1" Department
+Programme "1" --> "uses 1" Teacher
+Programme "1" --> "uses 1" StudyPlan
+Programme "1" o-- "contains *" Course
+
+@enduml

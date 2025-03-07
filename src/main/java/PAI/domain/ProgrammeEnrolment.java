@@ -41,12 +41,12 @@ public class ProgrammeEnrolment {
     }
 
     public boolean hasSameEnrolment(ProgrammeEnrolment programmeEnrolment){
-        return this._student.equals(programmeEnrolment._student) &&
-                this._programme.equals(programmeEnrolment._programme);
+        return this._student.hasSameUniqueNumber(programmeEnrolment._student) &&
+                this._programme.isEquals(programmeEnrolment._programme);
     }
 
     public boolean hasSameProgramme(Programme programme) {
-        return _programme.equals(programme);
+        return _programme.isEquals(programme);
     }
 }
 

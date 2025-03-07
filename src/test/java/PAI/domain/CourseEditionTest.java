@@ -169,4 +169,22 @@ class CourseEditionTest {
         //assert
         assertEquals(doublePE1, result);
     }
+
+    @Test
+    void shouldReturnCourseThatBelongsToACourseEdition() throws Exception {
+        //SUT = CourseEdition -> Course and ProgrammeEdition as Doubles
+        //Arrange
+            //Doubles' instantiation
+        Course courseDouble = mock(Course.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+
+            //SUT
+        CourseEdition courseEdition = new CourseEdition (courseDouble, programmeEditionDouble);
+
+        //Act
+        Course result = courseEdition.getCourse();
+
+        //Assert
+        assertEquals(result, courseDouble);
+    }
 }

@@ -14,6 +14,7 @@ class AccessMethodTest {
         AccessMethod am1 = new AccessMethod("Maiores 23");
 
         //assert
+        assertNotNull(am1);
     }
 
     @Test

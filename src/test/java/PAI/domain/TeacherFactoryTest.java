@@ -1,4 +1,7 @@
 package PAI.domain;
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.TeacherFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +18,6 @@ class TeacherFactoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
 
         //act
         Teacher teacher = tf1.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789",
