@@ -1,6 +1,6 @@
-package PAI.domain;
+package PAI.repository;
 
-import PAI.factory.AccessMethodFactory;
+import PAI.domain.Course;
 import PAI.factory.CourseFactory;
 
 import java.util.ArrayList;
