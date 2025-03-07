@@ -72,12 +72,20 @@ class Programme {
      - quantityOfEcts: int
      - quantityOfSemesters: int
      + Programme (name : String, acronym : String, quantityOfEcts: int, quantityOfSemesters : int,
-     degreeType : DegreeType, department : Department, programmeDirector : Teacher)
+     degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory: ProgrammeCourseListFactory)
  }
 
 class ProgrammeList {
-     +ProgrammeList(programmeFactory: ProgrammeFactory)
-     +getAllProgrammes() : List<Programme>
+    +ProgrammeList(programmeFactory: ProgrammeFactory)
+    +getAllProgrammes() : List<Programme>
+}
+
+class ProgrammeListArrayListFactory {
+    +copyProgrammeArrayList(List<Programme>)
+}
+
+interface ProgrammeListArrayListFactoryInterface {
+    +copyProgrammeArrayList(List<Programme>)
 }
 
 class SchoolYear {
@@ -201,10 +209,15 @@ ProgrammeEditionEnrollmentRepo "1" --> "1" ProgrammeEditionEnrollmentArrayList
 ProgrammeEditionEnrollmentArrayList "1" <.. "1" ProgrammeEditionEnrollmentListFactory
 ProgrammeEditionEnrollmentArrayList "1         " .u.> " *  " ProgrammeEditionEnrollment
 ProgrammeEditionEnrollmentRepo "1 " --> "1" ProgrammeEditionEnrollmentFactory
-ProgrammeList "1     " --> " _listOfProgrammes *" Programme
+ProgrammeList "1     " ..> " _listOfProgrammes * " Programme
 CourseEdition "_listOfCourseEdition *  " <-- "1   " ProgrammeEdition
 ProgrammeEditionEnrollmentFactoryInterface <|.. ProgrammeEditionEnrollmentFactory
 ProgrammeEditionEnrollmentListFactoryInterface <|.. ProgrammeEditionEnrollmentListFactory
 ProgrammeEditionEnrollmentFactory ..> ProgrammeEditionEnrollment
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrollment
+ProgrammeList "1" --> "1" ProgrammeListArrayListFactory
+ProgrammeListArrayListFactory ..|> ProgrammeListArrayListFactoryInterface
+ProgrammeListArrayListFactory "1" ..> "1" Programme
+
+
 @enduml
