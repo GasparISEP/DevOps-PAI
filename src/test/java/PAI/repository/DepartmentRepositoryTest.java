@@ -4,6 +4,8 @@ import PAI.domain.Teacher;
 import PAI.factory.DepartmentFactory;
 import org.junit.jupiter.api.Test;
 import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -59,7 +61,7 @@ class DepartmentRepositoryTest {
         when(factoryDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
         when(factoryDouble.newDepartment("CSE", "Civil Engineering")).thenReturn(department2Double);
 
-        when(department2Double.hasSameAcronym(department1Double)).thenReturn(true);
+        when(department1Double.hasSameAcronym(department2Double)).thenReturn(true);
 
         repository.registerDepartment("CSE", "Computer Science");
 
@@ -84,7 +86,7 @@ class DepartmentRepositoryTest {
          when(factoryDouble.newDepartment("CSB", "Civil Engineering")).thenReturn(department1Double);
          when(factoryDouble.newDepartment("CSE", "Civil Engineering")).thenReturn(department2Double);
 
-         when(department2Double.hasSameName(department1Double)).thenReturn(true);
+         when(department1Double.hasSameName(department2Double)).thenReturn(true);
 
          repository.registerDepartment("CSB", "Civil Engineering");
 
@@ -105,7 +107,7 @@ class DepartmentRepositoryTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            repository.getDepartmentList();
+            repository.getDepartments();
         });
         assertEquals("Department list is empty.", exception.getMessage());
     }
@@ -127,7 +129,7 @@ class DepartmentRepositoryTest {
         departmentRepository.registerDepartment("ECE", "Electronics");
 
         // Act
-        List<Department> result = departmentRepository.getDepartmentList();
+        Set<Department> result = departmentRepository.getDepartments();
         // Assert
         assertEquals(2, result.size());
     }

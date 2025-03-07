@@ -7,6 +7,7 @@ import PAI.repository.DepartmentRepository;
 import PAI.repository.TeacherRepository;
 
 import java.util.List;
+import java.util.Set;
 
 public class US13_RegisterTeacherAndRelevantDataController {
 
@@ -39,8 +40,8 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to get all Departments
-    public List<Department> getDepartmentsList() throws IllegalStateException{
-        return _departmentRepository.getDepartmentList();
+    public Set<Department> getDepartmentsList() throws IllegalStateException{
+        return _departmentRepository.getDepartments();
     }
 
     // Method to register the Teacher object

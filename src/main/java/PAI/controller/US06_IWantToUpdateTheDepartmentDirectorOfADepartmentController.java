@@ -5,6 +5,7 @@ import PAI.repository.DepartmentRepository;
 import PAI.domain.Teacher;
 
 import java.util.List;
+import java.util.Set;
 
 public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 
@@ -31,7 +32,7 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 
     }
 
-    public List<Department> getAllDepartments() {
-        return _departmentRepository.getDepartmentList();
+    public Set<Department> getAllDepartments() {
+        return _departmentRepository.getDepartments();
     }
 }
