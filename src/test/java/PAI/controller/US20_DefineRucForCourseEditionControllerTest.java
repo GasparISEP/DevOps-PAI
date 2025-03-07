@@ -7,6 +7,7 @@ import PAI.factory.CourseEditionFactory;
 import PAI.factory.CourseEditionListFactory;
 import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.TeacherFactory;
+import PAI.repository.CourseEditionRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
