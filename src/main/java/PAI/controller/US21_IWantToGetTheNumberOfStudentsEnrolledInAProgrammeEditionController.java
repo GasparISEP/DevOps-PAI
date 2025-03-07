@@ -29,6 +29,10 @@ public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionContro
     }
 
     public int iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
+
+        if(programmeEdition == null){
+            throw new IllegalArgumentException("Programme Edition cannot be null");
+        }
         return _programmeEditionEnrollmentRepo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition);
     }
 }
