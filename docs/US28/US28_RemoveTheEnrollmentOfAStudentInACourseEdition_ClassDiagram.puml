@@ -61,7 +61,7 @@ class CourseEditionEnrollmentFactory {
 CourseEditionEnrollment "*" --> "_student 1" Student
 CourseEditionEnrollment "*" --> "_courseEdition 1    " CourseEdition
 CourseEditionEnrollmentRepository"   1  " ..> "    _courseEditionEnrollments *  "CourseEditionEnrollment
-CourseEditionEnrollmentFactory "1" ..> "      _courseEditionEnrollment 1"CourseEditionEnrollment
-CourseEditionEnrollmentRepository "1" --> "1 _courseEditionEnrollmentFactory      " CourseEditionEnrollmentFactory
+CourseEditionEnrollmentFactory "1" ..> "      _courseEditionEnrollment 1"CourseEditionEnrollment : creates
+CourseEditionEnrollmentRepository "1" --> "1 _courseEditionEnrollmentFactory      " CourseEditionEnrollmentFactory : uses
 US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1" CourseEditionEnrollmentRepository : uses
 @enduml
