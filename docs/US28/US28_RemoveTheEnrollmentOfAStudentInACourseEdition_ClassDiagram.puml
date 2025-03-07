@@ -11,11 +11,8 @@ class CourseEditionEnrollment {
     -_isActive: boolean
     +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
      enrollmentDate: LocalDate)
-    +equals (obj: Object): boolean
     +findStudentInCourseEditionEnrollment() : Student
     +findCourseEditionInEnrollment() : CourseEdition
-    +knowStudent(): Object
-    +knowCourseEdition(): Object
     +isEnrollmentActive(): boolean
     +deactivateEnrollment(): void
 }
@@ -23,11 +20,8 @@ class CourseEditionEnrollment {
 class CourseEditionEnrollmentRepository {
     +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory)
     +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate): boolean
-    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition) : boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
-    +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition) : int
     +removeEnrollment (student: Student, courseEdition: CourseEdition) : boolean
-    +enrollStudentInProgrammeEditionCourseEditions (student: Student, courseEditions: List<CourseEdition>) : void
 }
 
 class Student {
@@ -38,10 +32,6 @@ class Student {
     -_email:String
     -_address:Address
     +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +hasSameUniqueNumber(student: Student) : boolean
-    +hasSameNIF (student: Student) : boolean
-    +getUniqueNumber () : int
-    +hasThisUniqueNumber (uniqueNumber: int) : boolean
 }
 
 class CourseEdition {
@@ -49,9 +39,6 @@ class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_ruc: Teacher
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-    +Equals(objectToCompare: Object) : boolean
-    +setRuc(Teacher: ruc) : boolean
-    +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEdition
 }
 
 class CourseEditionEnrollmentFactory {
