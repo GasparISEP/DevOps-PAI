@@ -2,6 +2,7 @@ package PAI.repository;
 
 import PAI.domain.Course;
 import PAI.factory.CourseFactory;
+import PAI.factory.CourseListFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,10 @@ public class CourseRepository {
 //Constructor delegation calls automatic the courseFactory
    // public CourseRepository () { this(new CourseFactory()); }
 
-    public CourseRepository (CourseFactory courseFactory){
+    public CourseRepository (CourseFactory courseFactory, CourseListFactory courseListFactory){
 
         this._courseFactory = courseFactory;
-       _courseRepository = new ArrayList<>();
+       _courseRepository = courseListFactory.createCourseList();
     }
 
     public boolean registerCourse (String courseName, String acronym, double quantityCreditsECTS, int durationCourseInSemester) throws Exception {
