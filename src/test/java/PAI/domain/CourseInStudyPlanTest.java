@@ -106,7 +106,7 @@ class CourseInStudyPlanTest {
     @Test
     void testEqualsMethodWithDifferentSemestersAndYears() throws Exception {
         CourseFactory courseFactory = mock(CourseFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
+        CourseRepository courseRepository = mock(CourseRepository.class);
         //CourseRepository courseRepository = new CourseRepository();
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);

@@ -99,8 +99,7 @@ public class Programme {
     public boolean addCourseToAProgramme(Course course) throws Exception {
 
         if (_courseList.contains(course)) {
-            throw new Exception("Course is already added to the programme.");
-
+            return false;
         }
 
         _courseList.add(course);
