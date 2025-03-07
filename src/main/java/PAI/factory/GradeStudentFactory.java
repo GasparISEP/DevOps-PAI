@@ -13,6 +13,12 @@ public class GradeStudentFactory implements GradeStudentFactoryImpl {
         if (date == null || date.isBlank()){
             throw new IllegalArgumentException ("Date cannot be null or empty!");
         }
+        if (student == null){
+            throw  new IllegalArgumentException("Student cannot be null");
+        }
+        if (courseEdition == null){
+            throw  new IllegalArgumentException("Course Edition cannot be null");
+        }
         return new GradeStudent(grade, date, student, courseEdition);
     }
 }

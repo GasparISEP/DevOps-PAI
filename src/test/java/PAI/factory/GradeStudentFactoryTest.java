@@ -119,4 +119,30 @@ class GradeStudentFactoryTest {
         assertEquals("Date cannot be null or empty!", exception.getMessage());
     }
 
+    @Test
+    void shouldThrowExceptionWhenStudentIsNull() {
+        // Arrange
+        GradeStudentFactory factory = new GradeStudentFactory();
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        String date = "05-03-2025";
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                factory.newGradeStudent(10, date,null, courseEdition));
+        assertEquals("Student cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCourseEditionIsNull() {
+        // Arrange
+        GradeStudentFactory factory = new GradeStudentFactory();
+        Student student = mock(Student.class);
+        String date = "05-03-2025";
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                factory.newGradeStudent(10, date,student, null));
+        assertEquals("Course Edition cannot be null", exception.getMessage());
+    }
+
 }
