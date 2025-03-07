@@ -236,6 +236,19 @@ class GradeStudentRepositoryTest {
         assertNull(averageGrade);
     }
 
+    @Test
+    void shouldNotAddGradeToAStudentWithFactoryNull() throws Exception {
+        // Arrange
+        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
+        when(gradeStudentListFactory.newArrayList()).thenReturn(new ArrayList<>());
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                new GradeStudentRepository(null, gradeStudentListFactory));
+
+        assertEquals("Factory cannot be null!", exception.getMessage());
+    }
+
 
 }
 
