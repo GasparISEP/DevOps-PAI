@@ -26,7 +26,7 @@ class CourseEditionFactoryTest {
             Course actualCourse = (Course) context.arguments().get(0);
             ProgrammeEdition actualProgrammeEdition = (ProgrammeEdition) context.arguments().get(1);
             when(courseEditionMock.getCourse()).thenReturn(actualCourse);
-            when(courseEditionMock.getProgrammeEdition()).thenReturn(actualProgrammeEdition);
+            when(courseEditionMock.whatProgrammeEditionBelongsThisCourseEdition()).thenReturn(actualProgrammeEdition);
         })) {
 
                 //SUT
@@ -38,7 +38,7 @@ class CourseEditionFactoryTest {
             // Asserts
             assertNotNull(courseEdition);
             assertEquals(courseDouble, courseEdition.getCourse());
-            assertEquals(programmeEditionDouble, courseEdition.getProgrammeEdition());
+            assertEquals(programmeEditionDouble, courseEdition.whatProgrammeEditionBelongsThisCourseEdition());
 
             List<CourseEdition> courseEditions = courseEditionDouble.constructed();
             assertEquals(1, courseEditions.size());
