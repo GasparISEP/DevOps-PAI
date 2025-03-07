@@ -49,7 +49,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository enrollmentRepository= new CourseEditionEnrollmentRepository (factoryDouble);
+        CourseEditionEnrollmentListFactory listFactoryDouble = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository= new CourseEditionEnrollmentRepository (factoryDouble, listFactoryDouble);
 
 
         //act

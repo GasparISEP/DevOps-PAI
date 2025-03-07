@@ -1,9 +1,6 @@
 package PAI.repository;
 
-import PAI.domain.CourseEdition;
-import PAI.domain.CourseEditionEnrollment;
-import PAI.domain.CourseEditionEnrollmentFactory;
-import PAI.domain.Student;
+import PAI.domain.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -15,9 +12,9 @@ public class CourseEditionEnrollmentRepository {
     private final CourseEditionEnrollmentFactory _courseEditionEnrollmentFactory;
 
     //constructor
-    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory) {
+    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory, CourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory) {
 
-        _courseEditionEnrollments = new HashSet<>();
+        _courseEditionEnrollments = courseEditionEnrollmentListFactory.getCourseEditionEnrollmentList();
         _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
     }
 

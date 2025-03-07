@@ -28,8 +28,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(gradeStudentListFactory.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1 = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
+        CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1 = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
         //act
         US22_IWantToGradeAStudentInACourseEdition G1 = new US22_IWantToGradeAStudentInACourseEdition(list,courseEditionEnrollmentRepository1);
         //assert
@@ -47,8 +48,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(gradeStudentListFactory.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory, doubleCeeListFactory);
 
 
         //act
@@ -94,8 +96,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(gradeStudentListFactory.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory, doubleCeeListFactory);
 
         //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(list,enrollmentRepository);
@@ -138,8 +141,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(gradeStudentListFactory.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory, doubleCeeListFactory);
 
         //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(list,enrollmentRepository);
@@ -190,8 +194,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(gradeStudentListFactory.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory, doubleCeeListFactory);
 
         //act
         US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(list,enrollmentRepository);
@@ -235,8 +240,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         //arrange
 
         GradeStudentRepository gradeStudentRepository1 = null;
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock(CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1 = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory);
+        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository1 = new CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory, doubleCeeListFactory);
 
 
         // Act & Assert
