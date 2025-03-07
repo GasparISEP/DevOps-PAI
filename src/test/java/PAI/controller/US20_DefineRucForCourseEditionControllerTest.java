@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.*;
+import PAI.repository.CourseEditionRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
