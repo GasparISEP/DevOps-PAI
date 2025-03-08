@@ -1,5 +1,7 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.Address;
+import PAI.domain.Student;
 import PAI.factory.StudentFactory;
 import PAI.factory.StudentListFactory;
 

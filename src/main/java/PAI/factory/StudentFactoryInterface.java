@@ -1,4 +1,7 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.Address;
+import PAI.domain.Student;
 
 public interface StudentFactoryInterface {
 
