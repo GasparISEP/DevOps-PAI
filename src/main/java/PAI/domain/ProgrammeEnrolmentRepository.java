@@ -10,9 +10,12 @@ public class ProgrammeEnrolmentRepository {
     private List<ProgrammeEnrolment> _enrolmentList;
     private ProgrammeEnrolmentFactory _programmeEnrolmentFactory;
 
-    public ProgrammeEnrolmentRepository(ProgrammeEnrolmentFactory programmeEnrolmentFactory){
+    public ProgrammeEnrolmentRepository(ProgrammeEnrolmentFactory programmeEnrolmentFactory, ProgrammeEnrolmentListFactory programmeEnrolmentList){
 
-        _enrolmentList = new ArrayList<>();
+        if(programmeEnrolmentFactory == null || programmeEnrolmentList == null)
+            throw new IllegalArgumentException("Factory cannot be null!");
+
+        _enrolmentList = programmeEnrolmentList.newArrayList();
         _programmeEnrolmentFactory = programmeEnrolmentFactory;
     }
 
