@@ -1,8 +1,8 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.TeacherCategory;
 import PAI.factory.TeacherCategoryFactory;
 import PAI.factory.TeacherCategoryRepositoryListFactory;
-import PAI.repository.TeacherCategoryRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
