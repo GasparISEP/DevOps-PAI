@@ -315,15 +315,35 @@ class US20_DefineRucForCourseEditionControllerTest {
     void shouldThrowExceptionIfCourseEditionIsNull() throws Exception {
 
         // Arrange
+        // Initialize factory objects
         CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+
+        // Initialize TeacherRepository and its dependencies
         TeacherFactory teacherFactory = mock(TeacherFactory.class);
         TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
         TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
+
+        // Create controller with repositories
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
+
+        // Mock Teacher
         Teacher t1 = mock(Teacher.class);
+
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> ctrl1.defineRucForCourseEdition(null, t1));
+        assertThrows(IllegalArgumentException.class, () -> ctrl1.defineRucForCourseEdition(null, t1)); // Expect IllegalArgumentException for null CourseEdition
+
+//        // Arrange
+//        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+//        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+//        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+//        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+//        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+//        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
+//        US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
+//        Teacher t1 = mock(Teacher.class);
+//        // Act + Assert
+//        assertThrows(IllegalArgumentException.class, () -> ctrl1.defineRucForCourseEdition(null, t1));
     }
 }
