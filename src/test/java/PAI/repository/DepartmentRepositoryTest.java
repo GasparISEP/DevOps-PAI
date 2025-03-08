@@ -61,8 +61,6 @@ class DepartmentRepositoryTest {
         when(factoryDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
         when(factoryDouble.newDepartment("CSE", "Civil Engineering")).thenReturn(department2Double);
 
-        when(department1Double.hasSameAcronym(department2Double)).thenReturn(true);
-
         repository.registerDepartment("CSE", "Computer Science");
 
         // Act & Assert
@@ -82,8 +80,6 @@ class DepartmentRepositoryTest {
 
          when(factoryDouble.newDepartment("CSB", "Civil Engineering")).thenReturn(department1Double);
          when(factoryDouble.newDepartment("CSE", "Civil Engineering")).thenReturn(department2Double);
-
-         when(department1Double.hasSameName(department2Double)).thenReturn(true);
 
          repository.registerDepartment("CSB", "Civil Engineering");
 

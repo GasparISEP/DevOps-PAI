@@ -20,16 +20,11 @@ public class DepartmentRepository {
     public boolean registerDepartment(String acronym, String name) throws Exception {
         Department newDepartment = _departmentFactory.newDepartment(acronym,name);
 
-        for (Department existingDepartment : _departments) {
-            if (existingDepartment.hasSameAcronym(newDepartment)) {
-                return false; // Retorna falso se o acrônimo já existe
-            }
-            if (existingDepartment.hasSameName(newDepartment)) {
-                return false; // Retorna falso se o nome já existe
-            }
-        }
+        boolean isDepartmentRegisted = _departments.add(newDepartment);
 
-        _departments.add(newDepartment);
+        if (!isDepartmentRegisted) {
+            return false;
+        }
 
         return true;
     }
@@ -51,6 +46,6 @@ public class DepartmentRepository {
             department.changeDirector(furtherDirector);
             return true;
         }
-        return false;
+            return false;
     }
 }
