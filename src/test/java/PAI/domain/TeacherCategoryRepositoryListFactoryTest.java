@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.factory.TeacherCategoryRepositoryListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
