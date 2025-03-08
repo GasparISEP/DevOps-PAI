@@ -2,11 +2,8 @@ package PAI.repository;
 import PAI.domain.Department;
 import PAI.domain.Teacher;
 import PAI.factory.DepartmentFactory;
-
-import java.util.HashSet;
 import java.util.Set;
 import PAI.factory.DepartmentListFactory;
-import java.util.List;
 
 public class DepartmentRepository {
 
@@ -19,15 +16,14 @@ public class DepartmentRepository {
         _departments = departmentListFactory.newDepartmentList();
     }
 
-        public boolean registerDepartment(String acronym, String name) throws Exception {
-            Department newDepartment = _departmentFactory.newDepartment(acronym,name);
+    public boolean registerDepartment(String acronym, String name) throws Exception {
+        Department newDepartment = _departmentFactory.newDepartment(acronym,name);
 
-        boolean isDepartmentRegisted = _departments.add(newDepartment);
+        boolean isDepartmentRegistered = _departments.add(newDepartment);
 
-        if (!isDepartmentRegisted) {
+        if (!isDepartmentRegistered) {
             return false;
         }
-
         return true;
     }
 

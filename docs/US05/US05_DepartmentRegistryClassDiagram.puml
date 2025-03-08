@@ -11,8 +11,6 @@ class Department {
     -_acronym:String
     -_name:String
     +Department(departmentAcronym: String, departmentName: String)
-    +hasSameAcronym(department: Department) : boolean
-    +hasSameName(department: Department) : boolean
     +getName(): String
     +getAcronym(): String
 }
@@ -27,18 +25,18 @@ class DepartmentFactory {
 }
 
 class DepartmentListFactory {
-    +newDepartmentList: ArrayList<>
+    +newDepartmentList: HashSet<>
 }
 
-class ArrayList {
+class HashSet {
     +add()
 }
 
 DepartmentRepository "1" ..> "*" Department
-DepartmentRepository "1" -> "1" ArrayList
-Department "1" <- "1" ArrayList
+DepartmentRepository "1" -> "1" HashSet
+Department "1" <- "1" HashSet
 DepartmentRepository "1" ..> "_departmentsList 1" DepartmentListFactory
-DepartmentListFactory "1" ..> "1" ArrayList
+DepartmentListFactory "1" ..> "1" HashSet
 US05_RegisterADepartmentController "1  " ..> "            1\n_departmentRepo    " DepartmentRepository
 Department "1" <- "1" DepartmentFactory
 DepartmentFactory "1\n _departmentFactory" <.. "1" DepartmentRepository
