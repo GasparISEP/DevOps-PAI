@@ -8,11 +8,13 @@ public class CourseEditionEnrollment {
     private Student _student;
     private CourseEdition _courseEdition;
     private LocalDate _enrollmentDate;
+    private boolean _isActive;
 
     public CourseEditionEnrollment(Student student, CourseEdition courseEdition) throws IllegalArgumentException {
         validateStudent(student);
         validateCourseEdition(courseEdition);
         this._enrollmentDate=LocalDate.now();
+        this._isActive=true;
     }
 
     private void validateStudent(Student student) throws IllegalArgumentException {
@@ -53,6 +55,13 @@ public class CourseEditionEnrollment {
 
     public Object knowCourseEdition() {
         return _courseEdition;
+    }
+
+    public boolean isEnrollmentActive() {
+        return _isActive;
+    }
+    public void deactivateEnrollment() {
+        _isActive=false;
     }
 
 }

@@ -13,12 +13,9 @@ public class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
         this.courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
     }
     public boolean removeStudentEnrolment(Student student, CourseEdition courseEdition) {
-        try {
-            courseEditionEnrollmentRepository.removeEnrollment(student, courseEdition);
-
-        } catch (Exception e) {
-            return false;
+        if(student==null || courseEdition==null){
+            throw new IllegalArgumentException("Student and CourseEdition cannot be null");
         }
-        return true;
+           return courseEditionEnrollmentRepository.removeEnrollment(student, courseEdition);
     }
 }

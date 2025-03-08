@@ -31,9 +31,8 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         @Test
         void removeNonExistingEnrollment() throws IllegalArgumentException {
             // arrange
-            CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
-            CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
-            CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
+
+            CourseEditionEnrollmentRepository repository = mock (CourseEditionEnrollmentRepository.class);
             US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
             Student student = mock (Student.class);
             CourseEdition courseEdition = mock (CourseEdition.class);
@@ -54,30 +53,20 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
             US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
 
             Student std1 = mock (Student.class);
+            CourseEdition ce1 =mock(CourseEdition.class);
 
             // act
-            boolean result = controller.removeStudentEnrolment(std1, null);
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> controller.removeStudentEnrolment(null, ce1));
 
             // assert
-            assertFalse(result, "Enrollment should not be removed successfully.");
+            assertEquals( "Student and CourseEdition cannot be null", e.getMessage());
+            // act
+            e = assertThrows(IllegalArgumentException.class, () -> controller.removeStudentEnrolment(std1, null));
+
+            // assert
+            assertEquals( "Student and CourseEdition cannot be null", e.getMessage());
         }
 
-    @Test
-    void removeEnrollment_WithNullStudent_ShouldThrowException() throws IllegalArgumentException {
-        // arrange
-        CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
-        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
-
-        CourseEdition ce1 = mock(CourseEdition.class);
-
-        // act
-        boolean result = controller.removeStudentEnrolment(null, ce1);
-
-        // assert
-        assertFalse(result, "Enrollment should not be removed successfully.");
-    }
 
     @Test
     void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
@@ -89,7 +78,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
 
         when(repository.removeEnrollment(student, courseEdition))
                 .thenReturn(true)
-                .thenThrow(new IllegalArgumentException("Enrollment does not exist."));
+                .thenReturn(false);
 
         // act: first removal attempt
         boolean firstRemoval = controller.removeStudentEnrolment(student, courseEdition);
