@@ -11,15 +11,14 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
     +getAllSchoolYears(): List<SchoolYear>
 }
 class CourseEditionEnrollment {
-    -_enrollmentDate: LocalDate
-    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
+    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition)
     +findStudentInCourseEditionEnrollment () : Student
     +findCourseEditionInEnrollment () : CourseEdition
 }
 
 class CourseEditionEnrollmentRepository {
     +CourseEditionEnrollmentRepository ()
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,  enrollmentDate: LocalDate) : boolean
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition) : boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
     +enrollStudentInProgrammeEditionCoursesEditions (student: Student, courseEditions: List<CourseEdition>) : void
 }
@@ -33,25 +32,24 @@ class HashSet{
 }
 
 class ProgrammeEditionEnrollment {
-    -_enrollmentDate: LocalDate
-    +ProgrammeEditionEnrollment(student:Student, programmeEdition: ProgrammeEdition, enrollmentDate: LocalDate)
+    +ProgrammeEditionEnrollment(student:Student, programmeEdition: ProgrammeEdition)
     +getStudentUniqueNumber() : int
     +equals (obj: Object) : boolean
     +findProgrammeEditionInEnrollment () : ProgrammeEdition
 }
 
 class ProgrammeEditionEnrollmentRepo {
-    +ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrollmentFactory)
-    +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,localDate: LocalDate) : boolean
+    +ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrollmentFactory, programmeEditionEnrollmentListFactory: ProgrammeEditionEnrollmentListFactory)
+    +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition) : boolean
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
 }
 
 class ProgrammeEditionEnrollmentFactory {
-    +newProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition, enrollmentDate: LocalDate)
+    +newProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition)
 }
 
 interface ProgrammeEditionEnrollmentFactoryInterface{
-    +newProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition, enrollmentDate: LocalDate)
+    +newProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition)
 }
 
 class ProgrammeEditionEnrollmentListFactory{
@@ -93,9 +91,6 @@ class SchoolYear {
     -_startData:String
     -_endDate:String
     +SchoolYear(description: String, StartDate: String, EndDate: String)
-    +isSameSchoolYear(otherSchoolYear: SchoolYear) : boolean
-    +getEndDate() : LocalDate
-    +getStartDate() : LocalDate
     +equals(Object: o) : boolean
 }
 
