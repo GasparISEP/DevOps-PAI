@@ -45,14 +45,6 @@ public class Department {
         this._acronym = departmentAcronym;
     }
 
-    public boolean hasSameAcronym(Department department) {
-        return this._acronym.equals(department._acronym);
-    }
-
-    public boolean hasSameName(Department department) {
-        return this._name.equals(department._name);
-    }
-
     //US06
     public boolean changeDirector(Teacher furtherDirector) {
         _director = furtherDirector;

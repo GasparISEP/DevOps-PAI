@@ -119,60 +119,6 @@ class DepartmentTest {
         assertTrue (result);
     }
 
-    //Testing the hasSameAcronym method
-    @Test
-    void testShouldReturnTrueForDepartmentsWithSameAcronym() throws Exception {
-        //Arrange
-        Department department1 = new Department("DEI","Departamento Engenharia Informática");
-        Department department2= new Department("DEI","Departamento Engenharia Quimica");
-
-        //act
-        boolean result= department1.hasSameAcronym(department2);
-
-        //assert
-        assertTrue(result);
-    }
-
-    @Test
-    void testShouldReturnFalseForDepartmentsWithDifferentAcronym() throws Exception {
-        //Arrange
-        Department department1 = new Department("DEI","Departamento Engenharia Informática");
-        Department department2= new Department("DEQ","Departamento Engenharia Quimica");
-
-        //act
-        boolean result= department1.hasSameAcronym(department2);
-
-        //assert
-        assertFalse(result);
-    }
-
-    @Test
-    void testShouldReturnFalseForDepartmentsWithDifferentName() throws Exception {
-        //Arrange
-        Department department1 = new Department("DEI","Departamento Engenharia Informática");
-        Department department2= new Department("DEI","Departamento Engenharia Quimica");
-
-        //act
-        boolean result= department1.hasSameName(department2);
-
-        //assert
-        assertFalse(result);
-    }
-
-    @Test
-    void testShouldReturnTrueForDepartmentsWithSameName() throws Exception {
-        //Arrange
-        Department department1 = new Department("DEI","Departamento Engenharia Informática");
-        Department department2= new Department("DEI","Departamento Engenharia Informática");
-
-        //act
-        boolean result= department1.hasSameName(department2);
-
-        //assert
-        assertTrue(result);
-    }
-
-
     //Testing the equals method
     @Test
     void testShouldReturnTrueForEqualDepartments()throws Exception {
