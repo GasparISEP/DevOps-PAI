@@ -9,6 +9,7 @@ import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactory;
 import PAI.factory.ProgrammeListArrayListFactory;
 import PAI.repository.CourseRepository;
+import PAI.factory.*;
 import PAI.repository.ProgrammeList;
 import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
@@ -70,8 +71,12 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory);
+        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         assertTrue(result);
     }

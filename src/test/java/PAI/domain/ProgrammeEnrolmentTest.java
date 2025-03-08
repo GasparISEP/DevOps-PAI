@@ -1,8 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactory;
-import PAI.factory.ProgrammeCourseListFactory;
-import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -30,6 +28,10 @@ class ProgrammeEnrolmentTest {
         Teacher _teacher;
         ProgrammeCourseListFactory _programmeCourseListFactory;
         Programme _programme;
+        CourseInStudyPlanFactory _courseInStudyPlanFactory;
+        StudyPlanArrayListFactory _studyPlanArrayListFactory;
+        StudyPlanFactory _studyPlanFactory;
+        CourseFactory _courseFactory;
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
@@ -44,7 +46,11 @@ class ProgrammeEnrolmentTest {
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory);
             _programmeCourseListFactory = new ProgrammeCourseListFactory();
-            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory);
+            _courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+            _studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+            _studyPlanFactory = new StudyPlanFactory();
+            _courseFactory = new CourseFactory();
+            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
         }
     }
 
@@ -65,6 +71,26 @@ class ProgrammeEnrolmentTest {
     void constructorAlwaysCreatesAnObjectWithoutIsolation() throws Exception {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        AccessMethod am1 = new AccessMethod("M1");
+
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         //act
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
@@ -101,6 +127,26 @@ class ProgrammeEnrolmentTest {
     void invalidDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation(String date) throws Exception {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        AccessMethod am1 = new AccessMethod("M1");
+
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
+                "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, date));
@@ -138,7 +184,27 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
+        DegreeType dt1 = new DegreeType("Master", 240);
+
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto","Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
         //act
         boolean result = programmeEnrolment1.hasSameStudent(attributes._student);
@@ -207,8 +273,28 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "05-03-2012");
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student1, am1, programme1,"15-10-2010");
+
+
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -245,9 +331,27 @@ class ProgrammeEnrolmentTest {
 
         Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
         Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, attributes._accessMethod, attributes._programme, "17-09-2005");
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, am1, programme1,"17-09-2005");
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -285,10 +389,36 @@ class ProgrammeEnrolmentTest {
         Department dpt = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", attributes._addressFactory, "20-12-2010", tc, 100, dpt, attributes._tcpFactory);
-        Programme programme = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory);
+        Programme programme = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanArrayListFactory, attributes._studyPlanFactory, attributes._courseFactory);
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, programme, "15-10-2010");
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory1 = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory1, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        DegreeType dt2 = new DegreeType("Master", 240);
+        Department dpt2 = new Department("CSE", "Space Science Engineer");
+        TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
+        Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc2, 100, dpt2, tcpFactory);
+
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, programmeCourseListFactory1, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student1, am1, programme2,"15-10-2010");
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -322,18 +452,38 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+
         Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
         Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
 
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
         DegreeType dt2 = new DegreeType("Master", 240);
         Department dpt2 = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc2 = new TeacherCategory("Assistant Professor");
         Teacher teacher2 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", attributes._addressFactory, "20-12-2010", tc2, 100, dpt2, tcpFactory);
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, attributes._programmeCourseListFactory);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt2, dpt2, teacher2, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanArrayListFactory, attributes._studyPlanFactory, attributes._courseFactory);
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, attributes._accessMethod, programme2, "15-10-2010");
+
+
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, am1, programme2,"15-10-2010");
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -367,8 +517,25 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
+        AccessMethod am1 = new AccessMethod("Concurso Nacional");
+        DegreeType dt1 = new DegreeType("Master", 240);
+        Department dpt1 = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
         //act
         boolean result = programmeEnrolment.hasSameProgramme(attributes._programme);
 
@@ -404,7 +571,7 @@ class ProgrammeEnrolmentTest {
         Department dpt = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc = new TeacherCategory("Assistant Professor");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", attributes._addressFactory, "20-12-2010", tc, 100, dpt, attributes._tcpFactory);
-        Programme programme = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory);
+        Programme programme = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanArrayListFactory, attributes._studyPlanFactory, attributes._courseFactory);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
 

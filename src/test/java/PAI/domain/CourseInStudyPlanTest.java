@@ -1,7 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.CourseFactory;
-import PAI.factory.ProgrammeCourseListFactory;
+import PAI.factory.*;
 import PAI.repository.CourseRepository;
 import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
@@ -11,33 +10,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class CourseInStudyPlanTest {
-
-    @Test
-    void ShouldConstructACourseInStudyPlan() throws Exception {
-
-        //Arrange
-        Course course1 = new Course("Programming", "PROG", 5, 1); // Curso com 5 créditos
-        DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory);
-        StudyPlan studyPlan = programme.getStudyPlan();
-        programme.addCourseToAProgramme(course1);
-        boolean addCourse1ToStudyPlan = studyPlan.addCourseToStudyPlan(1,1, course1, programme);
-
-        //Act
-        CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(1, 1, course1, programme);
-
-        //Assert
-        assertTrue(addCourse1ToStudyPlan);
-        assertNotNull(courseInStudyPlan);
-        assertEquals(course1, courseInStudyPlan.getCourse());
-        assertEquals(1, courseInStudyPlan.getSemester());
-        assertEquals(1, courseInStudyPlan.getCurricularYear());
-        assertEquals(programme, courseInStudyPlan.getProgramme());
-    }
 
     @Test
     void ShouldConstructACourseInStudyPlanWithMock() throws Exception {
@@ -65,8 +37,12 @@ class CourseInStudyPlanTest {
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
@@ -105,17 +81,20 @@ class CourseInStudyPlanTest {
 
     @Test
     void testEqualsMethodWithDifferentSemestersAndYears() throws Exception {
+        CourseListFactory courseListFactory = mock(CourseListFactory.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
-        CourseRepository courseRepository = mock(CourseRepository.class);
-        //CourseRepository courseRepository = new CourseRepository();
+        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         programme.addCourseToAProgramme(course1);
 

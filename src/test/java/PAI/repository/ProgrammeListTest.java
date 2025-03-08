@@ -4,16 +4,13 @@ import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactory;
 import PAI.factory.ProgrammeListArrayListFactory;
-import PAI.factory.StudentFactory;
-import PAI.factory.StudentListFactory;
-import PAI.repository.ProgrammeList;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
+
+import PAI.factory.*;
+
 import org.junit.jupiter.api.Test;
 
 
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +18,31 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ProgrammeListTest {
+
+
+    @Test
+    void shouldRegisterValidProgramme() throws Exception {
+        // Arrange
+        ProgrammeFactory programmeFactoryDouble = mock(ProgrammeFactory.class);
+        ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactoryDouble,programmeListArrayListFactory);
+        DegreeType master = mock(DegreeType.class);
+        Department CSE = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        // Act
+        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        // Asssert
+        assertTrue(result);
+    }
+
+
     @Test
     void duplicatedShouldNotRegisterValidProgramme() throws Exception {
 
@@ -33,11 +55,15 @@ class ProgrammeListTest {
         Department CSE = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-        Programme programmeDouble = mock(Programme.class);
-        when(programmeFactoryDouble.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory)).thenReturn(programmeDouble);
-        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory);
+
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
         // Act
-        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory);
+        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         // Asssert
         assertFalse(result);
@@ -85,9 +111,14 @@ class ProgrammeListTest {
         Department department1 = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        when(programmeFactory.registerProgramme("Engenharia Informática", "LEI", 20, 2, degreeType1, department1, teacher, programmeCourseListFactory)).thenReturn(programme);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
+
+        when(programmeFactory.registerProgramme("Engenharia Informática","LEI",20,2,degreeType1,department1, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory)).thenReturn(programme);
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
 
         when(programme.addCourseToAProgramme(course1)).thenReturn(true);
         when(programme.addCourseToAProgramme(course2)).thenReturn(true);
@@ -112,15 +143,23 @@ class ProgrammeListTest {
         ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactoryDouble, programmeListArrayListFactory);
         DegreeType master = mock(DegreeType.class);
+
         Department departmentDouble = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         Programme programmeDouble = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-        when(programmeFactoryDouble.registerProgramme("Computer Engineering", "CE", 20, 6, master, departmentDouble, teacher, programmeCourseListFactory))
-                .thenReturn(programmeDouble);
 
-        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, departmentDouble, teacher, programmeCourseListFactory);
-        when(programmeDouble.hasThisProgrammeName("Computer Engineering")).thenReturn(true);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, departmentDouble,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        when(programmeFactoryDouble.registerProgramme("Computer Engineering", "CE", 20, 6, master, departmentDouble,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory))
+                .thenReturn(programme);
+
+        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, departmentDouble,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         // Act
         Optional<Programme> result = programmeList.getProgrammeByName("Computer Engineering");
@@ -140,11 +179,16 @@ class ProgrammeListTest {
         Teacher teacher = mock(Teacher.class);
         Programme programme = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        when(programmeFactoryDouble.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher, programmeCourseListFactory))
+
+        when(programmeFactoryDouble.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory))
                 .thenReturn(programme);
 
-        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse, teacher, programmeCourseListFactory);
+        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, cse,  teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         // Act
         Optional<Programme> result = programmeList.getProgrammeByName("Space Engineering");
@@ -163,7 +207,37 @@ class ProgrammeListTest {
         List<Programme> programmeListMock = List.of(mock(Programme.class), mock(Programme.class));
         when(programmeListArrayListFactory.copyProgrammeArrayList(any())).thenReturn(programmeListMock);
 
-        // Act
+        String name1 = "MATEMATICA";
+        String acronym1 = "MAT";
+        int quantityOfEcts1 = 90;
+        int quantityOfSemesters1 = 4;
+        DegreeType master1 = mock(DegreeType.class);
+        Department cse1 = mock(Department.class);
+        Teacher teacher1 = mock(Teacher.class);
+
+        String name2 = "Informatica";
+        String acronym2= "INF";
+        int quantityOfEcts2 = 80;
+        int quantityOfSemesters2 = 4;
+        DegreeType master2 = mock(DegreeType.class);
+        Department cse2 = mock(Department.class);
+        Teacher teacher2 = mock(Teacher.class);
+
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory)).thenReturn(programme1);
+        when(programmeFactory.registerProgramme(name2, acronym2, quantityOfEcts2,quantityOfSemesters2, master2, cse2, teacher2, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory)).thenReturn(programme2);
+
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        programmeRepo.registerProgramme(name2, acronym2, quantityOfEcts2,quantityOfSemesters2, master2, cse2, teacher2, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+
+        //Act
         List<Programme> programmeList = programmeRepo.getAllProgrammes();
 
         // Assert
@@ -205,12 +279,16 @@ class ProgrammeListTest {
 
         Programme programme1 = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory)).thenReturn(programme1);
+
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory)).thenReturn(programme1);
         when(programme1.getAcronym()).thenReturn(acronym1);
 
-        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory);
-
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
         //Act
         Programme programme = programmeRepo.getProgrammeByAcronym(acronym1);
 
@@ -238,11 +316,16 @@ class ProgrammeListTest {
 
         Programme programme1 = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory)).thenReturn(programme1);
+
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory)).thenReturn(programme1);
         when(programme1.getAcronym()).thenReturn(acronym1);
 
-        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory);
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1,quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         //Act
         Programme programme = programmeRepo.getProgrammeByAcronym("ENG");
@@ -270,14 +353,18 @@ class ProgrammeListTest {
         Department cse1 = mock(Department.class);
         Teacher teacher1 = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
         Programme programme1 = mock(Programme.class);
         Programme programme2 = mock(Programme.class);
-        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory)).thenReturn(programme1);
-        when(programmeFactory.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory)).thenReturn(programme2);
+        when(programmeFactory.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory)).thenReturn(programme1);
+        when(programmeFactory.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory)).thenReturn(programme2);
 
-        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory);
-        programmeRepo.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory);
+        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        programmeRepo.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         when(programme1.getProgrammeName()).thenReturn(name1);
         when(programme2.getProgrammeName()).thenReturn(name2);

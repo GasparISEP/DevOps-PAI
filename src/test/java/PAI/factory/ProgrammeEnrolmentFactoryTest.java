@@ -31,6 +31,10 @@ class ProgrammeEnrolmentFactoryTest {
         ProgrammeCourseListFactory _programmeCourseListFactory;
         Programme _programme;
         String _date;
+        CourseInStudyPlanFactory _courseInStudyPlanFactory;
+        StudyPlanArrayListFactory _studyPlanArrayListFactory;
+        StudyPlanFactory _studyPlanFactory;
+        CourseFactory _courseFactory;
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
@@ -46,7 +50,11 @@ class ProgrammeEnrolmentFactoryTest {
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory);
             _programmeCourseListFactory = new ProgrammeCourseListFactory();
-            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory);
+            _courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+            _studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+            _studyPlanFactory = new StudyPlanFactory();
+            _courseFactory = new CourseFactory();
+            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
         }
     }
 

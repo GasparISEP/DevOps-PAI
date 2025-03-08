@@ -2,7 +2,7 @@ package PAI.domain;
 
 
 
-import PAI.factory.ProgrammeCourseListFactory;
+import PAI.factory.*;
 import PAI.repository.StudyPlan;
 
 import java.util.List;
@@ -21,7 +21,9 @@ public class Programme {
     private ProgrammeCourseListFactory _programmeCourseListFactory;
     private StudyPlan _studyPlan;
 
-    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory) throws Exception {
+    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
+                     Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanArrayListFactory studyPlanArrayListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory) throws Exception {
+
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
         }
@@ -55,14 +57,14 @@ public class Programme {
         if (programmeDirector == null) {
             throw new IllegalArgumentException("Insert a valid Programme Director");
         }
-        _programmeDirector = programmeDirector;
 
-        _studyPlan = new StudyPlan();
+        _programmeDirector = programmeDirector;
 
         _programmeCourseListFactory = programmeCourseListFactory;
 
         _courseList = _programmeCourseListFactory.createCourseList();
 
+        _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
     }
 
     private boolean isNameInvalid(String name) {
