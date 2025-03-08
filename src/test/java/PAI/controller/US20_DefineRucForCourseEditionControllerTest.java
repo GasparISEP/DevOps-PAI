@@ -19,43 +19,61 @@ class US20_DefineRucForCourseEditionControllerTest {
 
     @Test
     void shouldSuccessfullyDefineRucForCourseEdition() throws Exception {
-
         // Arrange
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
+        CourseEditionRepository repo1 = mock(CourseEditionRepository.class);
+        TeacherRepository repo2 = mock(TeacherRepository.class);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
-        // Arrange Teacher Ruc
+        CourseEdition cE1 = mock(CourseEdition.class);
         Teacher t1 = mock(Teacher.class);
 
-        // Arrange CourseEdition
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
-
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
-        Course c1 = new Course("Informatics", "INF", 6, 1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
-        CourseEdition cE1 = new CourseEdition(c1, pE1);
-
-        repo1.createAndSaveCourseEdition(c1, pE1);
+        when(repo1.setRucInACourseEdition(cE1, t1)).thenReturn(true);
 
         // Act
         boolean result = ctrl1.defineRucForCourseEdition(cE1, t1);
 
         // Assert
         assertTrue(result, "RUC definition should succeed");
-    }
+        verify(repo1).setRucInACourseEdition(cE1, t1); // Verify that the repository method was called
+
+
+
+//        // Arrange
+//        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+//        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
+//        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+//        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+//        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
+//        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
+//        US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
+//
+//        // Arrange Teacher Ruc
+//        Teacher t1 = mock(Teacher.class);
+//
+//        // Arrange CourseEdition
+//        DegreeType master = new DegreeType("Master", 240);
+//        Department CSE = new Department("CSE", "Computer Science Engineer");
+//        Teacher teacher = mock(Teacher.class);
+//        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+//        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+//        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+//        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+//        CourseFactory courseFactory = mock(CourseFactory.class);
+//
+//        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+//        Course c1 = new Course("Informatics", "INF", 6, 1);
+//        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+//        ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
+//        CourseEdition cE1 = new CourseEdition(c1, pE1);
+//
+//        repo1.createAndSaveCourseEdition(c1, pE1);
+//
+//        // Act
+//        boolean result = ctrl1.defineRucForCourseEdition(cE1, t1);
+//
+//        // Assert
+//        assertTrue(result, "RUC definition should succeed");
+   }
 
     @Test
     void shouldNotRedefineRucIfRucAlreadyExists() throws Exception {
