@@ -1,4 +1,8 @@
-package PAI.domain;
+package PAI.repository;
+
+import PAI.domain.TeacherCategory;
+import PAI.domain.TeacherCategoryFactory;
+import PAI.domain.TeacherCategoryRepositoryListFactory;
 
 import java.util.List;
 import java.util.Optional;

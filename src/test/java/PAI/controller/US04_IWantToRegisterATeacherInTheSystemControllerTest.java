@@ -3,6 +3,7 @@ import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.repository.DepartmentRepository;
+import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;

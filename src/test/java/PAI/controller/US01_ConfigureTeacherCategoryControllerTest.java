@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.TeacherCategoryRepository;
+import PAI.repository.TeacherCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
