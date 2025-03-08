@@ -89,5 +89,25 @@ class DegreeTypeTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnCorrectName() throws Exception {
+        DegreeType bachelor = new DegreeType("Bachelor", 25);
+
+        String result = bachelor.get_name();
+
+        assertEquals("Bachelor", result);
+    }
+
+    @Test
+    void shouldReturnCorrectMaxEcts() throws Exception {
+        DegreeType bachelor = new DegreeType("Bachelor", 25);
+
+        int result = bachelor.get_maxEcts();
+
+        assertEquals(25, result);
+    }
+
+
+
 
 }

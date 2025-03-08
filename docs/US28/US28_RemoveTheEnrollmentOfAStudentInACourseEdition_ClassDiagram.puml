@@ -1,7 +1,6 @@
 @startuml
 !pragma layout smetana
 
-
 class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
     +US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(courseEditionEnrollmentRepository: CourseEditionEnrollmentRepository)
     +removeStudentEnrollment(student: Student, courseEdition: CourseEdition): boolean
@@ -10,25 +9,19 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
 class CourseEditionEnrollment {
     -_enrollmentDate: LocalDate
     -_isActive: boolean
-    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
-     enrollmentDate: LocalDate)
-    +equals (obj: Object): boolean
+    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition)
     +findStudentInCourseEditionEnrollment() : Student
     +findCourseEditionInEnrollment() : CourseEdition
-    +knowStudent(): Object
-    +knowCourseEdition(): Object
     +isEnrollmentActive(): boolean
     +deactivateEnrollment(): void
 }
 
 class CourseEditionEnrollmentRepository {
-    +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory)
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate): boolean
-    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition) : boolean
+    +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory,
+    CourseEditionEnrollmentListFactory: courseEditionEnrollmentFactory)
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
-    +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition) : int
     +removeEnrollment (student: Student, courseEdition: CourseEdition) : boolean
-    +enrollStudentInProgrammeEditionCourseEditions (student: Student, courseEditions: List<CourseEdition>) : void
 }
 
 class Student {
@@ -39,10 +32,6 @@ class Student {
     -_email:String
     -_address:Address
     +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +hasSameUniqueNumber(student: Student) : boolean
-    +hasSameNIF (student: Student) : boolean
-    +getUniqueNumber () : int
-    +hasThisUniqueNumber (uniqueNumber: int) : boolean
 }
 
 class CourseEdition {
@@ -50,21 +39,32 @@ class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_ruc: Teacher
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-    +Equals(objectToCompare: Object) : boolean
-    +setRuc(Teacher: ruc) : boolean
-    +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEdition
 }
 
-class CourseEditionEnrollmentFactory{
-    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition, enrollmentDate: LocalDate)
+class CourseEditionEnrollmentFactory {
+    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition)
 }
 
+class CourseEditionEnrollmentListFactory{
++getCourseEditionEnrollmentList(): Set<CourseEditionEnrollment>
+}
 
+interface CourseEditionEnrollmentFactoryInterface{
+    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition)
+}
+interface CourseEditionEnrollmentListFactoryInterface{
++getCourseEditionEnrollmentList():Set<CourseEdtionEnrollment>
+}
 
 
 CourseEditionEnrollment "*" --> "_student 1" Student
-CourseEditionEnrollment "*" --> "_courseEdition 1  " CourseEdition
-CourseEditionEnrollment "                                *" <-- "1" CourseEditionEnrollmentRepository: _listCourseEditionEnrollment
-US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1"..> "1" CourseEditionEnrollmentRepository : uses
-CourseEditionEnrollmentRepository "1" ..> "1" CourseEditionEnrollmentFactory
+CourseEditionEnrollment "*" --> "_courseEdition 1    " CourseEdition
+CourseEditionEnrollmentRepository"1"..> "    _courseEditionEnrollments *  "CourseEditionEnrollment
+CourseEditionEnrollmentFactory "1" ..> "    1 _courseEditionEnrollment "CourseEditionEnrollment : creates
+CourseEditionEnrollmentRepository "1"--> "_courseEditionEnrollmentFactory 1            " CourseEditionEnrollmentFactory : uses
+US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1 " CourseEditionEnrollmentRepository : uses
+CourseEditionEnrollmentFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentFactory : implements
+CourseEditionEnrollmentRepository "1" --> "              1_courseEditionEnrollmentListFactory" CourseEditionEnrollmentListFactory : uses
+CourseEditionEnrollmentListFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentListFactory : implements
+
 @enduml

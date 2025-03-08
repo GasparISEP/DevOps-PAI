@@ -174,10 +174,13 @@ SemestersListOfaProgramme "1" -- "1..*" ListOfCoursesInASemester: has
 Programme "*" -u-> "1*" Department: Assigned to
 DegreeType "1" <-- "*" Programme
 Enrolment "*" --> "1" AccessMethod: is registered
-Programme "1"  -u-> "*" Enrolment: has
+Programme "1"  *-u- "*\n      " Enrolment
+Programme .u.> Enrolment: <<create>>\n\n
 Student "1" <-- "*" Enrolment: enrolls
-StudentRepository "1" --> "*" Student
-SchoolYearRepository "1" --> "*" SchoolYear
+StudentRepository "1 " o--- "*" Student: "      "
+StudentRepository ...> Student: <<create>>
+SchoolYearRepository "1 " o--- "*" SchoolYear: "      "
+SchoolYearRepository ...> SchoolYear: <<create>>
 Teacher "1" -r- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates
 Teacher "1..*" -- "1" TeacherRepository

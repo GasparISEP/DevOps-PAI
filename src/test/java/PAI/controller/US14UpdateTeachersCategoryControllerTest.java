@@ -1,5 +1,7 @@
 package PAI.controller;
 import PAI.domain.*;
+import PAI.repository.TeacherCategoryRepository;
+import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

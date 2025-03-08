@@ -2,9 +2,9 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class US16_EnrollAStudentInACourseEditionController {
@@ -33,7 +33,7 @@ public class US16_EnrollAStudentInACourseEditionController {
             return false;
         }
 
-        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
+        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition);
         return true;
     }
 

@@ -1,12 +1,19 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.repository.DepartmentRepository;
+import PAI.repository.TeacherCategoryRepository;
+import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,7 +107,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherRepository trDouble = mock(TeacherRepository.class);
         US13_RegisterTeacherAndRelevantDataController controllerUS13 = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptrDouble, trDouble);
 
-        when(dptrDouble.getDepartmentList()).thenThrow(new IllegalStateException("Department list is empty."));
+        when(dptrDouble.getDepartments()).thenThrow(new IllegalStateException("Department list is empty."));
 
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> controllerUS13.getDepartmentsList());
@@ -115,12 +122,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13 = new US13_RegisterTeacherAndRelevantDataController(tcrDouble, dptrDouble, trDouble);
 
         Department dptDouble = mock(Department.class);
-        List<Department> dptListDouble = List.of(dptDouble);
+        Set<Department> dptListDouble = new HashSet<>();
 
-        when(dptrDouble.getDepartmentList()).thenReturn(dptListDouble);
+        when(dptrDouble.getDepartments()).thenReturn(dptListDouble);
 
         // Act
-        List<Department> result = controllerUS13.getDepartmentsList();
+        Set<Department> result = controllerUS13.getDepartmentsList();
         // Assert
         assertEquals(result, dptListDouble);
     }

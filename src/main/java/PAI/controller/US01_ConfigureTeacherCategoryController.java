@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.TeacherCategoryRepository;
+import PAI.repository.TeacherCategoryRepository;
 
 public class  US01_ConfigureTeacherCategoryController {
     private final TeacherCategoryRepository repository;

@@ -7,12 +7,7 @@ import java.util.Optional;
 
 public class US02_ConfigureAccessMethodController {
 
-    //Argumentos
-
     private final AccessMethodRepository _accessMethodRepository;
-
-    //Construtor, injecta dependêcias neste caso é o repositório.
-
 
     public US02_ConfigureAccessMethodController(AccessMethodRepository accessMethodRepository) {
 
@@ -21,12 +16,11 @@ public class US02_ConfigureAccessMethodController {
     }
 
     //Configure Access Method
-    public boolean configureAccessMethod(String accessMethodName) {
+    public boolean configureAccessMethod(String accessMethodName) throws Exception {
         if (this._accessMethodRepository == null) {
             return false;
         }
-        Optional<AccessMethod> opt1 = _accessMethodRepository.createAccessMethod(accessMethodName);
-        return opt1.isPresent();
+        return _accessMethodRepository.registerAccessMethod(accessMethodName);
     }
 
 

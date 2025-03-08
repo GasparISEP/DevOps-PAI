@@ -2,7 +2,6 @@ package PAI.factory;
 
 import PAI.domain.Address;
 import PAI.domain.Student;
-import PAI.domain.StudentFactoryInterface;
 
 public class StudentFactory implements StudentFactoryInterface {
 

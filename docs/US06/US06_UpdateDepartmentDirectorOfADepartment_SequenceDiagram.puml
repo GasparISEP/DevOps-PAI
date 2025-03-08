@@ -9,11 +9,11 @@ participant ":US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController" as
 UI -> Controller: getAllDepartments ()
 activate Controller
 participant ":DepartmentRepository" as DepartmentRepository
-Controller -> DepartmentRepository: getDepartmentList ()
+Controller -> DepartmentRepository: getDepartments ()
 activate DepartmentRepository
-DepartmentRepository --> Controller: listOfDepartments
+DepartmentRepository --> Controller: setOfDepartments
 deactivate DepartmentRepository
-Controller --> UI: listOfDepartments
+Controller --> UI: setOfDepartments
 deactivate Controller
 
 UI --> Administrator: What Department?

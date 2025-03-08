@@ -1,25 +1,26 @@
 package PAI.repository;
 
 import PAI.domain.Course;
-import PAI.domain.CourseFactory;
+import PAI.factory.CourseFactory;
 import PAI.domain.CourseInStudyPlan;
 import PAI.domain.Programme;
 import PAI.factory.CourseInStudyPlanFactory;
+import PAI.factory.StudyPlanArrayListFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StudyPlan {
 
     private CourseInStudyPlanFactory _courseInStudyPlanFactory;
     private CourseFactory _courseFactory;
-    private List<CourseInStudyPlan> studyPlan;
+    private List<CourseInStudyPlan> _studyPlanArrayListFactory;
 
-    public StudyPlan() {
+    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanArrayListFactory studyPlanArrayListFactory, CourseFactory courseFactory) {
 
-        this.studyPlan = new ArrayList<>();
-        this._courseInStudyPlanFactory = new CourseInStudyPlanFactory();
-        this._courseFactory = new CourseFactory();
+        _courseInStudyPlanFactory = courseInStudyPlanFactory;
+        _courseFactory = courseFactory;
+        _studyPlanArrayListFactory = studyPlanArrayListFactory.newArrayList();
+
     }
 
     public boolean addCourseToStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception {
@@ -44,7 +45,7 @@ public class StudyPlan {
             throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
         }
 
-        studyPlan.add(courseInStudyPlan);
+        _studyPlanArrayListFactory.add(courseInStudyPlan);
         return true;
     }
 
@@ -56,7 +57,7 @@ public class StudyPlan {
     }
 
     private boolean isCourseInStudyPlan(Course course) {
-        for (CourseInStudyPlan existingCourse : studyPlan) {
+        for (CourseInStudyPlan existingCourse : _studyPlanArrayListFactory) {
             if (existingCourse.getCourse().equals(course)) {
                 return true;
             }
@@ -92,18 +93,16 @@ public class StudyPlan {
             throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
         }
 
-        studyPlan.add(firstSemesterCourse);
-        studyPlan.add(secondSemesterCourse);
+        _studyPlanArrayListFactory.add(firstSemesterCourse);
+        _studyPlanArrayListFactory.add(secondSemesterCourse);
         return true;
     }
-
-
 
     private boolean isEctsLimitExceeded(int curricularYear, int semester, CourseInStudyPlan courseInStudyPlan) {
         double totalEcts = 0;
 
         // Itera sobre os cursos no StudyPlan para somar os ECTS do mesmo semestre e ano
-        for (CourseInStudyPlan existingCourse : studyPlan) {
+        for (CourseInStudyPlan existingCourse : _studyPlanArrayListFactory) {
             if (existingCourse.getCurricularYear() == curricularYear && existingCourse.getSemester() == semester) {
                 totalEcts += existingCourse.getCourse().getQuantityCreditsEcts();
             }

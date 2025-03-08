@@ -2,12 +2,13 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.CourseEditionEnrollmentFactory;
+import PAI.factory.CourseEditionEnrollmentListFactory;
 import PAI.factory.GradeStudentFactory;
 import PAI.repository.GradeStudentRepository;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository enrollmentRepository= new CourseEditionEnrollmentRepository (factoryDouble);
+        CourseEditionEnrollmentListFactory listFactoryDouble = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository= new CourseEditionEnrollmentRepository (factoryDouble, listFactoryDouble);
 
 
         //act
@@ -62,7 +64,6 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
         GradeStudent gradeStudent2 = mock(GradeStudent.class);
-        LocalDate localDate = LocalDate.now();
 
 
         when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
@@ -75,8 +76,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1,localDate);
-        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1,localDate);
+        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
+        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1);
 
         list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);

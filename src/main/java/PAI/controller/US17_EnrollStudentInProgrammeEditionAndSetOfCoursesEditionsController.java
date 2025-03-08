@@ -1,12 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
-import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeList;
-import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +58,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         }
 
         // Enroll student in programmeEdition
-        _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition, LocalDate.now());
+        _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition);
 
         List<CourseEdition> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
 

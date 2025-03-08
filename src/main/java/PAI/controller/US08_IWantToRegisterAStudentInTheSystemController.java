@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.Address;
-import PAI.domain.StudentRepository;
+import PAI.repository.StudentRepository;
 
 public class US08_IWantToRegisterAStudentInTheSystemController {
 

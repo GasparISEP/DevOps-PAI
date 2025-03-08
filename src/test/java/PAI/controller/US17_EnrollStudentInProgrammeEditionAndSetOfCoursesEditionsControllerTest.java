@@ -1,13 +1,9 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
-import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeList;
-import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.*;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -212,10 +208,10 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
 
         when(doubleCourseEditionEnrollmentRepository.findByStudentAndEdition(doubleStudent, ce1))
-                .thenReturn(Optional.of(new CourseEditionEnrollment(doubleStudent, ce1, LocalDate.now())));
+                .thenReturn(Optional.of(new CourseEditionEnrollment(doubleStudent, ce1)));
 
         when(doubleCourseEditionEnrollmentRepository.findByStudentAndEdition(doubleStudent, ce2))
-                .thenReturn(Optional.of(new CourseEditionEnrollment(doubleStudent, ce2, LocalDate.now())));
+                .thenReturn(Optional.of(new CourseEditionEnrollment(doubleStudent, ce2)));
 
 
         doThrow(new IllegalStateException("This course edition enrollment is already in the list."))

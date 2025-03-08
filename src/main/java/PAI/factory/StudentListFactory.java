@@ -1,13 +1,13 @@
 package PAI.factory;
 
 import PAI.domain.Student;
-import PAI.domain.StudentListFactoryInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentListFactory implements StudentListFactoryInterface {
 
-    public ArrayList<Student> newArrayList() {
+    public List<Student> newArrayList() {
         return new ArrayList<>();
     }
 }

@@ -9,7 +9,6 @@ public class Department {
     private String _name;
     private String _acronym;
     private Teacher _director;
-    private List <Programme> _departmentProgramme;
 
     //constructor
     public Department(String acronym, String name) throws Exception {
@@ -46,14 +45,6 @@ public class Department {
         this._acronym = departmentAcronym;
     }
 
-    public boolean hasSameAcronym(Department department) {
-        return this._acronym.equals(department._acronym);
-    }
-
-    public boolean hasSameName(Department department) {
-        return this._name.equals(department._name);
-    }
-
     //US06
     public boolean changeDirector(Teacher furtherDirector) {
         _director = furtherDirector;
@@ -67,4 +58,8 @@ public class Department {
         Department that = (Department) obj;
         return Objects.equals(_name, that._name) && Objects.equals(_acronym, that._acronym);
     }
+
+    public String getName() { return _name; }
+
+    public String getAcronym() { return _acronym; }
 }

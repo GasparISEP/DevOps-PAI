@@ -4,7 +4,7 @@ title US05: Register a Department in the System
 
 actor "Administrator" as Administrator #LightBlue/White
 participant ":UI" as UI
-participant ":Controller" as Controller #Violet/LightBlue
+participant ":US05_RegisterADepartmentInTheSystemController" as Controller #Violet/LightBlue
 participant ":DepartmentRepository" as DepartmentRepository #DeepPink/White
 participant ":DepartmentFactory" as DepartmentFactory #LightBlue/White
 participant "d1:Department" as Department #Violet/White
@@ -37,19 +37,14 @@ Department --> DepartmentFactory: d1
 deactivate Department
 DepartmentFactory --> DepartmentRepository: d1
 deactivate DepartmentFactory
-
-loop for each Department d[i] in DepartmentRepository
-DepartmentRepository -> Departmenti: compareDepartmentAcronymAndNameInList(d1:Department)
+DepartmentRepository -> Departmenti: add (d1:Department)
 activate Departmenti
-Departmenti --> DepartmentRepository: Acronym and name are valid.
+Departmenti --> DepartmentRepository: True
 deactivate Departmenti
-end
-
-DepartmentRepository -> DepartmentRepository: add (d1:Department)
-
-DepartmentRepository --> Controller: Department registered
+DepartmentRepository --> Controller: True
 deactivate DepartmentRepository
-Controller --> UI: Department registered
+
+Controller --> UI: True
 deactivate Controller
 UI --> Administrator: Department registered
 deactivate UI

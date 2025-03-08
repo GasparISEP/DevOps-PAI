@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.factory.ProgrammeEnrolmentFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 

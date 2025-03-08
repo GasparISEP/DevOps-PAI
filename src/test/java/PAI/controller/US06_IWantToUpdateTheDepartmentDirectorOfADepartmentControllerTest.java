@@ -1,7 +1,12 @@
 package PAI.controller;
 import PAI.domain.*;
+import PAI.repository.DepartmentRepository;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -90,13 +95,17 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
                 new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1Double);
 
-        List<Department> departmentList = mock(List.class);
+        Department department1 = mock(Department.class);
+        Department department2 = mock(Department.class);
 
-        when(departmentList.size()).thenReturn(2);
-        when(dr1Double.getDepartmentList()).thenReturn(departmentList);
+        Set<Department> departmentSet = new HashSet<>();
+        departmentSet.add(department1);
+        departmentSet.add(department2);
+
+        when(dr1Double.getDepartments()).thenReturn(departmentSet);
 
         // Act
-        List<Department> departments = controller.getAllDepartments();
+        Set<Department> departments = controller.getAllDepartments();
 
         // Assert
         assertEquals(2, departments.size());

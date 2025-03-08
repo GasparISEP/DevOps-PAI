@@ -17,34 +17,22 @@ public class AccessMethodRepository {
         _accessMethodRepository = accessMethodArrayListFactory.createAccessMethodArrayList();
     }
 
-
-    public Optional <AccessMethod> createAccessMethod (String accessMethodName){
-        try{
+    //register accessMethod
+    public boolean registerAccessMethod (String accessMethodName) {
+        try {
             AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
-            if(!isAccessMethodRegistered(accessMethod)){
-                _accessMethodRepository.add(accessMethod);
-                return Optional.of(accessMethod);
-            }
 
-            return Optional.empty();
+            if (isAccessMethodRegistered(accessMethod))
+                return false;
 
-        } catch (InstantiationException e) {
-            return Optional.empty();
+            _accessMethodRepository.add(accessMethod);
+            return true;
+        } catch (Exception e) {
+           return false;
         }
     }
 
-    public boolean registerAccessMethod (String accessMethodName) throws Exception {
-
-        AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
-
-        if (isAccessMethodRegistered(accessMethod))
-            return false;
-
-        _accessMethodRepository.add(accessMethod);
-        return true;
-    }
-
-    public boolean isAccessMethodRegistered(AccessMethod accessMethod) {
+    private boolean isAccessMethodRegistered(AccessMethod accessMethod) {
 
         return _accessMethodRepository.contains(accessMethod);
     }
@@ -57,4 +45,20 @@ public class AccessMethodRepository {
         }
         return Optional.empty();
     }
+
+    //might be useful in the future
+    //    public Optional <AccessMethod> createAccessMethod (String accessMethodName){
+//        try{
+//            AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
+//            if(!isAccessMethodRegistered(accessMethod)){
+//                _accessMethodRepository.add(accessMethod);
+//                return Optional.of(accessMethod);
+//            }
+//
+//            return Optional.empty();
+//
+//        } catch (InstantiationException e) {
+//            return Optional.empty();
+//        }
+//    }
 }

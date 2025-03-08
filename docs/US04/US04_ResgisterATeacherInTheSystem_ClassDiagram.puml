@@ -23,7 +23,7 @@ class Teacher {
 }
 
 class TeacherRepository {
-    +teacherRepository(teacherFactory: TeacherFactory)
+    +TeacherRepository(teacherFactory: TeacherFactory, teacherListFactory : TeacherListFactory)
     +registerTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
     country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory) : boolean
 }
@@ -34,24 +34,57 @@ class TeacherFactory {
 }
 
 class DepartmentRepository {
+    +DepartmentRepository (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
     +departmentExists(department: Department): boolean
 }
 
 class TeacherCategory {
     -_name:String
+    +TeacherCategory (name : String)
     +getName(): String
 }
 
 class TeacherCategoryRepository {
-    +getTeacherCategoryByName(name: String): Optional<TeacherCategory>
+    +TeacherCategoryRepository (teacherCategoryFactory : TeacherCategoryFactory, teacherCategoryListFactory : TeacherCategoryListFactory)
+    +getTeacherCategoryByName(name: String) : Optional<TeacherCategory>
+}
+
+class Address {
+    -_street : String
+    -_postalCode : String
+    -_location : String
+    -_country : String
+    +Address (street : String, postalCode : String, location : String, country : String)
+}
+
+class AddressFactory {
+    + createAdress (street : String, postalCode : String, location : String, country : String )
+}
+
+class Department {
+    +Department (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
+}
+
+class ArrayList {
+    +add() : boolean
+}
+
+class TeacherListFactory {
+    +newArrayList() : ArrayList<Teacher>
 }
 
 
 US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherRepository
 US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherCategoryRepository
-US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" DepartmentRepository
-TeacherRepository "1" --> " 1 \n_teacherFactory" TeacherFactory
-Teacher "_teacher 1   " <-- "1 " TeacherFactory
-TeacherCategory "_teacherCategoryList *" <-- "1" TeacherCategoryRepository
-
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1    " DepartmentRepository
+TeacherRepository "   1    " -u-> " _teacherFactory  1     " TeacherFactory
+Teacher "_teacher 1                   " <-- "1 " TeacherFactory
+TeacherCategory "                   * _teacherCategoryList  " <-- "1" TeacherCategoryRepository
+Teacher "       *  " --> "1  _ teacherCategory " TeacherCategory
+Teacher "1" --> "1 _addressFactory     " AddressFactory
+AddressFactory "1" --> "_address 1    " Address
+Teacher "*" --> "1               " Department
+TeacherRepository "1" ..> "   * _teacher            "Teacher
+TeacherRepository "1" ..> "_teacherListFactory 1" TeacherListFactory
+TeacherListFactory "1" ..> " _arrayList 1  "ArrayList
 @enduml

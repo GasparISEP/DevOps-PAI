@@ -64,6 +64,11 @@ public class TeacherCareerProgression {
         return _workingPercentage;
     }
 
+    public LocalDate getDate () {
+
+        return _date;
+    }
+
     public boolean isDateAfter(TeacherCareerProgression tcp) {
 
         if(_date.isAfter(tcp._date))

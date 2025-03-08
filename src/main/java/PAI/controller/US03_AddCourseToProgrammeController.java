@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.Course;
-import PAI.domain.CourseRepository;
+import PAI.repository.CourseRepository;
 import PAI.domain.Programme;
 import PAI.repository.ProgrammeList;
 
