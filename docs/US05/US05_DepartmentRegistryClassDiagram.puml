@@ -18,7 +18,7 @@ class Department {
 }
 
 class DepartmentRepository {
-    + departmentRepository(departmentFactory: DepartmentFactory, departmentListFactory: DepartmentListFactory )
+    +DepartmentRepository(departmentFactory: DepartmentFactory, departmentListFactory: DepartmentListFactory )
     +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
 }
 

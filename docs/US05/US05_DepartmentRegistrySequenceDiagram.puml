@@ -37,14 +37,14 @@ Department --> DepartmentFactory: d1
 deactivate Department
 DepartmentFactory --> DepartmentRepository: d1
 deactivate DepartmentFactory
+DepartmentRepository -> Departmenti: add (d1:Department)
+activate Departmenti
+Departmenti --> DepartmentRepository: True
+deactivate Departmenti
+DepartmentRepository --> Controller: True
+deactivate DepartmentRepository
 
-DepartmentRepository -> DepartmentRepository: add (d1:Department)
-activate DepartmentRepository
-DepartmentRepository --> DepartmentRepository: Department registered
-deactivate DepartmentRepository
-DepartmentRepository --> Controller: Department registered
-deactivate DepartmentRepository
-Controller --> UI: Department registered
+Controller --> UI: True
 deactivate Controller
 UI --> Administrator: Department registered
 deactivate UI
