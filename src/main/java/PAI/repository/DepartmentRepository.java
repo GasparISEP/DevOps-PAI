@@ -5,6 +5,8 @@ import PAI.factory.DepartmentFactory;
 
 import java.util.HashSet;
 import java.util.Set;
+import PAI.factory.DepartmentListFactory;
+import java.util.List;
 
 public class DepartmentRepository {
 
@@ -12,13 +14,13 @@ public class DepartmentRepository {
     private final DepartmentFactory _departmentFactory;
 
     //constructor
-    public DepartmentRepository(DepartmentFactory departmentFactory) {
+    public DepartmentRepository(DepartmentFactory departmentFactory, DepartmentListFactory departmentListFactory) {
         _departmentFactory = departmentFactory;
-        _departments = new HashSet<>();
+        _departments = departmentListFactory.newDepartmentList();
     }
 
-    public boolean registerDepartment(String acronym, String name) throws Exception {
-        Department newDepartment = _departmentFactory.newDepartment(acronym,name);
+        public boolean registerDepartment(String acronym, String name) throws Exception {
+            Department newDepartment = _departmentFactory.newDepartment(acronym,name);
 
         boolean isDepartmentRegisted = _departments.add(newDepartment);
 
