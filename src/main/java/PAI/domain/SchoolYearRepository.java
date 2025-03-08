@@ -1,16 +1,19 @@
 package PAI.domain;
 
+import PAI.factory.SchoolYearListFactory;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class SchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
     private SchoolYearFactory _schoolYearFactory;
 
-    public SchoolYearRepository(SchoolYearFactory schoolYearFactory) {
-        this._schoolYearList = new ArrayList<>();
+    public SchoolYearRepository(SchoolYearFactory schoolYearFactory, SchoolYearListFactory schoolYearListFactory) {
+        this._schoolYearList = schoolYearListFactory.newArrayList();
         this._schoolYearFactory = schoolYearFactory;
     }
 
