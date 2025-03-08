@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.TeacherCategory;
-import PAI.domain.TeacherCategoryFactory;
+import PAI.factory.TeacherCategoryFactory;
 import PAI.domain.TeacherCategoryRepositoryListFactory;
 
 import java.util.List;

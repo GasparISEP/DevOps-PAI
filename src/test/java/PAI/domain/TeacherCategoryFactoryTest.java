@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.factory.TeacherCategoryFactory;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

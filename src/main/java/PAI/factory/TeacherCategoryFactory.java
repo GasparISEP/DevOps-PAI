@@ -1,4 +1,7 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.TeacherCategory;
+import PAI.domain.TeacherCategoryFactoryInterface;
 
 public class TeacherCategoryFactory implements TeacherCategoryFactoryInterface {
 
