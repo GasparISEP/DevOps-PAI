@@ -363,8 +363,7 @@ class CourseEditionRepositoryTest {
         ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition);
 
         // Assert
-        assertNotNull(result, "The returned ProgrammeEdition should not be null.");
-        assertEquals(doubleProgrammeEdition, result, "The returned ProgrammeEdition should match the one associated with the CourseEdition.");
+        assertEquals(doubleProgrammeEdition, result);
     }
 
     @Test
