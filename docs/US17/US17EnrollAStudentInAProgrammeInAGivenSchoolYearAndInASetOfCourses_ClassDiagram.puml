@@ -91,22 +91,22 @@ class SchoolYear {
     -_startData:String
     -_endDate:String
     +SchoolYear(description: String, StartDate: String, EndDate: String)
-    +equals(Object: o) : boolean
 }
 
 class SchoolYearRepository {
-    +schoolYearRepository()
+    +schoolYearRepository(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
     +getAllSchoolYears() : List<SchoolYear>
 }
 
 class SchoolYearListFactory {
-    +newArrayList(): List<SchoolYear>
+    +copySchoolYearArrayList(List<SchoolYear>)
+
 }
 
-class SchoolYearArrayList{
-    +add(): boolean
-}
+interface SchoolYearListFactoryInterface {
+    +copySchoolYearArrayList(List<SchoolYear>)
 
+}
 
 class ProgrammeEnrollment {
     +ProgrammeEnrolment(student: Student, accessMethod: AccessMethod)
@@ -177,11 +177,10 @@ US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "_
 Student "1        " --> "_address 1  " Address
 Student "_student  1 " <-u- "* " ProgrammeEnrollment
 Programme " 1 "  --> "  1 _listOfEnrollments " ProgrammeEnrollment
-SchoolYearRepository "1    " ..> "_listOfSchoolYears*   " SchoolYear
-SchoolYearRepository "1     " -u-> "1 " SchoolYearListFactory
-SchoolYearRepository "1" --> "1" SchoolYearArrayList
-SchoolYearArrayList "1  " <.. "1   " SchoolYearListFactory
-SchoolYearArrayList "arrayOfSchoolYears 1   " <.u. "*  " SchoolYear
+SchoolYearRepository "1    " ..> " *_listOfSchoolYears" SchoolYear
+
+
+
 ProgrammeEdition "* " -->"_schoolYear 1      " SchoolYear
 CourseEditionRepository "1 " -u-> "* _listCourseEditions" CourseEdition
 CourseEditionRepository" 1     " -u-> "1  " CourseEditionListFactory
@@ -213,6 +212,10 @@ ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrollment
 ProgrammeList "1" --> "1" ProgrammeListArrayListFactory
 ProgrammeListArrayListFactory ..|> ProgrammeListArrayListFactoryInterface
 ProgrammeListArrayListFactory "1" ..> "1" Programme
+
+SchoolYearRepository "1" --> "1" SchoolYearListFactory
+SchoolYearListFactory ..|> SchoolYearListFactoryInterface
+SchoolYearListFactory "1" ..> "1" SchoolYear
 
 
 @enduml
