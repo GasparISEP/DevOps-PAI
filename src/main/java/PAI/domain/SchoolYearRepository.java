@@ -13,6 +13,14 @@ public class SchoolYearRepository {
     private SchoolYearFactory _schoolYearFactory;
 
     public SchoolYearRepository(SchoolYearFactory schoolYearFactory, SchoolYearListFactory schoolYearListFactory) {
+
+        if (schoolYearFactory == null) {
+            throw new IllegalArgumentException("SchoolYearFactory cannot be null");
+        }
+        if (schoolYearListFactory == null) {
+            throw new IllegalArgumentException("SchoolYearListFactory cannot be null");
+        }
+
         this._schoolYearList = schoolYearListFactory.newArrayList();
         this._schoolYearFactory = schoolYearFactory;
     }
