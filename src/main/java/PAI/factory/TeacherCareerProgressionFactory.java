@@ -3,7 +3,7 @@ package PAI.factory;
 import PAI.domain.TeacherCareerProgression;
 import PAI.domain.TeacherCategory;
 
-public class TeacherCareerProgressionFactoryFactory implements TeacherCareerProgressionFactoryInterface {
+public class TeacherCareerProgressionFactory implements TeacherCareerProgressionFactoryInterface {
 
     public TeacherCareerProgression createTeacherCareerProgression(String date, TeacherCategory category, int workingPercentage) throws IllegalArgumentException {
 

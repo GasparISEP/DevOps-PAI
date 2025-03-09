@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -68,14 +71,14 @@ class TeacherCareerProgressionTest {
 
     public static Stream<Arguments> provideValidCategories() {
         return Stream.of(
-                arguments("10-12-2024", "Professor Adjunto", 0),
-                arguments("20-05-2022", "Professor Catedrático", 100)
+                arguments("10-12-2024", 0),
+                arguments("20-05-2022", 100)
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideValidCategories")
-    void getCategoryReturnsCorrectCategory(String date, String categoryName, int workingPercentage) throws Exception {
+    void getCategoryReturnsCorrectCategory(String date, int workingPercentage) throws Exception {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         TeacherCareerProgression TCP = new TeacherCareerProgression(date, tcDouble, workingPercentage);
@@ -89,14 +92,14 @@ class TeacherCareerProgressionTest {
 
     public static Stream<Arguments> provideValidWorkingPercentages() {
         return Stream.of(
-                arguments("02-02-2024", 0, "Assitente", 0),
-                arguments("20-05-2022", 100, "Adjunto", 100)
+                arguments("02-02-2024", 0, 0),
+                arguments("20-05-2022", 100, 100)
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideValidWorkingPercentages")
-    void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, String categoryName, int expectedWorkingPercentage) throws Exception {
+    void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, int expectedWorkingPercentage) throws Exception {
 
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -107,6 +110,30 @@ class TeacherCareerProgressionTest {
 
         //assert
         assertEquals(expectedWorkingPercentage, result);
+    }
+
+
+    public static Stream<Arguments> provideValidDate () {
+        return Stream.of(
+                arguments("01-01-2010", "01-01-2010"),
+                arguments("31-12-2010", "31-12-2010")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideValidDate")
+    void getDateReturnsDate (String date, String expectedDate) {
+        //Arrange
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        TeacherCareerProgression tcp = new TeacherCareerProgression(date,tcDouble,100);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        // Act
+        LocalDate result = tcp.getDate();
+
+        // Assert
+        assertEquals(LocalDate.parse(expectedDate, formatter), result);
     }
 
     public static Stream<Arguments> provideDates() {
