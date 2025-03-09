@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 class StudentTest {
 
     @Test
-    void validAttributesCreateObject() throws Exception {
+    void validAttributesCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -17,7 +17,7 @@ class StudentTest {
     }
 
     @Test
-    void zeroAsUniqueNumberDoesNotCreateObject() throws Exception {
+    void zeroAsUniqueNumberDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -27,7 +27,7 @@ class StudentTest {
     }
 
     @Test
-    void negativeUniqueNumberDoesNotCreateObject() throws Exception {
+    void negativeUniqueNumberDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -37,7 +37,7 @@ class StudentTest {
     }
 
     @Test
-    void emptyNameDoesNotCreateObject() throws Exception {
+    void emptyNameDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -47,7 +47,7 @@ class StudentTest {
     }
 
     @Test
-    void blankNameDoesNotCreateAnObject() throws Exception {
+    void blankNameDoesNotCreateAnObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -57,7 +57,7 @@ class StudentTest {
     }
 
     @Test
-    void nullNameDoesNotCreateObject() throws Exception {
+    void nullNameDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -67,7 +67,7 @@ class StudentTest {
     }
 
     @Test
-    void emptyNIFDoesNotCreateObject() throws Exception {
+    void emptyNIFDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -77,7 +77,7 @@ class StudentTest {
     }
 
     @Test
-    void blankNIFDoesNotCreateAnObject() throws Exception {
+    void blankNIFDoesNotCreateAnObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -87,7 +87,7 @@ class StudentTest {
     }
 
     @Test
-    void nullNIFDoesNotCreateObject() throws Exception {
+    void nullNIFDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -97,7 +97,7 @@ class StudentTest {
     }
 
     @Test
-    void emptyPhoneDoesNotCreateObject() throws Exception {
+    void emptyPhoneDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -107,7 +107,7 @@ class StudentTest {
     }
 
     @Test
-    void blankPhoneDoesNotCreateAnObject() throws Exception {
+    void blankPhoneDoesNotCreateAnObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -117,7 +117,7 @@ class StudentTest {
     }
 
     @Test
-    void nullPhoneDoesNotCreateObject() throws Exception {
+    void nullPhoneDoesNotCreateObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -127,7 +127,7 @@ class StudentTest {
     }
 
     @Test
-    void emptyEmailDoesNotCreateObject () throws Exception {
+    void emptyEmailDoesNotCreateObject () {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -137,7 +137,7 @@ class StudentTest {
     }
 
     @Test
-    void blankEmailDoesNotCreateAnObject() throws Exception {
+    void blankEmailDoesNotCreateAnObject() {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -147,7 +147,7 @@ class StudentTest {
     }
 
     @Test
-    void nullEmailDoesNotCreateObject () throws Exception {
+    void nullEmailDoesNotCreateObject () {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -157,7 +157,7 @@ class StudentTest {
     }
 
     @Test
-    void shouldReturnTrueIfTwoStudentsHaveTheSameUniqueNumber() throws Exception {
+    void shouldReturnTrueIfTwoStudentsHaveTheSameUniqueNumber() {
         // Arrange
         Address address1 = mock(Address.class);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -174,7 +174,7 @@ class StudentTest {
     }
 
     @Test
-    void shouldReturnFalseIfTwoStudentsDontHaveTheSameUniqueNumber() throws Exception {
+    void shouldReturnFalseIfTwoStudentsDontHaveTheSameUniqueNumber() {
         // Arrange
         Address address1 = mock(Address.class);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -191,7 +191,7 @@ class StudentTest {
     }
 
     @Test
-    void shouldReturnTrueIfTwoStudentsHaveTheSameNIF() throws Exception {
+    void shouldReturnTrueIfTwoStudentsHaveTheSameNIF() {
         // Arrange
         Address address1 = mock(Address.class);
         Address address2 = mock(Address.class);
@@ -207,7 +207,7 @@ class StudentTest {
     }
 
     @Test
-    void shouldReturnFalseIfTwoStudentsDontHaveTheSameNIF() throws Exception {
+    void shouldReturnFalseIfTwoStudentsDontHaveTheSameNIF() {
         // Arrange
         Address address1 = mock(Address.class);
         Address address2 = mock(Address.class);
@@ -223,7 +223,7 @@ class StudentTest {
     }
 
     @Test
-    void shouldReturnTheUniqueNumber() throws Exception {
+    void shouldReturnTheUniqueNumber() {
         //assert
         Address address1 = mock(Address.class);
         Student student1 = new Student(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
@@ -237,7 +237,7 @@ class StudentTest {
 
 
     @Test
-    void shouldReturnTrueIfTheUniqueNumberIsFoundInAStudent() throws Exception {
+    void shouldReturnTrueIfTheUniqueNumberIsFoundInAStudent() {
         // Arrange
         Address address1 = mock(Address.class);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
@@ -250,7 +250,7 @@ class StudentTest {
     }
 
     @Test
-    void shouldReturnFalseIfTheUniqueNumberIsFoundInAStudent() throws Exception {
+    void shouldReturnFalseIfTheUniqueNumberIsFoundInAStudent() {
         // Arrange
         Address address1 = mock(Address.class);
         Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
