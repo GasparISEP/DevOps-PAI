@@ -3,6 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.TeacherCareerProgressionListFactory;
 import PAI.repository.DepartmentRepository;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
@@ -139,6 +140,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         Department dptDouble = mock(Department.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         TeacherCategoryRepository tcrDouble = mock(TeacherCategoryRepository.class);
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
@@ -148,12 +150,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenReturn(true);
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenReturn(true);
 
         // Act
         boolean result = controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble, tcpFactoryDouble);
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble);
 
         // Assert
         assertTrue(result);
@@ -184,6 +186,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -192,12 +195,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher(acronym, "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher(acronym, "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     //testing the Teacher name
@@ -222,6 +225,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -230,12 +234,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD", name, "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", name , "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidTeacherEmailInController() {
@@ -259,6 +263,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -267,12 +272,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", email,
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", email,
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidTeacherNIFInController() {
@@ -296,6 +301,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -304,12 +310,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 nif, "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 nif, "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidTeacherPhoneNumberInController() {
@@ -336,6 +342,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -344,12 +351,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", phoneNumber, "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", phoneNumber, "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidAcademicBackgroundInController() {
@@ -367,6 +374,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -375,12 +383,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", academicBackground,
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", academicBackground,
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidStreetInController() {
@@ -398,6 +406,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -406,12 +415,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidPostalCodeInController() {
@@ -429,6 +438,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -437,12 +447,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidLocationInController() {
@@ -460,6 +470,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -468,12 +479,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidCountryInController() {
@@ -491,6 +502,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -499,12 +511,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 
     public static Stream<Arguments> provideInvalidDateInController() {
@@ -522,6 +534,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
         DepartmentRepository dptrDouble = mock(DepartmentRepository.class);
         TeacherRepository trDouble = mock(TeacherRepository.class);
@@ -530,11 +543,11 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble, tcpFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble, tcpFactoryDouble));
+                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
     }
 }

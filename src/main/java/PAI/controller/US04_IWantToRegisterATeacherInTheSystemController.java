@@ -3,6 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.TeacherCareerProgressionListFactory;
 import PAI.repository.DepartmentRepository;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
@@ -30,7 +31,8 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             String acronym, String name, String email, String nif, String phoneNumber,
             String academicBackground, String street, String postalCode, String location,
             String country, AddressFactory addressFactory, String date, TeacherCategory category,
-            int workingPercentage, Department department, TeacherCareerProgressionFactory CareerProgressionFactory) {
+            int workingPercentage, Department department, TeacherCareerProgressionFactory CareerProgressionFactory,
+            TeacherCareerProgressionListFactory teacherCareerProgressionListFactory) {
 
         if(!isCategoryInTeacherCategoryRepository(category)){
             return false;
@@ -41,7 +43,8 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
 
         _teacherRepository.registerTeacher(
                 acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,
-                location,country, addressFactory,date,category,workingPercentage,department, CareerProgressionFactory);
+                location,country, addressFactory,date,category,workingPercentage,department, CareerProgressionFactory,
+                teacherCareerProgressionListFactory);
         return true;
     }
 
