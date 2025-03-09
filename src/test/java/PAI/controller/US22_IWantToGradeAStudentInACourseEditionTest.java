@@ -5,6 +5,7 @@ import PAI.domain.*;
 import PAI.factory.CourseEditionEnrollmentFactory;
 import PAI.factory.CourseEditionEnrollmentListFactory;
 import PAI.factory.GradeStudentFactory;
+import PAI.factory.GradeStudentListFactory;
 import PAI.repository.GradeStudentRepository;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
