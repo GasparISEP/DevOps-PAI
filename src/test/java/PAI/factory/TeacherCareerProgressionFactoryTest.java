@@ -24,12 +24,13 @@ class TeacherCareerProgressionFactoryTest {
     void shouldCreateTeacherCareerProgression () throws IllegalArgumentException {
 
         // Arrange
-        TeacherCareerProgressionFactory factory = new TeacherCareerProgressionFactory();
         String date = "01-10-2022";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         int workingPercentage = 100;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        TeacherCareerProgressionFactory TCPfactory = new TeacherCareerProgressionFactory();
 
         // Mock the construction of TeacherCareerProgression objects
         try (MockedConstruction<TeacherCareerProgression> mockedConstruction = Mockito.mockConstruction(TeacherCareerProgression.class, (mock, context) -> {
@@ -43,9 +44,7 @@ class TeacherCareerProgressionFactoryTest {
             when(mock.getWorkingPercentage()).thenReturn(actualWorkingPercentage);
         })) {
 
-            TeacherCareerProgressionFactory TCPfactory = new TeacherCareerProgressionFactory();
-
-        // Act
+            // Act
             TeacherCareerProgression tcpObject = TCPfactory.createTeacherCareerProgression(date, tcDouble, workingPercentage);
 
         // Assert

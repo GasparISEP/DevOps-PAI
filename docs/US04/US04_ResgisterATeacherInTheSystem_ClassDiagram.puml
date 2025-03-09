@@ -79,12 +79,14 @@ US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherCategoryRep
 US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1    " DepartmentRepository
 TeacherRepository "   1    " -u-> " _teacherFactory  1     " TeacherFactory
 Teacher "_teacher 1                   " <-- "1 " TeacherFactory
-TeacherCategory "                   * _teacherCategoryList  " <-- "1" TeacherCategoryRepository
-Teacher "       *  " --> "1  _ teacherCategory " TeacherCategory
-Teacher "1" --> "1 _addressFactory     " AddressFactory
+TeacherCategory "                _teacherCategoryList *                   " <-- "1" TeacherCategoryRepository
+Teacher "       *  " --> "  _ teacherCategory   1              " TeacherCategory
+Teacher "1" --> " _addressFactory\n  1         " AddressFactory
 AddressFactory "1" --> "_address 1    " Address
 Teacher "*" --> "1               " Department
-TeacherRepository "1" ..> "   * _teacher            "Teacher
-TeacherRepository "1" ..> "_teacherListFactory 1" TeacherListFactory
-TeacherListFactory "1" ..> " _arrayList 1  "ArrayList
+TeacherRepository "1" ..> "   * _teacher      "Teacher
+TeacherRepository "1" .u.> "  _teacherListFactory    1              " TeacherListFactory
+TeacherListFactory "1" ..> "   1\n _arrayList  "ArrayList
+TeacherRepository "1" --> "  1 _arrayList" ArrayList
+ArrayList "1" --> "   * _teacher" Teacher
 @enduml

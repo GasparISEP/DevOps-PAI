@@ -20,15 +20,14 @@ public class CourseEditionEnrollmentRepository {
     }
 
     public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition) {
+        try {
+            CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition);
 
-        CourseEditionEnrollment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition);
+            return _courseEditionEnrollments.add(cee1);
 
-        boolean isEnrollmentAddedToRepository = _courseEditionEnrollments.add(cee1);
-
-        if (!isEnrollmentAddedToRepository) {
+        } catch (Exception e) {
             return false;
         }
-        return true;
     }
 
     public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {

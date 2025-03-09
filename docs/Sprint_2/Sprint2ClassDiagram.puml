@@ -197,6 +197,13 @@ class Enrolment {
     +findStudentInEnrollments()
 }
 
+
+class ProgrammeEnrolmentRepository {
+     +enrolStudents (Student : student, AccessMethod : accessMethod, Programme : programme, String enrolmentDate)
+     +isEnrolmentRepetead(Enrolment : newEnrolment)
+     +isStudentEnrolled (Student : student, Programme : programme)
+}
+
 class Student {
     -_uniqueNumber:int
     -_name:String
@@ -316,10 +323,12 @@ Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
 Teacher "1..*" -r-> "*" Course: teaches
-Programme "*" -u-> "1*" Department: assigned to
-DegreeType "1" <-- "*" Programme
-Enrolment "*" --> "1" AccessMethod
-Programme "1"  --> "*" Enrolment: has
+Programme "*" -l-> "1*" Department: assigned to
+DegreeType "1" <-u- "*" Programme
+Enrolment "*" -l-> "1" AccessMethod
+ProgrammeEnrolmentRepository ..> Enrolment: <<create>>
+ProgrammeEnrolmentRepository "List<Enrolment>  " o-- "*" Enrolment: "           "
+Programme "1"  -r-> "*" Enrolment: has
 Student "1" <-l- "*" Enrolment: enrols
 StudentRepository ..> Student: <<create>>\n
 StudentRepository "1 " o-- "*" Student: "             "
@@ -340,7 +349,7 @@ GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
 StudyPlan "1" <-- "1..*" CourseInStudyPlan: belongs
 CourseInStudyPlan "*" --> "1" Programme: belongs
-CourseInStudyPlan "0..1" <-- "1" Course: happens
+CourseInStudyPlan "0..1" <-u- "1" Course: happens
 CourseEdition "1" ..> "1" TeacherRepository
 Student "1" <--- "*" CourseEditionEnrollment : > enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to

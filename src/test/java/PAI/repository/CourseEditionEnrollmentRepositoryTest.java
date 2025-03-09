@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
 
 class CourseEditionEnrollmentRepositoryTest {
 
+    //test enroll a student in a course edition method
     @Test
     void shouldReturnTrueWithAValidCourseEditionEnrollment () {
         //arrange
@@ -84,6 +85,43 @@ class CourseEditionEnrollmentRepositoryTest {
         assertFalse(result2);
     }
 
+    @Test
+    void shouldReturnFalseIfStudentIsNull (){
+        //arrange
+        CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
+
+        CourseEdition doubleCe1 = mock(CourseEdition.class);
+
+        when(doubleCeeFactory.createCourseEditionEnrollment(null,doubleCe1)).thenThrow();
+
+        //act
+        boolean result = repository.enrollStudentInACourseEdition(null, doubleCe1);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseEditionIsNull (){
+        //arrange
+        CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory doubleCeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, doubleCeeListFactory);
+
+        Student doubleSt1 = mock(Student.class);
+
+        when(doubleCeeFactory.createCourseEditionEnrollment(doubleSt1,null)).thenThrow();
+
+        //act
+        boolean result = repository.enrollStudentInACourseEdition(doubleSt1, null);
+
+        //assert
+        assertFalse(result);
+    }
+
+    //test isStudentEnrolledInCourseEdition method
     @Test
     void shouldConfirmStudentIsEnrollInACourseEdition () throws Exception {
         //arrange

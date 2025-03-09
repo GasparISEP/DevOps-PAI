@@ -83,7 +83,6 @@ class SchoolYear {
 }
 
 class SchoolYearRepository {
-    -_schoolYearList: List<SchoolYear>
     +schoolYearRepository()
     +addSchoolYear(description: String, StartDate: String, EndDate: String)
 }
@@ -107,7 +106,6 @@ class Student {
 }
 
 class StudentRepository {
-    -_students: List<Student>
     +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
 }
 
@@ -177,9 +175,9 @@ Enrolment "*" --> "1" AccessMethod: is registered
 Programme "1"  *-u- "*\n      " Enrolment
 Programme .u.> Enrolment: <<create>>\n\n
 Student "1" <-- "*" Enrolment: enrolls
-StudentRepository "1 " o--- "*" Student: "      "
+StudentRepository "List<Student>" o--- "*" Student: "      "
 StudentRepository ...> Student: <<create>>
-SchoolYearRepository "1 " o--- "*" SchoolYear: "      "
+SchoolYearRepository "List<SchoolYear> " o--- "*" SchoolYear: "      "
 SchoolYearRepository ...> SchoolYear: <<create>>
 Teacher "1" -r- "1" Department: is Department Director
 Teacher "1..*" -- "1" Department: aggregates

@@ -3,7 +3,7 @@ package PAI.repository;
 import PAI.domain.*;
 import PAI.factory.ProgrammeEditionEnrollmentFactory;
 
-import java.time.LocalDate;
+
 import java.util.*;
 
 public class ProgrammeEditionEnrollmentRepo {
@@ -12,9 +12,10 @@ public class ProgrammeEditionEnrollmentRepo {
 
     private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
 
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory) {
+    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory,ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
         _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
-        _programmeEditionEnrollments = new HashSet<>();
+        _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
+
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
