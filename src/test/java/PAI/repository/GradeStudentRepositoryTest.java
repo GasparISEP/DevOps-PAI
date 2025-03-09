@@ -3,7 +3,7 @@ package PAI.repository;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.GradeStudent;
-import PAI.domain.GradeStudentListFactory;
+import PAI.factory.GradeStudentListFactory;
 import PAI.domain.Student;
 import PAI.factory.GradeStudentFactory;
 import org.junit.jupiter.api.Test;
