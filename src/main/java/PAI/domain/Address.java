@@ -35,6 +35,14 @@ public class Address {
         _country = country;
     }
 
+    public String getStreet() { return _street; }
+
+    public String getPostalCode() { return _postalCode; }
+
+    public String getLocation() { return _location; }
+
+    public String getCountry() { return _country; }
+
     private boolean areParametersInvalid(String parameter) {
 
         return parameter == null || parameter.isBlank();
