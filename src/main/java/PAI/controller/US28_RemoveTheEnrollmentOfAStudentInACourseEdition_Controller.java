@@ -6,7 +6,7 @@ import PAI.domain.Student;
 
 public class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
 
-    private CourseEditionEnrollmentRepository courseEditionEnrollmentRepository;
+    private final CourseEditionEnrollmentRepository courseEditionEnrollmentRepository;
 
     public US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(CourseEditionEnrollmentRepository courseEditionEnrollmentRepository) {
 

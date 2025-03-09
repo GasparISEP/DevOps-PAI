@@ -16,7 +16,9 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
         validateDepartmentRepository (departmentRepository);
         this._departmentRepository = departmentRepository;
     }
-
+    public Set<Department> getAllDepartments() {
+        return _departmentRepository.getDepartments();
+    }
     public boolean updateDepartmentDirector(Department department, Teacher teacher) {
         if (department == null || teacher == null ) {
             return false;
@@ -30,9 +32,5 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
             throw new IllegalArgumentException("Department Repository cannot be null!");
         }
 
-    }
-
-    public Set<Department> getAllDepartments() {
-        return _departmentRepository.getDepartments();
     }
 }
