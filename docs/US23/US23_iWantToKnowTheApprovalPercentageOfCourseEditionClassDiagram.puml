@@ -12,6 +12,13 @@ class GradeStudent {
     -grade: double
     -date: String
     +knowGrade()
+    +hasThisCourseEdition(CourseEdition : CourseEdition)
+    +knowCourseEdition()
+    +isDateValid(String date)
+    +get_date()
+    +get_student()
+    +get_courseEdition()
+    +equals (objectToCompare: Object)
 }
 
 class GradeStudentRepository {
@@ -44,19 +51,20 @@ class Student {
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Student>)
     +hasSameUniqueNumber(Student student)
+    +hasSameNIF (Student student)
+    +getUniqueNumber()
+    +hasThisUniqueNumber(int uniqueNumber)
 }
 
 class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_course: Course
     -_ruc: Teacher
-    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
     +setRuc(Teacher: ruc)
     +whatProgrammeEditionBelongsThisCourseEdition ()
+    +getCourse()
 }
 
 
@@ -70,5 +78,5 @@ GradeStudentFactory  ..|>  GradeStudentFactoryImpl
 GradeStudentListFactory "1" ....> "Creates List of" GradeStudent
 
 
-US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1\n_gradeStudentList    " GradeStudentRepository
+US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1    " GradeStudentRepository
 @enduml
