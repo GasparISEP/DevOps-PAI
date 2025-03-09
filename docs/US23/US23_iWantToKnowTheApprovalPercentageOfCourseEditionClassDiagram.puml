@@ -16,9 +16,26 @@ class GradeStudent {
 
 class GradeStudentRepository {
     -gradeStudentList: List<GradeStudent>
+    - _gradeStudentFactory: GradeStudentFactory
     +addGradeToStudent()
     +knowAverageGrade()
     +knowApprovalRate()
+}
+
+class GradeStudentFactory {
+    +newGradeStudent()
+}
+
+class GradeStudentListFactory {
+    +newArrayList()
+}
+
+Interface GradeStudentListFactoryImpl {
+    +newArrayList()
+}
+
+Interface GradeStudentFactoryImpl {
+    +newGradeStudent()
 }
 
 class Student {
@@ -45,7 +62,13 @@ class CourseEdition {
 
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
+GradeStudentRepository "1" ....> "_gradeStudentFactory 1" GradeStudentFactory
+GradeStudentFactory "1" ....> "1" GradeStudent
+GradeStudentRepository "1" ....> "_gradeStudentList" GradeStudentListFactory
+GradeStudentListFactory  ..|>  GradeStudentListFactoryImpl
+GradeStudentFactory  ..|>  GradeStudentFactoryImpl
+GradeStudentListFactory "1" ....> "Creates List of" GradeStudent
+
 
 US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1\n_gradeStudentList    " GradeStudentRepository
-GradeStudent "gradeStudentList" <-- "1" GradeStudentRepository
 @enduml
