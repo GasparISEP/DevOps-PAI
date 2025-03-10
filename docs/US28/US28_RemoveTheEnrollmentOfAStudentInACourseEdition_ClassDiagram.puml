@@ -66,5 +66,8 @@ US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1 " Cours
 CourseEditionEnrollmentFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentFactory : implements
 CourseEditionEnrollmentRepository "1" --> "              1_courseEditionEnrollmentListFactory" CourseEditionEnrollmentListFactory : uses
 CourseEditionEnrollmentListFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentListFactory : implements
+CourseEditionEnrollmentRepository ..> CourseEditionEnrollmentFactoryInterface
+CourseEditionEnrollmentFactoryInterface ..> CourseEditionEnrollment
+CourseEditionEnrollmentRepository .u.> CourseEditionEnrollmentListFactoryInterface
 
 @enduml
