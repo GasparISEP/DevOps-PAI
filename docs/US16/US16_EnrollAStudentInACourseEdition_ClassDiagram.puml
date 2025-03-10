@@ -32,18 +32,6 @@ class CourseEditionEnrollmentListFactory {
     +getCourseEditionEnrollmentList(): Set<CourseEditionEnrollment>
 }
 
-class CourseEditionListFactory {
-    +newArrayList(): List<CourseEdition>
-}
-
-interface CourseEditionListFactoryInterface{
-    +newArrayList(): List<CourseEdition>
-}
-
-class CourseEditionArrayList{
-    +add(courseEdition: CourseEdition): boolean
-}
-
 interface CourseEditionEnrollmentFactoryInterface{
     +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition)
 }
@@ -59,19 +47,7 @@ class ProgrammeEditionEnrollment {
     +findStudentInProgrammeEditionEnrollment () : Student
 }
 
-class ProgrammeEditionListFactory {
-    +getProgrammeEditionEnrollmentList(): Set<ProgrammeEditionEnrollment>
-}
-
-interface ProgrammeEditionListFactoryInterface {
-    +getProgrammeEditionEnrollmentList(): Set<ProgrammeEditionEnrollment>
-}
-
-class ProgrammeEditionArrayList {
-    +add(programmeEdition: ProgrammeEdition): boolean
-}
-
-class CourseEditionEnrollmentHashSet {
+class CourseEditionEnrollmentList {
     +add(courseEditionEnrollment: CourseEditionEnrollment): boolean
 }
 
@@ -111,34 +87,28 @@ class CourseEditionRepository {
     +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<ProgrammeEdition>
 }
 
-CourseEdition "_courseEditions *             " <.. "           1 " CourseEditionRepository
-Student "_student  1                " <-- " *" CourseEditionEnrollment
+CourseEdition "_courseEditions *             " <.u. "           1 " CourseEditionRepository
+Student "  _student  1 " <-u- " * " CourseEditionEnrollment
 CourseEditionEnrollment "    *  " --> " 1 _courseEdition   " CourseEdition
 CourseEditionEnrollmentFactory "1  " ..> "_courseEditionEnrollment   1    "CourseEditionEnrollment
-CourseEditionEnrollmentFactory "           _courseEditionEnrollmentFactory 1           " <-u- "  1" CourseEditionEnrollmentRepository
-ProgrammeEditionEnrollment "      *     " --> "_student 1   " Student
-ProgrammeEditionEnrollment "          * _programmeEditionEnrollment          " <.. "1 " ProgrammeEditionEnrollmentRepo
+CourseEditionEnrollmentFactory "           _courseEditionEnrollmentFactory 1 " <-u- "  1" CourseEditionEnrollmentRepository
+ProgrammeEditionEnrollment "      *  " -u-> "_student 1   " Student
+ProgrammeEditionEnrollment " * _programmeEditionEnrollment" <.. "1 " ProgrammeEditionEnrollmentRepo
 US16_EnrollAStudentInACourseEditionController "1 "..> "    1                  " CourseEditionRepository
 US16_EnrollAStudentInACourseEditionController " 1 "..> "1   " ProgrammeEditionEnrollmentRepo
 US16_EnrollAStudentInACourseEditionController "1 "..> "  1  " CourseEditionEnrollmentRepository
-Address "_address  1             " <-u- "  1" Student
+Address "_address  1 " <-u- "  1" Student
 CourseEditionEnrollmentListFactory " 1 " <.u. "  1        " CourseEditionEnrollmentRepository
-CourseEditionEnrollmentHashSet "    1" -u->  "_listOfCEE *             " CourseEditionEnrollment
-CourseEditionEnrollmentListFactory"1 " ..> "_courseEditionEnrollmentHashSet  1    "CourseEditionEnrollmentHashSet
-CourseEditionEnrollmentRepository " 1  " -u-> "     1\n _hashSet " CourseEditionEnrollmentHashSet
+CourseEditionEnrollmentList "   1            " -u->  "_listOfCEE *" CourseEditionEnrollment
+CourseEditionEnrollmentRepository " 1  " -u-> "     1\n _ArrayList   " CourseEditionEnrollmentList
 CourseEditionEnrollmentRepository"   1  " ..> "    _ceeEnrollment *       "CourseEditionEnrollment
 CourseEditionEnrollmentFactoryInterface <|.. CourseEditionEnrollmentFactory
 CourseEditionEnrollmentListFactoryInterface <|.. CourseEditionEnrollmentListFactory
-CourseEditionListFactoryInterface <|.. CourseEditionListFactory
-ProgrammeEditionListFactoryInterface <|.. ProgrammeEditionListFactory
-CourseEditionRepository"     1    " ..> "_courseEditionListFactory 1  "CourseEditionListFactory
-CourseEditionRepository"1    " -u-> "   1 _arrayList                      " CourseEditionArrayList
-CourseEditionListFactory" 1        " ..> " 1       "  CourseEditionArrayList
-ProgrammeEditionEnrollmentRepo"  1" .u.> "  _programmeEditionListFactory 1      "ProgrammeEditionListFactory
-ProgrammeEditionEnrollmentRepo"1" -u-> "  1\n_PEArrayList           "ProgrammeEditionArrayList
-ProgrammeEditionListFactory"1" ..> "               _PEArrayList 1    "ProgrammeEditionArrayList
-CourseEdition "_listOfCourseEdition *  " <-u- "1"CourseEditionArrayList
-ProgrammeEdition"_listOfProgrammeEdition\n                              *" <-u- "  1    "ProgrammeEditionArrayList
-ProgrammeEditionEnrollmentRepo "1"..> "_programmeEdition *         "ProgrammeEdition
+ProgrammeEditionEnrollmentRepo"1" --> "  1\n_PEArrayList           "ProgrammeEditionArrayList
+ProgrammeEdition"_listOfProgrammeEdition\n *" <-u- "  1    "ProgrammeEditionArrayList
+ProgrammeEditionEnrollmentRepo "1"..> "    _programmeEdition *"ProgrammeEdition
+CourseEditionEnrollmentRepository .u.> CourseEditionEnrollmentListFactoryInterface
+CourseEditionEnrollmentRepository ..> CourseEditionEnrollmentFactoryInterface
+CourseEditionEnrollmentFactoryInterface ..> CourseEditionEnrollment
 
 @enduml
