@@ -16,7 +16,7 @@ public class US08_IWantToRegisterAStudentInTheSystemController {
 
     }
 
-    public boolean registerStudent (int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
+    public boolean registerStudent (String uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
 
         _studentRepository.registerStudent(uniqueNumber, name, NIF, phone, email, address);
 

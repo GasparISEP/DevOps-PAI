@@ -39,7 +39,7 @@ class ProgrammeEnrolmentFactoryTest {
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-            _student = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", _address);
+            _student = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", _address);
             _accessMethod = new AccessMethod("M1");
             _date = "14-02-2024";
             _degreeType = new DegreeType("Master", 240);

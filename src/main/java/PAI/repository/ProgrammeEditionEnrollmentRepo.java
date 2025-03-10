@@ -2,6 +2,7 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeEditionEnrollmentFactory;
+import PAI.factory.ProgrammeEditionListFactory;
 
 
 import java.util.*;
@@ -12,10 +13,13 @@ public class ProgrammeEditionEnrollmentRepo {
 
     private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
 
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory,ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
+    private ProgrammeEditionListFactory _programmeEditionListFactory;
+
+    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory,
+                                          ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
+
         _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
         _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
-
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
@@ -45,11 +49,11 @@ public class ProgrammeEditionEnrollmentRepo {
 
     //US26- number of students enrolled in all programmes associated to a department, in a given school year
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
-        Set<Integer> studentUniqueNumbers = new HashSet<>();
+        Set<String> studentUniqueNumbers = new HashSet<>();
 
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
             if (enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
-                Integer studentUniqueNumber = enrollment.getStudentUniqueNumber();
+                String studentUniqueNumber = enrollment.getStudentUniqueNumber();
                 studentUniqueNumbers.add(studentUniqueNumber);
                 }
         }
@@ -66,5 +70,17 @@ public class ProgrammeEditionEnrollmentRepo {
             }
 
         return numberOfStudents;
+    }
+
+    public List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled(Student student){
+        List<ProgrammeEdition> list = new ArrayList<>();
+
+        for(ProgrammeEditionEnrollment programmeEditionEnrollment : _programmeEditionEnrollments){
+            if(programmeEditionEnrollment.findStudentInProgrammeEdition().equals(student)){
+                ProgrammeEdition programmeEdition = programmeEditionEnrollment.findProgrammeEditionInEnrollment();
+                list.add(programmeEdition);
+            }
+        }
+        return list;
     }
 }

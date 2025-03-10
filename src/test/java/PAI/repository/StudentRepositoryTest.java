@@ -62,17 +62,17 @@ class StudentRepositoryTest {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
 
-            when(_studentFactoryImplDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent("1789023", "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble1.hasSameNIF(_studentDouble2)).thenReturn(true);
 
-            studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
             // Act & Assert
             Exception exception = assertThrows(Exception.class, () -> {
-                studentRepository.registerStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble);
+                studentRepository.registerStudent("1789023", "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble);
             });
             assertEquals(exception.getMessage(), "Duplicate unique number or NIF detected. Student cannot be added.");
         }
@@ -81,17 +81,17 @@ class StudentRepositoryTest {
         void testRegisterDuplicateUniqueNumberThrowsException() throws Exception {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(12345, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent("1234567", "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble1.hasSameUniqueNumber(_studentDouble2)).thenReturn(true);
 
-            studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
             // Act & Assert
             Exception exception = assertThrows(Exception.class, () -> {
-                studentRepository.registerStudent(12345, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+                studentRepository.registerStudent("1234567", "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
             });
             assertEquals(exception.getMessage(), "Duplicate unique number or NIF detected. Student cannot be added.");
         }
@@ -100,16 +100,16 @@ class StudentRepositoryTest {
         void shouldReturnTrueWhenValidStudentsAreRegistered() throws Exception {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent("1789023", "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble2.hasSameUniqueNumber(_studentDouble1) && _studentDouble2.hasSameNIF(_studentDouble1)).thenReturn(false);
 
-            studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
 
             // Act
-            boolean result = studentRepository.registerStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+            boolean result = studentRepository.registerStudent("1789023", "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
 
             // Assert
             assertTrue(result);
@@ -118,14 +118,14 @@ class StudentRepositoryTest {
         @Test
         void shouldReturnOptionalWithStudentIfStudentWithSpecificNIFIsFound() throws Exception {
             // Arrange
-            int uniqueNumberToBeFound = 67890;
+            String uniqueNumberToBeFound = "1789077";
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
             when(_studentFactoryImplDouble.newStudent(uniqueNumberToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
-            studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
             studentRepository.registerStudent(uniqueNumberToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
 
             when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
@@ -144,15 +144,15 @@ class StudentRepositoryTest {
         @Test
         void shouldReturnOptionalWithoutStudentIfStudentWithSpecificNIFIsNotFound() throws Exception {
             // Arrange
-            int uniqueNumberToBeFound = 12345;
+            String uniqueNumberToBeFound = "1234534";
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent("1789023", "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
-            studentRepository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
-            studentRepository.registerStudent(67890, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+            studentRepository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent("1789023", "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
 
             when(_studentDouble1.hasThisUniqueNumber(uniqueNumberToBeFound) || _studentDouble2.hasThisUniqueNumber(uniqueNumberToBeFound)).thenReturn(false);
 
@@ -203,11 +203,11 @@ class StudentRepositoryTest {
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
             // Act
-            repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
+            repository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
 
             // Assert
             assertThrows(Exception.class, () -> {
-                repository.registerStudent(67890, "Miguel", "123456789", "912345678", "miguel@gmail.com", _address2);
+                repository.registerStudent("1789023", "Miguel", "123456789", "912345678", "miguel@gmail.com", _address2);
             });
         }
 
@@ -217,11 +217,11 @@ class StudentRepositoryTest {
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
             // Act
-            repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
+            repository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
 
             // Assert
             assertThrows(Exception.class, () -> {
-                repository.registerStudent(12345, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
+                repository.registerStudent("1234567", "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
             });
         }
 
@@ -231,9 +231,9 @@ class StudentRepositoryTest {
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
             // Act
-            boolean result1 = repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
-            boolean result2 = repository.registerStudent(67890, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
-            boolean result3 = repository.registerStudent(11223, "Paula", "456789123", "910000000", "paula@gmail.com", _address1);
+            boolean result1 = repository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
+            boolean result2 = repository.registerStudent("1789023", "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
+            boolean result3 = repository.registerStudent("1122332", "Paula", "456789123", "910000000", "paula@gmail.com", _address1);
 
             // Assert
             assertTrue(result1 && result2 && result3);
@@ -243,11 +243,11 @@ class StudentRepositoryTest {
         void shouldReturnEmptyOptionalIfUniqueNumberDoesntExistInTheRepository() throws Exception {
             // Arrange
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-            repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
-            repository.registerStudent(67890, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
+            repository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
+            repository.registerStudent("1789023", "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
 
             // Act
-            Optional<Student> studentFromList = repository.getStudentByUniqueNumber(67890);
+            Optional<Student> studentFromList = repository.getStudentByUniqueNumber("1789023");
 
             // Assert
             assertTrue(studentFromList.isPresent());
@@ -257,11 +257,11 @@ class StudentRepositoryTest {
         void shouldReturnStudentOptionalIfUniqueNumberExistsInTheRepository() throws Exception {
             // Arrange
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-            repository.registerStudent(12345, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
-            repository.registerStudent(67890, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
+            repository.registerStudent("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
+            repository.registerStudent("1789023", "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
 
             // Act
-            Optional<Student> studentFromList = repository.getStudentByUniqueNumber(55555);
+            Optional<Student> studentFromList = repository.getStudentByUniqueNumber("1555555");
 
             // Assert
             assertTrue(studentFromList.isEmpty());
