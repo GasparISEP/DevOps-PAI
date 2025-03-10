@@ -30,7 +30,7 @@ class ProgrammeEnrolmentTest {
         ProgrammeCourseListFactory _programmeCourseListFactory;
         Programme _programme;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
-        StudyPlanArrayListFactory _studyPlanArrayListFactory;
+        StudyPlanListFactoryImpl _studyPlanArrayListFactory;
         StudyPlanFactoryImpl _studyPlanFactory;
         CourseFactory _courseFactory;
 
@@ -49,7 +49,7 @@ class ProgrammeEnrolmentTest {
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory,_tcpLFactoryDouble);
             _programmeCourseListFactory = new ProgrammeCourseListFactory();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-            _studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+            _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactory = new CourseFactory();
             _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
@@ -89,7 +89,7 @@ class ProgrammeEnrolmentTest {
                 "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -146,7 +146,7 @@ class ProgrammeEnrolmentTest {
                 "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -200,7 +200,7 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto","Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -287,7 +287,7 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -351,7 +351,7 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -412,7 +412,7 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
         ProgrammeCourseListFactory programmeCourseListFactory1 = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -476,7 +476,7 @@ class ProgrammeEnrolmentTest {
         AddressFactory addressFactory = new AddressFactory();
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -539,7 +539,7 @@ class ProgrammeEnrolmentTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 

@@ -31,7 +31,7 @@ class ProgrammeRepositoryTest {
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
         Programme programmeDouble = mock(Programme.class);
@@ -59,7 +59,7 @@ class ProgrammeRepositoryTest {
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -117,7 +117,7 @@ class ProgrammeRepositoryTest {
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -155,7 +155,7 @@ class ProgrammeRepositoryTest {
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
 
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -185,7 +185,7 @@ class ProgrammeRepositoryTest {
         Programme programme = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -232,7 +232,7 @@ class ProgrammeRepositoryTest {
         Programme programme2 = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -285,7 +285,7 @@ class ProgrammeRepositoryTest {
         Programme programme1 = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -322,7 +322,7 @@ class ProgrammeRepositoryTest {
         Programme programme1 = mock(Programme.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -359,7 +359,7 @@ class ProgrammeRepositoryTest {
         Teacher teacher1 = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 

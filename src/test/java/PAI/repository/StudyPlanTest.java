@@ -4,9 +4,8 @@ import PAI.domain.Course;
 import PAI.factory.CourseFactory;
 import PAI.domain.CourseInStudyPlan;
 import PAI.domain.Programme;
-import PAI.factory.CourseInStudyPlanFactory;
 import PAI.factory.CourseInStudyPlanFactoryImpl;
-import PAI.factory.StudyPlanArrayListFactory;
+import PAI.factory.StudyPlanListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,7 +21,7 @@ class StudyPlanTest {
     void shouldRegisterCourseInStudyPlan() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -49,7 +48,7 @@ class StudyPlanTest {
     void shouldRegisterTwoCoursesInStudyPlan() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -83,7 +82,7 @@ class StudyPlanTest {
 
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -111,7 +110,7 @@ class StudyPlanTest {
 
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -142,7 +141,7 @@ class StudyPlanTest {
     void shouldNotAllowCourseInInvalidSemester() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -165,7 +164,7 @@ class StudyPlanTest {
     void shouldNotAllowCourseInInvalidCurricularYear() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -187,7 +186,7 @@ class StudyPlanTest {
     void shouldNotAllowCourseInSecondSemesterOfLastYearInOddSemestersProgramme() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -207,7 +206,7 @@ class StudyPlanTest {
     @Test
     void shouldNotAllowAnnualCourseInLastYearOfOddSemestersProgramme() throws Exception {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -228,7 +227,7 @@ class StudyPlanTest {
     void shouldNotAllowRegisterNullCourseInStudyPlan() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -248,7 +247,7 @@ class StudyPlanTest {
         // arrange
         Course course = mock(Course.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -265,7 +264,7 @@ class StudyPlanTest {
     void shouldAllowRegisterCoursesUntilCreditsReachLimit() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -309,7 +308,7 @@ class StudyPlanTest {
     void shouldAllowRegisterAnnualCourseSpanningTwoSemesters() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -352,7 +351,7 @@ class StudyPlanTest {
     void shouldAllowRegisterAnnualCourseInLimitSpaceInBothSemesters() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -416,7 +415,7 @@ class StudyPlanTest {
 
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -476,7 +475,7 @@ class StudyPlanTest {
     void shouldNotAllowRegisterAnnualCourseIfNotEnoughSpaceInSecondSemester() throws Exception {
         // arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);
@@ -537,7 +536,7 @@ class StudyPlanTest {
 
         //arrange
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanArrayListFactory, courseFactory);

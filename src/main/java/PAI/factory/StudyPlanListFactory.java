@@ -4,7 +4,7 @@ import PAI.domain.CourseInStudyPlan;
 
 import java.util.List;
 
-public interface StudyPlanArrayListFactoryImpl {
+public interface StudyPlanListFactory {
 
     List<CourseInStudyPlan> newArrayList();
 

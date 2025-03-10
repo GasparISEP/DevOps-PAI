@@ -33,7 +33,7 @@ class ProgrammeEnrolmentFactoryTest {
         Programme _programme;
         String _date;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
-        StudyPlanArrayListFactory _studyPlanArrayListFactory;
+        StudyPlanListFactoryImpl _studyPlanArrayListFactory;
         StudyPlanFactoryImpl _studyPlanFactory;
         CourseFactory _courseFactory;
 
@@ -53,7 +53,7 @@ class ProgrammeEnrolmentFactoryTest {
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory, _tcpLFactoryDouble);
             _programmeCourseListFactory = new ProgrammeCourseListFactory();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-            _studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+            _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactory = new CourseFactory();
             _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);

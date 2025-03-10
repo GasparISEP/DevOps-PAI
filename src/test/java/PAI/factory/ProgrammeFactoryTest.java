@@ -21,7 +21,7 @@ class ProgrammeFactoryTest {
         Teacher programmeDirector = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 

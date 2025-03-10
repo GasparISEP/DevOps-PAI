@@ -37,7 +37,7 @@ class CourseInStudyPlanTest {
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -90,7 +90,7 @@ class CourseInStudyPlanTest {
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
 
         Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);

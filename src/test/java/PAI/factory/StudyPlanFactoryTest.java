@@ -16,7 +16,7 @@ class StudyPlanFactoryTest {
     void shouldCreateNewStudyPlan() throws Exception {
 
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
 

@@ -5,7 +5,7 @@ import PAI.factory.CourseFactory;
 import PAI.domain.CourseInStudyPlan;
 import PAI.domain.Programme;
 import PAI.factory.CourseInStudyPlanFactory;
-import PAI.factory.StudyPlanArrayListFactory;
+import PAI.factory.StudyPlanListFactory;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class StudyPlan {
     private CourseFactory _courseFactory;
     private List<CourseInStudyPlan> _studyPlanArrayListFactory;
 
-    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanArrayListFactory studyPlanArrayListFactory, CourseFactory courseFactory) {
+    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanArrayListFactory, CourseFactory courseFactory) {
 
         _courseInStudyPlanFactory = courseInStudyPlanFactory;
         _courseFactory = courseFactory;
