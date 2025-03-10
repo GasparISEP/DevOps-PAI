@@ -2,7 +2,7 @@
 title US23: I want to know the approval percentage of a CourseEdition
 'left to right direction
 
-class US23_IWantToKnowTheApprovalPercentageOfACourseEdition {
+class US23_IWantToKnowTheApprovalPercentageOfACourseEdition  {
     +US23_IWantToKnowTheApprovalPercentageOfACourseEdition(gradeStudentRepository : GradeStudentRepository)
     +IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition : CourseEdition): double
 
@@ -29,19 +29,22 @@ class GradeStudentRepository {
     +knowApprovalRate()
 }
 
-class GradeStudentFactory {
+class GradeStudentFactoryImpl {
     +newGradeStudent()
 }
+class List<GradeStudent> {
 
-class GradeStudentListFactory {
+}
+
+class GradeStudentListFactoryImpl {
     +newArrayList()
 }
 
-Interface GradeStudentListFactoryImpl {
+Interface GradeStudentListFactory {
     +newArrayList()
 }
 
-Interface GradeStudentFactoryImpl {
+Interface GradeStudentFactory {
     +newGradeStudent()
 }
 
@@ -70,12 +73,16 @@ class CourseEdition {
 
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
-GradeStudentRepository "1" ....> "_gradeStudentFactory 1" GradeStudentFactory
-GradeStudentFactory "1" ....> "1" GradeStudent
-GradeStudentRepository "1" ....> "_gradeStudentList" GradeStudentListFactory
-GradeStudentListFactory  ..|>  GradeStudentListFactoryImpl
-GradeStudentFactory  ..|>  GradeStudentFactoryImpl
-GradeStudentListFactory "1" ....> "Creates List of" GradeStudent
+GradeStudentRepository "1" ....> GradeStudentFactory
+GradeStudentFactory "1" ....> "Creates" GradeStudent
+GradeStudentRepository "1" ....> "*" "GradeStudent"
+GradeStudentRepository "1" ....> GradeStudentListFactory
+GradeStudentListFactory  <|..  GradeStudentListFactoryImpl
+GradeStudentListFactory  ....>  List
+GradeStudentRepository  -->  List
+List --> "*" GradeStudent
+GradeStudentFactory  <|..  GradeStudentFactoryImpl
+
 
 
 US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1    " GradeStudentRepository
