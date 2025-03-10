@@ -371,7 +371,7 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals("Course edition cannot be null.", exception.getMessage());
     }
 
-
+    // System should allow the successful removal of a student enrolled in a course edition
     @Test
     void removeExistingEnrollment_ShouldReturnTrue() {
         // Arrange
@@ -400,6 +400,7 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(mockCee).deactivateEnrollment(); // Verify that deactivateEnrollment() was called
     }
 
+    // Ensures that the system does not allow the removal of a non-existent enrollment
     @Test
     void removeNonExistingEnrollment_ShouldReturnFalse() {
         // Arrange
@@ -418,6 +419,7 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any()); // Ensure no enrollment creation occurs
     }
 
+    // If the student or course edition information is missing (null), the system should reject the operation and throw an exception
     @Test
     void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException() throws IllegalArgumentException {
         // Arrange
@@ -443,6 +445,7 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
     }
 
+    // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
     @Test
     void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
         // Arrange
@@ -480,6 +483,7 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(mockCee, times(1)).deactivateEnrollment(); // Ensure deactivation was called exactly once
     }
 
+    // Ensures that the system does not allow the removal of an enrollment that has already been deactivated
     @Test
     void removeAlreadyInactiveEnrollment_ShouldReturnFalse() {
         // Arrange
@@ -503,6 +507,7 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(mockCee, never()).deactivateEnrollment(); // Ensure deactivateEnrollment is not called
     }
 
+    // Ensures that different students enrolled in the same course edition can be removed without issues
     @Test
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
         // Arrange
@@ -543,6 +548,7 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(mockCee2).deactivateEnrollment();
     }
 
+    // Ensures that a student can be removed from multiple course editions correctly
     @Test
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
         // Arrange
