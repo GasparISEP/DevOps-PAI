@@ -46,7 +46,7 @@ class ProgrammeFactoryTest {
 
         })) {
             //act
-            ProgrammeFactory factory = new ProgrammeFactory();
+            ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
             Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
             //assert

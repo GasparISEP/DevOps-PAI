@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
-import PAI.factory.ProgrammeFactory;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.factory.ProgrammeListArrayListFactory;
 import PAI.factory.*;
 import PAI.repository.ProgrammeList;
@@ -16,7 +16,7 @@ class US11_RegisterProgrammeInTheSystemTest {
     @Test
     void newProgrammeList() throws Exception {
         //arrange
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
         ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
 
@@ -43,7 +43,7 @@ class US11_RegisterProgrammeInTheSystemTest {
     @Test
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
 
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
         ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
         ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
 

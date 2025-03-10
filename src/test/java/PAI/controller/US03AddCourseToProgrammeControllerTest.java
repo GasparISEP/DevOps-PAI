@@ -224,7 +224,7 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseListFactory courseListFactory = new CourseListFactory();
         CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
@@ -257,7 +257,7 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseListFactory courseListFactory = new CourseListFactory();
         CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
@@ -293,7 +293,7 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseListFactory courseListFactory = new CourseListFactory();
         CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
@@ -326,7 +326,7 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldThrowExceptionIfCourseRepositoryIsNull() throws IllegalArgumentException {
         // arrange
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         // act + assert
@@ -354,7 +354,7 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
 
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
@@ -374,7 +374,7 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnSizeOneIfOnlyOneCourseInList() throws Exception {
         // arrange
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
 
@@ -395,7 +395,7 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnCourseInList() throws Exception {
         // arrange
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
 
@@ -429,7 +429,7 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
 
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
@@ -464,7 +464,7 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
 
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
@@ -500,7 +500,7 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
 
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
@@ -526,7 +526,7 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllCourses() throws Exception {
         // arrange
-        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
         ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
 

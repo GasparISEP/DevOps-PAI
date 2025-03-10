@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
-import PAI.factory.ProgrammeFactory;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.factory.ProgrammeListArrayListFactory;
 import PAI.factory.*;
 
