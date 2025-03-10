@@ -7,7 +7,7 @@ import org.mockito.MockedConstruction;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeFactoryTest {
+class ProgrammeFactoryImplTest {
     @Test
     void shouldCreatNewProgramme() throws Exception {
         //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory
@@ -20,9 +20,9 @@ class ProgrammeFactoryTest {
         Department department = mock(Department.class);
         Teacher programmeDirector = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
-        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
         try (MockedConstruction<Programme> mockConstruction = mockConstruction(Programme.class, (mock, context) -> {
@@ -47,7 +47,7 @@ class ProgrammeFactoryTest {
         })) {
             //act
             ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
-            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());
