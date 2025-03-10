@@ -1,6 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.CourseInStudyPlanFactory;
+import PAI.factory.CourseInStudyPlanFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -32,7 +32,7 @@ class CourseInStudyPlanFactoryTest {
             when(mock.getProgramme()).thenReturn(programmeAtual);
         })) {
 
-            CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+            CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
 
             //act
             CourseInStudyPlan courseInStudyPlan = courseInStudyPlanFactory.newCourseInStudyPlan(semester, curricularYear, course, programme);

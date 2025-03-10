@@ -17,7 +17,7 @@ class ProgrammeTest {
     private Teacher _teacher;
     private DegreeType _degreeType;
     private ProgrammeCourseListFactory _programmeCourseListFactory;
-    private CourseInStudyPlanFactory _courseInStudyPlanFactory;
+    private CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
     private StudyPlanArrayListFactory _studyPlanArrayListFactory;
     private StudyPlanFactory _studyPlanFactory;
     private CourseFactory _courseFactory;
@@ -28,7 +28,7 @@ class ProgrammeTest {
         _teacher = mock(Teacher.class);
         _degreeType = mock(DegreeType.class);
         _programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-        _courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        _courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
         _studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
         _studyPlanFactory = mock(StudyPlanFactory.class);
         _courseFactory = mock(CourseFactory.class);

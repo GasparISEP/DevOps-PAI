@@ -228,7 +228,7 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryArrayListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
@@ -261,7 +261,7 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryArrayListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
@@ -297,7 +297,7 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryArrayListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
@@ -358,7 +358,7 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryArrayListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
@@ -433,7 +433,7 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryArrayListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
@@ -468,7 +468,7 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryArrayListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
@@ -504,7 +504,7 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryArrayListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
         ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,

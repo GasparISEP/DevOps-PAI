@@ -32,7 +32,7 @@ class ProgrammeEnrolmentFactoryTest {
         ProgrammeCourseListFactory _programmeCourseListFactory;
         Programme _programme;
         String _date;
-        CourseInStudyPlanFactory _courseInStudyPlanFactory;
+        CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
         StudyPlanArrayListFactory _studyPlanArrayListFactory;
         StudyPlanFactory _studyPlanFactory;
         CourseFactory _courseFactory;
@@ -52,7 +52,7 @@ class ProgrammeEnrolmentFactoryTest {
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory, _tcpLFactoryDouble);
             _programmeCourseListFactory = new ProgrammeCourseListFactory();
-            _courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+            _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanArrayListFactory = new StudyPlanArrayListFactory();
             _studyPlanFactory = new StudyPlanFactory();
             _courseFactory = new CourseFactory();
