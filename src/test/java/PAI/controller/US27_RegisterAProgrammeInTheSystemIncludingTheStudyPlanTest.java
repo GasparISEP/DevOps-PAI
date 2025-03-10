@@ -6,8 +6,6 @@ import static org.mockito.Mockito.when;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
-import PAI.factory.ProgrammeFactoryImpl;
-import PAI.factory.ProgrammeRepositoryListFactoryImpl;
 import PAI.repository.CourseRepository;
 import PAI.factory.*;
 import PAI.repository.ProgrammeRepository;
@@ -19,11 +17,11 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void testRegisterProgrammeInTheSystemFailure() {
         //arrange
-        ProgrammeRepository programmeList = null;
+        ProgrammeRepository programmeRepo = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+            new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
         });
 
         assertEquals("Programme List cannot be null.", exception.getMessage());
@@ -32,11 +30,11 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void testAddCourseInStudyPlanSuccess() throws Exception {
         // Criar as instâncias reais das classes necessárias
-        ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeRepoListFactory);
 
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
 
         // Criar objetos necessários para o teste
         Programme programme = mock(Programme.class);
@@ -57,10 +55,10 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
         // Criar as instâncias reais das classes necessárias
-        ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
 
         // Criar dados de entrada
         String name = "Engenharia Informática";
@@ -71,12 +69,12 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
-        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
-        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
 
         assertTrue(result);
     }
@@ -84,12 +82,12 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void testAddCourseInStudyPlanWithNullProgramme() throws Exception {
         // Criar as instâncias reais das classes necessárias
-        ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
 
 
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
 
         CourseRepository courseRepository = mock(CourseRepository.class);
 
@@ -113,11 +111,11 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void testShouldntAddCourseInStudyPlan() throws Exception {
         // Criar as instâncias reais das classes necessárias
-        ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
 
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
 
         // Criar objetos necessários para o teste
         Programme programme = mock(Programme.class);
