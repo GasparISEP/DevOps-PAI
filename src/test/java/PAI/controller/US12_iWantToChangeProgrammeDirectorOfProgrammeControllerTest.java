@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.Programme;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import PAI.domain.Teacher;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldCreateController() throws Exception{
         //arrange
-        ProgrammeList programmeList = mock(ProgrammeList.class);
+        ProgrammeRepository programmeList = mock(ProgrammeRepository.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList);
         //assert
         assertNotNull(controller);
@@ -27,7 +27,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldReturnTrueWhenDirectorIsChanged() throws Exception{
         //arrange
-        ProgrammeList programmeList = mock(ProgrammeList.class);
+        ProgrammeRepository programmeList = mock(ProgrammeRepository.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList);
         Teacher teacher = mock(Teacher.class);
         Programme programme = mock(Programme.class);

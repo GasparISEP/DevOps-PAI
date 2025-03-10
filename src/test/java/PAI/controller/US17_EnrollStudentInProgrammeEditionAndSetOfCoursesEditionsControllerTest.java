@@ -21,7 +21,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
         ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -73,7 +73,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -105,7 +105,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -139,7 +139,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
         ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -175,7 +175,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
         ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
@@ -231,7 +231,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Arrange
          ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
          ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
-         ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
          CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
          CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
          SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
@@ -266,7 +266,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         // Arrange
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
@@ -297,7 +297,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull (){
         //arrange
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
@@ -316,7 +316,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void shouldReturnExceptionIfProgrammeEditionRepositoryIsNull (){
         //arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
@@ -357,7 +357,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         //arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
@@ -377,7 +377,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         //arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
@@ -397,7 +397,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         //arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
@@ -417,7 +417,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         //arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeList doubleProgrammeList = mock(ProgrammeList.class);
+        ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         SchoolYearRepository doubleSchoolYearRepository = mock(SchoolYearRepository.class);

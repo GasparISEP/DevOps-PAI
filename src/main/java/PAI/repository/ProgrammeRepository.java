@@ -2,33 +2,32 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
-import PAI.factory.ProgrammeFactoryImpl;
-import PAI.factory.ProgrammeListArrayListFactory;
+import PAI.factory.ProgrammeRepositoryArrayListFactoryImpl;
 import PAI.factory.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProgrammeList {
+public class ProgrammeRepository {
     private final ProgrammeFactory _programmeFactory;
-    private final List<Programme> _programmeList;
-    private ProgrammeListArrayListFactory _programmeListArrayListFactory;
+    private final List<Programme> _programmeRepo;
+    private ProgrammeRepositoryArrayListFactory _programmeRepoArrayListFactory;
 
-    public ProgrammeList(ProgrammeFactory programmeFactory, ProgrammeListArrayListFactory programmeListArrayListFactory) {
+    public ProgrammeRepository(ProgrammeFactory programmeFactory, ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory) {
         _programmeFactory = programmeFactory;
-        _programmeList = programmeListArrayListFactory.newProgrammeArrayList();
-        _programmeListArrayListFactory = programmeListArrayListFactory;
+        _programmeRepo = programmeListArrayListFactory.newProgrammeArrayList();
+        _programmeRepoArrayListFactory = programmeListArrayListFactory;
     }
 
     public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanArrayListFactory studyPlanArrayListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory) throws Exception {
 
         Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
-        if (_programmeList.contains(programme))
+        if (_programmeRepo.contains(programme))
             return false;
 
-        _programmeList.add(programme);
+        _programmeRepo.add(programme);
         return true;
     }
 
@@ -43,7 +42,7 @@ public class ProgrammeList {
     }
 
     public List<Programme> getAllProgrammes() {
-        return _programmeListArrayListFactory.copyProgrammeArrayList(_programmeList);
+        return _programmeRepoArrayListFactory.copyProgrammeArrayList(_programmeRepo);
     }
 
     public List<Course> getCourseList(Programme programme) {
@@ -51,7 +50,7 @@ public class ProgrammeList {
     }
 
     public Optional<Programme> getProgrammeByName(String name) {
-        for (Programme programme : _programmeList) {
+        for (Programme programme : _programmeRepo) {
             if (programme.hasThisProgrammeName(name)) {
                 return Optional.of(programme);
             }
@@ -60,7 +59,7 @@ public class ProgrammeList {
     }
 
     public Programme getProgrammeByAcronym(String acronym) {
-        for (Programme programme : _programmeList) {
+        for (Programme programme : _programmeRepo) {
             if (programme.getAcronym().equals(acronym)) {
                 return programme;
             }
@@ -71,7 +70,7 @@ public class ProgrammeList {
     public List<String> getAllProgrammeNames() {
 
         List<String> list = new ArrayList<>();
-        for (Programme programme : _programmeList) {
+        for (Programme programme : _programmeRepo) {
             list.add(programme.getProgrammeName());
         }
         return list;

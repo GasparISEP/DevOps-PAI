@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
 
 import java.util.Optional;
@@ -10,12 +10,12 @@ import java.util.Optional;
 public class US09_EnrolStudentInProgrammeController {
     private final StudentRepository _studentRepository;
     private final AccessMethodRepository _accessMethodRepository;
-    private final ProgrammeList _programmeList;
+    private final ProgrammeRepository _programmeList;
     private final ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     //Constructor
     public US09_EnrolStudentInProgrammeController(StudentRepository studentRepository, AccessMethodRepository accessMethodRepository,
-                                                  ProgrammeList programmeList, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
+                                                  ProgrammeRepository programmeList, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
         if (studentRepository == null) {
             throw new IllegalArgumentException("studentRepository cannot be null.");
         }

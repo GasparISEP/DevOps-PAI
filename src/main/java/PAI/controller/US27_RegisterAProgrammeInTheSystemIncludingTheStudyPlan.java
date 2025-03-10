@@ -2,15 +2,15 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
 
     // Instanciar os Repositórios
-    ProgrammeList _programmeList;
+    ProgrammeRepository _programmeList;
 
     // Construtor
-    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(ProgrammeList programmeList) throws Exception {
+    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(ProgrammeRepository programmeList) throws Exception {
         if (programmeList == null) {
             throw new Exception("Programme List cannot be null.");
         }

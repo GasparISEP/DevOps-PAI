@@ -3,9 +3,9 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactoryImpl;
-import PAI.factory.ProgrammeListArrayListFactory;
+import PAI.factory.ProgrammeRepositoryArrayListFactoryImpl;
 import PAI.factory.*;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +17,8 @@ class US11_RegisterProgrammeInTheSystemTest {
     void newProgrammeList() throws Exception {
         //arrange
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
+        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
 
         //act
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeList);
@@ -30,7 +30,7 @@ class US11_RegisterProgrammeInTheSystemTest {
     @Test
     void nullProgrammeInTheSystemFailure() throws Exception{
         //arrange
-        ProgrammeList programmeList = null;
+        ProgrammeRepository programmeList = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () -> {
@@ -44,8 +44,8 @@ class US11_RegisterProgrammeInTheSystemTest {
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
 
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
+        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
 
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeList);
 

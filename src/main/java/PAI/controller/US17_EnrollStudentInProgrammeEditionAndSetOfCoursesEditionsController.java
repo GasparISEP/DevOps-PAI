@@ -10,7 +10,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
 
     private ProgrammeEditionEnrollmentRepo _programmeEditionEnrollmentRepo;
     private ProgrammeEditionRepository _programmeEditionRepository;
-    private ProgrammeList _programmeList;
+    private ProgrammeRepository _programmeList;
     private CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
     private CourseEditionRepository _courseEditionRepository;
     private SchoolYearRepository _schoolYearRepository;
@@ -19,7 +19,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
     public US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
             ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo,
             ProgrammeEditionRepository programmeEditionRepository,
-            ProgrammeList programmeList,
+            ProgrammeRepository programmeList,
             CourseEditionEnrollmentRepository courseEditionEnrollmentRepository,
             CourseEditionRepository courseEditionRepository,
             SchoolYearRepository schoolYearRepository,
@@ -89,7 +89,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         this._programmeEditionRepository = programmeEditionRepository;
     }
     //Verify if the programme list is valid
-    private void validateProgrammeList(ProgrammeList programmeList) {
+    private void validateProgrammeList(ProgrammeRepository programmeList) {
         if (programmeList == null) {
             throw new IllegalStateException("Programme list cannot be null.");
         }

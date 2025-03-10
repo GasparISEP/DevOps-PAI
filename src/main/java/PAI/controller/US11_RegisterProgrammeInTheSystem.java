@@ -2,14 +2,14 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 
 public class US11_RegisterProgrammeInTheSystem {
 
-    private ProgrammeList _programmeList;
+    private ProgrammeRepository _programmeList;
 
     // Construtor
-    public US11_RegisterProgrammeInTheSystem(ProgrammeList programmeList) throws Exception {
+    public US11_RegisterProgrammeInTheSystem(ProgrammeRepository programmeList) throws Exception {
         if (programmeList == null) {
             throw new Exception("Programme List cannot be null.");
         }

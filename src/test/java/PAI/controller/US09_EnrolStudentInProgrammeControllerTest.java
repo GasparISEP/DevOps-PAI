@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private static Student _student;
     private AccessMethodRepository _accessMethodRepository;
     private static AccessMethod _accessMethod;
-    private ProgrammeList _programmeList;
+    private ProgrammeRepository _programmeList;
     private static Programme _programme;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
     private Address address1;
@@ -33,7 +33,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     void setUp() throws Exception {
         _studentRepository = mock(StudentRepository.class);
         _accessMethodRepository = mock(AccessMethodRepository.class);
-        _programmeList = mock(ProgrammeList.class);
+        _programmeList = mock(ProgrammeRepository.class);
         _programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         _student = mock(Student.class);
         _accessMethod = mock(AccessMethod.class);

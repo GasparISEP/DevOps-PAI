@@ -7,10 +7,10 @@ import static org.mockito.Mockito.when;
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactoryImpl;
-import PAI.factory.ProgrammeListArrayListFactory;
+import PAI.factory.ProgrammeRepositoryArrayListFactoryImpl;
 import PAI.repository.CourseRepository;
 import PAI.factory.*;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void testRegisterProgrammeInTheSystemFailure() {
         //arrange
-        ProgrammeList programmeList = null;
+        ProgrammeRepository programmeList = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () -> {
@@ -33,8 +33,8 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void testAddCourseInStudyPlanSuccess() throws Exception {
         // Criar as instâncias reais das classes necessárias
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
+        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
 
         US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
 
@@ -58,8 +58,8 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
         // Criar as instâncias reais das classes necessárias
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
+        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
         US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
 
         // Criar dados de entrada
@@ -85,8 +85,8 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void testAddCourseInStudyPlanWithNullProgramme() throws Exception {
         // Criar as instâncias reais das classes necessárias
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
+        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
 
 
         US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
@@ -114,8 +114,8 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void testShouldntAddCourseInStudyPlan() throws Exception {
         // Criar as instâncias reais das classes necessárias
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeListArrayListFactory programmeListArrayListFactory = mock(ProgrammeListArrayListFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory,programmeListArrayListFactory);
+        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
 
         US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
 
