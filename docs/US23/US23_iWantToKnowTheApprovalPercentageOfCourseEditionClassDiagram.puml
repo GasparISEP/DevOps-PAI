@@ -12,13 +12,37 @@ class GradeStudent {
     -grade: double
     -date: String
     +knowGrade()
+    +hasThisCourseEdition(CourseEdition : CourseEdition)
+    +knowCourseEdition()
+    +isDateValid(String date)
+    +get_date()
+    +get_student()
+    +get_courseEdition()
+    +equals (objectToCompare: Object)
 }
 
 class GradeStudentRepository {
     -gradeStudentList: List<GradeStudent>
+    - _gradeStudentFactory: GradeStudentFactory
     +addGradeToStudent()
     +knowAverageGrade()
     +knowApprovalRate()
+}
+
+class GradeStudentFactory {
+    +newGradeStudent()
+}
+
+class GradeStudentListFactory {
+    +newArrayList()
+}
+
+Interface GradeStudentListFactoryImpl {
+    +newArrayList()
+}
+
+Interface GradeStudentFactoryImpl {
+    +newGradeStudent()
 }
 
 class Student {
@@ -27,25 +51,32 @@ class Student {
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Student>)
     +hasSameUniqueNumber(Student student)
+    +hasSameNIF (Student student)
+    +getUniqueNumber()
+    +hasThisUniqueNumber(int uniqueNumber)
 }
 
 class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_course: Course
     -_ruc: Teacher
-    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
     +setRuc(Teacher: ruc)
     +whatProgrammeEditionBelongsThisCourseEdition ()
+    +getCourse()
 }
 
 
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
+GradeStudentRepository "1" ....> "_gradeStudentFactory 1" GradeStudentFactory
+GradeStudentFactory "1" ....> "1" GradeStudent
+GradeStudentRepository "1" ....> "_gradeStudentList" GradeStudentListFactory
+GradeStudentListFactory  ..|>  GradeStudentListFactoryImpl
+GradeStudentFactory  ..|>  GradeStudentFactoryImpl
+GradeStudentListFactory "1" ....> "Creates List of" GradeStudent
 
-US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1\n_gradeStudentList    " GradeStudentRepository
-GradeStudent "gradeStudentList" <-- "1" GradeStudentRepository
+
+US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1    " GradeStudentRepository
 @enduml

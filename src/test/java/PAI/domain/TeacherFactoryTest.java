@@ -1,6 +1,7 @@
 package PAI.domain;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.TeacherCareerProgressionListFactory;
 import PAI.factory.TeacherFactory;
 import org.junit.jupiter.api.Test;
 
@@ -18,12 +19,13 @@ class TeacherFactoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcplF = mock(TeacherCareerProgressionListFactory.class);
 
         //act
         Teacher teacher = tf1.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789",
                 "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble, "15-04-2005",
-                tcDouble, 70, dptDouble, TCPfactoryDouble);
+                tcDouble, 70, dptDouble, TCPfactoryDouble, tcplF);
 
         //assert
         assertNotNull(teacher);

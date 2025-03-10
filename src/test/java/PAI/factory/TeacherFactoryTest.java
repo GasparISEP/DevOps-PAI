@@ -4,6 +4,7 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +19,7 @@ class TeacherFactoryTest {
 
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
         Address addressDouble = mock(Address.class);
         Department departmentDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -44,7 +46,7 @@ class TeacherFactoryTest {
         })) {
             // Act
             Teacher teacher = teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-                    street, postalCode, location, country, addressFactoryDouble, date, tcDouble, workingPercentage, departmentDouble, tcpFactoryDouble);
+                    street, postalCode, location, country, addressFactoryDouble, date, tcDouble, workingPercentage, departmentDouble, tcpFactoryDouble, tcpLFactoryDouble);
 
             // Assert
             List<Teacher> teachers = teacherDouble.constructed();

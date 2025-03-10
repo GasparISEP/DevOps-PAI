@@ -5,6 +5,7 @@ import PAI.domain.*;
 import PAI.factory.CourseEditionEnrollmentFactory;
 import PAI.factory.CourseEditionEnrollmentListFactory;
 import PAI.factory.GradeStudentFactory;
+import PAI.factory.GradeStudentListFactory;
 import PAI.repository.GradeStudentRepository;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
@@ -73,6 +74,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
+        when(enrollment1.isEnrollmentActive()).thenReturn(true);
 
         when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 
@@ -119,6 +121,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
+        when(enrollment1.isEnrollmentActive()).thenReturn(true);
 
         when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 

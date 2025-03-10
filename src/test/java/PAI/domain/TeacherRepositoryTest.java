@@ -1,9 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactory;
-import PAI.factory.TeacherCareerProgressionFactory;
-import PAI.factory.TeacherFactory;
-import PAI.factory.TeacherListFactory;
+import PAI.factory.*;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
@@ -33,11 +30,12 @@ class TeacherRepositoryTest {
 
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
 
         when(TCPfactoryDouble.createTeacherCareerProgression("20-12-1010", tc1, 100)).thenReturn(TCPdouble);
 
         // Act
-        boolean result = repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal", addressFactoryDouble, "20-12-1010", tc1, 100, dp1, TCPfactoryDouble);
+        boolean result = repository.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Street One", "1234-678", "Porto", "Portugal", addressFactoryDouble, "20-12-1010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         // Assert
         assertTrue(result, "The teacher should be registered successfully.");
@@ -65,24 +63,26 @@ class TeacherRepositoryTest {
 
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression TCPdouble1 = mock(TeacherCareerProgression.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
+
         when(TCPfactoryDouble.createTeacherCareerProgression("20-12-2010", tc1, 100)).thenReturn(TCPdouble1);
 
         Teacher teacher1 = mock(Teacher.class);
         Teacher teacher2 = mock(Teacher.class);
         when(teacherFactory.createTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678",
-                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble)).thenReturn(teacher1);
+                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher1);
         when(teacherFactory.createTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street Two", "1234-678",
-                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble)).thenReturn(teacher2);
+                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher2);
 
         // Act
         boolean result1 = repository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble);
         boolean result2 = repository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street Two", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         // Assert
         assertTrue(result1, "The first teacher should be registered successfully.");
@@ -109,6 +109,7 @@ class TeacherRepositoryTest {
 
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
 
         when(TCPfactoryDouble.createTeacherCareerProgression("20-12-2010", tc1, 100)).thenReturn(TCPdouble);
 
@@ -117,11 +118,11 @@ class TeacherRepositoryTest {
 
         when(teacherFactory.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
                 "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble)).thenReturn(teacher1);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher1);
 
         when(teacherFactory.createTeacher("ABC", "Jane Doe", "abc@isep.ipp.pt", "987654321", "B123",
                 "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble)).thenReturn(teacher2);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher2);
 
         when(teacher1.hasSameAcronym(teacher2)).thenReturn(true);
         when(teacher2.hasSameAcronym(teacher1)).thenReturn(true);
@@ -129,12 +130,12 @@ class TeacherRepositoryTest {
         // ACT
         repository.registerTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
                 "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             repository.registerTeacher("ABC", "Jane Doe", "abc@isep.ipp.pt", "987654321", "B123",
                     "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                    addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble);
+                    addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble);
         });
 
         // Assert
@@ -161,6 +162,7 @@ class TeacherRepositoryTest {
 
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
 
         when(TCPfactoryDouble.createTeacherCareerProgression("20-12-2010", tc1, 100)).thenReturn(TCPdouble);
 
@@ -169,11 +171,11 @@ class TeacherRepositoryTest {
 
         when(teacherFactory.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
                 "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble)).thenReturn(teacher1);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher1);
 
         when(teacherFactory.createTeacher("DEF", "Jane Doe", "def@isep.ipp.pt", "123456789", "B123",
                 "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble)).thenReturn(teacher2);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher2);
 
         when(teacher1.hasSameNif(teacher2)).thenReturn(true);
         when(teacher2.hasSameNif(teacher1)).thenReturn(true);
@@ -181,12 +183,12 @@ class TeacherRepositoryTest {
         // ACT
         repository.registerTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
                 "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble);
+                addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             repository.registerTeacher("DEF", "Jane Doe", "def@isep.ipp.pt", "123456789", "B123",
                     "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                    addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble);
+                    addressFactoryDouble,"20-12-2010", tc1, 100, dp1, TCPfactoryDouble, tcpLFactoryDouble);
         });
 
         // Assert
@@ -203,24 +205,25 @@ class TeacherRepositoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dp1 = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
 
         Teacher teacher1 = mock(Teacher.class);
         Teacher teacher2 = mock(Teacher.class);
 
         when(teacherFactory.createTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789", "A106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble)).thenReturn(teacher1);
+                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher1);
 
         when(teacherFactory.createTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble)).thenReturn(teacher2);
+                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher2);
 
         repository.registerTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789", "A106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble);
         repository.registerTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+                "Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         // ACT
         List<Teacher> result = repository.getAllTeachers();
@@ -240,12 +243,13 @@ class TeacherRepositoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dp1 = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
-        when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+        when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble))
                 .thenReturn(teacherDouble);
 
-        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+        repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         when(teacherDouble.hasThisNIF("123456789")).thenReturn(true);
 
@@ -267,16 +271,17 @@ class TeacherRepositoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dp1 = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
         when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble))
                 .thenReturn(teacherDouble);
 
         repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         when(teacherDouble.hasThisNIF("123456788")).thenReturn(false);
 
@@ -297,16 +302,17 @@ class TeacherRepositoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dp1 = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
         when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble))
                 .thenReturn(teacherDouble);
 
         repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         when(teacherDouble.hasThisNIF("")).thenReturn(false);
 
@@ -327,16 +333,17 @@ class TeacherRepositoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dp1 = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
         when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble))
                 .thenReturn(teacherDouble);
 
         repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         when(teacherDouble.hasThisNIF(" ")).thenReturn(false);
 
@@ -357,16 +364,17 @@ class TeacherRepositoryTest {
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dp1 = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
         Teacher teacherDouble = mock(Teacher.class);
 
         when(teacherFactory.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble))
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble))
                 .thenReturn(teacherDouble);
 
         repo1.registerTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble);
+                "Portugal", addressFactoryDouble, "15-04-2005", tc1, 70, dp1, TCPfactoryDouble, tcpLFactoryDouble);
 
         when(teacherDouble.hasThisNIF(null)).thenReturn(false);
 

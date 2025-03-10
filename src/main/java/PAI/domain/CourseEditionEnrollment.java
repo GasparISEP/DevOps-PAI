@@ -60,8 +60,9 @@ public class CourseEditionEnrollment {
     public boolean isEnrollmentActive() {
         return _isActive;
     }
+
     public void deactivateEnrollment() {
-        _isActive=false;
+        this._isActive=false;
     }
 
 }

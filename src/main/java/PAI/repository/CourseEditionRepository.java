@@ -14,9 +14,11 @@ public class CourseEditionRepository {
 
     private List<CourseEdition> _courseEditionRepository;
     private final CourseEditionFactory _courseEditionFactory;
+    private final CourseEditionListFactory _courseEditionListFactory;
 
     public CourseEditionRepository(CourseEditionFactory courseEditionFactory, CourseEditionListFactory courseEditionListFactory) {
         _courseEditionFactory = courseEditionFactory;
+        _courseEditionListFactory = courseEditionListFactory;
         _courseEditionRepository = courseEditionListFactory.newArrayList();
 
     }
@@ -63,7 +65,7 @@ public class CourseEditionRepository {
     }
 
     public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        List<CourseEdition> result = new ArrayList<>();
+        List<CourseEdition> result = _courseEditionListFactory.newArrayList();
         for (CourseEdition courseEdition : _courseEditionRepository) {
             if (courseEdition.whatProgrammeEditionBelongsThisCourseEdition().equals(programmeEdition)) {
                 result.add(courseEdition);
