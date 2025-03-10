@@ -21,7 +21,7 @@ ProgrammeEditionEnrollmentRepository -> ":ProgrammeEditionList": newArrayList();
 activate ":ProgrammeEditionList"
 ":ProgrammeEditionList" --> ProgrammeEditionEnrollmentRepository: EmptyList<ProgrammeEdition>
 deactivate ":ProgrammeEditionList"
-loop for each "pee[i]:ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
+loop for each "pee[i]:ProgrammeEditionEnrollment" in ProgrammeEditionEnrollmentRepo
 participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
 ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollment : findStudentInProgrammeEdition (student)
 activate ProgrammeEditionEnrollment
@@ -55,7 +55,7 @@ CourseEditionRepository -> ":CourseEditionList": newArrayList ()
 activate ":CourseEditionList"
 ":CourseEditionList" --> CourseEditionRepository: EmptyList<CourseEdition>
 deactivate ":CourseEditionList"
-loop for each "ce[i]:CourseEditionRepository" as CourseEditionRepository
+loop for each "ce[i]:CourseEdition" in CourseEditionRepository
 participant ":CourseEdition" as CourseEdition
 CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
 activate CourseEdition
