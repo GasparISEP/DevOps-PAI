@@ -35,7 +35,7 @@ public class US09_EnrolStudentInProgrammeController {
         this._programmeEnrolmentRepository = programmeEnrolmentRepository;
     }
 
-    public Optional<Student> getStudentByUniqueNumber(int uniqueNumber) {
+    public Optional<Student> getStudentByUniqueNumber(String uniqueNumber) {
         return _studentRepository.getStudentByUniqueNumber(uniqueNumber);
     }
 

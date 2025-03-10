@@ -60,13 +60,13 @@ class Programme {
 }
 
 Class Student {
-    -_uniqueNumber: int
+    -_uniqueNumber: String
     -_name: String
     -_NIF: String
     -phone: String
     -email: String
-    +Student(uniqueNumber: int, name: String, NIF: String,phone: String, email: String, address: Address)
-    +getUniqueNumber(): int
+    +Student(uniqueNumber: String, name: String, NIF: String,phone: String, email: String, address: Address)
+    +getUniqueNumber(): String
 }
 
 Department "*\n _departmentsList " <-- " 1  " DepartmentRepository

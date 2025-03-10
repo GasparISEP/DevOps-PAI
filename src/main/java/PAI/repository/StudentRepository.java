@@ -20,7 +20,7 @@ public class StudentRepository {
         _students = studentListFactory.newArrayList();
     }
 
-    public boolean registerStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
+    public boolean registerStudent(String uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
 
         Student newStudent = _studentFactoryImpl.newStudent(uniqueNumber, name, NIF, phone, email, address);
 
@@ -41,7 +41,7 @@ public class StudentRepository {
         return false;
     }
 
-    public Optional<Student> getStudentByUniqueNumber(int uniqueNumber) {
+    public Optional<Student> getStudentByUniqueNumber(String uniqueNumber) {
         for ( Student student : _students) {
             if ( student.hasThisUniqueNumber(uniqueNumber)){
                 return Optional.of(student);

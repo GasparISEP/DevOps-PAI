@@ -167,16 +167,16 @@ class ProgrammeEditionEnrollmentTest {
     void shouldReturnStudentUniqueNumber() {
         // Arrange
         Student studentMock = mock(Student.class);
-        when(studentMock.getUniqueNumber()).thenReturn(12345);
+        when(studentMock.getUniqueNumber()).thenReturn("1234567");
 
         ProgrammeEdition editionMock = mock(ProgrammeEdition.class);
         ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(studentMock, editionMock);
 
         // Act
-        int uniqueNumber = enrollment.getStudentUniqueNumber();
+        String uniqueNumber = enrollment.getStudentUniqueNumber();
 
         // Assert
-        assertEquals(12345, uniqueNumber);
+        assertEquals("1234567", uniqueNumber);
     }
 
     @Test
