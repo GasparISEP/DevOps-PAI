@@ -36,7 +36,7 @@ class ProgrammeEnrolmentTest {
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-            _student = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", _address);
+            _student = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", _address);
             _accessMethod = new AccessMethod("M1");
             _degreeType = new DegreeType("Master", 240);
             _department = new Department("CSE", "Computer Science Engineer");
@@ -74,7 +74,7 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         AccessMethod am1 = new AccessMethod("M1");
 
@@ -131,7 +131,7 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         AccessMethod am1 = new AccessMethod("M1");
 
@@ -207,7 +207,7 @@ class ProgrammeEnrolmentTest {
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
 
@@ -243,7 +243,7 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
-        Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
 
@@ -294,7 +294,7 @@ class ProgrammeEnrolmentTest {
         Programme programme1 = new Programme("Computer Engineering", "CE", 20, 6, dt1, dpt1, teacher1, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, am1, programme1,"17-09-2005");
@@ -336,9 +336,9 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
-        Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
 
@@ -399,7 +399,7 @@ class ProgrammeEnrolmentTest {
         Programme programme = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanArrayListFactory, attributes._studyPlanFactory, attributes._courseFactory);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
 
         DegreeType dt1 = new DegreeType("Master", 240);
@@ -461,11 +461,11 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
 
         Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
-        Student student2 = new Student(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
 
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
@@ -527,7 +527,7 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student student1 = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         AccessMethod am1 = new AccessMethod("Concurso Nacional");
         DegreeType dt1 = new DegreeType("Master", 240);

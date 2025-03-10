@@ -17,11 +17,11 @@ class StudentFactoryImplTest {
         //arrange
         StudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
-        int uniqueNumber = 1;
+        String uniqueNumber = "1234567";
 
         try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
 
-                int actualUniqueNumber = (int) context.arguments().get(0);
+                String actualUniqueNumber = (String) context.arguments().get(0);
                 when(mock.getUniqueNumber()).thenReturn(actualUniqueNumber);
         })) {
             //act

@@ -57,12 +57,12 @@ class ProgrammeEditionEnrollmentRepo {
 }
 
 class Student {
-    -_uniqueNumber:int
+    -_uniqueNumber:String
     -_name:String
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
 }
 
 class Address {

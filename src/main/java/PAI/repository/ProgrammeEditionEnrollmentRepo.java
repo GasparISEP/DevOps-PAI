@@ -45,11 +45,11 @@ public class ProgrammeEditionEnrollmentRepo {
 
     //US26- number of students enrolled in all programmes associated to a department, in a given school year
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
-        Set<Integer> studentUniqueNumbers = new HashSet<>();
+        Set<String> studentUniqueNumbers = new HashSet<>();
 
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
             if (enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
-                Integer studentUniqueNumber = enrollment.getStudentUniqueNumber();
+                String studentUniqueNumber = enrollment.getStudentUniqueNumber();
                 studentUniqueNumbers.add(studentUniqueNumber);
                 }
         }

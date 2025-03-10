@@ -5,6 +5,6 @@ import PAI.domain.Student;
 
 public interface StudentFactory {
 
-    Student newStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address);
+    Student newStudent(String uniqueNumber, String name, String NIF, String phone, String email, Address address);
 
 }

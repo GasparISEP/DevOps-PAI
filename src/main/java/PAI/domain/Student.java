@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Student {
 
-    private int _uniqueNumber;
+    private String _uniqueNumber;
     private String _name;
     private String _NIF;
     private String _phone;
@@ -12,11 +12,11 @@ public class Student {
     private Address _address;
 
     //constructor validation
-    public Student(int uniqueNumber, String name, String NIF, String phone, String email, Address address) {
+    public Student(String uniqueNumber, String name, String NIF, String phone, String email, Address address) {
 
         //validação Student Unique Number
         if (isUniqueNumberInvalid(uniqueNumber))
-            throw new IllegalArgumentException("Student's identification number must be greater than zero!");
+            throw new IllegalArgumentException("Student's unique number must have 7 digits and start with 1!");
 
         _uniqueNumber = uniqueNumber;
 
@@ -48,19 +48,17 @@ public class Student {
 
     }
 
-    private boolean isUniqueNumberInvalid(int studentNumber) {
-
-        return studentNumber <= 0;
+    private boolean isUniqueNumberInvalid(String studentNumber) {
+        return !studentNumber.matches("^1\\d{6}$") || areParametersInvalid(studentNumber);
     }
 
     private boolean areParametersInvalid(String parameter) {
-
         return parameter == null || parameter.isBlank();
     }
 
     // Check for matching uniqueNumber
     public boolean hasSameUniqueNumber(Student student) {
-        return _uniqueNumber == student._uniqueNumber;
+        return _uniqueNumber.equals(student._uniqueNumber);
     }
 
     // Check for matching NIF
@@ -68,9 +66,12 @@ public class Student {
         return _NIF.equals(student._NIF);
     }
 
-    public int getUniqueNumber() {
+    public String getUniqueNumber() {
         return _uniqueNumber;
     }
 
-    public boolean hasThisUniqueNumber(int uniqueNumber) {return uniqueNumber == _uniqueNumber;}
+    public boolean hasThisUniqueNumber(String uniqueNumber) {return uniqueNumber.equals(_uniqueNumber);}
+
+    // ^[A-Z]{0,2}?\d{8,14}[A-Z0-9]?$  <- restriction for NIF
+    // ^\+?\d{1,4}?[ -.]?\(?\d{1,4}?\)?[ -.]?\d{3,4}[ -.]?\d{3,4}$ <- restriction for phone number
 }
