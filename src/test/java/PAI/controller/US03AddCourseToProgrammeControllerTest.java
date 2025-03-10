@@ -30,16 +30,15 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldNotAddCourseToProgrammeIfCourseAlreadyInListIsolatedTest() throws Exception {
         // arrange
         Programme programmeDouble = mock(Programme.class);
-        Course courseDouble1 = mock(Course.class);
-        Course courseDouble2 = mock(Course.class);
+        Course courseDouble = mock(Course.class);
 
-        when(programmeDouble.addCourseToAProgramme(courseDouble1))
-                .thenReturn(true);
-        when(programmeDouble.addCourseToAProgramme(courseDouble2)).thenReturn(false);
+        when(programmeDouble.addCourseToAProgramme(courseDouble)).thenReturn(false);
+
         // act
-        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble2);
-        //act + assert
-        assertFalse(addCourseToProgramme);
+        boolean result = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
+
+        // assert
+        assertFalse(result);
     }
 
     @Test
