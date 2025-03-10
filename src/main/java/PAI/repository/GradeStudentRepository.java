@@ -2,6 +2,7 @@ package PAI.repository;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.GradeStudent;
+import PAI.factory.GradeStudentFactory;
 import PAI.factory.GradeStudentListFactoryImpl;
 import PAI.domain.Student;
 import PAI.factory.GradeStudentFactoryImpl;
@@ -10,14 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class GradeStudentRepository {
-    private final GradeStudentFactoryImpl _gradeStudentFactoryImpl;
+    private final GradeStudentFactory _gradeStudentFactory;
     private List<GradeStudent> _gradeStudentList;
 
-    public GradeStudentRepository (GradeStudentFactoryImpl gradeStudentFactoryImpl, GradeStudentListFactoryImpl gradeStudentListFactoryImpl){
-        if (gradeStudentFactoryImpl == null){
+    public GradeStudentRepository (GradeStudentFactory gradeStudentFactory, GradeStudentListFactoryImpl gradeStudentListFactoryImpl){
+        if (gradeStudentFactory== null){
             throw new IllegalArgumentException("Factory cannot be null!");
         }
-        this._gradeStudentFactoryImpl = gradeStudentFactoryImpl;
+        this._gradeStudentFactory = gradeStudentFactory;
 
         if (gradeStudentListFactoryImpl == null) {
             throw new IllegalArgumentException("Factory cannot be null!");
@@ -29,7 +30,7 @@ public class GradeStudentRepository {
 
     public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
         try {
-                GradeStudent gradeStudent = _gradeStudentFactoryImpl.newGradeStudent(grade,date,student,courseEdition);
+                GradeStudent gradeStudent = _gradeStudentFactory.newGradeStudent(grade,date,student,courseEdition);
                 _gradeStudentList.add(gradeStudent);
                 return Optional.of(gradeStudent);
         }
