@@ -2,7 +2,6 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
-import PAI.factory.ProgrammeRepositoryArrayListFactoryImpl;
 import PAI.factory.*;
 
 import java.util.ArrayList;
@@ -12,17 +11,17 @@ import java.util.Optional;
 public class ProgrammeRepository {
     private final ProgrammeFactory _programmeFactory;
     private final List<Programme> _programmeRepo;
-    private ProgrammeRepositoryArrayListFactory _programmeRepoArrayListFactory;
+    private ProgrammeRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeRepository(ProgrammeFactory programmeFactory, ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory) {
+    public ProgrammeRepository(ProgrammeFactory programmeFactory, ProgrammeRepositoryListFactory programmeLisListFactory) {
         _programmeFactory = programmeFactory;
-        _programmeRepo = programmeListArrayListFactory.newProgrammeArrayList();
-        _programmeRepoArrayListFactory = programmeListArrayListFactory;
+        _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
+        _programmeRepoListFactory = programmeLisListFactory;
     }
 
-    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactoryImpl courseInStudyPlanFactory, StudyPlanListFactoryImpl studyPlanArrayListFactory, StudyPlanFactoryImpl studyPlanFactory, CourseFactory courseFactory) throws Exception {
+    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory) throws Exception {
 
-        Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
 
         if (_programmeRepo.contains(programme))
             return false;
@@ -42,7 +41,7 @@ public class ProgrammeRepository {
     }
 
     public List<Programme> getAllProgrammes() {
-        return _programmeRepoArrayListFactory.copyProgrammeArrayList(_programmeRepo);
+        return _programmeRepoListFactory.copyProgrammeArrayList(_programmeRepo);
     }
 
     public List<Course> getCourseList(Programme programme) {

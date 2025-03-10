@@ -3,7 +3,7 @@ package PAI.repository;
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactoryImpl;
-import PAI.factory.ProgrammeRepositoryArrayListFactoryImpl;
+import PAI.factory.ProgrammeRepositoryListFactoryImpl;
 
 import PAI.factory.*;
 
@@ -24,7 +24,7 @@ class ProgrammeRepositoryTest {
     void shouldRegisterValidProgramme() throws Exception {
         // Arrange
         ProgrammeFactoryImpl programmeFactoryDouble = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble,programmeListArrayListFactory);
         DegreeType master = mock(DegreeType.class);
         Department CSE = mock(Department.class);
@@ -50,7 +50,7 @@ class ProgrammeRepositoryTest {
 
         // Arrange
         ProgrammeFactoryImpl programmeFactoryDouble = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeListArrayListFactory);
 
         DegreeType master = mock(DegreeType.class);
@@ -78,7 +78,7 @@ class ProgrammeRepositoryTest {
     void changeProgrammedDirectorOfValidProgramme() throws Exception {
         // Arrange
         ProgrammeFactoryImpl programmeFactoryDouble = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeListArrayListFactory);
         Teacher teacher1 = mock(Teacher.class);
         Programme programmeDouble = mock(Programme.class);
@@ -93,7 +93,7 @@ class ProgrammeRepositoryTest {
     void dontChangeProgrammedDirectorOfValidProgramme() throws Exception {
         // Arrange
         ProgrammeFactoryImpl programmeFactoryDouble = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeListArrayListFactory);
         Programme programmeDouble = mock(Programme.class);
 
@@ -108,7 +108,7 @@ class ProgrammeRepositoryTest {
     void shouldReturnCourseList() throws Exception {
         //arrange
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
         Programme programme = mock(Programme.class);
@@ -145,7 +145,7 @@ class ProgrammeRepositoryTest {
     void shouldReturnProgrammeWithTheRequiredName() throws Exception {
         // Arrange
         ProgrammeFactoryImpl programmeFactoryDouble = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeListArrayListFactory);
         DegreeType master = mock(DegreeType.class);
 
@@ -177,7 +177,7 @@ class ProgrammeRepositoryTest {
     void shouldReturnNullIfProgrammeWithTheRequiredNameDoesNotExist() throws Exception {
         // Arrange
         ProgrammeFactoryImpl programmeFactoryDouble = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeListArrayListFactory);
         DegreeType master = mock(DegreeType.class);
         Department cse = mock(Department.class);
@@ -205,7 +205,7 @@ class ProgrammeRepositoryTest {
     @Test
     void shouldNotReturnNullList() throws Exception {
         // Arrange
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
@@ -252,7 +252,7 @@ class ProgrammeRepositoryTest {
     @Test
     void shouldReturnCorrectProgrammeList() throws Exception {
         // Arrange
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
@@ -271,7 +271,7 @@ class ProgrammeRepositoryTest {
 
         //Arrange
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
         String name1 = "MATEMATICA";
@@ -308,7 +308,7 @@ class ProgrammeRepositoryTest {
 
         //Arrange
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
         String name1 = "MATEMATICA";
@@ -346,7 +346,7 @@ class ProgrammeRepositoryTest {
         // SUT = ProgrammeList - getAllProgrammeNames
         // Arrange
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
         String name1 = "MATEMATICA";
@@ -388,7 +388,7 @@ class ProgrammeRepositoryTest {
         // SUT = ProgrammeList - getAllProgrammeNames
         // Arrange
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
         // Act

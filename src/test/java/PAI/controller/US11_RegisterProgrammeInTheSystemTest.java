@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactory;
 import PAI.factory.ProgrammeFactoryImpl;
-import PAI.factory.ProgrammeRepositoryArrayListFactoryImpl;
+import PAI.factory.ProgrammeRepositoryListFactoryImpl;
 import PAI.factory.*;
 import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class US11_RegisterProgrammeInTheSystemTest {
     void newProgrammeList() throws Exception {
         //arrange
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
 
         //act
@@ -44,7 +44,7 @@ class US11_RegisterProgrammeInTheSystemTest {
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
 
         ProgrammeFactoryImpl programmeFactory = mock(ProgrammeFactoryImpl.class);
-        ProgrammeRepositoryArrayListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryArrayListFactoryImpl.class);
+        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = mock(ProgrammeRepositoryListFactoryImpl.class);
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory,programmeListArrayListFactory);
 
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeList);
