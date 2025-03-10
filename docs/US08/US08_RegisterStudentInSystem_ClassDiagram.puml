@@ -13,8 +13,23 @@ class Student {
     +hasSameNIF(Student student)
 }
 
+class StudentFactory {
+    +newStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address)
+}
+
+interface StudentFactoryInterface {
+    +newStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address)
+}
+
+class StudentListFactory {
+    +newArrayList()
+}
+
+interface StudentListFactoryInterface {
+    +newArrayList()
+}
+
 class StudentRepository {
-    -_students: List<Student>
     +registerStudent(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
 }
 
@@ -26,12 +41,24 @@ class Address {
      +Address(street: String, postalCode: String, location: String, country: String)
 }
 
-class US08_RegisterStudentInSystemController{
-    +registerStudent (uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+class AddressFactory {
+    +createAddress(street: String, postalCode: String, location: String, country: String)
 }
 
-Student "\n1 " *------ "Address \n1" Address
-StudentRepository "\n1" *------ "Student \n*" Student
+class US08_RegisterStudentInSystemController{
+    +registerStudent (uniqueNumber: String, name: String, NIF: String, phone: String, email: String)
+}
+
+AddressFactory "1" ....> "1    " Address
+Student "\n1 " ------> "_address \n1" Address
+StudentRepository "\n1" ------> "Student \n*" Student
 US08_RegisterStudentInSystemController "1" ......> "_students \n1\n" StudentRepository
+US08_RegisterStudentInSystemController "1" ......> "1" Address
+StudentFactory "1" ----> "*" Student
+StudentFactory ....|> StudentFactoryInterface
+StudentListFactory "1 " ....> " *  " Student: creates List of
+StudentListFactory ....|> StudentListFactoryInterface
+StudentRepository "1" ....> "-_studentFactory 1" StudentFactory
+StudentRepository "1" ....> "-_students \n 1" StudentListFactory
 
 @enduml
