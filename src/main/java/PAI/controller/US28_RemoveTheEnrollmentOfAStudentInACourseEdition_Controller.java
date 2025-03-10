@@ -12,7 +12,7 @@ public class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller {
 
         this.courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
     }
-    public boolean removeStudentEnrolment(Student student, CourseEdition courseEdition) {
+    public boolean removeStudentEnrollment(Student student, CourseEdition courseEdition) {
         if(student==null || courseEdition==null){
             throw new IllegalArgumentException("Student and CourseEdition cannot be null");
         }
