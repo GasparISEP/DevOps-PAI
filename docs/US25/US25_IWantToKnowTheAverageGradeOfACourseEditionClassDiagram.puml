@@ -1,35 +1,66 @@
 @startuml
-title US25: Know the Average Grade of a Course Edition
+title US25: I Want to Know the Average Grade of a Course Edition
 'left to right direction
 
 class US25_IWantToKnowTheAverageGradeOfACourseEdition {
+    -_gradeStudentRepository: GradeStudentRepository
     +US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentList : GradeStudentRepository)
     +IWantToKnowTheAvgGrade(courseEdition : CourseEdition): double
-
 }
 
 class GradeStudent {
-    -grade: double
-    -date: String
-    +knowGrade()
+    -_grade: double
+    -_date: String
+    -_student: Student
+    -_courseEdition: CourseEdition
+    +GradeStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition)
+    +hasThisCourseEdition(courseEdition : CourseEdition): boolean
+    +knowGrade(): double
+    +knowCourseEdition(): CourseEdition
+    +isDateValid(date: String): void
+    +get_date(): LocalDate
+    +get_student(): Student
+    +get_courseEdition(): CourseEdition
+    +equals(o: Object): boolean
+}
+
+class GradeStudentFactory {
+    +newGradeStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition): GradeStudent
+}
+
+interface GradeStudentFactoryImpl {
+    +newGradeStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition): GradeStudent
+}
+
+class GradeStudentListFactory {
+    +newArrayList(): ArrayList<GradeStudent>
+}
+
+interface GradeStudentListFactoryImpl {
+    +newArrayList(): ArrayList<GradeStudent>
 }
 
 class GradeStudentRepository {
-    -gradeStudentList: List<GradeStudent>
-    +addGradeToStudent()
-    +knowAverageGrade()
-    +knowApprovalRate()
+    -_gradeStudentFactory: GradeStudentFactory
+    -_gradeStudentList: List<GradeStudent>
+    +GradeStudentRepository((gradeStudentFactory : GradeStudentFactory, gradeStudentListFactory: GradeStudentListFactory)
+    +addGradeToStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition): Optional<GradeStudent>
+    +knowAverageGrade(courseEdition: CourseEdition): Double
+    +knowApprovalRate(courseEdition: CourseEdition): double
 }
 
 class Student {
-    -_uniqueNumber:int
-    -_name:String
-    -_NIF:String
-    -_phone:String
-    -_email:String
+    -_uniqueNumber: int
+    -_name: String
+    -_NIF: String
+    -_phone: String
+    -_email: String
+    -_address: Address
     +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Student>)
-    +hasSameUniqueNumber(Student student)
+    +hasSameUniqueNumber(student: Student): boolean
+    +hasSameNIF((student: Student): boolean
+    +getUniqueNumber(): int
+    +hasThisUniqueNumber(uniqueNumber: int): boolean
 }
 
 class CourseEdition {
@@ -37,15 +68,21 @@ class CourseEdition {
     -_course: Course
     -_ruc: Teacher
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-    +Equals(objectToCompare: Object)
-    +setRuc(Teacher: ruc)
-    +whatProgrammeEditionBelongsThisCourseEdition ()
+    +equals(objectToCompare: Object): boolean
+    +setRuc(Teacher: ruc): boolean
+    +whatProgrammeEditionBelongsThisCourseEdition(): ProgrammeEdition
+    +getCourse(): Course
 }
 
 
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
+GradeStudentRepository "1" ...> "_gradeStudentFactory 1" GradeStudentFactory
+GradeStudentFactory "1" ...> "1" GradeStudent
+GradeStudentRepository "1" ...> "_gradeStudentList" GradeStudentListFactory
+GradeStudentListFactory ..|> GradeStudentListFactoryImpl
+GradeStudentFactory  ..|> GradeStudentFactoryImpl
+GradeStudentListFactory "1" ....> "Creates List of" GradeStudent
 
-US25_IWantToKnowTheAverageGradeOfACourseEdition "1" ..> "1\n_gradeStudentList    " GradeStudentRepository
-GradeStudent "gradeStudentList" <-- "1" GradeStudentRepository
+US25_IWantToKnowTheAverageGradeOfACourseEdition "1" ..> "1" GradeStudentRepository
 @enduml
