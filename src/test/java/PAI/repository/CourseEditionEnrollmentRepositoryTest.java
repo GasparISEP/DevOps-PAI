@@ -504,6 +504,84 @@ class CourseEditionEnrollmentRepositoryTest {
     }
 
     @Test
+    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
+        // Arrange
+        CourseEditionEnrollmentFactory enrollmentFactoryMock = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
+
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        Student mockStudent1 = mock(Student.class);
+        Student mockStudent2 = mock(Student.class);
+        CourseEditionEnrollment mockCee1 = mock(CourseEditionEnrollment.class);
+        CourseEditionEnrollment mockCee2 = mock(CourseEditionEnrollment.class);
+
+        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent1, mockCourseEdition))
+                .thenReturn(mockCee1);
+        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent2, mockCourseEdition))
+                .thenReturn(mockCee2);
+
+        when(mockCee1.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent1);
+        when(mockCee1.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee1.isEnrollmentActive()).thenReturn(true);
+
+        when(mockCee2.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent2);
+        when(mockCee2.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee2.isEnrollmentActive()).thenReturn(true);
+
+        enrollmentRepository.enrollStudentInACourseEdition(mockStudent1, mockCourseEdition);
+        enrollmentRepository.enrollStudentInACourseEdition(mockStudent2, mockCourseEdition);
+
+        // Act
+        boolean firstRemoval = enrollmentRepository.removeEnrollment(mockStudent1, mockCourseEdition);
+        boolean secondRemoval = enrollmentRepository.removeEnrollment(mockStudent2, mockCourseEdition);
+
+        // Assert
+        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
+        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
+        verify(mockCee1).deactivateEnrollment();
+        verify(mockCee2).deactivateEnrollment();
+    }
+
+    @Test
+    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
+        // Arrange
+        CourseEditionEnrollmentFactory enrollmentFactoryMock = mock(CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentListFactory ceeListFactoryMock = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(enrollmentFactoryMock, ceeListFactoryMock);
+
+        Student mockStudent = mock(Student.class);
+        CourseEdition mockCourseEdition1 = mock(CourseEdition.class);
+        CourseEdition mockCourseEdition2 = mock(CourseEdition.class);
+        CourseEditionEnrollment mockCee1 = mock(CourseEditionEnrollment.class);
+        CourseEditionEnrollment mockCee2 = mock(CourseEditionEnrollment.class);
+
+        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition1)).thenReturn(mockCee1);
+        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition2)).thenReturn(mockCee2);
+
+        when(mockCee1.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
+        when(mockCee1.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition1);
+        when(mockCee1.isEnrollmentActive()).thenReturn(true);
+
+        when(mockCee2.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
+        when(mockCee2.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition2);
+        when(mockCee2.isEnrollmentActive()).thenReturn(true);
+
+        enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition1);
+        enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition2);
+
+        // Act
+        boolean firstRemoval = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition1);
+        boolean secondRemoval = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition2);
+
+        // Assert
+        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
+        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
+        verify(mockCee1).deactivateEnrollment();
+        verify(mockCee2).deactivateEnrollment();
+    }
+
+    @Test
     void shouldEnrollStudentWhenStudentNotEnrolled() {
         // Arrange
         CourseEditionEnrollmentFactory doubleCeeFactory = mock (CourseEditionEnrollmentFactory.class);
