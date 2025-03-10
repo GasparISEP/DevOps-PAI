@@ -27,14 +27,14 @@ public class Student {
         _name = name;
 
         //Student NIF validation
-        if (areParametersInvalid(NIF))
-            throw new IllegalArgumentException("Student's NIF cannot be empty!");
+        if (isNIFInvalid(NIF))
+            throw new IllegalArgumentException("Student's NIF is invalid!");
 
         _NIF = NIF;
 
         //Student phone validation
-        if (areParametersInvalid(phone))
-            throw new IllegalArgumentException("Student's phone cannot be empty!");
+        if (isPhoneNumberInvalid(phone))
+            throw new IllegalArgumentException("Student's phone is invalid!");
 
         _phone = phone;
 
@@ -56,6 +56,14 @@ public class Student {
         return parameter == null || parameter.isBlank();
     }
 
+    private boolean isNIFInvalid(String NIF){
+        return !NIF.matches("^[A-Z]{0,2}?\\d{8,14}[A-Z0-9]?$") || areParametersInvalid(NIF);
+    }
+
+    private boolean isPhoneNumberInvalid(String phoneNumber){
+        return !phoneNumber.matches("^\\+?\\d{1,4}?[ -.]?\\(?\\d{1,4}?\\)?[ -.]?\\d{3,4}[ -.]?\\d{3,4}$") || areParametersInvalid(phoneNumber);
+    }
+
     // Check for matching uniqueNumber
     public boolean hasSameUniqueNumber(Student student) {
         return _uniqueNumber.equals(student._uniqueNumber);
@@ -71,7 +79,4 @@ public class Student {
     }
 
     public boolean hasThisUniqueNumber(String uniqueNumber) {return uniqueNumber.equals(_uniqueNumber);}
-
-    // ^[A-Z]{0,2}?\d{8,14}[A-Z0-9]?$  <- restriction for NIF
-    // ^\+?\d{1,4}?[ -.]?\(?\d{1,4}?\)?[ -.]?\d{3,4}[ -.]?\d{3,4}$ <- restriction for phone number
 }

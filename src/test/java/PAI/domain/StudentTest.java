@@ -23,6 +23,47 @@ class StudentTest {
         Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
     }
 
+    static Stream<Arguments> test_NIF_WithDifferentValidInputs() {
+        return Streams.of(
+                Arguments.of("A12345678"),
+                Arguments.of("AB12345678"),
+                Arguments.of("123456789012345"),
+                Arguments.of("A1234567890123E")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("test_NIF_WithDifferentValidInputs")
+    void valid_NIF_InputShouldCreateStudent(String NIF) {
+
+        //arrange
+        Address address1 = mock(Address.class);
+
+        //act + assert
+        new Student("1234567", "Rita", NIF, "963741258", "rita@gmail.com", address1);
+    }
+
+    static Stream<Arguments> testPhoneNumberWithDifferentValidInputs() {
+        return Streams.of(
+                Arguments.of("913 322 123"),
+                Arguments.of("913322123"),
+                Arguments.of("+351 913 322 123"),
+                Arguments.of("+351913322123"),
+                Arguments.of("+351 913322123"),
+                Arguments.of("+44-1234-567890"),
+                Arguments.of("+123 (4567) 890-123")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testPhoneNumberWithDifferentValidInputs")
+    void testPhoneNumberWithValidInputs(String phoneNumber) {
+
+        //arrange
+        Address address1 = mock(Address.class);
+
+        //act + assert
+        new Student("1234567", "Rita", "123456789", phoneNumber, "rita@gmail.com", address1);
+    }
+
     @Test
     void zeroAsUniqueNumberDoesNotCreateObject() {
 
@@ -54,7 +95,7 @@ class StudentTest {
     }
     @ParameterizedTest
     @MethodSource("testUniqueNumber_Null_Blank_InvalidLength")
-    void invalidInputsShouldReturnException(String uniqueNumber) {
+    void invalidUniqueNumberInputShouldReturnException(String uniqueNumber) {
 
         //arrange
         Address address1 = mock(Address.class);
@@ -123,6 +164,25 @@ class StudentTest {
         assertThrows(Exception.class, () -> new Student("1234567", "Joaquim", null, "933741758", "joaquim@gmail.com", address1));
     }
 
+    static Stream<Arguments> test_NIF_WithInvalidInputs() {
+        return Streams.of(
+                Arguments.of("1234567890123456"),
+                Arguments.of("1234!56789"),
+                Arguments.of("A1234 56789"),
+                Arguments.of("1234#56789")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("test_NIF_WithInvalidInputs")
+    void invalid_NIF_InputShouldReturnException(String NIF) {
+
+        //arrange
+        Address address1 = mock(Address.class);
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student("1234567", "Rita", NIF, "963741258", "rita@gmail.com", address1));
+    }
+
     @Test
     void emptyPhoneDoesNotCreateObject() {
 
@@ -151,6 +211,29 @@ class StudentTest {
 
         //act + assert
         assertThrows(Exception.class, () -> new Student("1234567", "Rute", "32165498", null, "rute@gmail.com", address1));
+    }
+
+    static Stream<Arguments> testPhoneNumberWithInvalidInputs() {
+        return Streams.of(
+                Arguments.of("12345"),
+                Arguments.of("+12345"),
+                Arguments.of("123-45-678"),
+                Arguments.of("+12 345 67 89"),
+                Arguments.of("+12 345 (456)-789"),
+                Arguments.of("12.34.56.78.90"),
+                Arguments.of("+1(2345)67890"),
+                Arguments.of("91234567(8)")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testPhoneNumberWithInvalidInputs")
+    void invalidPhoneNumberInputShouldReturnException(String phoneNumber) {
+
+        //arrange
+        Address address1 = mock(Address.class);
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student("1234567", "Rita", "32165498", phoneNumber, "rita@gmail.com", address1));
     }
 
     @Test
