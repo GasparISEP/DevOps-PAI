@@ -34,7 +34,7 @@ class ProgrammeEnrolmentFactoryTest {
         String _date;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
         StudyPlanArrayListFactory _studyPlanArrayListFactory;
-        StudyPlanFactory _studyPlanFactory;
+        StudyPlanFactoryImpl _studyPlanFactory;
         CourseFactory _courseFactory;
 
         AttributesForTestsWithoutIsolation() throws Exception {
@@ -54,7 +54,7 @@ class ProgrammeEnrolmentFactoryTest {
             _programmeCourseListFactory = new ProgrammeCourseListFactory();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanArrayListFactory = new StudyPlanArrayListFactory();
-            _studyPlanFactory = new StudyPlanFactory();
+            _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactory = new CourseFactory();
             _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
         }

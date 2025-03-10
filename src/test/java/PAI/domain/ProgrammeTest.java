@@ -19,7 +19,7 @@ class ProgrammeTest {
     private ProgrammeCourseListFactory _programmeCourseListFactory;
     private CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
     private StudyPlanArrayListFactory _studyPlanArrayListFactory;
-    private StudyPlanFactory _studyPlanFactory;
+    private StudyPlanFactoryImpl _studyPlanFactory;
     private CourseFactory _courseFactory;
 
     @BeforeEach
@@ -30,7 +30,7 @@ class ProgrammeTest {
         _programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         _courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
         _studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
-        _studyPlanFactory = mock(StudyPlanFactory.class);
+        _studyPlanFactory = mock(StudyPlanFactoryImpl.class);
         _courseFactory = mock(CourseFactory.class);
 
     }

@@ -1,15 +1,15 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.CourseInStudyPlanFactoryImpl;
+import PAI.domain.Course;
+import PAI.domain.CourseInStudyPlan;
+import PAI.domain.Programme;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-class CourseInStudyPlanFactoryTest {
+class CourseInStudyPlanFactoryImplTest {
 
     @Test
     void shouldCreateFactoryConstrutor() throws Exception {

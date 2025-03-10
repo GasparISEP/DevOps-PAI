@@ -18,7 +18,7 @@ class StudyPlanFactoryTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
         StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
-        StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
 
         try (MockedConstruction<StudyPlan> mockConstruction = mockConstruction(StudyPlan.class)) {
 
