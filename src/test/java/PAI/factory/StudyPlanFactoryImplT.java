@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockConstruction;
 
-class StudyPlanFactoryTest {
+class StudyPlanFactoryImplT {
 
     @Test
     void shouldCreateNewStudyPlan() throws Exception {
