@@ -219,4 +219,31 @@ class CourseEditionEnrollmentTest {
         // act & assert
         assertNotEquals(enrollment.hashCode(), enrollment1.hashCode());
     }
+
+    @Test
+    void newEnrollment_ShouldBeActive() {
+        // Arrange
+        Student studentMock = mock(Student.class);
+        CourseEdition courseEditionMock = mock(CourseEdition.class);
+
+        // Act
+        CourseEditionEnrollment enrollment = new CourseEditionEnrollment(studentMock, courseEditionMock);
+
+        // Assert
+        assertTrue(enrollment.isEnrollmentActive());
+    }
+
+    @Test
+    void deactivateEnrollment_ShouldSetEnrollmentToInactive() {
+        // Arrange
+        Student studentMock = mock(Student.class);
+        CourseEdition courseEditionMock = mock(CourseEdition.class);
+        CourseEditionEnrollment enrollment = new CourseEditionEnrollment(studentMock, courseEditionMock);
+
+        // Act
+        enrollment.deactivateEnrollment();
+
+        // Assert
+        assertFalse(enrollment.isEnrollmentActive());
+    }
 }
