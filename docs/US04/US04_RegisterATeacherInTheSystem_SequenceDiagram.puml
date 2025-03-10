@@ -6,11 +6,12 @@ actor Administrator
 participant ":UI" as UI
 participant ":US04_IWantToRegisterATeacherInTheSystemController" as Controller
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
+participant ":TeacherCategory" as TeacherCategory
 participant ":DepartmentRepository" as DepartmentRepository
 participant ":TeacherRepository" as TeacherRepository
-participant ":TeacherFactory" as TeacherFactory
+participant ":TeacherFactoryInterface" as TeacherFactory
 participant "t1:Teacher" as Teacher
-participant "t[i]:Teacher" as TeacherI
+participant ":TeacherList" as TeacherI
 
 Administrator -> UI : I want to register a teacher in the system.
 activate UI
@@ -26,11 +27,17 @@ UI -> Controller : registerATeacherInTheSystem(acronym,name,email,nif,phoneNumbe
 activate Controller
 Controller -> TeacherCategoryRepository : isCategoryInTeacherCategoryRepository(category)
 activate TeacherCategoryRepository
-TeacherCategoryRepository -->Controller : True!
+loop for each "tc[i]:TeacherCategory in TeacherCategoryRepository
+TeacherCategoryRepository -> TeacherCategory: getName (name)
+activate TeacherCategory
+TeacherCategory --> TeacherCategoryRepository: Optional.of(category)
+deactivate TeacherCategory
+end
+TeacherCategoryRepository --> Controller : True
 deactivate TeacherCategoryRepository
 Controller -> DepartmentRepository : isDepartmentInDepartmentRepository(category)
 activate DepartmentRepository
-DepartmentRepository -->Controller : True!
+DepartmentRepository -->Controller : True
 deactivate DepartmentRepository
 Controller -> TeacherRepository: registerTeacher(acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
 activate TeacherRepository
@@ -39,7 +46,6 @@ TeacherRepository -> TeacherFactory: createTeacher (acronym,name,email,nif,phone
 activate TeacherFactory
 TeacherFactory -> Teacher **: createTeacher (acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
 activate Teacher
-Teacher -> Teacher: isValid
 Teacher --> TeacherFactory: t1
 deactivate Teacher
 TeacherFactory --> TeacherRepository: t1
@@ -50,10 +56,13 @@ activate TeacherI
 TeacherI --> TeacherRepository: Acronym and NIF are not in the list
 deactivate TeacherI
 end
-TeacherRepository -> TeacherRepository: add (t1:Teacher)
-TeacherRepository --> Controller : True!
+TeacherRepository -> TeacherI: add (t1:Teacher)
+activate TeacherI
+TeacherI --> TeacherRepository: True
+deactivate TeacherI
+TeacherRepository --> Controller : True
 deactivate TeacherRepository
-Controller --> UI : True!
+Controller --> UI : True
 deactivate Controller
 UI -->Administrator : OK!
 deactivate UI
