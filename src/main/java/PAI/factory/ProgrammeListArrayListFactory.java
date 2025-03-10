@@ -12,7 +12,7 @@ public class ProgrammeListArrayListFactory implements ProgrammeListArrayListFact
 
     @Override
     public List<Programme> copyProgrammeArrayList(List<Programme> list) {
-        return List.copyOf(list);
+        return new ArrayList<>(list);
     }
 
 }
