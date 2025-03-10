@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.*;
 import PAI.repository.CourseRepository;
 import PAI.repository.ProgrammeList;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,22 +27,19 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
+    void shouldNotAddCourseToProgrammeIfCourseAlreadyInListIsolatedTest() throws Exception {
         // arrange
         Programme programmeDouble = mock(Programme.class);
-        Course courseDouble = mock(Course.class);
+        Course courseDouble1 = mock(Course.class);
+        Course courseDouble2 = mock(Course.class);
 
-        when(programmeDouble.addCourseToAProgramme(courseDouble))
-                .thenReturn(true)
-                .thenThrow(new Exception("Course is already added to the programme."));
+        when(programmeDouble.addCourseToAProgramme(courseDouble1))
+                .thenReturn(true);
+        when(programmeDouble.addCourseToAProgramme(courseDouble2)).thenReturn(false);
         // act
-        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
+        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble2);
         //act + assert
-        assertTrue(addCourseToProgramme);
-        Exception exception = assertThrows(Exception.class, () -> {
-            us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
-        });
-        assertEquals("Course is already added to the programme.", exception.getMessage());
+        assertFalse(addCourseToProgramme);
     }
 
     @Test
@@ -49,6 +47,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble = mock(Course.class);
+        when(programmeDouble.addCourseToAProgramme(courseDouble)).thenReturn(true);
         //act
         boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
         //assert
@@ -56,7 +55,7 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeListIsNull() {
+    void shouldThrowExceptionIfProgrammeListIsNull_IsolatedTest() throws IllegalArgumentException {
         // arrange
         ProgrammeList nullProgrammeList = null;
         CourseRepository courseRepository = mock(CourseRepository.class);
@@ -67,12 +66,22 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseIsNull() {
+    void shouldThrowExceptionIfCourseIsNull_IsolatedTest() {
         // arrange
         Programme programmeDouble = mock(Programme.class);
         //act + assert
         assertThrows(Exception.class, () -> {
             us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, null);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeIsNull_IsolatedTest() {
+        // arrange
+        Course courseDouble = mock(Course.class);
+        //act + assert
+        assertThrows(Exception.class, () -> {
+            us03AddCourseToProgrammeController.addCourseToProgramme(null, courseDouble);
         });
     }
 
@@ -187,13 +196,179 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseRepositoryIsNull() {
+    void shouldThrowExceptionIfCourseRepositoryIsNull_IsolatedTest() {
         // arrange
         ProgrammeList programmeList = mock(ProgrammeList.class);
 
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
             new US03_AddCourseToProgrammeController(programmeList, null);
+        });
+    }
+
+    // Integration Tests
+
+    @Test
+    void shouldCreateAddCourseToProgrammeController() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
+                "A123","Doutoramento em Engenharia Informatica, 2005, " +
+                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        CourseFactory courseFactory = new CourseFactory();
+        CourseListFactory courseListFactory = new CourseListFactory();
+        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+        StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
+        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
+                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        //act
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        //assert
+        assertNotNull(US03AddCourseToProgrammeController);
+    }
+
+
+    @Test
+    void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
+                "A123","Doutoramento em Engenharia Informatica, 2005, " +
+                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        CourseFactory courseFactory = new CourseFactory();
+        CourseListFactory courseListFactory = new CourseListFactory();
+        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+        StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
+        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
+                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        Programme lei = programmeList.getAllProgrammes().get(0);
+        lei.addCourseToAProgramme(courseRepository.getAllCourses().get(0));
+        Course course1 = lei.getCourseList().get(0);
+        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        //act
+        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(lei, course1);
+        // assert
+        assertFalse(addCourseToProgramme);
+    }
+
+    @Test
+    void shouldAddCourseToProgrammeIfAllArgumentsAreValid() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
+                "A123","Doutoramento em Engenharia Informatica, 2005, " +
+                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        CourseFactory courseFactory = new CourseFactory();
+        CourseListFactory courseListFactory = new CourseListFactory();
+        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+        StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
+        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
+                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        Course course1 = courseRepository.getAllCourses().get(0);
+        Programme lei = programmeList.getAllProgrammes().get(0);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        //act
+        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(lei, course1);
+        //assert
+        assertTrue(addCourseToProgramme);
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeListIsNull() throws Exception {
+        // arrange
+        CourseFactory courseFactory = new CourseFactory();
+        CourseListFactory courseListFactory = new CourseListFactory();
+        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(null, courseRepository);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseRepositoryIsNull() throws IllegalArgumentException {
+        // arrange
+        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(programmeList, null);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseIsNull() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento EI");
+        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
+        AddressFactory addressFactory = new AddressFactory();
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        DegreeType degree1 = new DegreeType("Licenciatura",30);
+        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
+                "A123","Doutoramento em Engenharia Informatica, 2005, " +
+                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+
+        CourseFactory courseFactory = new CourseFactory();
+        CourseListFactory courseListFactory = new CourseListFactory();
+        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+
+        ProgrammeFactory programmeFactory = new ProgrammeFactory();
+        ProgrammeListArrayListFactory programmeListArrayListFactory = new ProgrammeListArrayListFactory();
+        ProgrammeList programmeList = new ProgrammeList(programmeFactory, programmeListArrayListFactory);
+        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactory();
+        StudyPlanArrayListFactory studyPlanArrayListFactory = new StudyPlanArrayListFactory();
+        StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
+        programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
+                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+        Programme lei = programmeList.getAllProgrammes().get(0);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            US03AddCourseToProgrammeController.addCourseToProgramme(lei, null);
         });
     }
 }
