@@ -2,34 +2,34 @@ package PAI.repository;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.GradeStudent;
-import PAI.factory.GradeStudentListFactory;
+import PAI.factory.GradeStudentListFactoryImpl;
 import PAI.domain.Student;
-import PAI.factory.GradeStudentFactory;
+import PAI.factory.GradeStudentFactoryImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 public class GradeStudentRepository {
-    private final GradeStudentFactory _gradeStudentFactory;
+    private final GradeStudentFactoryImpl _gradeStudentFactoryImpl;
     private List<GradeStudent> _gradeStudentList;
 
-    public GradeStudentRepository (GradeStudentFactory gradeStudentFactory, GradeStudentListFactory gradeStudentListFactory){
-        if (gradeStudentFactory == null){
+    public GradeStudentRepository (GradeStudentFactoryImpl gradeStudentFactoryImpl, GradeStudentListFactoryImpl gradeStudentListFactoryImpl){
+        if (gradeStudentFactoryImpl == null){
             throw new IllegalArgumentException("Factory cannot be null!");
         }
-        this._gradeStudentFactory = gradeStudentFactory;
+        this._gradeStudentFactoryImpl = gradeStudentFactoryImpl;
 
-        if (gradeStudentListFactory == null) {
+        if (gradeStudentListFactoryImpl == null) {
             throw new IllegalArgumentException("Factory cannot be null!");
 
         }
-        _gradeStudentList = gradeStudentListFactory.newArrayList();
+        _gradeStudentList = gradeStudentListFactoryImpl.newArrayList();
     }
 
 
     public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
         try {
-                GradeStudent gradeStudent = _gradeStudentFactory.newGradeStudent(grade,date,student,courseEdition);
+                GradeStudent gradeStudent = _gradeStudentFactoryImpl.newGradeStudent(grade,date,student,courseEdition);
                 _gradeStudentList.add(gradeStudent);
                 return Optional.of(gradeStudent);
         }
