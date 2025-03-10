@@ -12,6 +12,6 @@ UI --> ASC : What course edition?
 ASC -> UI : Course edition!
 UI --> ASC : Sure?
 ASC -> UI : Yes
-UI --> ASC : Enrollment removed
+UI --> ASC : Removal successful!
 
 @enduml
