@@ -6,12 +6,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SchoolYearListFactoryTest {
+class SchoolYearListFactoryImplTest {
 
     @Test
     void shouldCreateSchoolYearList() {
         // Arrange
-        SchoolYearListFactory syListFactory = new SchoolYearListFactory();
+        SchoolYearListFactoryImpl syListFactory = new SchoolYearListFactoryImpl();
 
         // Act
         List<SchoolYear> schoolYearList = syListFactory.newArrayList();

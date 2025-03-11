@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.*;
 
-class SchoolYearFactoryTest {
+class SchoolYearFactoryImplTest {
 
     @Test
     void shouldCreateSchoolYear()  {
@@ -35,10 +35,10 @@ class SchoolYearFactoryTest {
                     when(mock.getEndDate()).thenReturn(LocalDate.parse(actualEndDate, formatter));
                 })) {
 
-            SchoolYearFactory schoolYearFactory = new SchoolYearFactory();
+            SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
 
             //act
-            SchoolYear schoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
+            SchoolYear schoolYear = schoolYearFactoryImpl.createSchoolYear(description, startDate, endDate);
 
             //assert
             List<SchoolYear> schoolYears = schoolYearDouble.constructed();
@@ -68,10 +68,10 @@ class SchoolYearFactoryTest {
     @MethodSource("provideInvalidParameters")
     void shouldThrowAnExceptionWhenTheParametersAreInvalid(String description, String startDate, String endDate) {
         //arrange
-        SchoolYearFactory schoolYearFactory = new SchoolYearFactory();
+        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> schoolYearFactory.createSchoolYear(description, startDate, endDate));
+        assertThrows(IllegalArgumentException.class, () -> schoolYearFactoryImpl.createSchoolYear(description, startDate, endDate));
     }
 
 

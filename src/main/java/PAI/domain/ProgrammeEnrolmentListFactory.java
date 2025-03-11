@@ -2,10 +2,7 @@ package PAI.domain;
 
 import java.util.ArrayList;
 
-public class ProgrammeEnrolmentListFactory implements ProgrammeEnrolmentListFactoryInterface {
+public interface ProgrammeEnrolmentListFactory {
 
-    public ArrayList<ProgrammeEnrolment> newArrayList() {
-
-        return new ArrayList<>();
-    }
+    ArrayList<ProgrammeEnrolment> newArrayList();
 }
