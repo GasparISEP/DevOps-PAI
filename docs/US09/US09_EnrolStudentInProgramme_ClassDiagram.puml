@@ -11,14 +11,15 @@ class Student {
     -_phone:String
     -_email:String
     -_institutionalEmail:String
-    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Student>)
-    +hasSameUniqueNumber(Student : student)
+    +hasThisUniqueNumber(uniqueNumber: String)
 }
 
 class AccessMethod {
     -_name:String
-    +AccessMethod(name:String)
+    +hasThisAccessMethodName(name: String)
+}
+
+class List<ProgrammeEnrolment> {
 }
 
 class Programme {
@@ -29,26 +30,8 @@ class Programme {
      - degreeType: DegreeType
      - department: Department
      - programmeDirector: Teacher
-     -_courseList: List <Course>
      -StudyPlan: _studyPlan
-     +Programme(name: String, acronym; String, quantityOfEcts: int, quantityOfSemesters; int, degreeType: DegreeType, department: Department, programmeDirector: Teacher, programmeCourseListFactory: ProgrammeCourseListFactory)
-     + equals()
-     +isEquals((programme: Programme)
-     + addCourseToAProgramme (course: Course)
-     + newProgrammeDirector(teacherDirector: Teacher)
-     +isInDepartment(department: Department)
-     +getCourseList()
-     +getQuantityOfSemester()
-     +getQuantityOfEcts()
-     +getStudyPlan()
-     +calculateNumberOfYears(quantityOfSemesters: int)
      +hasThisProgrammeName(name: String)
-     +getAcronym()
-     +getProgrammeName()
-     +getDegreeType()
-     +getDepartment()
-     +getProgrammeDirector()
-     +getProgrammeCourseList()
  }
 
  class ProgrammeEnrolment {
@@ -59,68 +42,69 @@ class Programme {
      +hasSameProgramme(programme: Programme)
  }
 
- class ProgrammeEnrolmentFactory {
+ class ProgrammeEnrolmentFactoryImpl {
     +createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
  }
 
-interface ProgrammeEnrolmentFactoryInterface {
+interface ProgrammeEnrolmentFactory {
     +createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
 }
 
 class ProgrammeEnrolmentRepository {
-     +ProgrammeEnrolmentRepository(programmeEnrolmentFactory: ProgrammeEnrolmentFactory, programmeEnrolmentRepositoryListFactory ProgrammeEnrolmentRepositoryList
+    -programmeEnrolmentFactory: ProgrammeEnrolmentFactory
+    -programmeEnrolmentList: ProgrammeEnrolmentListFactory
+     +ProgrammeEnrolmentRepository(programmeEnrolmentFactory: ProgrammeEnrolmentFactoryImpl, programmeEnrolmentRepositoryListFactory ProgrammeEnrolmentRepositoryList
      +enrolStudents (student : Student, accessMethod : AccessMethod, programme : Programme, enrolmentDate: String)
-     +isStudentEnrolled (student : Student, programme : Programme)
 }
 
-class ProgrammeEnrolmentRepositoryListFactory {
+class ProgrammeEnrolmentRepositoryListFactoryImpl {
     +newArrayList()
 }
 
-interface ProgrammeEnrolmentRepositoryListFactoryInterface {
+interface ProgrammeEnrolmentListFactory {
     +newArrayList()
 }
 
 class US09_EnrollStudentInProgrammeController {
-     + US09_EnrollStudentInProgrammeController(StudentRepository, AccessMethodRepository, ProgrammeList, EnrolmentRepository)
-     + getStudentByUniqueNumber(uniqueNumber: String): Optional<Student>
-     + getAccessMethodByName(accessMethod: String): Optional<AccessMethod>
-     + getProgrammeByName(programmeName: String): Optional<Programme>
-     + enrolStudent(s1: Student, am1: AccessMethod, p1: Programme, date: String): boolean
+     + US09_EnrollStudentInProgrammeController(studentRepository: StudentRepository, accessMethodRepository: AccessMethodRepository, programmeList: ProgrammeRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
+     + getStudentByUniqueNumber(uniqueNumber: String)
+     + getAccessMethodByName(accessMethod: String)
+     + getProgrammeByName(programmeName: String)
+     + enrolStudent(s1: Student, am1: AccessMethod, p1: Programme, date: String)
 }
 
 class StudentRepository {
-    +registerStudent(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentEnrolledInProgramme(Student student, Programme programme)
+    -studentFactoryImpl: StudentFactory
+    +getStudentByUniqueNumber(uniqueNumber: String)
 }
 
 class AccessMethodRepository {
-    +AccessMethodRepository()
-    +registerAccessMethod (accessMethodName: String)
-    +isAccessMethodRegistered(accessMethod: AccessMethod)
+    -accessMethodFactory: AccessMethodFactory
+    +getAccessMethodByName(name: String)
 }
 
-class ProgrammeList {
-     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
-     +changeProgrammeDirector(Programme programme, Teacher newDirector)
-     +getAllProgrammes()
-     +getCourseList(programme: Programme)
+class ProgrammeRepository {
+    -programmeFactory: ProgrammeFactory
+     +getProgrammeByName(name: String)
 }
 
 StudentRepository "1" --> "students \n*" Student
 AccessMethodRepository "1" --> "_accessMethodList \n*" AccessMethod
-ProgrammeList "1   " ---> "_programmeList *" Programme
+ProgrammeRepository "1   " ---> "_programmeList *" Programme
 Student "_student \n1" <-- "*" ProgrammeEnrolment
 AccessMethod "_accessmethod \n1" <-- "*" ProgrammeEnrolment
 Programme "_programme \n1"  <-r- "*" ProgrammeEnrolment
 US09_EnrollStudentInProgrammeController "1" .r.> "_studentRepository \n1\n" StudentRepository
 US09_EnrollStudentInProgrammeController "1" ..> "_accessmethodRepository \n1" AccessMethodRepository
-US09_EnrollStudentInProgrammeController "1" ..l.> "_programmeList \n1\n" ProgrammeList
+US09_EnrollStudentInProgrammeController "1" ..l.> "_programmeList \n1\n" ProgrammeRepository
 US09_EnrollStudentInProgrammeController "1" ..> "_programmeEnrolmentRepository \n1\n" ProgrammeEnrolmentRepository
-ProgrammeEnrolmentRepository"1" --> "_programmeEnrolmentFactory \n1"ProgrammeEnrolmentFactory
-ProgrammeEnrolmentFactory"1" --> "1..*"ProgrammeEnrolment
-ProgrammeEnrolmentFactoryInterface <|.. ProgrammeEnrolmentFactory
-ProgrammeEnrolmentRepositoryListFactory"_programmeEnrolmentListFactory \n1" <-- "1"ProgrammeEnrolmentRepository
-ProgrammeEnrolmentRepositoryListFactoryInterface <|.. ProgrammeEnrolmentRepositoryListFactory
+ProgrammeEnrolmentRepository"1" ..> "1"ProgrammeEnrolmentFactory
+ProgrammeEnrolmentFactory"1" ..> "1..* \ncreates"ProgrammeEnrolment
+ProgrammeEnrolmentFactory <|.. ProgrammeEnrolmentFactoryImpl
+ProgrammeEnrolmentListFactory "_programmeEnrolmentListFactory \n1" <-- "1"ProgrammeEnrolmentRepository
+ProgrammeEnrolmentListFactory <|.. ProgrammeEnrolmentRepositoryListFactoryImpl
+ProgrammeEnrolmentListFactory  ..> "creates\n" List
+ProgrammeEnrolmentRepository"1" --> "1"List
+List --> ProgrammeEnrolment
 
 @enduml

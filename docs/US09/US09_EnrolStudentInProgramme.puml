@@ -8,7 +8,7 @@ participant "sr1:StudentRepository" as StudentRepo
 participant "s[i]:Student" as Student
 participant "amr1:AccessMethodRepository" as AccessMethodRepo
 participant "am[i]:AccessMethod" as AccessMethod
-participant "prL1:ProgrammeList" as ProgrammeList
+participant "prRepo1:ProgrammeRepository" as ProgrammeRepo
 participant "p[i]:Programme" as Programme
 participant "per1:ProgrammeEnrolmentRepository" as EnrolmentRepo
 participant "pef1:ProgrammeEnrolmentFactory" as ProgrammeEnrolmentFactory
@@ -50,16 +50,16 @@ end
 AccessMethodRepo --> CTL : am1
 deactivate AccessMethodRepo
 
-CTL -> ProgrammeList : getProgrammeByName(name)
-activate ProgrammeList
-loop for each Programme in ProgrammeList
-    ProgrammeList -> Programme : hasThisName(programmeName)
+CTL -> ProgrammeRepo : getProgrammeByName(name)
+activate ProgrammeRepo
+loop for each Programme in ProgrammeRepo
+    ProgrammeRepo -> Programme : hasThisProgrammeName(programmeName)
     activate Programme
-    Programme --> ProgrammeList : True
+    Programme --> ProgrammeRepo : True
     deactivate Programme
 end
-ProgrammeList --> CTL : p1
-deactivate ProgrammeList
+ProgrammeRepo --> CTL : p1
+deactivate ProgrammeRepo
 
 CTL -> EnrolmentRepo: enrolStudent(s1, am1, p1, enrolmentDate)
 activate EnrolmentRepo
