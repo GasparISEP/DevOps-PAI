@@ -1,6 +1,5 @@
 package PAI.repository;
 import PAI.domain.Department;
-import PAI.domain.DepartmentEqualsTrue;
 import PAI.domain.Teacher;
 import PAI.factory.DepartmentFactoryInterface;
 import PAI.factory.DepartmentListFactoryInterface;
@@ -56,7 +55,7 @@ class DepartmentRepositoryTest {
         DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
         DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
         DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
-        Department department1Double = new DepartmentEqualsTrue("CSE", "Computer Science");
+        Department department1Double = new Department("CSE", "Computer Science");
 
         when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
         repository.registerDepartment("CSE", "Computer Science");
