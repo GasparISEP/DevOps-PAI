@@ -29,7 +29,7 @@ class ProgrammeEnrolmentFactoryTest {
         TeacherCareerProgressionFactory _tcpFactory;
         TeacherCareerProgressionListFactory _tcpLFactoryDouble;
         Teacher _teacher;
-        ProgrammeCourseListFactory _programmeCourseListFactory;
+        ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl1;
         Programme _programme;
         String _date;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
@@ -51,12 +51,12 @@ class ProgrammeEnrolmentFactoryTest {
             _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory, _tcpLFactoryDouble);
-            _programmeCourseListFactory = new ProgrammeCourseListFactory();
+            _programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactory = new CourseFactory();
-            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
+            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactoryImpl1, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
         }
     }
 
