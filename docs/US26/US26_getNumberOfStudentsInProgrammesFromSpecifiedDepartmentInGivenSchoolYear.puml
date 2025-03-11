@@ -41,6 +41,7 @@ ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new HashSet<>()
 activate StudentUniqueNumbers
 loop for each ProgrammeEditionEnrollment[i] in ProgrammeEditionEnrolRepo
 ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrollmenti :isEnrollmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
+activate ProgrammeEditionEnrollmenti
 ProgrammeEditionEnrollmenti -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEdition
 ProgrammeEdition->SchoolYear: isSameSchoolYear(sy1)
@@ -63,10 +64,11 @@ activate Student
 Student -->ProgrammeEditionEnrollmenti: uniqueNumber
 deactivate Student
 ProgrammeEditionEnrollmenti --> ProgrammeEditionEnrolRepo: uniqueNumber
-ProgrammeEditionEnrolRepo-> StudentUniqueNumbers: add(uniqueNumber)
+deactivate ProgrammeEditionEnrollmenti
+ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: add(uniqueNumber)
 end
 end
-StudentUniqueNumbers -> ProgrammeEditionEnrolRepo: studentUniqueNumbers.size()
+StudentUniqueNumbers --> ProgrammeEditionEnrolRepo: studentUniqueNumbers.size()
 deactivate StudentUniqueNumbers
 ProgrammeEditionEnrolRepo-->Controller: studentUniqueNumbers.size()
 deactivate ProgrammeEditionEnrolRepo
