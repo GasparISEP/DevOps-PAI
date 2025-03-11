@@ -1,5 +1,6 @@
 package PAI.controller;
 import PAI.domain.*;
+import PAI.factory.TeacherCategoryFactory;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,6 +15,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -58,20 +61,41 @@ class US14UpdateTeachersCategoryControllerTest {
     @Test
     void successfullyUpdatedTeachersCategory() throws Exception {
         // Arrange
+        Teacher teacherDouble = mock(Teacher.class);
+        TeacherCategory tc1Double = mock(TeacherCategory.class);
+        TeacherCategory tc2Double = mock(TeacherCategory.class);
 
-        TeacherCategory tc1 = new TeacherCategory("Assistente");
-        TeacherCategory tc2 = new TeacherCategory("Efectivo");
+        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
+        teacherListDouble.add(teacherDouble);
+        Iterator<Teacher> teacherIterator = mock(Iterator.class);
 
-        Teacher teacher = mock(Teacher.class);
+        when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacherDouble));
+        when(teacherDouble.hasThisNIF("213784542")).thenReturn(true);
 
-        when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));
-        when(tcr1.getTeacherCategoryByName("Assistente")).thenReturn(Optional.of(tc1));
-        when(tcr1.getTeacherCategoryByName("Efectivo")).thenReturn(Optional.of(tc2));
+        when(teacherListDouble.iterator()).thenReturn(teacherIterator);
+        when(teacherIterator.hasNext()).thenReturn(true, false);
+        when(teacherIterator.next()).thenReturn(teacherDouble);
+
+        ArrayList<TeacherCategory> categoryListDouble = mock(ArrayList.class);
+        Iterator<TeacherCategory> categoryIterator = mock(Iterator.class);
+
+        when(categoryListDouble.iterator()).thenReturn(categoryIterator);
+        when(categoryIterator.hasNext()).thenReturn(true, false);
+        when(categoryIterator.next()).thenReturn(tc1Double);
+
+        when(teacherDouble.hasThisNIF("213784542")).thenReturn(true);
+
+        when(tc1Double.getName()).thenReturn("Assistente");
+        when(tc2Double.getName()).thenReturn("Efetivo");
+
+        when(tcr1.getTeacherCategoryByName("Assistente")).thenReturn(Optional.of(tc1Double));
+
+        when(tcr1.getTeacherCategoryByName("Efetivo")).thenReturn(Optional.of(tc2Double));
 
         US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(tr1, tcr1);
 
         // Act
-        boolean result = controller.updateTeacherCategory("30-01-2025", "213784542", "Efectivo");
+        boolean result = controller.updateTeacherCategory("30-01-2025", "213784542", "Efetivo");
 
         // Assert
         assertTrue(result);
@@ -92,10 +116,23 @@ class US14UpdateTeachersCategoryControllerTest {
     @Test
     void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdatedTeachersCategory() throws Exception {
         // Arrange
-
         Teacher teacher = mock(Teacher.class);
 
+        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
+        Iterator<Teacher> teacherIterator = mock(Iterator.class);
+
+        ArrayList<TeacherCategory> categoryListDouble = mock(ArrayList.class);
+        Iterator<TeacherCategory> categoryIterator = mock(Iterator.class);
+
+        when(teacherListDouble.iterator()).thenReturn(teacherIterator);
+        when(teacherIterator.hasNext()).thenReturn(true, false);
+        when(teacherIterator.next()).thenReturn(teacher);
+
+        when(categoryListDouble.iterator()).thenReturn(categoryIterator);
+        when(categoryIterator.hasNext()).thenReturn(false);
+
         when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));
+
         when(tcr1.getTeacherCategoryByName("Doutor")).thenReturn(Optional.empty());
 
         US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(tr1, tcr1);
