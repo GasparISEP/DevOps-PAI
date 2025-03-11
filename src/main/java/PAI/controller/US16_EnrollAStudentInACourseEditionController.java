@@ -6,6 +6,7 @@ import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
 
 import java.util.List;
+import java.util.Optional;
 
 public class US16_EnrollAStudentInACourseEditionController {
 
@@ -23,8 +24,13 @@ public class US16_EnrollAStudentInACourseEditionController {
     }
 
     //show a list of programme editions that student is enrolled
-    public List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
-        return _peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student);
+    public Optional<List<ProgrammeEdition>> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
+
+        if (student == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(_peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student));
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
