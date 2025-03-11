@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.factory.TeacherFactory;
+import PAI.factory.TeacherFactoryImpl;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
 
@@ -11,7 +11,7 @@ public class US14_UpdateTeachersCategoryController {
 
     private TeacherRepository _teacherRepository;
     private TeacherCategoryRepository _teacherCategoryRepository;
-    private TeacherFactory _teacherFactory;
+    private TeacherFactoryImpl _teacherFactory;
 
     public US14_UpdateTeachersCategoryController(TeacherRepository teacherRepository, TeacherCategoryRepository teacherCategoryRepository) {
         _teacherRepository = teacherRepository;

@@ -4,22 +4,21 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class TeacherFactoryTest {
+class TeacherFactoryImplTest {
 
     @Test
     void shouldCreateAValidTeacherWhenMockedConstructorIsGiven() {
         // Arrange
-        TeacherFactory teacherFactory = new TeacherFactory();
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
+        TeacherFactoryImpl teacherFactory = new TeacherFactoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
-        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
         Address addressDouble = mock(Address.class);
         Department departmentDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -46,7 +45,7 @@ class TeacherFactoryTest {
         })) {
             // Act
             Teacher teacher = teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-                    street, postalCode, location, country, addressFactoryDouble, date, tcDouble, workingPercentage, departmentDouble, tcpFactoryDouble, tcpLFactoryDouble);
+                    street, postalCode, location, country, addressFactoryDouble, date, tcDouble, workingPercentage, departmentDouble);
 
             // Assert
             List<Teacher> teachers = teacherDouble.constructed();

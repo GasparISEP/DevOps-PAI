@@ -2,30 +2,32 @@ package PAI.domain;
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.factory.TeacherCareerProgressionListFactory;
-import PAI.factory.TeacherFactory;
+import PAI.factory.TeacherFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class TeacherFactoryTest {
+class TeacherFactoryImplTest {
 
     @Test
     void shouldCreateTeacher() {
 
         //arrange
-        TeacherFactory tf1 = new TeacherFactory();
+        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgressionListFactory tcpListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
+        TeacherFactoryImpl tf1 = new TeacherFactoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
+
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
-        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory tcplF = mock(TeacherCareerProgressionListFactory.class);
+
 
         //act
         Teacher teacher = tf1.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789",
                 "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble, "15-04-2005",
-                tcDouble, 70, dptDouble, TCPfactoryDouble, tcplF);
+                tcDouble, 70, dptDouble);
 
         //assert
         assertNotNull(teacher);

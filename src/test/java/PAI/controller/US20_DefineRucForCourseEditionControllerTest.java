@@ -4,7 +4,7 @@ import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
 import PAI.factory.CourseEditionFactoryImpl;
 import PAI.factory.CourseEditionListFactoryImpl;
-import PAI.factory.TeacherFactory;
+import PAI.factory.TeacherFactoryImpl;
 import PAI.factory.TeacherListFactory;
 import PAI.repository.CourseEditionRepository;
 import PAI.repository.TeacherRepository;
@@ -321,7 +321,7 @@ class US20_DefineRucForCourseEditionControllerTest {
         CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactoryImpl, courseEditionListFactoryImpl);
 
         // Initialize TeacherRepository and its dependencies
-        TeacherFactory teacherFactory = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactory = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
         TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
 

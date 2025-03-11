@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public class TeacherRepository {
     private List<Teacher> teachers;
-    private TeacherFactory _teacherFactory;
+    private TeacherFactoryImpl _teacherFactory;
 
     //constructor
-    public TeacherRepository(TeacherFactory teacherFactory, TeacherListFactory teacherListFactory){
+    public TeacherRepository(TeacherFactoryImpl teacherFactory, TeacherListFactory teacherListFactory){
 
         teachers = teacherListFactory.newArrayList();
         _teacherFactory = teacherFactory;
@@ -23,7 +23,7 @@ public class TeacherRepository {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber,
                 academicBackground, street, postalCode, location, country, addressFactory, date,
-                category, workingPercentage, department, teacherCareerProgressionfactory, teacherCareerProgressionListFactory);
+                category, workingPercentage, department);
 
         compareTeacherAcronymAndNifInList(teacher);
         teachers.add(teacher);

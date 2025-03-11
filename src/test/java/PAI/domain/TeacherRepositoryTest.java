@@ -16,9 +16,9 @@ import static org.mockito.Mockito.when;
 class TeacherRepositoryTest {
 
     @Test
-    void shouldCreateValidTeacher() throws Exception {
+    void shouldCreateValidTeacher() {
         // Arrange
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
@@ -73,7 +73,7 @@ class TeacherRepositoryTest {
         Teacher teacher2 = mock(Teacher.class);
 
         //create TeacherRepository
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory listFactoryDouble = mock(TeacherListFactory.class);
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
@@ -91,10 +91,10 @@ class TeacherRepositoryTest {
 
         when(teacherFactoryDouble.createTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678",
-                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher1);
+                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble)).thenReturn(teacher1);
         when(teacherFactoryDouble.createTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street Two", "1234-678",
-                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher2);
+                "Porto", "Portugal", addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble)).thenReturn(teacher2);
 
 
         // Act
@@ -112,10 +112,10 @@ class TeacherRepositoryTest {
 
     //Testing when teacher has an existing acronym
     @Test
-    public void testRegisterTeacherWithDuplicateAcronym() throws Exception {
+    public void testRegisterTeacherWithDuplicateAcronym() {
         // Arrange
         ArrayList<Teacher> listDouble = mock(ArrayList.class);
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -145,12 +145,12 @@ class TeacherRepositoryTest {
 
         when(teacherFactoryDouble.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
                 "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble, "20-12-2010", tcDouble, 100, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble))
+                addressFactoryDouble, "20-12-2010", tcDouble, 100, departmentDouble))
                 .thenReturn(teacher1);
 
         when(teacherFactoryDouble.createTeacher("ABC", "Jane Doe", "abc@isep.ipp.pt", "987654321", "B123",
                 "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                addressFactoryDouble, "20-12-2010", tcDouble, 100, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble))
+                addressFactoryDouble, "20-12-2010", tcDouble, 100, departmentDouble))
                 .thenReturn(teacher2);
 
         when(teacher1.hasSameAcronym(teacher2)).thenReturn(true);
@@ -174,9 +174,9 @@ class TeacherRepositoryTest {
 
     //Testing when teacher has an existing nif
     @Test
-    public void testRegisterTeacherWithDuplicateNif() throws Exception {
+    public void testRegisterTeacherWithDuplicateNif() {
         // Arrange
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -201,11 +201,11 @@ class TeacherRepositoryTest {
 
         when(teacherFactoryDouble.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
                 "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher1);
+                addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble)).thenReturn(teacher1);
 
         when(teacherFactoryDouble.createTeacher("DEF", "Jane Doe", "def@isep.ipp.pt", "123456789", "B123",
                 "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble)).thenReturn(teacher2);
+                addressFactoryDouble,"20-12-2010", tcDouble, 100, departmentDouble)).thenReturn(teacher2);
 
 
         when(teacher1.hasSameNif(teacher2)).thenReturn(true);
@@ -238,9 +238,9 @@ class TeacherRepositoryTest {
     }
 
     @Test
-    void shouldReturnANewListOfTeachersWithSameSize() throws Exception {
+    void shouldReturnANewListOfTeachersWithSameSize() {
         // ARRANGE
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
@@ -259,12 +259,12 @@ class TeacherRepositoryTest {
 
         when(teacherFactoryDouble.createTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789", "A106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tcDouble, 70, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble))
+                "Portugal", addressFactoryDouble, "15-04-2005", tcDouble, 70, departmentDouble))
                 .thenReturn(teacher1);
 
         when(teacherFactoryDouble.createTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, "15-04-2005", tcDouble, 70, departmentDouble, TCPfactoryDouble, tcpLFactoryDouble))
+                "Portugal", addressFactoryDouble, "15-04-2005", tcDouble, 70, departmentDouble))
                 .thenReturn(teacher2);
 
         // Registrar professores
@@ -286,10 +286,10 @@ class TeacherRepositoryTest {
 
 
     @Test
-    void shouldReturnTeacherWhenNIFMatches() throws Exception {
+    void shouldReturnTeacherWhenNIFMatches() {
 
         // ARRANGE
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
@@ -304,8 +304,7 @@ class TeacherRepositoryTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
                 "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005",
-                teacherCategoryDouble, 70, departmentDouble, careerProgressionFactoryDouble,
-                careerProgressionListFactoryDouble))
+                teacherCategoryDouble, 70, departmentDouble))
                 .thenReturn(teacherMock);
 
         repository.registerTeacher(
@@ -326,9 +325,9 @@ class TeacherRepositoryTest {
 
 
     @Test
-    void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() throws Exception {
+    void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() {
         // ARRANGE
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
@@ -343,8 +342,7 @@ class TeacherRepositoryTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
                 "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005",
-                teacherCategoryDouble, 70, departmentDouble, careerProgressionFactoryDouble,
-                careerProgressionListFactoryDouble))
+                teacherCategoryDouble, 70, departmentDouble))
                 .thenReturn(teacherDouble);
 
         // Mocking the list and iterator
@@ -374,9 +372,9 @@ class TeacherRepositoryTest {
 
 
     @Test
-    void shouldReturnEmptyOptionalWhenNIFIsEmpty() throws Exception {
+    void shouldReturnEmptyOptionalWhenNIFIsEmpty() {
         // ARRANGE
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
@@ -391,8 +389,7 @@ class TeacherRepositoryTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
                 "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005",
-                teacherCategoryDouble, 70, departmentDouble, careerProgressionFactoryDouble,
-                careerProgressionListFactoryDouble))
+                teacherCategoryDouble, 70, departmentDouble))
                 .thenReturn(teacherDouble);
 
         // Mocking the list and iterator
@@ -423,9 +420,9 @@ class TeacherRepositoryTest {
 
 
     @Test
-    void shouldReturnEmptyOptionalWhenNIFIsBlank() throws Exception {
+    void shouldReturnEmptyOptionalWhenNIFIsBlank() {
         // ARRANGE
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
@@ -440,8 +437,7 @@ class TeacherRepositoryTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
                 "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005",
-                teacherCategoryDouble, 70, departmentDouble, careerProgressionFactoryDouble,
-                careerProgressionListFactoryDouble))
+                teacherCategoryDouble, 70, departmentDouble))
                 .thenReturn(teacherDouble);
 
         // Mocking the list and iterator
@@ -472,9 +468,9 @@ class TeacherRepositoryTest {
 
 
     @Test
-    void shouldReturnEmptyOptionalWhenNIFIsNull() throws Exception {
+    void shouldReturnEmptyOptionalWhenNIFIsNull() {
         // ARRANGE
-        TeacherFactory teacherFactoryDouble = mock(TeacherFactory.class);
+        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
@@ -489,8 +485,7 @@ class TeacherRepositoryTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
                 "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005",
-                teacherCategoryDouble, 70, departmentDouble, careerProgressionFactoryDouble,
-                careerProgressionListFactoryDouble))
+                teacherCategoryDouble, 70, departmentDouble))
                 .thenReturn(teacherDouble);
 
         // Mocking the list and iterator
