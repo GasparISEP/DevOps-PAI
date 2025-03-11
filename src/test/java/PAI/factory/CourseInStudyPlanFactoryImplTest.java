@@ -32,9 +32,9 @@ class CourseInStudyPlanFactoryImplTest {
             when(mock.getProgramme()).thenReturn(programmeAtual);
         })) {
 
-            CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
 
             //act
+            CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             CourseInStudyPlan courseInStudyPlan = courseInStudyPlanFactory.newCourseInStudyPlan(semester, curricularYear, course, programme);
 
             //assert

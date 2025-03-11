@@ -1,6 +1,6 @@
 @startuml
 
-title US27: Registar um Programa no Sistema, incluindo o Plano de Estudos
+title US27: As an ASC, I want to register a programme in the system, including the study plan.
 
 actor ASC as Admin
 
@@ -8,51 +8,65 @@ participant ":UI" as UI #lightblue
 participant ":ControllerUS27" as C #lightblue
 participant ":ProgrammeList" as PL #lightblue
 
-== Registo do Programa ==
-Admin -> UI ++: "Quero registar um Programa com Plano de Estudos"
-UI --> Admin --: "Quais são os atributos?"
-Admin -> UI ++: "nome, acrónimo, ECTS, semestres, degreeType, departamento, diretor, [factories...]"
-UI -> C ++: registerProgrammeInTheSystemIncludingStudyPlan(nome, acrónimo, ECTS, semestres, degreeType, departamento, diretor, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory)
-C -> PL ++: registerProgramme(nome, acrónimo, ECTS, semestres, degreeType, departamento, diretor, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory)
-activate PL
-  ' Criação do Programa através do factory
-  PL -> :ProgrammeFactory: registerProgramme(...)
-  create ":Programme" as P #lightblue
-  P -> : isNameInvalid()\nisAcronymInvalid()\nisQuantityOfEctsInvalid()\nisQuantityOfSemestersInvalid()
-  ' Criação do Plano de Estudos via studyPlanFactory, invocado no construtor de Programme
-  create ":StudyPlan" as SP #lightblue
-  P -> SP ++: StudyPlan()
-  SP --> P --: Lista de CourseInStudyPlan (SP1)
-  P --> PL --: P1
-  PL -> PL: contains(P1)?
-  PL -> PL: add(P1)
-  PL --> C --: true
-deactivate PL
-C --> UI --: true
-UI --> Admin --: Sucesso!
 
-== Adicionar Curso ao Plano de Estudos ==
-Admin -> UI ++: "Quero adicionar um Curso ao Plano de Estudos"
-UI --> Admin --: "Forneça: semestre, ano curricular, curso, programa (P1)"
-UI -> C ++: addCourseToStudyPlan(semestre, anoCurricular, curso, P1)
-C -> P1 ++: getStudyPlan()
-P1 -> SP ++: addCourseToStudyPlan(semestre, anoCurricular, curso, P1)
-activate SP
-  SP -> SP: isCourseOrProgrammeInvalid(curso, P1)
-  SP -> SP: isCourseInStudyPlan(curso)
-  alt Curso não anual
-    create ":CourseInStudyPlan" as CSP #lightblue
-    SP -> CSP ++: CourseInStudyPlan(semestre, anoCurricular, curso, P1)
-    CSP -> CSP: isSemesterInvalid()\nisCurricularYearInvalid()
-    CSP --> SP --: CSP1
-    SP -> SP: isECTSLimitExceeded(semestre, anoCurricular, CSP1)
-    SP -> SP: addCourseToStudyPlan(CSP1)
-  else Curso anual
-    SP -> SP: addAnnualCourse(semestre, anoCurricular, curso, P1)
-  end
-deactivate SP
-SP --> C --: true
-C --> UI --: true
-UI --> Admin --: Sucesso!
+Admin -> UI ++ #application : I want to register a Programme in the System,\n including a Study Plan.
+
+UI --> Admin -- : What are the attributes??
+
+Admin -> UI ++ #application : name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector
+
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, \n quantityOfSemesters,  degreeType,  department, programmeDirector)
+
+C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector)
+
+create ":Programme" as P #lightblue
+PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector)
+P -> P : isNameInvalid()
+P -> P : isAcronymInvalid()
+P -> P : isQuantityOfEctsInvalid()
+P -> P : isQuantityOfSemestersInvalid()
+
+create ":StudyPlan" as SP #lightblue
+P -> SP ++ #application : StudyPlan()
+SP --> P -- : List<CourseInStudyPlan> SP1
+
+P --> PL -- : P1
+
+PL -> PL : contains(P1)
+PL -> PL : add(P1)
+
+PL --> C -- : True
+C --> UI -- : True
+UI --> Admin -- : Success!
+
+ref over Admin
+US03_AddCourseToAProgramme.
+
+
+end ref
+
+Admin -> UI ++ #application : I want to add a Course to StudyPlan
+UI --> Admin -- : semester? curricularYear? course? programme?
+Admin -> UI ++ #application : semester! curricularYear! course! P1!
+UI -> C ++ #application : addCourseToStudyPlan(semester, curricularYear, course, P1)
+C -> SP ++ #application : P1.getStudyPlan().addCourseToStudyPlan(semester, curricularYear, course, P1)
+SP -> SP : isCourseOrProgrammeInvalid(course, p1)
+SP -> SP : isCourseInStudyPlan(course, p1)
+
+create ":CourseInStudyPlan" as CSP #lightblue
+
+SP -> CSP ++ #application : CourseInStudyPlan(semester, curricularYear, course, P1)
+CSP -> CSP : isSemesterInvalid
+CSP -> CSP : IsCurricularYearInvalid
+
+CSP --> SP -- : CSP1
+
+SP -> SP : IsECTSLimitExceeded(semester, curricularYear, CSP1)
+SP -> SP : addCourseToStudyPlan(CSP1)
+
+SP --> C -- : True
+C --> UI -- : True
+
+UI --> Admin -- : Success
 
 @enduml

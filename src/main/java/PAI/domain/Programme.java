@@ -154,22 +154,4 @@ public class Programme {
     public String getProgrammeName() {
         return _name;
     }
-
-    public DegreeType getDegreeType() {
-        return _degreeType;
-    }
-
-    public Department getDepartment() {
-        return _department;
-    }
-
-    public Teacher getProgrammeDirector() {
-        return _programmeDirector;
-    }
-
-    public ProgrammeCourseListFactoryImpl getPprogrammeCourseListFactory() {
-        return _programmeCourseListFactoryImpl;
-    }
-
-
 }

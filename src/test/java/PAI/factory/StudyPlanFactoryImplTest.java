@@ -26,10 +26,10 @@ class StudyPlanFactoryImplTest {
 
             // Verifica se foi criado exatamente um objeto
             List<StudyPlan> listaDeObjetosCriados = mockedConstruction.constructed();
-            assertEquals(1, listaDeObjetosCriados.size(), "Deveria ter sido criado exatamente um objeto StudyPlan");
+            assertEquals(1, listaDeObjetosCriados.size());
 
             // Verifica que o objeto retornado não é null
-            assertNotNull(studyPlan, "O objeto StudyPlan não deve ser null");
+            assertNotNull(studyPlan);
         }
     }
 }

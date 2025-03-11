@@ -30,19 +30,11 @@ class ProgrammeFactoryImplTest {
             String acronymActual = (String) context.arguments().get(1);
             int qtyOfEctsActual = (int) context.arguments().get(2);
             int qtyOfSemesters = (int) context.arguments().get(3);
-            DegreeType degreeTypeActual = (DegreeType) context.arguments().get(4);
-            Department departmentActual = (Department) context.arguments().get(5);
-            Teacher programmeDirectorActual = (Teacher) context.arguments().get(6);
-            ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1Actual = (ProgrammeCourseListFactoryImpl) context.arguments().get(7);
 
             when(mock.getProgrammeName()).thenReturn(nameActual);
             when(mock.getAcronym()).thenReturn(acronymActual);
             when(mock.getQuantityOfEcts()).thenReturn(qtyOfEctsActual);
             when(mock.getQuantityOfSemester()).thenReturn(qtyOfSemesters);
-            when(mock.getDegreeType()).thenReturn(degreeTypeActual);
-            when(mock.getDepartment()).thenReturn(departmentActual);
-            when(mock.getProgrammeDirector()).thenReturn(programmeDirectorActual);
-            when(mock.getPprogrammeCourseListFactory()).thenReturn(programmeCourseListFactoryImpl1Actual);
 
         })) {
             //act
@@ -51,6 +43,12 @@ class ProgrammeFactoryImplTest {
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());
+            Programme createdProgramme = mockConstruction.constructed().get(0);
+
+            assertEquals(name, createdProgramme.getProgrammeName());
+            assertEquals(acronym, createdProgramme.getAcronym());
+            assertEquals(quantityOfEcts, createdProgramme.getQuantityOfEcts());
+            assertEquals(quantityOfSemesters, createdProgramme.getQuantityOfSemester());
         }
     }
 }
