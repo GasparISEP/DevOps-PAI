@@ -3,18 +3,17 @@ package PAI.factory;
 import static org.junit.jupiter.api.Assertions.*;
 
 import PAI.domain.Course;
-import PAI.factory.ProgrammeCourseListFactory;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
-public class ProgrammeCourseListFactoryImplTest {
+public class ProgrammeCourseListFactoryImpl1Test {
 
     @Test
     public void shouldCreateProgrammeCourseList() {
         // arrange
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         // act
-        List<Course> courseArrayList = programmeCourseListFactory.createCourseList();
+        List<Course> courseArrayList = programmeCourseListFactoryImpl1.createCourseList();
         // assert
         assertNotNull(courseArrayList);
     }

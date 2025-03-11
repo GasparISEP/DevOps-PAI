@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 class ProgrammeFactoryImplTest {
     @Test
     void shouldCreatNewProgramme() throws Exception {
-        //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory
+        //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1
         //arrange
         String name = "Mechanics";
         String acronym = "MEC";
@@ -19,7 +19,7 @@ class ProgrammeFactoryImplTest {
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
         Teacher programmeDirector = mock(Teacher.class);
-        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
@@ -33,7 +33,7 @@ class ProgrammeFactoryImplTest {
             DegreeType degreeTypeActual = (DegreeType) context.arguments().get(4);
             Department departmentActual = (Department) context.arguments().get(5);
             Teacher programmeDirectorActual = (Teacher) context.arguments().get(6);
-            ProgrammeCourseListFactory programmeCourseListFactoryActual = (ProgrammeCourseListFactory) context.arguments().get(7);
+            ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1Actual = (ProgrammeCourseListFactoryImpl) context.arguments().get(7);
 
             when(mock.getProgrammeName()).thenReturn(nameActual);
             when(mock.getAcronym()).thenReturn(acronymActual);
@@ -42,12 +42,12 @@ class ProgrammeFactoryImplTest {
             when(mock.getDegreeType()).thenReturn(degreeTypeActual);
             when(mock.getDepartment()).thenReturn(departmentActual);
             when(mock.getProgrammeDirector()).thenReturn(programmeDirectorActual);
-            when(mock.getPprogrammeCourseListFactory()).thenReturn(programmeCourseListFactoryActual);
+            when(mock.getPprogrammeCourseListFactory()).thenReturn(programmeCourseListFactoryImpl1Actual);
 
         })) {
             //act
             ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
-            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
+            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());

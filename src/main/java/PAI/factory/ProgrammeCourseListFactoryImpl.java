@@ -2,9 +2,12 @@ package PAI.factory;
 
 import PAI.domain.Course;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface ProgrammeCourseListFactoryImpl  {
+public class ProgrammeCourseListFactoryImpl implements ProgrammeCourseListFactory {
 
-    List<Course> createCourseList();
+    public List<Course> createCourseList() {
+        return new ArrayList<>();
+    }
 }

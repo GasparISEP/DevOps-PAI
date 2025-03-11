@@ -7,7 +7,6 @@ import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -213,7 +212,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
         );
 
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
@@ -221,7 +220,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         return new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
-                programmeCourseListFactory, courseInStudyPlanFactory,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
                 studyPlanListFactory, studyPlanFactory, courseFactory
         );
 
