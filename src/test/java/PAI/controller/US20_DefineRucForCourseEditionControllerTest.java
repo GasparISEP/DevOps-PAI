@@ -2,8 +2,8 @@ package PAI.controller;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
-import PAI.factory.CourseEditionFactory;
-import PAI.factory.CourseEditionListFactory;
+import PAI.factory.CourseEditionFactoryImpl;
+import PAI.factory.CourseEditionListFactoryImpl;
 import PAI.factory.TeacherFactory;
 import PAI.factory.TeacherListFactory;
 import PAI.repository.CourseEditionRepository;
@@ -316,9 +316,9 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         // Arrange
         // Initialize factory objects
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        CourseEditionFactoryImpl courseEditionFactoryImpl = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl courseEditionListFactoryImpl = new CourseEditionListFactoryImpl();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactoryImpl, courseEditionListFactoryImpl);
 
         // Initialize TeacherRepository and its dependencies
         TeacherFactory teacherFactory = mock(TeacherFactory.class);

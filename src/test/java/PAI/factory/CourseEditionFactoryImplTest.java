@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CourseEditionFactoryTest {
+class CourseEditionFactoryImplTest {
 
     @Test
     void shouldCreateCourseEditionWhenConstructorIsCalled() throws Exception {
@@ -30,10 +30,10 @@ class CourseEditionFactoryTest {
         })) {
 
                 //SUT
-            CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
+            CourseEditionFactoryImpl courseEditionFactoryImpl = new CourseEditionFactoryImpl();
 
             // Act
-            CourseEdition courseEdition = courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
+            CourseEdition courseEdition = courseEditionFactoryImpl.newCourseEdition(courseDouble, programmeEditionDouble);
 
             // Asserts
             assertNotNull(courseEdition);
