@@ -1,17 +1,22 @@
 @startuml
-actor Admnistrator as Adm
-participant ":DegreeTypeList" as DTL #lightgreen
+actor Administrator as Adm
+participant ":DegreeTypeRepository" as DTR #lightgreen
+participant ":DegreeTypeFactory" as DTF #lightblue
 
-Adm -> DTL : Register DegreeType (name, maxEcts)
-activate DTL
+Adm -> DTR : Register DegreeType (name, maxEcts)
+activate DTR
+DTR -> DTF : createDegreeType(name, maxEcts)
+activate DTF
 create "DT1:DegreeType" as DT #yellow
-DTL -> DT : Create DegreeType (name, maxEcts)
+DTF -> DT : Create DegreeType (name, maxEcts)
 activate DT
 DT -> DT : nameIsInvalid(name)
 DT -> DT : maxEctsIsInvalid(maxEcts)
-DT --> DTL : DegreeType Object
+DT --> DTF : DegreeType Object
 deactivate DT
-DTL -> DTL : add DegreeType
-DTL --> Adm : Registration Successful
-deactivate DTL
+DTF --> DTR : DegreeType Object
+deactivate DTF
+DTR -> DTR : add DegreeType
+DTR --> Adm : Registration Successful
+deactivate DTR
 @enduml

@@ -77,12 +77,16 @@ class Student {
     -_NIF:String
     -_phone:String
     -_email:String
+<<<<<<< HEAD
+=======
+    -_institutionalEmail:String
+>>>>>>> 1fce5cf18ce37b4c3d0fcb5ba57aeef577af285a
     +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +isStudentRepeated(students: List<Student>)
     +hasSameUniqueNumber(Student student)
     +hasSameNIF (Student student)
-    +getUniqueNumber()
-    +hasThisUniqueNumber(int uniqueNumber)
+    +getUniqueNumber(): String
+    +hasThisUniqueNumber(String uniqueNumber)
 }
 
 class CourseEdition {

@@ -1,0 +1,42 @@
+@startuml
+actor admin
+
+admin -> ":UI" as UI ++ #application : I want to configure TeacherCategory
+UI --> admin -- : categoryName?
+
+admin -> UI ++ #application : (categoryName)
+
+UI -> ":ConfigureTeacherCategoryController" as ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
+
+participant ":TeacherCategoryRepository" as TeacherCategoryRepository
+participant ":TeacherCategoryFactoryInterface" as TeacherCategoryFactoryInterface
+participant ":TeacherCategoryRepositoryListFactoryInterface" as TeacherCategoryRepositoryListFactoryInterface
+
+' New repository list initialization
+TeacherCategoryRepositoryListFactoryInterface -> TeacherCategoryRepository ++ #application : getTeacherCategoryList()
+
+' Validation step: Check if name is empty
+ConfigureTeacherCategoryController -> TeacherCategoryFactoryInterface ++ #application : createTeacherCategory(categoryName)
+TeacherCategoryFactoryInterface --> "tc1:TeacherCategory" as TeacherCategory ++ #application : <create>(categoryName)
+
+' Exception Handling for Invalid Names
+TeacherCategory -> TeacherCategory : isNameValid(categoryName)
+TeacherCategory --> ConfigureTeacherCategoryController -- : Exception (Invalid Name)
+ConfigureTeacherCategoryController --> UI -- : Error: Invalid Category Name
+UI --> admin -- : Error: Invalid Category Name
+destroy TeacherCategory
+return
+
+' Checking if category exists
+ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : registerTeacherCategory(categoryName)
+TeacherCategoryRepository -> TeacherCategoryRepository : getTeacherCategoryByName(categoryName)
+TeacherCategoryRepository --> ConfigureTeacherCategoryController --: false (if exists)
+
+' If new, add to repository
+ConfigureTeacherCategoryController -> TeacherCategoryRepository : add(tc1)
+TeacherCategoryRepository --> ConfigureTeacherCategoryController --: true
+
+' Response to UI
+ConfigureTeacherCategoryController --> UI --: true
+UI --> admin --: true
+@enduml
