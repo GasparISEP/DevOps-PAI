@@ -18,11 +18,11 @@ public class Programme {
     private Department _department;
     private Teacher _programmeDirector;
     private List<Course> _courseList;
-    private ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl;
+    private ProgrammeCourseListFactory _programmeCourseListFactory;
     private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactoryImpl courseFactoryImpl) {
+                     Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactoryImpl courseFactoryImpl) {
 
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -60,9 +60,9 @@ public class Programme {
 
         _programmeDirector = programmeDirector;
 
-        _programmeCourseListFactoryImpl = programmeCourseListFactoryImpl1;
+        _programmeCourseListFactory = programmeCourseListFactory;
 
-        _courseList = _programmeCourseListFactoryImpl.createCourseList();
+        _courseList = _programmeCourseListFactory.createCourseList();
 
         _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
     }
