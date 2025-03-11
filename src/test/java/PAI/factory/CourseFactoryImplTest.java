@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.when;
 
-class CourseFactoryTest {
+class CourseFactoryImplTest {
 
     @Test
     void shouldCreateCourseWhenConstructorIsInvoked2() throws Exception {
@@ -22,7 +22,7 @@ class CourseFactoryTest {
         double quantityOfEcts1 = 6;
         int durationCourseInSemester1 = 1;
 
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
 
 
         try (MockedConstruction<Course> courseMocked = mockConstruction(Course.class, (mock, context) -> {
@@ -38,7 +38,7 @@ class CourseFactoryTest {
         })) {
 
             // Act
-            Course result = courseFactory.createCourse(name1, acronym1, quantityOfEcts1, durationCourseInSemester1);
+            Course result = courseFactoryImpl.createCourse(name1, acronym1, quantityOfEcts1, durationCourseInSemester1);
 
             // Assert
             assertNotNull(result);

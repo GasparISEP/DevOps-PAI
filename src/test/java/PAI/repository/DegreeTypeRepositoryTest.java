@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.DegreeType;
-import PAI.factory.DegreeTypeFactory;
+import PAI.factory.DegreeTypeFactoryImpl;
 import PAI.factory.DegreeTypeListFactory;
 import org.junit.jupiter.api.Test;
 
@@ -18,9 +18,9 @@ class DegreeTypeRepositoryTest {
 
         //arrange
 
-        DegreeTypeFactory degreeTypeFactory = mock (DegreeTypeFactory.class);
+        DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock (DegreeTypeFactoryImpl.class);
         DegreeTypeListFactory degreeTypeListFactory = mock (DegreeTypeListFactory.class);
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactory, degreeTypeListFactory);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl, degreeTypeListFactory);
 
         //act
         degreeTypeRepository.registerDegreeType("Master",300);
@@ -31,16 +31,16 @@ class DegreeTypeRepositoryTest {
     public void shouldReturnFalseWhenDegreeTypeIsDuplicated() throws Exception {
         // Arrange
         DegreeTypeListFactory degreeTypeListFactory = mock(DegreeTypeListFactory.class);
-        DegreeTypeFactory degreeTypeFactory = mock(DegreeTypeFactory.class);
+        DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock(DegreeTypeFactoryImpl.class);
 
         List<DegreeType> degreeTypes = spy(new ArrayList<>());
 
         DegreeType masterDegree = mock(DegreeType.class);
 
-        when(degreeTypeFactory.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
+        when(degreeTypeFactoryImpl.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
         when(degreeTypeListFactory.createDegreeTypeList()).thenReturn(degreeTypes);
 
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactory,degreeTypeListFactory);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl,degreeTypeListFactory);
 
         degreeTypeRepository.registerDegreeType("Master", 300);
 
@@ -55,16 +55,16 @@ class DegreeTypeRepositoryTest {
     public void shouldReturnTrueWhenOnlyNameIsEqual() throws Exception {
         // Arrange
         DegreeTypeListFactory degreeTypeListFactory = mock(DegreeTypeListFactory.class);
-        DegreeTypeFactory degreeTypeFactory = mock(DegreeTypeFactory.class);
+        DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock(DegreeTypeFactoryImpl.class);
 
         List<DegreeType> degreeTypes = spy(new ArrayList<>());
 
         DegreeType masterDegree = mock(DegreeType.class);
 
-        when(degreeTypeFactory.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
+        when(degreeTypeFactoryImpl.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
         when(degreeTypeListFactory.createDegreeTypeList()).thenReturn(degreeTypes);
 
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactory,degreeTypeListFactory);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl,degreeTypeListFactory);
 
         degreeTypeRepository.registerDegreeType("Master", 300);
 
@@ -79,16 +79,16 @@ class DegreeTypeRepositoryTest {
     public void shouldReturnTrueWhenOnlyMaxEctsIsEqual() throws Exception {
         // Arrange
         DegreeTypeListFactory degreeTypeListFactory = mock(DegreeTypeListFactory.class);
-        DegreeTypeFactory degreeTypeFactory = mock(DegreeTypeFactory.class);
+        DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock(DegreeTypeFactoryImpl.class);
 
         List<DegreeType> degreeTypes = spy(new ArrayList<>());
 
         DegreeType masterDegree = mock(DegreeType.class);
 
-        when(degreeTypeFactory.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
+        when(degreeTypeFactoryImpl.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
         when(degreeTypeListFactory.createDegreeTypeList()).thenReturn(degreeTypes);
 
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactory,degreeTypeListFactory);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl,degreeTypeListFactory);
 
         degreeTypeRepository.registerDegreeType("Master", 300);
 

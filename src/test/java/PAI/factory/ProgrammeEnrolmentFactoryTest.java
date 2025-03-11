@@ -35,7 +35,7 @@ class ProgrammeEnrolmentFactoryTest {
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
         StudyPlanListFactoryImpl _studyPlanArrayListFactory;
         StudyPlanFactoryImpl _studyPlanFactory;
-        CourseFactory _courseFactory;
+        CourseFactoryImpl _courseFactoryImpl;
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
@@ -55,8 +55,8 @@ class ProgrammeEnrolmentFactoryTest {
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
-            _courseFactory = new CourseFactory();
-            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactoryImpl1, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
+            _courseFactoryImpl = new CourseFactoryImpl();
+            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactoryImpl1, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactoryImpl);
         }
     }
 

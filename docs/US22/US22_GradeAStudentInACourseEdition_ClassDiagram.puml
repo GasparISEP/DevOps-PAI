@@ -108,8 +108,8 @@ GradeStudentListFactory ..|> List
 GradeStudent <-- List
 List <-- GradeStudentRepository
 CourseEditionEnrollmentRepository "1" --> "*" CourseEditionEnrollment
-CourseEditionEnrollment --> Student
-CourseEditionEnrollment -up-> CourseEdition
+CourseEditionEnrollment "*" --> "1" Student
+CourseEditionEnrollment "*" -up-> "1" CourseEdition
 
 
 GradeStudentRepository "1" ....> "*" GradeStudent

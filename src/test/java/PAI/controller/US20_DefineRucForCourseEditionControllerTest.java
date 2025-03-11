@@ -2,8 +2,8 @@ package PAI.controller;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
-import PAI.factory.CourseEditionFactory;
-import PAI.factory.CourseEditionListFactory;
+import PAI.factory.CourseEditionFactoryImpl;
+import PAI.factory.CourseEditionListFactoryImpl;
 import PAI.factory.TeacherFactory;
 import PAI.factory.TeacherListFactory;
 import PAI.repository.CourseEditionRepository;
@@ -58,7 +58,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //        Course c1 = new Course("Informatics", "INF", 6, 1);
@@ -111,7 +111,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -169,7 +169,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //
@@ -293,7 +293,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //        Course c1 = new Course("Informatics", "INF", 6, 1);
@@ -316,9 +316,9 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         // Arrange
         // Initialize factory objects
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
-        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        CourseEditionFactoryImpl courseEditionFactoryImpl = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl courseEditionListFactoryImpl = new CourseEditionListFactoryImpl();
+        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactoryImpl, courseEditionListFactoryImpl);
 
         // Initialize TeacherRepository and its dependencies
         TeacherFactory teacherFactory = mock(TeacherFactory.class);

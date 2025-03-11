@@ -16,29 +16,24 @@ String street, String postalCode, String location, String country, String date, 
 }
 
 class TeacherCategoryRepository {
-+TeacherCategoryRepository()
-+registerTeacherCategory (String name)
-+isTeacherCategoryRegistered(TeacherCategory teacherCategory)
-+getTeacherCategoriesList()
++getTeacherCategoriesList(): tcList
 }
 
 class DepartmentRepository {
-+DepartmentRepository()
-+registerDepartment(String acronym, String name)
-+getDepartmentsList()
-+departmentExists (Department department)
-+updateOfDepartmentDirector(Department department, Teacher furtherDirector)
++getDepartments(): Set<Departments>
 }
 
 class TeacherRepository {
-+TeacherRepository()
 +registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
 String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
-+getAllTeachers()
-+getTeacherByNIF(String NIF)
 }
 
-class TeacherFactory {
+interface TeacherFactory{
++createTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+               String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
+}
+
+class TeacherFactoryImpl {
 +createTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
                String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
 }
@@ -52,15 +47,13 @@ class Teacher {
  -_academicBackground:String
  +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
  String academicBackground, String street, String postalCode, String location, String country, date: String, category: TeacherCategory, workingPercentage: int, department: Department)
- +hasSameAcronym(teacher: Teacher)
- +hasSameNif(teacher: Teacher)
- +isInDepartment(department: Department)
- +hasThisNIF(NIF: String)
- +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
- +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+ }
+
+interface AddressFactory {
++createAddress(street: String, postalCode: String, location: String, country: String)
 }
 
-class AddressFactory {
+class AddressFactoryImpl {
 +createAddress(street: String, postalCode: String, location: String, country: String)
 }
 
@@ -72,7 +65,11 @@ class Address {
  +Address(street: String, postalCode: String, location: String, country: String)
 }
 
-class TeacherCareerProgressionFactory {
+interface TeacherCareerProgressionFactory {
++createTeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
+}
+
+class TeacherCareerProgressionFactoryImpl {
 +createTeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
 }
 
@@ -80,48 +77,41 @@ class TeacherCareerProgression {
 -_date: LocalDate
 -_workingPercentage: int
 +TeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
-+getWorkingPercentage()
-+getCategory()
-+isDateAfter(tcp: TeacherCareerProgression)
 }
 
 class TeacherCategory {
 -_name:String
-+ TeacherCategory (name:String)
-+getName()
-+equals (Object objectToCompare)
 }
 
 class Department {
 -_acronym:String
 -_name:String
 -_director:Teacher
-+Department(departmentAcronym: String, departmentName: String)
-+Department(departmentAcronym: String, departmentName: String,director: Teacher)
-+hasSameAcronym(department: Department)
-+hasSameName(department: Department)
-+changeDirector(furtherDirector: Teacher)
-+equals(Object obj)
 }
 
-US13_RegisterTeacherAndRelevantDataController "\n1" .r.> "_tcList \n1"TeacherCategoryRepository
-US13_RegisterTeacherAndRelevantDataController "1" .l.> "_dptList \n1"DepartmentRepository
-US13_RegisterTeacherAndRelevantDataController "1" .d.> "teacher \n1\n"TeacherRepository
+US13_RegisterTeacherAndRelevantDataController "\n1" .r.> "_teacherCategoryRepository \n1"TeacherCategoryRepository
+US13_RegisterTeacherAndRelevantDataController "1" .l.> "_departmentRepository \n1"DepartmentRepository
+US13_RegisterTeacherAndRelevantDataController "1" .d.> "_teacherRepository \n1\n"TeacherRepository
 
-TeacherCategoryRepository " 1" *-d- "_teacherCategory \n*" TeacherCategory
-TeacherCareerProgression "\n*" *-l- "_teacherCategory \n1"TeacherCategory
+TeacherCategoryRepository " 1" -d-> "_tcList\n*" TeacherCategory
+TeacherCareerProgression " *\n" .u.> "_teacherCategory \n1"TeacherCategory
 
-TeacherRepository "1" ..d.> "teacher \n*"TeacherFactory
-TeacherFactory "1 " -d-> "teacher \n*"Teacher
+TeacherRepository "\n1" .d.> "teacher \n*" TeacherFactory
+TeacherRepository "1" -> "_teachersList\n*" Teacher
+TeacherFactoryImpl "*" .l.|> "\n1" TeacherFactory
+TeacherFactory "1 " .d.> "teacher \n*" Teacher: <<creates>>
 
 Teacher "1" .d.> "_address \n1\n" AddressFactory
-AddressFactory "1" -d-> "_address \n1" Address
+AddressFactoryImpl "*" .l.|> "\n1" AddressFactory
+AddressFactory "1" .l.> "_address \n1" Address: <<creates>>
 
-Teacher "1" ..> "_tcp \n1..*\n" TeacherCareerProgressionFactory
-TeacherCareerProgressionFactory "\n1" -u-> "_tcp \n1" TeacherCareerProgression
+Teacher "1" .r.> "_tcp \n1\n" TeacherCareerProgressionFactory
+TeacherCareerProgressionFactoryImpl "*" .u.|> "1 \n" TeacherCareerProgressionFactory
+TeacherCareerProgressionFactory "\n1 " .u.> "_tcp \n1" TeacherCareerProgression: <<creates>>
 
-DepartmentRepository "1" *-d- "*\n_dpt  " Department
-Teacher "*" ..> "_department \n1" Department
+
+DepartmentRepository "\n1" -d-> "*\n_Set<Department>  " Department
+Teacher "*" .l.> "_department \n1" Department
 
 
 @enduml

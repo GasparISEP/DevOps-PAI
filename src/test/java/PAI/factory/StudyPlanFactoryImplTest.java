@@ -17,19 +17,19 @@ class StudyPlanFactoryImplTest {
         // Preparação dos mocks
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
         StudyPlanListFactoryImpl studyPlanListFactory = mock(StudyPlanListFactoryImpl.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
 
         // Utilização do MockedConstruction para interceptar a criação de StudyPlan
         try (MockedConstruction<StudyPlan> mockedConstruction = mockConstruction(StudyPlan.class)) {
-            StudyPlan studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+            StudyPlan studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
 
             // Verifica se foi criado exatamente um objeto
             List<StudyPlan> listaDeObjetosCriados = mockedConstruction.constructed();
-            assertEquals(1, listaDeObjetosCriados.size(), "Deveria ter sido criado exatamente um objeto StudyPlan");
+            assertEquals(1, listaDeObjetosCriados.size());
 
             // Verifica que o objeto retornado não é null
-            assertNotNull(studyPlan, "O objeto StudyPlan não deve ser null");
+            assertNotNull(studyPlan);
         }
     }
 }

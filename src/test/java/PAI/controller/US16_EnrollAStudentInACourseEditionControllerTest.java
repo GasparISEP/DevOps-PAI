@@ -192,8 +192,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     }
 
     private CourseEditionRepository setUpCourseEditionRepository() {
-        CourseEditionFactory ceFactory = new CourseEditionFactory();
-        CourseEditionListFactory ceListFactory = new CourseEditionListFactory();
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
         return new CourseEditionRepository(ceFactory, ceListFactory);
     }
 
@@ -216,12 +216,12 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
 
         return new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
                 programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactory
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
 
     }

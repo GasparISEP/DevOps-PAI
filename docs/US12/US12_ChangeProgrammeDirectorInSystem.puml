@@ -1,27 +1,35 @@
 @startuml
 actor ASC
 participant ":UI" as UI
-participant ":Controller_US12" as US12
+participant ":US12_ChangeProgrammeDirectorInSystem" as US12
 participant ":ProgrammeList" as PL #lightgreen
 participant ":Programme" as PG #yellow
+autonumber
 
 ASC -> UI : I want to change Programme Director
-activate UI
+activate UI #application
 UI --> ASC : Programme? Teacher?
-Deactivate UI
+deactivate UI
+
 ASC -> UI : Programme! Teacher!
-activate UI
+activate UI #application
 UI -> US12 : changeProgrammeDirector(Programme, Teacher)
-activate US12
+activate US12 #application
+
 US12 -> PL : changeProgrammeDirector(Programme, Teacher)
-activate PL
+activate PL #application
+
+
 PL -> PL : validates if teacher is not Null
 PL -> PG : newProgrammeDirector(Teacher)
-activate PG
+activate PG #application
+
 PG --> PL : Programme Director Changed
 deactivate PG
+
 PL --> US12 : true
 deactivate PL
+
 US12 --> UI : true
 deactivate US12
 
