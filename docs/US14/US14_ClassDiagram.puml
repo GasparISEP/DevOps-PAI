@@ -20,7 +20,7 @@ class Teacher {
      -_department:Department
      +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
      academicBackground: String, street: String, postalCode: String, location: String, country: String,
-     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+     date: String, category: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory)
      +validateAcronym(teacherAcronym:String)
      +validateName(name: String)
      +validateEmail(email: String)
@@ -32,7 +32,7 @@ class Teacher {
      +isInDepartment(department: Department)
      +hasThisNIF(NIF: String)
      +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
-     +updateTeachersCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+     +updateTeachersCategoryInTeacherCareerProgression(date: String, teacherCategory: TeacherCategory)
 }
 
 class TeacherCareerProgression {
@@ -42,6 +42,14 @@ class TeacherCareerProgression {
     +getCategory()
     +getWorkingPercentage()
     +isDateAfter(tcp: TeacherCareerProgression)
+}
+
+class TeacherCareerProgressionFactory {
++createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
+}
+
+interface TeacherCareerProgressionFactoryInterface {
++createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
 }
 
 class TeacherRepository {
@@ -58,9 +66,13 @@ class TeacherCategory {
     + TeacherCategory (name:String)
 }
 
-US14_UpdateTeachersCategoryController "1" ..> "1 " TeacherRepository: _teacherRepository
-Teacher "1..*" <-- "1" TeacherRepository: _teachers
-Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
+US14_UpdateTeachersCategoryController "1" --> "1 " TeacherRepository
+Teacher "1..*" --o "List<Teacher>" TeacherRepository
 TeacherCareerProgression "*" --> "1" TeacherCategory: _category
+Teacher --> TeacherCareerProgressionFactory
+Teacher "List<TeacherCareerProgression>" *-- "*" TeacherCareerProgression
+TeacherCareerProgressionFactory ..> TeacherCareerProgression: <<create>>
+TeacherCareerProgressionFactoryInterface <|.. TeacherCareerProgressionFactory
+
 
 @enduml

@@ -78,6 +78,7 @@ entity Student {
   phoneNumber
   email
   listOfGrades
+  institutionalEmail
 }
 
 entity "Degree Type" {

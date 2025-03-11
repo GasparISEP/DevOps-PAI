@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
 public class US19_CreateCourseEditionController {
     private ProgrammeEditionRepository _programmeEditionRepository;
     private CourseEditionRepository _courseEditionRepository;
-    private ProgrammeList _programmeList;
+    private ProgrammeRepository _programmeList;
 
-    public US19_CreateCourseEditionController(ProgrammeEditionRepository programmeEditionRepository, CourseEditionRepository courseEditionRepository, ProgrammeList programmeList){
+    public US19_CreateCourseEditionController(ProgrammeEditionRepository programmeEditionRepository, CourseEditionRepository courseEditionRepository, ProgrammeRepository programmeList){
         _programmeEditionRepository = programmeEditionRepository;
         _courseEditionRepository = courseEditionRepository;
         _programmeList = programmeList;

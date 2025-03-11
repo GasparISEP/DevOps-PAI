@@ -72,25 +72,40 @@ class TeacherListFactory {
     +newArrayList() : ArrayList<Teacher>
 }
 
-class TeacherListFactoryInterface {
+interface TeacherListFactoryInterface {
     + newArrayList(): ArrayList<Teacher>
 }
+
+interface TeacherFactoryInterface{
++createTeacher( acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+  street: String, postalCode: String, location: String, country: String, addressFactory: AddressFactory, date: String,
+   category: TeacherCategory, workingPercentage: int, department: Department,  teacherCareerProgressionfactory: TeacherCareerProgressionFactory,
+    teacherCareerProgressionListFactory: TeacherCareerProgressionListFactory): Teacher
+}
+
+interface AddressFactoryInterface{
++createAddress(street: String, postalCode: String, location: String, country: String) : Address
+
+}
+
 
 
 US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherRepository
 US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherCategoryRepository
 US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1    " DepartmentRepository
-TeacherRepository "   1    " -u-> " _teacherFactory  1     " TeacherFactory
-Teacher "_teacher 1                   " <-- "1 " TeacherFactory
 TeacherCategory "                _teacherCategoryList *                   " <-- "1" TeacherCategoryRepository
 Teacher "       *  " --> "  _ teacherCategory   1              " TeacherCategory
-Teacher "1" --> "   _addressFactory\n    1             " AddressFactory
-AddressFactory "1" --> "_address 1    " Address
+AddressFactory  ..|> AddressFactoryInterface
+AddressFactoryInterface ..> Address
+Address"1" <-- "1" Teacher
 Teacher "*" --> "1               " Department
-TeacherRepository "1" ..> "   _teacher *           "Teacher
-TeacherRepository "1" .u.> "  _teacherListFactory    1       " TeacherListFactory
-TeacherListFactory "1" ..> "   1\n _arrayList  "ArrayList
-TeacherRepository "1" --> "  _arrayList 1                          " ArrayList
-ArrayList "1" --> "   * _teacher" Teacher
+TeacherRepository ..> Teacher
+TeacherRepository  .u.>             TeacherListFactoryInterface
+TeacherRepository  .u.>             TeacherFactoryInterface
+TeacherFactory ..|> TeacherFactoryInterface
+TeacherFactoryInterface ..> Teacher
+TeacherListFactoryInterface  ..>    ArrayList
+TeacherRepository "1" --> "  _arrayList *" ArrayList
+ArrayList "1" --> "    _teacher  *" Teacher
 TeacherListFactory ..|> TeacherListFactoryInterface
 @enduml

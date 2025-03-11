@@ -40,6 +40,11 @@ public class CourseEditionEnrollment {
         return Objects.equals(_student, that._student) && Objects.equals(_courseEdition, that._courseEdition);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(_student, _courseEdition);
+    }
+
     public Student findStudentInCourseEditionEnrollment() {
         return this._student;
     }
@@ -58,7 +63,9 @@ public class CourseEditionEnrollment {
     }
 
     public boolean isEnrollmentActive() {
-        return _isActive;
+        if(_isActive){return true;}
+        else{return false;
+        }
     }
 
     public void deactivateEnrollment() {

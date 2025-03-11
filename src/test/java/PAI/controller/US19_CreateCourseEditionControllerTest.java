@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,7 +22,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         Course courseDouble = mock (Course.class);
         ProgrammeEdition programmeEditionDouble = mock (ProgrammeEdition.class);
 
@@ -46,7 +46,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble = mock (ProgrammeEdition.class);
         Course course = mock (Course.class);
 
@@ -70,7 +70,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         List<ProgrammeEdition> allEditionsDouble = mock (List.class);
 
             //SUT
@@ -93,7 +93,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
 
         //SUT
@@ -117,7 +117,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
 
             //SUT
@@ -141,7 +141,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
 
@@ -166,7 +166,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble1 = mock(Course.class);
@@ -193,7 +193,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Programme programmeDouble = mock(Programme.class);
         List <Course> courseListDouble= mock(List.class);
@@ -216,7 +216,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble1 = mock(Course.class);
@@ -240,7 +240,7 @@ class US19_CreateCourseEditionControllerTest {
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
-        ProgrammeList programmeListDouble = mock (ProgrammeList.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Programme programmeDouble = mock(Programme.class);
         Course courseDouble1 = mock(Course.class);

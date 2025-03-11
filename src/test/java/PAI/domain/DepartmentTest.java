@@ -203,4 +203,22 @@ class DepartmentTest {
         // assert
         assertEquals(acronym, actualAcronym);
     }
+
+    @Test
+    void shouldReturnSameHashCodeIfEqualObjects() throws Exception {
+        //arrange
+        Department department1 = new Department("CSE", "Computer Science");
+        Department department2 = new Department("CSE", "Computer Science");
+        //act & assert
+        assertEquals(department1.hashCode(), department2.hashCode());
+    }
+
+    @Test
+    void shouldReturnDifferentHashCodeIfDifferentObjects() throws Exception {
+        //arrange
+        Department department1 = new Department("CSE", "Computer Science");
+        Department department2 = new Department("DEI", "Computer Engineering");
+        //act&assert
+        assertNotEquals(department1.hashCode(), department2.hashCode());
+    }
 }

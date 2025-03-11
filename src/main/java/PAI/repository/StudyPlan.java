@@ -5,7 +5,7 @@ import PAI.factory.CourseFactory;
 import PAI.domain.CourseInStudyPlan;
 import PAI.domain.Programme;
 import PAI.factory.CourseInStudyPlanFactory;
-import PAI.factory.StudyPlanArrayListFactory;
+import PAI.factory.StudyPlanListFactory;
 
 import java.util.List;
 
@@ -13,13 +13,13 @@ public class StudyPlan {
 
     private CourseInStudyPlanFactory _courseInStudyPlanFactory;
     private CourseFactory _courseFactory;
-    private List<CourseInStudyPlan> _studyPlanArrayListFactory;
+    private List<CourseInStudyPlan> _studyPlanListFactory;
 
-    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanArrayListFactory studyPlanArrayListFactory, CourseFactory courseFactory) {
+    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, CourseFactory courseFactory) {
 
         _courseInStudyPlanFactory = courseInStudyPlanFactory;
         _courseFactory = courseFactory;
-        _studyPlanArrayListFactory = studyPlanArrayListFactory.newArrayList();
+        _studyPlanListFactory = studyPlanListFactory.newArrayList();
 
     }
 
@@ -45,7 +45,7 @@ public class StudyPlan {
             throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
         }
 
-        _studyPlanArrayListFactory.add(courseInStudyPlan);
+        _studyPlanListFactory.add(courseInStudyPlan);
         return true;
     }
 
@@ -57,7 +57,7 @@ public class StudyPlan {
     }
 
     private boolean isCourseInStudyPlan(Course course) {
-        for (CourseInStudyPlan existingCourse : _studyPlanArrayListFactory) {
+        for (CourseInStudyPlan existingCourse : _studyPlanListFactory) {
             if (existingCourse.getCourse().equals(course)) {
                 return true;
             }
@@ -93,8 +93,8 @@ public class StudyPlan {
             throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
         }
 
-        _studyPlanArrayListFactory.add(firstSemesterCourse);
-        _studyPlanArrayListFactory.add(secondSemesterCourse);
+        _studyPlanListFactory.add(firstSemesterCourse);
+        _studyPlanListFactory.add(secondSemesterCourse);
         return true;
     }
 
@@ -102,7 +102,7 @@ public class StudyPlan {
         double totalEcts = 0;
 
         // Itera sobre os cursos no StudyPlan para somar os ECTS do mesmo semestre e ano
-        for (CourseInStudyPlan existingCourse : _studyPlanArrayListFactory) {
+        for (CourseInStudyPlan existingCourse : _studyPlanListFactory) {
             if (existingCourse.getCurricularYear() == curricularYear && existingCourse.getSemester() == semester) {
                 totalEcts += existingCourse.getCourse().getQuantityCreditsEcts();
             }

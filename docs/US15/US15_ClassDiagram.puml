@@ -86,13 +86,15 @@ US15_UpdateTeacherWorkingPercentageController "1" ....> "_teacherRepository \n 1
 Teacher "_teachers \n 1..*" <---- "1" TeacherRepository
 Teacher "1" ----> "\n 1..*" TeacherCareerProgression
 TeacherFactory "1" ....> "1..*" Teacher
+TeacherFactory "1" ....> "1 \n" TeacherCareerProgressionFactory
+TeacherFactory "1" ....> "1" TeacherCareerProgressionListFactory
 TeacherRepository "1" ....> "_teacherFactory 1" TeacherFactory
 TeacherCareerProgression "*" ----> "_category \n 1" TeacherCategory
-Teacher "1" ....> "_teacherCareerProgressionFactory 1  " TeacherCareerProgressionFactory
+Teacher "1" ....> "1" TeacherCareerProgressionFactory: _teacherCareerProgressionFactory
 TeacherCareerProgressionFactory "1" ....> "1..*" TeacherCareerProgression
 Teacher "1" ....> "_teacherCareerProgressionList \n           1" TeacherCareerProgressionListFactory
 TeacherCareerProgressionFactory ....|> TeacherCareerProgressionFactoryInterface
 TeacherCareerProgressionListFactory ....|> TeacherCareerProgressionListFactoryInterface
-TeacherCareerProgressionListFactory "1" ....> "              creates List of" TeacherCareerProgression
+TeacherCareerProgressionListFactory "1" ....> " * " TeacherCareerProgression: creates List of
 
 @enduml

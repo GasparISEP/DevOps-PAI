@@ -34,6 +34,5 @@ class TeacherCareerProgressionListFactoryTest {
 
         // Assert
         assertTrue(result);
-        //assertEquals(1, tcpList.size());
     }
 }

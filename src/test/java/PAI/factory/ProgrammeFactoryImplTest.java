@@ -7,10 +7,10 @@ import org.mockito.MockedConstruction;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeFactoryTest {
+class ProgrammeFactoryImplTest {
     @Test
     void shouldCreatNewProgramme() throws Exception {
-        //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory
+        //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1
         //arrange
         String name = "Mechanics";
         String acronym = "MEC";
@@ -19,9 +19,9 @@ class ProgrammeFactoryTest {
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
         Teacher programmeDirector = mock(Teacher.class);
-        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -33,7 +33,7 @@ class ProgrammeFactoryTest {
             DegreeType degreeTypeActual = (DegreeType) context.arguments().get(4);
             Department departmentActual = (Department) context.arguments().get(5);
             Teacher programmeDirectorActual = (Teacher) context.arguments().get(6);
-            ProgrammeCourseListFactory programmeCourseListFactoryActual = (ProgrammeCourseListFactory) context.arguments().get(7);
+            ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1Actual = (ProgrammeCourseListFactoryImpl) context.arguments().get(7);
 
             when(mock.getProgrammeName()).thenReturn(nameActual);
             when(mock.getAcronym()).thenReturn(acronymActual);
@@ -42,12 +42,12 @@ class ProgrammeFactoryTest {
             when(mock.getDegreeType()).thenReturn(degreeTypeActual);
             when(mock.getDepartment()).thenReturn(departmentActual);
             when(mock.getProgrammeDirector()).thenReturn(programmeDirectorActual);
-            when(mock.getPprogrammeCourseListFactory()).thenReturn(programmeCourseListFactoryActual);
+            when(mock.getPprogrammeCourseListFactory()).thenReturn(programmeCourseListFactoryImpl1Actual);
 
         })) {
             //act
-            ProgrammeFactory factory = new ProgrammeFactory();
-            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+            ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
+            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());

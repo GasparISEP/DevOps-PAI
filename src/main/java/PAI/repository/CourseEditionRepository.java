@@ -4,8 +4,8 @@ import PAI.domain.Course;
 import PAI.domain.CourseEdition;
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.Teacher;
-import PAI.factory.CourseEditionFactory;
-import PAI.factory.CourseEditionListFactory;
+import PAI.factory.CourseEditionFactoryImpl;
+import PAI.factory.CourseEditionListFactoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +13,20 @@ import java.util.List;
 public class CourseEditionRepository {
 
     private List<CourseEdition> _courseEditionRepository;
-    private final CourseEditionFactory _courseEditionFactory;
-    private final CourseEditionListFactory _courseEditionListFactory;
+    private final CourseEditionFactoryImpl _courseEditionFactoryImpl;
+    private final CourseEditionListFactoryImpl _courseEditionListFactoryImpl;
 
-    public CourseEditionRepository(CourseEditionFactory courseEditionFactory, CourseEditionListFactory courseEditionListFactory) {
-        _courseEditionFactory = courseEditionFactory;
-        _courseEditionListFactory = courseEditionListFactory;
-        _courseEditionRepository = courseEditionListFactory.newArrayList();
+    public CourseEditionRepository(CourseEditionFactoryImpl courseEditionFactoryImpl, CourseEditionListFactoryImpl courseEditionListFactoryImpl) {
+        _courseEditionFactoryImpl = courseEditionFactoryImpl;
+        _courseEditionListFactoryImpl = courseEditionListFactoryImpl;
+        _courseEditionRepository = courseEditionListFactoryImpl.newArrayList();
 
     }
 
     public boolean createAndSaveCourseEdition(Course course, ProgrammeEdition programmeEdition) {
 
         try {
-            CourseEdition courseEdition = _courseEditionFactory.newCourseEdition(course, programmeEdition);
+            CourseEdition courseEdition = _courseEditionFactoryImpl.newCourseEdition(course, programmeEdition);
             if (isCourseEditionAlreadyInRepository(courseEdition))
                 return false;
 
@@ -65,7 +65,7 @@ public class CourseEditionRepository {
     }
 
     public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        List<CourseEdition> result = _courseEditionListFactory.newArrayList();
+        List<CourseEdition> result = _courseEditionListFactoryImpl.newArrayList();
         for (CourseEdition courseEdition : _courseEditionRepository) {
             if (courseEdition.whatProgrammeEditionBelongsThisCourseEdition().equals(programmeEdition)) {
                 result.add(courseEdition);

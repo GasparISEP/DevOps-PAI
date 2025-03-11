@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private static Student _student;
     private AccessMethodRepository _accessMethodRepository;
     private static AccessMethod _accessMethod;
-    private ProgrammeList _programmeList;
+    private ProgrammeRepository _programmeList;
     private static Programme _programme;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
     private Address address1;
@@ -33,7 +33,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     void setUp() throws Exception {
         _studentRepository = mock(StudentRepository.class);
         _accessMethodRepository = mock(AccessMethodRepository.class);
-        _programmeList = mock(ProgrammeList.class);
+        _programmeList = mock(ProgrammeRepository.class);
         _programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         _student = mock(Student.class);
         _accessMethod = mock(AccessMethod.class);
@@ -42,10 +42,10 @@ public class US09_EnrolStudentInProgrammeControllerTest {
 
         // Register some students
         address1 = mock(Address.class);
-        _studentRepository.registerStudent(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        _studentRepository.registerStudent("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         Address address2 = mock(Address.class);
-        _studentRepository.registerStudent(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        _studentRepository.registerStudent("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
     }
 
     //quando vai buscar
@@ -95,10 +95,10 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     void shouldReturnOptionalWithStudentByUniqueNumberTest() {
         //arrange
         _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-        when(_controller.getStudentByUniqueNumber(1)).thenReturn(Optional.of(_student));
+        when(_controller.getStudentByUniqueNumber("1234567")).thenReturn(Optional.of(_student));
 
         //act
-        Optional<Student> result = _controller.getStudentByUniqueNumber(1);
+        Optional<Student> result = _controller.getStudentByUniqueNumber("1234567");
 
         //assert
         assertEquals(result, Optional.of(_student));
@@ -108,10 +108,10 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     void shouldReturnOptionalEmpty_WhenGettingStudentWithUniqueNumberDoesNotExistTest() {
         //arrange
         _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-        when(_controller.getStudentByUniqueNumber(1)).thenReturn(Optional.empty());
+        when(_controller.getStudentByUniqueNumber("1234567")).thenReturn(Optional.empty());
 
         //act
-        Optional<Student> result = _controller.getStudentByUniqueNumber(1);
+        Optional<Student> result = _controller.getStudentByUniqueNumber("1234567");
 
         //assert
         assertTrue(result.isEmpty());

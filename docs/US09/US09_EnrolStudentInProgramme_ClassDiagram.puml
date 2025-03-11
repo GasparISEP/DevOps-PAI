@@ -5,12 +5,13 @@ skinparam ranksep 180
 skinparam nodesep 180
 
 class Student {
-    -_uniqueNumber:int
+    -_uniqueNumber:String
     -_name:String
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    -_institutionalEmail:String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +isStudentRepeated(students: List<Student>)
     +hasSameUniqueNumber(Student : student)
 }
@@ -82,14 +83,14 @@ interface ProgrammeEnrolmentRepositoryListFactoryInterface {
 
 class US09_EnrollStudentInProgrammeController {
      + US09_EnrollStudentInProgrammeController(StudentRepository, AccessMethodRepository, ProgrammeList, EnrolmentRepository)
-     + getStudentByUniqueNumber(uniqueNumber: int): Optional<Student>
+     + getStudentByUniqueNumber(uniqueNumber: String): Optional<Student>
      + getAccessMethodByName(accessMethod: String): Optional<AccessMethod>
      + getProgrammeByName(programmeName: String): Optional<Programme>
      + enrolStudent(s1: Student, am1: AccessMethod, p1: Programme, date: String): boolean
 }
 
 class StudentRepository {
-    +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +registerStudent(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +isStudentEnrolledInProgramme(Student student, Programme programme)
 }
 

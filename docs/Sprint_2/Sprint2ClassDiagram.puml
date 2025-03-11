@@ -205,19 +205,22 @@ class ProgrammeEnrolmentRepository {
 }
 
 class Student {
-    -_uniqueNumber:int
+    -_uniqueNumber:String
     -_name:String
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Student>)
-    +hasSameUniqueNumber(Student student)
+    -_institutionalEmail:String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+    +hasSameUniqueNumber(student: Student): boolean
+    +hasSameNIF((student: Student): boolean
+    +getUniqueNumber(): String
+    +hasThisUniqueNumber(uniqueNumber: String): boolean
 }
 
 class StudentRepository {
     -_students: List<Student>
-    +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +registerStudent(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +isStudentEnrolledInProgramme(Student student, Programme programme)
 }
 
@@ -327,17 +330,17 @@ Programme "*" -l-> "1*" Department: assigned to
 DegreeType "1" <-u- "*" Programme
 Enrolment "*" -l-> "1" AccessMethod
 ProgrammeEnrolmentRepository ..> Enrolment: <<create>>
-ProgrammeEnrolmentRepository "List<Enrolment>  " o-- "*" Enrolment: "           "
+ProgrammeEnrolmentRepository "List<Enrolment>  " --> "*" Enrolment: "           "
 Programme "1"  -r-> "*" Enrolment: has
 Student "1" <-l- "*" Enrolment: enrols
 StudentRepository ..> Student: <<create>>\n
-StudentRepository "1 " o-- "*" Student: "             "
-SchoolYearRepository "1 " o-- "*" SchoolYear: "       "
+StudentRepository "1 " --> "*" Student: "             "
+SchoolYearRepository "1 " --> "*" SchoolYear: "       "
 SchoolYearRepository ..> SchoolYear: <<create>>
 ProgrammeEdition "*" --> "1" SchoolYear: relates to
 Teacher "1" <-- "1" Department: is Department Director
 Teacher "1..*" <-- "1" Department: aggregates
-Teacher "1..*" --o "1" TeacherRepository: _teachers
+Teacher "1..*" <-- "1" TeacherRepository: _teachers
 Teacher <.. TeacherRepository: <<create>>
 Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
 TeacherCareerProgression "*" --> "1"TeacherCategory: _category

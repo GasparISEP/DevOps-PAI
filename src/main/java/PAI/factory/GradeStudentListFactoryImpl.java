@@ -3,7 +3,10 @@ package PAI.factory;
 import PAI.domain.GradeStudent;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public interface GradeStudentListFactoryImpl {
-    ArrayList<GradeStudent> newArrayList ();
+public class GradeStudentListFactoryImpl implements GradeStudentListFactory {
+
+    public List<GradeStudent> newArrayList () {
+        return new ArrayList<>();}
 }
