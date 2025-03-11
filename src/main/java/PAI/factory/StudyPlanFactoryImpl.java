@@ -4,7 +4,7 @@ import PAI.repository.StudyPlan;
 
 public class StudyPlanFactoryImpl implements StudyPlanFactory {
 
-    public StudyPlan newStudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, CourseFactoryImpl courseFactoryImpl) {
-        return new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
+    public StudyPlan newStudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, CourseFactory courseFactory) {
+        return new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
     }
 }

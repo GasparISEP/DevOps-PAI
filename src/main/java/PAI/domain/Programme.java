@@ -22,7 +22,7 @@ public class Programme {
     private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactoryImpl courseFactoryImpl) {
+                     Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory) {
 
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -64,7 +64,7 @@ public class Programme {
 
         _courseList = _programmeCourseListFactory.createCourseList();
 
-        _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
+        _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
     }
 
     private boolean isNameInvalid(String name) {

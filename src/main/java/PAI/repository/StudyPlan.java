@@ -1,9 +1,9 @@
 package PAI.repository;
 
 import PAI.domain.Course;
-import PAI.factory.CourseFactoryImpl;
 import PAI.domain.CourseInStudyPlan;
 import PAI.domain.Programme;
+import PAI.factory.CourseFactory;
 import PAI.factory.CourseInStudyPlanFactory;
 import PAI.factory.StudyPlanListFactory;
 
@@ -12,13 +12,13 @@ import java.util.List;
 public class StudyPlan {
 
     private CourseInStudyPlanFactory _courseInStudyPlanFactory;
-    private CourseFactoryImpl _courseFactoryImpl;
+    private CourseFactory _courseFactory;
     private List<CourseInStudyPlan> _studyPlanListFactory;
 
-    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, CourseFactoryImpl courseFactoryImpl) {
+    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, CourseFactory courseFactory) {
 
         _courseInStudyPlanFactory = courseInStudyPlanFactory;
-        _courseFactoryImpl = courseFactoryImpl;
+        _courseFactory = courseFactory;
         _studyPlanListFactory = studyPlanListFactory.newArrayList();
 
     }
@@ -80,14 +80,14 @@ public class StudyPlan {
         double halfEcts = course.getQuantityCreditsEcts() / 2.0;
 
         CourseInStudyPlan firstSemesterCourse = _courseInStudyPlanFactory.newCourseInStudyPlan(1, curricularYear,
-                _courseFactoryImpl.createCourse(course.getName(), course.getAcronym(), halfEcts, 1), programme);
+                _courseFactory.createCourse(course.getName(), course.getAcronym(), halfEcts, 1), programme);
 
         if (isEctsLimitExceeded(curricularYear, 1, firstSemesterCourse)) {
             throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
         }
 
         CourseInStudyPlan secondSemesterCourse = _courseInStudyPlanFactory.newCourseInStudyPlan(2, curricularYear,
-                _courseFactoryImpl.createCourse(course.getName(), course.getAcronym(), halfEcts, 1), programme);
+                _courseFactory.createCourse(course.getName(), course.getAcronym(), halfEcts, 1), programme);
 
         if (isEctsLimitExceeded(curricularYear, 2, secondSemesterCourse)) {
             throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
