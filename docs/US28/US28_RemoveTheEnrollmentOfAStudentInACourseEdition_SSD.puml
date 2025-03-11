@@ -3,7 +3,7 @@
 title SSD: US28: Remove the enrollment of a student in a course edition
 
 actor ASC
-participant "System" as UI
+participant ":System" as UI
 
 ASC -> UI : I want to remove the enrollment of a student in a course edition
 UI --> ASC : What student?
@@ -12,6 +12,6 @@ UI --> ASC : What course edition?
 ASC -> UI : Course edition!
 UI --> ASC : Sure?
 ASC -> UI : Yes
-UI --> ASC : Enrollment removed
+UI --> ASC : Removal successful!
 
 @enduml

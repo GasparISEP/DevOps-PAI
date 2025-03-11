@@ -63,7 +63,7 @@ public class CourseEditionRepository {
     }
 
     public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        List<CourseEdition> result = new ArrayList<>();
+        List<CourseEdition> result =new ArrayList();
         for (CourseEdition courseEdition : _courseEditionRepository) {
             if (courseEdition.whatProgrammeEditionBelongsThisCourseEdition().equals(programmeEdition)) {
                 result.add(courseEdition);

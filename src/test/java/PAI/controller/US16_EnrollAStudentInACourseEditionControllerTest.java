@@ -6,6 +6,7 @@ import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,7 +61,34 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         assertEquals("Course edition enrollment repository cannot be null!", exception.getMessage());
     }
 
-    //testing get Course Editions of Programme Edition Method
+    //testing find Programme Editions that Student is Enrolled Method
+    @Test
+    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled (){
+        //arrange
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        CourseEditionEnrollmentRepository doubleCeeRepository = mock(CourseEditionEnrollmentRepository.class);
+
+        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
+                doubleCeeRepository, doublePeeRepository, doubleCourseEditionRepository);
+
+        Student doubleStudent = mock(Student.class);
+        ProgrammeEdition doublePee1 = mock (ProgrammeEdition.class);
+        ProgrammeEdition doublePee2 = mock (ProgrammeEdition.class);
+        ProgrammeEdition doublePee3 = mock (ProgrammeEdition.class);
+
+
+        when (doublePeeRepository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudent)).
+                thenReturn(List.of(doublePee1,doublePee2,doublePee3));
+
+        //act
+        List<ProgrammeEdition> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudent);
+
+        //assert
+        assertEquals(3, result.size());
+    }
+
+    //testing find Course Editions by Programme Edition Method
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition(){
         //arrange
@@ -78,7 +106,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         when (doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
 
         //act
-        List<CourseEdition> result = controller.getCourseEditionsOfProgrammeEdition (doubleProgrammeEdition);
+        List<CourseEdition> result = controller.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition);
 
         //assert
         assertEquals (2, result.size());
@@ -86,7 +114,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
     //testing enroll a student in a course edition method
     @Test
-    void shouldReturnTrueIfIsAValidCourseEditionEnrollment () throws Exception {
+    void shouldReturnTrueIfIsAValidCourseEditionEnrollment () {
 
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -109,7 +137,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseInStudentAndCourseEditionAreNull () throws Exception {
+    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition () {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
@@ -118,8 +146,13 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
                 doubleCeeRepository, doublePeeRepository, doubleCourseEditionRepository);
 
+        Student doubleStudent = mock (Student.class);
+        CourseEdition doubleCe = mock (CourseEdition.class);
+
+        when (doubleCeeRepository.enrollStudentInACourseEdition(doubleStudent,doubleCe)).thenReturn(false);
+
         //act
-        boolean result = controller.enrollStudentInCourseEdition (null, null);
+        boolean result = controller.enrollStudentInCourseEdition (doubleStudent, doubleCe);
 
         //assert
         assertFalse(result);

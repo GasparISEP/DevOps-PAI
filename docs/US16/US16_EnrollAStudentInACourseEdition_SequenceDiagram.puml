@@ -16,27 +16,25 @@ activate Controller
 participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepository
 Controller -> ProgrammeEditionEnrollmentRepository: findProgrammeEditionsThatStudentIsEnrolled (student)
 activate ProgrammeEditionEnrollmentRepository
-participant ":ProgrammeEditionListFactory" as ProgrammeEditionListFactory
-ProgrammeEditionEnrollmentRepository -> ProgrammeEditionListFactory: newArrayList ()
-participant ":ProgrammeEditionListFactory" as ProgrammeEditionListFactory
-activate ProgrammeEditionListFactory
-create "pe[i]:ProgrammeEditionArrayList"
-ProgrammeEditionListFactory -> "pe[i]:ProgrammeEditionArrayList": newArrayList ()
-activate "pe[i]:ProgrammeEditionArrayList"
-"pe[i]:ProgrammeEditionArrayList" --> ProgrammeEditionListFactory: EmptyList<ProgrammeEdition>
-deactivate "pe[i]:ProgrammeEditionArrayList"
-ProgrammeEditionListFactory --> ProgrammeEditionEnrollmentRepository: EmptyList<ProgrammeEdition>
-deactivate ProgrammeEditionListFactory
-loop for each "pe[i]:ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrollmentRepo
+create ":ProgrammeEditionList"
+ProgrammeEditionEnrollmentRepository -> ":ProgrammeEditionList": newArrayList();
+activate ":ProgrammeEditionList"
+":ProgrammeEditionList" --> ProgrammeEditionEnrollmentRepository: EmptyList<ProgrammeEdition>
+deactivate ":ProgrammeEditionList"
+loop for each "pee[i]:ProgrammeEditionEnrollment" in ProgrammeEditionEnrollmentRepo
 participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
-ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollment :  findStudentInProgrammeEditionEnrollment()
+ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollment : findStudentInProgrammeEdition (student)
+activate ProgrammeEditionEnrollment
+ProgrammeEditionEnrollment --> ProgrammeEditionEnrollmentRepository : pee1
+deactivate ProgrammeEditionEnrollment
+ProgrammeEditionEnrollmentRepository -> ProgrammeEditionEnrollment :  findProgrammeEditionInProgrammeEditionEnrollment()
 activate ProgrammeEditionEnrollment
 ProgrammeEditionEnrollment --> ProgrammeEditionEnrollmentRepository : pe1
 deactivate ProgrammeEditionEnrollment
-ProgrammeEditionEnrollmentRepository -> "pe[i]:ProgrammeEditionArrayList":  add(pe1)
-activate "pe[i]:ProgrammeEditionArrayList"
-"pe[i]:ProgrammeEditionArrayList" --> ProgrammeEditionEnrollmentRepository: true
-deactivate "pe[i]:ProgrammeEditionArrayList"
+ProgrammeEditionEnrollmentRepository -> ":ProgrammeEditionList":  add(pe1)
+activate ":ProgrammeEditionList"
+":ProgrammeEditionList" --> ProgrammeEditionEnrollmentRepository: true
+deactivate ":ProgrammeEditionList"
 end
 ProgrammeEditionEnrollmentRepository --> Controller: List<ProgrammeEdition>
 deactivate ProgrammeEditionEnrollmentRepository
@@ -52,27 +50,21 @@ activate Controller
 participant ":CourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEdition)
 activate CourseEditionRepository
-participant ":CourseEditionListFactory" as CourseEditionListFactory
-CourseEditionRepository -> CourseEditionListFactory: newArrayList()
-activate CourseEditionListFactory
-participant ":CourseEditionListFactory" as CourseEditionListFactory
-create "ce[i]:CourseEditionArrayList"
-CourseEditionListFactory -> "ce[i]:CourseEditionArrayList": newArrayList ()
-activate "ce[i]:CourseEditionArrayList"
-"ce[i]:CourseEditionArrayList" --> CourseEditionListFactory: EmptyList<CourseEdition>
-deactivate "ce[i]:CourseEditionArrayList"
-CourseEditionListFactory --> CourseEditionRepository: EmptyList<CourseEdition>
-deactivate CourseEditionListFactory
-loop for each "ce[i]:CourseEditionRepository" as CourseEditionRepository
+create ":CourseEditionList"
+CourseEditionRepository -> ":CourseEditionList": newArrayList ()
+activate ":CourseEditionList"
+":CourseEditionList" --> CourseEditionRepository: EmptyList<CourseEdition>
+deactivate ":CourseEditionList"
+loop for each "ce[i]:CourseEdition" in CourseEditionRepository
 participant ":CourseEdition" as CourseEdition
 CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
 activate CourseEdition
 CourseEdition --> CourseEditionRepository : ce1
 deactivate CourseEdition
-CourseEditionRepository -> "ce[i]:CourseEditionArrayList" :  add(ce1)
-activate "ce[i]:CourseEditionArrayList"
-"ce[i]:CourseEditionArrayList" --> CourseEditionRepository: true
-deactivate "ce[i]:CourseEditionArrayList"
+CourseEditionRepository -> ":CourseEditionList" :  add(ce1)
+activate ":CourseEditionList"
+":CourseEditionList" --> CourseEditionRepository: true
+deactivate ":CourseEditionList"
 end
 CourseEditionRepository --> Controller: List<CourseEdition>
 deactivate CourseEditionRepository
@@ -94,21 +86,21 @@ activate Controller
 participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrollmentRepository
 Controller -> CourseEditionEnrollmentRepository: enrollStudentInCourseEdition (st1, ce1)
 activate CourseEditionEnrollmentRepository
-participant ":CourseEditionEnrollmentFactory" as CourseEditionEnrollmentFactory
-CourseEditionEnrollmentRepository -> CourseEditionEnrollmentFactory: createCourseEditionEnrollment (st1,ce1)
-activate CourseEditionEnrollmentFactory
+participant ":CourseEditionEnrollmentFactoryInterface" as CourseEditionEnrollmentFactoryInterface
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentFactoryInterface: createCourseEditionEnrollment (st1,ce1)
+activate CourseEditionEnrollmentFactoryInterface
 create "cee1:CourseEditionEnrollment"
-CourseEditionEnrollmentFactory -> "cee1:CourseEditionEnrollment" : createCourseEditionEnrollment (st1, ce1)
+CourseEditionEnrollmentFactoryInterface -> "cee1:CourseEditionEnrollment" : createCourseEditionEnrollment (st1, ce1)
 activate "cee1:CourseEditionEnrollment"
-"cee1:CourseEditionEnrollment" --> CourseEditionEnrollmentFactory: cee1
+"cee1:CourseEditionEnrollment" --> CourseEditionEnrollmentFactoryInterface: cee1
 deactivate "cee1:CourseEditionEnrollment"
-CourseEditionEnrollmentFactory --> CourseEditionEnrollmentRepository: cee1
-deactivate CourseEditionEnrollmentFactory
-participant ":CourseEditionEnrollmentHashSet" as CourseEditionEnrollmentHashSet
-CourseEditionEnrollmentRepository --> CourseEditionEnrollmentHashSet: add (cee1)
-activate CourseEditionEnrollmentHashSet
-CourseEditionEnrollmentHashSet -> CourseEditionEnrollmentRepository: true
-deactivate CourseEditionEnrollmentHashSet
+CourseEditionEnrollmentFactoryInterface --> CourseEditionEnrollmentRepository: cee1
+deactivate CourseEditionEnrollmentFactoryInterface
+participant ":CourseEditionEnrollmentSet" as CourseEditionEnrollmentSet
+CourseEditionEnrollmentRepository --> CourseEditionEnrollmentSet: add (cee1)
+activate CourseEditionEnrollmentSet
+CourseEditionEnrollmentSet -> CourseEditionEnrollmentRepository: true
+deactivate CourseEditionEnrollmentSet
 CourseEditionEnrollmentRepository --> Controller: True
 deactivate CourseEditionEnrollmentRepository
 Controller --> UI: True

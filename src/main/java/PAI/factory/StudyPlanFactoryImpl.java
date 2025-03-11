@@ -1,8 +1,10 @@
 package PAI.factory;
 
-import PAI.factory.CourseFactory;
 import PAI.repository.StudyPlan;
 
-public interface StudyPlanFactoryImpl {
-    StudyPlan newStudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanArrayListFactory studyPlanArrayListFactory, CourseFactory courseFactory);
+public class StudyPlanFactoryImpl implements StudyPlanFactory {
+
+    public StudyPlan newStudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, CourseFactory courseFactory) {
+        return new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+    }
 }

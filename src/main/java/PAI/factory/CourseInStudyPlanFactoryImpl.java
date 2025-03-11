@@ -4,6 +4,9 @@ import PAI.domain.Course;
 import PAI.domain.CourseInStudyPlan;
 import PAI.domain.Programme;
 
-public interface CourseInStudyPlanFactoryImpl {
-    CourseInStudyPlan newCourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception;
+public class CourseInStudyPlanFactoryImpl implements CourseInStudyPlanFactory {
+
+    public CourseInStudyPlan newCourseInStudyPlan(int semester, int curricularYear, Course course, Programme programme) throws Exception {
+        return new CourseInStudyPlan(semester, curricularYear, course, programme);
+    }
 }

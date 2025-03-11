@@ -2,7 +2,9 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.CourseEditionEnrollmentFactory;
+import PAI.factory.CourseEditionEnrollmentFactoryInterface;
 import PAI.factory.CourseEditionEnrollmentListFactory;
+import PAI.factory.CourseEditionEnrollmentListFactoryInterface;
 
 import java.util.*;
 
@@ -10,10 +12,10 @@ public class CourseEditionEnrollmentRepository {
 
     private Set<CourseEditionEnrollment> _courseEditionEnrollments;
 
-    private final CourseEditionEnrollmentFactory _courseEditionEnrollmentFactory;
+    private final CourseEditionEnrollmentFactoryInterface _courseEditionEnrollmentFactory;
 
     //constructor
-    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory, CourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory) {
+    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactoryInterface courseEditionEnrollmentFactory, CourseEditionEnrollmentListFactoryInterface courseEditionEnrollmentListFactory) {
 
         _courseEditionEnrollments = courseEditionEnrollmentListFactory.getCourseEditionEnrollmentList();
         _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
@@ -32,7 +34,8 @@ public class CourseEditionEnrollmentRepository {
 
     public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {
         for (CourseEditionEnrollment enrollment : _courseEditionEnrollments) {
-            if (enrollment.knowStudent().equals(student) && enrollment.knowCourseEdition().equals(courseEdition)) {
+            if (enrollment.knowStudent().equals(student) && enrollment.knowCourseEdition().equals(courseEdition) &&
+                    enrollment.isEnrollmentActive()) {
                 return true;
             }
         }
@@ -70,16 +73,17 @@ public class CourseEditionEnrollmentRepository {
         }
     }
 
-    //US28
-    // Method to remove the enrollment of a student in a specific course edition
+    // Method to remove (deactivate) an enrollment
     public boolean removeEnrollment(Student student, CourseEdition courseEdition) {
-        // Finds the enrollment for the student and the course edition
-        Optional<CourseEditionEnrollment> enrollmentToRemove = findByStudentAndEdition(student, courseEdition);
-        if (enrollmentToRemove.isEmpty()) {
-            throw new IllegalArgumentException("Enrollment does not exist.");
+        Optional<CourseEditionEnrollment> enrollment = findByStudentAndEdition(student, courseEdition);
+        if (enrollment.isPresent()) {
+            CourseEditionEnrollment cee = enrollment.get();
+            if (cee.isEnrollmentActive()) {  // Only deactivates if the enrollment is currently active
+                cee.deactivateEnrollment();
+                return true; // Returns true indicating that the enrollment was deactivated
+            }
         }
-        _courseEditionEnrollments.remove(enrollmentToRemove.get());
-        return true;  // Returns true if the enrollment was successfully removed
+        return false; // Returns false if the enrollment was already inactive or did not exist
     }
 
 

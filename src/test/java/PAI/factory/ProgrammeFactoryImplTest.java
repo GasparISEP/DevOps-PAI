@@ -7,7 +7,7 @@ import org.mockito.MockedConstruction;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeFactoryTest {
+class ProgrammeFactoryImplTest {
     @Test
     void shouldCreatNewProgramme() throws Exception {
         //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory
@@ -21,7 +21,7 @@ class ProgrammeFactoryTest {
         Teacher programmeDirector = mock(Teacher.class);
         ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
 
@@ -46,8 +46,8 @@ class ProgrammeFactoryTest {
 
         })) {
             //act
-            ProgrammeFactory factory = new ProgrammeFactory();
-            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+            ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
+            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());

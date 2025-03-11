@@ -27,18 +27,19 @@ class ProgrammeEnrolmentFactoryTest {
         TeacherCategory _teacherCategory;
         AddressFactory _addressFactory;
         TeacherCareerProgressionFactory _tcpFactory;
+        TeacherCareerProgressionListFactory _tcpLFactoryDouble;
         Teacher _teacher;
         ProgrammeCourseListFactory _programmeCourseListFactory;
         Programme _programme;
         String _date;
-        CourseInStudyPlanFactory _courseInStudyPlanFactory;
-        StudyPlanArrayListFactory _studyPlanArrayListFactory;
-        StudyPlanFactory _studyPlanFactory;
+        CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
+        StudyPlanListFactoryImpl _studyPlanArrayListFactory;
+        StudyPlanFactoryImpl _studyPlanFactory;
         CourseFactory _courseFactory;
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-            _student = new Student(1, "Rita", "123456789", "963741258", "rita@gmail.com", _address);
+            _student = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", _address);
             _accessMethod = new AccessMethod("M1");
             _date = "14-02-2024";
             _degreeType = new DegreeType("Master", 240);
@@ -46,13 +47,14 @@ class ProgrammeEnrolmentFactoryTest {
             _teacherCategory = new TeacherCategory("Assistant Professor");
             _addressFactory = new AddressFactory();
             _tcpFactory = new TeacherCareerProgressionFactory();
+            _tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
             _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                    "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory);
+                    "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory, _tcpLFactoryDouble);
             _programmeCourseListFactory = new ProgrammeCourseListFactory();
-            _courseInStudyPlanFactory = new CourseInStudyPlanFactory();
-            _studyPlanArrayListFactory = new StudyPlanArrayListFactory();
-            _studyPlanFactory = new StudyPlanFactory();
+            _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+            _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
+            _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactory = new CourseFactory();
             _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactory);
         }

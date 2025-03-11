@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     private final ProgrammeEditionRepository _programmeEditionRepository;
     private final SchoolYearRepository _schoolYearRepository;
-    private final ProgrammeList _programmeList;
+    private final ProgrammeRepository _programmeList;
 
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository, ProgrammeList programmeList) {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository, ProgrammeRepository programmeList) {
 
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;

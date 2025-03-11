@@ -34,7 +34,7 @@ public class ProgrammeEditionEnrollment {
         return _programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
     }
 
-    public int getStudentUniqueNumber() {
+    public String getStudentUniqueNumber() {
         return _student.getUniqueNumber();
     }
 

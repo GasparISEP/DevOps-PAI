@@ -1,7 +1,4 @@
 package PAI.domain;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Department {
@@ -16,7 +13,7 @@ public class Department {
         validateName(name);
     }
 
-    //construtor
+    //constructor
     public Department(String acronym, String name,Teacher teacherDirector) throws IllegalArgumentException {
         validateAcronym(acronym);
         validateName(name);
@@ -57,6 +54,11 @@ public class Department {
         if (obj == null || getClass() != obj.getClass()) return false;
         Department that = (Department) obj;
         return Objects.equals(_name, that._name) && Objects.equals(_acronym, that._acronym);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_name, _acronym);
     }
 
     public String getName() { return _name; }

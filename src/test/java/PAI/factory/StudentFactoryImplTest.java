@@ -4,25 +4,24 @@ import PAI.domain.Address;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
-import org.mockito.internal.util.MockCreationValidator;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class StudentFactoryTest {
+class StudentFactoryImplTest {
 
     @Test
     void shouldCreateStudentWhenConstructorIsCalled() {
         //arrange
-        StudentFactory studentFactory = new StudentFactory();
+        StudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
-        int uniqueNumber = 1;
+        String uniqueNumber = "1234567";
 
         try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
 
-                int actualUniqueNumber = (int) context.arguments().get(0);
+                String actualUniqueNumber = (String) context.arguments().get(0);
                 when(mock.getUniqueNumber()).thenReturn(actualUniqueNumber);
         })) {
             //act

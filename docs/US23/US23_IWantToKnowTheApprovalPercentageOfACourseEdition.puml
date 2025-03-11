@@ -1,7 +1,7 @@
 @startuml
 actor ProgrammeDirector
 participant ":UI" as UI
-participant ":IWantToKnowTheApprovalPercentageInACourseEditionCtr" as KA
+participant ":Controller1" as KA
 participant ":GradeStudentRepository" as GR
 participant ":GradeStudent" as GradeStudent
 
@@ -27,8 +27,8 @@ loop for each GradeStudent in GR
 end
 
 
-GR --> KA --: Approval Percentage of courseEdition1
-KA --> UI --: Approval Percentage of courseEdition1
-UI --> ProgrammeDirector --: Approval Percentage of courseEdition1
+GR --> KA --: Know Approval Percentage of CourseEdition1
+KA --> UI --: Know Approval Percentage of CourseEdition1
+UI --> ProgrammeDirector --: Know Approval Percentage of courseEdition1
 
 @enduml

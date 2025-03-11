@@ -2,8 +2,7 @@ package PAI.domain;
 
 import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
-
-import java.util.ArrayList;
+import PAI.factory.TeacherCareerProgressionListFactory;
 import java.util.List;
 
 public class Teacher {
@@ -31,8 +30,11 @@ public class Teacher {
     private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
 
     //constructor
-    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, AddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
-                   Department department, TeacherCareerProgressionFactory teacherCareerProgressionFactory) throws IllegalArgumentException {
+    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+                   String street, String postalCode, String location, String country, AddressFactory addressFactory,
+                   String date, TeacherCategory category, int workingPercentage, Department department,
+                   TeacherCareerProgressionFactory teacherCareerProgressionFactory,
+                   TeacherCareerProgressionListFactory teacherCareerProgressionListFactory) throws IllegalArgumentException {
 
         validateAcronym(acronym);
         validateName(name);
@@ -43,9 +45,12 @@ public class Teacher {
 
         this._address = addressFactory.createAddress(street, postalCode, location, country);
 
-        this._teacherCareerProgressionList = new ArrayList<>();
+        _teacherCareerProgressionList = teacherCareerProgressionListFactory.createTeacherCareerProgressionList();
+
         this._teacherCareerProgressionFactory = teacherCareerProgressionFactory;
+
         TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, category, workingPercentage);
+
         this._teacherCareerProgressionList.add(tcp);
 
         this._department = department;

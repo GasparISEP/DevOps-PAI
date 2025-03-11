@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,13 +16,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
     private SchoolYearRepository schoolYearRepository;
     private ProgrammeEditionRepository programmeEditionRepository;
-    private ProgrammeList programmeList;
+    private ProgrammeRepository programmeList;
 
     @BeforeEach
     void setUp() {
         schoolYearRepository = mock(SchoolYearRepository.class);
         programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        programmeList = mock(ProgrammeList.class);
+        programmeList = mock(ProgrammeRepository.class);
     }
 
     @Test
@@ -152,7 +152,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeList programmeList = mock(ProgrammeList.class);
+        ProgrammeRepository programmeList = mock(ProgrammeRepository.class);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 
@@ -176,7 +176,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Arrange
         ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeList programmeList = null;
+        ProgrammeRepository programmeList = null;
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 

@@ -26,6 +26,25 @@ class SchoolYearRepositoryTest {
         //act
         new SchoolYearRepository(schoolYearFactoryDouble, schoolYearListFactoryDouble);
     }
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenSchoolYearFactoryIsNull() {
+        // Arrange
+        SchoolYearListFactory schoolYearListFactoryDouble = mock(SchoolYearListFactory.class);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class,
+                () -> new SchoolYearRepository(null, schoolYearListFactoryDouble));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenSchoolYearListFactoryIsNull() {
+        // Arrange
+        SchoolYearFactory schoolYearFactoryDouble = mock(SchoolYearFactory.class);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class,
+                () -> new SchoolYearRepository(schoolYearFactoryDouble, null));
+    }
 
     @Test
     void testAddSchoolYearSuccessfully() throws Exception {
