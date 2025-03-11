@@ -23,7 +23,7 @@ class ProgrammeFactoryImplTest {
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
         try (MockedConstruction<Programme> mockConstruction = mockConstruction(Programme.class, (mock, context) -> {
             String nameActual = (String) context.arguments().get(0);
@@ -39,7 +39,7 @@ class ProgrammeFactoryImplTest {
         })) {
             //act
             ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
-            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
+            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());

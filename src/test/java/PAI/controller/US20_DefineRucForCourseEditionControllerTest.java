@@ -58,7 +58,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //        Course c1 = new Course("Informatics", "INF", 6, 1);
@@ -111,7 +111,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -169,7 +169,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //
@@ -293,7 +293,7 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
 //        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
 //        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
-//        CourseFactory courseFactory = mock(CourseFactory.class);
+//        CourseFactoryImpl courseFactory = mock(CourseFactoryImpl.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
 //        Course c1 = new Course("Informatics", "INF", 6, 1);

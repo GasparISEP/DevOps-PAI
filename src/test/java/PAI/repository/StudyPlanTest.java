@@ -20,9 +20,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course = mock(Course.class);
 
@@ -47,9 +47,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
@@ -81,9 +81,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
         when(programme.getCourseList()).thenReturn(List.of(course1));
@@ -108,9 +108,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
@@ -143,9 +143,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
 
@@ -166,9 +166,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
 
@@ -188,9 +188,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
 
@@ -208,9 +208,9 @@ class StudyPlanTest {
     void shouldNotAllowAnnualCourseInLastYearOfOddSemestersProgramme() throws Exception {
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
 
@@ -229,9 +229,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
 
         // act
@@ -249,9 +249,9 @@ class StudyPlanTest {
         Course course = mock(Course.class);
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         // act
         Exception exception = assertThrows(Exception.class, () -> {
             studyPlan.addCourseToStudyPlan(1, 1, course, null);
@@ -266,9 +266,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
@@ -310,9 +310,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
 
@@ -330,7 +330,7 @@ class StudyPlanTest {
         Course annualCourseFirstSemester = mock(Course.class);
         Course annualCourseSecondSemester = mock(Course.class);
 
-        when(courseFactory.createCourse("Annual Course", "ANNUAL", 5.0, 1))
+        when(courseFactoryImpl.createCourse("Annual Course", "ANNUAL", 5.0, 1))
                 .thenReturn(annualCourseFirstSemester, annualCourseSecondSemester);
 
         CourseInStudyPlan courseInStudyPlan1 = new CourseInStudyPlan(1, 3, annualCourseFirstSemester, programme);
@@ -353,9 +353,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
@@ -387,7 +387,7 @@ class StudyPlanTest {
         Course annualCourseFirstSemester = mock(Course.class);
         Course annualCourseSecondSemester = mock(Course.class);
 
-        when(courseFactory.createCourse("Annual Course", "ANNUAL", 5.0, 1))
+        when(courseFactoryImpl.createCourse("Annual Course", "ANNUAL", 5.0, 1))
                 .thenReturn(annualCourseFirstSemester, annualCourseSecondSemester);
 
         CourseInStudyPlan courseInStudyPlan3 = new CourseInStudyPlan(1, 1, annualCourseFirstSemester, programme);
@@ -417,9 +417,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
@@ -451,7 +451,7 @@ class StudyPlanTest {
         Course annualCourseFirstSemester = mock(Course.class);
         Course annualCourseSecondSemester = mock(Course.class);
 
-        when(courseFactory.createCourse("Annual Course", "ANNUAL", 5.0, 1))
+        when(courseFactoryImpl.createCourse("Annual Course", "ANNUAL", 5.0, 1))
                 .thenReturn(annualCourseFirstSemester, annualCourseSecondSemester);
 
         CourseInStudyPlan courseInStudyPlan3 = new CourseInStudyPlan(1, 1, annualCourseFirstSemester, programme);
@@ -477,9 +477,9 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
@@ -511,7 +511,7 @@ class StudyPlanTest {
         Course annualCourseFirstSemester = mock(Course.class);
         Course annualCourseSecondSemester = mock(Course.class);
 
-        when(courseFactory.createCourse("Annual Course", "ANNUAL", 5.0, 1))
+        when(courseFactoryImpl.createCourse("Annual Course", "ANNUAL", 5.0, 1))
                 .thenReturn(annualCourseFirstSemester, annualCourseSecondSemester);
 
         CourseInStudyPlan courseInStudyPlan3 = new CourseInStudyPlan(1, 1, annualCourseFirstSemester, programme);
@@ -538,9 +538,9 @@ class StudyPlanTest {
         //arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
+        StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactoryImpl);
         Programme programme = mock(Programme.class);
         Course annualCourse = mock(Course.class);
 

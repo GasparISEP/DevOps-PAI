@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.Course;
-import PAI.factory.CourseFactory;
+import PAI.factory.CourseFactoryImpl;
 import PAI.factory.CourseListFactory;
 import org.junit.jupiter.api.Test;
 
@@ -19,10 +19,10 @@ class CourseRepositoryTest {
         //SUT CourseRepository
 
         //Arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
         CourseListFactory courseListFactory = mock(CourseListFactory.class);
         //act
-        CourseRepository cR1 = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository cR1 = new CourseRepository(courseFactoryImpl, courseListFactory);
         //assert
         assertNotNull(cR1);
     }
@@ -31,9 +31,9 @@ class CourseRepositoryTest {
     void shouldReturnTrueIfCourseIsRegistered() throws Exception {
 
         //arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
         CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory,courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl,courseListFactory);
 
 
         String courseName = "Matemática";
@@ -43,7 +43,7 @@ class CourseRepositoryTest {
 
         Course courseMock = mock(Course.class);
 
-        when(courseFactory.createCourse(courseName, acronym, quantityCreditsEcts, durationCourseInSemester)).thenReturn(courseMock);
+        when(courseFactoryImpl.createCourse(courseName, acronym, quantityCreditsEcts, durationCourseInSemester)).thenReturn(courseMock);
 
         //act
         boolean result = courseRepository.registerCourse(courseName, acronym, quantityCreditsEcts, durationCourseInSemester);
@@ -54,9 +54,9 @@ class CourseRepositoryTest {
     void shouldReturnFalseIfCourseIsNotRegisteredBecauseItsAlreadyRegisted() throws Exception {
         //arrange
 
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
         CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory,courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl,courseListFactory);
 
         Course course1 = mock(Course.class);
 
@@ -65,7 +65,7 @@ class CourseRepositoryTest {
         double quantityCreditsECTS1 = 10;
         int durationCourseInSemester1 = 1;
 
-        when(courseFactory.createCourse(courseName1, acronym1, quantityCreditsECTS1, durationCourseInSemester1)).thenReturn(course1);
+        when(courseFactoryImpl.createCourse(courseName1, acronym1, quantityCreditsECTS1, durationCourseInSemester1)).thenReturn(course1);
         courseRepository.registerCourse(courseName1, acronym1, quantityCreditsECTS1, durationCourseInSemester1);
 
         //act
@@ -79,9 +79,9 @@ class CourseRepositoryTest {
         //SUT - CourseRepository
 
         //arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
         CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory,courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl,courseListFactory);
 
         String courseName1 = "Matemática";
         String acronym1 = "MAT";
@@ -95,8 +95,8 @@ class CourseRepositoryTest {
         int durationCourseInSemester2 = 1;
         Course course2 = mock(Course.class);
 
-        when(courseFactory.createCourse(courseName1, acronym1, quantityCreditsECTS1, durationCourseInSemester1)).thenReturn(course1);
-        when(courseFactory.createCourse(courseName2, acronym2, quantityCreditsECTS2, durationCourseInSemester2)).thenReturn(course2);
+        when(courseFactoryImpl.createCourse(courseName1, acronym1, quantityCreditsECTS1, durationCourseInSemester1)).thenReturn(course1);
+        when(courseFactoryImpl.createCourse(courseName2, acronym2, quantityCreditsECTS2, durationCourseInSemester2)).thenReturn(course2);
 
         courseRepository.registerCourse(courseName1, acronym1, quantityCreditsECTS1, durationCourseInSemester1);
         courseRepository.registerCourse(courseName2, acronym2, quantityCreditsECTS2, durationCourseInSemester2);
