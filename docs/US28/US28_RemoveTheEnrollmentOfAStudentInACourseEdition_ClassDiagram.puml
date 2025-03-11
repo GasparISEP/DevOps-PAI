@@ -18,7 +18,7 @@ class CourseEditionEnrollment {
 
 class CourseEditionEnrollmentRepository {
     +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory,
-    CourseEditionEnrollmentListFactory: courseEditionEnrollmentFactory)
+    CourseEditionEnrollmentListFactory: courseEditionEnrollmentListFactory)
     +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
     +removeEnrollment (student: Student, courseEdition: CourseEdition) : boolean
