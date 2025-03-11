@@ -1,13 +1,13 @@
 package PAI.repository;
 import PAI.domain.Department;
+import PAI.domain.DepartmentEqualsTrue;
 import PAI.domain.Teacher;
-import PAI.factory.DepartmentFactory;
-import PAI.factory.DepartmentListFactory;
+import PAI.factory.DepartmentFactoryInterface;
+import PAI.factory.DepartmentListFactoryInterface;
 import org.junit.jupiter.api.Test;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class DepartmentRepositoryTest {
 
@@ -15,9 +15,9 @@ class DepartmentRepositoryTest {
     @Test
     void shouldRegisterValidDepartment() throws Exception {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         // Act
         boolean result = repository.registerDepartment("CSE", "Computer Science");
@@ -30,15 +30,15 @@ class DepartmentRepositoryTest {
     @Test
     void shouldRegisterMultipleDifferentDepartments() throws Exception {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         Department department1Double = mock(Department.class);
         Department department2Double = mock(Department.class);
 
-        when(factoryDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
-        when(factoryDouble.newDepartment("ECE", "Electronics")).thenReturn(department2Double);
+        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
+        when(factoryInterfaceDouble.newDepartment("ECE", "Electronics")).thenReturn(department2Double);
 
         // Act
         boolean result1 = repository.registerDepartment("CSE", "Computer Science");
@@ -53,19 +53,19 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfDepartmentAlreadyExists() throws Exception {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
-        Department department1Double = mock(Department.class);
-        Department department2Double = mock(Department.class);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
+        Department department1Double = new DepartmentEqualsTrue("CSE", "Computer Science");
 
-        when(factoryDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
+        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
         repository.registerDepartment("CSE", "Computer Science");
+        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
 
         //act
         boolean result = repository.registerDepartment("CSE", "Computer Science");
 
-        //
+        //assert
         assertFalse(result);
     }
 
@@ -73,9 +73,9 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnExceptionIfDepartmentListIsEmpty() throws IllegalStateException {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -88,21 +88,21 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository departmentRepository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         Department department1Double = mock(Department.class);
         Department department2Double = mock(Department.class);
 
-        when(factoryDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
-        when(factoryDouble.newDepartment("ECE", "Electronics")).thenReturn(department2Double);
+        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
+        when(factoryInterfaceDouble.newDepartment("ECE", "Electronics")).thenReturn(department2Double);
 
-        departmentRepository.registerDepartment("CSE", "Computer Science");
-        departmentRepository.registerDepartment("ECE", "Electronics");
+        repository.registerDepartment("CSE", "Computer Science");
+        repository.registerDepartment("ECE", "Electronics");
 
         // Act
-        Set<Department> result = departmentRepository.getDepartments();
+        Set<Department> result = repository.getDepartments();
         // Assert
         assertEquals(2, result.size());
     }
@@ -110,13 +110,13 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnTrueIfDepartmentExistsInDepartmentRepository() throws Exception {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         Department department1Double= mock(Department.class);
 
-        when(factoryDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
+        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
 
         repository.registerDepartment("CSE", "Computer Science");
 
@@ -130,14 +130,14 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfDepartmentDoesNotExistInDepartmentRepository() throws Exception {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         Department departmentDouble = mock(Department.class);
         Department nonExistingDepartmentDouble = mock(Department.class);
 
-        when(factoryDouble.newDepartment("CSE", "Computer Science")).thenReturn(departmentDouble);
+        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(departmentDouble);
         repository.registerDepartment("CSE", "Computer Science");
 
         //act
@@ -150,9 +150,9 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfDepartmentIsNull() {
         // Arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         // Act
         boolean result= repository.departmentExists(null);
@@ -164,9 +164,9 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnTrueIfUpdateDepartmentDirector(){
         //arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         Department departmentDouble = mock(Department.class);
         Teacher furtherDirectorDouble = mock(Teacher.class);
@@ -184,9 +184,9 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfTeacherDoesNotBelongToDepartment(){
         //arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
 
         Department departmentDouble = mock(Department.class);
         Teacher furtherDirectorDouble = mock(Teacher.class);
@@ -203,9 +203,9 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfTeacherIsNull (){
         //arrange
-        DepartmentFactory factoryDouble = mock(DepartmentFactory.class);
-        DepartmentListFactory listFactoryDouble= mock(DepartmentListFactory.class);
-        DepartmentRepository repository = new DepartmentRepository(factoryDouble,listFactoryDouble);
+        DepartmentFactoryInterface factoryInterfaceDouble = mock(DepartmentFactoryInterface.class);
+        DepartmentListFactoryInterface listFactoryInterfaceDouble= mock(DepartmentListFactoryInterface.class);
+        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
         Department dpt1Double= mock(Department.class);
 
         //act

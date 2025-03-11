@@ -1,19 +1,19 @@
 package PAI.repository;
 import PAI.domain.Department;
 import PAI.domain.Teacher;
-import PAI.factory.DepartmentFactory;
 import java.util.Set;
-import PAI.factory.DepartmentListFactory;
+import PAI.factory.DepartmentFactoryInterface;
+import PAI.factory.DepartmentListFactoryInterface;
 
 public class DepartmentRepository {
 
-    private Set<Department> _departments;
-    private final DepartmentFactory _departmentFactory;
+    private final Set<Department> _departments;
+    private final DepartmentFactoryInterface _departmentFactory;
 
     //constructor
-    public DepartmentRepository(DepartmentFactory departmentFactory, DepartmentListFactory departmentListFactory) {
-        _departmentFactory = departmentFactory;
-        _departments = departmentListFactory.newDepartmentList();
+    public DepartmentRepository(DepartmentFactoryInterface departmentFactoryInterface, DepartmentListFactoryInterface departmentListFactoryInterface) {
+        _departmentFactory = departmentFactoryInterface;
+        _departments = departmentListFactoryInterface.newDepartmentList();
     }
 
     public boolean registerDepartment(String acronym, String name) throws Exception {
