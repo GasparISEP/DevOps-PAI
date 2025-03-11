@@ -6,7 +6,9 @@ actor ASC as Admin
 
 participant ":UI" as UI #lightblue
 participant ":ControllerUS27" as C #lightblue
-participant ":ProgrammeList" as PL #lightblue
+participant ":ProgrammeRepository" as PR #lightblue
+participant ":ProgrammeFactory" as PF #lightblue
+
 
 
 Admin -> UI ++ #application : I want to register a Programme in the System,\n including a Study Plan.
@@ -15,27 +17,43 @@ UI --> Admin -- : What are the attributes??
 
 Admin -> UI ++ #application : name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector
 
-UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, \n quantityOfSemesters,  degreeType,  department, programmeDirector)
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, \ndegreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
 
-C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector)
+C -> PR ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, \nprogrammeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
 
+
+PR -> PF ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
 create ":Programme" as P #lightblue
-PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector)
+PF -> P ++ #application : Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nStudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory)
+
 P -> P : isNameInvalid()
 P -> P : isAcronymInvalid()
 P -> P : isQuantityOfEctsInvalid()
 P -> P : isQuantityOfSemestersInvalid()
-
+participant ":StudyplanFactory" as SPF #lightblue
+P -> SPF ++ #application : newStudyPlan(courseInStudyPlanFactory, \nstudyPlanListFactory, courseFactory)
 create ":StudyPlan" as SP #lightblue
-P -> SP ++ #application : StudyPlan()
-SP --> P -- : List<CourseInStudyPlan> SP1
 
-P --> PL -- : P1
+SPF -> SP ++ #application : StudyPlan()
 
-PL -> PL : contains(P1)
-PL -> PL : add(P1)
+participant ":studyPlanListFactory" as SPLF #lightblue
+SP -> SPLF ++ #application: newArrayList()
 
-PL --> C -- : True
+create "List<CourseInStudyPlan>" as LCSP #lightblue
+SPLF -> LCSP ++ #application : newArrayList()
+LCSP --> SPLF -- : List<CourseInStudyPlan> LCSP1
+participant ":CourseInStudyPlanFactory" as CSPF #lightblue
+SPLF --> SP -- : List<CourseInStudyPlan> LCSP1
+SP --> SPF -- : List<CourseInStudyPlan> SP1
+
+SPF --> P -- : List<CourseInStudyPlan> SP1
+
+P --> PF -- : Programme P1
+PF --> PR -- : Programme P1
+PR -> PR : contains(P1)
+PR -> PR : add(P1)
+
+PR --> C -- : True
 C --> UI -- : True
 UI --> Admin -- : Success!
 
@@ -46,27 +64,30 @@ US03_AddCourseToAProgramme.
 end ref
 
 Admin -> UI ++ #application : I want to add a Course to StudyPlan
-UI --> Admin -- : semester? curricularYear? course? programme?
+UI --> Admin -- : programme? course? semester? curricularYear?
 Admin -> UI ++ #application : semester! curricularYear! course! P1!
 UI -> C ++ #application : addCourseToStudyPlan(semester, curricularYear, course, P1)
-C -> SP ++ #application : P1.getStudyPlan().addCourseToStudyPlan(semester, curricularYear, course, P1)
+C -> P ++ #application : getStudyPlan()
+P -> SP ++ #application: addCourseToStudyPlan(semester, curricularYear, course, P1)
 SP -> SP : isCourseOrProgrammeInvalid(course, p1)
-SP -> SP : isCourseInStudyPlan(course, p1)
+SP -> SP : isCourseInStudyPlan(course)
 
+
+SP -> CSPF ++ #application : newCourseInStudyPlan(semester, curricularYear, course, programme)
 create ":CourseInStudyPlan" as CSP #lightblue
-
-SP -> CSP ++ #application : CourseInStudyPlan(semester, curricularYear, course, P1)
+CSPF -> CSP ++ #application : CourseInStudyPlan(semester, curricularYear, course, programme)
 CSP -> CSP : isSemesterInvalid
 CSP -> CSP : IsCurricularYearInvalid
 
-CSP --> SP -- : CSP1
+CSP --> CSPF -- : CSP1
+CSPF --> SP --: CSP1
 
 SP -> SP : IsECTSLimitExceeded(semester, curricularYear, CSP1)
-SP -> SP : addCourseToStudyPlan(CSP1)
-
-SP --> C -- : True
+SP -> LCSP ++ #application: add(CSP1)
+LCSP --> SP --: true
+SP --> P --: true
+P --> C -- : true
 C --> UI -- : True
 
 UI --> Admin -- : Success
-
 @enduml

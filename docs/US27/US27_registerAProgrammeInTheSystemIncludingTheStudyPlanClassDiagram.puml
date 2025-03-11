@@ -8,19 +8,15 @@ class US27_RegisterAProgrammeInTheSystemIncludingStudyPlan {
     programmeCourseListFactory: ProgrammeCourseListFactory, courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory): boolean
     +addCourseToStudyPlan(semester: int, curricularYear: int, course: Course, programme: Programme): boolean
 }
+
+class "List<Programme>" {}
+class "List<Course>" {}
+class "List<CourseInStudyPlan>" {}
+
 class Department {
     -_acronym:String
     -_name:String
     -_director:Teacher
-    +Department(departmentAcronym: String, departmentName: String)
-    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
-    +validateName(name: String): void
-    +validateAcronym(departmentAcronym: String): void
-    +changeDirector(furtherDirector: Teacher): boolean
-    +equals(obj: Object): boolean
-    +getName(): String
-    +getAcronym(): String
-
 }
 
 class Programme {
@@ -44,7 +40,6 @@ class Programme {
      + equals(o: Object): boolean
      + isEquals(programme: Programme): boolean
      + addCourseToAProgramme(course: Course): boolean
-     + newProgrammeDirector(teacherDirector: Teacher): void
      + isInDepartment(department: Department): boolean
      + getCourseList(): List<Course>
      + getQuantityOfSemester(): int
@@ -52,12 +47,6 @@ class Programme {
      + getStudyPlan(): StudyPlan
      + calculateNumberOfYears(quantityOfSemesters: int): int
      + hasThisProgrammeName(name: String): boolean
-     + getAcronym(): boolean
-     + getProgrammeName(): String
-     + getDegreeType(): DegreeType
-     + getDepartment(): Department
-     + getProgrammeDirector(): Teacher
-     + getProgrammeCourseListFactory(): ProgrammeCourseListFactory
  }
 
 class ProgrammeRepository {
@@ -67,23 +56,11 @@ class ProgrammeRepository {
      +ProgrammeRepository(programmeFactory: ProgrammeFactory)
      +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType; department : Department,programmeDirector: Teacher, programmeCourseListFactory: ProgrammeCourseListFactory,
      courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanListFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory): boolean
-     +changeProgrammeDirector(programme: Programme,newDirector: Teacher): boolean
-     +getAllProgrammes(): List<Programme>
-     +getCourseList(programme: Programme): List<Course>
-     +getProgrammeByName(name: String): Optional<Programme>
-     +getProgrammeByAcronym(acronym: String): Programme
-     +getAllProgrammeNames(): List<String>
 }
 
 class DegreeType {
     -_name: String
     -_maxEcts: int
-    + DegreeType(name: String, maxEcts: int)
-    + nameIsInvalid(name: String): boolean
-    + maxEctsIsInvalid(maxEcts: int): boolean
-    + equals(objectToCompare: Object): boolean
-    + get_Name(): String
-    + get_maxEcts(): int
 }
 
 class Teacher {
@@ -98,21 +75,6 @@ class Teacher {
      -_department: Department
      -_teacherCareerProgressionList: List<TeacherCareerProgression>
      -_teacherCareerProgressionFactory: TeacherCareerProgressionFactory
-     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
-     country: String, addressFactory: AddressFactory, date: String, category: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory)
-     +validateAcronym(teacherAcronym: String): void
-     +validateName(name: String): void
-     +validateEmail(email: String): void
-     +validateNif(nif: String): void
-     +validatePhoneNumber(phoneNumber: String): void
-     +validateAcademicBackground(academicBackground: String): void
-     +hasSameAcronym(teacher: Teacher): boolean
-     +hasSameNif(teacher: Teacher): boolean
-     +isInDepartment(department: Department): boolean
-     +hasThisNIF(NIF: String): boolean
-     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int): boolean
-     +updateTeacherCategoryInTeacherCareer(date: String, teacherCategory: TeacherCategory): boolean
-     +getLastTeacherCareerProgression(): TeacherCareerProgression
 }
 
 class Course {
@@ -120,18 +82,6 @@ class Course {
     -_acronym: String
     -_quantityCreditsEcts: double
     -_durationCourseInSemester: int
-
-    +Course(name: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
-    +isValidName(courseName: String): boolean
-    +isValidAcronym(courseAcronym: String) boolean
-    +isValidQuantityCreditsEcts(quantityCreditsEcts: double): boolean
-    +isValidDurationCourseInSemester(durationCourseInSemester: int): boolean
-    +hasMoreThanOneDecimalPlace(value: double): boolean
-    +equals(objectToCompare: Object): boolean
-    +getQuantityCreditsEcts(): double
-    +getDurationInSemester(): int
-    +getName(): String
-    +getAcronym(): String
 }
 
 
@@ -221,7 +171,7 @@ class ProgrammeFactoryImpl {
 US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> ProgrammeRepository
 ProgrammeRepository ..> ProgrammeRepositoryListFactory
 ProgrammeRepositoryListFactory <|.. ProgrammeRepositoryListFactoryImpl
-ProgrammeRepository --> Programme
+ProgrammeRepository --> "List<Programme>"
 
 Programme --> DegreeType
 Programme --> Department
@@ -239,11 +189,12 @@ Programme --> StudyPlan
 StudyPlan ..> CourseInStudyPlanFactory
 CourseInStudyPlanFactory <|.. CourseInStudyPlanFactoryImpl
 CourseInStudyPlanFactory ..> CourseInStudyPlan : "<<creates>>"
-StudyPlan --> CourseInStudyPlan
+StudyPlan --> "List<CourseInStudyPlan>"
 
 Course <-- CourseInStudyPlan
 StudyPlan ..> Course
-Programme --> Course
+Programme --> "List<Course>"
+"List<Course>" --> Course
 
 StudyPlan ..> StudyPlanListFactory
 StudyPlanListFactory <|.. StudyPlanListFactoryImpl
@@ -252,4 +203,16 @@ ProgrammeRepository ..> ProgrammeFactory
 ProgrammeFactory <|.. ProgrammeFactoryImpl
 ProgrammeFactory ..> Programme : "<<creates>>"
 
+CourseInStudyPlan --> Programme
+
+"List<Programme>" --> Programme
+ProgrammeRepositoryListFactory ..> "List<Programme>" : <<creates>>
+
+ProgrammeCourseListFactory ..> "List<Course>" : <<creates>>
+
+StudyPlanListFactory ..> "List<CourseInStudyPlan>" : <<creates>>
+"List<CourseInStudyPlan>" --> CourseInStudyPlan
+
+ProgrammeRepository ..> Programme
+Programme ..> Course
 @enduml
