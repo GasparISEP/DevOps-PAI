@@ -17,13 +17,19 @@ import static org.mockito.Mockito.*;
 class CourseEditionEnrollmentTest {
 
     @Test
-    void should_return_a_valid_course_edition_enrollment() throws Exception {
-        //arrange
+    void should_return_a_valid_course_edition_enrollment() {
+
+        // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-        //act + assert
+        // act
         CourseEditionEnrollment enrollment = new CourseEditionEnrollment(studentDouble, courseEditionDouble);
+
+        // assert
+        assertNotNull(enrollment);
+        assertEquals(studentDouble, enrollment.findStudentInCourseEditionEnrollment());
+        assertEquals(courseEditionDouble, enrollment.findCourseEditionInEnrollment());
     }
 
     @Test
