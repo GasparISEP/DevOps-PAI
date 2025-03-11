@@ -1,29 +1,47 @@
 @startuml
 !pragma layout smetana
 
-class TeacherCategory {
-    - name: String
-    + TeacherCategory(name: String)
-    + getName(): String
+package "PAI.domain" {
+    interface TeacherCategoryFactoryInterface {
+        + createTeacherCategory(categoryName: String): TeacherCategory
+    }
+
+    interface TeacherCategoryRepositoryListFactoryInterface {
+        + getTeacherCategoryList(): List<TeacherCategory>
+    }
+
+    class TeacherCategory {
+        - _name: String
+        + TeacherCategory(categoryName: String)
+        + getName(): String
+        + equals(obj: Object): boolean
+        + hashCode(): int
+    }
 }
 
-class TeacherCategoryFactory {
-    + createTeacherCategory(name: String): TeacherCategory
+package "PAI.factory" {
+    class TeacherCategoryFactory {
+        + createTeacherCategory(categoryName: String): TeacherCategory
+    }
+
+    class TeacherCategoryRepositoryListFactory {
+        + getTeacherCategoryList(): List<TeacherCategory>
+    }
 }
 
-class TeacherCategoryRepository {
-    - teacherCategoryRepositoryList: List<TeacherCategory>
-    - teacherCategoryFactory: TeacherCategoryFactory
-    + TeacherCategoryRepository(teacherCategoryFactory: TeacherCategoryFactory, teacherCategoryRepositoryListFactory: TeacherCategoryRepositoryListFactory)
-    + registerTeacherCategory(name: String): boolean
-    + getTeacherCategoryByName(name: String): Optional<TeacherCategory>
-    + getTeacherCategoryList(): List<TeacherCategory>
+package "PAI.repository" {
+    class TeacherCategoryRepository {
+        - teacherCategoryRepositoryList: List<TeacherCategory>
+        - teacherCategoryFactory: TeacherCategoryFactory
+        + TeacherCategoryRepository(teacherCategoryFactory: TeacherCategoryFactory, teacherCategoryRepositoryListFactory: TeacherCategoryRepositoryListFactory)
+        + registerTeacherCategory(name: String): boolean
+        + getTeacherCategoryByName(name: String): Optional<TeacherCategory>
+        + getTeacherCategoryList(): List<TeacherCategory>
+    }
 }
 
-class TeacherCategoryRepositoryListFactory {
-    + getTeacherCategoryList(): List<TeacherCategory>
-}
-
+TeacherCategoryFactoryInterface <|.. TeacherCategoryFactory
+TeacherCategoryRepositoryListFactoryInterface <|.. TeacherCategoryRepositoryListFactory
 TeacherCategoryFactory --> TeacherCategory
 TeacherCategoryRepositoryListFactory --> TeacherCategoryRepository
 TeacherCategory "1..*" --> "1" TeacherCategoryRepository: teacherCategoryRepositoryList
