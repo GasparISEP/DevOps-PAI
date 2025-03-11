@@ -8,7 +8,7 @@ participant ":Controller" as Controller #Cyan/Silver
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository #Cyan/Silver
 participant "tcList:List<TeacherCategories>" as tcList #Yellow/Silver
 participant ":DepartmentRepository" as DepartmentRepository #Cyan/Silver
-participant "dptList:List<Departments>" as dptList #Yellow/Silver
+participant "Set<Department>:Set<Departments>" as dptList #Yellow/Silver
 participant ":TeacherRepository" as TeacherRepository #Cyan/Silver
 participant "t1:TeacherFactory" as TeacherFactory #Yellow/Silver
 participant "t1:Teacher" as Teacher #Yellow/Silver
@@ -37,16 +37,16 @@ UI --> HRC: Choose a teacher category from the list.
 
 HRC -> UI: tc1
 
-UI -> Controller: **getDepartmentsList()**
+UI -> Controller: **getDepartments()**
 activate Controller
 
-Controller -> DepartmentRepository: **getDepartmentList()**
+Controller -> DepartmentRepository: **getDepartments()**
 activate DepartmentRepository
 
-DepartmentRepository --> Controller: dptList
+DepartmentRepository --> Controller: Set<Department>
 deactivate DepartmentRepository
 
-Controller --> UI: dptList
+Controller --> UI: Set<Department>
 deactivate Controller
 
 UI --> HRC: Choose a department from the list.
