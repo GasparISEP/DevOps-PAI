@@ -43,7 +43,7 @@ class GradeStudentListFactoryImpl {
 class GradeStudentRepository {
     -_gradeStudentFactory: GradeStudentFactory
     -_gradeStudentList: List<GradeStudent>
-    +GradeStudentRepository((gradeStudentFactory : GradeStudentFactory, gradeStudentListFactory: GradeStudentListFactory)
+    +GradeStudentRepository(gradeStudentFactory : GradeStudentFactory, gradeStudentListFactory: GradeStudentListFactory)
     +addGradeToStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition): Optional<GradeStudent>
     +knowAverageGrade(courseEdition: CourseEdition): Double
     +knowApprovalRate(courseEdition: CourseEdition): double
@@ -61,7 +61,7 @@ class Student {
     -_address: Address
     +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
     +hasSameUniqueNumber(student: Student): boolean
-    +hasSameNIF((student: Student): boolean
+    +hasSameNIF(student: Student): boolean
     +getUniqueNumber(): int
     +hasThisUniqueNumber(uniqueNumber: int): boolean
 }
