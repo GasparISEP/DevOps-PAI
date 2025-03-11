@@ -6,6 +6,7 @@ import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepo;
 
 import java.util.List;
+import java.util.Optional;
 
 public class US16_EnrollAStudentInACourseEditionController {
 
@@ -22,19 +23,24 @@ public class US16_EnrollAStudentInACourseEditionController {
         validateCourseEditionRepository (courseEditionRepository);
     }
 
+    //show a list of programme editions that student is enrolled
+    public Optional<List<ProgrammeEdition>> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
+
+        if (student == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(_peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student));
+    }
+
     //show a list of course editions that belongs to a course edition for student choose a course edition
-    public List<CourseEdition> getCourseEditionsOfProgrammeEdition (ProgrammeEdition programmeEdition) {
+    public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
         return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
     }
 
     //enroll a student in a course edition
-    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition) throws Exception {
-        if (student == null || courseEdition == null){
-            return false;
-        }
-
-        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition);
-        return true;
+    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition) {
+        return _ceeRepository.enrollStudentInACourseEdition(student, courseEdition);
     }
 
     //Verify if the course edition enrollment repository is valid

@@ -312,7 +312,7 @@ class CourseEditionRepositoryTest {
 
 
     @Test
-    void shouldReturnCourseEditionsWithSameProgrammeEdition() throws Exception {
+    void shouldReturnCorrectNumberOfCourseEditionsInProgrammeEdition() throws Exception {
         // Arrange
         CourseEditionFactoryImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
@@ -336,9 +336,35 @@ class CourseEditionRepositoryTest {
 
         // Assert
         assertEquals(2, result.size());
+
+    }
+
+    @Test
+    void shouldReturnCorrectCourseEditionsInList() throws Exception {
+        // Arrange
+        CourseEditionFactoryImpl doubleCourseEditionFactory = mock(CourseEditionFactoryImpl.class);
+        CourseEditionListFactoryImpl courseEditionListFactoryDouble = mock(CourseEditionListFactoryImpl.class);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactory, courseEditionListFactoryDouble);
+        Course doubleCourse1 = mock(Course.class);
+        Course doubleCourse2 = mock(Course.class);
+        CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
+        CourseEdition doubleCourseEdition2 = mock(CourseEdition.class);
+        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
+
+        when(doubleCourseEditionFactory.newCourseEdition(doubleCourse1, doubleProgrammeEdition1)).thenReturn(doubleCourseEdition1);
+        when(doubleCourseEditionFactory.newCourseEdition(doubleCourse2, doubleProgrammeEdition1)).thenReturn(doubleCourseEdition2);
+        when(doubleCourseEdition1.whatProgrammeEditionBelongsThisCourseEdition()).thenReturn(doubleProgrammeEdition1);
+        when(doubleCourseEdition2.whatProgrammeEditionBelongsThisCourseEdition()).thenReturn(doubleProgrammeEdition1);
+
+        courseEditionRepository.createAndSaveCourseEdition(doubleCourse1, doubleProgrammeEdition1);
+        courseEditionRepository.createAndSaveCourseEdition(doubleCourse2, doubleProgrammeEdition1);
+
+        // Act
+        List<CourseEdition> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition1);
+
+        // Assert
         assertTrue(result.contains(doubleCourseEdition1));
         assertTrue(result.contains(doubleCourseEdition2));
-
     }
 
 

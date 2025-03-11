@@ -54,10 +54,10 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        DegreeType master = new DegreeType("Master", 240);
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        Teacher teacher = mock(Teacher.class);
-//        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-//        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-//        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
-//        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+//        ProgrammeCourseListFactoryImpl programmeCourseListFactory = mock(ProgrammeCourseListFactoryImpl.class);
+//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
+//        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
+//        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
 //        CourseFactory courseFactory = mock(CourseFactory.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
@@ -107,10 +107,10 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        DegreeType master = new DegreeType("Master", 240);
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        Teacher teacher = mock(Teacher.class);
-//        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-//        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-//        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
-//        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+//        ProgrammeCourseListFactoryImpl programmeCourseListFactory = mock(ProgrammeCourseListFactoryImpl.class);
+//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
+//        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
+//        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
 //        CourseFactory courseFactory = mock(CourseFactory.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
@@ -165,10 +165,10 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        DegreeType master = new DegreeType("Master", 240);
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        Teacher teacher = mock(Teacher.class);
-//        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-//        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-//        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
-//        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+//        ProgrammeCourseListFactoryImpl programmeCourseListFactory = mock(ProgrammeCourseListFactoryImpl.class);
+//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
+//        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
+//        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
 //        CourseFactory courseFactory = mock(CourseFactory.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);
@@ -289,10 +289,10 @@ class US20_DefineRucForCourseEditionControllerTest {
 //        DegreeType master = new DegreeType("Master", 240);
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        Teacher teacher = mock(Teacher.class);
-//        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
-//        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-//        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
-//        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+//        ProgrammeCourseListFactoryImpl programmeCourseListFactory = mock(ProgrammeCourseListFactoryImpl.class);
+//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
+//        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
+//        StudyPlanFactoryImpl studyPlanFactory = mock(StudyPlanFactoryImpl.class);
 //        CourseFactory courseFactory = mock(CourseFactory.class);
 //
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanArrayListFactory, studyPlanFactory, courseFactory);

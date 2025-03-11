@@ -3,16 +3,16 @@ package PAI.controller;
 import PAI.domain.Course;
 import PAI.repository.CourseRepository;
 import PAI.domain.Programme;
-import PAI.repository.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 
 import java.util.List;
 
 public class US03_AddCourseToProgrammeController {
 
-    private final ProgrammeList programmeList;
+    private final ProgrammeRepository programmeList;
     private final CourseRepository courseRepository;
     
-    public US03_AddCourseToProgrammeController(ProgrammeList programmeList, CourseRepository courseRepository) throws Exception {
+    public US03_AddCourseToProgrammeController(ProgrammeRepository programmeList, CourseRepository courseRepository) throws Exception {
         if(programmeList == null) {
             throw new IllegalArgumentException("ProgrammeList cannot be null.");
         }

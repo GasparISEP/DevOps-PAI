@@ -24,43 +24,47 @@ class GradeStudent {
     +equals(o: Object): boolean
 }
 
-class GradeStudentFactory {
+interface GradeStudentFactory {
     +newGradeStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition): GradeStudent
 }
 
-interface GradeStudentFactoryImpl {
+class GradeStudentFactoryImpl {
     +newGradeStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition): GradeStudent
 }
 
-class GradeStudentListFactory {
+interface GradeStudentListFactory {
     +newArrayList(): ArrayList<GradeStudent>
 }
 
-interface GradeStudentListFactoryImpl {
+class GradeStudentListFactoryImpl {
     +newArrayList(): ArrayList<GradeStudent>
 }
 
 class GradeStudentRepository {
     -_gradeStudentFactory: GradeStudentFactory
     -_gradeStudentList: List<GradeStudent>
-    +GradeStudentRepository((gradeStudentFactory : GradeStudentFactory, gradeStudentListFactory: GradeStudentListFactory)
+    +GradeStudentRepository(gradeStudentFactory : GradeStudentFactory, gradeStudentListFactory: GradeStudentListFactory)
     +addGradeToStudent(grade: double, date: String, student: Student, courseEdition: CourseEdition): Optional<GradeStudent>
     +knowAverageGrade(courseEdition: CourseEdition): Double
     +knowApprovalRate(courseEdition: CourseEdition): double
 }
 
+class List<GradeStudent> {
+}
+
 class Student {
-    -_uniqueNumber: int
+    -_uniqueNumber: String
     -_name: String
     -_NIF: String
     -_phone: String
     -_email: String
     -_address: Address
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    -_institutionalEmail: String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +hasSameUniqueNumber(student: Student): boolean
     +hasSameNIF((student: Student): boolean
-    +getUniqueNumber(): int
-    +hasThisUniqueNumber(uniqueNumber: int): boolean
+    +getUniqueNumber(): String
+    +hasThisUniqueNumber(uniqueNumber: String): boolean
 }
 
 class CourseEdition {
@@ -77,12 +81,15 @@ class CourseEdition {
 
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
-GradeStudentRepository "1" ...> "_gradeStudentFactory 1" GradeStudentFactory
-GradeStudentFactory "1" ...> "1" GradeStudent
-GradeStudentRepository "1" ...> "_gradeStudentList" GradeStudentListFactory
-GradeStudentListFactory ..|> GradeStudentListFactoryImpl
-GradeStudentFactory  ..|> GradeStudentFactoryImpl
-GradeStudentListFactory "1" ....> "Creates List of" GradeStudent
+GradeStudentRepository "1" ...> GradeStudentFactory
+GradeStudentFactory "1" ...> "Creates" GradeStudent
+GradeStudentRepository "1" ...> "*" GradeStudent
+GradeStudentRepository "1" ...> GradeStudentListFactory
+GradeStudentListFactory <|.. GradeStudentListFactoryImpl
+GradeStudentListFactory  ...>  List
+GradeStudentRepository  -->  List
+List --> "*" GradeStudent
+GradeStudentFactory  <|.. GradeStudentFactoryImpl
 
 US25_IWantToKnowTheAverageGradeOfACourseEdition "1" ..> "1" GradeStudentRepository
 @enduml

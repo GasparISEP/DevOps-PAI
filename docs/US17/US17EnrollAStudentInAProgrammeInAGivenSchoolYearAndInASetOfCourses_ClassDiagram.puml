@@ -4,7 +4,7 @@
 
 
 class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
-    +US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo: ProgrammeEditionEnrollmentRepo, programmeEditionRepository: ProgrammeEditionRepository, programmeList ProgrammeList,
+    +US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo: ProgrammeEditionEnrollmentRepo, programmeEditionRepository: ProgrammeEditionRepository, programmeRepository ProgrammeRepository,
     courseEditionEnrollmentRepository: CourseEditionEnrollmentRepository, courseEditionRepository: CourseEditionRepository, schoolYearRepository: SchoolYearRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
     +enrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(student: Student, programme: Programme, schoolYear: SchoolYear)
     +getAllProgrammes(): List<Programme>
@@ -33,7 +33,7 @@ class HashSet{
 
 class ProgrammeEditionEnrollment {
     +ProgrammeEditionEnrollment(student:Student, programmeEdition: ProgrammeEdition)
-    +getStudentUniqueNumber() : int
+    +getStudentUniqueNumber() : String
     +equals (obj: Object) : boolean
     +findProgrammeEditionInEnrollment () : ProgrammeEdition
 }
@@ -73,8 +73,8 @@ class Programme {
      degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory: ProgrammeCourseListFactory)
  }
 
-class ProgrammeList {
-    +ProgrammeList(programmeFactory: ProgrammeFactory)
+class ProgrammeRepository {
+    +ProgrammeRepository(programmeFactory: ProgrammeFactory)
     +getAllProgrammes() : List<Programme>
 }
 
@@ -102,11 +102,15 @@ class SchoolYearListFactory {
     +copySchoolYearArrayList(List<SchoolYear>)
 
 }
+class SchoolYearArrayList{
+    + add(): boolean
+}
 
 interface SchoolYearListFactoryInterface {
     +copySchoolYearArrayList(List<SchoolYear>)
 
 }
+
 
 class ProgrammeEnrollment {
     +ProgrammeEnrolment(student: Student, accessMethod: AccessMethod)
@@ -120,13 +124,14 @@ class ProgrammeEnrolmentRepository {
 }
 
 class Student {
-    -_uniqueNumber:int
+    -_uniqueNumber:String
     -_name:String
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +getUniqueNumber() : int
+    _institutionalEmail:String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+    +getUniqueNumber() : String
 }
 
 class Address {
@@ -169,7 +174,7 @@ class ProgrammeEditionRepository {
 
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1 " ..> "1  " ProgrammeEditionEnrollmentRepo
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1                         " ProgrammeEditionRepository
-US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1                   " ..> "1" ProgrammeList
+US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1                   " ..> "1" ProgrammeRepository
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1 " ..> "1     " CourseEditionEnrollmentRepository
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1 " ..> "1  " CourseEditionRepository
 US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1   " SchoolYearRepository
@@ -177,9 +182,6 @@ US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "_
 Student "1        " --> "_address 1  " Address
 Student "_student  1 " <-u- "* " ProgrammeEnrollment
 Programme " 1 "  --> "  1 _listOfEnrollments " ProgrammeEnrollment
-SchoolYearRepository "1    " ..> " *_listOfSchoolYears" SchoolYear
-
-
 
 ProgrammeEdition "* " -->"_schoolYear 1      " SchoolYear
 CourseEditionRepository "1 " -u-> "* _listCourseEditions" CourseEdition
@@ -194,28 +196,29 @@ CourseEditionEnrollmentRepository"1" --> "1" HashSet
 HashSet "1  " <.. "1   " CourseEditionEnrollmentListFactory
 HashSet "1         " <.u. "*  " SchoolYear
 CourseEditionEnrollment "*" --> "1 _listOfcourseEdition              " CourseEdition
-CourseEditionEnrollment "1" <-- "1" CourseEditionEnrollment
+
 ProgrammeEdition "_programmeEdition 1                " <-- " * " ProgrammeEditionEnrollment
 ProgrammeEditionEnrollment "* " --> "_student 1   " Student
-ProgrammeEditionEnrollmentRepo "1 " ..>"_listOfProgrammeEditionEnrollment *        " ProgrammeEditionEnrollment
-ProgrammeEditionEnrollmentRepo"1     " -u-> "1 " ProgrammeEditionEnrollmentListFactory
-ProgrammeEditionEnrollmentRepo "1" --> "1" ProgrammeEditionEnrollmentArrayList
-ProgrammeEditionEnrollmentArrayList "1" <.. "1" ProgrammeEditionEnrollmentListFactory
+ProgrammeEditionEnrollmentRepo ..> ProgrammeEditionEnrollment
+ProgrammeEditionEnrollmentRepo "1" --> "1    " ProgrammeEditionEnrollmentArrayList
+ProgrammeEditionEnrollmentFactoryInterface <.. ProgrammeEditionEnrollmentRepo
 ProgrammeEditionEnrollmentArrayList "1         " .u.> " *  " ProgrammeEditionEnrollment
-ProgrammeEditionEnrollmentRepo "1 " --> "1" ProgrammeEditionEnrollmentFactory
-ProgrammeList "1     " ..> " _listOfProgrammes * " Programme
+ProgrammeEditionEnrollmentRepo "1"..> "1" ProgrammeEditionEnrollmentListFactory
+ProgrammeEditionEnrollmentRepo ..> ProgrammeEditionEnrollmentListFactoryInterface
+ProgrammeEditionEnrollmentListFactoryInterface ..> ProgrammeEditionEnrollmentArrayList
+ProgrammeRepository "1     " ..> " _listOfProgrammes * " Programme
 CourseEdition "_listOfCourseEdition *  " <-- "1   " ProgrammeEdition
 ProgrammeEditionEnrollmentFactoryInterface <|.. ProgrammeEditionEnrollmentFactory
 ProgrammeEditionEnrollmentListFactoryInterface <|.. ProgrammeEditionEnrollmentListFactory
-ProgrammeEditionEnrollmentFactory ..> ProgrammeEditionEnrollment
+
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrollment
-ProgrammeList "1" --> "1" ProgrammeListArrayListFactory
+ProgrammeRepository "1" --> "1" ProgrammeListArrayListFactory
 ProgrammeListArrayListFactory ..|> ProgrammeListArrayListFactoryInterface
 ProgrammeListArrayListFactory "1" ..> "1" Programme
-
-SchoolYearRepository "1" --> "1" SchoolYearListFactory
+ProgrammeEditionEnrollmentFactoryInterface ..>ProgrammeEditionEnrollment
+SchoolYearRepository  ..> SchoolYearListFactoryInterface
 SchoolYearListFactory ..|> SchoolYearListFactoryInterface
-SchoolYearListFactory "1" ..> "1" SchoolYear
-
-
+SchoolYearRepository  ..>  SchoolYear
+SchoolYearRepository "1" --> "1" SchoolYearArrayList
+SchoolYearArrayList "1" --> " _schoolYear *          "SchoolYear
 @enduml

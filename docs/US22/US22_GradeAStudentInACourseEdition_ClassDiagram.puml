@@ -5,7 +5,32 @@ title US22: I want to grade a student in a CourseEdition
 class US22_IWantToGradeAStudentInACourseEdition {
     +US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository : GradeStudentRepository, courseEditionEnrollmentRepository : CourseEditionEnrollmentRepository)
     +isStudentEnrolledInCourseEdition(courseEdition : CourseEdition, student : Student): boolean
-    +
+    +iWantToGradeAStudent(grade : int, date : String student : Student, courseEdition : CourseEdition): GradeStudent
+
+}
+
+class CourseEditionEnrollmentRepository {
+    +CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory, courseEditionEnrollmentListFactory: CourseEditionEnrollmentListFactory)
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition): CourseEditionEnrollment
+    +numberOfStudentsEnrolledInCourseEdition (CourseEdition : CourseEdition): int
+    +removeEnrollment (student : Student): boolean
+    +enrollStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
+}
+
+class CourseEditionEnrollment {
+    -_enrollmentDate: LocalDate
+    - _isActive: boolean
+    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition)
+    +equals (obj: Object): boolean
+    +knowStudent(): Student
+    +knowCourseEdition(): CourseEdition
+    +deactivateEnrollment()
+}
+
+
+class List<GradeStudent> {
 
 }
 
@@ -13,53 +38,84 @@ class GradeStudent {
     -grade: double
     -date: String
     +knowGrade()
+    +hasThisCourseEdition(CourseEdition : CourseEdition)
+    +knowCourseEdition()
+    +isDateValid(String date)
+    +get_date()
+    +get_student()
+    +get_courseEdition()
+    +equals (objectToCompare: Object)
 }
 
 class GradeStudentRepository {
     -gradeStudentList: List<GradeStudent>
+    - _gradeStudentFactory: GradeStudentFactory
     +addGradeToStudent()
     +knowAverageGrade()
     +knowApprovalRate()
 }
 
+interface GradeStudentFactory {
+    +newGradeStudent()
+}
+
+interface GradeStudentListFactory {
+    +newArrayList()
+}
+
+class GradeStudentListFactoryImpl {
+    +newArrayList()
+}
+
+class GradeStudentFactoryImpl {
+    +newGradeStudent()
+}
+
 class Student {
-    -_uniqueNumber:int
+    -_uniqueNumber:String
     -_name:String
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    -_institutionalEmail:String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +isStudentRepeated(students: List<Student>)
     +hasSameUniqueNumber(Student student)
+    +hasSameNIF (Student student)
+    +getUniqueNumber(): String
+    +hasThisUniqueNumber(String uniqueNumber)
 }
 
 class CourseEdition {
     -_programmeEdition: ProgrammeEdition
     -_course: Course
     -_ruc: Teacher
-    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
     +Equals(objectToCompare: Object)
     +setRuc(Teacher: ruc)
     +whatProgrammeEditionBelongsThisCourseEdition ()
+    +getCourse()
 }
-
-class CourseEditionEnrollmentRepository {
-    -_courseEditionEnrollments
-    +CourseEditionEnrollmentRepository (CourseEditionEnrollmentFactory courseEditionEnrollmentFactory)
-    +enrollStudentInACourseEdition (Student student, CourseEdition courseEdition, LocalDate enrollmentDate)
-    +isStudentEnrolledInCourseEdition (Student student, CourseEdition courseEdition)
-    +findByStudentAndEdition (Student student, CourseEdition courseEdition)
-    +numberOfStudentsEnrolledInCourseEdition (CourseEdition courseEdition)
-    +removeEnrollment (Student student, CourseEdition courseEdition)
-    +enrollStudentInProgrammeCourseEditions (Student student,  List<CourseEdition> courseEditions)
-    }
 
 
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
-CourseEdition "1" --> "1" CourseEditionEnrollmentRepository: belongs to
+GradeStudentRepository "1" ....> GradeStudentFactory
+GradeStudentFactory "1" ....> "Creates" GradeStudent
+GradeStudentRepository "1" ....>  GradeStudentListFactory
+GradeStudentListFactoryImpl ..|>  GradeStudentListFactory
+GradeStudentFactory  <|..  GradeStudentFactoryImpl
+GradeStudentListFactory ..|> List
+GradeStudent <-- List
+List <-- GradeStudentRepository
+CourseEditionEnrollmentRepository "1" --> "*" CourseEditionEnrollment
+CourseEditionEnrollment --> Student
+CourseEditionEnrollment -up-> CourseEdition
 
-US22_IWantToGradeAStudentInACourseEdition "1" ..> "1\n_gradeStudentRepository    " GradeStudentRepository
-GradeStudent "gradeStudentRepository" <-- "1" GradeStudentRepository
-US22_IWantToGradeAStudentInACourseEdition "1" ..> "1\n_courseEditionEnrollmentRepository    " CourseEditionEnrollmentRepository
+
+GradeStudentRepository "1" ....> "*" GradeStudent
+
+
+US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrollmentRepository
+US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " GradeStudentRepository
+
 @enduml

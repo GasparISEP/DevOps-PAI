@@ -23,7 +23,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         List<GradeStudent> mockGradeList = spy(new ArrayList<>());
 
-        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
+        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn(mockGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactoryImpl, gradeStudentListFactoryImpl);
 
@@ -55,7 +55,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         List<GradeStudent> mockGradeList = spy(new ArrayList<>());
 
-        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
+        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn(mockGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactoryImpl, gradeStudentListFactoryImpl);
 

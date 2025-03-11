@@ -5,8 +5,8 @@ import PAI.domain.Programme;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgrammeListArrayListFactory implements ProgrammeListArrayListFactoryInterface{
-    public ArrayList<Programme> newProgrammeArrayList() {
+public class ProgrammeRepositoryListFactoryImpl implements ProgrammeRepositoryListFactory {
+    public List<Programme> newProgrammeArrayList() {
         return new ArrayList<>();
     }
 

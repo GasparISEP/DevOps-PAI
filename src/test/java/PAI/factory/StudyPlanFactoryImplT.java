@@ -1,6 +1,5 @@
 package PAI.factory;
 
-import PAI.factory.CourseFactory;
 import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -11,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockConstruction;
 
-class StudyPlanFactoryTest {
+class StudyPlanFactoryImplT {
 
     @Test
     void shouldCreateNewStudyPlan() throws Exception {
 
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanArrayListFactory studyPlanArrayListFactory = mock(StudyPlanArrayListFactory.class);
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = mock(CourseInStudyPlanFactoryImpl.class);
+        StudyPlanListFactoryImpl studyPlanArrayListFactory = mock(StudyPlanListFactoryImpl.class);
         CourseFactory courseFactory = mock(CourseFactory.class);
-        StudyPlanFactory studyPlanFactory = new StudyPlanFactory();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
 
         try (MockedConstruction<StudyPlan> mockConstruction = mockConstruction(StudyPlan.class)) {
 
