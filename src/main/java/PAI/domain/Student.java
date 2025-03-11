@@ -10,6 +10,7 @@ public class Student {
     private String _phone;
     private String _email;
     private Address _address;
+    private String _institutionalEmail;
 
     //constructor validation
     public Student(String uniqueNumber, String name, String NIF, String phone, String email, Address address) {
@@ -46,6 +47,7 @@ public class Student {
 
         _address = address;
 
+        _institutionalEmail = generateInstitutionalEmail(uniqueNumber);
     }
 
     private boolean areParametersInvalid(String parameter) {
@@ -66,6 +68,10 @@ public class Student {
 
     private boolean isEmailInvalid(String email){
         return !email.matches("^[a-zA-Z0-9][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-][a-zA-z0-9]+\\.[a-zA-Z]{2,}+(\\.[a-zA-Z]{2,})?$") || areParametersInvalid(email);
+    }
+
+    private String generateInstitutionalEmail(String uniqueNumber){
+        return uniqueNumber + "@isep.ipp.pt";
     }
 
     // Check for matching uniqueNumber
