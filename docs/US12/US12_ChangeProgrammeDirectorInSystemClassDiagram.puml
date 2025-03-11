@@ -3,8 +3,8 @@
 
 class US12_ChangeProgrammeDirectorInSystem {
     -_programmeList: List<Programme>
-    +US_iWantToChangeProgrammeDirectorOfProgrammeController(ProgrammeList programmeList)
-    +changeProgrammeDirector(Programme programme, Teacher teacher)
+    +US_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList : ProgrammeList)
+    +changeProgrammeDirector(programme : Programme, teacher : Teacher)
 }
 
 class Programme {
@@ -16,26 +16,40 @@ class Programme {
      - department: Department
      - programmeDirector: Teacher
      -_courseList: List <Course>
-     -_programmeEnrolment: List<Enrolment>
+     -_programmeCourseListFactory: ProgrammeCourseListFactory
      -StudyPlan: _studyPlan
 
      + equals()
+     +isEquals(programme: Programme)
      + addCourseToProgramme (course: Course)
-     + newProgrammeDirector(): boolean
-     +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
+     + newProgrammeDirector(teacherDirector: Teacher)
      +isStudentEnrolled(student: Student)
      +isInDepartment(department: Department)
      +getCourseList()
      +getQuantityOfSemester()
      +getQuantityOfEcts()
+     +getAcronym()
+     +getProgrammeName()
+     +getDegreeType()
+     +getDepartment()
+     +getProgrammeDirector()
+     +getPprogrammeCourseListFactory()
+     +calculateNumberOfYears(quantityOfSemesters : int)
+     +hasThisProgrammeName(String : name)
  }
 
 class ProgrammeList {
+     -_programmeFactory: ProgrammeFactory
      -_programmeList: List<Programme>
-     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
+     -_programmeListArrayListFactory: ProgrammeListArrayListFactory
+     +registerProgramme(name : String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
+     courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
      +getAllProgrammes()
      +getCourseList(programme: Programme)
+     +getProgrammeByName(String : name)
+     +getProgrammeByAcronym(String : acronym)
+     +getAllProgrammeNames()
 }
 
 class Teacher {
@@ -45,6 +59,11 @@ class Teacher {
      -_nif:String
      -_phoneNumber:String
      -_academicBackground:String
+     -_address
+     -_addressFactory
+     -_department
+     -_teacherCareerProgressionList
+     -_teacherCareerProgressionFactory
      +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
      academicBackground: String, street: String, postalCode: String, location: String, country: String,
      date: String, category: TeacherCategory, workingPercentage: int, department: Department)
@@ -56,8 +75,41 @@ class Teacher {
      +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
 }
 
+class ProgrammeFactory {
+    +registerProgramme(name : String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
+    courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory)
+    }
+
+class ProgrammeListArrayListFactory{
+    +newProgrammeArrayList()
+    +copyProgrammeArrayList(List<Programme> list)
+    }
+
+interface ProgrammeListArrayListFactoryInterface {
+    +newProgrammeArrayList()
+    +copyProgrammeArrayList(List<Programme> list)
+    }
+
+interface ProgrammeFactoryInterface {
+    +registerProgramme(String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
+                           courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory)
+    }
+
+class List<Programme> {
+}
+
 Programme "1..*" --> "1" Teacher : has a Programme Director
-ProgrammeList "List<Programme>" *--- "0..*" Programme
-US12_ChangeProgrammeDirectorInSystem "1  " ...> "1  " ProgrammeList
+ProgrammeList "1" -->  "1" Programme
+ProgrammeList ..> ProgrammeListArrayListFactoryInterface
+ProgrammeList ..> ProgrammeFactoryInterface
+ProgrammeFactoryInterface "1" <|.. "1" ProgrammeFactory : implements
+ProgrammeListArrayListFactoryInterface "1" <|.. "1" ProgrammeListArrayListFactory : implements
+ProgrammeList --> "1" List
+US12_ChangeProgrammeDirectorInSystem "1  " ..> "1  " ProgrammeList
+List --> Programme
+ProgrammeListArrayListFactoryInterface --> List
+ProgrammeFactoryInterface --> Programme : creates
+
+
 
 @enduml
