@@ -77,15 +77,13 @@ class Student {
     -_NIF:String
     -_phone:String
     -_email:String
-<<<<<<< HEAD
-=======
+    -_institutionalEmail:String
     +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +isStudentRepeated(students: List<Student>)
->>>>>>> 701db6656ce00b9cf7d5ddcdd490b36ba0aa741f
     +hasSameUniqueNumber(Student student)
     +hasSameNIF (Student student)
-    +getUniqueNumber()
-    +hasThisUniqueNumber(int uniqueNumber)
+    +getUniqueNumber(): String
+    +hasThisUniqueNumber(String uniqueNumber)
 }
 
 class CourseEdition {
@@ -110,8 +108,8 @@ GradeStudentListFactory ..|> List
 GradeStudent <-- List
 List <-- GradeStudentRepository
 CourseEditionEnrollmentRepository "1" --> "*" CourseEditionEnrollment
-CourseEditionEnrollment --> Student
-CourseEditionEnrollment -up-> CourseEdition
+CourseEditionEnrollment "*" --> "1" Student
+CourseEditionEnrollment "*" -up-> "1" CourseEdition
 
 
 GradeStudentRepository "1" ....> "*" GradeStudent

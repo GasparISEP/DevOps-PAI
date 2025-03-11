@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.when;
 
-class DegreeTypeFactoryTest {
+class DegreeTypeFactoryImplTest {
 
     @Test
     void addNewDegreeType() throws Exception{
@@ -27,7 +27,7 @@ class DegreeTypeFactoryTest {
     } )) {
 
             // act
-            DegreeTypeFactory factory = new DegreeTypeFactory();
+            DegreeTypeFactoryImpl factory = new DegreeTypeFactoryImpl();
             DegreeType degreeType = factory.addNewDegreeType(name, maxEcts);
 
             // Assert

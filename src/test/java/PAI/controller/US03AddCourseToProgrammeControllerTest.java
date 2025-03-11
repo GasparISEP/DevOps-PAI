@@ -220,19 +220,19 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         //act
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //assert
@@ -253,19 +253,19 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         Programme lei = programmeList.getAllProgrammes().get(0);
         lei.addCourseToAProgramme(courseRepository.getAllCourses().get(0));
         Course course1 = lei.getCourseList().get(0);
@@ -289,19 +289,19 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactory courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         Course course1 = courseRepository.getAllCourses().get(0);
         Programme lei = programmeList.getAllProgrammes().get(0);
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
@@ -314,9 +314,9 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldThrowExceptionIfProgrammeListIsNull() throws Exception {
         // arrange
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
             new US03_AddCourseToProgrammeController(null, courseRepository);
@@ -349,20 +349,20 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
 
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
 
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         Programme lei = programmeList.getAllProgrammes().get(0);
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
         //act + assert
@@ -378,9 +378,9 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
 
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
@@ -399,9 +399,9 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
         Course course = courseRepository.getAllCourses().get(0);
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
@@ -415,9 +415,9 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnSizeOneIfOnlyOneProgrammeInList() throws Exception {
         // arrange
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         AddressFactory addressFactory = new AddressFactory();
@@ -432,12 +432,12 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
 
         // act
@@ -450,9 +450,9 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnProgrammeInList() throws Exception {
         // arrange
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         AddressFactory addressFactory = new AddressFactory();
@@ -467,12 +467,12 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         Programme programme = programmeList.getAllProgrammes().get(0);
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
 
@@ -486,9 +486,9 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllProgrammes() throws Exception {
         // arrange
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         AddressFactory addressFactory = new AddressFactory();
@@ -503,14 +503,14 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactory();
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         programmeList.registerProgramme("Engenharia Informática", "LEI", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         programmeList.registerProgramme("Engenharia Química", "LEQ", 30, 2,
-                degree1, department1, teacher1, programmeCourseListFactory,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactory);
+                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
 
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
 
@@ -530,9 +530,9 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
 
-        CourseFactory courseFactory = new CourseFactory();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);
         courseRepository.registerCourse("algebra", "ALG", 5, 1);
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);

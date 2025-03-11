@@ -417,7 +417,7 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactory courseFactory = mock(CourseFactoryImpl.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
         Programme programme = mock(Programme.class);
@@ -477,7 +477,7 @@ class StudyPlanTest {
         // arrange
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseFactory courseFactory = mock(CourseFactoryImpl.class);
 
         StudyPlan studyPlan = new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
         Programme programme = mock(Programme.class);
