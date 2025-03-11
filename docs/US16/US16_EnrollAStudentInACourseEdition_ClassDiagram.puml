@@ -20,7 +20,7 @@ class CourseEditionEnrollment {
     +equals (obj: Object): boolean
 }
 
-class ProgrammeEditionArrayList{
+class ProgrammeEditionList{
     +add(programmeEdition: ProgrammeEdition): boolean
 }
 
@@ -88,7 +88,7 @@ class CourseEditionRepository {
     +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<ProgrammeEdition>
 }
 
-CourseEdition "_courseEditions * " <.u. "1  " CourseEditionRepository
+CourseEdition "_listOfCEE * " <.u. "1  " CourseEditionRepository
 Student "  _student  1 " <-u- " * " CourseEditionEnrollment
 CourseEditionEnrollment "    *  " --> "    1 _cE " CourseEdition
 CourseEditionEnrollmentFactory "1 " ..> "_cEE 1 "CourseEditionEnrollment
@@ -101,12 +101,12 @@ US16_EnrollAStudentInACourseEditionController "1 "..> "  1  " CourseEditionEnrol
 Address "_address  1 " <-u- "  1" Student
 CourseEditionEnrollmentListFactory "1  " <.u. "                       1" CourseEditionEnrollmentRepository
 CourseEditionEnrollmentList "   1            " -u->  "_listOfCEE *" CourseEditionEnrollment
-CourseEditionEnrollmentRepository " 1" -u-> "1 _ArrayList   " CourseEditionEnrollmentList
-CourseEditionEnrollmentRepository"   1  " ..> "    _ceeEnrollment *   "CourseEditionEnrollment
+CourseEditionEnrollmentRepository " 1" -u-> "1 _arrayList   " CourseEditionEnrollmentList
+CourseEditionEnrollmentRepository"   1  " ..> "    _cEE *   "CourseEditionEnrollment
 CourseEditionEnrollmentFactoryInterface <|.. CourseEditionEnrollmentFactory
 CourseEditionEnrollmentListFactoryInterface <|.. CourseEditionEnrollmentListFactory
-ProgrammeEditionEnrollmentRepo"1     " --> "1 _PEArrayList   "ProgrammeEditionArrayList
-ProgrammeEdition" _listOfPE *" <-u- "  1    "ProgrammeEditionArrayList
+ProgrammeEditionEnrollmentRepo"1     " --> "1 _listOfPE   "ProgrammeEditionList
+ProgrammeEdition" _listOfPE *" <-u- "  1    "ProgrammeEditionList
 ProgrammeEditionEnrollmentRepo "1"..> "    _pE *    "ProgrammeEdition
 CourseEditionEnrollmentRepository .u.> CourseEditionEnrollmentListFactoryInterface
 CourseEditionEnrollmentRepository ..> CourseEditionEnrollmentFactoryInterface
