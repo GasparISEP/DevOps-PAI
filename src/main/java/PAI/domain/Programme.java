@@ -18,11 +18,11 @@ public class Programme {
     private Department _department;
     private Teacher _programmeDirector;
     private List<Course> _courseList;
-    private ProgrammeCourseListFactory _programmeCourseListFactory;
+    private ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl;
     private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory) {
+                     Teacher programmeDirector, ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory) {
 
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -60,9 +60,9 @@ public class Programme {
 
         _programmeDirector = programmeDirector;
 
-        _programmeCourseListFactory = programmeCourseListFactory;
+        _programmeCourseListFactoryImpl = programmeCourseListFactoryImpl1;
 
-        _courseList = _programmeCourseListFactory.createCourseList();
+        _courseList = _programmeCourseListFactoryImpl.createCourseList();
 
         _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
     }
@@ -167,8 +167,8 @@ public class Programme {
         return _programmeDirector;
     }
 
-    public ProgrammeCourseListFactory getPprogrammeCourseListFactory() {
-        return _programmeCourseListFactory;
+    public ProgrammeCourseListFactoryImpl getPprogrammeCourseListFactory() {
+        return _programmeCourseListFactoryImpl;
     }
 
 

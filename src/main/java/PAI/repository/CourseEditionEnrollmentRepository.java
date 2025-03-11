@@ -2,7 +2,9 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.CourseEditionEnrollmentFactory;
+import PAI.factory.CourseEditionEnrollmentFactoryInterface;
 import PAI.factory.CourseEditionEnrollmentListFactory;
+import PAI.factory.CourseEditionEnrollmentListFactoryInterface;
 
 import java.util.*;
 
@@ -10,10 +12,10 @@ public class CourseEditionEnrollmentRepository {
 
     private Set<CourseEditionEnrollment> _courseEditionEnrollments;
 
-    private final CourseEditionEnrollmentFactory _courseEditionEnrollmentFactory;
+    private final CourseEditionEnrollmentFactoryInterface _courseEditionEnrollmentFactory;
 
     //constructor
-    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactory courseEditionEnrollmentFactory, CourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory) {
+    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactoryInterface courseEditionEnrollmentFactory, CourseEditionEnrollmentListFactoryInterface courseEditionEnrollmentListFactory) {
 
         _courseEditionEnrollments = courseEditionEnrollmentListFactory.getCourseEditionEnrollmentList();
         _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
