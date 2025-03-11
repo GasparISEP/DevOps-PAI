@@ -55,13 +55,37 @@ class StudentTest {
     }
     @ParameterizedTest
     @MethodSource("testPhoneNumberWithDifferentValidInputs")
-    void testPhoneNumberWithValidInputs(String phoneNumber) {
+    void testPhoneNumberWithValidInputsCreatesStudent(String phoneNumber) {
 
         //arrange
         Address address1 = mock(Address.class);
 
         //act + assert
         new Student("1234567", "Rita", "123456789", phoneNumber, "rita@gmail.com", address1);
+    }
+
+    static Stream<Arguments> testEmailWithDifferentValidInputs() {
+        return Streams.of(
+                Arguments.of("test@email.com"),
+                Arguments.of("email.name@domain.co.uk"),
+                Arguments.of("email_em123@gmail.com"),
+                Arguments.of("email@sub.test.org"),
+                Arguments.of("firstname-lastname@email.net"),
+                Arguments.of("user+alias@domain.io"),
+                Arguments.of("jon-cobi@email.com"),
+                Arguments.of("admin@server.live"),
+                Arguments.of("danijose@gmail.com")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testEmailWithDifferentValidInputs")
+    void testEmailWithValidInputsCreatesStudent(String email) {
+
+        //arrange
+        Address address1 = mock(Address.class);
+
+        //act + assert
+        new Student("1234567", "Rita", "123456789", "963741258", email, address1);
     }
 
     @Test
@@ -169,7 +193,8 @@ class StudentTest {
                 Arguments.of("1234567890123456"),
                 Arguments.of("1234!56789"),
                 Arguments.of("A1234 56789"),
-                Arguments.of("1234#56789")
+                Arguments.of("1234#56789"),
+                Arguments.of("1234SD6789")
         );
     }
     @ParameterizedTest
@@ -222,7 +247,8 @@ class StudentTest {
                 Arguments.of("+12 345 (456)-789"),
                 Arguments.of("12.34.56.78.90"),
                 Arguments.of("+1(2345)67890"),
-                Arguments.of("91234567(8)")
+                Arguments.of("91234567(8)"),
+                Arguments.of("91234EC78")
         );
     }
     @ParameterizedTest
@@ -264,6 +290,34 @@ class StudentTest {
 
         //act + assert
         assertThrows(Exception.class, () -> new Student("1234567", "Pedro", "159753824", "963996987", null, address1));
+    }
+
+    static Stream<Arguments> testEmailWithInvalidInputs() {
+        return Streams.of(
+                Arguments.of("emailemail"),
+                Arguments.of("@email.email"),
+                Arguments.of("email@email..pt"),
+                Arguments.of("email@email."),
+                Arguments.of("email@email"),
+                Arguments.of("email@email-pt"),
+                Arguments.of("email@email-.pt"),
+                Arguments.of("email@email.p"),
+                Arguments.of("ema?il@email.pt"),
+                Arguments.of("email@em??ail.pt"),
+                Arguments.of("email@email-co.uk"),
+                Arguments.of("email@email.co-uk"),
+                Arguments.of("email@email.pt?")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testEmailWithInvalidInputs")
+    void invalidEmailInputShouldReturnException(String email) {
+
+        //arrange
+        Address address1 = mock(Address.class);
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student("1234567", "Rita", "32165498", "963996987", email, address1));
     }
 
     @Test

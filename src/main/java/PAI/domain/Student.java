@@ -39,8 +39,8 @@ public class Student {
         _phone = phone;
 
         //Student email validation
-        if (areParametersInvalid(email))
-            throw new IllegalArgumentException("Student's email cannot be empty!");
+        if (isEmailInvalid(email))
+            throw new IllegalArgumentException("Student's email is not valid!");
 
         _email = email;
 
@@ -48,12 +48,12 @@ public class Student {
 
     }
 
-    private boolean isUniqueNumberInvalid(String studentNumber) {
-        return !studentNumber.matches("^1\\d{6}$") || areParametersInvalid(studentNumber);
-    }
-
     private boolean areParametersInvalid(String parameter) {
         return parameter == null || parameter.isBlank();
+    }
+
+    private boolean isUniqueNumberInvalid(String studentNumber) {
+        return !studentNumber.matches("^1\\d{6}$") || areParametersInvalid(studentNumber);
     }
 
     private boolean isNIFInvalid(String NIF){
@@ -62,6 +62,10 @@ public class Student {
 
     private boolean isPhoneNumberInvalid(String phoneNumber){
         return !phoneNumber.matches("^\\+?\\d{1,4}?[ -.]?\\(?\\d{1,4}?\\)?[ -.]?\\d{3,4}[ -.]?\\d{3,4}$") || areParametersInvalid(phoneNumber);
+    }
+
+    private boolean isEmailInvalid(String email){
+        return !email.matches("^[a-zA-Z0-9][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-][a-zA-z0-9]+\\.[a-zA-Z]{2,}+(\\.[a-zA-Z]{2,})?$") || areParametersInvalid(email);
     }
 
     // Check for matching uniqueNumber
