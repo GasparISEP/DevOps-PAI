@@ -71,7 +71,7 @@ activate TeacherRepository
 TeacherRepository -> TeacherFactory: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
 activate TeacherFactory
 
-TeacherFactory -> Teacher **: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1)
+TeacherFactory -> Teacher **: **createTeacher** (acronym, name, email, nif, phoneNumber,\nstreet, postcode, location, country,\nacademicBackground, date, tc1, dpt1, addressFactory,\nteacherCareerProgressionFactory, teacherCareerProgressionListFactory)
 activate Teacher
 
 Teacher -> AddressFactory: **createAddress** (street, postcode, location, country)
