@@ -393,19 +393,18 @@ class CourseEditionRepositoryTest {
     }
 
     @Test
-    void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListEmpty() throws Exception {
+    void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListEmpty() {
         //arrange
         CourseEditionFactoryImpl courseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactoryImpl, courseEditionListFactoryImplDouble);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
-        // act
+        // act + assert
         Exception exception = assertThrows(Exception.class, () -> {
             repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEditionDouble);
         });
 
-        // assert
         assertEquals("The course edition does not belong to the course Edition Repository.", exception.getMessage());
     }
 
@@ -422,12 +421,11 @@ class CourseEditionRepositoryTest {
         when(courseEditionFactoryImpl.newCourseEdition(any(), any())).thenReturn(mock(CourseEdition.class));
         repository.createAndSaveCourseEdition(CourseDouble, ProgrammeEditionDouble);
 
-        // act
+        // act + assert
         Exception exception = assertThrows(Exception.class, () -> {
             repository.findWhichProgrammeEditionBelongsToACourseEdition(courseEditionToFindDouble);
         });
 
-        // assert
         assertEquals("The course edition does not belong to the course Edition Repository.", exception.getMessage());
     }
 
