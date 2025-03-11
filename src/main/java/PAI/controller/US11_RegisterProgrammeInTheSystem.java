@@ -17,8 +17,8 @@ public class US11_RegisterProgrammeInTheSystem {
     }
 
     // Metodo para o Controlador de US de registar Programme no sistema
-    public boolean registerProgrammeInTheSystem(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactoryImpl courseFactoryImpl) throws Exception {
-        _programmeRepo.registerProgramme(name, acronym,  quantityOfEcts,  quantityOfSemesters,  degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+    public boolean registerProgrammeInTheSystem(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory CourseFactory) throws Exception {
+        _programmeRepo.registerProgramme(name, acronym,  quantityOfEcts,  quantityOfSemesters,  degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, CourseFactory);
         return true;
     }
 }

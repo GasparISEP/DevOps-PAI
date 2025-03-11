@@ -289,7 +289,7 @@ public class US03AddCourseToProgrammeControllerTest {
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
                 addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        CourseFactory courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         courseRepository.registerCourse("matemática", "MTA", 5, 1);

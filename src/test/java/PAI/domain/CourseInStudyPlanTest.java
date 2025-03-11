@@ -35,13 +35,13 @@ class CourseInStudyPlanTest {
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
-        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
 
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
@@ -81,19 +81,19 @@ class CourseInStudyPlanTest {
     @Test
     void testEqualsMethodWithDifferentSemestersAndYears() throws Exception {
         CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
+        CourseFactory courseFactory = mock(CourseFactory.class);
+        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         DegreeType master = new DegreeType("Master", 240);
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
+        ProgrammeCourseListFactory programmeCourseListFactory = mock(ProgrammeCourseListFactory.class);
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, programmeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
 
         programme.addCourseToAProgramme(course1);
 
