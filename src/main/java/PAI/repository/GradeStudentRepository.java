@@ -4,7 +4,6 @@ import PAI.domain.CourseEdition;
 import PAI.domain.GradeStudent;
 import PAI.factory.GradeStudentFactory;
 import PAI.factory.GradeStudentListFactory;
-import PAI.factory.GradeStudentListFactoryImpl;
 import PAI.domain.Student;
 import PAI.factory.GradeStudentFactoryImpl;
 
