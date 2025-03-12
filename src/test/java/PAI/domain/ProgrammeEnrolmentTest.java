@@ -41,7 +41,7 @@ class ProgrammeEnrolmentTest {
             _degreeType = new DegreeType("Master", 240);
             _department = new Department("CSE", "Computer Science Engineer");
             _teacherCategory = new TeacherCategory("Assistant Professor");
-            _addressFactory = new AddressFactory();
+            _addressFactory = new AddressFactoryImpl();
             _tcpFactory = new TeacherCareerProgressionFactory();
             _tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
             _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -152,7 +152,7 @@ class ProgrammeEnrolmentTest {
 
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto","Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
@@ -239,7 +239,7 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
@@ -303,7 +303,7 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);
@@ -363,7 +363,7 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
 
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
@@ -431,7 +431,7 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
@@ -491,7 +491,7 @@ class ProgrammeEnrolmentTest {
         DegreeType dt1 = new DegreeType("Master", 240);
         Department dpt1 = new Department("CSE", "Computer Science Engineer");
         TeacherCategory tc1 = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", addressFactory,"20-12-2010", tc1, 100, dpt1, tcpFactory, tcpLFactoryDouble);

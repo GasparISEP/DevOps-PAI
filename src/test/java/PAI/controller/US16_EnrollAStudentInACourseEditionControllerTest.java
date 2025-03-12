@@ -178,20 +178,11 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
     //integration tests
 
-    //auxiliary methods
-
-    private Student setUpStudent () {
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        return new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-    }
-
-
     //testing find Programme Editions that Student is Enrolled Method
-
     @Test
     void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest(){
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -215,7 +206,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -234,7 +225,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
@@ -279,7 +270,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -295,7 +286,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
@@ -340,7 +331,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -363,7 +354,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
@@ -406,7 +397,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfStudentIsAlreadyEnrolledInCourseEdition_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -427,7 +418,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();

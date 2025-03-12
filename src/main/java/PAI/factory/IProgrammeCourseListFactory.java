@@ -4,7 +4,7 @@ import PAI.domain.Course;
 
 import java.util.List;
 
-public interface ProgrammeCourseListFactory {
+public interface IProgrammeCourseListFactory {
 
     List<Course> createCourseList();
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class AddressFactoryTest {
+public class AddressFactoryImplTest {
 
     @Test
     void shouldCreateAddress()  {
@@ -29,7 +29,7 @@ public class AddressFactoryTest {
                     when(mock.getCountry()).thenReturn(actualCountry);
                 })) {
 
-            AddressFactory addressFactory = new AddressFactory();
+            AddressFactoryImpl addressFactory = new AddressFactoryImpl();
 
             //act
             Address address = addressFactory.createAddress(street,postalCode,location,country);

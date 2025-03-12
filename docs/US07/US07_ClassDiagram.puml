@@ -26,4 +26,5 @@ class US07_IWantToCreateASchoolYearController {
 US07_IWantToCreateASchoolYearController "1" ---> "schoolYearRepo \n 1" SchoolYearRepository
 SchoolYear "1" ---> "_schoolYearList \n *" SchoolYearRepository
 
+
 @enduml

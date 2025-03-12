@@ -72,10 +72,6 @@ public class SchoolYear {
         return startDate;
     }
 
-    public String getDescription() {
-        return _description;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
