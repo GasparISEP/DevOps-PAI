@@ -325,11 +325,11 @@ class TeacherRepositoryTest {
 
 
     @Test
-    void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() {
+    void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() throws Exception {
         // ARRANGE
         TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
+
 
         TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
         AddressFactory addressFactoryDouble = mock(AddressFactory.class);
@@ -350,8 +350,9 @@ class TeacherRepositoryTest {
         Iterator<Teacher> iterator = mock(Iterator.class);
 
         when(teacherListFactoryDouble.newArrayList()).thenReturn(teacherListDouble);
+        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
         when(teacherListDouble.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(true, false); // Only one teacher in the list
+        when(iterator.hasNext()).thenReturn(false, true, false); // Only one teacher in the list
         when(iterator.next()).thenReturn(teacherDouble);
 
         repository.registerTeacher(
@@ -367,7 +368,7 @@ class TeacherRepositoryTest {
         Optional<Teacher> result = repository.getTeacherByNIF("123456788");
 
         // ASSERT
-        assertFalse(result.isPresent(), "Teacher should not be found when NIF does not match.");
+        assertFalse(result.isPresent());
     }
 
 

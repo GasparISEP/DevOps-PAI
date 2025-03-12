@@ -2,25 +2,21 @@ package PAI.factory;
 
 import PAI.domain.ProgrammeEdition;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-class ProgrammeEditionListFactoryTest {
+class ProgrammeEditionListFactoryImplTest {
 
     @Test
     void shouldCreateNewArrayListInterface() {
         // Arrange
-        ProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactory();
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImpl = new ProgrammeEditionListFactoryImpl();
 
         // Act
-        List<ProgrammeEdition> listProgrammeEditions = programmeEditionListFactory.createProgrammeEditionArrayList();
+        List<ProgrammeEdition> listProgrammeEditions = programmeEditionListFactoryImpl.createProgrammeEditionArrayList();
 
         // Assert
         assertNotNull(listProgrammeEditions);

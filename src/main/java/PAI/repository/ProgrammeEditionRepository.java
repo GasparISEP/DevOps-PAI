@@ -2,28 +2,29 @@ package PAI.repository;
 
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEdition;
-import PAI.factory.ProgrammeEditionListFactory;
+import PAI.factory.IProgrammeEditionFactory;
+import PAI.factory.IProgrammeEditionListFactory;
 import PAI.domain.SchoolYear;
-import PAI.factory.ProgrammeEditionFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ProgrammeEditionRepository {
 
-    private final List<ProgrammeEdition> _programmeEditionList;
-    private final ProgrammeEditionFactory _programmeEditionFactory;
+    private final IProgrammeEditionFactory _IprogrammeEditionFactory;
+    private final List<ProgrammeEdition> _ProgrammeEditions;
 
-    public ProgrammeEditionRepository (ProgrammeEditionFactory programmeEditionFactory, ProgrammeEditionListFactory programmeEditionListFactory) {
-        _programmeEditionList = programmeEditionListFactory.createProgrammeEditionArrayList();
-        _programmeEditionFactory = programmeEditionFactory;
+    public ProgrammeEditionRepository (IProgrammeEditionFactory iProgrammeEditionFactory, IProgrammeEditionListFactory iProgrammeEditionListFactory) {
+
+        _IprogrammeEditionFactory = iProgrammeEditionFactory;
+        _ProgrammeEditions = iProgrammeEditionListFactory.createProgrammeEditionArrayList();
     }
 
     public boolean createProgrammeEdition(Programme programme, SchoolYear schoolYear) {
         try {
-            ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(programme, schoolYear);
+            ProgrammeEdition programmeEdition = _IprogrammeEditionFactory.createProgrammeEdition(programme, schoolYear);
             if (!isProgrammeEditionAlreadyRegistered(programmeEdition)) {
-                _programmeEditionList.add(programmeEdition);
+                _ProgrammeEditions.add(programmeEdition);
                 return true;
             }
 
@@ -36,13 +37,13 @@ public class ProgrammeEditionRepository {
 
     private boolean isProgrammeEditionAlreadyRegistered(ProgrammeEdition programmeEdition) {
 
-        return _programmeEditionList.contains(programmeEdition);
+        return _ProgrammeEditions.contains(programmeEdition);
     }
 
     public Optional<ProgrammeEdition> findProgrammeEditionBySchoolYearAndProgramme(
             Programme programme,
             SchoolYear schoolYear) {
-        for (ProgrammeEdition programmeEdition : _programmeEditionList) {
+        for (ProgrammeEdition programmeEdition : _ProgrammeEditions) {
             if (programmeEdition.findProgrammeInProgrammeEdition().equals(programme) &&
                     programmeEdition.findSchoolYearInProgrammeEdition().equals(schoolYear)) {
                 return Optional.of(programmeEdition);
@@ -52,7 +53,7 @@ public class ProgrammeEditionRepository {
     }
 
     public List<ProgrammeEdition> getAllProgrammeEditions() {
-        return _programmeEditionList;
+        return _ProgrammeEditions;
     }
 
     public Programme findProgrammeInProgrammeEdition(ProgrammeEdition programmeEdition) {
