@@ -255,8 +255,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
      return teacherCategoryRepository;
     }
     private DepartmentRepository createDepartmentRepo() throws Exception {
-        DepartmentFactoryInterface departmentFactory = new DepartmentFactory();
-        DepartmentListFactoryInterface departmentListFactory = new DepartmentListFactory();
+        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
         DepartmentRepository departmentRepository =  new DepartmentRepository(departmentFactory, departmentListFactory);
         departmentRepository.registerDepartment("DCE","Department of Computer Science");
         return departmentRepository;
