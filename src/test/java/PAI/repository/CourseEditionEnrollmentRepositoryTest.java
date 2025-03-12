@@ -442,39 +442,23 @@ class CourseEditionEnrollmentRepositoryTest {
 
     // If the student or course edition information is missing (null), the system should reject the operation and throw an exception
     @Test
-    void removeEnrollment_WithNullStudent_ShouldReturnFalse() throws IllegalArgumentException {
+    void removeEnrollment_WithNullStudentOrCourseEdition_ShouldReturnFalse() throws IllegalArgumentException {
         // Arrange
-        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
-        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(enrollmentFactoryMock, CeeListFactory);
 
-        CourseEdition mockCourseEdition = mock (CourseEdition.class);
+        Student mockStudent = mock(Student.class);
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
-        // Act
-        // test for the case where Student is null
-       boolean result = repository.removeEnrollment(null, mockCourseEdition);
-
-       //Assert
-        assertFalse(result);
+        // Act & Assert for null Student
+        boolean result1 = repository.removeEnrollment(null, mockCourseEdition);
+        assertFalse(result1);
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
-    }
 
-
-    @Test
-    void removeEnrollment_WithNullCourseEdition_ShouldReturnFalse() throws IllegalArgumentException {
-        // Arrange
-        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
-        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
-
-        Student mockStudent = mock (Student.class);
-
-        // Act
-        // test for the case where CourseEdition is null
-        boolean result = repository.removeEnrollment(mockStudent, null);
-
-        // Assert
-        assertFalse(result);
+        // Act & Assert for null CourseEdition
+        boolean result2 = repository.removeEnrollment(mockStudent, null);
+        assertFalse(result2);
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
     }
 
