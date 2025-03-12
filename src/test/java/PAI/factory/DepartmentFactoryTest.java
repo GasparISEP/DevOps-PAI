@@ -22,7 +22,7 @@ class DepartmentFactoryTest {
             when(mock.getName()).thenReturn(actualName);
         })) {
 
-        DepartmentFactory factory = new DepartmentFactory();
+        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
 
         //act
         Department department = factory.newDepartment(acronym, name);

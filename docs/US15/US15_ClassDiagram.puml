@@ -21,25 +21,19 @@ class Teacher {
      +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
      academicBackground: String, street: String, postalCode: String, location: String, country: String,
      date: String, category: TeacherCategory, workingPercentage: int, department: Department)
-     +validateAcronym(teacherAcronym:String)
-     +validateName(name: String)
-     +validateEmail(email: String)
-     +validateNif(nif: String)
-     +validatePhoneNumber(phoneNumber: String)
-     +validateAcademicBackground(academicBackground: String)
-     +hasSameAcronym(teacher: Teacher)
      +hasSameNif(teacher: Teacher)
-     +isInDepartment(department: Department)
      +hasThisNIF(NIF: String)
      +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
      +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
 }
 
+class TeacherListFactory {
+     +newArrayList
+}
+
 class TeacherFactory {
-    +createTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
-   academicBackground: String, street: String, postalCode: String, location: String,
-   country: String, addressFactory: AddressFactory, date: String, category: TeacherCategory, workingPercentage: int,
-   department: Department, careerProgressionfactory: TeacherCareerProgressionFactory
+    +createTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, \n academicBackground: String, street: String, postalCode: String, location: String,country: String, \n addressFactory: AddressFactory, date: String, category: TeacherCategory, workingPercentage: int,
+department: Department)
 }
 
 class TeacherCareerProgression {
@@ -86,15 +80,17 @@ US15_UpdateTeacherWorkingPercentageController "1" ....> "_teacherRepository \n 1
 Teacher "_teachers \n 1..*" <---- "1" TeacherRepository
 Teacher "1" ----> "\n 1..*" TeacherCareerProgression
 TeacherFactory "1" ....> "1..*" Teacher
-TeacherFactory "1" ....> "1 \n" TeacherCareerProgressionFactory
-TeacherFactory "1" ....> "1" TeacherCareerProgressionListFactory
+TeacherFactory "1" ....> "   1      _teachercareerprogression" TeacherCareerProgressionFactory
+TeacherFactory "1" ....> "    _teachercareerprogressionlist 1   " TeacherCareerProgressionListFactory
 TeacherRepository "1" ....> "_teacherFactory 1" TeacherFactory
 TeacherCareerProgression "*" ----> "_category \n 1" TeacherCategory
-Teacher "1" ....> "1" TeacherCareerProgressionFactory: _teacherCareerProgressionFactory
+Teacher "1" ....> " _teacherCareerProgressionFactory 1" TeacherCareerProgressionFactory
 TeacherCareerProgressionFactory "1" ....> "1..*" TeacherCareerProgression
-Teacher "1" ....> "_teacherCareerProgressionList \n           1" TeacherCareerProgressionListFactory
+Teacher "1" ....> "  1 _teacherCareerProgressionList \n" TeacherCareerProgressionListFactory
 TeacherCareerProgressionFactory ....|> TeacherCareerProgressionFactoryInterface
 TeacherCareerProgressionListFactory ....|> TeacherCareerProgressionListFactoryInterface
-TeacherCareerProgressionListFactory "1" ....> " * " TeacherCareerProgression: creates List of
+TeacherCareerProgressionListFactory "1" ....> " * " TeacherCareerProgression: creates List of TeacherCareerProgression
+TeacherRepository "1" ....> "1 _teacherListFactory" TeacherListFactory
+US15_UpdateTeacherWorkingPercentageController "1"....> " 1 _teacher" Teacher
 
 @enduml

@@ -1,7 +1,7 @@
 package PAI.factory;
 import PAI.domain.Department;
 
-public class DepartmentFactory implements DepartmentFactoryInterface {
+public class DepartmentFactoryImpl implements IDepartmentFactory {
 
     public Department newDepartment(String acronym, String name) throws Exception{
         return new Department (acronym, name);

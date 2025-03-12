@@ -4,6 +4,7 @@ import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,14 +19,16 @@ class TeacherFactoryImplTest {
         TeacherCareerProgressionListFactory tcpListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
         TeacherFactoryImpl teacherFactory = new TeacherFactoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department departmentDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
 
         when(addressFactoryDouble.createAddress("Rua Das Flores", "4000-001", "Porto", "Portugal")).thenReturn(addressDouble);
-        when(tcpFactoryDouble.createTeacherCareerProgression("26-12-2024", tcDouble, 100))
-                .thenReturn(mock(TeacherCareerProgression.class));
+        when(tcpFactoryDouble.createTeacherCareerProgression("26-12-2024", tcDouble, 100)).thenReturn(mock(TeacherCareerProgression.class));
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(mockList);
+
 
         String acronym = "ABC";
         String name = "João Silva";

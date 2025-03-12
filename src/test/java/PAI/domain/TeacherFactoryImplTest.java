@@ -1,5 +1,5 @@
 package PAI.domain;
-import PAI.factory.AddressFactory;
+import PAI.factory.AddressFactoryImpl;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.factory.TeacherCareerProgressionListFactory;
 import PAI.factory.TeacherFactoryImpl;
@@ -19,7 +19,7 @@ class TeacherFactoryImplTest {
         TeacherFactoryImpl tf1 = new TeacherFactoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
 
 

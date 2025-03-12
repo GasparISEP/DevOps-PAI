@@ -45,13 +45,12 @@ public class CourseEditionEnrollment {
         return Objects.hash(_student, _courseEdition);
     }
 
-    public Student findStudentInCourseEditionEnrollment() {
-        return this._student;
+    public boolean hasStudent(Student student) {
+        return _student.equals(student);
     }
 
-    public CourseEdition findCourseEditionInEnrollment() {
-        return this._courseEdition;
-
+    public boolean hasCourseEdition(CourseEdition courseEdition) {
+        return _courseEdition.equals(courseEdition);
     }
 
     public Object knowStudent() {
