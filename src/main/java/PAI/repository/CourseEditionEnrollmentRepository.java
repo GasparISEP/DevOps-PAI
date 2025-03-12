@@ -42,11 +42,11 @@ public class CourseEditionEnrollmentRepository {
 
     public Optional<CourseEditionEnrollment> findByStudentAndEdition(Student student, CourseEdition courseEdition) {
         if (student == null || courseEdition == null) {
-            throw new IllegalArgumentException("Student and CourseEdition cannot be null");
+            return Optional.empty();
         }
-        for (CourseEditionEnrollment courseEEnrollments : _courseEditionEnrollments)
-            if (courseEEnrollments.findStudentInCourseEditionEnrollment().equals(student) && courseEEnrollments.findCourseEditionInEnrollment().equals(courseEdition)) {
-                return Optional.of(courseEEnrollments);
+        for (CourseEditionEnrollment courseEEnrollment : _courseEditionEnrollments)
+            if (courseEEnrollment.hasStudent(student) && courseEEnrollment.hasCourseEdition(courseEdition)) {
+                return Optional.of(courseEEnrollment);
             }
         return Optional.empty();
     }

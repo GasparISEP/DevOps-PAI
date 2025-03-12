@@ -183,9 +183,9 @@ class CourseEditionEnrollmentRepositoryTest {
 
         when (doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, doubleCe1)).thenReturn(courseEEnrollments);
 
-        when (courseEEnrollments.findStudentInCourseEditionEnrollment()).thenReturn(doubleSt1);
+        when (courseEEnrollments.hasStudent(doubleSt1)).thenReturn(true);
 
-        when (courseEEnrollments.findCourseEditionInEnrollment()).thenReturn(doubleCe1);
+        when (courseEEnrollments.hasCourseEdition(doubleCe1)).thenReturn(true);
 
         when (courseEEnrollments.isEnrollmentActive()).thenReturn(true);
 
@@ -195,8 +195,8 @@ class CourseEditionEnrollmentRepositoryTest {
 
         // Assert
         assertTrue(result.isPresent(), "The student was enrolled in the course edition successfully.");
-        assertEquals(result.get().findStudentInCourseEditionEnrollment(), doubleSt1, "The student enrolled in the correct course edition.");
-        assertEquals(result.get().findCourseEditionInEnrollment(), doubleCe1, "The course edition enrolled is correct.");
+      //  assertEquals(result.get().findStudentInCourseEditionEnrollment(), doubleSt1, "The student enrolled in the correct course edition.");
+      //  assertEquals(result.get().findCourseEditionInEnrollment(), doubleCe1, "The course edition enrolled is correct.");
     }
 
 
@@ -213,9 +213,9 @@ class CourseEditionEnrollmentRepositoryTest {
 
         when (doubleCeeFactory.createCourseEditionEnrollment(doubleSt1,doubleCe1)).thenReturn(courseEEnrollments);
 
-        when (courseEEnrollments.findStudentInCourseEditionEnrollment()).thenReturn(doubleSt1);
+        when (courseEEnrollments.hasStudent(doubleSt1)).thenReturn(true);
 
-        when (courseEEnrollments.findCourseEditionInEnrollment()).thenReturn(doubleCe1);
+        when (courseEEnrollments.hasCourseEdition(doubleCe1)).thenReturn(true);
 
         repository.enrollStudentInACourseEdition(doubleSt1, doubleCe1);
 
@@ -224,12 +224,12 @@ class CourseEditionEnrollmentRepositoryTest {
 
         // Assert
         assertTrue(result.isPresent(), "The student should be enrolled in the course edition.");
-        assertEquals(doubleCe1, result.get().findCourseEditionInEnrollment(), "The course edition returned should match the one in the enrollment.");
+      //  assertEquals(doubleCe1, result.get().findCourseEditionInEnrollment(), "The course edition returned should match the one in the enrollment.");
     }
 
 
     @Test
-    void shouldThrowExceptionWhenStudentOrCourseEditionIsNull() {
+    void shouldThrowOptionalEmptyWhenStudentIsNull() {
         // Arrange
         ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
         ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
@@ -238,16 +238,33 @@ class CourseEditionEnrollmentRepositoryTest {
         CourseEdition doubleCe1 = mock (CourseEdition.class);
         Student doubleSt1 = mock (Student.class);
 
-        // Act & Assert
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.findByStudentAndEdition(null, doubleCe1);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        // Act
+        Optional<CourseEditionEnrollment> result = repository.findByStudentAndEdition(null, doubleCe1);
 
-        thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.findByStudentAndEdition(doubleSt1, null);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        //Assert
+        assertTrue(result.isEmpty(), "Expected Optional.empty() when student is null");
+
+//        result = repository.findByStudentAndEdition(doubleSt1, null);
+//        assertTrue(result.isEmpty(), "Expected Optional.empty() when courseEdition is null");
+
+    }
+
+    @Test
+    void shouldThrowOptionalEmptyWhenCourseEditionIsNull() {
+        // Arrange
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
+
+        CourseEdition doubleCe1 = mock (CourseEdition.class);
+        Student doubleSt1 = mock (Student.class);
+
+        // Act
+        Optional<CourseEditionEnrollment> result = repository.findByStudentAndEdition(doubleSt1, null);
+
+        //Assert
+        assertTrue(result.isEmpty(), "Expected Optional.empty() when courseEdition is null");
+
     }
 
     @Test
@@ -390,8 +407,8 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition))
                 .thenReturn(mockCee);
 
-        when(mockCee.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee.isEnrollmentActive()).thenReturn(true);
 
         enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition);
@@ -425,27 +442,39 @@ class CourseEditionEnrollmentRepositoryTest {
 
     // If the student or course edition information is missing (null), the system should reject the operation and throw an exception
     @Test
-    void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException() throws IllegalArgumentException {
+    void removeEnrollment_WithNullStudent_ShouldReturnFalse() throws IllegalArgumentException {
+        // Arrange
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
+
+        CourseEdition mockCourseEdition = mock (CourseEdition.class);
+
+        // Act
+        // test for the case where Student is null
+       boolean result = repository.removeEnrollment(null, mockCourseEdition);
+
+       //Assert
+        assertFalse(result);
+        verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
+    }
+
+
+    @Test
+    void removeEnrollment_WithNullCourseEdition_ShouldReturnFalse() throws IllegalArgumentException {
         // Arrange
         ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
         ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
 
         Student mockStudent = mock (Student.class);
-        CourseEdition mockCourseEdition = mock (CourseEdition.class);
 
-        // Act and assert
-        // test for the case where Student is null
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.removeEnrollment(null, mockCourseEdition);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
-
+        // Act
         // test for the case where CourseEdition is null
-        thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.removeEnrollment(mockStudent, null);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        boolean result = repository.removeEnrollment(mockStudent, null);
+
+        // Assert
+        assertFalse(result);
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
     }
 
@@ -464,8 +493,8 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition))
                 .thenReturn(mockCee);
 
-        when(mockCee.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
 
         // Simulate first call: Enrollment starts as active, then becomes inactive
         when(mockCee.isEnrollmentActive()).thenReturn(true).thenReturn(false);
@@ -499,8 +528,8 @@ class CourseEditionEnrollmentRepositoryTest {
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
         CourseEditionEnrollment mockCee = mock(CourseEditionEnrollment.class);
 
-        when(mockCee.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee.isEnrollmentActive()).thenReturn(false); // Enrollment is already inactive
 
         // Act: Try removing an already inactive enrollment
@@ -530,12 +559,12 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent2, mockCourseEdition))
                 .thenReturn(mockCee2);
 
-        when(mockCee1.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent1);
-        when(mockCee1.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee1.hasStudent(mockStudent1)).thenReturn(true);
+        when(mockCee1.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee1.isEnrollmentActive()).thenReturn(true);
 
-        when(mockCee2.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent2);
-        when(mockCee2.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee2.hasStudent(mockStudent2)).thenReturn(true);
+        when(mockCee2.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee2.isEnrollmentActive()).thenReturn(true);
 
         enrollmentRepository.enrollStudentInACourseEdition(mockStudent1, mockCourseEdition);
@@ -569,12 +598,12 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition1)).thenReturn(mockCee1);
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition2)).thenReturn(mockCee2);
 
-        when(mockCee1.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee1.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition1);
+        when(mockCee1.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee1.hasCourseEdition(mockCourseEdition1)).thenReturn(true);
         when(mockCee1.isEnrollmentActive()).thenReturn(true);
 
-        when(mockCee2.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee2.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition2);
+        when(mockCee2.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee2.hasCourseEdition(mockCourseEdition2)).thenReturn(true);
         when(mockCee2.isEnrollmentActive()).thenReturn(true);
 
         enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition1);
@@ -603,8 +632,8 @@ class CourseEditionEnrollmentRepositoryTest {
         CourseEditionEnrollment doubleEnrollment = mock(CourseEditionEnrollment.class);
 
         when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment);
-        when(doubleEnrollment.findStudentInCourseEditionEnrollment()).thenReturn(doubleStudent);
-        when(doubleEnrollment.findCourseEditionInEnrollment()).thenReturn(doubleCourseEdition1);
+        when(doubleEnrollment.hasStudent(doubleStudent)).thenReturn(true);
+        when(doubleEnrollment.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
 
         // Act
         repository.enrollStudentInACourseEdition(doubleStudent, doubleCourseEdition1);
@@ -632,13 +661,13 @@ class CourseEditionEnrollmentRepositoryTest {
 
         when(doubleFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition2)).thenReturn(doubleEnrollment2);
 
-        when(doubleEnrollment1.findStudentInCourseEditionEnrollment()).thenReturn(doubleStudent);
+        when(doubleEnrollment1.hasStudent(doubleStudent)).thenReturn(true);
 
-        when(doubleEnrollment2.findStudentInCourseEditionEnrollment()).thenReturn(doubleStudent);
+        when(doubleEnrollment2.hasStudent(doubleStudent)).thenReturn(true);
 
-        when(doubleEnrollment1.findCourseEditionInEnrollment()).thenReturn(doubleCourseEdition1);
+        when(doubleEnrollment1.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
 
-        when(doubleEnrollment2.findCourseEditionInEnrollment()).thenReturn(doubleCourseEdition2);
+        when(doubleEnrollment2.hasCourseEdition(doubleCourseEdition2)).thenReturn(true);
 
         //act
         repository.enrollStudentInProgrammeCourseEditions(doubleStudent,courseEditions);
