@@ -3,7 +3,7 @@ package PAI.repository;
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEdition;
 import PAI.factory.IProgrammeEditionFactoryImpl;
-import PAI.factory.ProgrammeEditionListFactory;
+import PAI.factory.ProgrammeEditionListFactoryImpl;
 import PAI.domain.SchoolYear;
 
 import java.util.List;
@@ -14,8 +14,8 @@ public class ProgrammeEditionRepository {
     private final List<ProgrammeEdition> _programmeEditionList;
     private final IProgrammeEditionFactoryImpl _programmeEditionFactoryImpl;
 
-    public ProgrammeEditionRepository (IProgrammeEditionFactoryImpl programmeEditionFactoryImpl, ProgrammeEditionListFactory programmeEditionListFactory) {
-        _programmeEditionList = programmeEditionListFactory.createProgrammeEditionArrayList();
+    public ProgrammeEditionRepository (IProgrammeEditionFactoryImpl programmeEditionFactoryImpl, ProgrammeEditionListFactoryImpl programmeEditionListFactoryImpl) {
+        _programmeEditionList = programmeEditionListFactoryImpl.createProgrammeEditionArrayList();
         _programmeEditionFactoryImpl = programmeEditionFactoryImpl;
     }
 
