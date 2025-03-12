@@ -35,12 +35,20 @@ class Teacher {
      +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
 }
 
+class TeacherFactory {
+    +createTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+   academicBackground: String, street: String, postalCode: String, location: String,
+   country: String, addressFactory: AddressFactory, date: String, category: TeacherCategory, workingPercentage: int,
+   department: Department, careerProgressionfactory: TeacherCareerProgressionFactory
+}
+
 class TeacherCareerProgression {
     -_date: LocalDate
     -_workingPercentage: int
     +TeacherCareerProgression(date: String, workingPercentage: int)
     +getWorkingPercentage()
     +getCategory()
+    +getDate()
     +isDateAfter(tcp: TeacherCareerProgression)
 }
 
@@ -55,12 +63,38 @@ class TeacherRepository {
 
 class TeacherCategory {
     -_name:String
-    + TeacherCategory (name:String)
+    + TeacherCategory(name:String)
 }
 
-US15_UpdateTeacherWorkingPercentageController "1" ----> "_teacherRepository \n 1" TeacherRepository
+class TeacherCareerProgressionFactory {
+    +createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
+}
+
+interface TeacherCareerProgressionFactoryInterface {
+    +createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
+}
+
+class TeacherCareerProgressionListFactory {
+    +createTeacherCareerProgressionList()
+}
+
+interface TeacherCareerProgressionListFactoryInterface {
+    +createTeacherCareerProgressionList()
+}
+
+US15_UpdateTeacherWorkingPercentageController "1" ....> "_teacherRepository \n 1" TeacherRepository
 Teacher "_teachers \n 1..*" <---- "1" TeacherRepository
-Teacher "1" ----> "_teacherCareerProgressionList \n 1..*" TeacherCareerProgression
+Teacher "1" ----> "\n 1..*" TeacherCareerProgression
+TeacherFactory "1" ....> "1..*" Teacher
+TeacherFactory "1" ....> "1 \n" TeacherCareerProgressionFactory
+TeacherFactory "1" ....> "1" TeacherCareerProgressionListFactory
+TeacherRepository "1" ....> "_teacherFactory 1" TeacherFactory
 TeacherCareerProgression "*" ----> "_category \n 1" TeacherCategory
+Teacher "1" ....> "1" TeacherCareerProgressionFactory: _teacherCareerProgressionFactory
+TeacherCareerProgressionFactory "1" ....> "1..*" TeacherCareerProgression
+Teacher "1" ....> "_teacherCareerProgressionList \n           1" TeacherCareerProgressionListFactory
+TeacherCareerProgressionFactory ....|> TeacherCareerProgressionFactoryInterface
+TeacherCareerProgressionListFactory ....|> TeacherCareerProgressionListFactoryInterface
+TeacherCareerProgressionListFactory "1" ....> " * " TeacherCareerProgression: creates List of
 
 @enduml

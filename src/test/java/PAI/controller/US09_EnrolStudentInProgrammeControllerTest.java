@@ -1,197 +1,215 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.AccessMethodRepository;
+import PAI.repository.ProgrammeRepository;
+import PAI.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class US09_EnrolStudentInProgrammeControllerTest {
 
     private StudentRepository _studentRepository;
-    private AccessMethodFactory _accessMethodFactory;
+    private static Student _student;
     private AccessMethodRepository _accessMethodRepository;
-    private ProgrammeList _programmeList;
+    private static AccessMethod _accessMethod;
+    private ProgrammeRepository _programmeList;
+    private static Programme _programme;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
+    private Address address1;
     private US09_EnrolStudentInProgrammeController _controller;
 
     @BeforeEach
     void setUp() throws Exception {
-        _studentRepository = new StudentRepository();
-        _accessMethodFactory = new AccessMethodFactory();
-        _accessMethodRepository = new AccessMethodRepository(_accessMethodFactory);
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        _programmeList = new ProgrammeList(programmeFactory);
-        _programmeEnrolmentRepository = new ProgrammeEnrolmentRepository();
-        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        _studentRepository = mock(StudentRepository.class);
+        _accessMethodRepository = mock(AccessMethodRepository.class);
+        _programmeList = mock(ProgrammeRepository.class);
+        _programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
+        _student = mock(Student.class);
+        _accessMethod = mock(AccessMethod.class);
+        _programme = mock(Programme.class);
+
 
         // Register some students
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        _studentRepository.registerStudent(1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        address1 = mock(Address.class);
+        _studentRepository.registerStudent("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
-        Address address2 = new Address("Avenida de Braga, nº17", "4450-897", "Coimbra", "Portugal");
-        _studentRepository.registerStudent(2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        Address address2 = mock(Address.class);
+        _studentRepository.registerStudent("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+    }
 
-        // Register some access methods
-        AccessMethod am1 = new AccessMethod("Maiores 23");
-        _accessMethodRepository.registerAccessMethod("Maiores 23");
+    //quando vai buscar
 
-        AccessMethod am2 = new AccessMethod("CNA");
-        _accessMethodRepository.registerAccessMethod("CNA");
+    @Test
+    void shouldCreateUS09ControllerTest() {
+        //arrange
 
-        // Register some programmes
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-        _programmeList.registerProgramme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
+        //act
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+
     }
 
     @Test
-    void testEnrolStudentSuccessfully() throws Exception {
-        // Arrange
-        Optional<Student> studentOpt = _controller.getStudentByUniqueNumber(1);
-        Optional<AccessMethod> accessMethodOpt = _controller.getAccessMethodByName("Maiores 23");
-        Optional<Programme> programmeOpt = _controller.getProgrammeByName("Computer Engineering");
+    void shouldReturnExceptionIfStudentRepositoryIsNullTest() {
+        //arrange
 
-        assertTrue(studentOpt.isPresent());
-        assertTrue(accessMethodOpt.isPresent());
-        assertTrue(programmeOpt.isPresent());
-
-        Student student = studentOpt.get();
-        AccessMethod accessMethod = accessMethodOpt.get();
-        Programme programme = programmeOpt.get();
-
-        // Act
-        boolean result = _controller.enrolStudent(student, accessMethod, programme, "12-12-2025");
-
-        // Assert
-        assertTrue(result);
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new US09_EnrolStudentInProgrammeController(null, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository));
     }
 
     @Test
-    void testConstructorWithNullStudentRepository() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US09_EnrolStudentInProgrammeController(null, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-        });
-        assertEquals("studentRepository cannot be null.", exception.getMessage());
+    void shouldReturnExceptionIfAccessMethodRepositoryIsNullTest() {
+        //arrange
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new US09_EnrolStudentInProgrammeController(_studentRepository, null, _programmeList, _programmeEnrolmentRepository));
     }
 
     @Test
-    void testConstructorWithNullAccessMethodRepository() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US09_EnrolStudentInProgrammeController(_studentRepository, null, _programmeList, _programmeEnrolmentRepository);
-        });
-        assertEquals("accessMethodRepository cannot be null.", exception.getMessage());
+    void shouldReturnExceptionIfProgrammeListIsNullTest() {
+        //arrange
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, null, _programmeEnrolmentRepository));
     }
 
     @Test
-    void testConstructorWithNullProgrammeList() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, null, _programmeEnrolmentRepository);
-        });
-        assertEquals("programmeList cannot be null.", exception.getMessage());
+    void shouldReturnException_IfProgrammeEnrolmentRepositoryIsNullTest() {
+        //arrange
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, null));
     }
 
     @Test
-    void testConstructorWithNullEnrolmentRepository() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, null);
-        });
-        assertEquals("enrolmentRepository cannot be null.", exception.getMessage());
+    void shouldReturnOptionalWithStudentByUniqueNumberTest() {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.getStudentByUniqueNumber("1234567")).thenReturn(Optional.of(_student));
+
+        //act
+        Optional<Student> result = _controller.getStudentByUniqueNumber("1234567");
+
+        //assert
+        assertEquals(result, Optional.of(_student));
     }
 
     @Test
-    void testEnrolStudentWithUnregisteredAccessMethod() {
-        // Arrange
-        Optional<Student> studentOpt = _controller.getStudentByUniqueNumber(1);
-        Optional<AccessMethod> accessMethodOpt = _controller.getAccessMethodByName("UnregisteredMethod"); // Unregistered access method
-        Optional<Programme> programmeOpt = _controller.getProgrammeByName("Computer Engineering");
+    void shouldReturnOptionalEmpty_WhenGettingStudentWithUniqueNumberDoesNotExistTest() {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.getStudentByUniqueNumber("1234567")).thenReturn(Optional.empty());
 
-        assertTrue(studentOpt.isPresent());
-        assertFalse(accessMethodOpt.isPresent()); // Ensure the access method is not registered
-        assertTrue(programmeOpt.isPresent());
+        //act
+        Optional<Student> result = _controller.getStudentByUniqueNumber("1234567");
 
-        Student student = studentOpt.get();
-        Programme programme = programmeOpt.get();
-
-        // Act + Assert
-        assertThrows(Exception.class, () -> _controller.enrolStudent(student, new AccessMethod("UnregisteredMethod"), programme, "12-12-2025"));
+        //assert
+        assertTrue(result.isEmpty());
     }
 
     @Test
-    void testEnrolStudentWithNullParameters() {
-        // Arrange
-        Optional<Student> studentOpt = _controller.getStudentByUniqueNumber(1);
-        Optional<AccessMethod> accessMethodOpt = _controller.getAccessMethodByName("Maiores 23");
-        Optional<Programme> programmeOpt = _controller.getProgrammeByName("Computer Engineering");
+    void shouldReturnOptional_WithAccessMethodByNameTest() {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.getAccessMethodByName("Maiores 23")).thenReturn(Optional.of(_accessMethod));
 
-        assertTrue(studentOpt.isPresent());
-        assertTrue(accessMethodOpt.isPresent());
-        assertTrue(programmeOpt.isPresent());
+        //act
+        Optional<AccessMethod> result = _controller.getAccessMethodByName("Maiores 23");
 
-        Student student = studentOpt.get();
-        AccessMethod accessMethod = accessMethodOpt.get();
-        Programme programme = programmeOpt.get();
-
-        // Act + Assert
-        assertThrows(Exception.class, () -> _controller.enrolStudent(null, accessMethod, programme, "12-12-2025"));
-        assertThrows(Exception.class, () -> _controller.enrolStudent(student, null, programme, "12-12-2025"));
-        assertThrows(Exception.class, () -> _controller.enrolStudent(student, accessMethod, null, "12-12-2025"));
-        assertThrows(Exception.class, () -> _controller.enrolStudent(student, accessMethod, programme, null));
+        //assert
+        assertEquals(result, Optional.of(_accessMethod));
     }
 
     @Test
-    void testEnrolStudentWithInvalidDateFormat() {
-        // Arrange
-        Optional<Student> studentOpt = _controller.getStudentByUniqueNumber(1);
-        Optional<AccessMethod> accessMethodOpt = _controller.getAccessMethodByName("Maiores 23");
-        Optional<Programme> programmeOpt = _controller.getProgrammeByName("Computer Engineering");
+    void shouldReturnOptionalEmptyWhenGettingAccessMethodByNameDoesNotExistTest() {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.getAccessMethodByName("Maiores 23")).thenReturn(Optional.empty());
 
-        assertTrue(studentOpt.isPresent());
-        assertTrue(accessMethodOpt.isPresent());
-        assertTrue(programmeOpt.isPresent());
+        //act
+        Optional<AccessMethod> result = _controller.getAccessMethodByName("Maiores 23");
 
-        Student student = studentOpt.get();
-        AccessMethod accessMethod = accessMethodOpt.get();
-        Programme programme = programmeOpt.get();
-
-        // Act + Assert
-        assertThrows(Exception.class, () -> _controller.enrolStudent(student, accessMethod, programme, "invalid-date"));
+        //assert
+        assertTrue(result.isEmpty());
     }
 
     @Test
-    void testEnrolStudentFailure() throws Exception {
-        // Arrange
-        Optional<Student> studentOpt = _controller.getStudentByUniqueNumber(1);
-        Optional<AccessMethod> accessMethodOpt = _controller.getAccessMethodByName("Maiores 23");
-        Optional<Programme> programmeOpt = _controller.getProgrammeByName("Computer Engineering");
+    void shouldReturnOptionalProgrammeByNameTest() {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.getProgrammeByName("xpto")).thenReturn(Optional.of(_programme));
 
-        assertTrue(studentOpt.isPresent());
-        assertTrue(accessMethodOpt.isPresent());
-        assertTrue(programmeOpt.isPresent());
+        //act
+        Optional<Programme> result = _controller.getProgrammeByName("xpto");
 
-        Student student = studentOpt.get();
-        AccessMethod accessMethod = accessMethodOpt.get();
-        Programme programme = programmeOpt.get();
 
-        // Simulate enrolment failure by creating a new instance of EnrolmentRepository that always returns false
-        ProgrammeEnrolmentRepository failingEnrolmentRepository = new ProgrammeEnrolmentRepository() {
-            @Override
-            public boolean enrolStudents(Student s, AccessMethod am, Programme p, String date) {
-                return false;
-            }
-        };
+        //assert
+        assertEquals(result, Optional.of(_programme));
+    }
 
-        US09_EnrolStudentInProgrammeController controllerWithFailingRepo = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, failingEnrolmentRepository);
+    @Test
+    void shouldReturnOptionalEmptyWhenGettingProgrammeByNameTest() {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.getProgrammeByName("xpto")).thenReturn(Optional.empty());
 
-        // Act
-        boolean result = controllerWithFailingRepo.enrolStudent(student, accessMethod, programme, "12-12-2025");
+        //act
+        Optional<Programme> result = _controller.getProgrammeByName("xpto");
 
-        // Assert
-        assertFalse(result);
+
+        //assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldEnrolStudentInProgrammeTest() throws Exception {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024")).thenReturn(true);
+
+        //act + assert
+        assertTrue(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024"));
+    }
+
+
+    static Stream<Arguments> shouldThrowExceptionWithDifferentInvalidInputsParameterizedTest() {
+        return Stream.of(
+                Arguments.of(null, _accessMethod, _programme, "12-12-2024"),
+                Arguments.of(_student, null, _programme, "12-12-2024"),
+                Arguments.of(_student, _accessMethod, null, "12-12-2024"),
+                Arguments.of(_student, _accessMethod, _programme, null),
+                Arguments.of(_student, _accessMethod, _programme, "")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("shouldThrowExceptionWithDifferentInvalidInputsParameterizedTest")
+    void shouldThrowExceptionWithDifferentInputs(Student student, AccessMethod am1, Programme p1, String date) {
+        // arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+
+        // act + assert
+        assertThrows(Exception.class, () -> _controller.enrolStudent(student, am1, p1, date));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStudentIsAlreadyEnroledInProgrammeTest() throws Exception {
+        //arrange
+        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+        when(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024")).thenThrow(new Exception("Student is already enrolled in the programme."));
+
+        //act + assert
+        assertThrows(Exception.class, () -> _controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024"));
     }
 }
+

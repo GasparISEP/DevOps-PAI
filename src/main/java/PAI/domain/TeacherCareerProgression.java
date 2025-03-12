@@ -3,6 +3,7 @@ package PAI.domain;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 public class TeacherCareerProgression {
 
@@ -62,6 +63,11 @@ public class TeacherCareerProgression {
     public int getWorkingPercentage () {
 
         return _workingPercentage;
+    }
+
+    public LocalDate getDate () {
+
+        return _date;
     }
 
     public boolean isDateAfter(TeacherCareerProgression tcp) {

@@ -1,13 +1,13 @@
 package PAI.controller;
 
 import PAI.domain.Programme;
-import PAI.domain.ProgrammeList;
+import PAI.repository.ProgrammeRepository;
 import PAI.domain.Teacher;
 
 public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
-    ProgrammeList _programmeList;
+    ProgrammeRepository _programmeList;
 
-    public US12_iWantToChangeProgrammeDirectorOfProgrammeController(ProgrammeList programmeList) throws Exception{
+    public US12_iWantToChangeProgrammeDirectorOfProgrammeController(ProgrammeRepository programmeList) throws Exception{
         if (programmeList == null ) throw new Exception("List cannot ber null");
         _programmeList = programmeList;
     }

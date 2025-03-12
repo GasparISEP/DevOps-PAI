@@ -1,16 +1,18 @@
 package PAI.controller;
 
-import PAI.domain.DegreeTypeRepository;
+import PAI.repository.DegreeTypeRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
 
     @Test
     void newDegreeTypeRepository() throws Exception {
         //arrange
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository();
+        DegreeTypeRepository degreeTypeRepository = mock(DegreeTypeRepository.class);
 
         //act
         US10_IWantToConfigureDegreeTypesLevelsController degreeType1 = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepository);
@@ -34,14 +36,33 @@ class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
     @Test
     void registerDegreeTypeInSystem() throws Exception {
         //arrange
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository();
+        DegreeTypeRepository degreeTypeRepository = mock(DegreeTypeRepository.class);
+        US10_IWantToConfigureDegreeTypesLevelsController controller1 = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepository);
+        String name = "Master";
+        int maxEcts = 30;
+
+        when(degreeTypeRepository.registerDegreeType(name, maxEcts)).thenReturn(true);
 
         //act
-        US10_IWantToConfigureDegreeTypesLevelsController controller1 = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepository);
+        boolean result = controller1.registerDegreeType(name, maxEcts);
 
-        boolean optC1 = controller1.registerDegreeType("Master", 30);
+        //assert
+        assertTrue(result);
+    }
 
-        assertTrue(optC1);
+    @Test
+    void shouldntRegisterDegreeType() throws Exception {
+        //arrange
+        DegreeTypeRepository degreeTypeRepository = mock(DegreeTypeRepository.class);
+        US10_IWantToConfigureDegreeTypesLevelsController controller = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepository);
+        String name = "Master";
+        int maxEcts = 30;
+
+        when(degreeTypeRepository.registerDegreeType(name, maxEcts)).thenReturn(false);
+
+        boolean result = controller.registerDegreeType(name, maxEcts);
+
+        assertFalse(result);
     }
 
 }

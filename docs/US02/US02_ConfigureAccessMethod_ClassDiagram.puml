@@ -1,0 +1,59 @@
+@startuml
+
+class AccessMethod
+interface IAccessMethodFactory
+class AccessMethodFactory
+interface IAccessMethodListFactory
+class AccessMethodArrayListFactory
+class AccessMethodRepository
+class US02_ConfigureAccessMethod_Controller
+
+class AccessMethod {
+    -_accessMethodName:String
+    +AccessMethod(accessMethodName: String)
+    +equals(Object: o) : boolean
+    +hasThisAccessMethodName(accessMethodName: String) : boolean
+    -isAccessMethodNameValid((accessMethodName: String) : boolean
+}
+
+Interface IAccessMethodFactory {
+    +createAccessMethod(accessMethodName: String) : AccessMethod
+}
+
+class AccessMethodFactory {
+    +createAccessMethod(accessMethodName: String) : AccessMethod
+}
+'implements
+AccessMethodFactory ..|> "implements" IAccessMethodFactory
+
+
+Interface IAccessMethodListFactory {
+ +createAccessMethodArrayList() : List<AccessMethod>
+}
+
+class AccessMethodArrayListFactory {
+    +createAccessMethodArrayList() : ArrayList<AccessMethod>
+}
+'implements
+AccessMethodArrayListFactory ..|> "implements" IAccessMethodListFactory
+
+class AccessMethodRepository {
+    +AccessMethodRepository(IAccessMethodFactory : iAccessMethodFactory, IAccessMethodListFactory : iAccessMethodListFactory)
+    +registerAccessMethod(accessMethodName: String) : boolean
+    -isAccessMethodRegistered(accessMethod: AccessMethod) : boolean
+    +getAccessMethodByName() : AccessMethod
+}
+'uses
+AccessMethodRepository "1 " --> "uses 1"IAccessMethodFactory
+AccessMethodRepository "1" --> "uses 1" IAccessMethodListFactory
+
+class US02_ConfigureAccessMethod_Controller {
+    +US02_ConfigureAccessMethod_Controller(accessMethodRepository : AccessMethodRepository)
+    +configureAccessMethod(accessMethodName: String) : boolean
+}
+'uses
+US02_ConfigureAccessMethod_Controller "1" --> "uses 1" AccessMethodRepository
+
+'creates
+AccessMethodFactory "1" ..> " creates *" AccessMethod
+@enduml

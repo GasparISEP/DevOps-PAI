@@ -181,6 +181,7 @@ class SchoolYear {
 }
 
 class SchoolYearRepository {
+    -_schoolYearList: List<SchoolYear>
     +schoolYearRepository()
     +addSchoolYear(description: String, StartDate: String, EndDate: String)
     +schoolYearExists(schoolYear: SchoolYear)
@@ -196,20 +197,30 @@ class Enrolment {
     +findStudentInEnrollments()
 }
 
+
+class ProgrammeEnrolmentRepository {
+     +enrolStudents (Student : student, AccessMethod : accessMethod, Programme : programme, String enrolmentDate)
+     +isEnrolmentRepetead(Enrolment : newEnrolment)
+     +isStudentEnrolled (Student : student, Programme : programme)
+}
+
 class Student {
-    -_uniqueNumber:int
+    -_uniqueNumber:String
     -_name:String
     -_NIF:String
     -_phone:String
     -_email:String
-    +Student(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Student>)
-    +hasSameUniqueNumber(Student student)
+    -_institutionalEmail:String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+    +hasSameUniqueNumber(student: Student): boolean
+    +hasSameNIF((student: Student): boolean
+    +getUniqueNumber(): String
+    +hasThisUniqueNumber(uniqueNumber: String): boolean
 }
 
 class StudentRepository {
     -_students: List<Student>
-    +registerStudent(uniqueNumber: int, name: String, NIF: String, phone: String, email: String, address: Address)
+    +registerStudent(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
     +isStudentEnrolledInProgramme(Student student, Programme programme)
 }
 
@@ -314,18 +325,23 @@ class ProgrammeEditionRepository {
 Teacher "1" --> "1" Address: has
 Student "1" --> "1" Address: has
 Programme "1..*" --> "1" Teacher : has a Programme Director
-Teacher "1..*" --> "*" Course: teaches
-Programme "*" -u-> "1*" Department: assigned to
-DegreeType "1" <-- "*" Programme
-Enrolment "*" --> "1" AccessMethod: is registered
-Programme "1"  -u-> "*" Enrolment: has
-Student "1" <-- "*" Enrolment: enrols
-StudentRepository "1" --> "*" Student
-SchoolYearRepository "1" ..> "*" SchoolYear: _schoolYearList
-ProgrammeEdition "*" -l-> "1" SchoolYear: relates to
-Teacher "1" <-r- "1" Department: is Department Director
+Teacher "1..*" -r-> "*" Course: teaches
+Programme "*" -l-> "1*" Department: assigned to
+DegreeType "1" <-u- "*" Programme
+Enrolment "*" -l-> "1" AccessMethod
+ProgrammeEnrolmentRepository ..> Enrolment: <<create>>
+ProgrammeEnrolmentRepository "List<Enrolment>  " --> "*" Enrolment: "           "
+Programme "1"  -r-> "*" Enrolment: has
+Student "1" <-l- "*" Enrolment: enrols
+StudentRepository ..> Student: <<create>>\n
+StudentRepository "1 " --> "*" Student: "             "
+SchoolYearRepository "1 " --> "*" SchoolYear: "       "
+SchoolYearRepository ..> SchoolYear: <<create>>
+ProgrammeEdition "*" --> "1" SchoolYear: relates to
+Teacher "1" <-- "1" Department: is Department Director
 Teacher "1..*" <-- "1" Department: aggregates
 Teacher "1..*" <-- "1" TeacherRepository: _teachers
+Teacher <.. TeacherRepository: <<create>>
 Teacher "1" --> "1..*" TeacherCareerProgression: _teacherCareerProgressionList
 TeacherCareerProgression "*" --> "1"TeacherCategory: _category
 Department "1..*" <-- "1" DepartmentRepository: stores
@@ -336,16 +352,15 @@ GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
 StudyPlan "1" <-- "1..*" CourseInStudyPlan: belongs
 CourseInStudyPlan "*" --> "1" Programme: belongs
-CourseInStudyPlan "0..1" <-- "1" Course: happens
+CourseInStudyPlan "0..1" <-u- "1" Course: happens
 CourseEdition "1" ..> "1" TeacherRepository
-Student "1" --- "*" CourseEditionEnrollment : > enrols
+Student "1" <--- "*" CourseEditionEnrollment : > enrols
 CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to
 CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
 ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < happens
 ProgrammeEditionEnrollment "*" -- "1" Student : < enrols
 ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
 GradeStudentRepository "1" --> "*" GradeStudent
-
 CourseEditionRepository "List<CourseEdition>" *-- "0..*" CourseEdition
 ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition
 ProgrammeList "List<Programme>" *-- "0..*" Programme

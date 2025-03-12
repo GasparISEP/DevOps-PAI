@@ -9,10 +9,10 @@ public class ProgrammeEditionEnrollment {
     private LocalDate _enrollmentDate;
 
     //constructor
-    public ProgrammeEditionEnrollment(Student student, ProgrammeEdition programmeEdition, LocalDate enrollmentDate) {
+    public ProgrammeEditionEnrollment(Student student, ProgrammeEdition programmeEdition) {
         validateStudent(student);
         validateProgrammeEdition(programmeEdition);
-        validateEnrollmentDate(enrollmentDate);
+        this._enrollmentDate = LocalDate.now();
     }
 
     private void validateStudent(Student student) {
@@ -29,21 +29,12 @@ public class ProgrammeEditionEnrollment {
         this._programmeEdition = programmeEdition;
     }
 
-    private void validateEnrollmentDate(LocalDate enrollmentDate) throws IllegalArgumentException {
-        if (enrollmentDate == null) {
-            throw new IllegalArgumentException("Enrollment date cannot be null!");
-        }
-        if (!enrollmentDate.equals(LocalDate.now())) {
-            throw new IllegalArgumentException("Enrollment date must be the current day!");
-        }
-        this._enrollmentDate = enrollmentDate;
-    }
 
     public boolean isEnrollmentAssociatedToDepartmentAndSchoolYear(Department department, SchoolYear schoolYear) {
         return _programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
     }
 
-    public int getStudentUniqueNumber() {
+    public String getStudentUniqueNumber() {
         return _student.getUniqueNumber();
     }
 
@@ -52,8 +43,7 @@ public class ProgrammeEditionEnrollment {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         ProgrammeEditionEnrollment other = (ProgrammeEditionEnrollment) obj;
-        return Objects.equals(this._student, other._student) && Objects.equals(this._programmeEdition, other._programmeEdition)
-                && Objects.equals(this._enrollmentDate, other._enrollmentDate);
+        return Objects.equals(this._student, other._student) && Objects.equals(this._programmeEdition, other._programmeEdition);
     }
 
     public ProgrammeEdition findProgrammeEditionInEnrollment() {

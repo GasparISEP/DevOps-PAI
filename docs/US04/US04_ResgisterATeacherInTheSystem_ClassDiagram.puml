@@ -1,39 +1,11 @@
 @startuml
 !pragma layout smetana
-'left to right direction
 
-class US04_IWantToRegisterATeacherInTheSystemController{
+class US04_IWantToRegisterATeacherInTheSystemController {
         +US04_IWantToRegisterATeacherInTheSystemController(TeacherRepository teacherRepository,
         teacherCategoryRepository: TeacherCategoryRepository, departmentRepository: DepartmentRepository)
-        +registerATeacherInTheSystem(acronym: String, name: String , email:  String , nif: String, phoneNumber: String,
-        academicBackground: String, street: String, postalCode: String, location: String, country: String, date: String,
-        category: TeacherCategory, workingPercentage: int, department: Department) : boolean
-}
-
-class Department {
-    -_acronym:String
-    -_name:String
-    +Department(departmentAcronym: String, departmentName: String)
-    +Department(departmentAcronym: String, departmentName: String,director: Teacher)
-    +hasSameAcronym(department: Department) : boolean
-    +hasSameName(department: Department) : boolean
-    +changeDirector(furtherDirector: Teacher) : boolean
-}
-
-class DepartmentRepository {
-    +departmentRepository()
-    +registerDepartment(departmentAcronym: String, departmentName: String) : boolean
-}
-
-class TeacherCategory {
-    -_name:String
-    + TeacherCategory (name:String)
-}
-
-class TeacherCategoryRepository {
-    +TeacherCategoryRepository()
-    +registerTeacherCategory (teacherCategoryName: String) : boolean
-    +isTeacherCategoryRegistered(teacherCategory: TeacherCategory) : boolean
+        +registerATeacherInTheSystem(acronym: String, name: String , email:  String , nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+        country: String, date: String, category: TeacherCategory, workingPercentage: int, department: Department, careerProgressionFactory: TeacherCareerProgressionFactory)
 }
 
 class Teacher {
@@ -42,33 +14,98 @@ class Teacher {
      -_email:String
      -_nif:String
      -_phoneNumber:String
-     +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
-     address: Address, teacherCategory: TeacherCategory, department: Department)
+     -_academicBackground:String
+     +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String, academicBackground: String, street: String, postalCode: String, location: String,
+     country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory)
      +hasSameAcronym(teacher: Teacher) : boolean
      +hasSameNif(teacher: Teacher) : boolean
-     +isInDepartment(department: Department) : boolean
 }
 
 class TeacherRepository {
-    +teacherRepository()
-    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
-    address: Address, teacherCategory: TeacherCategory, department: Department) : boolean
+    +TeacherRepository(teacherFactory: TeacherFactory, teacherListFactory : TeacherListFactory)
+    +registerTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+    country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory) : boolean
+}
+
+class TeacherFactory {
+    +createTeacher(acronym: String, name: String , email:  String , nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+    country: String, date: String, category: TeacherCategory, workingPercentage: int, department: Department, careerProgressionFactory: TeacherCareerProgressionFactory)
+}
+
+class DepartmentRepository {
+    +DepartmentRepository (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
+    +departmentExists(department: Department): boolean
+}
+
+class TeacherCategory {
+    -_name:String
+    +TeacherCategory (name : String)
+    +getName(): String
+}
+
+class TeacherCategoryRepository {
+    +TeacherCategoryRepository (teacherCategoryFactory : TeacherCategoryFactory, teacherCategoryListFactory : TeacherCategoryListFactory)
+    +getTeacherCategoryByName(name: String) : Optional<TeacherCategory>
 }
 
 class Address {
-     -_street:String
-     -_postalCode: String
-     -_location: String
-     -_country: String
-     +Address(street: String, postalCode: String, location: String, country: String)
+    -_street : String
+    -_postalCode : String
+    -_location : String
+    -_country : String
+    +Address (street : String, postalCode : String, location : String, country : String)
 }
-US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1  " TeacherRepository
-US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1  " TeacherCategoryRepository
-US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" DepartmentRepository
-Teacher "1" --> "_address 1 " Address
-Teacher "1     " --> "1 _teacherCategory  " TeacherCategory
-Teacher "1..*" --> "_department 1" Department
-Teacher " * _listOfTeachers" <-- "1    " TeacherRepository
-Department "_listOfDepartments *  " <-- "1   " DepartmentRepository
-TeacherCategory "  * _listOfTeacherCategories" <-- "1" TeacherCategoryRepository
+
+class AddressFactory {
+    + createAdress (street : String, postalCode : String, location : String, country : String )
+}
+
+class Department {
+    +Department (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
+}
+
+class ArrayList {
+    +add() : boolean
+}
+
+class TeacherListFactory {
+    +newArrayList() : ArrayList<Teacher>
+}
+
+interface TeacherListFactoryInterface {
+    + newArrayList(): ArrayList<Teacher>
+}
+
+interface TeacherFactoryInterface{
++createTeacher( acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+  street: String, postalCode: String, location: String, country: String, addressFactory: AddressFactory, date: String,
+   category: TeacherCategory, workingPercentage: int, department: Department,  teacherCareerProgressionfactory: TeacherCareerProgressionFactory,
+    teacherCareerProgressionListFactory: TeacherCareerProgressionListFactory): Teacher
+}
+
+interface AddressFactoryInterface{
++createAddress(street: String, postalCode: String, location: String, country: String) : Address
+
+}
+
+
+
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherCategoryRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1    " DepartmentRepository
+TeacherCategory "                _teacherCategoryList *                   " <-- "1" TeacherCategoryRepository
+Teacher "       *  " --> "  _ teacherCategory   1              " TeacherCategory
+AddressFactory  ..|> AddressFactoryInterface
+AddressFactoryInterface ..> Address
+Address"1" <-- "1" Teacher
+Teacher "*" --> "1               " Department
+TeacherRepository ..> Teacher
+TeacherRepository  .u.>             TeacherListFactoryInterface
+TeacherRepository  .u.>             TeacherFactoryInterface
+TeacherFactory ..|> TeacherFactoryInterface
+TeacherFactoryInterface ..> Teacher
+TeacherListFactoryInterface  ..>    ArrayList
+TeacherRepository "1" --> "  _arrayList *" ArrayList
+ArrayList "1" --> "    _teacher  *" Teacher
+TeacherListFactory ..|> TeacherListFactoryInterface
 @enduml

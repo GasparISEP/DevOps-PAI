@@ -2,8 +2,14 @@ package PAI.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeCourseListFactoryImpl;
+import PAI.repository.CourseRepository;
+import PAI.factory.*;
+import PAI.repository.ProgrammeRepository;
+import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
@@ -11,11 +17,11 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void testRegisterProgrammeInTheSystemFailure() {
         //arrange
-        ProgrammeList programmeList = null;
+        ProgrammeRepository programmeRepo = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+            new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
         });
 
         assertEquals("Programme List cannot be null.", exception.getMessage());
@@ -25,29 +31,22 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void testAddCourseInStudyPlanSuccess() throws Exception {
         // Criar as instâncias reais das classes necessárias
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory, programmeRepoListFactory);
+
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
 
         // Criar objetos necessários para o teste
-        String name = "Engenharia Informática";
-        String acronym = "EI";
-        int quantityOfEcts = 30;
-        int quantityOfSemesters = 6;
-        DegreeType degreeType = new DegreeType("Master", 240);
-        Department department = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                new Department("CSE", "Computer Science Engineer"));
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
-        Course course1 = new Course("Programming", "PROG", 5, 1);
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
-        programme.addCourseToAProgramme(course1);
+        Programme programme = mock(Programme.class);
+        Course course = mock(Course.class);
+        StudyPlan studyPlan = mock(StudyPlan.class);
+
+        when(programme.addCourseToAProgramme(course)).thenReturn(true);
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
+        when(studyPlan.addCourseToStudyPlan(1,1,course,programme)).thenReturn(true);
 
         // Chamar o metodo a testar
-        boolean result = controller.addCourseToStudyPlan(1, 1, course1, programme);
+        boolean result = controller.addCourseToStudyPlan(1, 1, course, programme);
 
         // Verificar resultado
         assertTrue(result);
@@ -57,23 +56,25 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
         // Criar as instâncias reais das classes necessárias
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
 
         // Criar dados de entrada
         String name = "Engenharia Informática";
         String acronym = "EI";
         int quantityOfEcts = 30;
         int quantityOfSemesters = 6;
-        DegreeType degreeType = new DegreeType("Master", 240);
-        Department department = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                new Department("CSE", "Computer Science Engineer"));
+        DegreeType degreeType = mock(DegreeType.class);
+        Department department = mock(Department.class);
+        Teacher teacher = mock(Teacher.class);
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
+        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
 
         assertTrue(result);
     }
@@ -82,32 +83,53 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void testAddCourseInStudyPlanWithNullProgramme() throws Exception {
         // Criar as instâncias reais das classes necessárias
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeList);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
 
-        // Criar objetos necessários para o teste
-        String name = "Engenharia Informática";
-        String acronym = "EI";
-        int quantityOfEcts = 30;
-        int quantityOfSemesters = 6;
-        DegreeType degreeType = new DegreeType("Master", 240);
-        Department department = new Department("CSE", "Computer Science Engineer");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                new Department("CSE", "Computer Science Engineer"));
-        CourseRepository courseRepository = new CourseRepository();
-        Programme programme = new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
-        Course course1 = new Course("Programming", "PROG", 5, 1);
-        courseRepository.registerCourse("Programming", "PROG", 5, 1);
-        programme.addCourseToAProgramme(course1);
+
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
+
+        CourseRepository courseRepository = mock(CourseRepository.class);
+
+        Programme programme = mock(Programme.class);
+        Course course = mock(Course.class);
+        StudyPlan studyPlan = mock(StudyPlan.class);
+
+        when(courseRepository.registerCourse("Programming", "PROG", 5, 1)).thenReturn(true);
+        when(programme.addCourseToAProgramme(course)).thenReturn(true);
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
+        when(studyPlan.addCourseToStudyPlan(1,1,course,programme)).thenReturn(true);
 
         // Testar erro ao tentar adicionar um curso inválido
         Exception exception = assertThrows(Exception.class, () -> {
-            controller.addCourseToStudyPlan(1, 1, course1, null);
+            controller.addCourseToStudyPlan(1, 1, course, null);
         });
 
         assertEquals("Programme cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void testShouldntAddCourseInStudyPlan() throws Exception {
+        // Criar as instâncias reais das classes necessárias
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
+
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
+
+        // Criar objetos necessários para o teste
+        Programme programme = mock(Programme.class);
+        Course course = mock(Course.class);
+        StudyPlan studyPlan = mock(StudyPlan.class);
+
+        when(programme.addCourseToAProgramme(course)).thenReturn(true);
+        when(programme.getStudyPlan()).thenReturn(studyPlan);
+        when(studyPlan.addCourseToStudyPlan(1,1,course,programme)).thenReturn(false);
+
+        // Chamar o metodo a testar
+        boolean result = controller.addCourseToStudyPlan(1, 1, course, programme);
+
+        // Verificar resultado
+        assertFalse(result);
     }
 }

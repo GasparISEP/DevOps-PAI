@@ -2,8 +2,11 @@
 actor RUC
 participant ":UI" as UI
 participant ":Controller" as ctr
-participant ":GradeStudentRepository" as GR
 participant ":CourseEditionEnrollmentRepository" as CEER
+participant ":GradeStudentRepository" as GR
+participant ":GradeStudentFactory" as GSF
+
+autonumber
 
 RUC -> UI ++ #application: I want to grade a Student in a Course Edition
 UI --> RUC --: Grade, Date, CourseEdition, Student?
@@ -14,17 +17,21 @@ CEER --> ctr -- : true
 
 
 ctr -> GR ++ #application : addGradeToStudent (Grade, Date, Student, CourseEdition)
+GR -> GSF ++ #application : newGradeStudent (Grade, Date, Student, CourseEdition)
 
 
-create ":GradeStudent" as GS
-GR -> GS ++ #application : <Create> (Grade, Date, Student, CourseEdition)
+
+create "gs1:GradeStudent" as GS
+GSF -> GS ++ #application : <Create> (Grade, Date, Student, CourseEdition)
 GS -> GS : isGradeValid()
 GS -> GS : isDateValid()
-GS --> GR -- : gs1
+GS --> GSF -- : gs1
+GSF --> GR -- : gs1
+
 
 GR -> GR : addGrade(gs1)
 GR --> ctr --: gs1
 ctr --> UI --: gs1
 UI --> RUC --: Succeed
 
-@enduml
+@endumll

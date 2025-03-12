@@ -1,0 +1,117 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+top to bottom direction
+
+skinparam ranksep 180
+skinparam nodesep 180
+
+class US13_RegisterTeacherAndRelevantDataController {
++US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepository teacherCategoryRepository, DepartmentRepository departmentRepository,
+TeacherRepository teacherRepository)
++getTeacherCategoryList()
++getDepartmentList()
++registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
+}
+
+class TeacherCategoryRepository {
++getTeacherCategoriesList(): tcList
+}
+
+class DepartmentRepository {
++getDepartments(): Set<Departments>
+}
+
+class TeacherRepository {
++registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
+}
+
+interface TeacherFactory{
++createTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+               String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
+}
+
+class TeacherFactoryImpl {
++createTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+               String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage, Department department)
+}
+
+class Teacher {
+-_acronym:String
+ -_name:String
+ -_email:String
+ -_nif:String
+ -_phoneNumber:String
+ -_academicBackground:String
+ +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
+ String academicBackground, String street, String postalCode, String location, String country, date: String, category: TeacherCategory, workingPercentage: int, department: Department)
+ }
+
+interface AddressFactory {
++createAddress(street: String, postalCode: String, location: String, country: String)
+}
+
+class AddressFactoryImpl {
++createAddress(street: String, postalCode: String, location: String, country: String)
+}
+
+class Address {
+-_street:String
+ -_postalCode: String
+ -_location: String
+ -_country: String
+ +Address(street: String, postalCode: String, location: String, country: String)
+}
+
+interface TeacherCareerProgressionFactory {
++createTeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
+}
+
+class TeacherCareerProgressionFactoryImpl {
++createTeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
+}
+
+class TeacherCareerProgression {
+-_date: LocalDate
+-_workingPercentage: int
++TeacherCareerProgression(date: String, TeacherCategory category, workingPercentage: int)
+}
+
+class TeacherCategory {
+-_name:String
+}
+
+class Department {
+-_acronym:String
+-_name:String
+-_director:Teacher
+}
+
+US13_RegisterTeacherAndRelevantDataController "\n1" .r.> "_teacherCategoryRepository \n1"TeacherCategoryRepository
+US13_RegisterTeacherAndRelevantDataController "1" .l.> "_departmentRepository \n1"DepartmentRepository
+US13_RegisterTeacherAndRelevantDataController "1" .d.> "_teacherRepository \n1\n"TeacherRepository
+
+TeacherCategoryRepository " 1" -d-> "_tcList\n*" TeacherCategory
+TeacherCareerProgression " *\n" .u.> "_teacherCategory \n1"TeacherCategory
+
+TeacherRepository "\n1" .d.> "teacher \n*" TeacherFactory
+TeacherRepository "1" -> "_teachersList\n*" Teacher
+TeacherFactoryImpl "*" .l.|> "\n1" TeacherFactory
+TeacherFactory "1 " .d.> "teacher \n*" Teacher: <<creates>>
+
+Teacher "1" .d.> "_address \n1\n" AddressFactory
+AddressFactoryImpl "*" .l.|> "\n1" AddressFactory
+AddressFactory "1" .l.> "_address \n1" Address: <<creates>>
+
+Teacher "1" .r.> "_tcp \n1\n" TeacherCareerProgressionFactory
+TeacherCareerProgressionFactoryImpl "*" .u.|> "1 \n" TeacherCareerProgressionFactory
+TeacherCareerProgressionFactory "\n1 " .u.> "_tcp \n1" TeacherCareerProgression: <<creates>>
+
+
+DepartmentRepository "\n1" -d-> "*\n_Set<Department>  " Department
+Teacher "*" .l.> "_department \n1" Department
+
+
+@enduml

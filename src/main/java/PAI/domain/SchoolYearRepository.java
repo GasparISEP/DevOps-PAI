@@ -1,20 +1,33 @@
 package PAI.domain;
 
+import PAI.factory.SchoolYearListFactoryImpl;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
+    private SchoolYearFactoryImpl _schoolYearFactoryImpl;
 
-    public SchoolYearRepository() {
-        this._schoolYearList = new ArrayList<>();
+    public SchoolYearRepository(SchoolYearFactoryImpl schoolYearFactoryImpl, SchoolYearListFactoryImpl schoolYearListFactoryImpl) {
+
+        if (schoolYearFactoryImpl == null) {
+            throw new IllegalArgumentException("SchoolYearFactory cannot be null");
+        }
+        if (schoolYearListFactoryImpl == null) {
+            throw new IllegalArgumentException("SchoolYearListFactory cannot be null");
+        }
+
+        this._schoolYearList = schoolYearListFactoryImpl.newArrayList();
+        this._schoolYearFactoryImpl = schoolYearFactoryImpl;
     }
 
     public boolean addSchoolYear(String description, String startDate, String endDate) throws Exception {
 
-        SchoolYear newSchoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear newSchoolYear = _schoolYearFactoryImpl.createSchoolYear(description, startDate, endDate);
 
         // Check if the school year already exists in the list
         if(schoolYearExists(newSchoolYear)){

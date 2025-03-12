@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import javax.xml.namespace.QName;
+
 public class DegreeType {
 
     private String _name;
@@ -33,4 +35,22 @@ public class DegreeType {
         }
         return false;
     }
+
+    @Override
+    public boolean equals(Object objectToCompare) {
+
+        if (!(objectToCompare instanceof DegreeType)) {
+            return false;
+        }
+
+        DegreeType degreeType = (DegreeType) objectToCompare;
+
+        return _name.equals(degreeType._name) && _maxEcts == degreeType._maxEcts;
+    }
+
+
+    public String get_name (){return _name;}
+
+    public int get_maxEcts (){return _maxEcts;}
 }
+

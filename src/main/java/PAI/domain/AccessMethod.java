@@ -2,13 +2,13 @@ package PAI.domain;
 
 public class AccessMethod {
 
-    private String _name;
+    private final String _accessMethodName;
 
     public AccessMethod(String accessMethodName) throws InstantiationException {
 
         if (!isAccessMethodNameValid (accessMethodName))
             throw new InstantiationException("Access method name cannot be empty nor blank");
-        this._name = accessMethodName;
+        this._accessMethodName = accessMethodName;
     }
 
     private boolean isAccessMethodNameValid (String accessMethodName) {
@@ -30,11 +30,11 @@ public class AccessMethod {
         }
         AccessMethod testMethod = (AccessMethod) objectToCompare;
 
-        if (_name.equals(testMethod._name)) {
+        if (_accessMethodName.equals(testMethod._accessMethodName)) {
             return true;
         }
         return false;
     }
 
-    public boolean hasThisAccessMethodName(String name) {return _name.equals(name);}
+    public boolean hasThisAccessMethodName(String name) {return _accessMethodName.equals(name);}
 }

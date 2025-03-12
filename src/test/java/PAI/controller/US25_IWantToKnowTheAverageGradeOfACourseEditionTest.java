@@ -2,24 +2,33 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.GradeStudentFactoryImpl;
+import PAI.factory.GradeStudentListFactoryImpl;
+import PAI.repository.GradeStudentRepository;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
     @Test
     void newGradeStudentRepository() throws Exception {
         //arrange
-        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
+        GradeStudentFactoryImpl gradeStudentFactoryImpl = mock(GradeStudentFactoryImpl.class);
+        GradeStudentListFactoryImpl gradeStudentListFactoryImpl = mock(GradeStudentListFactoryImpl.class);
+
+        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+
+        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn(mockGradeList);
+
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactoryImpl, gradeStudentListFactoryImpl);
 
         //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
         //assert
         assertNotNull(average1);
@@ -41,11 +50,17 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     void averageGradeInACourseEdition () throws Exception {
 
         //arrange
-        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory);
+        GradeStudentFactoryImpl gradeStudentFactoryImpl = mock(GradeStudentFactoryImpl.class);
+        GradeStudentListFactoryImpl gradeStudentListFactoryImpl = mock(GradeStudentListFactoryImpl.class);
+
+        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+
+        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn(mockGradeList);
+
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactoryImpl, gradeStudentListFactoryImpl);
 
         //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
@@ -55,8 +70,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
         GradeStudent gradeStudent2 = mock(GradeStudent.class);
 
-        when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+        when(gradeStudentFactoryImpl.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
+        when(gradeStudentFactoryImpl.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
 
         when(gradeStudent1.knowGrade()).thenReturn(8.0);
         when(gradeStudent2.knowGrade()).thenReturn(20.0);
@@ -64,8 +79,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
-        gradeStudentRepository.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
-        gradeStudentRepository.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
+       list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
+       list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
 
 
         double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);

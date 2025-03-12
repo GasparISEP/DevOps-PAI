@@ -1,7 +1,10 @@
 package PAI.domain;
 
 
-import java.util.ArrayList;
+
+import PAI.factory.*;
+import PAI.repository.StudyPlan;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -14,10 +17,13 @@ public class Programme {
     private DegreeType _degreeType;
     private Department _department;
     private Teacher _programmeDirector;
-    private ArrayList<Course> _courseList = new ArrayList<>();
+    private List<Course> _courseList;
+    private ProgrammeCourseListFactory _programmeCourseListFactory;
     private StudyPlan _studyPlan;
 
-    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
+    public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
+                     Teacher programmeDirector, ProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory) {
+
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
         }
@@ -51,10 +57,14 @@ public class Programme {
         if (programmeDirector == null) {
             throw new IllegalArgumentException("Insert a valid Programme Director");
         }
+
         _programmeDirector = programmeDirector;
 
-        _studyPlan = new StudyPlan();
+        _programmeCourseListFactory = programmeCourseListFactory;
 
+        _courseList = _programmeCourseListFactory.createCourseList();
+
+        _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, courseFactory);
     }
 
     private boolean isNameInvalid(String name) {
@@ -81,12 +91,17 @@ public class Programme {
                 Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
     }
 
+    //Wrapper for equals
+    public boolean isEquals (Programme programme) {
+
+        return this.equals(programme);
+    }
+
     //Method to add Course
     public boolean addCourseToAProgramme(Course course) throws Exception {
 
         if (_courseList.contains(course)) {
-            throw new Exception("Course is already added to the programme.");
-
+            return false;
         }
 
         _courseList.add(course);
@@ -131,4 +146,12 @@ public class Programme {
     }
 
     public boolean hasThisProgrammeName(String name) {return _name.equals(name);}
+
+    public String getAcronym() {
+        return _acronym;
+    }
+
+    public String getProgrammeName() {
+        return _name;
+    }
 }

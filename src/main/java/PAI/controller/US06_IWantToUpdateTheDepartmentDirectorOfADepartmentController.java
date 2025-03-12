@@ -1,20 +1,24 @@
 package PAI.controller;
 
 import PAI.domain.Department;
-import PAI.domain.DepartmentRepository;
+import PAI.repository.DepartmentRepository;
 import PAI.domain.Teacher;
 
 import java.util.List;
+import java.util.Set;
 
 public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 
-    private DepartmentRepository _departmentRepository;
+    private final DepartmentRepository _departmentRepository;
 
     public US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(DepartmentRepository departmentRepository) {
 
         validateDepartmentRepository (departmentRepository);
+        this._departmentRepository = departmentRepository;
     }
-
+    public Set<Department> getAllDepartments() {
+        return _departmentRepository.getDepartments();
+    }
     public boolean updateDepartmentDirector(Department department, Teacher teacher) {
         if (department == null || teacher == null ) {
             return false;
@@ -28,10 +32,5 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
             throw new IllegalArgumentException("Department Repository cannot be null!");
         }
 
-        this._departmentRepository = departmentRepository;
-    }
-
-    public List<Department> getAllDepartments() {
-        return _departmentRepository.getDepartmentList();
     }
 }

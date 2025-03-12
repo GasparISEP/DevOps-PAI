@@ -4,63 +4,79 @@ import java.util.List;
 
 public class Student {
 
-    private int _uniqueNumber;
+    private String _uniqueNumber;
     private String _name;
     private String _NIF;
     private String _phone;
     private String _email;
     private Address _address;
+    private String _institutionalEmail;
 
     //constructor validation
-    public Student(int uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
+    public Student(String uniqueNumber, String name, String NIF, String phone, String email, Address address) {
 
         //validação Student Unique Number
         if (isUniqueNumberInvalid(uniqueNumber))
-            throw new Exception("Student's identification number must be greater than zero!");
+            throw new IllegalArgumentException("Student's unique number must have 7 digits and start with 1!");
 
         _uniqueNumber = uniqueNumber;
 
         //Student name validation
         if (areParametersInvalid(name))
-            throw new Exception("Student's name cannot be empty!");
+            throw new IllegalArgumentException("Student's name cannot be empty!");
 
         _name = name;
 
         //Student NIF validation
-        if (areParametersInvalid(NIF))
-            throw new Exception("Student's NIF cannot be empty!");
+        if (isNIFInvalid(NIF))
+            throw new IllegalArgumentException("Student's NIF is invalid!");
 
         _NIF = NIF;
 
         //Student phone validation
-        if (areParametersInvalid(phone))
-            throw new Exception("Student's phone cannot be empty!");
+        if (isPhoneNumberInvalid(phone))
+            throw new IllegalArgumentException("Student's phone is invalid!");
 
         _phone = phone;
 
         //Student email validation
-        if (areParametersInvalid(email))
-            throw new Exception("Student's email cannot be empty!");
+        if (isEmailInvalid(email))
+            throw new IllegalArgumentException("Student's email is not valid!");
 
         _email = email;
 
         _address = address;
 
-    }
-
-    private boolean isUniqueNumberInvalid(int studentNumber) {
-
-        return studentNumber <= 0;
+        _institutionalEmail = generateInstitutionalEmail(uniqueNumber);
     }
 
     private boolean areParametersInvalid(String parameter) {
-
         return parameter == null || parameter.isBlank();
+    }
+
+    private boolean isUniqueNumberInvalid(String studentNumber) {
+        return !studentNumber.matches("^1\\d{6}$") || areParametersInvalid(studentNumber);
+    }
+
+    private boolean isNIFInvalid(String NIF){
+        return !NIF.matches("^[A-Z]{0,2}?\\d{8,14}[A-Z0-9]?$") || areParametersInvalid(NIF);
+    }
+
+    private boolean isPhoneNumberInvalid(String phoneNumber){
+        return !phoneNumber.matches("^\\+?\\d{1,4}?[ -.]?\\(?\\d{1,4}?\\)?[ -.]?\\d{3,4}[ -.]?\\d{3,4}$") || areParametersInvalid(phoneNumber);
+    }
+
+    private boolean isEmailInvalid(String email){
+        return !email.matches("^[a-zA-Z0-9][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-][a-zA-z0-9]+\\.[a-zA-Z]{2,}+(\\.[a-zA-Z]{2,})?$") || areParametersInvalid(email);
+    }
+
+    private String generateInstitutionalEmail(String uniqueNumber){
+        return uniqueNumber + "@isep.ipp.pt";
     }
 
     // Check for matching uniqueNumber
     public boolean hasSameUniqueNumber(Student student) {
-        return _uniqueNumber == student._uniqueNumber;
+        return _uniqueNumber.equals(student._uniqueNumber);
     }
 
     // Check for matching NIF
@@ -68,9 +84,9 @@ public class Student {
         return _NIF.equals(student._NIF);
     }
 
-    public int getUniqueNumber() {
+    public String getUniqueNumber() {
         return _uniqueNumber;
     }
 
-    public boolean hasThisUniqueNumber(int uniqueNumber) {return uniqueNumber == _uniqueNumber;}
+    public boolean hasThisUniqueNumber(String uniqueNumber) {return uniqueNumber.equals(_uniqueNumber);}
 }

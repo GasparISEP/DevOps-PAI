@@ -1,6 +1,9 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.CourseEditionRepository;
+import PAI.repository.ProgrammeEditionRepository;
+import PAI.repository.ProgrammeRepository;
 
 
 import java.util.List;
@@ -8,9 +11,9 @@ import java.util.List;
 public class US19_CreateCourseEditionController {
     private ProgrammeEditionRepository _programmeEditionRepository;
     private CourseEditionRepository _courseEditionRepository;
-    private ProgrammeList _programmeList;
+    private ProgrammeRepository _programmeList;
 
-    public US19_CreateCourseEditionController(ProgrammeEditionRepository programmeEditionRepository, CourseEditionRepository courseEditionRepository, ProgrammeList programmeList){
+    public US19_CreateCourseEditionController(ProgrammeEditionRepository programmeEditionRepository, CourseEditionRepository courseEditionRepository, ProgrammeRepository programmeList){
         _programmeEditionRepository = programmeEditionRepository;
         _courseEditionRepository = courseEditionRepository;
         _programmeList = programmeList;
@@ -26,9 +29,9 @@ public class US19_CreateCourseEditionController {
     }
 
     public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) {
-            if(!_courseEditionRepository.createCourseEdition(course, programmeEdition))
+            if(!_courseEditionRepository.createAndSaveCourseEdition(course, programmeEdition))
                 return false;
-        _courseEditionRepository.createCourseEdition(course, programmeEdition);
+        _courseEditionRepository.createAndSaveCourseEdition(course, programmeEdition);
             return true;
     }
 }

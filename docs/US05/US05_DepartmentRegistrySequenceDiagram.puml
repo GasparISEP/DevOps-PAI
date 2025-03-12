@@ -2,32 +2,53 @@
 
 title US05: Register a Department in the System
 
-participant "Test" as Test #Orange/White
+actor "Administrator" as Administrator #LightBlue/White
+participant ":UI" as UI
+participant ":US05_RegisterADepartmentInTheSystemController" as Controller #Violet/LightBlue
 participant ":DepartmentRepository" as DepartmentRepository #DeepPink/White
+participant ":DepartmentFactory" as DepartmentFactory #LightBlue/White
 participant "d1:Department" as Department #Violet/White
 participant "d[i]:Department" as Departmenti #Cyan/White
 
-Test -> DepartmentRepository: registerDepartment(acronym, name)
+Administrator -> UI: I want to register a department in the system.
+activate UI
+UI --> Administrator: Please provide the acronym.
+deactivate UI
+Administrator -> UI: Enter acronym.
+activate UI
+UI --> Administrator: Please provide the name.
+deactivate UI
+Administrator -> UI: Enter name.
+activate UI
+UI --> Administrator: Sure?
+deactivate UI
+Administrator -> UI: Yes!
+activate UI
+
+UI -> Controller: registerDepartment(acronym, name)
+activate Controller
+Controller -> DepartmentRepository: registerDepartment(acronym, name)
 activate DepartmentRepository
-
-DepartmentRepository -> Department **: createDepartment (acronym, name)
+DepartmentRepository -> DepartmentFactory: newDepartment (acronym, name)
+activate DepartmentFactory
+DepartmentFactory -> Department **: newDepartment (acronym, name)
 activate Department
-Department --> DepartmentRepository: Department created
-
+Department --> DepartmentFactory: d1
 deactivate Department
-
-
-loop for each Department d[i] in DepartmentRepository
-DepartmentRepository -> Departmenti: compareDepartmentAcronymAndNameInList(d1:Department)
+DepartmentFactory --> DepartmentRepository: d1
+deactivate DepartmentFactory
+DepartmentRepository -> Departmenti: add (d1:Department)
 activate Departmenti
-Departmenti --> DepartmentRepository: Acronym and name are valid.
+Departmenti --> DepartmentRepository: True
 deactivate Departmenti
-end
-
-
-DepartmentRepository -> DepartmentRepository: add (d1:Department)
-
-DepartmentRepository --> Test: Department registered
+DepartmentRepository --> Controller: True
 deactivate DepartmentRepository
+
+Controller --> UI: True
+deactivate Controller
+UI --> Administrator: Department registered
+deactivate UI
+
+
 
 @enduml

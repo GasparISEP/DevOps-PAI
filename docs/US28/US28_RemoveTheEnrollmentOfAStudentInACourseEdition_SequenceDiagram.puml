@@ -3,30 +3,46 @@
 title US28: Remove the enrollment of a student in a course edition
 
 actor ASC #Orange/White
-participant ":UI" as UI #DeepPink/White
-participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller" as Controller #Violet/White
-participant ":CourseEditionEnrollmentRepository" as Repository #Cyan/White
+participant ":UI" as UI
+participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEditionController" as Controller
+participant ":CourseEditionEnrollmentRepository" as Repository
+participant "cee:CourseEditionEnrollment" as Enrollment
 
 ASC -> UI : I want to remove the enrollment of a student in a course edition
-UI --> ASC : What student?
-ASC -> UI : Student!
-UI --> ASC : What course edition?
-ASC -> UI : Course edition!
-
-UI -> Controller : removeStudentEnrolment(student, courseEdition)
 activate UI
+UI --> ASC : What student?
+deactivate UI
+ASC -> UI : Student!
+activate UI
+UI --> ASC : What course edition?
+deactivate UI
+ASC -> UI : Course edition!
+activate UI
+
+UI -> Controller : removeStudentEnrollment(student, courseEdition)
+activate Controller
 
 Controller -> Repository : removeEnrollment(student, courseEdition)
 activate Repository
 
-Repository -> Repository : findByStudentAndEdition(student, courseEdition)
-Repository -> Repository : remove(enrollment)
-Repository --> Controller : return true (Enrollment removed)
+Repository -> Repository : cee:findByStudentAndEdition(student, courseEdition)
 
+Repository -> Enrollment : isEnrollmentActive()
+activate Enrollment
+Enrollment --> Repository : true
+deactivate Enrollment
+
+Repository -> Enrollment : deactivateEnrollment()
+activate Enrollment
+Enrollment --> Repository : Enrollment is now inactive
+deactivate Enrollment
+
+Repository --> Controller : true
 deactivate Repository
 
-Controller --> UI : return true (Enrollment removed)
-deactivate UI
+Controller --> UI : true
+deactivate Controller
 UI --> ASC : Enrollment removed
+deactivate UI
 
 @enduml

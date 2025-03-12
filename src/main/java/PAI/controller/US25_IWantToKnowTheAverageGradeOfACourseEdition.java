@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.CourseEdition;
-import PAI.domain.GradeStudentRepository;
+import PAI.repository.GradeStudentRepository;
 
 public class US25_IWantToKnowTheAverageGradeOfACourseEdition {
 

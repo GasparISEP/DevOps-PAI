@@ -12,34 +12,34 @@ public class SchoolYear {
     private LocalDate _endDate;
 
     // Constructor
-    public SchoolYear(String description, String startDate, String endDate) throws Exception {
+    public SchoolYear(String description, String startDate, String endDate) {
 
         try {
             validateParameters(description, startDate, endDate);
             _description = description;
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
     // Validation of parameters
-    private void validateParameters(String description, String startDate, String endDate) throws Exception {
+    private void validateParameters(String description, String startDate, String endDate) {
 
         if (description == null || description.isBlank())
-            throw new Exception("Description cannot be null or blank.");
+            throw new IllegalArgumentException("Description cannot be null or blank.");
 
         if (startDate == null || startDate.isBlank())
-            throw new Exception("Start date cannot be null or blank.");
+            throw new IllegalArgumentException("Start date cannot be null or blank.");
 
         if (endDate == null || endDate.isBlank())
-            throw new Exception("End date cannot be null or blank.");
+            throw new IllegalArgumentException("End date cannot be null or blank.");
 
         // Validates format and logic of startDate and endDate
         validateDateFormat(startDate, endDate);
     }
 
     // Validation of date format
-    private void validateDateFormat(String startDate, String endDate) throws Exception {
+    private void validateDateFormat(String startDate, String endDate) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -50,10 +50,10 @@ public class SchoolYear {
 
             // Verifies if startDate is not greater than endDate
             if (!_endDate.isAfter(_startDate)) {
-                throw new Exception("End date must be greater than start date.");
+                throw new IllegalArgumentException("End date must be greater than start date.");
             }
         } catch (DateTimeParseException e) {
-            throw new Exception("Invalid date format. Use the following format: dd-MM-yyyy.");
+            throw new IllegalArgumentException("Invalid date format. Use the following format: dd-MM-yyyy.");
         }
     }
 
@@ -70,6 +70,10 @@ public class SchoolYear {
     public LocalDate getStartDate() {
         LocalDate startDate = _startDate;
         return startDate;
+    }
+
+    public String getDescription() {
+        return _description;
     }
 
     @Override

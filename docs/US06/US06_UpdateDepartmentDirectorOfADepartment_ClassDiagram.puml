@@ -5,6 +5,7 @@
 class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
     +US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentRepository)
     +updateDepartmentDirector (department: Department, teacher: Teacher) : boolean
+    +getAllDepartments () : Set<Department>
 }
 
 class Department {
@@ -12,15 +13,13 @@ class Department {
     -_name:String
     +Department(departmentAcronym: String, departmentName: String)
     +Department(departmentAcronym: String, departmentName: String,director: Teacher)
-    +hasSameAcronym(department: Department) : boolean
-    +hasSameName(department: Department) : boolean
     +changeDirector(furtherDirector: Teacher) : boolean
 }
 
 class DepartmentRepository {
-    +departmentRepository()
-    +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
+    +departmentRepository(departmentFactory : DepartmentFactory, departmentListFactory : DepartmentLisFactory)
     +updateOfDepartmentDirector (department: Department, furtherDirector: Teacher) :boolean
+    +getAllDepartments () : Set<Department>
 }
 
 class Teacher {
@@ -31,8 +30,6 @@ class Teacher {
      -_phoneNumber:String
      +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
      address: Address, teacherCategory: TeacherCategory, department: Department)
-     +hasSameAcronym(teacher: Teacher) : boolean
-     +hasSameNif(teacher: Teacher) : boolean
      +isInDepartment(department: Department) :boolean
 }
 
@@ -49,11 +46,11 @@ class Address {
      +Address(street: String, postalCode: String, location: String, country: String)
 }
 
-US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1      " DepartmentRepository
-Teacher "1" --> "_address 1           " Address
+US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1          " DepartmentRepository
+Teacher "1" --> "1  _address           " Address
 Teacher "1     " --> " *  _teacherCategory " TeacherCategory
 Teacher "_departmentDirector 1        " <-- "1" Department
 Teacher "1..*     " --> "     1    _department" Department
-Department "_listDepartment 1..*      " <-- "1" DepartmentRepository
+Department "_listDepartment *         " <-- "1" DepartmentRepository
 
 @enduml

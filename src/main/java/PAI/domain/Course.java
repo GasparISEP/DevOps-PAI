@@ -2,10 +2,10 @@ package PAI.domain;
 
 public class Course {
 
-    private String _name;
-    private String _acronym;
-    private double _quantityCreditsEcts;
-    private int _durationCourseInSemester;
+    private final String _name;
+    private final String _acronym;
+    private final double _quantityCreditsEcts;
+    private final int _durationCourseInSemester;
 
     public Course(String name, String acronym, double quantityOfEcts, int durationCourseInSemester) throws Exception {
         if (!isValidName(name))

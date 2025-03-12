@@ -1,6 +1,9 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.ProgrammeCourseListFactoryImpl;
+import PAI.factory.*;
+import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,11 +15,11 @@ class US11_RegisterProgrammeInTheSystemTest {
     void newProgrammeList() throws Exception {
         //arrange
         ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList list = new ProgrammeList(programmeFactory);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
 
         //act
-        US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeList);
+        US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeRepo);
 
         //assert
         assertNotNull(controller1);
@@ -25,11 +28,11 @@ class US11_RegisterProgrammeInTheSystemTest {
     @Test
     void nullProgrammeInTheSystemFailure() throws Exception{
         //arrange
-        ProgrammeList programmeList = null;
+        ProgrammeRepository programmeRepo = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () -> {
-            new US11_RegisterProgrammeInTheSystem(programmeList);
+            new US11_RegisterProgrammeInTheSystem(programmeRepo);
         });
 
         assertEquals("Programme List cannot be null.", exception.getMessage());
@@ -37,11 +40,12 @@ class US11_RegisterProgrammeInTheSystemTest {
 
     @Test
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
-        // Criar as instâncias reais das classes necessárias
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
 
-        US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeList);
+        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
+
+        US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeRepo);
 
         // Criar dados de entrada
         String name = "Engenharia Informática";
@@ -51,10 +55,14 @@ class US11_RegisterProgrammeInTheSystemTest {
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
+        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
+        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
+        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        boolean result = controller1.registerProgrammeInTheSystem(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher);
+        boolean result = controller1.registerProgrammeInTheSystem(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory ,studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
 
         assertTrue(result);
     }
-
 }

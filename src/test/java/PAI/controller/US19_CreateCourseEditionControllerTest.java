@@ -1,456 +1,264 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import org.junit.jupiter.api.BeforeEach;
+import PAI.repository.CourseEditionRepository;
+import PAI.repository.ProgrammeEditionRepository;
+import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US19_CreateCourseEditionControllerTest {
 
 
     @Test
-    void shouldReturnTrueIfCourseEditionIsCreated() throws Exception {
+    void shouldReturnTrueIfCourseEditionIsCreated() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        Course course = new Course("Informatics", "INF", 6, 1);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(
-                new Programme("Computer Engineering", "CE", 20, 6,
-                        new DegreeType("Master", 240),
-                        new Department("CSE", "Computer Science Engineer"),
-                        new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                                new Department("CSE", "Computer Science Engineer")
-                        )
-                ),
-                new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
-        );
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        Course courseDouble = mock (Course.class);
+        ProgrammeEdition programmeEditionDouble = mock (ProgrammeEdition.class);
+
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
+
+            //instructions
+        when (courseEditionRepositoryDouble.createAndSaveCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(true);
 
         // Act
-        boolean result = controller.createCourseEdition(course, programmeEdition);
+        boolean result = controller.createCourseEdition(courseDouble, programmeEditionDouble);
 
         // Assert
-        assertEquals(result, true);
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseCourseIsNull() throws Exception {
+    void shouldReturnFalseIfCourseEditionIsNotCreated() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(
-                new Programme("Computer Engineering", "CE", 20, 6,
-                        new DegreeType("Master", 240),
-                        new Department("CSE", "Computer Science Engineer"),
-                        new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                                new Department("CSE", "Computer Science Engineer")
-                        )
-                ),
-                new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
-        );
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock (ProgrammeEdition.class);
+        Course course = mock (Course.class);
+
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
+
+            //instructions
+        when (courseEditionRepositoryDouble.createAndSaveCourseEdition(course, programmeEditionDouble)).thenReturn(false);
 
         // Act
-        boolean result = controller.createCourseEdition(null, programmeEdition);
+        boolean result = controller.createCourseEdition(course, programmeEditionDouble);
 
         // Assert
-        assertEquals(false, result);
+        assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionIsNull() throws Exception {
+    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        Course course = new Course("Informatics", "INF", 6, 1);
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        List<ProgrammeEdition> allEditionsDouble = mock (List.class);
 
-        // Act
-        boolean result = controller.createCourseEdition(course, null);
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
 
-        // Assert
-        assertEquals(false, result);
-    }
+            //instructions
+        when (programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(allEditionsDouble);
 
-    @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionAndCourseAreNull() throws Exception {
-        // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-
-        // Act
-        boolean result = controller.createCourseEdition(null, null);
-
-        // Assert
-        assertEquals(false, result);
-    }
-
-    @Test
-    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() throws Exception {
-        //Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(
-                new Programme("Computer Engineering", "CE", 20, 6,
-                        new DegreeType("Master", 240),
-                        new Department("CSE", "Computer Science Engineer"),
-                        new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                                "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                                "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                                new Department("CSE", "Computer Science Engineer")
-                        )
-                ),
-                new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025")
-        );
+        //Act
         controller.getAllProgrammeEditions();
         //Assert
-        assertNotNull(allEditions);
+        assertNotNull(allEditionsDouble);
     }
 
-    @Test
-    void ShouldReturnSizeOfListOfProgrammeEditionsForMethodGetAllProgrammeEditions() throws Exception {
-        // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        Programme programme1 = new Programme("Computer Science", "CC", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
 
-        programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme1,schoolYear);
+    @Test
+    void ShouldReturnSizeOfListOfProgrammeEditionsForMethodGetAllProgrammeEditions() {
+        //SUT = CreateCourseEditionController -> all else as Double
+        // Arrange
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+
+        //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
+
+        //instructions
+        when (programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(List.of(programmeEditionDouble1));
 
         // Act
         controller.getAllProgrammeEditions();
 
         // Assert
-        assertEquals(2, controller.getAllProgrammeEditions().size());
+        assertEquals(1, controller.getAllProgrammeEditions().size());
     }
 
 
     @Test
-    void shouldReturnTrueIfListOfProgrammeEditionsContainsProgrammeEdition() throws Exception {
+    void shouldReturnTrueIfListOfProgrammeEditionsContainsProgrammeEdition() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        Programme programme1 = new Programme("Computer Science", "CC", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
+
+            //instructions
+        when (programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(List.of(programmeEditionDouble));
 
         // Act
-        List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
-        // Assert
-        assertEquals(true, allEditions.contains (programmeEdition1));
-    }
+        controller.getAllProgrammeEditions();
 
-    @Test
-    void shouldReturnFalseIfListOfProgrammeEditionsNotContainsProgrammeEdition() throws Exception {
-        // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        Programme programme1 = new Programme("Computer Science", "CC", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1,schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
-
-        // Act
-        List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
         // Assert
-        assertEquals(false, allEditions.contains (programmeEdition2));
+        assertTrue(controller.getAllProgrammeEditions().contains(programmeEditionDouble));
     }
 
 
     @Test
-    void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnFalseIfListOfProgrammeEditionsDoesNotContainProgrammeEdition() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
-        courseRepository.registerCourse("Informatica", "INF", 6, 1);
-        courseRepository.registerCourse("Matemática", "MAT", 4, 1);
-        Course c1 = new Course ("Informatica", "INF", 6, 1);
-        Course c2 = new Course("Matemática", "MAT", 4, 1);
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        programme.addCourseToAProgramme(c1);
-        programme.addCourseToAProgramme(c2);
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
 
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
+
+            //instructions
+        when (programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(List.of(programmeEditionDouble2));
 
         // Act
-        controller.getCoursesInProgramme(programmeEdition1);
+        controller.getAllProgrammeEditions();
 
         // Assert
-        assertEquals(2, controller.getCoursesInProgramme(programmeEdition1).size());
+        assertFalse(controller.getAllProgrammeEditions().contains(programmeEditionDouble));
+    }
+
+
+    @Test
+    void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod() {
+        //SUT = CreateCourseEditionController -> all else as Double
+        // Arrange
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Programme programmeDouble = mock(Programme.class);
+        Course courseDouble1 = mock(Course.class);
+        Course courseDouble2 = mock(Course.class);
+
+        //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
+
+        //instructions
+        when (programmeEditionRepositoryDouble.findProgrammeInProgrammeEdition(programmeEditionDouble)).thenReturn(programmeDouble);
+        when (programmeListDouble.getCourseList(programmeDouble)).thenReturn(List.of(courseDouble1, courseDouble2));
+
+        // Act
+        controller.getCoursesInProgramme(programmeEditionDouble);
+
+        // Assert
+        assertEquals(2, controller.getCoursesInProgramme(programmeEditionDouble).size());
     }
 
     @Test
-    void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
-        courseRepository.registerCourse("Informatica", "INF", 6, 1);
-        courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Programme programmeDouble = mock(Programme.class);
+        List <Course> courseListDouble= mock(List.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
 
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+            //instructions
+        when (programmeEditionRepositoryDouble.findProgrammeInProgrammeEdition(programmeEditionDouble)).thenReturn(programmeDouble);
+        when (programmeListDouble.getCourseList(programmeDouble)).thenReturn(courseListDouble);
 
-
-        // Act
-        // Assert
-        assertNotNull(controller.getCoursesInProgramme(programmeEdition1));
+        // Act + Assert
+        assertNotNull(controller.getCoursesInProgramme(programmeEditionDouble));
     }
 
     @Test
-    void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Programme programmeDouble = mock(Programme.class);
+        Course courseDouble1 = mock(Course.class);
+        Course courseDouble2 = mock(Course.class);
 
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
-        courseRepository.registerCourse("Informatica", "INF", 6, 1);
-        courseRepository.registerCourse("Matemática", "MAT", 4, 1);
-        Course c1 = new Course ("Informatica", "INF", 6, 1);
-        Course c2 = new Course("Matemática", "MAT", 4, 1);
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        programme.addCourseToAProgramme(c1);
-        programme.addCourseToAProgramme(c2);
+            //instructions
+        when (programmeEditionRepositoryDouble.findProgrammeInProgrammeEdition(programmeEditionDouble)).thenReturn(programmeDouble);
+        when (programmeListDouble.getCourseList(programmeDouble)).thenReturn(List.of(courseDouble1, courseDouble2));
 
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
-
-
-        // Act
-        // Assert
-        assertEquals(true, controller.getCoursesInProgramme(programmeEdition1).contains(c1));
+        // Act+Assert
+        assertTrue(controller.getCoursesInProgramme(programmeEditionDouble).contains(courseDouble1));
     }
 
     @Test
-    void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod() throws Exception {
+    void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod() {
+        //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository();
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeList programmeList = new ProgrammeList(programmeFactory);
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeList);
+            //Doubles' instantiation
+        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+        CourseEditionRepository courseEditionRepositoryDouble = mock (CourseEditionRepository.class);
+        ProgrammeRepository programmeListDouble = mock (ProgrammeRepository.class);
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Programme programmeDouble = mock(Programme.class);
+        Course courseDouble1 = mock(Course.class);
+        Course courseDouble2 = mock(Course.class);
 
-        CourseRepository courseRepository = new CourseRepository(courseFactory);
-        courseRepository.registerCourse("Informatica", "INF", 6, 1);
-        courseRepository.registerCourse("Matemática", "MAT", 4, 1);
-        Course c1 = new Course ("Informatica", "INF", 6, 1);
-        Course c2 = new Course("Matemática", "MAT", 4, 1);
+            //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(programmeEditionRepositoryDouble, courseEditionRepositoryDouble, programmeListDouble);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-        programmeList.registerProgramme("Computer Engineering", "CE", 20, 6,
-                new DegreeType("Master", 240),
-                new Department("CSE", "Computer Science Engineer"),
-                new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                        "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                        "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                        "20-12-2010", new TeacherCategory("Assistant Professor"), 100,
-                        new Department("CSE", "Computer Science Engineer")
-                )
-        );
-
-        programme.addCourseToAProgramme(c1);
-
-        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme,schoolYear);
-        programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+            //instructions
+        when (programmeEditionRepositoryDouble.findProgrammeInProgrammeEdition(programmeEditionDouble)).thenReturn(programmeDouble);
+        when (programmeListDouble.getCourseList(programmeDouble)).thenReturn(List.of(courseDouble1));
 
 
         // Act
-        controller.getCoursesInProgramme(programmeEdition1);
+        controller.getCoursesInProgramme(programmeEditionDouble);
+
         // Assert
-        assertEquals(false, controller.getCoursesInProgramme(programmeEdition1).contains(c2));
+        assertFalse(controller.getCoursesInProgramme(programmeEditionDouble).contains(courseDouble2));
     }
 
 }

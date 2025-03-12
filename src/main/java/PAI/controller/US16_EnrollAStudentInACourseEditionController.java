@@ -1,8 +1,12 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.CourseEditionRepository;
+import PAI.repository.ProgrammeEditionEnrollmentRepo;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 public class US16_EnrollAStudentInACourseEditionController {
 
@@ -19,21 +23,24 @@ public class US16_EnrollAStudentInACourseEditionController {
         validateCourseEditionRepository (courseEditionRepository);
     }
 
-    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition) throws Exception {
-        if (student == null || courseEdition == null){
-            return false;
+    //show a list of programme editions that student is enrolled
+    public Optional<List<ProgrammeEdition>> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
+
+        if (student == null) {
+            return Optional.empty();
         }
 
-        //find what programme edition belongs to this course edition
-        ProgrammeEdition programmeEdition = _courseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
+        return Optional.of(_peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student));
+    }
 
-        // Verify if student belongs to programme edition that has the course edition passed as an attribute
-        if (!_peeRepository.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
-            return false;
-        }
+    //show a list of course editions that belongs to a course edition for student choose a course edition
+    public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
+        return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+    }
 
-        _ceeRepository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
-        return true;
+    //enroll a student in a course edition
+    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition) {
+        return _ceeRepository.enrollStudentInACourseEdition(student, courseEdition);
     }
 
     //Verify if the course edition enrollment repository is valid

@@ -1,19 +1,26 @@
 package PAI.domain;
 
-import java.util.ArrayList;
+import PAI.factory.ProgrammeEnrolmentFactory;
+
 import java.util.List;
 
 public class ProgrammeEnrolmentRepository {
 
     private List<ProgrammeEnrolment> _enrolmentList;
+    private ProgrammeEnrolmentFactory _programmeEnrolmentFactory;
 
-    public ProgrammeEnrolmentRepository(){
-        _enrolmentList = new ArrayList<>();
+    public ProgrammeEnrolmentRepository(ProgrammeEnrolmentFactory programmeEnrolmentFactory, ProgrammeEnrolmentListFactory programmeEnrolmentList){
+
+        if(programmeEnrolmentFactory == null || programmeEnrolmentList == null)
+            throw new IllegalArgumentException("Factory cannot be null!");
+
+        _enrolmentList = programmeEnrolmentList.newArrayList();
+        _programmeEnrolmentFactory = programmeEnrolmentFactory;
     }
 
     public boolean enrolStudents(Student student, AccessMethod accessMethod, Programme programme, String enrolmentDate) throws Exception {
 
-        ProgrammeEnrolment newProgrammeEnrolment = new ProgrammeEnrolment (student, accessMethod, programme, enrolmentDate);
+        ProgrammeEnrolment newProgrammeEnrolment = _programmeEnrolmentFactory.createProgrammeEnrolment (student, accessMethod, programme, enrolmentDate);
 
         //Checks if Enrolment is repeated
         if(!isEnrolmentRepeated(newProgrammeEnrolment)) {
@@ -34,8 +41,7 @@ public class ProgrammeEnrolmentRepository {
 
     public boolean isStudentEnrolled (Student student, Programme programme) {
         for (ProgrammeEnrolment existingEnrolment : _enrolmentList) {
-            if (existingEnrolment.findStudentInEnrollments().getUniqueNumber() ==
-                    student.getUniqueNumber() && existingEnrolment.getProgramme().equals(programme)) {
+            if (existingEnrolment.hasSameStudent(student) && existingEnrolment.hasSameProgramme(programme)) {
                 return true;
             }
         }

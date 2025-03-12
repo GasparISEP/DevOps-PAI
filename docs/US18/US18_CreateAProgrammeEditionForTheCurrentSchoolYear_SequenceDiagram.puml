@@ -4,22 +4,22 @@ autonumber
 Actor ASC
 
 participant ":UI" as UI
-participant ":CreateAProgrammeEditionInTheCurrentSchoolYearController" as CPEC
+participant ":CreateAProgrammeEditionForTheCurrentSchoolYearController" as CPEC
 participant ":ProgrammeList" as PL
-participant ":SchoolYearRepo" as SYR
-participant ":ProgrammeEditionRepo" as PER
+participant ":SchoolYearRepository" as SYR
+participant ":ProgrammeEditionRepository-" as PER
 participant ":ProgrammeEditionFactory" as PEF
 
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
-UI -> CPEC ++ #application : getAllProgrammesNames()
-CPEC -> PL ++ #application : getAllProgrammes()
-PL --> CPEC -- : programmeList
-CPEC --> UI -- : programmeList
+UI -> CPEC ++ #application : getAllProgrammeNames()
+CPEC -> PL ++ #application : getAllProgrammeNames()
+PL --> CPEC -- : programmeNamesList
+CPEC --> UI -- : programmeNamesList
 UI -> ASC --  : Which Programme?
-ASC -> UI ++ #application : Programme LEI
-UI -> CPEC ++ #application : createAProgrammeEditionInTheCurrentSY(LEI)
+ASC -> UI ++ #application : Licenciatura Engenharia Informática
+UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(Licenciatura Engenharia Informática)
 
-CPEC -> PL ++ #application : getProgrammeByAcronym(LEI)
+CPEC -> PL ++ #application : getProgrammeByName(Licenciatura Engenharia Informática)
 PL --> CPEC -- : programme
 CPEC -> SYR ++ #application : getCurrentSchoolYear()
 SYR --> CPEC : currentSchoolYear
@@ -37,7 +37,7 @@ PER --
 CPEC --> UI : true
 CPEC --
 UI --> ASC -- : Programme Edition created for the current school year!
-participant "programmeList:List<Programme>"
+participant "programmeNameList:List<String>"
 participant "programme:Programme"
 participant "currentSchoolYear:SchoolYear"
 @enduml

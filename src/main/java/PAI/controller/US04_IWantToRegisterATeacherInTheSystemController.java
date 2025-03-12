@@ -1,12 +1,18 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.TeacherCareerProgressionListFactory;
+import PAI.repository.DepartmentRepository;
+import PAI.repository.TeacherCategoryRepository;
+import PAI.repository.TeacherRepository;
 
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
-    private TeacherRepository _teacherRepository;
-    private TeacherCategoryRepository _teacherCategoryRepository;
-    private DepartmentRepository _departmentRepository;
+    private final TeacherRepository _teacherRepository;
+    private final TeacherCategoryRepository _teacherCategoryRepository;
+    private final DepartmentRepository _departmentRepository;
 
     public US04_IWantToRegisterATeacherInTheSystemController( TeacherRepository teacherRepository,
                                                               TeacherCategoryRepository teacherCategoryRepository,
@@ -15,13 +21,18 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
         validateTeacherRepository(teacherRepository);
         validateTeacherCategoryRepository(teacherCategoryRepository);
         validateDepartmentRepository(departmentRepository);
+
+        this._teacherRepository = teacherRepository;
+        this._teacherCategoryRepository = teacherCategoryRepository;
+        this._departmentRepository = departmentRepository;
     }
 
     public boolean registerATeacherInTheSystem(
             String acronym, String name, String email, String nif, String phoneNumber,
             String academicBackground, String street, String postalCode, String location,
-            String country, String date, TeacherCategory category,
-            int workingPercentage, Department department ) {
+            String country, AddressFactory addressFactory, String date, TeacherCategory category,
+            int workingPercentage, Department department, TeacherCareerProgressionFactory CareerProgressionFactory,
+            TeacherCareerProgressionListFactory teacherCareerProgressionListFactory) {
 
         if(!isCategoryInTeacherCategoryRepository(category)){
             return false;
@@ -32,7 +43,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
 
         _teacherRepository.registerTeacher(
                 acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,
-                location,country,date,category,workingPercentage,department);
+                location,country, addressFactory,date,category,workingPercentage,department);
         return true;
     }
 
@@ -48,18 +59,15 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
         if (teacherRepository == null) {
             throw new IllegalStateException("TeacherRepository is null.");
         }
-        this._teacherRepository = teacherRepository;
     }
     private void validateTeacherCategoryRepository(TeacherCategoryRepository teacherCategoryRepository) {
         if (teacherCategoryRepository == null) {
             throw new IllegalStateException("TeacherCategoryRepository is null.");
         }
-        this._teacherCategoryRepository =teacherCategoryRepository;
     }
     private void validateDepartmentRepository(DepartmentRepository departmentRepository) {
         if (departmentRepository == null) {
             throw new IllegalStateException("DepartmentRepository is null.");
         }
-        this._departmentRepository = departmentRepository;
     }
 }

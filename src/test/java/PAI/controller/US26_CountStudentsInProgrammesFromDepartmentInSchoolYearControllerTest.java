@@ -1,5 +1,7 @@
 package PAI.controller;
 import PAI.domain.*;
+import PAI.repository.DepartmentRepository;
+import PAI.repository.ProgrammeEditionEnrollmentRepo;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;

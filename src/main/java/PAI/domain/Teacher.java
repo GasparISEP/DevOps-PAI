@@ -1,6 +1,8 @@
 package PAI.domain;
 
-import java.util.ArrayList;
+import PAI.factory.AddressFactory;
+import PAI.factory.TeacherCareerProgressionFactory;
+import PAI.factory.TeacherCareerProgressionListFactory;
 import java.util.List;
 
 public class Teacher {
@@ -19,14 +21,21 @@ public class Teacher {
 
     private Address _address;
 
+    private AddressFactory _addressFactory;
+
     private Department _department;
 
     private List<TeacherCareerProgression> _teacherCareerProgressionList;
 
+    private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
 
     //constructor
-    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, String date, TeacherCategory category, int workingPercentage,
-                   Department department) throws IllegalArgumentException {
+    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
+                   String street, String postalCode, String location, String country, AddressFactory addressFactory,
+                   String date, TeacherCategory category, int workingPercentage, Department department,
+                   TeacherCareerProgressionFactory teacherCareerProgressionFactory,
+                   TeacherCareerProgressionListFactory teacherCareerProgressionListFactory) throws IllegalArgumentException {
+
         validateAcronym(acronym);
         validateName(name);
         validateEmail(email);
@@ -34,10 +43,14 @@ public class Teacher {
         validatePhoneNumber(phoneNumber);
         validateAcademicBackground(academicBackground);
 
-        this._address = new Address (street, postalCode, location,country);
+        this._address = addressFactory.createAddress(street, postalCode, location, country);
 
-        this._teacherCareerProgressionList = new ArrayList<>();
-        TeacherCareerProgression tcp = new TeacherCareerProgression(date, category, workingPercentage);
+        _teacherCareerProgressionList = teacherCareerProgressionListFactory.createTeacherCareerProgressionList();
+
+        this._teacherCareerProgressionFactory = teacherCareerProgressionFactory;
+
+        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, category, workingPercentage);
+
         this._teacherCareerProgressionList.add(tcp);
 
         this._department = department;
@@ -106,6 +119,8 @@ public class Teacher {
     private void validateAcademicBackground(String academicBackground) throws IllegalArgumentException {
         if (academicBackground == null || academicBackground.isBlank())
             throw new IllegalArgumentException("Teacher's academic background must be a non-empty String.");
+
+        this._academicBackground = academicBackground;
     }
 
     public boolean hasSameAcronym(Teacher teacher) {
@@ -116,7 +131,7 @@ public class Teacher {
         return this._nif.equals(teacher._nif);
     }
 
-    protected boolean isInDepartment(Department department) {
+    public boolean isInDepartment(Department department) {
         return _department == department;
     }
 
@@ -134,7 +149,7 @@ public class Teacher {
         if (lastCareerProgression.getWorkingPercentage() == workingPercentage)
             throw new IllegalArgumentException("Working percentage must be different than the last working percentage!");
 
-        TeacherCareerProgression tcp = new TeacherCareerProgression(date, lastCategory, workingPercentage);
+        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, lastCategory, workingPercentage);
 
         if(!tcp.isDateAfter(lastCareerProgression))
             throw new IllegalArgumentException("Date must be greater than the last date registered!");
@@ -150,14 +165,14 @@ public class Teacher {
             throw new IllegalArgumentException("Teacher category cannot be null.");
         }
 
-        TeacherCareerProgression lastTeacherCareerProgression =  getLastTeacherCareerProgression();
+        TeacherCareerProgression lastTeacherCareerProgression = getLastTeacherCareerProgression();
 
         int lastWorkingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
 
         if(teacherCategory == lastTeacherCareerProgression.getCategory())
-            throw new IllegalArgumentException("The Teacher Category " + teacherCategory.getName() + " already exists.");
+            throw new IllegalArgumentException("The Teacher Category provided is already active.");
 
-        TeacherCareerProgression updatedTeacherCareerProgression = new TeacherCareerProgression(date, teacherCategory, lastWorkingPercentage);
+        TeacherCareerProgression updatedTeacherCareerProgression = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategory, lastWorkingPercentage);
 
         if(!updatedTeacherCareerProgression.isDateAfter(lastTeacherCareerProgression))
             throw new IllegalArgumentException("The date must be greater than the last date registered!");
@@ -173,4 +188,3 @@ public class Teacher {
 
     }
 }
-

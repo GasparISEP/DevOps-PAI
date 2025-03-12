@@ -1,132 +1,374 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.*;
+import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
-        //US28
-        @Test
-        public void removeExistingEnrollment() throws Exception {
-            // arrange
-            CourseEditionEnrollmentRepository repository= mock (CourseEditionEnrollmentRepository.class);
-            US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
 
-            Student student = mock (Student.class);
-            CourseEdition courseEdition = mock (CourseEdition.class);
+    // System should allow the successful removal of a student enrolled in a course edition
+    @Test
+        void removeExistingEnrollment_ShouldReturnTrue() {
+            // Arrange
+            CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
+            US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
 
-            //repository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
-            when (repository.removeEnrollment(student,courseEdition)).thenReturn(true);
+            Student mockStudent = mock(Student.class);
+            CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
-            // act
-            boolean result = controller.removeStudentEnrolment(student, courseEdition);
+            when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition)).thenReturn(true);
 
-            // assert
+            // Act
+            boolean result = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
+
+            // Assert
             assertTrue(result, "Enrollment should be removed successfully.");
-            assertFalse(repository.findByStudentAndEdition(student, courseEdition).isPresent());
+            verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition);
         }
 
-        @Test
-        public void removeNonExistingEnrollment() throws Exception {
-            // arrange
-            CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-            CourseEditionEnrollmentRepository repository= new CourseEditionEnrollmentRepository (factoryDouble);
-            US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+    // Ensures that the system does not allow the removal of a non-existent enrollment
+    @Test
+        void removeNonExistingEnrollment_ShouldReturnFalse() {
+            // Arrange
+            CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
+            US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
 
-            DegreeType master = new DegreeType("Master", 240);
-            Department CSE = new Department("CSE", "Computer Science Engineer");
-            TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-            Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                    "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal",
-                    "20-12-2010",
-                    assistantProfessor, 100, CSE);
-            Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
-            Course course = new Course("Programming 101", "P101", 6.0, 1);
-            SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
-            ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
-            CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+            Student mockStudent = mock (Student.class);
+            CourseEdition mockCourseEdition = mock (CourseEdition.class);
 
+            // Act
+            boolean result = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
 
-            Student student = new Student(1, "John", "223445667", "222333444", "123@gmail.com",
-                    new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
-
-            // act and assert
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-                controller.removeStudentEnrolment(student, courseEdition);
-            });
-
-            // assert
-            assertEquals("Enrollment does not exist.", exception.getMessage());
-
-            // check if the repository is still empty or if the enrollment has not been removed
-            Optional<CourseEditionEnrollment> removedEnrollment = repository.findByStudentAndEdition(student, courseEdition);
-            assertTrue(removedEnrollment.isEmpty(), "The enrollment should not exist.");
+            // Assert
+            assertFalse(result, "Removing a non existing enrollment should return false.");
+            verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition); // Ensure no enrollment creation occurs
         }
 
-        @Test
-        void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException() throws Exception {
-            // arrange
-            CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
-            CourseEditionEnrollmentRepository repository= new CourseEditionEnrollmentRepository (factoryDouble);
-            US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+    // If the student or course edition information is missing (null), the system should reject the operation and throw an exception
+    @Test
+        void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException() throws IllegalArgumentException {
+            // Arrange
+            CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
+            US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
 
-            Student st1 = new Student(1, "John", "223445667", "222333444", "123@gmail.com",
-                    new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
-            Department d1 = new Department("DCE", "Department of Computer Engineering");
-            SchoolYear sy1 = new SchoolYear("2024/2025", "14-10-2024", "30-06-2025");
-            DegreeType dt1 = new DegreeType("Master", 30);
-            TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-            Teacher pd1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                    "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, d1);
-            Programme p1 = new Programme("SWITCH DEV", "SDV", 30, 1, dt1, d1, pd1);
-            Course c1 = new Course("Development", "DEV", 5, 1);
-            ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-            CourseEdition ce1 = new CourseEdition(c1, pe1);
+            Student mockStudent = mock (Student.class);
+            CourseEdition mockCourseEdition = mock (CourseEdition.class);
 
-            // act and assert
+            // Act and assert
+            // test for the case where Student is null
             IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-                controller.removeStudentEnrolment(null, ce1);
+                controller.removeStudentEnrollment(null, mockCourseEdition);
             });
             assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
 
+            // test for the case where CourseEdition is null
             thrown = assertThrows(IllegalArgumentException.class, () -> {
-                controller.removeStudentEnrolment(st1, null);
+                controller.removeStudentEnrollment(mockStudent, null);
             });
             assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+            verify(mockRepository, never()).removeEnrollment(any(), any());
         }
 
-        @Test
-        public void removeEnrollmentTwice_ShouldThrowExceptionOnSecondAttempt() throws Exception {
-            // arrange
-            CourseEditionEnrollmentRepository repository= mock (CourseEditionEnrollmentRepository.class);
-            US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+    // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
+    @Test
+    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
+        // Arrange
+        CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
 
-            Student student = mock (Student.class);
-            CourseEdition courseEdition = mock (CourseEdition.class);
+        Student mockStudent = mock(Student.class);
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
-            //repository.enrollStudentInACourseEdition(student, courseEdition, LocalDate.now());
-            when (repository.removeEnrollment(student,courseEdition)).thenReturn(true);
+        when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition)).thenReturn(true)
+                .thenReturn(false);
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
 
-            // act: Remove enrollment the first time
-            boolean firstRemoval = controller.removeStudentEnrolment(student, courseEdition);
+        // Assert first removal is successful
+        assertTrue(firstRemoval, "Enrollment should be removed successfully.");
 
-            // assert first removal
-            assertTrue(firstRemoval, "The first removal should succeed.");
+        // Act again: Try removing a second time
+        boolean secondRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
 
-            doThrow(new IllegalArgumentException("Enrollment does not exist."))
-                    .when(repository).removeEnrollment(student, courseEdition);
-
-            // act and assert: Try removing again and expect an exception
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-                controller.removeStudentEnrolment(student, courseEdition);
-            });
-
-            // assert second removal throws correct exception
-            assertEquals("Enrollment does not exist.", exception.getMessage());
-        }
+        // Assert second removal fails
+        assertFalse(secondRemoval, "The second removal should not succeed.");
+        verify(mockRepository, times(2)).removeEnrollment(mockStudent, mockCourseEdition);
     }
+
+    // Ensures that the system does not allow the removal of an enrollment that has already been deactivated
+    @Test
+    void removeAlreadyInactiveEnrollment_ShouldReturnFalse() {
+        // Arrange
+        CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        Student mockStudent = mock(Student.class);
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        CourseEditionEnrollment mockCee = mock(CourseEditionEnrollment.class);
+
+        when(mockRepository.findByStudentAndEdition(mockStudent, mockCourseEdition))
+                .thenReturn(Optional.of(mockCee)); // Simulates that the repository found the enrollment
+
+        when(mockCee.isEnrollmentActive()).thenReturn(false); // Enrollment is already inactive
+
+        // Act: Try removing an already inactive enrollment
+        boolean result = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
+
+        // Assert
+        assertFalse(result, "Removing an already inactive enrollment should return false.");
+        verify(mockCee, never()).deactivateEnrollment(); // Ensure deactivateEnrollment is not called
+    }
+
+    // Ensures that different students enrolled in the same course edition can be removed without issues
+    @Test
+    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
+        // Arrange
+        CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        Student mockStudent1 = mock(Student.class);
+        Student mockStudent2 = mock(Student.class);
+
+        when(mockRepository.removeEnrollment(mockStudent1, mockCourseEdition)).thenReturn(true);
+        when(mockRepository.removeEnrollment(mockStudent2, mockCourseEdition)).thenReturn(true);
+
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrollment(mockStudent1, mockCourseEdition);
+        boolean secondRemoval = controller.removeStudentEnrollment(mockStudent2, mockCourseEdition);
+
+        // Assert
+        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
+        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
+        verify(mockRepository).removeEnrollment(mockStudent1, mockCourseEdition);
+        verify(mockRepository).removeEnrollment(mockStudent2, mockCourseEdition);
+    }
+
+    // Ensures that a student can be removed from multiple course editions correctly
+    @Test
+    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
+        // Arrange
+        CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        CourseEdition mockCourseEdition1 = mock(CourseEdition.class);
+        CourseEdition mockCourseEdition2 = mock(CourseEdition.class);
+        Student mockStudent = mock(Student.class);
+
+        when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition1)).thenReturn(true);
+        when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition2)).thenReturn(true);
+
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition1);
+        boolean secondRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition2);
+
+        // Assert
+        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
+        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
+        verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition1);
+        verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition2);
+    }
+
+
+    // Integration Tests
+    @Test
+    void removeExistingEnrollment_ShouldReturnTrue_IntegrationTest() throws Exception {
+        // Arrange
+        CourseEditionEnrollmentRepository repository = createRepository();
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
+        Student student = createStudent();
+        CourseEdition courseEdition = createCourseEdition();
+
+        repository.enrollStudentInACourseEdition(student, courseEdition);
+
+        // Act
+        boolean result = controller.removeStudentEnrollment(student, courseEdition);
+
+        // Assert
+        assertTrue(result, "Enrollment should be removed successfully.");
+    }
+
+    @Test
+    void removeNonExistingEnrollment_ShouldReturnFalse_IntegrationTest() throws Exception {
+        // Arrange
+        CourseEditionEnrollmentRepository repository = createRepository();
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
+        Student student = createStudent();
+        CourseEdition courseEdition = createCourseEdition();
+
+        // Act
+        boolean result = controller.removeStudentEnrollment(student, courseEdition);
+
+        // Assert
+        assertFalse(result, "Removing a non existing enrollment should return false.");
+    }
+
+    @Test
+    void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException_IntegrationTest() throws Exception {
+        // Arrange
+        CourseEditionEnrollmentRepository repository = createRepository();
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
+        Student student = createStudent();
+        CourseEdition courseEdition = createCourseEdition();
+
+        // Act and assert
+        // test for the case where Student is null
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            controller.removeStudentEnrollment(null, courseEdition);
+        });
+        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+
+        // test for the case where CourseEdition is null
+        thrown = assertThrows(IllegalArgumentException.class, () -> {
+            controller.removeStudentEnrollment(student, null);
+        });
+        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+    }
+
+    @Test
+    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
+        // Arrange
+        CourseEditionEnrollmentRepository repository = createRepository();
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
+        Student student = createStudent();
+        CourseEdition courseEdition = createCourseEdition();
+
+        repository.enrollStudentInACourseEdition(student, courseEdition);
+
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrollment(student, courseEdition);
+        boolean secondRemoval = controller.removeStudentEnrollment(student, courseEdition);
+
+        // Assert
+        assertTrue(firstRemoval, "Enrollment should be removed successfully.");
+        assertFalse(secondRemoval, "The second removal should not succeed.");
+    }
+
+    @Test
+    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
+        // Arrange
+        CourseEditionEnrollmentRepository repository = createRepository();
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
+        Student student1 = createStudent();
+        Student student2 = createStudent2();
+        CourseEdition courseEdition = createCourseEdition();
+
+        repository.enrollStudentInACourseEdition(student1, courseEdition);
+        repository.enrollStudentInACourseEdition(student2, courseEdition);
+
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrollment(student1, courseEdition);
+        boolean secondRemoval = controller.removeStudentEnrollment(student2, courseEdition);
+
+        // Assert
+        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
+        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
+    }
+
+    @Test
+    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
+        // Arrange
+        CourseEditionEnrollmentRepository repository = createRepository();
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
+        Student student = createStudent();
+        CourseEdition courseEdition1 = createCourseEdition();
+        CourseEdition courseEdition2 = createCourseEdition2();
+
+        repository.enrollStudentInACourseEdition(student, courseEdition1);
+        repository.enrollStudentInACourseEdition(student, courseEdition2);
+
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrollment(student, courseEdition1);
+        boolean secondRemoval = controller.removeStudentEnrollment(student, courseEdition2);
+
+        // Assert
+        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
+        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
+    }
+
+
+    // Integration Test Setup
+    private CourseEditionEnrollmentRepository createRepository() {
+        return new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+    }
+
+    private US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller createController(CourseEditionEnrollmentRepository repository) {
+        return new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+    }
+
+    private Student createStudent() {
+        return new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+    }
+
+    private Department createDepartment() throws Exception {
+        return new Department("CSE", "Computer Science Engineer");
+    }
+
+    private Teacher createTeacher() throws Exception {
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactory();
+        return new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, createDepartment(),
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+    }
+
+    private Programme createProgramme() throws Exception {
+        DegreeType master = new DegreeType("Master", 240);
+        return new Programme("Computer Engineering", "CE", 20, 6, master, createDepartment(), createTeacher(),
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+    }
+
+    private SchoolYear createSchoolYear() {
+        return new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+    }
+
+    private ProgrammeEdition createProgrammeEdition() throws Exception {
+        return new ProgrammeEdition(createProgramme(), createSchoolYear());
+    }
+
+    private Course createCourse() throws Exception {
+        return new Course("Programming 101", "P101", 6.0, 1);
+    }
+
+    private CourseEdition createCourseEdition() throws Exception {
+        return new CourseEdition(createCourse(), createProgrammeEdition());
+    }
+
+    private Student createStudent2() throws Exception {
+        return new Student("1762242", "John", "223445667", "222873444", "478@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+    }
+
+    private Programme createProgramme2() throws Exception {
+        DegreeType master = new DegreeType("Master", 240);
+        return new Programme("Civil Engineering", "CI", 20, 6, master, createDepartment(), createTeacher(),
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+    }
+
+    private ProgrammeEdition createProgrammeEdition2() throws Exception {
+        return new ProgrammeEdition(createProgramme2(), createSchoolYear());
+    }
+
+    private Course createCourse2() throws Exception {
+        return new Course("Programming 102", "P102", 6.0, 1);
+    }
+
+    private CourseEdition createCourseEdition2() throws Exception {
+        return new CourseEdition(createCourse2(), createProgrammeEdition2());
+    }
+}

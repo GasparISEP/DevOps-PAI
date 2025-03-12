@@ -8,6 +8,7 @@ participant "tc2:TeacherCategory" as TC2
 participant "tr1:TeacherRepo" as TR #orange
 participant "t1:Teacher" as T #lightyellow
 participant "tcp1:TeacherCareerProgression" as TCP #lightpink
+participant "tcpf1:TeacherCareerProgressionFactory" as TCPF
 participant "tcp2:TeacherCareerProgression" as TCP2 #lightpink
 
 activate UI
@@ -58,11 +59,16 @@ deactivate TCP
 |||
 T -> T: Validate if tc2 is different than tc1
 |||
-T -> TCP2** : createTeacherCarrerProgression(date, tc2, wp1)
+T -> TCPF : createTeacherCareerProgression(date, tc2, wp1)
+activate TCPF
+|||
+TCPF -> TCP2** : createTeacherCareerProgression(date, tc2, wp1)
 activate TCP2
 TCP2 -> TCP2 : validateDate(date)
-TCP2 --> T: tcp2
+TCP2 --> TCPF: tcp2
 deactivate TCP2
+TCPF --> T: tcp2
+deactivate TCPF
 |||
 ref over T, TCP
     check if tcp2 has a date later than tcp1
