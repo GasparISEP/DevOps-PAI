@@ -1,6 +1,5 @@
-package PAI.domain;
+package PAI.factory;
 
-import PAI.factory.GradeStudentListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

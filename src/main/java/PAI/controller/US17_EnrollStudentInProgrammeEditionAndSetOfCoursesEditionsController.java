@@ -39,7 +39,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
             Student student, Programme programme, SchoolYear schoolYear ) {
 
         if (!_programmeEnrolmentRepository.isStudentEnrolled(student, programme)) {
-            throw new IllegalStateException("Student should be enrolled in Programme.");
+            return false;
         }
 
         // Find ProgrammeEdition
@@ -47,14 +47,14 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
                 _programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear);
 
         if (optionalProgrammeEdition.isEmpty()) {
-            throw new IllegalStateException("Programme edition not found for the given school year.");
+            return false;
         }
 
         ProgrammeEdition programmeEdition = optionalProgrammeEdition.get();
 
         // Check if student is already enrolled
         if (_programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
-            throw new IllegalStateException("Student is already enrolled in the programme edition.");
+            return false;
         }
 
         // Enroll student in programmeEdition

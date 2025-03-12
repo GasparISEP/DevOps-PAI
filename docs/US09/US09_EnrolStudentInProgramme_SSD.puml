@@ -1,0 +1,19 @@
+@startuml
+actor ASC
+
+ASC -> System ++ : I want to enrol a student in a programme
+System --> ASC : What student?
+ASC -> System : Student uniqueNumber
+
+System --> ASC : What access method?
+ASC --> System : Access method name
+
+System --> ASC : What programme?
+ASC -> System : Programme Name
+
+System --> ASC : What is the date?
+ASC --> System : Date
+
+System --> ASC : Enrollment successful
+
+@enduml

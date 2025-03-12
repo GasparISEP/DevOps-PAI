@@ -43,8 +43,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
 
         _teacherRepository.registerTeacher(
                 acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,
-                location,country, addressFactory,date,category,workingPercentage,department, CareerProgressionFactory,
-                teacherCareerProgressionListFactory);
+                location,country, addressFactory,date,category,workingPercentage,department);
         return true;
     }
 
