@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ProgrammeEditionEnrollmentFactory;
+import PAI.factory.ProgrammeEditionEnrollmentFactoryImpl;
 import PAI.factory.ProgrammeEditionListFactoryImpl;
 
 
@@ -11,14 +11,14 @@ public class ProgrammeEditionEnrollmentRepo {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
 
-    private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
+    private final ProgrammeEditionEnrollmentFactoryImpl _programmeEditionEnrollmentFactoryImpl;
 
     private ProgrammeEditionListFactoryImpl _programmeEditionListFactoryImpl;
 
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory,
+    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl,
                                           ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
 
-        _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
+        _programmeEditionEnrollmentFactoryImpl = programmeEditionEnrollmentFactoryImpl;
         _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
     }
 
@@ -28,7 +28,7 @@ public class ProgrammeEditionEnrollmentRepo {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
-            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
+            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactoryImpl
                     .newProgrammeEditionEnrollment(student, programmeEdition);
 
             return _programmeEditionEnrollments.add(programmeEditionEnroll);

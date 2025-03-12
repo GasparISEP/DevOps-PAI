@@ -182,7 +182,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest(){
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -206,7 +206,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -270,7 +270,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -331,7 +331,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
@@ -397,7 +397,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfStudentIsAlreadyEnrolledInCourseEdition_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 

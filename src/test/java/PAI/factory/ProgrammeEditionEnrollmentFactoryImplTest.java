@@ -9,9 +9,8 @@ import PAI.domain.ProgrammeEditionEnrollment;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
-import java.time.LocalDate;
 
-class ProgrammeEditionEnrollmentFactoryTest {
+class ProgrammeEditionEnrollmentFactoryImplTest {
 
     @Test
     void whenNewProgrammeEditionEnrollmentInvoked_ThenMockObjectShouldBeCreated() {
@@ -25,7 +24,7 @@ class ProgrammeEditionEnrollmentFactoryTest {
                          when(mock.findProgrammeEditionInEnrollment()).thenReturn((ProgrammeEdition) context.arguments().get(1));
                      })) {
 
-            ProgrammeEditionEnrollmentFactory factory = new ProgrammeEditionEnrollmentFactory();
+            ProgrammeEditionEnrollmentFactoryImpl factory = new ProgrammeEditionEnrollmentFactoryImpl();
 
             // act
             ProgrammeEditionEnrollment enrollment =
