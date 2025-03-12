@@ -178,16 +178,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
     //integration tests
 
-    //auxiliary methods
-
-    private Student setUpStudent () {
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        return new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-    }
-
-
     //testing find Programme Editions that Student is Enrolled Method
-
     @Test
     void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest(){
         //arrange
