@@ -4,7 +4,7 @@ import PAI.domain.ProgrammeEdition;
 
 import java.util.List;
 
-public interface ProgrammeEditionListFactoryInterface {
+public interface IProgrammeEditionListFactory {
 
     public List<ProgrammeEdition> createProgrammeEditionArrayList();
 }
