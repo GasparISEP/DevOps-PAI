@@ -7,6 +7,7 @@ activate UI
 UI --> ASC : What student?
 deactivate UI
 ASC -> UI : Enter the student!
+
 activate UI
 participant ":US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
 UI -> Controller : getAllProgrammes()
@@ -24,8 +25,6 @@ activate "copyPgmList[i]:ProgrammeRepositoryListFactory"
 deactivate "copyPgmList[i]:ProgrammeRepositoryListFactory"
 ProgrammeRepositoryListFactoryImpl --> ProgrammeRepository : copyOfProgrammeList
 deactivate ProgrammeRepositoryListFactoryImpl
-
-
 ProgrammeRepository --> Controller : copyOfProgrammeList
 deactivate ProgrammeRepository
 Controller --> UI : listOfProgrammes
@@ -33,13 +32,25 @@ deactivate Controller
 UI --> ASC : Here is the list of Programmes! What programme do you want?
 deactivate UI
 ASC -> UI : Enter the programme!
+
 activate UI
 participant ":SchoolYearRepository" as SchoolYearRepository
 UI -> Controller : getAllSchoolYears()
 activate Controller
+participant ":SchoolYearRepository" as SchoolYearRepository
 Controller -> SchoolYearRepository : getAllSchoolYears()
 activate SchoolYearRepository
-SchoolYearRepository --> Controller : listOfSchoolYears
+participant ":SchoolYearRepositoryListFactoryImpl" as SchoolYearRepositoryListFactoryImpl
+SchoolYearRepository -> SchoolYearRepositoryListFactoryImpl : copySchoolYearArrayList(List<SchoolYear>)
+activate SchoolYearRepositoryListFactoryImpl
+create "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
+SchoolYearRepositoryListFactoryImpl -> "copySchoolYearList[i]:SchoolYearRepositoryListFactory": copySchoolYearArrayList(List<SchoolYear>)
+activate "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
+"copySchoolYearList[i]:SchoolYearRepositoryListFactory" --> SchoolYearRepositoryListFactoryImpl: EmptyList<SchoolYear>
+deactivate "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
+SchoolYearRepositoryListFactoryImpl --> SchoolYearRepository : copyOfSchoolYearList
+deactivate SchoolYearRepositoryListFactoryImpl
+SchoolYearRepository --> Controller : copyOfSchoolYearsList
 deactivate SchoolYearRepository
 Controller --> UI : listOfSchoolYears
 deactivate Controller
@@ -50,6 +61,7 @@ activate UI
 UI --> ASC : Sure?
 deactivate UI
 ASC -> UI : Yes!
+
 activate UI
 UI -> Controller : enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
 activate Controller
