@@ -11,23 +11,23 @@ activate UI
 participant ":US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
 UI -> Controller : getAllProgrammes()
 activate Controller
-participant ":ProgrammeList" as ProgrammeList
-Controller -> ProgrammeList : getAllProgrammes()
-activate ProgrammeList
-participant ":ProgrammeListArrayListFactory" as ProgrammeListArrayListFactory
-ProgrammeList -> ProgrammeListArrayListFactory : copyProgrammeArrayList(List<Programme>)
-activate ProgrammeListArrayListFactory
-create "copyPgmList[i]:ProgrammeListArrayListFactory"
-ProgrammeListArrayListFactory -> "copyPgmList[i]:ProgrammeListArrayListFactory": copyProgrammeArrayList(List<Programme>)
-activate "copyPgmList[i]:ProgrammeListArrayListFactory"
-"copyPgmList[i]:ProgrammeListArrayListFactory" --> ProgrammeListArrayListFactory: EmptyList<Programme>
-deactivate "copyPgmList[i]:ProgrammeListArrayListFactory"
-ProgrammeListArrayListFactory --> ProgrammeList : copyOfProgrammeList
-deactivate ProgrammeListArrayListFactory
+participant ":ProgrameRepository" as ProgrammeRepository
+Controller -> ProgrammeRepository : getAllProgrammes()
+activate ProgrammeRepository
+participant ":ProgrammeRepositoryListFactoryImpl" as ProgrammeRepositoryListFactoryImpl
+ProgrammeRepository -> ProgrammeRepositoryListFactoryImpl : copyProgrammeArrayList(List<Programme>)
+activate ProgrammeRepositoryListFactoryImpl
+create "copyPgmList[i]:ProgrammeRepositoryListFactory"
+ProgrammeRepositoryListFactoryImpl -> "copyPgmList[i]:ProgrammeRepositoryListFactory": copyProgrammeArrayList(List<Programme>)
+activate "copyPgmList[i]:ProgrammeRepositoryListFactory"
+"copyPgmList[i]:ProgrammeRepositoryListFactory" --> ProgrammeRepositoryListFactoryImpl: EmptyList<Programme>
+deactivate "copyPgmList[i]:ProgrammeRepositoryListFactory"
+ProgrammeRepositoryListFactoryImpl --> ProgrammeRepository : copyOfProgrammeList
+deactivate ProgrammeRepositoryListFactoryImpl
 
 
-ProgrammeList --> Controller : copyOfProgrammeList
-deactivate ProgrammeList
+ProgrammeRepository --> Controller : copyOfProgrammeList
+deactivate ProgrammeRepository
 Controller --> UI : listOfProgrammes
 deactivate Controller
 UI --> ASC : Here is the list of Programmes! What programme do you want?
@@ -87,13 +87,13 @@ participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
 end
 ProgrammeEditionEnrollmentRepo --> Controller : False
 deactivate "ProgrammeEditionEnrollmentRepo"
-Controller -> ProgrammeEditionEnrollmentRepo : enrollStudentInProgrammeEdition(student, pe1, LocalDate)
+Controller -> ProgrammeEditionEnrollmentRepo : enrollStudentInProgrammeEdition(student, pe1)
 activate "ProgrammeEditionEnrollmentRepo"
 participant ":ProgrammeEditionEnrollmentFactory" as ProgrammeEditionEnrollmentFactory
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentFactory: createProgrammeEditionEnrollment(student, pe1, LocalDate)
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentFactory: newProgrammeEditionEnrollment(student, pe1)
 activate ProgrammeEditionEnrollmentFactory
 create "pee1:ProgrammeEditionEnrollment"
-ProgrammeEditionEnrollmentFactory -> "pee1:ProgrammeEditionEnrollment" : createProgrammeEditionEnrollment(student, pe1, LocalDate)
+ProgrammeEditionEnrollmentFactory -> "pee1:ProgrammeEditionEnrollment" : newProgrammeEditionEnrollment(student, pe1)
 activate "pee1:ProgrammeEditionEnrollment"
 "pee1:ProgrammeEditionEnrollment" --> ProgrammeEditionEnrollmentFactory: pee1
 deactivate "pee1:ProgrammeEditionEnrollment"
@@ -141,7 +141,7 @@ loop for each "cee[i]:CourseEditionEnrollmentRepository" as CourseEditionEnrollm
 CourseEditionEnrollmentRepository -> CourseEditionEnrollment : findByStudentAndEdition(student, cee[i])
 CourseEditionEnrollmentRepository -> CourseEditionEnrollment : isPresent()
 create CourseEditionEnrollmentHashSet
-CourseEditionEnrollmentRepository -> CourseEditionEnrollmentHashSet : enrollStudentInACourseEdition(student, cee1, LocalDate)
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentHashSet : enrollStudentInACourseEdition(student, cee1)
 activate CourseEditionEnrollmentHashSet
 CourseEditionEnrollmentHashSet --> CourseEditionEnrollmentRepository : True
 deactivate CourseEditionEnrollmentHashSet
