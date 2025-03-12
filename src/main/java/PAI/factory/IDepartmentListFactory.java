@@ -2,6 +2,6 @@ package PAI.factory;
 import PAI.domain.Department;
 import java.util.Set;
 
-public interface DepartmentListFactoryInterface {
+public interface IDepartmentListFactory {
     Set<Department> newDepartmentList ();
 }

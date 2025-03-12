@@ -183,10 +183,27 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeExistingEnrollment_ShouldReturnTrue_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = createRepository();
-        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
-        Student student = createStudent();
-        CourseEdition courseEdition = createCourseEdition();
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactory();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        Course course = new Course("Programming 101", "P101", 6.0, 1);
+        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         repository.enrollStudentInACourseEdition(student, courseEdition);
 
@@ -200,10 +217,27 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeNonExistingEnrollment_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = createRepository();
-        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
-        Student student = createStudent();
-        CourseEdition courseEdition = createCourseEdition();
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactory();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        Course course = new Course("Programming 101", "P101", 6.0, 1);
+        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         // Act
         boolean result = controller.removeStudentEnrollment(student, courseEdition);
@@ -215,10 +249,27 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = createRepository();
-        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
-        Student student = createStudent();
-        CourseEdition courseEdition = createCourseEdition();
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactory();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        Course course = new Course("Programming 101", "P101", 6.0, 1);
+        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         // Act and assert
         // test for the case where Student is null
@@ -237,10 +288,27 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = createRepository();
-        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
-        Student student = createStudent();
-        CourseEdition courseEdition = createCourseEdition();
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactory();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        Course course = new Course("Programming 101", "P101", 6.0, 1);
+        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         repository.enrollStudentInACourseEdition(student, courseEdition);
 
@@ -256,11 +324,29 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = createRepository();
-        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
-        Student student1 = createStudent();
-        Student student2 = createStudent2();
-        CourseEdition courseEdition = createCourseEdition();
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+        Student student1 = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Student student2 = new Student("1762242", "John", "223445667", "222553444", "567@gmail.com",
+        new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactory();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        Course course = new Course("Programming 101", "P101", 6.0, 1);
+        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         repository.enrollStudentInACourseEdition(student1, courseEdition);
         repository.enrollStudentInACourseEdition(student2, courseEdition);
@@ -277,11 +363,33 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = createRepository();
-        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = createController(repository);
-        Student student = createStudent();
-        CourseEdition courseEdition1 = createCourseEdition();
-        CourseEdition courseEdition2 = createCourseEdition2();
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
+        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Department department = new Department("CSE", "Computer Science Engineer");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactory();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+        Course course = new Course("Programming 101", "P101", 6.0, 1);
+        CourseEdition courseEdition1 = new CourseEdition(course, programmeEdition);
+        Programme programme2 = new Programme("Civil Engineering", "CE", 20, 6, master, department, teacher,
+        new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2, schoolYear);
+        Course course2 = new Course("Programming 102", "P102", 6.0, 1);
+        CourseEdition courseEdition2 = new CourseEdition(course2, programmeEdition2);
 
         repository.enrollStudentInACourseEdition(student, courseEdition1);
         repository.enrollStudentInACourseEdition(student, courseEdition2);
@@ -293,82 +401,5 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         // Assert
         assertTrue(firstRemoval, "Student should be removed from the first course edition.");
         assertTrue(secondRemoval, "Student should be removed from the second course edition.");
-    }
-
-
-    // Integration Test Setup
-    private CourseEditionEnrollmentRepository createRepository() {
-        return new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
-    }
-
-    private US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller createController(CourseEditionEnrollmentRepository repository) {
-        return new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
-    }
-
-    private Student createStudent() {
-        return new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
-    }
-
-    private Department createDepartment() throws Exception {
-        return new Department("CSE", "Computer Science Engineer");
-    }
-
-    private Teacher createTeacher() throws Exception {
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactory addressFactory = new AddressFactory();
-        return new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, createDepartment(),
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
-    }
-
-    private Programme createProgramme() throws Exception {
-        DegreeType master = new DegreeType("Master", 240);
-        return new Programme("Computer Engineering", "CE", 20, 6, master, createDepartment(), createTeacher(),
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
-                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-    }
-
-    private SchoolYear createSchoolYear() {
-        return new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
-    }
-
-    private ProgrammeEdition createProgrammeEdition() throws Exception {
-        return new ProgrammeEdition(createProgramme(), createSchoolYear());
-    }
-
-    private Course createCourse() throws Exception {
-        return new Course("Programming 101", "P101", 6.0, 1);
-    }
-
-    private CourseEdition createCourseEdition() throws Exception {
-        return new CourseEdition(createCourse(), createProgrammeEdition());
-    }
-
-    private Student createStudent2() throws Exception {
-        return new Student("1762242", "John", "223445667", "222873444", "478@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
-    }
-
-    private Programme createProgramme2() throws Exception {
-        DegreeType master = new DegreeType("Master", 240);
-        return new Programme("Civil Engineering", "CI", 20, 6, master, createDepartment(), createTeacher(),
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
-                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-    }
-
-    private ProgrammeEdition createProgrammeEdition2() throws Exception {
-        return new ProgrammeEdition(createProgramme2(), createSchoolYear());
-    }
-
-    private Course createCourse2() throws Exception {
-        return new Course("Programming 102", "P102", 6.0, 1);
-    }
-
-    private CourseEdition createCourseEdition2() throws Exception {
-        return new CourseEdition(createCourse2(), createProgrammeEdition2());
     }
 }

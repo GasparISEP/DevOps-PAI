@@ -12,8 +12,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
 }
 class CourseEditionEnrollment {
     +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition)
-    +findStudentInCourseEditionEnrollment () : Student
-    +findCourseEditionInEnrollment () : CourseEdition
+    +hasStudent (student: Student) : boolean
+    +hasCourseEdition (courseEdition: CourseEdtion) : boolean
 }
 
 class CourseEditionEnrollmentRepository {
