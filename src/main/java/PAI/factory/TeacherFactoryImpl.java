@@ -4,11 +4,11 @@ import PAI.domain.*;
 
 public class TeacherFactoryImpl implements TeacherFactory {
 
-    private TeacherCareerProgressionFactory _teacherCareerProgressionfactory;
+    private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
     private TeacherCareerProgressionListFactory _teacherCareerProgressionListFactory;
 
     public TeacherFactoryImpl(TeacherCareerProgressionFactory tcpFact, TeacherCareerProgressionListFactory tcplFact){
-        _teacherCareerProgressionfactory = tcpFact;
+        _teacherCareerProgressionFactory = tcpFact;
         _teacherCareerProgressionListFactory = tcplFact;
     }
 
@@ -18,6 +18,6 @@ public class TeacherFactoryImpl implements TeacherFactory {
                                  Department department) throws IllegalArgumentException {
 
         return new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode,
-                location, country, addressFactory, date, category, workingPercentage, department, _teacherCareerProgressionfactory , _teacherCareerProgressionListFactory);
+                location, country, addressFactory, date, category, workingPercentage, department, _teacherCareerProgressionFactory, _teacherCareerProgressionListFactory);
     }
 }
