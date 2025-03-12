@@ -1,12 +1,15 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactoryImpl;
+import PAI.factory.AddressFactory;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.factory.TeacherCareerProgressionListFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -18,7 +21,7 @@ class TeacherTest {
     void shouldCreateTeacherWhenAllFieldsAreValid() throws IllegalArgumentException {
         // Arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -27,6 +30,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Rua das Flores","4444-098","Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("15-04-2005", tcDouble, 70)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
@@ -40,7 +45,7 @@ class TeacherTest {
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -49,6 +54,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Rua das Flores","4444-098","Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("15-04-2005", tcDouble, 70)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         //act
         Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
@@ -61,7 +68,7 @@ class TeacherTest {
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -71,6 +78,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Rua das Flores","4444-098","Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("15-04-2005", tcDouble, 70)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         //act
         Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005", tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
@@ -108,7 +117,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -118,6 +127,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Passeio Alegre", "4432-345", "Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -151,7 +162,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -160,6 +171,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Passeio Alegre", "4432-345", "Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -193,7 +206,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -202,6 +215,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress( "Passeio Alegre", "4432-345", "Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -235,7 +250,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -244,6 +259,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Passeio Alegre", "4432-345", "Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -280,7 +297,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -289,6 +306,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Passeio Alegre", "4432-345", "Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -316,7 +335,7 @@ class TeacherTest {
         String phoneNumber = "B123";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -325,6 +344,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Passeio Alegre", "4432-345", "Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -353,7 +374,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
@@ -361,6 +382,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress(street, "4432-345", "Porto","Portugal")).thenThrow(new IllegalArgumentException("Street cannot be empty!"));
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -389,7 +412,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -398,6 +421,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Rua das Flores", postalCode, "Porto","Portugal")).thenThrow(new IllegalArgumentException("Postal Code cannot be empty!"));
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -426,7 +451,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
@@ -434,6 +459,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Rua das Flores", "4444-085", location,"Portugal")).thenThrow(new IllegalArgumentException("Location cannot be empty!"));
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -462,7 +489,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
@@ -471,6 +498,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Rua das Flores","4444-085","Porto", country)).thenThrow(new IllegalArgumentException("Country cannot be empty!"));
         when(tcpFactoryDouble.createTeacherCareerProgression("14-05-2004", tcDouble, 100)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -499,7 +528,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -507,6 +536,8 @@ class TeacherTest {
 
         when(addressFactoryDouble.createAddress("Rua das Flores","4444-085","Porto","Portugal")).thenReturn(addressDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date, tcDouble, 100)).thenThrow(new IllegalArgumentException("Date cannot be empty!"));
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -519,10 +550,17 @@ class TeacherTest {
     void doesTeacherHaveThisNIF() throws IllegalArgumentException {
         // arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
         TeacherCareerProgressionListFactory tcplF = mock(TeacherCareerProgressionListFactory.class);
+
+        when(addressFactoryDouble.createAddress("Rua das Flores","4444-098","Porto","Portugal")).thenReturn(addressDouble);
+        when(tcpFactoryDouble.createTeacherCareerProgression("15-04-2005", tcDouble, 70)).thenReturn(tcpDouble);
+        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(mockList);
 
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble,"15-04-2005", tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
 
@@ -540,7 +578,7 @@ class TeacherTest {
         String date1 = "15-04-2005";
         String date2 = "17-04-2005";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -554,6 +592,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 50)).thenReturn(updatedtcpDouble);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble,date1 , tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -576,7 +615,7 @@ class TeacherTest {
         String date2 = "17-04-2005";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -590,6 +629,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenReturn(updatedtcpDouble);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -615,7 +655,7 @@ class TeacherTest {
         //arrange
         String date1 = "15-04-2005";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -629,6 +669,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 100)).thenReturn(updatedtcpDouble);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -649,7 +690,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble1 = mock(TeacherCategory.class);
         TeacherCategory tcDouble2 = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -663,6 +704,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble1, 70)).thenReturn(tcpDouble1);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenReturn(tcpDouble2);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble1, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -686,7 +728,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble1 = mock(TeacherCategory.class);
         TeacherCategory tcDouble2 = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -700,6 +742,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble1, 70)).thenReturn(tcpDouble1);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenReturn(tcpDouble2);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble1, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -722,7 +765,7 @@ class TeacherTest {
         String date2 = "12-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -735,6 +778,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("The date must be greater than the last date registered!"));
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -752,7 +796,7 @@ class TeacherTest {
         String date2 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -765,6 +809,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("The Teacher Category provided is already active."));
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -782,7 +827,7 @@ class TeacherTest {
         String date2 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -795,6 +840,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("The Teacher Category provided is already active."));
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -821,7 +867,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble1 = mock(TeacherCategory.class);
         TeacherCategory tcDouble2 = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -835,6 +881,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble1, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenReturn(updatedtcpDouble);
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble1, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -854,7 +901,7 @@ class TeacherTest {
         String date2 = null;
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -867,6 +914,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("Date cannot be empty!"));
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -884,7 +932,7 @@ class TeacherTest {
         String date2 = " "; // Blank date
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -897,6 +945,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("Date cannot be empty!"));
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -914,7 +963,7 @@ class TeacherTest {
         String date2 = "25/12/2024"; // Invalid date format
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -927,6 +976,8 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble, 70)).thenThrow(new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."));
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
+
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -945,7 +996,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         TeacherCategory tc = null; // Null category
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -958,6 +1009,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(tcpFactoryDouble.createTeacherCareerProgression(date1, tcDouble, 70)).thenReturn(tcpDouble);
         when(tcpFactoryDouble.createTeacherCareerProgression(date2, tc, 70)).thenThrow(new IllegalArgumentException("Teacher category cannot be null."));
+        when(tcplF.createTeacherCareerProgressionList()).thenReturn(new ArrayList<>());
 
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, date1, tcDouble, 70, dptDouble, tcpFactoryDouble, tcplF);
         // Set up behaviors needed for the System Under Test
@@ -975,7 +1027,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -997,7 +1049,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1019,7 +1071,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1041,7 +1093,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1062,7 +1114,7 @@ class TeacherTest {
         String date1 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1082,7 +1134,7 @@ class TeacherTest {
         String date1 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
+        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
         Department dptDouble1 = mock(Department.class);
         Department dptDouble2 = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
