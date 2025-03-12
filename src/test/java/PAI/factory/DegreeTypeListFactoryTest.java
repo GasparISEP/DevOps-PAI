@@ -9,9 +9,9 @@ class DegreeTypeListFactoryTest {
     @Test
     public void shouldCreateDegreeTypeList() {
         //Arrange
-        DegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactory();
+        DegreeTypeListFactoryImpl degreeTypeListFactoryImpl = new DegreeTypeListFactoryImpl();
         // Act + Assert
-        assertNotNull(degreeTypeListFactory);
+        assertNotNull(degreeTypeListFactoryImpl);
     }
 
 }
