@@ -1,10 +1,8 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.CourseEditionEnrollmentFactory;
-import PAI.factory.CourseEditionEnrollmentFactoryInterface;
-import PAI.factory.CourseEditionEnrollmentListFactory;
-import PAI.factory.CourseEditionEnrollmentListFactoryInterface;
+import PAI.factory.ICourseEditionEnrollmentFactory;
+import PAI.factory.ICourseEditionEnrollmentListFactory;
 
 import java.util.*;
 
@@ -12,10 +10,10 @@ public class CourseEditionEnrollmentRepository {
 
     private Set<CourseEditionEnrollment> _courseEditionEnrollments;
 
-    private final CourseEditionEnrollmentFactoryInterface _courseEditionEnrollmentFactory;
+    private final ICourseEditionEnrollmentFactory _courseEditionEnrollmentFactory;
 
     //constructor
-    public CourseEditionEnrollmentRepository(CourseEditionEnrollmentFactoryInterface courseEditionEnrollmentFactory, CourseEditionEnrollmentListFactoryInterface courseEditionEnrollmentListFactory) {
+    public CourseEditionEnrollmentRepository(ICourseEditionEnrollmentFactory courseEditionEnrollmentFactory, ICourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory) {
 
         _courseEditionEnrollments = courseEditionEnrollmentListFactory.getCourseEditionEnrollmentList();
         _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
@@ -44,11 +42,11 @@ public class CourseEditionEnrollmentRepository {
 
     public Optional<CourseEditionEnrollment> findByStudentAndEdition(Student student, CourseEdition courseEdition) {
         if (student == null || courseEdition == null) {
-            throw new IllegalArgumentException("Student and CourseEdition cannot be null");
+            return Optional.empty();
         }
-        for (CourseEditionEnrollment courseEEnrollments : _courseEditionEnrollments)
-            if (courseEEnrollments.findStudentInCourseEditionEnrollment().equals(student) && courseEEnrollments.findCourseEditionInEnrollment().equals(courseEdition)) {
-                return Optional.of(courseEEnrollments);
+        for (CourseEditionEnrollment courseEEnrollment : _courseEditionEnrollments)
+            if (courseEEnrollment.hasStudent(student) && courseEEnrollment.hasCourseEdition(courseEdition)) {
+                return Optional.of(courseEEnrollment);
             }
         return Optional.empty();
     }

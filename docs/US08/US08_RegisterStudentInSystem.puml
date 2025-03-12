@@ -6,7 +6,7 @@ actor ASC
 participant ":UI" as UI
 participant "ctrl1:RegisterStudentInSystemController" as ctrl
 participant "sr1:StudentRepository" as SR
-participant "s1:Student" as Student1
+participant "sf1:StudentFactory" as SF
 participant "s[i]:Student" as Student
 
 ASC -> UI: I want to register a student in the system
@@ -18,13 +18,11 @@ activate ctrl
 ctrl -> SR: registerStudent \n (Unique number, name, NIF, phone, email, Address)
 activate SR
 
-create Student1
-SR -> Student1: createStudent(uniqueNumber, name, NIF, phone, email, Address)
-activate Student1
-Student1 -> Student1: validateUniqueNumber()
-Student1 -> Student1: validateParameters()
-Student1 --> SR: s1
-deactivate Student1
+SR -> SF: newStudent(uniqueNumber, name, NIF, phone, email, Address)
+activate SF
+SF --> SR: s1 (new Student)
+deactivate SF
+
 SR -> SR : isStudentRepeated(s1)
 
 loop for each Student in SR
@@ -39,6 +37,8 @@ SR -> SR: students.add(s1)
 SR --> ctrl: True
 deactivate SR
 ctrl --> UI: True
+deactivate ctrl
 UI --> ASC: Success!
+deactivate UI
 
 @enduml

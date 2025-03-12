@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DepartmentListFactoryTest {
+class DepartmentListFactoryImplTest {
 
     @Test
     void shouldCreateDepartmentList() {
         // arrange
-        DepartmentListFactory factory = new DepartmentListFactory();
+        DepartmentListFactoryImpl factory = new DepartmentListFactoryImpl();
 
         // act
         Set<Department> result = factory.newDepartmentList();
