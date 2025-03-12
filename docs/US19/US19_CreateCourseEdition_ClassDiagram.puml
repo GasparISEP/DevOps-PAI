@@ -71,10 +71,21 @@ class CourseEdition {
     +whatProgrammeEditionBelongsThisCourseEdition ()
 }
 
-class CourseEditionFactory {
+interface CourseEditionFactory {
     +createCourseEdition(programmeEdition: ProgrammeEdition, course: Course)
 }
 
+class CourseEditionFactoryImpl {
+    +createCourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+}
+
+interface CourseEditionListFactory {
+    +newArrayList()
+}
+
+class CourseEditionListFactoryImpl {
+    +newArrayList()
+}
 
 class CourseEditionRepository {
     +CourseEditionRepository()
@@ -98,13 +109,17 @@ US19_CreateCourseEditionController "1" ..> "1" ProgrammeEditionRepository
 US19_CreateCourseEditionController "1" ..> "1" CourseEditionRepository
 US19_CreateCourseEditionController "1" ..> "1" ProgrammeList
 CourseEditionRepository "1" ..> "1" CourseEditionFactory
-CourseEditionRepository "List<CourseEdition>" *-- "1" CourseEdition
-ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition
-ProgrammeList "List<Programme>" *-- "0..*" Programme
-Programme "List <Course>" *-- "1..*" Course
+CourseEditionRepository "1" --> "_courseEditions" CourseEdition
+ProgrammeEditionRepository "1" --> "_programmeEditions" ProgrammeEdition
+ProgrammeList "1" --> "_programmes" Programme
+Programme "1" --> "_courses" Course
 CourseEdition "*" --> "1" ProgrammeEdition
 CourseEdition "1..*" --> "1..*" Course
-CourseEditionFactory "1" --> "1..*" CourseEdition
+CourseEditionFactory "1" ..> "1..*" CourseEdition
+CourseEditionFactoryImpl "1" ..|> "1" CourseEditionFactory
+CourseEditionListFactory "1" --> "1" CourseEditionRepository
+CourseEdition "1" --> "1" CourseEditionListFactory
+CourseEditionListFactoryImpl "1" ..|> "1" CourseEditionListFactory
 
 
 

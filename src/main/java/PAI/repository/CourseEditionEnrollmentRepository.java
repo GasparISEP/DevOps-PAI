@@ -1,9 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.CourseEditionEnrollmentFactory;
 import PAI.factory.CourseEditionEnrollmentFactoryInterface;
-import PAI.factory.CourseEditionEnrollmentListFactory;
 import PAI.factory.CourseEditionEnrollmentListFactoryInterface;
 
 import java.util.*;
