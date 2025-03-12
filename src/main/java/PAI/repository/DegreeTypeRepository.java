@@ -1,7 +1,6 @@
 package PAI.repository;
 
 import PAI.domain.DegreeType;
-import PAI.factory.DegreeTypeFactoryImpl;
 import PAI.factory.DegreeTypeFactoryInterface;
 import PAI.factory.DegreeTypeListFactoryInterface;
 
