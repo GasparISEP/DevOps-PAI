@@ -2,9 +2,9 @@ package PAI.repository;
 
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEdition;
+import PAI.factory.IProgrammeEditionFactoryImpl;
 import PAI.factory.ProgrammeEditionListFactory;
 import PAI.domain.SchoolYear;
-import PAI.factory.ProgrammeEditionFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,16 +12,16 @@ import java.util.Optional;
 public class ProgrammeEditionRepository {
 
     private final List<ProgrammeEdition> _programmeEditionList;
-    private final ProgrammeEditionFactory _programmeEditionFactory;
+    private final IProgrammeEditionFactoryImpl _programmeEditionFactoryImpl;
 
-    public ProgrammeEditionRepository (ProgrammeEditionFactory programmeEditionFactory, ProgrammeEditionListFactory programmeEditionListFactory) {
+    public ProgrammeEditionRepository (IProgrammeEditionFactoryImpl programmeEditionFactoryImpl, ProgrammeEditionListFactory programmeEditionListFactory) {
         _programmeEditionList = programmeEditionListFactory.createProgrammeEditionArrayList();
-        _programmeEditionFactory = programmeEditionFactory;
+        _programmeEditionFactoryImpl = programmeEditionFactoryImpl;
     }
 
     public boolean createProgrammeEdition(Programme programme, SchoolYear schoolYear) {
         try {
-            ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(programme, schoolYear);
+            ProgrammeEdition programmeEdition = _programmeEditionFactoryImpl.createProgrammeEdition(programme, schoolYear);
             if (!isProgrammeEditionAlreadyRegistered(programmeEdition)) {
                 _programmeEditionList.add(programmeEdition);
                 return true;
