@@ -440,9 +440,9 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any()); // Ensure no enrollment creation occurs
     }
 
-    // If the student or course edition information is missing (null), the system should reject the operation and throw an exception
+    // If the student or course edition information is missing (null), the system should reject the operation
     @Test
-    void removeEnrollment_WithNullStudentOrCourseEdition_ShouldReturnFalse() throws IllegalArgumentException {
+    void removeEnrollment_WithNullStudentOrCourseEdition_ShouldReturnFalse(){
         // Arrange
         ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrollmentFactory.class);
         ICourseEditionEnrollmentListFactory CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
