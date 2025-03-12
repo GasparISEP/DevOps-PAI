@@ -6,29 +6,29 @@ participant ":GradeStudentRepository" as GR
 participant ":GradeStudent" as GradeStudent
 
 
-ProgrammeDirector -> UI ++ #application: I want to know average grade of Course Edition
-UI --> ProgrammeDirector -- : Course Edition?
-ProgrammeDirector -> UI ++ #application: Course Edition!
-UI -> KA ++ #application : IWantToKnowTheAvg(courseEdition1)
-KA -> GR ++ #application : knowTheAverageGrade(courseEdition1)
+ProgrammeDirector -> UI ++ #application: 1.I want to know average grade of Course Edition
+UI --> ProgrammeDirector -- : 2.Course Edition?
+ProgrammeDirector -> UI ++ #application: 3.Course Edition!
+UI -> KA ++ #application : 4.IWantToKnowTheAvg(courseEdition1)
+KA -> GR ++ #application : 5.knowTheAverageGrade(courseEdition1)
 
 
 
 loop for each GradeStudent in GR
-    GR -> GradeStudent : hasThisCourseEdition(courseEdition1)
+    GR -> GradeStudent : 6.hasThisCourseEdition(courseEdition1)
     activate GradeStudent
-    GradeStudent --> GR : True!
+    GradeStudent --> GR : 7.True!
     deactivate GradeStudent
 
-    GR -> GradeStudent : knowGrade()
+    GR -> GradeStudent : 8.knowGrade()
     activate GradeStudent
-    GradeStudent --> GR : grade
+    GradeStudent --> GR : 9.grade
     deactivate GradeStudent
 end
 
 
-GR --> KA --: Average Grade (courseEdition1)
-KA --> UI --: Average Grade (courseEdition1)
-UI --> ProgrammeDirector --: Average Grade (courseEdition1)
+GR --> KA --: 10.Average Grade of courseEdition1
+KA --> UI --: 11.Average Grade of courseEdition1
+UI --> ProgrammeDirector --: 12.Average Grade of courseEdition1
 
 @enduml
