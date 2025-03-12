@@ -3,13 +3,11 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.CourseRepository;
 import PAI.repository.GradeStudentRepository;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -97,7 +95,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrollmentListFactory();
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
         CourseFactory courseFactory = new CourseFactoryImpl();
-        ProgrammeCourseListFactory programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
+        IProgrammeCourseListFactory IProgrammeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactory studyPlanListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactoryImpl();
@@ -116,7 +114,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"12-03-2025", tc1, 70, dpt1,teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, programmeCourseListFactory, courseInStudyPlanFactory,studyPlanListFactory,
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory,studyPlanListFactory,
                 studyPlanFactory,courseFactory);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
