@@ -17,8 +17,8 @@ class CourseEditionEnrollment {
 }
 
 class CourseEditionEnrollmentRepository {
-    +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory,
-    courseEditionEnrollmentListFactory: CourseEditionEnrollmentListFactory)
+    +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactoryInterface: CourseEditionEnrollmentFactoryInterface,
+    courseEditionEnrollmentListFactoryInterface: CourseEditionEnrollmentListFactoryInterface)
     +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
     +removeEnrollment (student: Student, courseEdition: CourseEdition) : boolean
@@ -60,10 +60,9 @@ interface CourseEditionEnrollmentListFactoryInterface{
 
 CourseEditionEnrollment "*" --> "_student 1" Student
 CourseEditionEnrollment "*" --> "_courseEdition 1    " CourseEdition
-CourseEditionEnrollmentRepository"1"..> "    _courseEditionEnrollments *  "CourseEditionEnrollment
 US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1 " CourseEditionEnrollmentRepository
-CourseEditionEnrollmentFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentFactory
-CourseEditionEnrollmentListFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentListFactory
+CourseEditionEnrollmentFactoryInterface  <|..  CourseEditionEnrollmentFactory
+CourseEditionEnrollmentListFactoryInterface  <|..  CourseEditionEnrollmentListFactory
 CourseEditionEnrollmentRepository ..> CourseEditionEnrollmentFactoryInterface
 CourseEditionEnrollmentFactoryInterface ..> CourseEditionEnrollment
 CourseEditionEnrollmentRepository .u.> CourseEditionEnrollmentListFactoryInterface
