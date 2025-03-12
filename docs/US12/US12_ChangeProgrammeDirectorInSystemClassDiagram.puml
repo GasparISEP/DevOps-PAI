@@ -38,10 +38,10 @@ class Programme {
      +hasThisProgrammeName(String : name)
  }
 
-class ProgrammeList {
-     -_programmeFactory: ProgrammeFactory
+class ProgrammeRepository {
+     -_programmeFactory: ProgrammeFactoryImpl
      -_programmeList: List<Programme>
-     -_programmeListArrayListFactory: ProgrammeListArrayListFactory
+     -_programmeListArrayListFactory: ProgrammeRepositoryListImpl
      +registerProgramme(name : String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
      courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
@@ -75,22 +75,22 @@ class Teacher {
      +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
 }
 
-class ProgrammeFactory {
+class ProgrammeFactoryImpl {
     +registerProgramme(name : String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
     courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory)
     }
 
-class ProgrammeListArrayListFactory{
+class ProgrammeRepositoryListImpl{
     +newProgrammeArrayList()
     +copyProgrammeArrayList(List<Programme> list)
     }
 
-interface ProgrammeListArrayListFactoryInterface {
+interface ProgrammeRepositoryList {
     +newProgrammeArrayList()
     +copyProgrammeArrayList(List<Programme> list)
     }
 
-interface ProgrammeFactoryInterface {
+interface ProgrammeFactory {
     +registerProgramme(String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
                            courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory)
     }
@@ -99,16 +99,16 @@ class List<Programme> {
 }
 
 Programme "1..*" --> "1" Teacher : has a Programme Director
-ProgrammeList "1" -->  "1" Programme
-ProgrammeList ..> ProgrammeListArrayListFactoryInterface
-ProgrammeList ..> ProgrammeFactoryInterface
-ProgrammeFactoryInterface "1" <|.. "1" ProgrammeFactory : implements
-ProgrammeListArrayListFactoryInterface "1" <|.. "1" ProgrammeListArrayListFactory : implements
-ProgrammeList --> "1" List
-US12_ChangeProgrammeDirectorInSystem "1  " ..> "1  " ProgrammeList
+ProgrammeRepository "1" ..>  "1" Programme
+ProgrammeRepository ..> ProgrammeRepositoryList
+ProgrammeRepository ..> ProgrammeFactory
+ProgrammeFactory "1" <|.. "1" ProgrammeFactoryImpl
+ProgrammeRepositoryList "1" <|.. "1" ProgrammeRepositoryListImpl
+ProgrammeRepository --> "1" List
+US12_ChangeProgrammeDirectorInSystem "1  " ..> "1  " ProgrammeRepository
 List --> Programme
-ProgrammeListArrayListFactoryInterface --> List
-ProgrammeFactoryInterface --> Programme : creates
+ProgrammeRepositoryList ..> List : <<creates>>
+ProgrammeFactory ..> Programme : <<creates>>
 
 
 
