@@ -17,9 +17,8 @@ class CourseEditionEnrollment {
 }
 
 class CourseEditionEnrollmentRepository {
-    +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactoryInterface: CourseEditionEnrollmentFactoryInterface,
-    courseEditionEnrollmentListFactoryInterface: CourseEditionEnrollmentListFactoryInterface)
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+     +CourseEditionEnrollmentRepository(courseEditionEnrollmentFactoryInterface: CourseEditionEnrollmentFactoryInterface,
+        courseEditionEnrollmentListFactoryInterface: CourseEditionEnrollmentListFactoryInterface)
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrollment>
     +removeEnrollment (student: Student, courseEdition: CourseEdition) : boolean
 }
@@ -42,29 +41,11 @@ class CourseEdition {
     +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
 }
 
-class CourseEditionEnrollmentFactory {
-    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition)
-}
-
-class CourseEditionEnrollmentListFactory{
-+getCourseEditionEnrollmentList(): Set<CourseEditionEnrollment>
-}
-
-interface CourseEditionEnrollmentFactoryInterface{
-    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition)
-}
-interface CourseEditionEnrollmentListFactoryInterface{
-+getCourseEditionEnrollmentList():Set<CourseEditionEnrollment>
-}
 
 
 CourseEditionEnrollment "*" --> "_student 1" Student
 CourseEditionEnrollment "*" --> "_courseEdition 1    " CourseEdition
+CourseEditionEnrollmentRepository"1"..> "    _courseEditionEnrollments *  "CourseEditionEnrollment
 US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1 " CourseEditionEnrollmentRepository
-CourseEditionEnrollmentFactoryInterface  <|..  CourseEditionEnrollmentFactory
-CourseEditionEnrollmentListFactoryInterface  <|..  CourseEditionEnrollmentListFactory
-CourseEditionEnrollmentRepository ..> CourseEditionEnrollmentFactoryInterface
-CourseEditionEnrollmentFactoryInterface ..> CourseEditionEnrollment
-CourseEditionEnrollmentRepository .u.> CourseEditionEnrollmentListFactoryInterface
 
 @enduml
