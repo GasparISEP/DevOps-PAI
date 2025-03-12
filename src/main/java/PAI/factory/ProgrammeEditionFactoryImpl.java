@@ -4,7 +4,7 @@ import PAI.domain.Programme;
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.SchoolYear;
 
-public class ProgrammeEditionFactoryImpl implements ProgrammeEditionFactoryInterface {
+public class ProgrammeEditionFactoryImpl implements IProgrammeEditionFactory {
 
     @Override
     public ProgrammeEdition createProgrammeEdition(Programme programme, SchoolYear schoolYear) throws Exception {
