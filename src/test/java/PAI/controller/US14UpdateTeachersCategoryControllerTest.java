@@ -65,24 +65,7 @@ class US14UpdateTeachersCategoryControllerTest {
         TeacherCategory tc1Double = mock(TeacherCategory.class);
         TeacherCategory tc2Double = mock(TeacherCategory.class);
 
-        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
-        teacherListDouble.add(teacherDouble);
-        Iterator<Teacher> teacherIterator = mock(Iterator.class);
-
         when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacherDouble));
-        when(teacherDouble.hasThisNIF("213784542")).thenReturn(true);
-
-        when(teacherListDouble.iterator()).thenReturn(teacherIterator);
-        when(teacherIterator.hasNext()).thenReturn(true, false);
-        when(teacherIterator.next()).thenReturn(teacherDouble);
-
-        ArrayList<TeacherCategory> categoryListDouble = mock(ArrayList.class);
-        Iterator<TeacherCategory> categoryIterator = mock(Iterator.class);
-
-        when(categoryListDouble.iterator()).thenReturn(categoryIterator);
-        when(categoryIterator.hasNext()).thenReturn(true, false);
-        when(categoryIterator.next()).thenReturn(tc1Double);
-
         when(teacherDouble.hasThisNIF("213784542")).thenReturn(true);
 
         when(tc1Double.getName()).thenReturn("Assistente");
@@ -117,19 +100,6 @@ class US14UpdateTeachersCategoryControllerTest {
     void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdatedTeachersCategory() throws Exception {
         // Arrange
         Teacher teacher = mock(Teacher.class);
-
-        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
-        Iterator<Teacher> teacherIterator = mock(Iterator.class);
-
-        ArrayList<TeacherCategory> categoryListDouble = mock(ArrayList.class);
-        Iterator<TeacherCategory> categoryIterator = mock(Iterator.class);
-
-        when(teacherListDouble.iterator()).thenReturn(teacherIterator);
-        when(teacherIterator.hasNext()).thenReturn(true, false);
-        when(teacherIterator.next()).thenReturn(teacher);
-
-        when(categoryListDouble.iterator()).thenReturn(categoryIterator);
-        when(categoryIterator.hasNext()).thenReturn(false);
 
         when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));
 
