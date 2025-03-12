@@ -150,12 +150,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenReturn(true);
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble)).thenReturn(true);
 
         // Act
         boolean result = controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble);
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "23-01-2025", tcDouble, 100, dptDouble);
 
         // Assert
         assertTrue(result);
@@ -195,12 +195,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher(acronym, "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher(acronym, "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     //testing the Teacher name
@@ -234,12 +234,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD", name, "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", name , "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidTeacherEmailInController() {
@@ -272,12 +272,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", email,
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", email,
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidTeacherNIFInController() {
@@ -310,12 +310,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 nif, "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 nif, "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidTeacherPhoneNumberInController() {
@@ -351,12 +351,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", phoneNumber, "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", phoneNumber, "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidAcademicBackgroundInController() {
@@ -383,12 +383,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", academicBackground,
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", academicBackground,
-                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidStreetInController() {
@@ -415,12 +415,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                street, "12345", "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidPostalCodeInController() {
@@ -447,12 +447,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", postalCode, "Cityville", "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidLocationInController() {
@@ -479,12 +479,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", location, "Countryland", addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidCountryInController() {
@@ -511,12 +511,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville", country, addressFactoryDouble, "20-03-2010", tcDouble, 100, dptDouble));
     }
 
     public static Stream<Arguments> provideInvalidDateInController() {
@@ -543,11 +543,11 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(trDouble.registerTeacher("JSD","John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146", "12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
+                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> controllerUS13.registerTeacher("JSD", "John Smith Doe", "jsd@isep.ipp.pt",
                 "123456789", "B146","12-05-2019, PhD, ISEP",
-                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble, tcpFactoryDouble, tcpLFactoryDouble));
+                "123 Main St", "12345", "Cityville","Countryland", addressFactoryDouble, date, tcDouble, 100, dptDouble));
     }
 }
