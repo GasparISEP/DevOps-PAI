@@ -17,9 +17,8 @@ class AccessMethodFactoryTest {
         AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
         String accessMethodName = "Maiores 23";
         try (MockedConstruction<AccessMethod> mockAccessMethod = mockConstruction(AccessMethod.class, (mock, context) ->{
-            String actualName = (String) context.arguments().get(0);
             when(mock.hasThisAccessMethodName(accessMethodName)).thenReturn(true);
-            })) {
+        })) {
         //act
         AccessMethod accessMethod = accessMethodFactory.createAccessMethod(accessMethodName);
         //assert
