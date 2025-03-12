@@ -1,11 +1,15 @@
 package PAI.controller;
 
 import PAI.domain.*;
+import PAI.factory.*;
 import PAI.repository.CourseEditionRepository;
+import PAI.repository.CourseRepository;
 import PAI.repository.ProgrammeEditionRepository;
 import PAI.repository.ProgrammeRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +20,7 @@ class US19_CreateCourseEditionControllerTest {
 
 
     @Test
-    void shouldReturnTrueIfCourseEditionIsCreated() {
+    void shouldReturnTrueIfCourseEditionIsCreated_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -40,7 +44,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreated() {
+    void shouldReturnFalseIfCourseEditionIsNotCreated_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -64,7 +68,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() {
+    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -87,7 +91,7 @@ class US19_CreateCourseEditionControllerTest {
 
 
     @Test
-    void ShouldReturnSizeOfListOfProgrammeEditionsForMethodGetAllProgrammeEditions() {
+    void ShouldReturnSizeOfListOfProgrammeEditionsForMethodGetAllProgrammeEditions_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -111,7 +115,7 @@ class US19_CreateCourseEditionControllerTest {
 
 
     @Test
-    void shouldReturnTrueIfListOfProgrammeEditionsContainsProgrammeEdition() {
+    void shouldReturnTrueIfListOfProgrammeEditionsContainsProgrammeEdition_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -135,7 +139,7 @@ class US19_CreateCourseEditionControllerTest {
 
 
     @Test
-    void shouldReturnFalseIfListOfProgrammeEditionsDoesNotContainProgrammeEdition() {
+    void shouldReturnFalseIfListOfProgrammeEditionsDoesNotContainProgrammeEdition_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -160,7 +164,7 @@ class US19_CreateCourseEditionControllerTest {
 
 
     @Test
-    void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod() {
+    void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -187,7 +191,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod() {
+    void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -210,7 +214,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod() {
+    void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -234,7 +238,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod() {
+    void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod_isolated() {
         //SUT = CreateCourseEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -261,4 +265,340 @@ class US19_CreateCourseEditionControllerTest {
         assertFalse(controller.getCoursesInProgramme(programmeEditionDouble).contains(courseDouble2));
     }
 
-}
+    //INTEGRATION TESTS
+    //setUp
+    private IProgrammeEditionFactory programmeEditionFactory;
+    private IProgrammeEditionListFactory programmeEditionListFactory;
+    private ProgrammeEditionRepository programmeEditionRepository;
+
+    private CourseEditionFactory courseEditionFactory;
+    private CourseEditionListFactory courseEditionListFactory;
+    private CourseEditionRepository courseEditionRepository;
+
+    private ProgrammeFactory programmeFactory;
+    private ProgrammeCourseListFactoryImpl programmeCourseListFactory;
+    private ProgrammeRepositoryListFactory programmeListFactory;
+    private ProgrammeRepository programmeRepository;
+
+    private CourseInStudyPlanFactory courseInStudyPlanFactory;
+    private StudyPlanListFactory studyPlanListFactory;
+    private StudyPlanFactory studyPlanFactory;
+    private CourseFactory courseFactory;
+
+    private US19_CreateCourseEditionController controller;
+
+    private Course course;
+    private AddressFactory addressFactory;
+
+    private TeacherCareerProgressionListFactory teacherCareerListFactory;
+    private TeacherCareerProgressionFactory teacherCareerFactory;
+    private TeacherCategory teacherCategory;
+
+    private ProgrammeEdition programmeEdition;
+    private Programme programme;
+    private SchoolYear schoolYear;
+
+
+
+    @BeforeEach
+    void setUp() throws Exception {
+        programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+        programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+
+        courseEditionFactory = new CourseEditionFactoryImpl();
+        courseEditionListFactory = new CourseEditionListFactoryImpl();
+        courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+
+        programmeFactory = new ProgrammeFactoryImpl();
+        programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
+        programmeListFactory = new ProgrammeRepositoryListFactoryImpl();
+        programmeRepository = new ProgrammeRepository(programmeFactory, programmeListFactory);
+
+        courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        studyPlanListFactory = new StudyPlanListFactoryImpl();
+        studyPlanFactory = new StudyPlanFactoryImpl();
+        courseFactory = new CourseFactoryImpl();
+
+        controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeRepository);
+
+        course = new Course("Informatics", "INF", 6, 1);
+        addressFactory = new AddressFactory();
+
+        teacherCareerListFactory = new TeacherCareerProgressionListFactory();
+        teacherCareerFactory = new TeacherCareerProgressionFactory();
+        teacherCategory = new TeacherCategory("Professor Adjunto");
+
+        programme = new Programme("Computer Engineering", "CE", 20, 6,
+                        new DegreeType("Master", 240),
+                        new Department("CSE", "Computer Science Engineer"),
+                        new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                                "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
+                                teacherCategory, 70,
+                                new Department("CSE", "Computer Science Engineer"),
+                                teacherCareerFactory, teacherCareerListFactory),
+                        programmeCourseListFactory,
+                        courseInStudyPlanFactory,
+                        studyPlanListFactory,
+                        studyPlanFactory,
+                        courseFactory);
+
+        schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+
+        programmeEdition = new ProgrammeEdition(programme, schoolYear);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseEditionIsCreated_integration() {
+        // Arrange
+        // Act
+        boolean result = controller.createCourseEdition(course, programmeEdition);
+
+        // Assert
+        assertTrue(result);
+    }
+
+        @Test
+        void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseCourseIsNull_integration() {
+            // Arrange
+            // Act
+            boolean result = controller.createCourseEdition(null, programmeEdition);
+
+            // Assert
+            assertFalse(result);
+        }
+
+        @Test
+        void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionIsNull_integration() {
+            // Arrange
+            // Act
+            boolean result = controller.createCourseEdition(course, null);
+
+            // Assert
+            assertFalse(result);
+        }
+
+        @Test
+        void shouldReturnFalseIfCourseEditionIsNotCreatedBecauseProgrammeEditionAndCourseAreNull_integration() {
+            // Arrange
+            // Act
+            boolean result = controller.createCourseEdition(null, null);
+
+            // Assert
+            assertFalse(result);
+        }
+
+        @Test
+        void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty_integration() {
+            // Act + Assert
+            assertNotNull(controller.getAllProgrammeEditions());
+        }
+
+        @Test
+        void ShouldReturnSizeOfListOfProgrammeEditionsForMethodGetAllProgrammeEditions_integration() throws Exception {
+            // Arrange
+            Programme programme2 = new Programme("Computer Science", "CC", 20, 6,
+                    new DegreeType("Master", 240),
+                    new Department("CSE", "Computer Science Engineer"),
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                            "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
+                            teacherCategory, 70,
+                            new Department("CSE", "Computer Science Engineer"),
+                            teacherCareerFactory, teacherCareerListFactory),
+                    programmeCourseListFactory,
+                    courseInStudyPlanFactory,
+                    studyPlanListFactory,
+                    studyPlanFactory,
+                    courseFactory);
+
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+            programmeEditionRepository.createProgrammeEdition(programme2,schoolYear);
+
+            // Act
+            controller.getAllProgrammeEditions();
+
+            // Assert
+            assertEquals(2, controller.getAllProgrammeEditions().size());
+        }
+
+
+        @Test
+        void shouldReturnTrueIfListOfProgrammeEditionsContainsProgrammeEdition_integration() throws Exception {
+            // Arrange
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+
+            // Act
+            List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
+
+            // Assert
+            assertTrue(allEditions.contains (programmeEdition));
+        }
+
+        @Test
+        void shouldReturnFalseIfListOfProgrammeEditionsNotContainsProgrammeEdition_integration() throws Exception {
+            // Arrange
+            Programme programme2 = new Programme("Computer Science", "CC", 20, 6,
+                    new DegreeType("Master", 240),
+                    new Department("CSE", "Computer Science Engineer"),
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                            "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
+                            teacherCategory, 70,
+                            new Department("CSE", "Computer Science Engineer"),
+                            teacherCareerFactory, teacherCareerListFactory),
+                    programmeCourseListFactory,
+                    courseInStudyPlanFactory,
+                    studyPlanListFactory,
+                    studyPlanFactory,
+                    courseFactory);
+
+            ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2,schoolYear);
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+
+            // Act
+            List<ProgrammeEdition> allEditions = controller.getAllProgrammeEditions();
+            // Assert
+            assertFalse(allEditions.contains (programmeEdition2));
+        }
+
+
+
+        @Test
+        void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
+            // Arrange
+            CourseListFactory courseListFactory = new CourseListFactory();
+            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            courseRepository.registerCourse("Informatica", "INF", 6, 1);
+            courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            Course c1 = new Course ("Informatica", "INF", 6, 1);
+            Course c2 = new Course("Matemática", "MAT", 4, 1);
+
+            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+                    new DegreeType("Master", 240),
+                    new Department("CSE", "Computer Science Engineer"),
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                            "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
+                            teacherCategory, 70,
+                            new Department("CSE", "Computer Science Engineer"),
+                            teacherCareerFactory, teacherCareerListFactory),
+                    programmeCourseListFactory,
+                    courseInStudyPlanFactory,
+                    studyPlanListFactory,
+                    studyPlanFactory,
+                    courseFactory);
+
+            programme.addCourseToAProgramme(c1);
+            programme.addCourseToAProgramme(c2);
+
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+
+            // Act + Assert
+            assertEquals(2, controller.getCoursesInProgramme(programmeEdition).size());
+        }
+
+        @Test
+        void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
+            // Arrange
+            CourseListFactory courseListFactory = new CourseListFactory();
+            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            courseRepository.registerCourse("Informatica", "INF", 6, 1);
+            courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+
+            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+                    new DegreeType("Master", 240),
+                    new Department("CSE", "Computer Science Engineer"),
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                            "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
+                            teacherCategory, 70,
+                            new Department("CSE", "Computer Science Engineer"),
+                            teacherCareerFactory, teacherCareerListFactory),
+                    programmeCourseListFactory,
+                    courseInStudyPlanFactory,
+                    studyPlanListFactory,
+                    studyPlanFactory,
+                    courseFactory);
+
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+
+
+            // Act + Assert
+            assertNotNull(controller.getCoursesInProgramme(programmeEdition));
+        }
+
+        @Test
+        void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
+            // Arrange
+            CourseListFactory courseListFactory = new CourseListFactory();
+            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            courseRepository.registerCourse("Informatica", "INF", 6, 1);
+            courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+
+            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+                    new DegreeType("Master", 240),
+                    new Department("CSE", "Computer Science Engineer"),
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                            "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
+                            teacherCategory, 70,
+                            new Department("CSE", "Computer Science Engineer"),
+                            teacherCareerFactory, teacherCareerListFactory),
+                    programmeCourseListFactory,
+                    courseInStudyPlanFactory,
+                    studyPlanListFactory,
+                    studyPlanFactory,
+                    courseFactory);
+
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+
+            Course c1 = new Course ("Informatica", "INF", 6, 1);
+            Course c2 = new Course("Matemática", "MAT", 4, 1);
+
+            programme.addCourseToAProgramme(c1);
+            programme.addCourseToAProgramme(c2);
+
+            // Act + Assert
+            assertTrue(controller.getCoursesInProgramme(programmeEdition).contains(c1));
+        }
+
+        @Test
+        void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
+            // Arrange
+            CourseListFactory courseListFactory = new CourseListFactory();
+            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            courseRepository.registerCourse("Informatica", "INF", 6, 1);
+            courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+
+            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+                    new DegreeType("Master", 240),
+                    new Department("CSE", "Computer Science Engineer"),
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                            "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
+                            teacherCategory, 70,
+                            new Department("CSE", "Computer Science Engineer"),
+                            teacherCareerFactory, teacherCareerListFactory),
+                    programmeCourseListFactory,
+                    courseInStudyPlanFactory,
+                    studyPlanListFactory,
+                    studyPlanFactory,
+                    courseFactory);
+
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+
+            Course c1 = new Course ("Informatica", "INF", 6, 1);
+            Course c2 = new Course("Matemática", "MAT", 4, 1);
+
+            programme.addCourseToAProgramme(c1);
+
+            ProgrammeEdition programmeEdition = new ProgrammeEdition(programme,schoolYear);
+            programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
+
+            // Act + Assert
+            assertFalse(controller.getCoursesInProgramme(programmeEdition).contains(c2));
+        }
+
+    }
