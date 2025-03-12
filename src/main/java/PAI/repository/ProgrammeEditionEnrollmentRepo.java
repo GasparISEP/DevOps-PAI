@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeEditionEnrollmentFactory;
-import PAI.factory.ProgrammeEditionListFactory;
+import PAI.factory.ProgrammeEditionListFactoryImpl;
 
 
 import java.util.*;
@@ -13,7 +13,7 @@ public class ProgrammeEditionEnrollmentRepo {
 
     private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
 
-    private ProgrammeEditionListFactory _programmeEditionListFactory;
+    private ProgrammeEditionListFactoryImpl _programmeEditionListFactoryImpl;
 
     public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory,
                                           ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {

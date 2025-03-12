@@ -3,8 +3,8 @@ package PAI.repository;
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.SchoolYear;
-import PAI.factory.ProgrammeEditionFactory;
-import PAI.factory.ProgrammeEditionListFactory;
+import PAI.factory.ProgrammeEditionFactoryImpl;
+import PAI.factory.ProgrammeEditionListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,7 +23,7 @@ class ProgrammeEditionRepositoryTest {
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
 //        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -42,7 +42,7 @@ class ProgrammeEditionRepositoryTest {
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
 //        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -63,7 +63,7 @@ class ProgrammeEditionRepositoryTest {
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
 //        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        Programme p2 = new Programme("LEI", "LEI", 20, 6, master, CSE, teacher);
@@ -85,7 +85,7 @@ class ProgrammeEditionRepositoryTest {
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
 //        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -102,7 +102,7 @@ class ProgrammeEditionRepositoryTest {
 //    void shouldReturnFalseIfProgrammeIsNull() throws Exception {
 //        // arrange
 //        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        // act
 //        boolean result = per1.createProgrammeEdition(null, sy1);
@@ -118,7 +118,7 @@ class ProgrammeEditionRepositoryTest {
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
 //        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        // act
@@ -141,7 +141,7 @@ class ProgrammeEditionRepositoryTest {
 //        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        SchoolYear schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
 //
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository repository = new ProgrammeEditionRepository(programmeEditionFactory);
 //
 //        repository.createProgrammeEdition(programme, schoolYear);
@@ -170,7 +170,7 @@ class ProgrammeEditionRepositoryTest {
 //        Programme programme2 = new Programme("Electrical Engineering", "EE", 20, 6, master, CSE, teacher);
 //        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-01-2025", "31-12-2025");
 //
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository repository = new ProgrammeEditionRepository(programmeEditionFactory);
 //
 //        repository.createProgrammeEdition(programme1, schoolYear1);
@@ -185,7 +185,7 @@ class ProgrammeEditionRepositoryTest {
 //    @Test
 //    void shouldReturnNotNullEvenIfListOfProgrammeEditionsIsEmpty() {
 //        //Arrange
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        //Act
 //        List<ProgrammeEdition> allEditions = per1.getAllProgrammeEditions();
@@ -200,7 +200,7 @@ class ProgrammeEditionRepositoryTest {
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
 //        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -220,7 +220,7 @@ class ProgrammeEditionRepositoryTest {
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
 //        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
 //        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", "20-12-2010", assistantProfessor, 100, CSE);
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository per1 = new ProgrammeEditionRepository(programmeEditionFactory);
 //        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher);
 //        SchoolYear sy1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -235,7 +235,7 @@ class ProgrammeEditionRepositoryTest {
 //    @Test
 //    void shouldFindProgrammeInProgrammeEditionSuccessfuly() throws Exception {
 //        //Arrange
-//        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+//        IProgrammeEditionFactoryImpl programmeEditionFactory = new IProgrammeEditionFactoryImpl();
 //        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory);
 //        SchoolYear sy1 = new SchoolYear("ola", "20-01-2024", "23-02-2024");
 //        Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -261,11 +261,11 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnValidProgrammeEditionRepositoryMock() {
         // SUT = ProgrammeEditionRepository
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
 
         // Act
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         // Assert
         assertNotNull(programmeEditionRepository);
@@ -275,15 +275,15 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnTrueIfProgrammeEditionIsCreatedMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
 
         // Act
         boolean result = programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
@@ -296,15 +296,15 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnFalseIfProgrammeEditionIsAlreadyExistsInTheRepositoryMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
         programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
 
         // Act
@@ -318,14 +318,14 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnFalseIfProgrammeIsInvalidMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = null;
         SchoolYear schoolYearMock = mock(SchoolYear.class);
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenThrow(new Exception("Programme cannot be Null"));
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenThrow(new Exception("Programme cannot be Null"));
 
         // Act
         boolean result = programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
@@ -338,14 +338,14 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnFalseIfSchoolYearIsInvalidMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = null;
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenThrow(new Exception("Programme cannot be Null"));
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenThrow(new Exception("Programme cannot be Null"));
 
         // Act
         boolean result = programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
@@ -358,15 +358,15 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnOptionalWithProgrammeEditionPresentMock() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock,schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock,schoolYearMock)).thenReturn(programmeEditionMock);
         programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
         when(programmeEditionMock.findProgrammeInProgrammeEdition()).thenReturn(programmeMock);
         when(programmeEditionMock.findSchoolYearInProgrammeEdition()).thenReturn(schoolYearMock);
@@ -382,16 +382,16 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnEmptyOptionalIfNoProgrammeEditionHasTheSchoolYearSearchedMock() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         SchoolYear schoolYearMock2 = mock(SchoolYear.class);
         ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock,schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock,schoolYearMock)).thenReturn(programmeEditionMock);
         programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
         when(programmeEditionMock.findProgrammeInProgrammeEdition()).thenReturn(programmeMock);
         when(programmeEditionMock.findSchoolYearInProgrammeEdition()).thenReturn(schoolYearMock);
@@ -407,16 +407,16 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnEmptyOptionalIfNoProgrammeEditionHasTheProgrammeSearchedMock() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         Programme programmeMock2 = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock,schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock,schoolYearMock)).thenReturn(programmeEditionMock);
         programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
         when(programmeEditionMock.findProgrammeInProgrammeEdition()).thenReturn(programmeMock);
         when(programmeEditionMock.findSchoolYearInProgrammeEdition()).thenReturn(schoolYearMock);
@@ -432,9 +432,9 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnEmptyOptionalIfRepositoryIsEmptyMock() {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
@@ -450,9 +450,9 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnEmptyListIfRepositoryHasNoProgrammeEditions() {
         // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         // Act
         List<ProgrammeEdition> result = programmeEditionRepository.getAllProgrammeEditions();
@@ -465,9 +465,9 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnListNotEmptyIfRepositoryHasProgrammeEditions() throws Exception {
         // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         SchoolYear schoolYearMock2 = mock(SchoolYear.class);
@@ -479,9 +479,9 @@ class ProgrammeEditionRepositoryTest {
         ProgrammeEdition programmeEditionMock2 = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEditionMock3 = mock(ProgrammeEdition.class);
 
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock2)).thenReturn(programmeEditionMock2);
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock3)).thenReturn(programmeEditionMock3);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock2)).thenReturn(programmeEditionMock2);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock3)).thenReturn(programmeEditionMock3);
 
 
         programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
@@ -502,17 +502,17 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnProgrammeOfAProgrammeEdition() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeInProgrammeEdition
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactoryMock = mock(ProgrammeEditionFactory.class);
-        ProgrammeEditionListFactory programmeEditionListFactoryMock = mock(ProgrammeEditionListFactory.class);
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryMock, programmeEditionListFactoryMock);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
+        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
         Programme programmeMock = mock(Programme.class);
         SchoolYear schoolYearMock = mock(SchoolYear.class);
         SchoolYear schoolYearMock2 = mock(SchoolYear.class);
         ProgrammeEdition programmeEditionMock = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEditionMock2 = mock(ProgrammeEdition.class);
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
-        when(programmeEditionFactoryMock.createProgrammeEdition(programmeMock, schoolYearMock2)).thenReturn(programmeEditionMock2);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock)).thenReturn(programmeEditionMock);
+        when(programmeEditionFactoryImplMock.createProgrammeEdition(programmeMock, schoolYearMock2)).thenReturn(programmeEditionMock2);
 
         programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock);
         programmeEditionRepository.createProgrammeEdition(programmeMock, schoolYearMock2);

@@ -2,15 +2,9 @@ package PAI.repository;
 
 import PAI.domain.*;
 import PAI.factory.ProgrammeEditionEnrollmentFactory;
-import PAI.factory.ProgrammeEditionListFactory;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

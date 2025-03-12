@@ -9,18 +9,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ProgrammeEditionFactoryTest {
+class ProgrammeEditionFactoryImplTest {
 
     @Test
     void shouldCreateProgrammeEdition() throws Exception {
         // Arrange
-        ProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactory();
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImpl = new ProgrammeEditionFactoryImpl();
         Programme programme = mock(Programme.class);
         SchoolYear schoolYear = mock(SchoolYear.class);
         when(programme.getProgrammeName()).thenReturn("Programme");
 
         // Act
-        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programme, schoolYear);
+        ProgrammeEdition programmeEdition = programmeEditionFactoryImpl.createProgrammeEdition(programme, schoolYear);
 
         // Assert
         assertNotNull(programmeEdition);
