@@ -3,7 +3,7 @@ package PAI.repository;
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.SchoolYear;
-import PAI.factory.IProgrammeEditionFactoryImpl;
+import PAI.factory.ProgrammeEditionFactoryImpl;
 import PAI.factory.ProgrammeEditionListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
@@ -261,7 +261,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnValidProgrammeEditionRepositoryMock() {
         // SUT = ProgrammeEditionRepository
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
 
         // Act
@@ -275,7 +275,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnTrueIfProgrammeEditionIsCreatedMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -296,7 +296,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnFalseIfProgrammeEditionIsAlreadyExistsInTheRepositoryMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -318,7 +318,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnFalseIfProgrammeIsInvalidMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -338,7 +338,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnFalseIfSchoolYearIsInvalidMock() throws Exception {
         // SUT = ProgrammeEditionRepository - createProgrammeEdition
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -358,7 +358,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnOptionalWithProgrammeEditionPresentMock() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -382,7 +382,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnEmptyOptionalIfNoProgrammeEditionHasTheSchoolYearSearchedMock() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -407,7 +407,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnEmptyOptionalIfNoProgrammeEditionHasTheProgrammeSearchedMock() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -432,7 +432,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnAnEmptyOptionalIfRepositoryIsEmptyMock() {
         // SUT = ProgrammeEditionRepository - findProgrammeEditionBySchoolYearAndProgramme
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -450,7 +450,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnEmptyListIfRepositoryHasNoProgrammeEditions() {
         // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -465,7 +465,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnListNotEmptyIfRepositoryHasProgrammeEditions() throws Exception {
         // SUT = ProgrammeEditionRepository - getAllProgrammeEditions
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 
@@ -502,7 +502,7 @@ class ProgrammeEditionRepositoryTest {
     void shouldReturnProgrammeOfAProgrammeEdition() throws Exception {
         // SUT = ProgrammeEditionRepository - findProgrammeInProgrammeEdition
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(IProgrammeEditionFactoryImpl.class);
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImplMock = mock(ProgrammeEditionFactoryImpl.class);
         ProgrammeEditionListFactoryImpl programmeEditionListFactoryImplMock = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactoryImplMock, programmeEditionListFactoryImplMock);
 

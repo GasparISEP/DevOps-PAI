@@ -14,7 +14,7 @@ class ProgrammeEditionFactoryImplTest {
     @Test
     void shouldCreateProgrammeEdition() throws Exception {
         // Arrange
-        IProgrammeEditionFactoryImpl programmeEditionFactoryImpl = new IProgrammeEditionFactoryImpl();
+        ProgrammeEditionFactoryImpl programmeEditionFactoryImpl = new ProgrammeEditionFactoryImpl();
         Programme programme = mock(Programme.class);
         SchoolYear schoolYear = mock(SchoolYear.class);
         when(programme.getProgrammeName()).thenReturn("Programme");
