@@ -323,7 +323,7 @@ class US19_CreateCourseEditionControllerTest {
         controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeRepository);
 
         course = new Course("Informatics", "INF", 6, 1);
-        addressFactory = new AddressFactory();
+        addressFactory = new AddressFactoryImpl();
 
         teacherCareerListFactory = new TeacherCareerProgressionListFactory();
         teacherCareerFactory = new TeacherCareerProgressionFactory();
