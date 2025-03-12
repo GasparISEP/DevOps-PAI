@@ -68,7 +68,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() {
-        // Arrange
+        // arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
@@ -91,16 +91,17 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
                         doubleProgrammeEnrolmentRepository);
 
         doubleProgrammeEditionRepository.createProgrammeEdition(doubleProgramme, doubleSchoolYear);
-        // Act & Assert:
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
-        });
-        assertEquals("Student should be enrolled in Programme.", exception.getMessage());
+
+        // act
+        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+
+        //assert
+        assertFalse(result);
     }
 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() {
-        // Arrange
+        // arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
@@ -124,16 +125,18 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudent, doubleProgramme))
                 .thenReturn(true);
-        // Act & Assert
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
-        });
-        assertEquals("Programme edition not found for the given school year.", exception.getMessage());
+
+        // act
+
+        boolean result =controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+
+        //assert
+        assertFalse(result);
     }
 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() {
-        // Arrange
+        // arrange
         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
@@ -159,11 +162,11 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         when(doubleProgrammeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(doubleProgramme, doubleSchoolYear)).thenReturn(Optional.of(doubleProgrammeEdition));
 
         when(doubleProgrammeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(true);
-        // Act & Assert
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
-        });
-        assertEquals("Student is already enrolled in the programme edition.", exception.getMessage());
+        // act
+        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+
+        //assert
+        assertFalse(result);
     }
 
     @Test
