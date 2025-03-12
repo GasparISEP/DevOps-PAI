@@ -5,7 +5,6 @@ import PAI.repository.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -123,7 +122,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
 
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Department dpt1 = new Department ("DEI", "Department1");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
@@ -163,7 +162,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
 
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Department dpt1 = new Department ("DEI", "Department1");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();

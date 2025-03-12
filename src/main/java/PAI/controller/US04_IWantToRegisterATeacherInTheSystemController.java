@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.factory.AddressFactory;
+import PAI.factory.AddressFactoryImpl;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.factory.TeacherCareerProgressionListFactory;
 import PAI.repository.DepartmentRepository;
@@ -30,7 +30,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
     public boolean registerATeacherInTheSystem(
             String acronym, String name, String email, String nif, String phoneNumber,
             String academicBackground, String street, String postalCode, String location,
-            String country, AddressFactory addressFactory, String date, TeacherCategory category,
+            String country, AddressFactoryImpl addressFactory, String date, TeacherCategory category,
             int workingPercentage, Department department, TeacherCareerProgressionFactory CareerProgressionFactory,
             TeacherCareerProgressionListFactory teacherCareerProgressionListFactory) {
 

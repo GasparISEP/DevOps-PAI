@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import PAI.factory.AddressFactory;
+import PAI.factory.AddressFactoryImpl;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.factory.TeacherCareerProgressionListFactory;
 import java.util.List;

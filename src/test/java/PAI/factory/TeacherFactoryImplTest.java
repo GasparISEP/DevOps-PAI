@@ -18,7 +18,7 @@ class TeacherFactoryImplTest {
         TeacherCareerProgressionListFactory tcpListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
         TeacherFactoryImpl teacherFactory = new TeacherFactoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department departmentDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
