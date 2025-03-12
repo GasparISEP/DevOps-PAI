@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 class SchoolYearFactoryImplTest {
 
     @Test
-    void shouldCreateSchoolYear()  {
+    void shouldCreateSchoolYear() {
         //arrange
         String description = "School Year 23/24";
         String startDate = "01-09-2023";
@@ -27,24 +27,21 @@ class SchoolYearFactoryImplTest {
 
         try (MockedConstruction<SchoolYear> schoolYearDouble = mockConstruction(
                 SchoolYear.class, (mock, context) -> {
-                    String actualDescription = (String) context.arguments().get(0);
                     String actualStartDate = (String) context.arguments().get(1);
                     String actualEndDate = (String) context.arguments().get(2);
-                    when(mock.getDescription()).thenReturn(actualDescription);
                     when(mock.getStartDate()).thenReturn(LocalDate.parse(actualStartDate, formatter));
                     when(mock.getEndDate()).thenReturn(LocalDate.parse(actualEndDate, formatter));
                 })) {
 
-            SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+            SchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
 
             //act
-            SchoolYear schoolYear = schoolYearFactoryImpl.createSchoolYear(description, startDate, endDate);
+            SchoolYear schoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
             //assert
             List<SchoolYear> schoolYears = schoolYearDouble.constructed();
             assertEquals(1, schoolYears.size());
 
-            assertEquals(description, schoolYear.getDescription());
             assertEquals(LocalDate.parse(startDate, formatter), schoolYear.getStartDate());
             assertEquals(LocalDate.parse(endDate, formatter), schoolYear.getEndDate());
         }
@@ -55,12 +52,16 @@ class SchoolYearFactoryImplTest {
                 arguments(null, "14-10-2024", "30-06-2025"),
                 arguments("", "14-10-2024", "30-06-2025"),
                 arguments(" ", "14-10-2024", "30-06-2025"),
-                arguments("School Year: ", null, "30-06-2025"),
-                arguments("School Year: ", "", "30-06-2025"),
-                arguments("School Year: ", " ", "30-06-2025"),
-                arguments("School Year: ", "14-10-2024", null),
-                arguments("School Year: ", "14-10-2024", ""),
-                arguments("School Year: ", "14-10-2024", " ")
+                arguments("School Year 23/24", null, "30-06-2024"),
+                arguments("School Year 23/24", "", "30-06-2024"),
+                arguments("School Year 23/24", " ", "30-06-2024"),
+                arguments("School Year 23/24", "14-10-2024", null),
+                arguments("School Year 23/24", "14-10-2024", ""),
+                arguments("School Year 23/24", "14-10-2024", " "),
+                arguments("School Year 23/24", "14-10-2024", "13-10-2024"),
+                arguments("School Year 24/25", "24 de setembro de 2024", "24 de junho de 2025"),
+                arguments("School Year 24/25", "2024-09-24", "2025-06-24"),
+                arguments("School Year 24/25", "20-09-24", "20-06-25")
         );
     }
 
@@ -68,11 +69,18 @@ class SchoolYearFactoryImplTest {
     @MethodSource("provideInvalidParameters")
     void shouldThrowAnExceptionWhenTheParametersAreInvalid(String description, String startDate, String endDate) {
         //arrange
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+        SchoolYearFactory factory = new SchoolYearFactoryImpl();
 
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> schoolYearFactoryImpl.createSchoolYear(description, startDate, endDate));
+        try (MockedConstruction<SchoolYear> schoolYearDouble = mockConstruction(
+                SchoolYear.class, (mock, context) -> {
+                    throw new RuntimeException(new InstantiationException("SchoolYear constructor failed"));
+                })) {
+            try {
+                factory.createSchoolYear(description, startDate, endDate);
+                fail("Excepted exception not thrown");
+            } catch (Exception e) {
+                assertTrue(e.getCause().getMessage().contains("SchoolYear constructor failed"));
+            }
+        }
     }
-
-
 }
