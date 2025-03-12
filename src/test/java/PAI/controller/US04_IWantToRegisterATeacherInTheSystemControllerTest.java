@@ -68,7 +68,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
         DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
         TeacherCategory tc1Double = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dpt1Double = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -94,7 +94,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
         DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
         TeacherCategory tc1Double = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dpt1Double = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -120,7 +120,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
         DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
         TeacherCategory tc1Double = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dpt1Double = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -178,7 +178,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
         //Arrange
         Department department = createDepartment();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
@@ -197,7 +197,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
         Department department1 = createDepartment1();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
@@ -218,7 +218,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidTeacherCategory_integrationTest() throws Exception {
         Department department = createDepartment();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory1 = createTeacherCategory1();
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();

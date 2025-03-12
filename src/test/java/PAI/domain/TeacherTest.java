@@ -1,6 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactory;
+import PAI.factory.AddressFactoryImpl;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.factory.TeacherCareerProgressionListFactory;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class TeacherTest {
     void shouldCreateTeacherWhenAllFieldsAreValid() throws IllegalArgumentException {
         // Arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -40,7 +40,7 @@ class TeacherTest {
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithTwoLettersName() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -61,7 +61,7 @@ class TeacherTest {
     void shouldCreateTeacher_WhenAllFieldsAreValid_WithAHundredLettersName() throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -108,7 +108,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -151,7 +151,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -193,7 +193,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -235,7 +235,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -280,7 +280,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -316,7 +316,7 @@ class TeacherTest {
         String phoneNumber = "B123";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -353,7 +353,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
@@ -389,7 +389,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -426,7 +426,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
@@ -462,7 +462,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
@@ -499,7 +499,7 @@ class TeacherTest {
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
@@ -519,7 +519,7 @@ class TeacherTest {
     void doesTeacherHaveThisNIF() throws IllegalArgumentException {
         // arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplF = mock(TeacherCareerProgressionListFactory.class);
@@ -540,7 +540,7 @@ class TeacherTest {
         String date1 = "15-04-2005";
         String date2 = "17-04-2005";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -576,7 +576,7 @@ class TeacherTest {
         String date2 = "17-04-2005";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -615,7 +615,7 @@ class TeacherTest {
         //arrange
         String date1 = "15-04-2005";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -649,7 +649,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble1 = mock(TeacherCategory.class);
         TeacherCategory tcDouble2 = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -686,7 +686,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble1 = mock(TeacherCategory.class);
         TeacherCategory tcDouble2 = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -722,7 +722,7 @@ class TeacherTest {
         String date2 = "12-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -752,7 +752,7 @@ class TeacherTest {
         String date2 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -782,7 +782,7 @@ class TeacherTest {
         String date2 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -821,7 +821,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble1 = mock(TeacherCategory.class);
         TeacherCategory tcDouble2 = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -854,7 +854,7 @@ class TeacherTest {
         String date2 = null;
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -884,7 +884,7 @@ class TeacherTest {
         String date2 = " "; // Blank date
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -914,7 +914,7 @@ class TeacherTest {
         String date2 = "25/12/2024"; // Invalid date format
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -945,7 +945,7 @@ class TeacherTest {
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         TeacherCategory tc = null; // Null category
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department dptDouble = mock(Department.class);
         //Arranging creation of an Address
@@ -975,7 +975,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -997,7 +997,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1019,7 +1019,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1041,7 +1041,7 @@ class TeacherTest {
         String date2 = "27-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1062,7 +1062,7 @@ class TeacherTest {
         String date1 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcplFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -1082,7 +1082,7 @@ class TeacherTest {
         String date1 = "26-12-2024";
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dptDouble1 = mock(Department.class);
         Department dptDouble2 = mock(Department.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);

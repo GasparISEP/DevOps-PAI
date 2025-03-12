@@ -200,7 +200,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
 
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student st1 = new Student("1111111", "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
@@ -289,7 +289,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
 
 
 
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
         DegreeType master = new DegreeType("Master", 240);
@@ -330,7 +330,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -372,7 +372,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");

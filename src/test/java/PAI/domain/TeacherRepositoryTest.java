@@ -23,7 +23,7 @@ class TeacherRepositoryTest {
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
         TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department departmentDouble = mock(Department.class);
 
@@ -56,7 +56,7 @@ class TeacherRepositoryTest {
         ArrayList<Teacher> listDouble = mock(ArrayList.class);
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address adressDouble1 = mock(Address.class);
         Address adressDouble2 = mock(Address.class);
         Department departmentDouble = mock(Department.class);
@@ -119,7 +119,7 @@ class TeacherRepositoryTest {
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble1 = mock(Address.class);
         Address addressDouble2 = mock(Address.class);
         Department departmentDouble = mock(Department.class);
@@ -180,7 +180,7 @@ class TeacherRepositoryTest {
         TeacherListFactory teacherListFactoryDouble = mock(TeacherListFactory.class);
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble1 = mock(Address.class);
         Address addressDouble2 = mock(Address.class);
         Department departmentDouble = mock(Department.class);
@@ -249,7 +249,7 @@ class TeacherRepositoryTest {
         when(teacherListFactoryDouble.newArrayList()).thenReturn(listDouble);
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department departmentDouble = mock(Department.class);
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -294,7 +294,7 @@ class TeacherRepositoryTest {
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
         TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department departmentDouble = mock(Department.class);
         TeacherCareerProgressionFactory careerProgressionFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory careerProgressionListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -331,7 +331,7 @@ class TeacherRepositoryTest {
 
 
         TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department departmentDouble = mock(Department.class);
         TeacherCareerProgressionFactory careerProgressionFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory careerProgressionListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -378,7 +378,7 @@ class TeacherRepositoryTest {
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
         TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department departmentDouble = mock(Department.class);
         TeacherCareerProgressionFactory careerProgressionFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory careerProgressionListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -425,7 +425,7 @@ class TeacherRepositoryTest {
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
         TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department departmentDouble = mock(Department.class);
         TeacherCareerProgressionFactory careerProgressionFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory careerProgressionListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
@@ -472,7 +472,7 @@ class TeacherRepositoryTest {
         TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryDouble);
 
         TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department departmentDouble = mock(Department.class);
         TeacherCareerProgressionFactory careerProgressionFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory careerProgressionListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);

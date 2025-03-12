@@ -45,7 +45,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             _degreeType = new DegreeType("Master", 240);
             _department = new Department("CSE", "Computer Science Engineer");
             _teacherCategory = new TeacherCategory("Assistant Professor");
-            _addressFactory = new AddressFactory();
+            _addressFactory = new AddressFactoryImpl();
             _tcpFactory = new TeacherCareerProgressionFactory();
             _tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
             _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",

@@ -3,12 +3,8 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrollmentRepository;
-import PAI.repository.StudyPlan;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -188,7 +184,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
@@ -222,7 +218,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
@@ -254,7 +250,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
@@ -290,7 +286,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
@@ -328,7 +324,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
@@ -365,7 +361,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
