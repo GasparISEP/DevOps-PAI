@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTest {
 
     @Test
-    void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull(){
+    void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull_IsolatedTest(){
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -31,7 +31,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeEditionEnrollmentRepositoryIsNull(){
+    void shouldThrowExceptionIfProgrammeEditionEnrollmentRepositoryIsNull_IsolatedTest(){
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -45,7 +45,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList(){
+    void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList_IsolatedTest(){
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -72,7 +72,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnProgrammeEditionInList(){
+    void shouldReturnProgrammeEditionInList_IsolatedTest(){
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
         //Doubles' instantiation
@@ -99,7 +99,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnAllProgrammeEdition(){
+    void shouldReturnAllProgrammeEdition_IsolatedTest(){
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
         //Doubles' instantiation
@@ -129,7 +129,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnCorrectNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
+    void shouldReturnCorrectNumberOfStudentsEnrolledInAProgrammeEdition_IsolatedTest() throws Exception{
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
@@ -151,7 +151,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeEditionIsNull() {
+    void shouldThrowExceptionIfProgrammeEditionIsNull_IsolatedTest() {
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
