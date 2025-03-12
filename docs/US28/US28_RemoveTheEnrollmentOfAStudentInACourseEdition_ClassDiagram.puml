@@ -10,8 +10,8 @@ class CourseEditionEnrollment {
     -_enrollmentDate: LocalDate
     -_isActive: boolean
     +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition)
-    +findStudentInCourseEditionEnrollment() : Student
-    +findCourseEditionInEnrollment() : CourseEdition
+    +hasStudent() : boolean
+    +hasCourseEdition() : boolean
     +isEnrollmentActive(): boolean
     +deactivateEnrollment(): void
 }
@@ -61,12 +61,9 @@ interface CourseEditionEnrollmentListFactoryInterface{
 CourseEditionEnrollment "*" --> "_student 1" Student
 CourseEditionEnrollment "*" --> "_courseEdition 1    " CourseEdition
 CourseEditionEnrollmentRepository"1"..> "    _courseEditionEnrollments *  "CourseEditionEnrollment
-CourseEditionEnrollmentFactory "1" ..> "    1 _courseEditionEnrollment "CourseEditionEnrollment : creates
-CourseEditionEnrollmentRepository "1"--> "_courseEditionEnrollmentFactory 1            " CourseEditionEnrollmentFactory : uses
-US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1 " CourseEditionEnrollmentRepository : uses
-CourseEditionEnrollmentFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentFactory : implements
-CourseEditionEnrollmentRepository "1" --> "              1_courseEditionEnrollmentListFactory" CourseEditionEnrollmentListFactory : uses
-CourseEditionEnrollmentListFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentListFactory : implements
+US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller "1" ..> "1 " CourseEditionEnrollmentRepository
+CourseEditionEnrollmentFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentFactory
+CourseEditionEnrollmentListFactoryInterface "1        " <|.. "1" CourseEditionEnrollmentListFactory
 CourseEditionEnrollmentRepository ..> CourseEditionEnrollmentFactoryInterface
 CourseEditionEnrollmentFactoryInterface ..> CourseEditionEnrollment
 CourseEditionEnrollmentRepository .u.> CourseEditionEnrollmentListFactoryInterface
