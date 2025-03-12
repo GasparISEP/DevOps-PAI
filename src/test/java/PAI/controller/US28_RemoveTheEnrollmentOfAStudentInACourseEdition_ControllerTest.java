@@ -4,6 +4,7 @@ import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import PAI.repository.StudyPlan;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -53,9 +54,9 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
             verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition); // Ensure no enrollment creation occurs
         }
 
-    // If the student or course edition information is missing (null), the system should reject the operation and throw an exception
+    // If the student or course edition information is missing (null), the system should reject the operation.
     @Test
-        void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException() throws IllegalArgumentException {
+        void removeEnrollment_WithNullCourseEditionOrStudent_ShouldReturnFalse(){
             // Arrange
             CourseEditionEnrollmentRepository mockRepository = mock(CourseEditionEnrollmentRepository.class);
             US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(mockRepository);
@@ -64,18 +65,14 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
             CourseEdition mockCourseEdition = mock (CourseEdition.class);
 
             // Act and assert
-            // test for the case where Student is null
-            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-                controller.removeStudentEnrollment(null, mockCourseEdition);
-            });
-            assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        // test for the case where Student is null.
+        boolean result1 = controller.removeStudentEnrollment(null, mockCourseEdition);
+        assertFalse(result1, "Removing a non existing enrollment should return false.");
 
-            // test for the case where CourseEdition is null
-            thrown = assertThrows(IllegalArgumentException.class, () -> {
-                controller.removeStudentEnrollment(mockStudent, null);
-            });
-            assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
-            verify(mockRepository, never()).removeEnrollment(any(), any());
+        // test for the case where CourseEdition is null
+        boolean result2 = controller.removeStudentEnrollment(mockStudent, null);
+        assertFalse(result2, "Removing a non existing enrollment should return false.");
+
         }
 
     // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
@@ -247,7 +244,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     }
 
     @Test
-    void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException_IntegrationTest() throws Exception {
+    void removeEnrollment_WithNullCourseEditionOrStudent_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
@@ -272,17 +269,14 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         // Act and assert
-        // test for the case where Student is null
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            controller.removeStudentEnrollment(null, courseEdition);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
 
-        // test for the case where CourseEdition is null
-        thrown = assertThrows(IllegalArgumentException.class, () -> {
-            controller.removeStudentEnrollment(student, null);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        // test for the case where Student is null
+        boolean result1 = controller.removeStudentEnrollment(null, courseEdition);
+        assertFalse(result1, "Removing a non existing enrollment should return false.");
+
+        // test for the case where CourseEdition is null.
+        boolean result2 = controller.removeStudentEnrollment(student, null);
+        assertFalse(result2, "Removing a non existing enrollment should return false.");
     }
 
     @Test
