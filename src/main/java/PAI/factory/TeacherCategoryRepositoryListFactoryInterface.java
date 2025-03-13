@@ -1,4 +1,6 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.TeacherCategory;
 
 import java.util.List;
 
