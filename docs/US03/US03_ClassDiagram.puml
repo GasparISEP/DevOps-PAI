@@ -21,11 +21,11 @@ class Programme {
     - _studyPlan: StudyPlan
     + addCourseToAProgramme(course: Course)
 }
-class ProgrammeCourseListFactory {
+class ProgrammeCourseListFactoryImpl {
     + createCourseList(): List<Course>
 }
 
-interface ProgrammeCourseListFactoryImpl {
+interface IProgrammeCourseListFactory {
     + createCourseList(): List<Course>
 }
 
@@ -66,9 +66,9 @@ class ArrayList {
 US03addCourseToProgrammeController "1" --> "uses 1" Programme
 US03addCourseToProgrammeController "1" --> "uses 1" CourseRepository
 US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeList
-Programme "1" --> "uses 1" ProgrammeCourseListFactory
-ProgrammeCourseListFactory ..|> "implements" ProgrammeCourseListFactoryImpl
-ProgrammeCourseListFactory "1" --> "creates 1" ArrayList
+ProgrammeCourseListFactoryImpl ..|> "implements" IProgrammeCourseListFactory
+Programme "1" ..> "uses 1" IProgrammeCourseListFactory
+ProgrammeCourseListFactoryImpl "1" --> "creates 1" ArrayList
 Programme "1" o-- "contains *" Course
 
 @enduml
