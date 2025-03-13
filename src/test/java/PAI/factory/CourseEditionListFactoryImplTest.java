@@ -12,10 +12,10 @@ class CourseEditionListFactoryImplTest {
     @Test
     void shouldCreateCourseEditionArrayList() {
         // Arrange
-        CourseEditionListFactoryImpl courseEditionListFactoryImpl = new CourseEditionListFactoryImpl();
+        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
 
         // Act
-        List<CourseEdition> courseEditionArrayList = courseEditionListFactoryImpl.newArrayList();
+        List<CourseEdition> courseEditionArrayList = courseEditionListFactory.newArrayList();
 
         // Assert
         assertNotNull(courseEditionArrayList);

@@ -15,7 +15,7 @@ class CourseEditionFactoryImplTest {
 
     @Test
     void shouldCreateCourseEditionWhenConstructorIsCalled() throws Exception {
-        //SUT = CourseEditionfactory - ProgrammeEdition and Course Isolated
+        //SUT = CourseEditionFactory - ProgrammeEdition and Course Isolated
         //Arrange
             //Doubles' instantiation
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
@@ -30,10 +30,10 @@ class CourseEditionFactoryImplTest {
         })) {
 
                 //SUT
-            CourseEditionFactoryImpl courseEditionFactoryImpl = new CourseEditionFactoryImpl();
+            CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
 
             // Act
-            CourseEdition courseEdition = courseEditionFactoryImpl.newCourseEdition(courseDouble, programmeEditionDouble);
+            CourseEdition courseEdition = courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
 
             // Asserts
             assertNotNull(courseEdition);
@@ -47,3 +47,5 @@ class CourseEditionFactoryImplTest {
         }
     }
 }
+
+
