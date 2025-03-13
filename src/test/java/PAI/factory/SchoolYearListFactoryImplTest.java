@@ -18,6 +18,5 @@ class SchoolYearListFactoryImplTest {
 
         // Assert
         assertNotNull(schoolYearList);
-        assertInstanceOf(List.class, schoolYearList);
     }
 }

@@ -32,12 +32,9 @@ public class ProgrammeRepository {
 
     // Change ProgrammeDirector
     public boolean changeProgrammeDirector(Programme programme, Teacher newDirector) throws Exception {
-        if (newDirector == null) {
-            return false;
-        }
 
-        programme.newProgrammeDirector(newDirector);
-        return true;
+        return programme.newProgrammeDirector(newDirector);
+
     }
 
     public List<Programme> getAllProgrammes() {

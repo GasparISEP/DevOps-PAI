@@ -1,22 +1,27 @@
 @startuml
 actor Administrator as Adm
-participant ":DegreeTypeRepository" as DTR #lightgreen
-participant ":DegreeTypeFactory" as DTF #lightblue
+participant "US10_IWantToConfigureDegreeTypesLevelsController" as Controller #lightcoral
+participant "DegreeTypeRepository" as DTR #lightgreen
+participant "DegreeTypeFactoryInterface" as DTF #lightblue
 
-Adm -> DTR : Register DegreeType (name, maxEcts)
+Adm -> Controller : registerDegreeType(name, maxEcts)
+activate Controller
+Controller -> DTR : registerDegreeType(name, maxEcts)
 activate DTR
-DTR -> DTF : createDegreeType(name, maxEcts)
+DTR -> DTF : addNewDegreeType(name, maxEcts)
 activate DTF
 create "DT1:DegreeType" as DT #yellow
 DTF -> DT : Create DegreeType (name, maxEcts)
 activate DT
-DT -> DT : nameIsInvalid(name)
-DT -> DT : maxEctsIsInvalid(maxEcts)
+DT -> DT : nameIsInvalid()
+DT -> DT : maxEctsIsInvalid()
 DT --> DTF : DegreeType Object
 deactivate DT
 DTF --> DTR : DegreeType Object
 deactivate DTF
-DTR -> DTR : add DegreeType
-DTR --> Adm : Registration Successful
+DTR -> DTR : add DegreeType to Repository
+DTR --> Controller : Registration Successful
 deactivate DTR
+Controller --> Adm : Registration Successful
+deactivate Controller
 @enduml

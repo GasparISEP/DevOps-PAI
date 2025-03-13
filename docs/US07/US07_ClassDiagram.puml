@@ -11,7 +11,7 @@ class SchoolYear {
 }
 
 class SchoolYearRepository {
-    +schoolYearRepository()
+    +schoolYearRepository(SchoolYearFactoryImpl, SchoolYearListFactoryImpl)
     +addSchoolYear(description: String, StartDate: String, EndDate: String)
     +schoolYearExists(schoolYear: SchoolYear)
     +getLatestSchoolYear()
@@ -19,11 +19,31 @@ class SchoolYearRepository {
 }
 
 class US07_IWantToCreateASchoolYearController {
-   +US07_IWantToCreateASchoolYearController()
+   +US07_IWantToCreateASchoolYearController(SchoolYearRepository)
    +addSchoolYear(description:String, startDate:LocalDate, endDate:LocalDate)
 }
 
+class SchoolYearListFactory {
+   +newArrayList(): ArrayList<SchoolYear>
+}
+
+class SchoolYearListFactoryImpl {
+   +newArrayList(): ArrayList<SchoolYear>
+}
+
+class SchoolYearFactory {
+   +createSchoolYear(description: String, startDate: String, endDate: String): SchoolYear
+}
+
+class SchoolYearFactoryImpl {
+   +createSchoolYear(description: String, startDate: String, endDate: String): SchoolYear
+}
+
+SchoolYearRepository "1" ---> "schoolYearListFactoryImpl \n 1" SchoolYearListFactoryImpl
+SchoolYearRepository "1" ---> "schoolYearFactoryImpl \n 1" SchoolYearFactoryImpl
+SchoolYearListFactoryImpl "1" <|-- "schoolYearListFactory \n 1" SchoolYearListFactory
 US07_IWantToCreateASchoolYearController "1" ---> "schoolYearRepo \n 1" SchoolYearRepository
 SchoolYear "1" ---> "_schoolYearList \n *" SchoolYearRepository
+SchoolYearFactoryImpl "1" ---> "SchoolYearFactory \n 1" SchoolYearFactory
 
 @enduml

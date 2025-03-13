@@ -1,7 +1,9 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ProgrammeEditionEnrollmentFactory;
+import PAI.factory.IProgrammeEditionEnrollmentFactory;
+import PAI.factory.IProgrammeEditionEnrollmentListFactory;
+import PAI.factory.ProgrammeEditionEnrollmentListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,52 +11,51 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeEditionEnrollmentRepoTest {
+class ProgrammeEditionEnrollmentRepositoryTest {
 
     @Test
     void shouldReturnFalseWhenStudentIsNull() {
         // Arrange
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
 
-
-        // Act
-        boolean result = repository.enrollStudentInProgrammeEdition(null, pe1);
-
-        // Assert
-        assertFalse(result, "Expected enrollment to fail when Student is null.");
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            repository.enrollStudentInProgrammeEdition(null, pe1);
+        });
+        assertEquals("ProgrammeEdition and Student cannot be null.", exception.getMessage());
     }
 
     @Test
     void shouldReturnFalseWhenProgrammeEditionIsNull() {
         // Arrange
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
         Student st1 = mock(Student.class);
 
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            repository.enrollStudentInProgrammeEdition(st1, null);
+        });
 
-        // Act
-        boolean result = repository.enrollStudentInProgrammeEdition(st1, null);
-
-        // Assert
-        assertFalse(result, "Expected enrollment to fail when ProgrammeEdition is null.");
+        assertEquals("ProgrammeEdition and Student cannot be null.", exception.getMessage());
     }
 
     @Test
     void shouldReturnAnExceptionWhenProgrammeEditionEnrollmentAlreadyExists() throws IllegalArgumentException {
         //arrange
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
         Student st1 = mock(Student.class);
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
 
 
         ProgrammeEditionEnrollment enrollMock = mock(ProgrammeEditionEnrollment.class);
-        when(doublePEEF.newProgrammeEditionEnrollment(st1, pe1))
+        when(doubleIPEEF.newProgrammeEditionEnrollment(st1, pe1))
                 .thenReturn(enrollMock);
         repository.enrollStudentInProgrammeEdition(st1, pe1);
 
@@ -68,15 +69,15 @@ class ProgrammeEditionEnrollmentRepoTest {
     @Test
     void shouldReturnAValidProgrammeEditionEnrollment() {
         //arrange
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
         Student st1 = mock(Student.class);
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
 
 
         ProgrammeEditionEnrollment enrollMock = mock(ProgrammeEditionEnrollment.class);
-        when(doublePEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock);
 
         //act
         boolean result = repository.enrollStudentInProgrammeEdition(st1, pe1);
@@ -88,9 +89,9 @@ class ProgrammeEditionEnrollmentRepoTest {
     @Test
     void shouldReturnATwoValidProgrammeEditionEnrollments() {
         //arrange
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
         Student st1 = mock(Student.class);
         Student st2 = mock(Student.class);
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
@@ -99,8 +100,8 @@ class ProgrammeEditionEnrollmentRepoTest {
 
         ProgrammeEditionEnrollment enrollMock1 = mock(ProgrammeEditionEnrollment.class);
         ProgrammeEditionEnrollment enrollMock2 = mock(ProgrammeEditionEnrollment.class);
-        when(doublePEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock1);
-        when(doublePEEF.newProgrammeEditionEnrollment(st2, pe2)).thenReturn(enrollMock2);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock1);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(st2, pe2)).thenReturn(enrollMock2);
         //act
         boolean result1 = repository.enrollStudentInProgrammeEdition(st1, pe1);
         boolean result2 = repository.enrollStudentInProgrammeEdition(st2, pe2);
@@ -114,9 +115,9 @@ class ProgrammeEditionEnrollmentRepoTest {
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInProgrammeEdition() {
         // Arrange
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
         Student st1 = mock(Student.class);
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
 
@@ -128,7 +129,7 @@ class ProgrammeEditionEnrollmentRepoTest {
 
         when(enrollMock1.findProgrammeEditionInEnrollment()).thenReturn(pe1);
 
-        when(doublePEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock1);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock1);
 
         // Act
         repository.enrollStudentInProgrammeEdition(st1, pe1);
@@ -140,9 +141,9 @@ class ProgrammeEditionEnrollmentRepoTest {
     @Test
     void shouldReturnFalseIfStudentIsNotEnrolledInProgrammeEdition() {
         // Arrange
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
         Student st1 = mock(Student.class);
         ProgrammeEdition pe1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pe2 = mock(ProgrammeEdition.class);
@@ -155,7 +156,7 @@ class ProgrammeEditionEnrollmentRepoTest {
 
         when(enrollMock1.findProgrammeEditionInEnrollment()).thenReturn(pe1);
 
-        when(doublePEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock1);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(st1, pe1)).thenReturn(enrollMock1);
 
         // Act
         repository.enrollStudentInProgrammeEdition(st1, pe1);
@@ -184,24 +185,24 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(student3Double.getUniqueNumber()).thenReturn("1344556");
 
 
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(ProgrammeEditionEnrollmentListFactoryImpl.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
 
         ProgrammeEditionEnrollment enrollMock1 = mock(ProgrammeEditionEnrollment.class);
         when(enrollMock1.getStudentUniqueNumber()).thenReturn("1234567");
         when(enrollMock1.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
-        when(doublePEEF.newProgrammeEditionEnrollment(student1Double, edition1Double)).thenReturn(enrollMock1);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student1Double, edition1Double)).thenReturn(enrollMock1);
 
         ProgrammeEditionEnrollment enrollMock2 = mock(ProgrammeEditionEnrollment.class);
         when(enrollMock2.getStudentUniqueNumber()).thenReturn("1334568");
         when(enrollMock2.findProgrammeEditionInEnrollment()).thenReturn(edition2Double);
-        when(doublePEEF.newProgrammeEditionEnrollment(student2Double, edition2Double)).thenReturn(enrollMock2);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student2Double, edition2Double)).thenReturn(enrollMock2);
 
         ProgrammeEditionEnrollment enrollMock3 = mock(ProgrammeEditionEnrollment.class);
         when(enrollMock3.getStudentUniqueNumber()).thenReturn("1344556");
         when(enrollMock3.findProgrammeEditionInEnrollment()).thenReturn(edition3Double);
-        when(doublePEEF.newProgrammeEditionEnrollment(student3Double, edition3Double)).thenReturn(enrollMock3);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student3Double, edition3Double)).thenReturn(enrollMock3);
 
 
         repository.enrollStudentInProgrammeEdition(student1Double, edition1Double);
@@ -238,19 +239,19 @@ class ProgrammeEditionEnrollmentRepoTest {
         when(student2Double.getUniqueNumber()).thenReturn("1334568");
 
 
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
 
         ProgrammeEditionEnrollment enrollMock1 = mock(ProgrammeEditionEnrollment.class);
         when(enrollMock1.getStudentUniqueNumber()).thenReturn("1234567");
         when(enrollMock1.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
-        when(doublePEEF.newProgrammeEditionEnrollment(student1Double, edition1Double)).thenReturn(enrollMock1);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student1Double, edition1Double)).thenReturn(enrollMock1);
 
         ProgrammeEditionEnrollment enrollMock2 = mock(ProgrammeEditionEnrollment.class);
         when(enrollMock2.getStudentUniqueNumber()).thenReturn("1334568");
         when(enrollMock2.findProgrammeEditionInEnrollment()).thenReturn(edition2Double);
-        when(doublePEEF.newProgrammeEditionEnrollment(student2Double, edition2Double)).thenReturn(enrollMock2);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student2Double, edition2Double)).thenReturn(enrollMock2);
 
         repository.enrollStudentInProgrammeEdition(student1Double, edition1Double);
         repository.enrollStudentInProgrammeEdition(student2Double, edition2Double);
@@ -278,19 +279,19 @@ class ProgrammeEditionEnrollmentRepoTest {
         Student student1Double = mock(Student.class);
 
 
-        ProgrammeEditionEnrollmentFactory doublePEEF = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentRepo repository = new ProgrammeEditionEnrollmentRepo(doublePEEF, doublePEELF);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
 
         ProgrammeEditionEnrollment enrollMock1 = mock(ProgrammeEditionEnrollment.class);
         when(enrollMock1.getStudentUniqueNumber()).thenReturn("1234567");
         when(enrollMock1.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
-        when(doublePEEF.newProgrammeEditionEnrollment(student1Double, edition1Double)).thenReturn(enrollMock1);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student1Double, edition1Double)).thenReturn(enrollMock1);
 
         ProgrammeEditionEnrollment enrollMock2 = mock(ProgrammeEditionEnrollment.class);
         when(enrollMock2.getStudentUniqueNumber()).thenReturn("1234567");
         when(enrollMock2.findProgrammeEditionInEnrollment()).thenReturn(edition1Double);
-        when(doublePEEF.newProgrammeEditionEnrollment(student1Double, edition2Double)).thenReturn(enrollMock2);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student1Double, edition2Double)).thenReturn(enrollMock2);
 
         when(enrollMock1.isEnrollmentAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
         when(enrollMock2.isEnrollmentAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
@@ -312,8 +313,8 @@ class ProgrammeEditionEnrollmentRepoTest {
         //SUT = ProgrammeEditionEnrollmentRepo -> all else as Double
         // Arrange
         //Doubles' instantiation
-        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Student student1Double = mock(Student.class);
         Student student2Double = mock(Student.class);
@@ -323,19 +324,19 @@ class ProgrammeEditionEnrollmentRepoTest {
 
         // SUT
 
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, doublePEELF);
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
 
         //Instructions
         when(programmeEditionEnrollment1Double.findProgrammeEditionInEnrollment()).thenReturn(programmeEditionDouble);
-        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student1Double, programmeEditionDouble)).thenReturn(programmeEditionEnrollment1Double);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student1Double, programmeEditionDouble)).thenReturn(programmeEditionEnrollment1Double);
 
         when(programmeEditionEnrollment2Double.findProgrammeEditionInEnrollment()).thenReturn(programmeEditionDouble);
-        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student2Double, programmeEditionDouble)).thenReturn(programmeEditionEnrollment2Double);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student2Double, programmeEditionDouble)).thenReturn(programmeEditionEnrollment2Double);
 
         // Act
-        programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student1Double, programmeEditionDouble);
-        programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student2Double, programmeEditionDouble);
-        int result = programmeEditionEnrollmentRepo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble);
+        programmeEditionEnrollmentRepository.enrollStudentInProgrammeEdition(student1Double, programmeEditionDouble);
+        programmeEditionEnrollmentRepository.enrollStudentInProgrammeEdition(student2Double, programmeEditionDouble);
+        int result = programmeEditionEnrollmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble);
 
         // Assert
         assertEquals(2, result);
@@ -346,15 +347,15 @@ class ProgrammeEditionEnrollmentRepoTest {
         //SUT = ProgrammeEditionEnrollmentRepo -> all else as Double
         // Arrange
         //Doubles' instantiation
-        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
 
         // SUT
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, doublePEELF);
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
 
         // Act
-        int result = programmeEditionEnrollmentRepo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble);
+        int result = programmeEditionEnrollmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble);
 
         // Assert
         assertEquals(0, result);
@@ -365,8 +366,8 @@ class ProgrammeEditionEnrollmentRepoTest {
         //SUT = ProgrammeEditionEnrollmentRepo -> all else as Double
         // Arrange
         //Doubles' instantiation
-        ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrolmentListFactory doublePEELF = mock(ProgrammeEditionEnrolmentListFactory.class);
+        IProgrammeEditionEnrollmentFactory doubleIPEEF = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
         ProgrammeEdition programmeEdition1Double = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEdition2Double = mock(ProgrammeEdition.class);
         Student student1Double = mock(Student.class);
@@ -375,20 +376,20 @@ class ProgrammeEditionEnrollmentRepoTest {
         ProgrammeEditionEnrollment programmeEditionEnrollment2Double = mock(ProgrammeEditionEnrollment.class);
         // SUT
 
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, doublePEELF);
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(doubleIPEEF, doubleIPEELF);
 
         //Instructions
         when(programmeEditionEnrollment1Double.findProgrammeEditionInEnrollment()).thenReturn(programmeEdition2Double);
-        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student1Double, programmeEdition2Double)).thenReturn(programmeEditionEnrollment1Double);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student1Double, programmeEdition2Double)).thenReturn(programmeEditionEnrollment1Double);
 
         when(programmeEditionEnrollment2Double.findProgrammeEditionInEnrollment()).thenReturn(programmeEdition2Double);
-        when(programmeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student2Double, programmeEdition2Double)).thenReturn(programmeEditionEnrollment2Double);
+        when(doubleIPEEF.newProgrammeEditionEnrollment(student2Double, programmeEdition2Double)).thenReturn(programmeEditionEnrollment2Double);
 
         // Act
-        programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student1Double, programmeEdition2Double);
-        programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student2Double, programmeEdition2Double);
+        programmeEditionEnrollmentRepository.enrollStudentInProgrammeEdition(student1Double, programmeEdition2Double);
+        programmeEditionEnrollmentRepository.enrollStudentInProgrammeEdition(student2Double, programmeEdition2Double);
 
-        int result = programmeEditionEnrollmentRepo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1Double);
+        int result = programmeEditionEnrollmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1Double);
 
         // Assert
         assertEquals(0, result);
@@ -396,9 +397,10 @@ class ProgrammeEditionEnrollmentRepoTest {
     @Test
     void should_return_a_list_of_programmeEditions_that_student_is_enrolled (){
         //arrange
-        ProgrammeEditionEnrolmentListFactory doubleListFactory = mock(ProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrollmentFactory doubleFactory = mock(ProgrammeEditionEnrollmentFactory.class);
-        ProgrammeEditionEnrollmentRepo enrollment = new ProgrammeEditionEnrollmentRepo(doubleFactory, doubleListFactory);
+        IProgrammeEditionEnrollmentFactory doubleFactory = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrollmentListFactory.class);
+
+        ProgrammeEditionEnrollmentRepository enrollment = new ProgrammeEditionEnrollmentRepository(doubleFactory, doubleIPEELF);
 
         Student doubleStudent = mock(Student.class);
         ProgrammeEditionEnrollment doublePee = mock (ProgrammeEditionEnrollment.class);
@@ -416,4 +418,30 @@ class ProgrammeEditionEnrollmentRepoTest {
         //assert
         assertEquals (1, result.size());
     }
+
+    @Test
+    void shouldReturnFalseWhenProgrammeEditionEnrollmentAlreadyExists() {
+        // Arrange
+        IProgrammeEditionEnrollmentFactory doublePeeFactory = mock(IProgrammeEditionEnrollmentFactory.class);
+        IProgrammeEditionEnrollmentListFactory doublePeeListFactory = mock(IProgrammeEditionEnrollmentListFactory.class);
+        ProgrammeEditionEnrollmentRepository repository = new ProgrammeEditionEnrollmentRepository(doublePeeFactory, doublePeeListFactory);
+
+        Student doubleSt1 = mock(Student.class);
+        ProgrammeEdition doublePe1 = mock(ProgrammeEdition.class);
+
+        ProgrammeEditionEnrollment pee1 = new ProgrammeEditionEnrollmentDoubleEqualsTrue(doubleSt1,doublePe1);
+        ProgrammeEditionEnrollment pee2 = new ProgrammeEditionEnrollmentDoubleEqualsTrue(doubleSt1,doublePe1);
+
+        when(doublePeeFactory.newProgrammeEditionEnrollment(doubleSt1, doublePe1)).thenReturn(pee1);
+        repository.enrollStudentInProgrammeEdition(doubleSt1, doublePe1);
+
+        when(doublePeeFactory.newProgrammeEditionEnrollment(doubleSt1, doublePe1)).thenReturn(pee2);
+
+        // Act
+        boolean result = repository.enrollStudentInProgrammeEdition(doubleSt1, doublePe1);
+
+        // Assert
+        assertFalse(result);
+    }
+
 }

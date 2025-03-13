@@ -80,11 +80,26 @@ class ProgrammeRepositoryTest {
         ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeRepoListFactory);
         Teacher teacher1 = mock(Teacher.class);
         Programme programmeDouble = mock(Programme.class);
-        doNothing().when(programmeDouble).newProgrammeDirector(teacher1);
+        when(programmeDouble.newProgrammeDirector(teacher1)).thenReturn(true);
         boolean result = programmeList.changeProgrammeDirector(programmeDouble, teacher1);
 
         // Asssert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldNotChangeProgrammedDirectorIfNewDirectorIsNull() throws Exception {
+        // Arrange
+        ProgrammeFactory programmeFactoryDouble = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeRepoListFactory);
+        Teacher teacher1 = null;
+        Programme programmeDouble = mock(Programme.class);
+        when(programmeDouble.newProgrammeDirector(teacher1)).thenReturn(false);
+        boolean result = programmeList.changeProgrammeDirector(programmeDouble, teacher1);
+
+        // Asssert
+        assertFalse(result);
     }
 
     @Test

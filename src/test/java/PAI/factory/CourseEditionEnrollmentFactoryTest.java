@@ -15,9 +15,10 @@ import static org.mockito.Mockito.mockConstruction;
 class CourseEditionEnrollmentFactoryTest {
 
     @Test
-    void should_not_return_null_when_creating_courseEditionEnrollment() {
+    void should_create_courseEditionEnrollments() {
+        // arrange
         try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
-            // arrange
+
             CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
             Student studentDouble = mock(Student.class);
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -27,6 +28,7 @@ class CourseEditionEnrollmentFactoryTest {
 
             // assert
             assertNotNull(courseEditionEnrollment);
+            assertEquals(1, mockEnrollments.constructed().size());
         }
     }
     @Test

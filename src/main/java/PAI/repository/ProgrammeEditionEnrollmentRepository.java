@@ -1,42 +1,34 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ProgrammeEditionEnrollmentFactory;
-import PAI.factory.ProgrammeEditionListFactoryImpl;
+import PAI.factory.IProgrammeEditionEnrollmentFactory;
+import PAI.factory.IProgrammeEditionEnrollmentListFactory;
+
 
 
 import java.util.*;
 
-public class ProgrammeEditionEnrollmentRepo {
+public class ProgrammeEditionEnrollmentRepository {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
+    private final IProgrammeEditionEnrollmentFactory _iProgrammeEditionEnrollmentFactory;
 
-    private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
+    public ProgrammeEditionEnrollmentRepository(IProgrammeEditionEnrollmentFactory iProgrammeEditionEnrollmentFactory,
+                                                IProgrammeEditionEnrollmentListFactory iProgrammeEditionEnrolmentListFactory) {
 
-    private ProgrammeEditionListFactoryImpl _programmeEditionListFactoryImpl;
-
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory,
-                                          ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
-
-        _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
-        _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
+        _iProgrammeEditionEnrollmentFactory = iProgrammeEditionEnrollmentFactory;
+        _programmeEditionEnrollments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
-        try {
             if (programmeEdition == null || student == null) {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
-            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
-                    .newProgrammeEditionEnrollment(student, programmeEdition);
+            ProgrammeEditionEnrollment programmeEditionEnroll = _iProgrammeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student, programmeEdition);
 
             return _programmeEditionEnrollments.add(programmeEditionEnroll);
-        } catch (Exception e) {
-            return false;
-        }
     }
-
 
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {

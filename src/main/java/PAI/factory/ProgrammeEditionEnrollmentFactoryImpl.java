@@ -2,12 +2,9 @@ package PAI.factory;
 
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.ProgrammeEditionEnrollment;
-import PAI.domain.ProgrammeEditionEnrollmentFactoryInterface;
 import PAI.domain.Student;
 
-import java.time.LocalDate;
-
-public class ProgrammeEditionEnrollmentFactory implements ProgrammeEditionEnrollmentFactoryInterface {
+public class ProgrammeEditionEnrollmentFactoryImpl implements IProgrammeEditionEnrollmentFactory {
 
     public ProgrammeEditionEnrollment newProgrammeEditionEnrollment(
             Student student, ProgrammeEdition programmeEdition) {

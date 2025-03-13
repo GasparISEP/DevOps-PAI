@@ -18,7 +18,7 @@ public class TeacherRepository {
         _teacherFactory = teacherFactory;
     }
 
-    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, AddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
+    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, AddressFactoryImpl addressFactory, String date, TeacherCategory category, int workingPercentage,
                                    Department department) throws IllegalArgumentException {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber,

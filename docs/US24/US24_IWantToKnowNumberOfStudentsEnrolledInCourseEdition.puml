@@ -1,25 +1,31 @@
-@startuml
+6@startuml
 'https://plantuml.com/sequence-diagram
 
 actor AcademicServiceCollaborator as ASC #Purple/White
 participant ":UI" as UI #application
-participant ":US24_IWantToKnowNumberOfStudentsEnrolledInCourseEdition" as C #application
-participant "cee[i]:CourseEditionEnrollmentRepository" as CEER #application
-
-ASC -> UI : I want to get the number of students enrolled in CourseEdition1
+participant ":Controller" as C #lightgreen
+participant "ceer[i]:CourseEditionEnrolmentRepository" as CEER #application
+participant "ce1:CourseEditionEnrolment" as CEE
+ASC -> UI : I want to know the number of students enrolled in a Course Edition
 activate UI #application
-UI -> C  : IWantToKnowNumberOfStudentsEnrolledInCourseEdition1
+UI --> ASC : What Course Edition?
+ASC -> UI : CourseEdition!
+UI -> C  : IWantToKnowNumberOfStudentsEnrolledInCourseEdition(courseEdition)
 activate C #application
-C -> CEER : IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition1)
+C -> CEER : numberOfStudentsEnrolledInCourseEdition(courseEdition)
 activate CEER #application
+activate CEE #application
+CEER -> CEER : validateCourseEdition(courseEdition)
 
-CEER -> CEER : validateCourseEdition(CourseEdition1)
-
-loop cce[i] < _courseEditionEnrollments.size()
-    CEER -> CEER : numberOfStudentsEnrolledInCourseEdition(CourseEdition1)
-end loop
+ref over CEER, CEE
+Loop ce[i] in ceer
+    enrollment.knowCourseEdition().equals(courseEdition)
+end ref
+CEE --> CEER : True!
+deactivate CEE
 
 C <-- CEER : numberOfStudents
+
 deactivate CEER #application
 UI <-- C : numberOfStudents
 deactivate C #application

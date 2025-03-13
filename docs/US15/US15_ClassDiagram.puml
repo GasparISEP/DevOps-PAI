@@ -21,25 +21,10 @@ class Teacher {
      +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
      academicBackground: String, street: String, postalCode: String, location: String, country: String,
      date: String, category: TeacherCategory, workingPercentage: int, department: Department)
-     +validateAcronym(teacherAcronym:String)
-     +validateName(name: String)
-     +validateEmail(email: String)
-     +validateNif(nif: String)
-     +validatePhoneNumber(phoneNumber: String)
-     +validateAcademicBackground(academicBackground: String)
-     +hasSameAcronym(teacher: Teacher)
      +hasSameNif(teacher: Teacher)
-     +isInDepartment(department: Department)
      +hasThisNIF(NIF: String)
      +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
      +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
-}
-
-class TeacherFactory {
-    +createTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
-   academicBackground: String, street: String, postalCode: String, location: String,
-   country: String, addressFactory: AddressFactory, date: String, category: TeacherCategory, workingPercentage: int,
-   department: Department, careerProgressionfactory: TeacherCareerProgressionFactory
 }
 
 class TeacherCareerProgression {
@@ -66,35 +51,35 @@ class TeacherCategory {
     + TeacherCategory(name:String)
 }
 
-class TeacherCareerProgressionFactory {
+class TeacherCareerProgressionFactoryImpl {
     +createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
 }
 
-interface TeacherCareerProgressionFactoryInterface {
+interface TeacherCareerProgressionFactory {
     +createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
 }
 
-class TeacherCareerProgressionListFactory {
+class TeacherCareerProgressionListFactoryImpl {
     +createTeacherCareerProgressionList()
 }
 
-interface TeacherCareerProgressionListFactoryInterface {
+interface TeacherCareerProgressionListFactory {
     +createTeacherCareerProgressionList()
+}
+
+class List<TeacherCareerProgression> {
 }
 
 US15_UpdateTeacherWorkingPercentageController "1" ....> "_teacherRepository \n 1" TeacherRepository
-Teacher "_teachers \n 1..*" <---- "1" TeacherRepository
-Teacher "1" ----> "\n 1..*" TeacherCareerProgression
-TeacherFactory "1" ....> "1..*" Teacher
-TeacherFactory "1" ....> "1 \n" TeacherCareerProgressionFactory
-TeacherFactory "1" ....> "1" TeacherCareerProgressionListFactory
-TeacherRepository "1" ....> "_teacherFactory 1" TeacherFactory
+Teacher "_teachers         \n 1..*           " <---- "1" TeacherRepository
+Teacher "1  " ----> "\n 1..*     " TeacherCareerProgression
 TeacherCareerProgression "*" ----> "_category \n 1" TeacherCategory
-Teacher "1" ....> "1" TeacherCareerProgressionFactory: _teacherCareerProgressionFactory
-TeacherCareerProgressionFactory "1" ....> "1..*" TeacherCareerProgression
-Teacher "1" ....> "_teacherCareerProgressionList \n           1" TeacherCareerProgressionListFactory
-TeacherCareerProgressionFactory ....|> TeacherCareerProgressionFactoryInterface
-TeacherCareerProgressionListFactory ....|> TeacherCareerProgressionListFactoryInterface
-TeacherCareerProgressionListFactory "1" ....> " * " TeacherCareerProgression: creates List of
+Teacher "1" ....> "_teacherCareerProgressionFactory 1" TeacherCareerProgressionFactory
+TeacherCareerProgressionFactory "1" ....> "   \n        1..*" TeacherCareerProgression
+Teacher "1" ....> "  _teacherCareerProgressionList \n                                     1" TeacherCareerProgressionListFactory
+TeacherCareerProgressionFactoryImpl ....|> TeacherCareerProgressionFactory
+TeacherCareerProgressionListFactoryImpl ....|> TeacherCareerProgressionListFactory
+TeacherCareerProgressionListFactory ....> List
+List "1" ----> "1..*" TeacherCareerProgression
 
 @enduml

@@ -5,7 +5,6 @@ import PAI.domain.CourseEdition;
 import PAI.domain.GradeStudent;
 import PAI.factory.GradeStudentFactory;
 import PAI.factory.GradeStudentListFactory;
-import PAI.factory.GradeStudentListFactoryImpl;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 
@@ -59,17 +58,25 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> emptyGradeList = new ArrayList<>();
+        Student student1 = mock(Student.class);
+        List<GradeStudent> emptyGradeList = spy(new ArrayList<>());
+        when(gradeStudentListFactory.newArrayList()).thenReturn(emptyGradeList);
+
+        GradeStudent gradeStudent1 = mock(GradeStudent.class);
+
         when(gradeStudentListFactory.newArrayList()).thenReturn(emptyGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
+
+        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
 
         // Act
-        double approvalRate = list.knowApprovalRate(courseEdition1);
+        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
 
         // Assert
-        assertEquals(0.0, approvalRate, 0.01);
+        assertFalse(result1.isPresent());
     }
 
 
@@ -101,10 +108,10 @@ class GradeStudentRepositoryTest {
 
         when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-
-        // Act
         list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
+
+        // act
         double approvalRate = list.knowApprovalRate(courseEdition1);
 
         // Assert
@@ -134,6 +141,28 @@ class GradeStudentRepositoryTest {
 
         // Assert
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldGradeAStudent0() throws IllegalArgumentException {
+
+        // Arrange
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
+
+        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+
+        when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
+
+        CourseEdition courseEdition3 = mock(CourseEdition.class);
+
+        // act
+        double approvalRate = list.knowApprovalRate(courseEdition3);
+
+        // Assert
+        assertEquals(0.0, approvalRate, 0.01);
     }
 
     @Test
@@ -210,13 +239,12 @@ class GradeStudentRepositoryTest {
         Double averageGrade = list.KnowAverageGrade(courseEdition1);
 
         // Assert
-        // Assert
         assertEquals(0, averageGrade, 0.01);
 
     }
 
     @Test
-    void shouldNotGetAverageGradeOnCourseEditionWithoutStudents() throws Exception {
+    void shouldNotGetAverageGradeOnCourseEditionWithoutStudents() throws IllegalArgumentException {
 
         // Arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
@@ -238,7 +266,7 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldNotAddGradeToAStudentWithFactoryNull() throws Exception {
+    void shouldNotAddGradeToAStudentWithFactoryNull() throws IllegalArgumentException {
         // Arrange
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
         when(gradeStudentListFactory.newArrayList()).thenReturn(new ArrayList<>());
@@ -251,7 +279,7 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldNotAddGradeToAStudentWithListFactoryNull() throws Exception {
+    void shouldNotAddGradeToAStudentWithListFactoryNull() throws IllegalArgumentException {
         // Arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
 

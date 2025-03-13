@@ -9,15 +9,15 @@ admin -> UI ++ #application : (categoryName)
 UI -> ":ConfigureTeacherCategoryController" as ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
 
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
-participant ":TeacherCategoryFactoryInterface" as TeacherCategoryFactoryInterface
-participant ":TeacherCategoryRepositoryListFactoryInterface" as TeacherCategoryRepositoryListFactoryInterface
+participant ":TeacherCategoryFactoryImpl" as TeacherCategoryFactoryImpl
+participant ":TeacherCategoryRepositoryListFactoryImpl" as TeacherCategoryRepositoryListFactoryImpl
 
 ' New repository list initialization
-TeacherCategoryRepositoryListFactoryInterface -> TeacherCategoryRepository ++ #application : getTeacherCategoryList()
+TeacherCategoryRepositoryListFactoryImpl -> TeacherCategoryRepository ++ #application : getTeacherCategoryList()
 
 ' Validation step: Check if name is empty
-ConfigureTeacherCategoryController -> TeacherCategoryFactoryInterface ++ #application : createTeacherCategory(categoryName)
-TeacherCategoryFactoryInterface --> "tc1:TeacherCategory" as TeacherCategory ++ #application : <create>(categoryName)
+ConfigureTeacherCategoryController -> TeacherCategoryFactoryImpl ++ #application : createTeacherCategory(categoryName)
+TeacherCategoryFactoryImpl --> "tc1:TeacherCategory" as TeacherCategory ++ #application : <create>(categoryName)
 
 ' Exception Handling for Invalid Names
 TeacherCategory -> TeacherCategory : isNameValid(categoryName)

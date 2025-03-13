@@ -1,13 +1,14 @@
 @startuml
-skinparam sequenceMessageAlign center
 
 actor Admin
 participant ":UI" as UI
-participant "ctllr:Controller" as ctrl
+participant "ctrl:US07_IWantToCreateASchoolYearController" as ctrl
 participant "syr1:SchoolYearRepository" as syRepo
-participant "sy[i]:SchoolYear" as SY
+participant "sf1:SchoolYearFactoryImpl" as syFactoryImpl
+participant "sy1:SchoolYear" as SchoolYear
 
 Admin -> UI : I want to create a School Year in the System
+activate UI
 UI --> Admin : description?
 Admin -> UI : description!
 UI --> Admin : startDate?
@@ -19,23 +20,30 @@ UI -> ctrl : I want to create a School Year in the System \n (description, start
 activate ctrl
 ctrl -> syRepo : addSchoolYear \n (description,startDate,endDate)
 activate syRepo
+
 loop for each SchoolYear in syRepo
-    syRepo -> SY : schoolYearExists(newSchoolYear)
-    activate SY
-    SY --> syRepo : False
-    deactivate SY
+    syRepo -> syRepo : schoolYearExists(newSchoolYear)
 end
-create "sy1:SchoolYear" as SchoolYear
-syRepo -> SchoolYear: createSchoolYear \n (description, startDate, endDate)
+
+syRepo -> syFactoryImpl: createSchoolYear \n (description, startDate, endDate)
+activate syFactoryImpl
+syFactoryImpl -> SchoolYear: createSchoolYear \n (description, startDate, endDate)
+
 activate SchoolYear
-SchoolYear -> SchoolYear : validateParameters()
-SchoolYear -> SchoolYear : validateDateFormat()
-SchoolYear --> syRepo: sy1
+SchoolYear -> SchoolYear: validateParameters()
+SchoolYear -> SchoolYear: validateDateFormat()
+SchoolYear --> syFactoryImpl: sy1
 deactivate SchoolYear
+
+syFactoryImpl --> syRepo: sy1
+deactivate syFactoryImpl
 
 syRepo -> syRepo : add(sy1)
 syRepo --> ctrl : true
+deactivate syRepo
 ctrl --> UI : true
+deactivate ctrl
 UI --> Admin : Success
+deactivate UI
 
 @enduml

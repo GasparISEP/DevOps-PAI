@@ -1,22 +1,27 @@
 package PAI.repository;
 
 import PAI.domain.DegreeType;
-import PAI.factory.DegreeTypeFactoryImpl;
-import PAI.factory.DegreeTypeListFactory;
+import PAI.factory.DegreeTypeFactoryInterface;
+import PAI.factory.DegreeTypeListFactoryInterface;
 
 import java.util.List;
+import java.util.Objects;
 
 public class DegreeTypeRepository {
-    private final DegreeTypeFactoryImpl _degreeTypeFactoryImpl;
+    private final DegreeTypeFactoryInterface _degreeTypeFactoryInterface;
     private final List<DegreeType> _degreeTypeRepository;
 
-    public DegreeTypeRepository(DegreeTypeFactoryImpl degreeTypeFactoryImpl, DegreeTypeListFactory degreeTypeListFactory) {
-        _degreeTypeFactoryImpl = degreeTypeFactoryImpl;
-        _degreeTypeRepository = degreeTypeListFactory.createDegreeTypeList();
+    public DegreeTypeRepository(DegreeTypeFactoryInterface degreeTypeFactoryInterface, DegreeTypeListFactoryInterface degreeTypeListFactoryInterface) {
+        _degreeTypeFactoryInterface = Objects.requireNonNull(degreeTypeFactoryInterface,"Factory cannot be null");
+        if (degreeTypeListFactoryInterface == null) {
+            throw new IllegalArgumentException("Factory cannot be null!");
+
+        }
+        _degreeTypeRepository = degreeTypeListFactoryInterface.createDegreeTypeList();
     }
 
     public boolean registerDegreeType(String name, int maxEcts) throws Exception {
-        DegreeType degreeType = _degreeTypeFactoryImpl.addNewDegreeType(name, maxEcts);
+        DegreeType degreeType = _degreeTypeFactoryInterface.addNewDegreeType(name, maxEcts);
 
         for (DegreeType dt : _degreeTypeRepository) {
             if (dt.equals(degreeType)) {

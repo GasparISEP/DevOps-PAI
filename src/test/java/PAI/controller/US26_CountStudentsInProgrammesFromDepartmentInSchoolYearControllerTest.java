@@ -1,12 +1,12 @@
 package PAI.controller;
 import PAI.domain.*;
+import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
+import PAI.repository.ProgrammeEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 
 class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
@@ -15,7 +15,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldCreateControllerWhenRepositoriesAreValid() {
         // arrange
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble= mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble= mock(DepartmentRepository.class);
 
@@ -42,7 +42,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearRepoIsNull(){
         // arrange
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         DepartmentRepository departmentRepoDouble= mock(DepartmentRepository.class);
 
         // Act & Assert
@@ -56,7 +56,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentRepoNull(){
         // arrange
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble= mock(SchoolYearRepository.class);
 
         // Act & Assert
@@ -68,11 +68,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
     //test that ensures that the method returns a positive int when there are students enrolled in Programmes from specified department and school year
     @Test
-    void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndSchoolYear() {
+    void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndInSchoolYear() {
         // Arrange
         Department departmentDouble = mock(Department.class);
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -91,62 +91,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         assertEquals(3, result);
     }
 
-
-    //test that ensures that the method throws an exception when School Year is not present in the School Year Repository
-   @Test
-    void shouldThrowExceptionWhenSchoolYearDoesNotExist() {
-        // Arrange
-        ProgrammeEditionEnrollmentRepo pEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
-        SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
-        DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
-
-        Department departmentDouble = mock(Department.class);
-        SchoolYear schoolYearDouble= mock(SchoolYear.class);
-
-        when(schoolYearRepoDouble.schoolYearExists(schoolYearDouble)).thenReturn(false);
-
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepoDouble, schoolYearRepoDouble, departmentRepoDouble);
-
-        // Act & Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
-        });
-
-        assertEquals("SchoolYear does not exist.", exception.getMessage());
-    }
-
-    //test that ensures that the method throws an exception when Department is not present in the Department Repository
-    @Test
-    void shouldThrowExceptionWhenDepartmentDoesNotExist() {
-        // arrange
-        ProgrammeEditionEnrollmentRepo pEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
-        SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
-        DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
-
-        Department departmentDouble = mock(Department.class);
-        SchoolYear schoolYearDouble= mock(SchoolYear.class);
-
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepoDouble, schoolYearRepoDouble, departmentRepoDouble);
-
-        when(schoolYearRepoDouble.schoolYearExists(schoolYearDouble)).thenReturn(true);
-        when(departmentRepoDouble.departmentExists(departmentDouble)).thenReturn(false);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {
-            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
-        });
-
-        // Assert
-        assertEquals("Department does not exist.", exception.getMessage());
-    }
-
     //test that ensures that the method throws an exception when Department is null
     @Test
     void shouldThrowExceptionWhenDepartmentIsNull() {
         // arrange
-        ProgrammeEditionEnrollmentRepo pEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository pEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -167,7 +116,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearIsNull() {
         // arrange
-        ProgrammeEditionEnrollmentRepo pEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository pEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -178,6 +127,328 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // Act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, null);
+        });
+
+        // Assert
+        assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
+    }
+
+    //Integration Tests
+    //test that ensures that the method returns a positive int when there are students enrolled in Programmes from specified department and school year
+    @Test
+    void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndSchoolYear() throws Exception {
+        // arrange
+        Department department = new Department("CSE", "Computer Science Engineer");
+
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+
+        SchoolYear schoolYear1 = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        SchoolYear schoolYear2 = new SchoolYear("2022-2023","01-09-2022", "31-07-2026");
+
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher,  new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department, teacher,  new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+
+        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+
+        SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
+        schoolYearRepository.addSchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        schoolYearRepository.addSchoolYear("2022-2023","01-09-2022", "31-07-2026");
+
+        DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(departmentFactoryImpl, departmentListFactoryImpl);
+        departmentRepository.registerDepartment("CSE", "Computer Science Engineer");
+
+        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepo, schoolYearRepository, departmentRepository);
+        // act
+        int result = controller.countStudentsInProgrammesFromDepartmentInSchoolYear(department, schoolYear1);
+
+        // assert
+        assertEquals(2, result);
+    }
+
+    //test that ensures that the method throws an exception when School Year is not present in the School Year Repository
+    @Test
+    void shouldThrowExceptionWhenSchoolYearDoesntExist() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+
+        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+
+        SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
+        schoolYearRepository.addSchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(departmentFactoryImpl, departmentListFactoryImpl);
+        departmentRepository.registerDepartment("DEI", "Departamento Engenharia Informática");
+
+        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepo, schoolYearRepository, departmentRepository);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {
+            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(department1, schoolYear1);
+        });
+        // Assert
+        assertEquals("SchoolYear does not exist.", exception.getMessage());
+    }
+
+    //test that ensures that the method throws an exception when Department is not present in the Department Repository
+    @Test
+    void shouldThrowExceptionWhenDepartmentDoesNotExist() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+
+        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+
+        SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
+        schoolYearRepository.addSchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        schoolYearRepository.addSchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(departmentFactoryImpl, departmentListFactoryImpl);
+        departmentRepository.registerDepartment("DEI", "Departamento Engenharia Informática");
+
+        Department department2 = new Department("MAT", "Mat");
+        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepo, schoolYearRepository, departmentRepository);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {
+            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(department2, schoolYear1);
+        });
+
+        // Assert
+        assertEquals("Department does not exist.", exception.getMessage());
+    }
+
+    //test that ensures that the method throws an exception when Department is null
+    @Test
+    void shouldThrowExceptionWhenDepartmentIs_Null() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+
+        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+
+        SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
+        schoolYearRepository.addSchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        schoolYearRepository.addSchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(departmentFactoryImpl, departmentListFactoryImpl);
+        departmentRepository.registerDepartment("DEI", "Departamento Engenharia Informática");
+
+        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepo, schoolYearRepository, departmentRepository);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {
+            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(null, schoolYear1);
+        });
+        // Assert
+        assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
+    }
+
+    //test that ensures that the method throws an exception when School Year is null
+    @Test
+    void shouldThrowExceptionWhenSchoolYearIs_Null() throws Exception {
+        // arrange
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+
+        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        SchoolYear schoolYear2 = new SchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
+                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+
+        DegreeType master = new DegreeType("Master", 240);
+        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
+                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+
+        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
+        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
+        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+
+        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
+        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+
+        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+
+        SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
+        schoolYearRepository.addSchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        schoolYearRepository.addSchoolYear("Ano letivo de", "01-09-2022", "31-07-2023");
+
+        DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(departmentFactoryImpl, departmentListFactoryImpl);
+        departmentRepository.registerDepartment("DEI", "Departamento Engenharia Informática");
+
+        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepo, schoolYearRepository, departmentRepository);
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {
+            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(department1, null);
         });
 
         // Assert
