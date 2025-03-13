@@ -31,8 +31,12 @@ public class ProgrammeEditionEnrollmentRepo {
     }
 
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
+        if(student == null || programmeEdition == null) {
+            return false;
+        }
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
-            if (enrollment.getStudentUniqueNumber() == student.getUniqueNumber() && enrollment.findProgrammeEditionInEnrollment() == programmeEdition) {
+            if (enrollment.getStudentUniqueNumber().equals(student.getUniqueNumber())
+                    && enrollment.findProgrammeEditionInEnrollment().equals(programmeEdition)) {
                 return true;
             }
         }
