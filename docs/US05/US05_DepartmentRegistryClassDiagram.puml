@@ -43,11 +43,11 @@ interface Set {
 DepartmentRepository "1" ..> "*" Department
 DepartmentRepository "1" -> "1" Set
 Department "1" <- "1" Set
-DepartmentRepository "1" --> "_departmentsList 1" IDepartmentListFactory
+DepartmentRepository "1" ..> "_departmentsList 1" IDepartmentListFactory
 IDepartmentListFactory  <|..  DepartmentListFactoryImpl
 IDepartmentFactory  <|..  DepartmentFactoryImpl
-DepartmentListFactoryImpl "1" ..> "1" Set
+IDepartmentListFactory  ..>  Set
 US05_RegisterADepartmentController "1  " ..> "            1\n_departmentRepo    " DepartmentRepository
-Department "1" <- "1" IDepartmentFactory
-IDepartmentFactory "_departmentFactory1" <-- "1"  DepartmentRepository
+Department "1" <.. "1" IDepartmentFactory
+IDepartmentFactory "_departmentFactory1" <.. "1"  DepartmentRepository
 @enduml
