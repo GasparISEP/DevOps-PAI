@@ -5,13 +5,18 @@ import PAI.factory.DegreeTypeFactoryInterface;
 import PAI.factory.DegreeTypeListFactoryInterface;
 
 import java.util.List;
+import java.util.Objects;
 
 public class DegreeTypeRepository {
     private final DegreeTypeFactoryInterface _degreeTypeFactoryInterface;
     private final List<DegreeType> _degreeTypeRepository;
 
     public DegreeTypeRepository(DegreeTypeFactoryInterface degreeTypeFactoryInterface, DegreeTypeListFactoryInterface degreeTypeListFactoryInterface) {
-        _degreeTypeFactoryInterface = degreeTypeFactoryInterface;
+        _degreeTypeFactoryInterface = Objects.requireNonNull(degreeTypeFactoryInterface,"Factory cannot be null");
+        if (degreeTypeListFactoryInterface == null) {
+            throw new IllegalArgumentException("Factory cannot be null!");
+
+        }
         _degreeTypeRepository = degreeTypeListFactoryInterface.createDegreeTypeList();
     }
 
