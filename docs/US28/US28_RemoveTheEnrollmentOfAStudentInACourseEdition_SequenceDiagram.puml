@@ -1,4 +1,9 @@
 @startuml
+skinparam sequence {
+
+LifeLineBorderColor Grey
+LifeLineBackgroundColor HoneyDew
+}
 
 title US28: Remove the enrollment of a student in a course edition
 
@@ -7,6 +12,7 @@ participant ":UI" as UI
 participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEditionController" as Controller
 participant ":CourseEditionEnrollmentRepository" as Repository
 participant "cee:CourseEditionEnrollment" as Enrollment
+autonumber
 
 ASC -> UI : I want to remove the enrollment of a student in a course edition
 activate UI
