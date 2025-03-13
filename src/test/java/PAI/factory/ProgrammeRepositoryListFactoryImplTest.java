@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeRepositoryListFactoryTest {
+class ProgrammeRepositoryListFactoryImplTest {
 
     @Test
     void whenCopyProgrammeArrayListInvoked_ThenShouldReturnNewIndependentCopy() {
