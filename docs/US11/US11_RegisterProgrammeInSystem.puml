@@ -1,36 +1,59 @@
 @startuml
+
+title US27: As an ASC, I want to register a programme in the system, including the study plan.
+
 actor ASC as Admin
 
 participant ":UI" as UI #lightblue
-participant ":ControllerUS11" as C #lightblue
-participant ":ProgrammeList" as PL #lightblue
+participant ":ControllerUS27" as C #lightblue
+participant ":ProgrammeRepository" as PR #lightblue
+participant ":ProgrammeFactory" as PF #lightblue
 
 
-Admin -> UI ++ #application : I Want to register a Programme in the System.
-UI --> Admin -- : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? \n Department? Programme Director?
-Admin -> UI ++ #application : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! \n Department! Programme Director!
-UI -> C ++ #application : registerProgrammeInTheSystem(Name, Acronym, quantityOfEcts, \n quantityOfSemesters,  DegreeType,  Department, Programme Director, programmeCourseListFactory)
-C -> PL ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector, programmeCourseListFactory)
 
+Admin -> UI ++ #application : I want to register a Programme in the System,\n including a Study Plan.
+
+UI --> Admin -- : What are the attributes??
+
+Admin -> UI ++ #application : name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector
+
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, \ndegreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+
+C -> PR ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, \nprogrammeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+
+
+PR -> PF ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
 create ":Programme" as P #lightblue
-PL -> P ++ #application : <Create> (name, acronym, quantityOfEcts, quantityOfSemesters, \n degreeType, department, programmeDirector, programmeCourseListFactory)
+PF -> P ++ #application : Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nStudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory)
+
 P -> P : isNameInvalid()
 P -> P : isAcronymInvalid()
 P -> P : isQuantityOfEctsInvalid()
 P -> P : isQuantityOfSemestersInvalid()
-
+participant ":StudyplanFactory" as SPF #lightblue
+P -> SPF ++ #application : newStudyPlan(courseInStudyPlanFactory, \nstudyPlanListFactory, courseFactory)
 create ":StudyPlan" as SP #lightblue
-P -> SP ++ #application : StudyPlan()
-SP --> P -- : List<CourseInStudyPlan> SP1
 
-P --> PL -- : P1
+SPF -> SP ++ #application : StudyPlan()
 
-PL -> PL : contains(P1)
-PL -> PL : add(P1)
+participant ":studyPlanListFactory" as SPLF #lightblue
+SP -> SPLF ++ #application: newArrayList()
 
-PL --> C -- : True
+create "List<CourseInStudyPlan>" as LCSP #lightblue
+SPLF -> LCSP ++ #application : newArrayList()
+LCSP --> SPLF -- : List<CourseInStudyPlan> LCSP1
+
+SPLF --> SP -- : List<CourseInStudyPlan> LCSP1
+SP --> SPF -- : List<CourseInStudyPlan> SP1
+
+SPF --> P -- : List<CourseInStudyPlan> SP1
+
+P --> PF -- : Programme P1
+PF --> PR -- : Programme P1
+PR -> PR : contains(P1)
+PR -> PR : add(P1)
+
+PR --> C -- : True
 C --> UI -- : True
 UI --> Admin -- : Success!
-
-
 @enduml
