@@ -1,6 +1,6 @@
 @startuml
 autonumber
-title US11: As an ASC, I want to register a programme in the system, including the study plan.
+title US11: As an ASC, I want to register a programme in the system.
 
 actor ASC as Admin
 
@@ -11,7 +11,7 @@ participant ":ProgrammeFactory" as PF #lightblue
 
 
 
-Admin -> UI ++ #application : I want to register a Programme in the System,\n including a Study Plan.
+Admin -> UI ++ #application : I want to register a Programme in the System.
 
 UI --> Admin -- : What are the attributes??
 

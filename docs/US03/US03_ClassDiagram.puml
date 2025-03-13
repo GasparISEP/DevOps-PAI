@@ -30,18 +30,25 @@ interface IProgrammeCourseListFactory {
 }
 
 class CourseRepository {
+    - _courseFactory: CourseFactory
     -_courseRepository:ArrayList<Course>
-    +CourseRepository()
     +registerCourse (courseName: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
     +isCourseRegistered (course: Course)
+    +getAllCourses()
 }
 
-class ProgrammeList {
-     -_programmeList: List<Programme>
+class ProgrammeRepository {
+     - _programmeFactory: ProgrammeFactory
+     - _programmeRepo: List<Programme>
+     - _programmeRepositoryListFactory: ProgrammeRepositoryListFactory
      +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
      +changeProgrammeDirector(Programme programme, Teacher newDirector)
      +getAllProgrammes()
      +getCourseList(programme: Programme)
+     +getProgrammeByName(String name)
+     +getProgrammeByAcronym(String acronym)
+     +getAllProgrammeNames()
+
 }
 
 class Course {
@@ -65,7 +72,7 @@ class ArrayList {
 
 US03addCourseToProgrammeController "1" --> "uses 1" Programme
 US03addCourseToProgrammeController "1" --> "uses 1" CourseRepository
-US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeList
+US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeRepository
 ProgrammeCourseListFactoryImpl ..|> "implements" IProgrammeCourseListFactory
 Programme "1" ..> "uses 1" IProgrammeCourseListFactory
 ProgrammeCourseListFactoryImpl "1" --> "creates 1" ArrayList
