@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.ProgrammeEdition;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
+import PAI.repository.ProgrammeEditionEnrollmentRepository;
 import PAI.repository.ProgrammeEditionRepository;
 
 import java.util.List;
@@ -9,19 +9,19 @@ import java.util.List;
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
     private ProgrammeEditionRepository _programmeEditionRepository;
-    private ProgrammeEditionEnrollmentRepo _programmeEditionEnrollmentRepo;
+    private ProgrammeEditionEnrollmentRepository _programmeEditionEnrollmentRepository;
 
-    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(ProgrammeEditionRepository programmeEditionRepository, ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo){
+    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(ProgrammeEditionRepository programmeEditionRepository, ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository){
 
         if(programmeEditionRepository == null){
             throw new IllegalArgumentException("Programme Edition Repository is null");
         }
         _programmeEditionRepository = programmeEditionRepository;
 
-        if(programmeEditionEnrollmentRepo == null){
+        if(programmeEditionEnrollmentRepository == null){
             throw new IllegalArgumentException("Programme Edition Enrollment Repository is null");
         }
-        _programmeEditionEnrollmentRepo = programmeEditionEnrollmentRepo;
+        _programmeEditionEnrollmentRepository = programmeEditionEnrollmentRepository;
     }
 
     public List<ProgrammeEdition> getAllProgrammeEditions() {
@@ -33,6 +33,6 @@ public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionContro
         if(programmeEdition == null){
             throw new IllegalArgumentException("Programme Edition cannot be null");
         }
-        return _programmeEditionEnrollmentRepo.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition);
+        return _programmeEditionEnrollmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition);
     }
 }
