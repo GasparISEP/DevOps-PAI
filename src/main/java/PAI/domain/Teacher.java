@@ -111,7 +111,7 @@ public class Teacher {
         if (phoneNumber == null || phoneNumber.isBlank())
             throw new IllegalArgumentException("Teacher´s office phoneNumber must be a non-empty String.");
 
-        if (!phoneNumber.matches("^[A-Z][0-9]{3}$") || phoneNumber.length() != 4)
+        if (!phoneNumber.matches("^[A-Z][0-9]{3}$"))
             throw new IllegalArgumentException("Teacher´s office phoneNumber must have a letter followed by 3 digits.");
 
         this._phoneNumber = phoneNumber;

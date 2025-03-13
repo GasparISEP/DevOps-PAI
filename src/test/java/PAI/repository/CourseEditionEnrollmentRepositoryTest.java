@@ -1,9 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ICourseEditionEnrollmentFactory;
-import PAI.factory.CourseEditionEnrollmentListFactory;
-import PAI.factory.ICourseEditionEnrollmentListFactory;
+import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -677,4 +675,45 @@ class CourseEditionEnrollmentRepositoryTest {
         assertEquals(0, studentsEnrolled);
     }
 
+
+    //---------------Integration Test--------------
+
+    @Test
+    void removeExistingEnrollment_ShouldReturnTrue_IntegrationTest() throws Exception {
+        // Arrange
+        ICourseEditionEnrollmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrollmentFactory();
+        ICourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory =  new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
+
+        DegreeType master = new DegreeType("Master", 240);
+        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
+                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
+                new TeacherCareerProgressionListFactory());
+
+        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+
+        Course c1 = new Course("Development", "DEV", 5, 1);
+
+        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
+                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
+                new CourseFactoryImpl());
+
+        SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
+        ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
+        CourseEdition courseEdition = new CourseEdition(c1,pe);
+
+        courseEditionEnrollmentRepository.enrollStudentInACourseEdition(student, courseEdition);
+
+        //Act
+        boolean result = courseEditionEnrollmentRepository.removeEnrollment(student, courseEdition);
+
+        // Assert
+        assertTrue(result, "Enrollment should be removed successfully.");
+
+    }
 }

@@ -34,6 +34,29 @@ class AccessMethodFactoryTest {
         }
     }
 
+
+
+    @Test
+    void mockingConstructorThrowingException(){
+        //arrange
+        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+
+        //Use tyr-with-resources to mock construction and throw an exception
+        try (MockedConstruction<AccessMethod> mock = mockConstruction(AccessMethod.class,(mocked, context) ->
+            {
+            //Define behavior: throwing an exception when a new instance of Location is created
+            throw new RuntimeException(new InstantiationException("AccessMethod constructor failed"));
+            })) {
+            //Act: trying to create accessMethod will throw the exception
+            try {
+                accessMethodFactory.createAccessMethod("Maiores 23");
+                fail("Expect exception not thrown");
+            } catch (Exception e) {
+                //Assertion to check if the exception is thrown
+                assertTrue(e.getCause().getMessage().contains("AccessMethod constructor failed"));
+            }
+        }
+    }
     @Test
     void shouldNotCreateAccessMethod() throws InstantiationException {
         //arrange
