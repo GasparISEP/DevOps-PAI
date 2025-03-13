@@ -1,7 +1,5 @@
 @startuml
 
-skinparam sequenceMessageAlign center
-
 actor ASC
 participant ":UI" as UI
 participant "ctrl1:RegisterStudentInSystemController" as ctrl
