@@ -21,34 +21,49 @@ class Programme {
     - _studyPlan: StudyPlan
     + addCourseToAProgramme(course: Course)
 }
-class ProgrammeCourseListFactory {
+class ProgrammeCourseListFactoryImpl {
     + createCourseList(): List<Course>
 }
 
-interface ProgrammeCourseListFactoryImpl {
+interface IProgrammeCourseListFactory {
     + createCourseList(): List<Course>
 }
 
 class CourseRepository {
+    - _courseFactory: CourseFactory
+    -_courseRepository:ArrayList<Course>
+    +registerCourse (courseName: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
+    +isCourseRegistered (course: Course)
+    +getAllCourses()
 }
 
-class ProgrammeList {
+class ProgrammeRepository {
+     - _programmeFactory: ProgrammeFactory
+     - _programmeRepo: List<Programme>
+     - _programmeRepositoryListFactory: ProgrammeRepositoryListFactory
+     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
+     +changeProgrammeDirector(Programme programme, Teacher newDirector)
+     +getAllProgrammes()
+     +getCourseList(programme: Programme)
+     +getProgrammeByName(String name)
+     +getProgrammeByAcronym(String acronym)
+     +getAllProgrammeNames()
+
 }
 
 class Course {
+    -_name: String
+    -_acronym: String
+    -_quantityCreditsEcts: double
+    -_durationCourseInSemester: int
+    +Course(name: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
+    +getQuantityCreditsEcts()
+    +getDurationInSemester()
+    +getName()
+    +getAcronym()
 }
 
-class DegreeType {
-}
 
-class Department {
-}
-
-class Teacher {
-}
-
-class StudyPlan {
-}
 
 class ArrayList {
 }
@@ -57,14 +72,10 @@ class ArrayList {
 
 US03addCourseToProgrammeController "1" --> "uses 1" Programme
 US03addCourseToProgrammeController "1" --> "uses 1" CourseRepository
-US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeList
-Programme "1" --> "uses 1" ProgrammeCourseListFactory
-ProgrammeCourseListFactory ..|> "implements" ProgrammeCourseListFactoryImpl
-ProgrammeCourseListFactory "1" --> "creates 1" ArrayList
-Programme "1" --> "uses 1" DegreeType
-Programme "1" --> "uses 1" Department
-Programme "1" --> "uses 1" Teacher
-Programme "1" --> "uses 1" StudyPlan
+US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeRepository
+ProgrammeCourseListFactoryImpl ..|> "implements" IProgrammeCourseListFactory
+Programme "1" ..> "uses 1" IProgrammeCourseListFactory
+ProgrammeCourseListFactoryImpl "1" --> "creates 1" ArrayList
 Programme "1" o-- "contains *" Course
 
 @enduml

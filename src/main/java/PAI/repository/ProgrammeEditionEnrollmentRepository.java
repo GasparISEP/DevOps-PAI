@@ -1,44 +1,42 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ProgrammeEditionEnrollmentFactoryImpl;
-import PAI.factory.ProgrammeEditionListFactoryImpl;
+import PAI.factory.IProgrammeEditionEnrollmentFactory;
+import PAI.factory.IProgrammeEditionEnrollmentListFactory;
+
 
 
 import java.util.*;
 
-public class ProgrammeEditionEnrollmentRepo {
+public class ProgrammeEditionEnrollmentRepository {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
+    private final IProgrammeEditionEnrollmentFactory _iProgrammeEditionEnrollmentFactory;
 
-    private final ProgrammeEditionEnrollmentFactoryImpl _programmeEditionEnrollmentFactory;
+    public ProgrammeEditionEnrollmentRepository(IProgrammeEditionEnrollmentFactory iProgrammeEditionEnrollmentFactory,
+                                                IProgrammeEditionEnrollmentListFactory iProgrammeEditionEnrolmentListFactory) {
 
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory,
-                                          ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
-
-        _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
-        _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
+        _iProgrammeEditionEnrollmentFactory = iProgrammeEditionEnrollmentFactory;
+        _programmeEditionEnrollments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
-        try {
             if (programmeEdition == null || student == null) {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
-            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
-                    .newProgrammeEditionEnrollment(student, programmeEdition);
+            ProgrammeEditionEnrollment programmeEditionEnroll = _iProgrammeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student, programmeEdition);
 
             return _programmeEditionEnrollments.add(programmeEditionEnroll);
-        } catch (Exception e) {
-            return false;
-        }
     }
 
-
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
+        if(student == null || programmeEdition == null) {
+            return false;
+        }
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
-            if (enrollment.getStudentUniqueNumber() == student.getUniqueNumber() && enrollment.findProgrammeEditionInEnrollment() == programmeEdition) {
+            if (enrollment.getStudentUniqueNumber().equals(student.getUniqueNumber())
+                    && enrollment.findProgrammeEditionInEnrollment().equals(programmeEdition)) {
                 return true;
             }
         }

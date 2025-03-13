@@ -1,6 +1,8 @@
-package PAI.domain;
+package PAI.factory;
 
-    // Define the interface
+import PAI.domain.TeacherCategory;
+
+// Define the interface
     public interface TeacherCategoryFactoryInterface {
         TeacherCategory createTeacherCategory(String categoryName) throws Exception;
     }

@@ -114,6 +114,117 @@ class ProgrammeEnrolmentFactoryImplTest {
     }
 
     @Test
+    void nullStudentDoesNotCreateObjectAndThrowsExceptionWithoutIsolation() throws Exception {
+        //Arrange
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+
+        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(null, attributes._accessMethod, attributes._programme, "14-02-2024"));
+    }
+
+    @Test
+    void nullStudentDoesNotCreateObjectAndThrowsExceptionWithIsolation() {
+        //arrange
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
+        Programme programmeDouble = (Programme) doubles[2];
+
+        try (
+                MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
+                    throw new RuntimeException(new InstantiationException("Argument can't be null"));
+                })) {
+            //Act
+            try {
+                peFactory.createProgrammeEnrolment(null, accessMethodDouble, programmeDouble, "14-02-2024");
+                fail("Expected exception not thrown");
+            }
+            catch (Exception e)
+            {
+                //Assert
+                assertTrue(e.getCause().getMessage().contains("Argument can't be null"));
+            }
+        }
+    }
+
+    @Test
+    void nullAccessMethodDoesNotCreateObjectAndThrowsExceptionWithoutIsolation() throws Exception {
+        //Arrange
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+
+        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, null, attributes._programme, "14-02-2024"));
+    }
+
+    @Test
+    void nullAccessMethodDoesNotCreateObjectAndThrowsExceptionWithIsolation() {
+        //arrange
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Student studentDouble = (Student) doubles[0];
+        Programme programmeDouble = (Programme) doubles[2];
+
+        try (
+                MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
+                    throw new RuntimeException(new InstantiationException("Argument can't be null"));
+                })) {
+            //Act
+            try {
+                peFactory.createProgrammeEnrolment(studentDouble, null, programmeDouble, "14-02-2024");
+                fail("Expected exception not thrown");
+            }
+            catch (Exception e)
+            {
+                //Assert
+                assertTrue(e.getCause().getMessage().contains("Argument can't be null"));
+            }
+        }
+    }
+
+    @Test
+    void nullProgrammeDoesNotCreateObjectAndThrowsExceptionWithoutIsolation() throws Exception {
+        //Arrange
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+
+        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, null, "14-02-2024"));
+    }
+
+    @Test
+    void nullProgrammeDoesNotCreateObjectAndThrowsExceptionWithIsolation() {
+        //arrange
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Student studentDouble = (Student) doubles[0];
+        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
+
+        try (
+                MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
+                    throw new RuntimeException(new InstantiationException("Argument can't be null"));
+                })) {
+            //Act
+            try {
+                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, null, "14-02-2024");
+                fail("Expected exception not thrown");
+            }
+            catch (Exception e)
+            {
+                //Assert
+                assertTrue(e.getCause().getMessage().contains("Argument can't be null"));
+            }
+        }
+    }
+
+    @Test
     void nullDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation() throws Exception {
         //Arrange
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();

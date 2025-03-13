@@ -1,65 +1,73 @@
 @startuml
-!pragma layout smetana
-'left to right direction
 
-class Student {
-    -_uniqueNumber: String
-    -_name: String
-    -_NIF: String
-    -_phone: String
-    -_email: String
-    -_institutionalEmail: String
-    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
-    +hasSameUniqueNumber(Student student)
-    +hasSameNIF(Student student)
-}
-
-class StudentFactory {
-    +newStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address)
-}
-
-interface StudentFactoryInterface {
-    +newStudent(int uniqueNumber, String name, String NIF, String phone, String email, Address address)
-}
-
-class StudentListFactory {
-    +newArrayList()
-}
-
-interface StudentListFactoryInterface {
-    +newArrayList()
+class US08_IWantToRegisterAStudentInTheSystemController {
+    + registerStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : boolean
 }
 
 class StudentRepository {
-    +registerStudent(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+    - _studentFactoryImpl : StudentFactory
+    - _students : List<Student>
+    + registerStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : boolean
+    + getStudentByUniqueNumber(uniqueNumber : String) : Optional<Student>
+}
+
+class Student {
+    - _uniqueNumber : String
+    - _name : String
+    - _NIF : String
+    - _phone : String
+    - _email : String
+    - _address : Address
+    - _institutionalEmail : String
+    + hasSameUniqueNumber(student : Student) : boolean
+    + hasSameNIF(student : Student) : boolean
+    + getUniqueNumber() : String
+    + hasThisUniqueNumber(uniqueNumber : String) : boolean
+}
+
+interface StudentFactory {
+    + newStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : Student
+}
+
+class StudentFactoryImpl {
+    + newStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : Student
+}
+
+interface StudentListFactory {
+    + newArrayList() : List<Student>
+}
+
+class StudentListFactoryImpl {
+    + newArrayList() : List<Student>
 }
 
 class Address {
-     -_street: String
-     -_postalCode: String
-     -_location: String
-     -_country: String
-     +Address(street: String, postalCode: String, location: String, country: String)
+    - _street : String
+    - _postalCode : String
+    - _location : String
+    - _country : String
+    + getStreet() : String
+    + getPostalCode() : String
+    + getLocation() : String
+    + getCountry() : String
 }
 
-class AddressFactory {
-    +createAddress(street: String, postalCode: String, location: String, country: String)
+interface AddressFactory {
+    + createAddress(street : String, postalCode : String, location : String, country : String) : Address
 }
 
-class US08_RegisterStudentInSystemController{
-    +registerStudent (uniqueNumber: String, name: String, NIF: String, phone: String, email: String)
+class AddressFactoryImpl {
+    + createAddress(street : String, postalCode : String, location : String, country : String) : Address
 }
 
-AddressFactory "1" ....> "1    " Address
-Student "\n1 " ------> "_address \n1" Address
-StudentRepository "\n1" ------> "Student \n*" Student
-US08_RegisterStudentInSystemController "1" ......> "_students \n1\n" StudentRepository
-US08_RegisterStudentInSystemController "1" ......> "1" Address
-StudentFactory "1" ----> "*" Student
-StudentFactory ....|> StudentFactoryInterface
-StudentListFactory "1 " ....> " *  " Student: creates List of
-StudentListFactory ....|> StudentListFactoryInterface
-StudentRepository "1" ....> "-_studentFactory 1" StudentFactory
-StudentRepository "1" ....> "-_students \n 1" StudentListFactory
+US08_IWantToRegisterAStudentInTheSystemController "1" ---> "1" StudentRepository
+StudentRepository "1" --> "1" StudentFactory
+StudentRepository "1" --> "1..* _students" Student
+StudentRepository "1" --> "1" StudentListFactory
+Student "1" --> "1" Address
+StudentFactoryImpl ..|> StudentFactory
+StudentListFactoryImpl ..|> StudentListFactory
+AddressFactoryImpl ..|> AddressFactory
+AddressFactory "1" --> "1..*" Address
 
 @enduml

@@ -13,6 +13,10 @@ public class ProgrammeEnrolment {
 
     public ProgrammeEnrolment(Student student, AccessMethod accessMethod, Programme programme, String date) throws IllegalArgumentException {
 
+        if (student == null || accessMethod == null || programme == null){
+            throw new IllegalArgumentException ("Argument can't be null");
+        }
+
         _student = student;
         _accessMethod = accessMethod;
         _programme = programme;

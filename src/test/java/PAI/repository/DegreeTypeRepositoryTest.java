@@ -2,7 +2,9 @@ package PAI.repository;
 
 import PAI.domain.DegreeType;
 import PAI.factory.DegreeTypeFactoryImpl;
+import PAI.factory.DegreeTypeFactoryInterface;
 import PAI.factory.DegreeTypeListFactoryInterface;
+import PAI.factory.GradeStudentFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -25,6 +27,18 @@ class DegreeTypeRepositoryTest {
         //act
         degreeTypeRepository.registerDegreeType("Master",300);
 
+    }
+
+    @Test
+    public void DoesntCreateListWithNullDTLFI() {
+
+        DegreeTypeFactoryInterface degreeTypeFactoryInterface = mock(DegreeTypeFactoryInterface.class);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                new DegreeTypeRepository(degreeTypeFactoryInterface, null));
+
+        assertEquals("Factory cannot be null!", exception.getMessage());
     }
 
     @Test

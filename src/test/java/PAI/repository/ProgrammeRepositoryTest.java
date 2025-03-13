@@ -72,19 +72,38 @@ class ProgrammeRepositoryTest {
         assertFalse(result);
     }
 
+
     @Test
     void changeProgrammedDirectorOfValidProgramme() throws Exception {
         // Arrange
         ProgrammeFactory programmeFactoryDouble = mock(ProgrammeFactory.class);
         ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeRepoListFactory);
-        Teacher teacher1 = mock(Teacher.class);
         Programme programmeDouble = mock(Programme.class);
-        doNothing().when(programmeDouble).newProgrammeDirector(teacher1);
+        Teacher teacher1 = mock(Teacher.class);
+        when(programmeDouble.newProgrammeDirector(teacher1)).thenReturn(true);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeRepoListFactory);
+
+        // Act
+        boolean result = programmeList.changeProgrammeDirector(programmeDouble, teacher1);
+
+        // Assert
+        assertTrue(result);
+        verify(programmeDouble).newProgrammeDirector(teacher1);
+    }
+
+    @Test
+    void shouldNotChangeProgrammedDirectorIfNewDirectorIsNull() throws Exception {
+        // Arrange
+        ProgrammeFactory programmeFactoryDouble = mock(ProgrammeFactory.class);
+        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
+        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactoryDouble, programmeRepoListFactory);
+        Teacher teacher1 = null;
+        Programme programmeDouble = mock(Programme.class);
+        when(programmeDouble.newProgrammeDirector(teacher1)).thenReturn(false);
         boolean result = programmeList.changeProgrammeDirector(programmeDouble, teacher1);
 
         // Asssert
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test

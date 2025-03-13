@@ -13,7 +13,7 @@ class TeacherCategoryRepositoryListFactoryTest {
     @Test
     void shouldReturnEmptyTeacherCategoryList() {
         // Arrange
-        TeacherCategoryRepositoryListFactory factory = new TeacherCategoryRepositoryListFactory();
+        TeacherCategoryRepositoryListFactoryImpl factory = new TeacherCategoryRepositoryListFactoryImpl();
 
         // Act
         List<TeacherCategory> categoryList = factory.getTeacherCategoryList();
@@ -27,7 +27,7 @@ class TeacherCategoryRepositoryListFactoryTest {
 //    void shouldReturnEmptyTeacherCategoryListWithMockedConstruction() {
 //        try (MockedConstruction<ArrayList> mockedConstruction = mockConstruction(ArrayList.class)) {
 //            // Arrange
-//            TeacherCategoryRepositoryListFactory factory = new TeacherCategoryRepositoryListFactory();
+//            TeacherCategoryRepositoryListFactoryImpl factory = new TeacherCategoryRepositoryListFactoryImpl();
 //
 //            // Act
 //            List<TeacherCategory> categoryList = factory.getTeacherCategoryList();

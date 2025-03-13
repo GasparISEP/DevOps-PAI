@@ -6,6 +6,8 @@ import PAI.domain.Programme;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -38,8 +40,11 @@ class CourseInStudyPlanFactoryImplTest {
             CourseInStudyPlan courseInStudyPlan = courseInStudyPlanFactory.newCourseInStudyPlan(semester, curricularYear, course, programme);
 
             //assert
+            assertNotNull(courseInStudyPlan);
             assertEquals(1, mockConstruction.constructed().size());
+
             CourseInStudyPlan createdCourseInStudyPlan = mockConstruction.constructed().get(0);
+            assertSame(createdCourseInStudyPlan, courseInStudyPlan);
 
             assertEquals(semester, createdCourseInStudyPlan.getSemester());
             assertEquals(curricularYear, createdCourseInStudyPlan.getCurricularYear());

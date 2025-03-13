@@ -70,6 +70,7 @@ public class Student {
         return !email.matches("^[a-zA-Z0-9][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-][a-zA-z0-9]+\\.[a-zA-Z]{2,}+(\\.[a-zA-Z]{2,})?$") || areParametersInvalid(email);
     }
 
+    // NOTE: In future iterations, implementing a config file might be considered to replace the hardcoded email domain.
     private String generateInstitutionalEmail(String uniqueNumber){
         return uniqueNumber + "@isep.ipp.pt";
     }

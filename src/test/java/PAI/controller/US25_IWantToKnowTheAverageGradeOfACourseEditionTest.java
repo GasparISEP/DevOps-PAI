@@ -11,30 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
-
-    @Test
-    void newGradeStudentRepository() throws Exception {
-        //arrange
-        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
-        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
-
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
-
-        when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
-
-        //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
-
-        //assert
-        assertNotNull(average1);
-    }
 
     @Test
     void nullGradeStudentRepository() {
@@ -59,16 +41,14 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
+        GradeStudentRepository list = mock(GradeStudentRepository.class);
 
-        //act
         US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
-
         GradeStudent gradeStudent1 = mock(GradeStudent.class);
         GradeStudent gradeStudent2 = mock(GradeStudent.class);
 
@@ -81,10 +61,11 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
-       list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
-       list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
+        when(list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(gradeStudent1));
+        when(list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(Optional.of(gradeStudent2));
+        when(list.KnowAverageGrade(courseEdition1)).thenReturn(14.0);
 
-
+        // Act
         double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);
 
         //assert

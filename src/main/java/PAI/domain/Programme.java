@@ -108,8 +108,10 @@ public class Programme {
         return true;
     }
 
-    public void newProgrammeDirector(Teacher teacherDirector) throws Exception {
+    public boolean newProgrammeDirector(Teacher teacherDirector) throws Exception {
+        if (teacherDirector == null) return false;
         _programmeDirector = teacherDirector;
+        return true;
     }
 
 
