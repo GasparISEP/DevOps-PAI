@@ -135,7 +135,7 @@ class ProgrammeEnrolmentFactoryImplTest {
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
-                    throw new RuntimeException(new InstantiationException("Argument can't be null"));
+                    throw new RuntimeException(new InstantiationException("Argument cannot be null"));
                 })) {
             //Act
             try {
@@ -145,7 +145,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             catch (Exception e)
             {
                 //Assert
-                assertTrue(e.getCause().getMessage().contains("Argument can't be null"));
+                assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
             }
         }
     }
@@ -172,7 +172,7 @@ class ProgrammeEnrolmentFactoryImplTest {
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
-                    throw new RuntimeException(new InstantiationException("Argument can't be null"));
+                    throw new RuntimeException(new InstantiationException("Argument cannot be null"));
                 })) {
             //Act
             try {
@@ -182,7 +182,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             catch (Exception e)
             {
                 //Assert
-                assertTrue(e.getCause().getMessage().contains("Argument can't be null"));
+                assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
             }
         }
     }
@@ -209,7 +209,7 @@ class ProgrammeEnrolmentFactoryImplTest {
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
-                    throw new RuntimeException(new InstantiationException("Argument can't be null"));
+                    throw new RuntimeException(new InstantiationException("Argument cannot be null"));
                 })) {
             //Act
             try {
@@ -219,7 +219,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             catch (Exception e)
             {
                 //Assert
-                assertTrue(e.getCause().getMessage().contains("Argument can't be null"));
+                assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
             }
         }
     }
