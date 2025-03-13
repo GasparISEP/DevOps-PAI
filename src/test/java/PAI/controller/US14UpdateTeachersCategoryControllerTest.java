@@ -1,24 +1,22 @@
 package PAI.controller;
-import PAI.domain.*;
-import PAI.factory.TeacherCategoryFactory;
+
+import PAI.domain.Teacher;
+import PAI.domain.TeacherCategory;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US14UpdateTeachersCategoryControllerTest {
 
