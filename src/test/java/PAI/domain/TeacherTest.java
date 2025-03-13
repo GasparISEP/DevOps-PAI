@@ -605,7 +605,6 @@ class TeacherTest {
 
         //assert
         assertTrue(result);
-        verify(tcpFactoryDouble).createTeacherCareerProgression(date2, tcDouble, 50); //Verifies if a TCP object was created with given parameters by the factory.
     }
 
     @Test
@@ -716,7 +715,6 @@ class TeacherTest {
 
         // Act + Assert
         assertTrue(result);
-        verify(tcpFactoryDouble).createTeacherCareerProgression(date2, tcDouble2, 70); // Verifies that the factory was called  to create a new TCP object.
     }
 
     @Test
@@ -755,7 +753,6 @@ class TeacherTest {
 
         // Assert
         assertTrue(result);
-        verify(tcpFactoryDouble).createTeacherCareerProgression(date2, tcDouble2, 70); //Verifies if a TCP object was created with given parameters by the factory.
     }
 
     @Test

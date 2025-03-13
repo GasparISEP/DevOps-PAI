@@ -280,7 +280,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
 
     @Test
-    void iWantToGradeAStudentInACourseEditionWithNullGradeStudentRepo () throws Exception {
+    void iWantToGradeAStudentInACourseEditionWithNullGradeStudentRepo () throws IllegalArgumentException {
         //arrange
 
         GradeStudentRepository gradeStudentRepository1 = null;
@@ -298,7 +298,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     }
 
     @Test
-    void iWantToGradeAStudentInACourseEditionWithNullCourseEditionEnrollRepo () throws Exception {
+    void iWantToGradeAStudentInACourseEditionWithNullCourseEditionEnrollRepo () throws IllegalArgumentException {
         //arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);

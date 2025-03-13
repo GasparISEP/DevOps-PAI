@@ -11,14 +11,12 @@ public class ProgrammeEditionEnrollmentRepo {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
 
-    private final ProgrammeEditionEnrollmentFactoryImpl _programmeEditionEnrollmentFactoryImpl;
+    private final ProgrammeEditionEnrollmentFactoryImpl _programmeEditionEnrollmentFactory;
 
-    private ProgrammeEditionListFactoryImpl _programmeEditionListFactoryImpl;
-
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl,
+    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory,
                                           ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
 
-        _programmeEditionEnrollmentFactoryImpl = programmeEditionEnrollmentFactoryImpl;
+        _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
         _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
     }
 
@@ -28,7 +26,7 @@ public class ProgrammeEditionEnrollmentRepo {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
-            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactoryImpl
+            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
                     .newProgrammeEditionEnrollment(student, programmeEdition);
 
             return _programmeEditionEnrollments.add(programmeEditionEnroll);
