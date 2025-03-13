@@ -11,22 +11,24 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 }
 
 class ProgrammeEditionEnrollmentRepo {
-    -_programmeEditionEnrollments: List<ProgrammeEditionEnrollment>
-    +ProgrammeEditionEnrollmentRepo()
-    +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,
-    localDate: LocalDate)
+    -_programmeEditionEnrollments: Set<ProgrammeEditionEnrollment>
+    -_programmeEditionEnrollments: ProgrammeEditionEnrollmentFactoryImpl
+    +ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
+    +enrollStudentInProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
-    +checkIfThisEnrollmentAlreadyExists(programmeEditionEnrollment: ProgrammeEditionEnrollment)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
     +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
+    +findProgrammeEditionsThatStudentIsEnrolled(student: Student)
 }
 
 class ProgrammeEditionRepository {
-    +ProgrammeEditionRepository()
+    -_IprogrammeEditionFactory: IProgrammeEditionFactory
+    -_ProgrammeEditions: List<ProgrammeEdition>
+    +ProgrammeEditionRepository(iProgrammeEditionFactory: IProgrammeEditionFactory, iProgrammeEditionListFactory: IProgrammeEditionListFactory)
     +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
-    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
     +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
     +getAllProgrammeEditions()
+    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
 }
 
 class ProgrammeEditionEnrollment {
