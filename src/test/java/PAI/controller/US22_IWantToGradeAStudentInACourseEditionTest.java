@@ -77,6 +77,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
     @Test
     void iWantToGradeAStudentInACourseEditionIntegrationTest () throws Exception {
+        // Arrange
         GradeStudentFactory gradeStudentFactory = new GradeStudentFactoryImpl();
         GradeStudentListFactory gradeStudentListFactory = new GradeStudentListFactoryImpl();
         GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
@@ -92,7 +93,6 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
         AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-
 
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository, enrollmentRepository);
 
@@ -112,6 +112,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
+
+        // Act
         Optional<GradeStudent> result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
 
         // Assert
