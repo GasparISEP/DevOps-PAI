@@ -10,31 +10,24 @@ import java.util.*;
 public class ProgrammeEditionEnrollmentRepo {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
+    private IProgrammeEditionEnrollmentFactory _iProgrammeEditionEnrollmentFactory;
 
-    private final ProgrammeEditionEnrollmentFactoryImpl _programmeEditionEnrollmentFactory;
-
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory,
+    public ProgrammeEditionEnrollmentRepo(IProgrammeEditionEnrollmentFactory iProgrammeEditionEnrollmentFactory,
                                           ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
 
-        _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;
+        _iProgrammeEditionEnrollmentFactory = iProgrammeEditionEnrollmentFactory;
         _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
-        try {
             if (programmeEdition == null || student == null) {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
-            ProgrammeEditionEnrollment programmeEditionEnroll = _programmeEditionEnrollmentFactory
-                    .newProgrammeEditionEnrollment(student, programmeEdition);
+            ProgrammeEditionEnrollment programmeEditionEnroll = _iProgrammeEditionEnrollmentFactory.newProgrammeEditionEnrollment(student, programmeEdition);
 
             return _programmeEditionEnrollments.add(programmeEditionEnroll);
-        } catch (Exception e) {
-            return false;
-        }
     }
-
 
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {

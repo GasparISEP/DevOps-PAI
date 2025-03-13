@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public class US16_EnrollAStudentInACourseEditionController {
 
-    private CourseEditionEnrollmentRepository _ceeRepository;
-    private ProgrammeEditionEnrollmentRepo _peeRepository;
-    private CourseEditionRepository _courseEditionRepository;
+    private final CourseEditionEnrollmentRepository _ceeRepository;
+    private final ProgrammeEditionEnrollmentRepo _peeRepository;
+    private final CourseEditionRepository _courseEditionRepository;
 
 
     public US16_EnrollAStudentInACourseEditionController(
@@ -21,6 +21,10 @@ public class US16_EnrollAStudentInACourseEditionController {
         validateCourseEditionEnrollmentRepository (ceeRepository);
         validateProgrammeEditionEnrollmentRepo (peeRepository);
         validateCourseEditionRepository (courseEditionRepository);
+
+        this._ceeRepository = ceeRepository;
+        this._peeRepository = peeRepository;
+        this._courseEditionRepository = courseEditionRepository;
     }
 
     //show a list of programme editions that student is enrolled
@@ -48,7 +52,6 @@ public class US16_EnrollAStudentInACourseEditionController {
         if (ceeRepository == null) {
             throw new IllegalArgumentException("Course edition enrollment repository cannot be null!");
         }
-        this._ceeRepository = ceeRepository;
     }
 
     //Verify if the programme edition enrollment repo is valid
@@ -56,7 +59,6 @@ public class US16_EnrollAStudentInACourseEditionController {
         if (peeRepository == null) {
             throw new IllegalArgumentException("Programme edition enrollment repository cannot be null!");
         }
-        this._peeRepository = peeRepository;
     }
 
     //verify if the course edition repository is valid
@@ -64,6 +66,5 @@ public class US16_EnrollAStudentInACourseEditionController {
         if (courseEditionRepository == null) {
             throw new IllegalArgumentException("Course edition repository cannot be null!");
         }
-        this._courseEditionRepository = courseEditionRepository;
     }
 }

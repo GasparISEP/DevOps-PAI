@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.when;
 
-public class TeacherCategoryFactoryTest {
+public class TeacherCategoryFactoryImplTest {
 
     @Test
     void shouldCreateTeacherCategory() throws Exception {
@@ -27,7 +27,7 @@ public class TeacherCategoryFactoryTest {
                 })) {
 
             // Act: Call the factory to create a TeacherCategory
-            TeacherCategoryFactory factory = new TeacherCategoryFactory();
+            TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
             TeacherCategory category = factory.createTeacherCategory(categoryName);
 
             // Assert
@@ -65,7 +65,7 @@ public class TeacherCategoryFactoryTest {
     @Test
     void shouldThrowExceptionWithNullName() {
         // Arrange
-        TeacherCategoryFactory factory = new TeacherCategoryFactory();
+        TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 
         // Act & Assert
         Exception exception = assertThrows(Exception.class, () -> factory.createTeacherCategory(null));
@@ -75,7 +75,7 @@ public class TeacherCategoryFactoryTest {
     @Test
     void shouldThrowExceptionWithEmptyName() {
         // Arrange
-        TeacherCategoryFactory factory = new TeacherCategoryFactory();
+        TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 
         // Act & Assert
         Exception exception = assertThrows(Exception.class, () -> factory.createTeacherCategory(""));
@@ -85,7 +85,7 @@ public class TeacherCategoryFactoryTest {
     @Test
     void shouldThrowExceptionWithBlankName() {
         // Arrange
-        TeacherCategoryFactory factory = new TeacherCategoryFactory();
+        TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 
         // Act & Assert
         Exception exception = assertThrows(Exception.class, () -> factory.createTeacherCategory("   "));
@@ -96,7 +96,7 @@ public class TeacherCategoryFactoryTest {
 //    @Test
 //    void shouldCreateTeacherCategory() throws Exception {
 //        // Arrange
-//        TeacherCategoryFactory factory = new TeacherCategoryFactory();
+//        TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 //        String categoryName = "Professor Adjunto";
 //
 //        // Act
@@ -109,7 +109,7 @@ public class TeacherCategoryFactoryTest {
 //@Test
 //void shouldThrowExceptionWithNullName() {
 //    // Arrange
-//    TeacherCategoryFactory factory = new TeacherCategoryFactory();
+//    TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 //
 //    // Act & Assert
 //    assertThrows(Exception.class, () -> factory.createTeacherCategory(null)); //checks if exception is thrown when name is null
@@ -118,7 +118,7 @@ public class TeacherCategoryFactoryTest {
 //    @Test
 //    void shouldThrowExceptionWithEmptyName() {
 //        // Arrange
-//        TeacherCategoryFactory factory = new TeacherCategoryFactory();
+//        TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 //
 //        // Act & Assert
 //        assertThrows(Exception.class, () -> factory.createTeacherCategory(""));//checks if exception is thrown when name is empty
@@ -127,7 +127,7 @@ public class TeacherCategoryFactoryTest {
 //    @Test
 //    void shouldThrowExceptionWithBlankName() {
 //        // Arrange
-//        TeacherCategoryFactory factory = new TeacherCategoryFactory();
+//        TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 //
 //        // Act & Assert
 //        assertThrows(Exception.class, () -> factory.createTeacherCategory("   "));//checks if exception is thrown when name is blank
