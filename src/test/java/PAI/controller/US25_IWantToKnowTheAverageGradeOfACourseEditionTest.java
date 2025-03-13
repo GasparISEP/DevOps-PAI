@@ -11,47 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
-
-    @Test
-    void newGradeStudentRepository() throws IllegalArgumentException {
-        //arrange
-        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
-
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
-
-        when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        //act
-        US25_IWantToKnowTheAverageGradeOfACourseEdition average1 = mock(US25_IWantToKnowTheAverageGradeOfACourseEdition.class);
-        when(average1.IWantToKnowTheAvgGrade(courseEdition)).thenReturn(100.0);
-
-        //assert
-        assertNotNull(average1);
-    }
-
-    @Test
-    void newGradeStudentRepositoryWithMock() throws Exception{
-        //arrange
-
-        GradeStudentRepository gradeStudentRepository = mock(GradeStudentRepository.class);
-        US25_IWantToKnowTheAverageGradeOfACourseEdition controller = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
-
-        CourseEdition courseEdition = mock(CourseEdition.class);
-
-        //act
-        when(gradeStudentRepository.KnowAverageGrade(courseEdition)).thenReturn(100.0);
-
-        Double contr = controller.IWantToKnowTheAvgGrade(courseEdition);
-
-        //assert
-        assertNotNull(contr);
-    }
 
     @Test
     void nullGradeStudentRepository() {
@@ -78,7 +43,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         GradeStudentRepository list = mock(GradeStudentRepository.class);
 
-        US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = mock(US25_IWantToKnowTheAverageGradeOfACourseEdition.class);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
@@ -96,12 +61,11 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
-       list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
-       list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
+        when(list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(gradeStudent1));
+        when(list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(Optional.of(gradeStudent2));
+        when(list.KnowAverageGrade(courseEdition1)).thenReturn(14.0);
 
-       when(controlador1.IWantToKnowTheAvgGrade(courseEdition1)).thenReturn(14.0);
-
-       // Act
+        // Act
         double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);
 
         //assert
