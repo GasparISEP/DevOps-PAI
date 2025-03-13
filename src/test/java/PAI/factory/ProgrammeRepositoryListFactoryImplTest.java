@@ -11,6 +11,16 @@ import static org.mockito.Mockito.*;
 class ProgrammeRepositoryListFactoryImplTest {
 
     @Test
+    void shouldCreateRepositoryListFactoryImpl(){
+        ProgrammeRepositoryListFactoryImpl programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        //act
+        List<Programme> programmeList = programmeRepositoryListFactory.newProgrammeArrayList();
+        //assert
+        assertNotNull(programmeList);
+        assertInstanceOf(ArrayList.class, programmeList);
+    }
+
+    @Test
     void whenCopyProgrammeArrayListInvoked_ThenShouldReturnNewIndependentCopy() {
         // arrange
         ProgrammeRepositoryListFactoryImpl factory = new ProgrammeRepositoryListFactoryImpl();

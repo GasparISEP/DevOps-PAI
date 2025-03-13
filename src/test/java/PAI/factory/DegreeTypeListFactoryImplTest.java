@@ -12,8 +12,9 @@ class DegreeTypeListFactoryImplTest {
     void shouldCreateDegreeTypeList() {
         //Arrange
         DegreeTypeListFactoryImpl degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        //
+        //act
         List<DegreeType> degreeTypeList = degreeTypeListFactory.createDegreeTypeList();
+        //arrange
         assertNotNull(degreeTypeList);
         assertInstanceOf(ArrayList.class, degreeTypeList);
     }
