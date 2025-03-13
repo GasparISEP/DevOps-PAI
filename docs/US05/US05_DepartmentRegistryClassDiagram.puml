@@ -20,19 +20,19 @@ class DepartmentRepository {
     +registerDepartment(departmentAcronym: String, departmentName: String) :boolean
 }
 
-class DepartmentFactory {
+class DepartmentFactoryImpl {
     +newDepartment(acronym: String, name: String): Department
 }
 
-interface DepartmentFactoryInterface {
+interface IDepartmentFactory {
     +newDepartment(acronym: String, name: String): Department
 }
 
-class DepartmentListFactory {
+class DepartmentListFactoryImpl {
     +newDepartmentList: HashSet<Department>
 }
 
-interface DepartmentListFactoryInterface {
+interface IDepartmentListFactory {
     + newDepartmentList(): HashSet<Department>
 }
 
@@ -43,11 +43,11 @@ interface Set {
 DepartmentRepository "1" ..> "*" Department
 DepartmentRepository "1" -> "1" Set
 Department "1" <- "1" Set
-DepartmentRepository "1" --> "_departmentsList 1" DepartmentListFactoryInterface
-DepartmentListFactoryInterface  <|..  DepartmentListFactory
-DepartmentFactoryInterface  <|..  DepartmentFactory
-DepartmentListFactory "1" ..> "1" Set
+DepartmentRepository "1" --> "_departmentsList 1" IDepartmentListFactory
+IDepartmentListFactory  <|..  DepartmentListFactoryImpl
+IDepartmentFactory  <|..  DepartmentFactoryImpl
+DepartmentListFactoryImpl "1" ..> "1" Set
 US05_RegisterADepartmentController "1  " ..> "            1\n_departmentRepo    " DepartmentRepository
-Department "1" <- "1" DepartmentFactoryInterface
-DepartmentFactoryInterface "_departmentFactory1" <-- "1"  DepartmentRepository
+Department "1" <- "1" IDepartmentFactory
+IDepartmentFactory "_departmentFactory1" <-- "1"  DepartmentRepository
 @enduml

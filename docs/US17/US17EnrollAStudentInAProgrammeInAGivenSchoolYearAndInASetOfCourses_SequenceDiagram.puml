@@ -7,39 +7,50 @@ activate UI
 UI --> ASC : What student?
 deactivate UI
 ASC -> UI : Enter the student!
+
 activate UI
 participant ":US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
 UI -> Controller : getAllProgrammes()
 activate Controller
-participant ":ProgrammeList" as ProgrammeList
-Controller -> ProgrammeList : getAllProgrammes()
-activate ProgrammeList
-participant ":ProgrammeListArrayListFactory" as ProgrammeListArrayListFactory
-ProgrammeList -> ProgrammeListArrayListFactory : copyProgrammeArrayList(List<Programme>)
-activate ProgrammeListArrayListFactory
-create "copyPgmList[i]:ProgrammeListArrayListFactory"
-ProgrammeListArrayListFactory -> "copyPgmList[i]:ProgrammeListArrayListFactory": copyProgrammeArrayList(List<Programme>)
-activate "copyPgmList[i]:ProgrammeListArrayListFactory"
-"copyPgmList[i]:ProgrammeListArrayListFactory" --> ProgrammeListArrayListFactory: EmptyList<Programme>
-deactivate "copyPgmList[i]:ProgrammeListArrayListFactory"
-ProgrammeListArrayListFactory --> ProgrammeList : copyOfProgrammeList
-deactivate ProgrammeListArrayListFactory
-
-
-ProgrammeList --> Controller : copyOfProgrammeList
-deactivate ProgrammeList
+participant ":ProgrameRepository" as ProgrammeRepository
+Controller -> ProgrammeRepository : getAllProgrammes()
+activate ProgrammeRepository
+participant ":ProgrammeRepositoryListFactoryImpl" as ProgrammeRepositoryListFactoryImpl
+ProgrammeRepository -> ProgrammeRepositoryListFactoryImpl : copyProgrammeArrayList(List<Programme>)
+activate ProgrammeRepositoryListFactoryImpl
+create "copyPgmList[i]:ProgrammeRepositoryListFactory"
+ProgrammeRepositoryListFactoryImpl -> "copyPgmList[i]:ProgrammeRepositoryListFactory": copyProgrammeArrayList(List<Programme>)
+activate "copyPgmList[i]:ProgrammeRepositoryListFactory"
+"copyPgmList[i]:ProgrammeRepositoryListFactory" --> ProgrammeRepositoryListFactoryImpl: EmptyList<Programme>
+deactivate "copyPgmList[i]:ProgrammeRepositoryListFactory"
+ProgrammeRepositoryListFactoryImpl --> ProgrammeRepository : copyOfProgrammeList
+deactivate ProgrammeRepositoryListFactoryImpl
+ProgrammeRepository --> Controller : copyOfProgrammeList
+deactivate ProgrammeRepository
 Controller --> UI : listOfProgrammes
 deactivate Controller
 UI --> ASC : Here is the list of Programmes! What programme do you want?
 deactivate UI
 ASC -> UI : Enter the programme!
+
 activate UI
 participant ":SchoolYearRepository" as SchoolYearRepository
 UI -> Controller : getAllSchoolYears()
 activate Controller
+participant ":SchoolYearRepository" as SchoolYearRepository
 Controller -> SchoolYearRepository : getAllSchoolYears()
 activate SchoolYearRepository
-SchoolYearRepository --> Controller : listOfSchoolYears
+participant ":SchoolYearRepositoryListFactoryImpl" as SchoolYearRepositoryListFactoryImpl
+SchoolYearRepository -> SchoolYearRepositoryListFactoryImpl : copySchoolYearArrayList(List<SchoolYear>)
+activate SchoolYearRepositoryListFactoryImpl
+create "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
+SchoolYearRepositoryListFactoryImpl -> "copySchoolYearList[i]:SchoolYearRepositoryListFactory": copySchoolYearArrayList(List<SchoolYear>)
+activate "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
+"copySchoolYearList[i]:SchoolYearRepositoryListFactory" --> SchoolYearRepositoryListFactoryImpl: EmptyList<SchoolYear>
+deactivate "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
+SchoolYearRepositoryListFactoryImpl --> SchoolYearRepository : copyOfSchoolYearList
+deactivate SchoolYearRepositoryListFactoryImpl
+SchoolYearRepository --> Controller : copyOfSchoolYearsList
 deactivate SchoolYearRepository
 Controller --> UI : listOfSchoolYears
 deactivate Controller
@@ -50,6 +61,7 @@ activate UI
 UI --> ASC : Sure?
 deactivate UI
 ASC -> UI : Yes!
+
 activate UI
 UI -> Controller : enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
 activate Controller
@@ -87,13 +99,13 @@ participant ":ProgrammeEditionEnrollment" as ProgrammeEditionEnrollment
 end
 ProgrammeEditionEnrollmentRepo --> Controller : False
 deactivate "ProgrammeEditionEnrollmentRepo"
-Controller -> ProgrammeEditionEnrollmentRepo : enrollStudentInProgrammeEdition(student, pe1, LocalDate)
+Controller -> ProgrammeEditionEnrollmentRepo : enrollStudentInProgrammeEdition(student, pe1)
 activate "ProgrammeEditionEnrollmentRepo"
 participant ":ProgrammeEditionEnrollmentFactory" as ProgrammeEditionEnrollmentFactory
-ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentFactory: createProgrammeEditionEnrollment(student, pe1, LocalDate)
+ProgrammeEditionEnrollmentRepo -> ProgrammeEditionEnrollmentFactory: newProgrammeEditionEnrollment(student, pe1)
 activate ProgrammeEditionEnrollmentFactory
 create "pee1:ProgrammeEditionEnrollment"
-ProgrammeEditionEnrollmentFactory -> "pee1:ProgrammeEditionEnrollment" : createProgrammeEditionEnrollment(student, pe1, LocalDate)
+ProgrammeEditionEnrollmentFactory -> "pee1:ProgrammeEditionEnrollment" : newProgrammeEditionEnrollment(student, pe1)
 activate "pee1:ProgrammeEditionEnrollment"
 "pee1:ProgrammeEditionEnrollment" --> ProgrammeEditionEnrollmentFactory: pee1
 deactivate "pee1:ProgrammeEditionEnrollment"
@@ -141,7 +153,7 @@ loop for each "cee[i]:CourseEditionEnrollmentRepository" as CourseEditionEnrollm
 CourseEditionEnrollmentRepository -> CourseEditionEnrollment : findByStudentAndEdition(student, cee[i])
 CourseEditionEnrollmentRepository -> CourseEditionEnrollment : isPresent()
 create CourseEditionEnrollmentHashSet
-CourseEditionEnrollmentRepository -> CourseEditionEnrollmentHashSet : enrollStudentInACourseEdition(student, cee1, LocalDate)
+CourseEditionEnrollmentRepository -> CourseEditionEnrollmentHashSet : enrollStudentInACourseEdition(student, cee1)
 activate CourseEditionEnrollmentHashSet
 CourseEditionEnrollmentHashSet --> CourseEditionEnrollmentRepository : True
 deactivate CourseEditionEnrollmentHashSet

@@ -39,7 +39,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     }
 
     @Test
-    void successfullyGetsTeacherByNIF () throws Exception {
+    void successfullyGetsTeacherByNIF () throws IllegalArgumentException {
 
         //arrange
         TeacherRepository repositoryDouble = mock(TeacherRepository.class);
@@ -56,7 +56,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     }
 
     @Test
-    void returnsEmptyOptionalWhenNIFNotFoundInTeacherRepository () throws Exception {
+    void returnsEmptyOptionalWhenNIFNotFoundInTeacherRepository () throws IllegalArgumentException {
 
         //arrange
         TeacherRepository repositoryDouble = mock(TeacherRepository.class);
@@ -81,7 +81,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidNIF")
-    void throwsExceptionWhenNIFIsNullBlankOrEmpty(String NIF) throws Exception {
+    void throwsExceptionWhenNIFIsNullBlankOrEmpty(String NIF) throws IllegalArgumentException {
 
         //arrange
         TeacherRepository repositoryDouble = mock(TeacherRepository.class);
@@ -97,7 +97,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     }
 
     @Test
-    void successfullyUpdatesTeacherWorkingPercentage () throws Exception {
+    void successfullyUpdatesTeacherWorkingPercentage () throws IllegalArgumentException {
 
         //arrange
         TeacherRepository repositoryDouble = mock(TeacherRepository.class);
@@ -114,7 +114,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     }
 
     @Test
-    void throwsExceptionIfGivenWorkingPercentageIsTheSameAsLastRegisteredWorkingPercentage () throws Exception {
+    void throwsExceptionIfGivenWorkingPercentageIsTheSameAsLastRegisteredWorkingPercentage () throws IllegalArgumentException {
 
         //arrange
         TeacherRepository repositoryDouble = mock(TeacherRepository.class);
@@ -139,7 +139,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidDates")
-    void throwsExceptionIfGivenDateIsNotAfterLastRegisteredDate(String date, String expectedException) throws Exception {
+    void throwsExceptionIfGivenDateIsNotAfterLastRegisteredDate(String date, String expectedException) throws IllegalArgumentException {
 
         //arrange
         TeacherRepository repositoryDouble = mock(TeacherRepository.class);

@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ProgrammeEditionEnrollmentFactory;
+import PAI.factory.ProgrammeEditionEnrollmentFactoryImpl;
 import PAI.factory.ProgrammeEditionListFactoryImpl;
 
 
@@ -11,11 +11,9 @@ public class ProgrammeEditionEnrollmentRepo {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
 
-    private final ProgrammeEditionEnrollmentFactory _programmeEditionEnrollmentFactory;
+    private final ProgrammeEditionEnrollmentFactoryImpl _programmeEditionEnrollmentFactory;
 
-    private ProgrammeEditionListFactoryImpl _programmeEditionListFactoryImpl;
-
-    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactory programmeEditionEnrollmentFactory,
+    public ProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory,
                                           ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
 
         _programmeEditionEnrollmentFactory = programmeEditionEnrollmentFactory;

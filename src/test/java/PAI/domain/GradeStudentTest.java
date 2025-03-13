@@ -23,7 +23,7 @@ class GradeStudentTest {
 
 
     @Test
-    void shouldNotCreateValidGradeStudentWithGradeInvalid() throws Exception {
+    void shouldNotCreateValidGradeStudentWithGradeInvalid() {
         // Arrange
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
@@ -35,7 +35,7 @@ class GradeStudentTest {
     }
 
     @Test
-    void shouldNotCreateValidGradeStudentWithDateInvalid() throws Exception {
+    void shouldNotCreateValidGradeStudentWithDateInvalid()  {
         // Arrange
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
@@ -47,7 +47,7 @@ class GradeStudentTest {
     }
 
     @Test
-    void shouldNotCreateValidGradeStudentWithDateNull() throws Exception {
+    void shouldNotCreateValidGradeStudentWithDateNull() {
         // Arrange
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
@@ -58,7 +58,7 @@ class GradeStudentTest {
     }
 
     @Test
-    void shouldNotCreateValidGradeStudentWithStudentNull() throws Exception {
+    void shouldNotCreateValidGradeStudentWithStudentNull() {
         // Arrange
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
@@ -69,7 +69,7 @@ class GradeStudentTest {
     }
 
     @Test
-    void shouldNotCreateValidGradeStudentWithCourseEditionNull() throws Exception {
+    void shouldNotCreateValidGradeStudentWithCourseEditionNull()  {
         // Arrange
         Student student1 = mock(Student.class);
 

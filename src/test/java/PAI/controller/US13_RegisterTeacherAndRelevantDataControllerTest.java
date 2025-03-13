@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.factory.AddressFactory;
+import PAI.factory.AddressFactoryImpl;
 import PAI.factory.TeacherCareerProgressionFactory;
 import PAI.factory.TeacherCareerProgressionListFactory;
 import PAI.repository.DepartmentRepository;
@@ -138,7 +138,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         Department dptDouble = mock(Department.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -184,7 +184,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -223,7 +223,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -261,7 +261,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -299,7 +299,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -340,7 +340,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -372,7 +372,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -404,7 +404,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -436,7 +436,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -468,7 +468,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -500,7 +500,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 
@@ -532,7 +532,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
         Department dptDouble = mock(Department.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
-        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
+        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
 

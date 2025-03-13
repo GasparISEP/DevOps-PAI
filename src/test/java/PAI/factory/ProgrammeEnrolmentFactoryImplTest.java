@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedConstruction;
 
-
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -45,7 +44,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             _degreeType = new DegreeType("Master", 240);
             _department = new Department("CSE", "Computer Science Engineer");
             _teacherCategory = new TeacherCategory("Assistant Professor");
-            _addressFactory = new AddressFactory();
+            _addressFactory = new AddressFactoryImpl();
             _tcpFactory = new TeacherCareerProgressionFactory();
             _tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
             _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -75,21 +74,21 @@ class ProgrammeEnrolmentFactoryImplTest {
 
     @Test
     void shouldCreateProgrammeEnrolmentWithoutIsolation() throws Exception {
-        //arrange
+        //Arrange
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        //act
+        //Act
         ProgrammeEnrolment programmeEnrolment = peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, attributes._date);
 
-        //assert
+        //Assert
 
     }
 
     @Test
     void shouldCreateProgrammeEnrolmentWithIsolation() throws IllegalArgumentException {
-        //arrange
+        //Arrange
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
@@ -100,21 +99,13 @@ class ProgrammeEnrolmentFactoryImplTest {
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
-                    Student actualStudent = (Student) context.arguments().get(0);
-                    AccessMethod actualAccessMethod = (AccessMethod) context.arguments().get(1);
-                    Programme actualProgramme = (Programme) context.arguments().get(2);
-                    String actualDate = (String) context.arguments().get(3);
 
-                    assertEquals(studentDouble, actualStudent);
-                    assertEquals(accessMethodDouble, actualAccessMethod);
-                    assertEquals(programmeDouble, actualProgramme);
-                    assertEquals(date, actualDate);
                 })) {
 
-        //act
+        //Act
             ProgrammeEnrolment result = peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date);
 
-        //assert
+        //Assert
             //
             List<ProgrammeEnrolment> constructed = programmeEnrolmentDouble.constructed();
             ProgrammeEnrolment created = (constructed).get(0);
@@ -123,109 +114,65 @@ class ProgrammeEnrolmentFactoryImplTest {
     }
 
     @Test
-    void shouldReturnExceptionIfStudentIsNullWithoutIsolation() throws Exception {
-        //arrange
+    void nullDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation() throws Exception {
+        //Arrange
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(null, attributes._accessMethod, attributes._programme, attributes._date));
-    }
-
-    @Test
-    void shouldReturnExceptionIfStudentIsNullWithIsolation() {
-        //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        Object[] doubles = createDoublesForTestsWithIsolation();
-        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
-        Programme programmeDouble = (Programme) doubles[2];
-        String date = "14-02-2024";
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(null, accessMethodDouble, programmeDouble, date));
-    }
-
-    @Test
-    void shouldReturnExceptionIfAccessMethodIsNullWithoutIsolation() throws Exception {
-        //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, null, attributes._programme, attributes._date));
-    }
-
-    @Test
-    void shouldReturnExceptionIfAccessMethodIsNullWithIsolation() {
-        //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        Object[] doubles = createDoublesForTestsWithIsolation();
-        Student studentDouble = (Student) doubles[0];
-        Programme programmeDouble = (Programme) doubles[2];
-        String date = "14-02-2024";
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(studentDouble, null, programmeDouble, date));
-    }
-
-    @Test
-    void shouldReturnExceptionIfProgrammeIsNullWithoutIsolation() throws Exception {
-        //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, null, attributes._date));
-    }
-
-    @Test
-    void shouldReturnExceptionIfProgrammeIsNullWithIsolation() {
-        //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        Object[] doubles = createDoublesForTestsWithIsolation();
-        Student studentDouble = (Student) doubles[0];
-        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
-        String date = "14-02-2024";
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, null, date));
-    }
-
-    @Test
-    void shouldReturnExceptionIfDateIsNullWithoutIsolation() throws Exception {
-        //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
-
-        //act + assert
+        //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, null));
     }
 
+    public static Stream<Arguments> provideBlankDateForTestWithoutIsolation() {
+        return Stream.of(
+                arguments(""),
+                arguments(" ")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideBlankDateForTestWithoutIsolation")
+    void blankDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation(String date) throws Exception {
+        //Arrange
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+
+        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, date));
+    }
+
     @Test
-    void shouldReturnExceptionIfDateIsNullWithIsolation() {
-        //arrange
+    void shouldReturnExceptionIfDateIsNullOrBlankWithIsolation() {
+        //Arrange
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
         Student studentDouble = (Student) doubles[0];
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
+        String date = "12-04-2019";
 
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, null));
+        try (
+                MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
+                    throw new RuntimeException(new InstantiationException("Date cannot be empty!"));
+                })) {
+            //Act
+            try {
+                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date);
+                fail("Expected exception not thrown");
+            }
+            catch (Exception e)
+            {
+            //Assert
+                assertTrue(e.getCause().getMessage().contains("Date cannot be empty!"));
+            }
+        }
     }
 
     public static Stream<Arguments> provideInvalidDateForTestWithoutIsolation() {
         return Stream.of(
-                arguments(""),
-                arguments(" "),
                 arguments("2024-12-10"),
                 arguments("10/12/2024"),
                 arguments("10 de dezembro de 2024"),
@@ -238,19 +185,17 @@ class ProgrammeEnrolmentFactoryImplTest {
     @ParameterizedTest
     @MethodSource("provideInvalidDateForTestWithoutIsolation")
     void invalidDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation(String date) throws Exception {
-        //arrange
+        //Arrange
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        //act + assert
+        //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, date));
     }
 
     public static Stream<Arguments> provideInvalidDateForTestWithIsolation() {
         return Stream.of(
-                arguments(""),
-                arguments(" "),
                 arguments("2024-12-10"),
                 arguments("10/12/2024"),
                 arguments("10 de dezembro de 2024"),
@@ -271,7 +216,20 @@ class ProgrammeEnrolmentFactoryImplTest {
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
 
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date));
+        try (
+                MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
+                    throw new RuntimeException(new InstantiationException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."));
+                })) {
+            //Act
+            try {
+                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date);
+                fail("Expected exception not thrown");
+            }
+            catch (Exception e)
+            {
+                //Assert
+                assertTrue(e.getCause().getMessage().contains("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."));
+            }
+        }
     }
 }

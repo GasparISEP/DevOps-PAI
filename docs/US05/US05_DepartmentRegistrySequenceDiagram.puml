@@ -6,7 +6,7 @@ actor "Administrator" as Administrator #LightBlue/White
 participant ":UI" as UI
 participant ":US05_RegisterADepartmentInTheSystemController" as Controller #Violet/LightBlue
 participant ":DepartmentRepository" as DepartmentRepository #DeepPink/White
-participant ":DepartmentFactoryInterface" as DepartmentFactory #LightBlue/White
+participant ":IDepartmentFactory" as DepartmentFactory #LightBlue/White
 participant "d1:Department" as Department #Violet/White
 participant "d[i]:Department" as Departmenti #Cyan/White
 

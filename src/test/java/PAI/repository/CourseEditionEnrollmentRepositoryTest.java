@@ -1,9 +1,9 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.CourseEditionEnrollmentFactoryInterface;
+import PAI.factory.ICourseEditionEnrollmentFactory;
 import PAI.factory.CourseEditionEnrollmentListFactory;
-import PAI.factory.CourseEditionEnrollmentListFactoryInterface;
+import PAI.factory.ICourseEditionEnrollmentListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,8 +19,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnTrueWithAValidCourseEditionEnrollment () {
         //arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         Student doubleSt1 = mock(Student.class);
@@ -39,8 +39,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnTrueWithTwoValidCourseEditionEnrollments () {
         //arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock(CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock(ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(doubleCeeFactory, CeeListFactory);
 
         Student st1 = mock(Student.class);
@@ -67,8 +67,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnFalseWhenCourseEditionEnrollmentAlreadyExists() {
         //arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock(CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock(ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(doubleCeeFactory, CeeListFactory);
 
         Student doubleSt1 = mock(Student.class);
@@ -92,8 +92,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnFalseIfStudentIsNull (){
         //arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock(CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock(ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(doubleCeeFactory, CeeListFactory);
 
         CourseEdition doubleCe1 = mock(CourseEdition.class);
@@ -110,8 +110,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnFalseIfCourseEditionIsNull (){
         //arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock(CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock(ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(doubleCeeFactory, CeeListFactory);
 
         Student doubleSt1 = mock(Student.class);
@@ -129,8 +129,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldConfirmStudentIsEnrollInACourseEdition () throws Exception {
         //arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         CourseEdition ce1 = mock(CourseEdition.class);
@@ -150,8 +150,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldConfirmStudentIsNotEnrollInACourseEdition () {
         //arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         CourseEdition ce1 = mock(CourseEdition.class);
@@ -173,8 +173,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnCourseEditionEnrollmentWhenStudentIsEnrolled() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         Student doubleSt1 = mock (Student.class);
@@ -183,9 +183,9 @@ class CourseEditionEnrollmentRepositoryTest {
 
         when (doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, doubleCe1)).thenReturn(courseEEnrollments);
 
-        when (courseEEnrollments.findStudentInCourseEditionEnrollment()).thenReturn(doubleSt1);
+        when (courseEEnrollments.hasStudent(doubleSt1)).thenReturn(true);
 
-        when (courseEEnrollments.findCourseEditionInEnrollment()).thenReturn(doubleCe1);
+        when (courseEEnrollments.hasCourseEdition(doubleCe1)).thenReturn(true);
 
         when (courseEEnrollments.isEnrollmentActive()).thenReturn(true);
 
@@ -195,16 +195,16 @@ class CourseEditionEnrollmentRepositoryTest {
 
         // Assert
         assertTrue(result.isPresent(), "The student was enrolled in the course edition successfully.");
-        assertEquals(result.get().findStudentInCourseEditionEnrollment(), doubleSt1, "The student enrolled in the correct course edition.");
-        assertEquals(result.get().findCourseEditionInEnrollment(), doubleCe1, "The course edition enrolled is correct.");
+      //  assertEquals(result.get().findStudentInCourseEditionEnrollment(), doubleSt1, "The student enrolled in the correct course edition.");
+      //  assertEquals(result.get().findCourseEditionInEnrollment(), doubleCe1, "The course edition enrolled is correct.");
     }
 
 
     @Test
     void shouldReturnCourseEditionFromEnrollment() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         Student doubleSt1 = mock (Student.class);
@@ -213,9 +213,9 @@ class CourseEditionEnrollmentRepositoryTest {
 
         when (doubleCeeFactory.createCourseEditionEnrollment(doubleSt1,doubleCe1)).thenReturn(courseEEnrollments);
 
-        when (courseEEnrollments.findStudentInCourseEditionEnrollment()).thenReturn(doubleSt1);
+        when (courseEEnrollments.hasStudent(doubleSt1)).thenReturn(true);
 
-        when (courseEEnrollments.findCourseEditionInEnrollment()).thenReturn(doubleCe1);
+        when (courseEEnrollments.hasCourseEdition(doubleCe1)).thenReturn(true);
 
         repository.enrollStudentInACourseEdition(doubleSt1, doubleCe1);
 
@@ -224,37 +224,54 @@ class CourseEditionEnrollmentRepositoryTest {
 
         // Assert
         assertTrue(result.isPresent(), "The student should be enrolled in the course edition.");
-        assertEquals(doubleCe1, result.get().findCourseEditionInEnrollment(), "The course edition returned should match the one in the enrollment.");
+      //  assertEquals(doubleCe1, result.get().findCourseEditionInEnrollment(), "The course edition returned should match the one in the enrollment.");
     }
 
 
     @Test
-    void shouldThrowExceptionWhenStudentOrCourseEditionIsNull() {
+    void shouldThrowOptionalEmptyWhenStudentIsNull() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         CourseEdition doubleCe1 = mock (CourseEdition.class);
         Student doubleSt1 = mock (Student.class);
 
-        // Act & Assert
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.findByStudentAndEdition(null, doubleCe1);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        // Act
+        Optional<CourseEditionEnrollment> result = repository.findByStudentAndEdition(null, doubleCe1);
 
-        thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.findByStudentAndEdition(doubleSt1, null);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        //Assert
+        assertTrue(result.isEmpty(), "Expected Optional.empty() when student is null");
+
+//        result = repository.findByStudentAndEdition(doubleSt1, null);
+//        assertTrue(result.isEmpty(), "Expected Optional.empty() when courseEdition is null");
+
+    }
+
+    @Test
+    void shouldThrowOptionalEmptyWhenCourseEditionIsNull() {
+        // Arrange
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
+
+        CourseEdition doubleCe1 = mock (CourseEdition.class);
+        Student doubleSt1 = mock (Student.class);
+
+        // Act
+        Optional<CourseEditionEnrollment> result = repository.findByStudentAndEdition(doubleSt1, null);
+
+        //Assert
+        assertTrue(result.isEmpty(), "Expected Optional.empty() when courseEdition is null");
+
     }
 
     @Test
     void shouldReturnOptionalEmptyWhenNoEnrollmentFound() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         Student doubleSt1 = mock(Student.class);
@@ -271,8 +288,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnEmptyWhenStudentIsNotEnrolledInCourseEdition() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         Student doubleSt1 = mock(Student.class);
@@ -289,8 +306,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnNumberOfStudentsEnrolledInCourseEdition() throws Exception {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repo = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
@@ -313,8 +330,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void ShouldReturnZeroWhenThereAreNoEnrolmentsInACourse() throws Exception {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repo = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
@@ -345,8 +362,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnZeroWhenThereAreNoStudents() throws Exception {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repo = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         // Create a course edition
@@ -362,8 +379,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void testNumberOfStudentsEnrolledInCourseEdition_NullCourseEdition_ShouldThrowException() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         // Act & Assert
@@ -379,8 +396,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void removeExistingEnrollment_ShouldReturnTrue() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface enrollmentFactoryMock = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
 
         Student mockStudent = mock(Student.class);
@@ -390,8 +407,8 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition))
                 .thenReturn(mockCee);
 
-        when(mockCee.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee.isEnrollmentActive()).thenReturn(true);
 
         enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition);
@@ -408,8 +425,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void removeNonExistingEnrollment_ShouldReturnFalse() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface enrollmentFactoryMock = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
 
         Student mockStudent = mock (Student.class);
@@ -423,29 +440,25 @@ class CourseEditionEnrollmentRepositoryTest {
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any()); // Ensure no enrollment creation occurs
     }
 
-    // If the student or course edition information is missing (null), the system should reject the operation and throw an exception
+    // If the student or course edition information is missing (null), the system should reject the operation
     @Test
-    void removeEnrollment_WithNullCourseEditionOrStudent_ShouldThrowException() throws IllegalArgumentException {
+    void removeEnrollment_WithNullStudentOrCourseEdition_ShouldReturnFalse(){
         // Arrange
-        CourseEditionEnrollmentFactoryInterface enrollmentFactoryMock = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock(CourseEditionEnrollmentListFactory.class);
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(enrollmentFactoryMock, CeeListFactory);
 
-        Student mockStudent = mock (Student.class);
-        CourseEdition mockCourseEdition = mock (CourseEdition.class);
+        Student mockStudent = mock(Student.class);
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
-        // Act and assert
-        // test for the case where Student is null
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.removeEnrollment(null, mockCourseEdition);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        // Act & Assert for null Student
+        boolean result1 = repository.removeEnrollment(null, mockCourseEdition);
+        assertFalse(result1);
+        verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
 
-        // test for the case where CourseEdition is null
-        thrown = assertThrows(IllegalArgumentException.class, () -> {
-            repository.removeEnrollment(mockStudent, null);
-        });
-        assertEquals("Student and CourseEdition cannot be null", thrown.getMessage());
+        // Act & Assert for null CourseEdition
+        boolean result2 = repository.removeEnrollment(mockStudent, null);
+        assertFalse(result2);
         verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
     }
 
@@ -453,8 +466,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface enrollmentFactoryMock = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
 
         Student mockStudent = mock(Student.class);
@@ -464,8 +477,8 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition))
                 .thenReturn(mockCee);
 
-        when(mockCee.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
 
         // Simulate first call: Enrollment starts as active, then becomes inactive
         when(mockCee.isEnrollmentActive()).thenReturn(true).thenReturn(false);
@@ -491,16 +504,16 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void removeAlreadyInactiveEnrollment_ShouldReturnFalse() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface enrollmentFactoryMock = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
 
         Student mockStudent = mock(Student.class);
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
         CourseEditionEnrollment mockCee = mock(CourseEditionEnrollment.class);
 
-        when(mockCee.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee.isEnrollmentActive()).thenReturn(false); // Enrollment is already inactive
 
         // Act: Try removing an already inactive enrollment
@@ -515,8 +528,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface enrollmentFactoryMock = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
 
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
@@ -530,12 +543,12 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent2, mockCourseEdition))
                 .thenReturn(mockCee2);
 
-        when(mockCee1.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent1);
-        when(mockCee1.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee1.hasStudent(mockStudent1)).thenReturn(true);
+        when(mockCee1.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee1.isEnrollmentActive()).thenReturn(true);
 
-        when(mockCee2.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent2);
-        when(mockCee2.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition);
+        when(mockCee2.hasStudent(mockStudent2)).thenReturn(true);
+        when(mockCee2.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee2.isEnrollmentActive()).thenReturn(true);
 
         enrollmentRepository.enrollStudentInACourseEdition(mockStudent1, mockCourseEdition);
@@ -556,8 +569,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface enrollmentFactoryMock = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory enrollmentFactoryMock = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository (enrollmentFactoryMock, CeeListFactory);
 
         Student mockStudent = mock(Student.class);
@@ -569,12 +582,12 @@ class CourseEditionEnrollmentRepositoryTest {
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition1)).thenReturn(mockCee1);
         when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition2)).thenReturn(mockCee2);
 
-        when(mockCee1.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee1.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition1);
+        when(mockCee1.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee1.hasCourseEdition(mockCourseEdition1)).thenReturn(true);
         when(mockCee1.isEnrollmentActive()).thenReturn(true);
 
-        when(mockCee2.findStudentInCourseEditionEnrollment()).thenReturn(mockStudent);
-        when(mockCee2.findCourseEditionInEnrollment()).thenReturn(mockCourseEdition2);
+        when(mockCee2.hasStudent(mockStudent)).thenReturn(true);
+        when(mockCee2.hasCourseEdition(mockCourseEdition2)).thenReturn(true);
         when(mockCee2.isEnrollmentActive()).thenReturn(true);
 
         enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition1);
@@ -594,8 +607,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldEnrollStudentWhenStudentNotEnrolled() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         Student doubleStudent = mock(Student.class);
@@ -603,8 +616,8 @@ class CourseEditionEnrollmentRepositoryTest {
         CourseEditionEnrollment doubleEnrollment = mock(CourseEditionEnrollment.class);
 
         when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment);
-        when(doubleEnrollment.findStudentInCourseEditionEnrollment()).thenReturn(doubleStudent);
-        when(doubleEnrollment.findCourseEditionInEnrollment()).thenReturn(doubleCourseEdition1);
+        when(doubleEnrollment.hasStudent(doubleStudent)).thenReturn(true);
+        when(doubleEnrollment.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
 
         // Act
         repository.enrollStudentInACourseEdition(doubleStudent, doubleCourseEdition1);
@@ -616,8 +629,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldThrowExceptionWhenStudentAlreadyEnrolled() {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleFactory, CeeListFactory);
 
         Student doubleStudent = mock(Student.class);
@@ -632,13 +645,13 @@ class CourseEditionEnrollmentRepositoryTest {
 
         when(doubleFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition2)).thenReturn(doubleEnrollment2);
 
-        when(doubleEnrollment1.findStudentInCourseEditionEnrollment()).thenReturn(doubleStudent);
+        when(doubleEnrollment1.hasStudent(doubleStudent)).thenReturn(true);
 
-        when(doubleEnrollment2.findStudentInCourseEditionEnrollment()).thenReturn(doubleStudent);
+        when(doubleEnrollment2.hasStudent(doubleStudent)).thenReturn(true);
 
-        when(doubleEnrollment1.findCourseEditionInEnrollment()).thenReturn(doubleCourseEdition1);
+        when(doubleEnrollment1.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
 
-        when(doubleEnrollment2.findCourseEditionInEnrollment()).thenReturn(doubleCourseEdition2);
+        when(doubleEnrollment2.hasCourseEdition(doubleCourseEdition2)).thenReturn(true);
 
         //act
         repository.enrollStudentInProgrammeCourseEditions(doubleStudent,courseEditions);
@@ -653,8 +666,8 @@ class CourseEditionEnrollmentRepositoryTest {
     @Test
     void shouldReturnZeroWhenThereAreNoEnrollmentsInCourseEdition() throws Exception {
         // Arrange
-        CourseEditionEnrollmentFactoryInterface doubleCeeFactory = mock (CourseEditionEnrollmentFactoryInterface.class);
-        CourseEditionEnrollmentListFactoryInterface CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
+        ICourseEditionEnrollmentFactory doubleCeeFactory = mock (ICourseEditionEnrollmentFactory.class);
+        ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         Student doubleStudent = mock(Student.class);

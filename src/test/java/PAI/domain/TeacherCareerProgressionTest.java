@@ -23,7 +23,7 @@ class TeacherCareerProgressionTest {
 
     @ParameterizedTest
     @MethodSource("provideValidAttributes")
-    void createsObjectWithValidAttributes(String date, int workingPercentage) throws Exception {
+    void createsObjectWithValidAttributes(String date, int workingPercentage) throws IllegalArgumentException {
         // Arrange
         TeacherCategory tc1Double = mock(TeacherCategory.class);
 
@@ -58,7 +58,7 @@ class TeacherCareerProgressionTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidAttributes")
-    void invalidAttributesDoNotCreateObject(String date, int workingPercentage, String expectedMessage) throws Exception {
+    void invalidAttributesDoNotCreateObject(String date, int workingPercentage, String expectedMessage) throws IllegalArgumentException {
         //arrange
         TeacherCategory tc1Double = mock(TeacherCategory.class);
 
@@ -78,7 +78,7 @@ class TeacherCareerProgressionTest {
 
     @ParameterizedTest
     @MethodSource("provideValidCategories")
-    void getCategoryReturnsCorrectCategory(String date, int workingPercentage) throws Exception {
+    void getCategoryReturnsCorrectCategory(String date, int workingPercentage) throws IllegalArgumentException {
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         TeacherCareerProgression TCP = new TeacherCareerProgression(date, tcDouble, workingPercentage);
@@ -99,7 +99,7 @@ class TeacherCareerProgressionTest {
 
     @ParameterizedTest
     @MethodSource("provideValidWorkingPercentages")
-    void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, int expectedWorkingPercentage) throws Exception {
+    void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, int expectedWorkingPercentage) throws IllegalArgumentException {
 
         //arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -138,15 +138,15 @@ class TeacherCareerProgressionTest {
 
     public static Stream<Arguments> provideDates() {
         return Stream.of(
-                arguments("16-04-2024", "17-04-2024", "Professor Adjunto", true),
-                arguments("15-04-2024", "15-04-2024", "Professor Adjunto", false),
-                arguments("15-04-2024", "14-04-2024", "Professor Adjunto", false)
+                arguments("16-04-2024", "17-04-2024", true),
+                arguments("15-04-2024", "15-04-2024", false),
+                arguments("15-04-2024", "14-04-2024", false)
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideDates")
-    void shouldReturnTrueIfGivenDateIsAfterLastDate(String date1, String date2, String tc, boolean expectedResult) throws Exception {
+    void shouldReturnTrueIfGivenDateIsAfterLastDate(String date1, String date2, boolean expectedResult) throws IllegalArgumentException {
         // Arrange
         TeacherCategory tc1Double = mock(TeacherCategory.class);
 
