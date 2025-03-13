@@ -136,7 +136,6 @@ class ProgrammeEditionEnrollmentTest {
         assertEquals(studentDouble, foundStudent, "The found student should be the same as the mock student.");
     }
 
-    //US26
     // Test returns true when the department and school year are correctly associated with the enrollment
     @Test
     void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() {
