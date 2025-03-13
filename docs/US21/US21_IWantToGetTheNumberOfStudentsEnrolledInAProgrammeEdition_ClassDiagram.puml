@@ -1,6 +1,6 @@
 @startuml
 
-title: US21_GET_THE_NUMBER_OF_STUDENTS_ENROLLED_IN_A_PROGRAMME_EDITION_SEQUENCE CLASS DIAGRAM
+title: US21_GET THE NUMBER OF STUDENTS ENROLLED IN A PROGRAMME EDITION SEQUENCE_CLASS DIAGRAM
 
 class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
     -_programmeEditionRepository: ProgrammeEditionRepository
@@ -46,8 +46,8 @@ class ProgrammeEditionEnrollment {
 class ProgrammeEdition {
     -_programme: Programme
     -_schoolYear: SchoolYear
-    +programmeEdition(programme: Programme,schoolYear: SchoolYear)
-    +equals(object: Object)
+    +ProgrammeEdition(programme: Programme,schoolYear: SchoolYear)
+    +equals(other: Object)
     +findProgrammeInProgrammeEdition()
     +findSchoolYearInProgrammeEdition()
     +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
