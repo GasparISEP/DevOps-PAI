@@ -1,11 +1,11 @@
 @startuml
-
-title US27: As an ASC, I want to register a programme in the system, including the study plan.
+autonumber
+title US11: As an ASC, I want to register a programme in the system, including the study plan.
 
 actor ASC as Admin
 
 participant ":UI" as UI #lightblue
-participant ":ControllerUS27" as C #lightblue
+participant ":ControllerUS11" as C #lightblue
 participant ":ProgrammeRepository" as PR #lightblue
 participant ":ProgrammeFactory" as PF #lightblue
 
@@ -30,13 +30,13 @@ P -> P : isNameInvalid()
 P -> P : isAcronymInvalid()
 P -> P : isQuantityOfEctsInvalid()
 P -> P : isQuantityOfSemestersInvalid()
-participant ":StudyplanFactory" as SPF #lightblue
+participant ":StudyPlanFactory" as SPF #lightblue
 P -> SPF ++ #application : newStudyPlan(courseInStudyPlanFactory, \nstudyPlanListFactory, courseFactory)
 create "SP1:StudyPlan" as SP #lightblue
 
 SPF -> SP ++ #application : StudyPlan()
 
-participant ":studyPlanListFactory" as SPLF #lightblue
+participant ":StudyPlanListFactory" as SPLF #lightblue
 SP -> SPLF ++ #application: newArrayList()
 
 create "LCSP1:List<CourseInStudyPlan>" as LCSP #lightblue
