@@ -59,7 +59,8 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> emptyGradeList = new ArrayList<>();
+        List<GradeStudent> emptyGradeList = spy(new ArrayList<>());
+
         when(gradeStudentListFactory.newArrayList()).thenReturn(emptyGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
