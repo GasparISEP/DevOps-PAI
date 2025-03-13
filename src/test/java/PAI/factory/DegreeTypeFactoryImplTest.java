@@ -36,6 +36,7 @@ class DegreeTypeFactoryImplTest {
 
             assertEquals(name, createdDegreeType.get_name());
             assertEquals(maxEcts, createdDegreeType.get_maxEcts());
+            assertNotNull(degreeType);
 
 
         }
