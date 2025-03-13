@@ -54,7 +54,7 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldNotGradeAStudentOnCourseEditionWithoutStudents() throws Exception {
+    void shouldNotGradeAStudentOnCourseEditionWithoutStudents() throws IllegalArgumentException {
         // Arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
@@ -216,7 +216,7 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldNotGetAverageGradeOnCourseEditionWithoutStudents() throws Exception {
+    void shouldNotGetAverageGradeOnCourseEditionWithoutStudents() throws IllegalArgumentException {
 
         // Arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
@@ -238,7 +238,7 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldNotAddGradeToAStudentWithFactoryNull() throws Exception {
+    void shouldNotAddGradeToAStudentWithFactoryNull() throws IllegalArgumentException {
         // Arrange
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
         when(gradeStudentListFactory.newArrayList()).thenReturn(new ArrayList<>());
@@ -251,7 +251,7 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldNotAddGradeToAStudentWithListFactoryNull() throws Exception {
+    void shouldNotAddGradeToAStudentWithListFactoryNull() throws IllegalArgumentException {
         // Arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
 
