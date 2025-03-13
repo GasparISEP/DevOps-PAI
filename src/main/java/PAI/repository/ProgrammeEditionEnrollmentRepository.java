@@ -1,22 +1,23 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ProgrammeEditionEnrollmentFactoryImpl;
-import PAI.factory.ProgrammeEditionListFactoryImpl;
+import PAI.factory.IProgrammeEditionEnrollmentFactory;
+import PAI.factory.IProgrammeEditionEnrollmentListFactory;
+
 
 
 import java.util.*;
 
-public class ProgrammeEditionEnrollmentRepo {
+public class ProgrammeEditionEnrollmentRepository {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
-    private IProgrammeEditionEnrollmentFactory _iProgrammeEditionEnrollmentFactory;
+    private final IProgrammeEditionEnrollmentFactory _iProgrammeEditionEnrollmentFactory;
 
-    public ProgrammeEditionEnrollmentRepo(IProgrammeEditionEnrollmentFactory iProgrammeEditionEnrollmentFactory,
-                                          ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory) {
+    public ProgrammeEditionEnrollmentRepository(IProgrammeEditionEnrollmentFactory iProgrammeEditionEnrollmentFactory,
+                                                IProgrammeEditionEnrollmentListFactory iProgrammeEditionEnrolmentListFactory) {
 
         _iProgrammeEditionEnrollmentFactory = iProgrammeEditionEnrollmentFactory;
-        _programmeEditionEnrollments = programmeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
+        _programmeEditionEnrollments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
     }
 
     public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
 
-    private ProgrammeEditionEnrollmentRepo _programmeEditionEnrollmentRepo;
+    private ProgrammeEditionEnrollmentRepository _programmeEditionEnrollmentRepository;
     private ProgrammeEditionRepository _programmeEditionRepository;
     private ProgrammeRepository _programmeList;
     private CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
@@ -17,7 +17,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     public US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-            ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo,
+            ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository,
             ProgrammeEditionRepository programmeEditionRepository,
             ProgrammeRepository programmeList,
             CourseEditionEnrollmentRepository courseEditionEnrollmentRepository,
@@ -25,7 +25,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
             SchoolYearRepository schoolYearRepository,
             ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
 
-        validateProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentRepo);
+        validateProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentRepository);
         validateProgrammeEditionRepository(programmeEditionRepository);
         validateProgrammeList(programmeList);
         validateCourseEditionEnrollmentRepository(courseEditionEnrollmentRepository);
@@ -53,12 +53,12 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         ProgrammeEdition programmeEdition = optionalProgrammeEdition.get();
 
         // Check if student is already enrolled
-        if (_programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
+        if (_programmeEditionEnrollmentRepository.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
             return false;
         }
 
         // Enroll student in programmeEdition
-        _programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition);
+        _programmeEditionEnrollmentRepository.enrollStudentInProgrammeEdition(student, programmeEdition);
 
         List<CourseEdition> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
 
@@ -75,11 +75,11 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
     }
 
     //Verify if the programme edition enrollment repo is valid
-    private void validateProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo) {
-        if (programmeEditionEnrollmentRepo == null) {
+    private void validateProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository) {
+        if (programmeEditionEnrollmentRepository == null) {
             throw new IllegalStateException("Programme edition enrollment repository cannot be null.");
         }
-        this._programmeEditionEnrollmentRepo = programmeEditionEnrollmentRepo;
+        this._programmeEditionEnrollmentRepository = programmeEditionEnrollmentRepository;
     }
     //Verify if the programme edition repository is valid
     private void validateProgrammeEditionRepository(ProgrammeEditionRepository programmeEditionRepository) {

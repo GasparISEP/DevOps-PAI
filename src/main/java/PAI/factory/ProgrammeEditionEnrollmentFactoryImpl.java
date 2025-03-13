@@ -2,7 +2,6 @@ package PAI.factory;
 
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.ProgrammeEditionEnrollment;
-import PAI.domain.IProgrammeEditionEnrollmentFactory;
 import PAI.domain.Student;
 
 public class ProgrammeEditionEnrollmentFactoryImpl implements IProgrammeEditionEnrollmentFactory {

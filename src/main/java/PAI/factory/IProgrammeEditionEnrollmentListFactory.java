@@ -4,7 +4,7 @@ import PAI.domain.ProgrammeEditionEnrollment;
 
 import java.util.Set;
 
-public interface ProgrammeEditionEnrollmentListFactoryInterface {
+public interface IProgrammeEditionEnrollmentListFactory {
 
     public Set<ProgrammeEditionEnrollment> newListProgrammeEditionEnrollment();
 

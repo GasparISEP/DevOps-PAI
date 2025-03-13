@@ -46,6 +46,11 @@ public class ProgrammeEditionEnrollment {
         return Objects.equals(this._student, other._student) && Objects.equals(this._programmeEdition, other._programmeEdition);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(_student, _programmeEdition);
+    }
+
     public ProgrammeEdition findProgrammeEditionInEnrollment() {
         return _programmeEdition;
     }

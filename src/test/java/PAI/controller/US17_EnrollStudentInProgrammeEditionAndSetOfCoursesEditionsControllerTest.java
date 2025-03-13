@@ -17,7 +17,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_Success() {
         // Arrange
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
@@ -31,7 +31,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -50,7 +50,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         when(doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition)).thenReturn(List.of(doubleCe1, doubleCe2));
 
-        when(programmeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(false);
+        when(programmeEditionEnrollmentRepository.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(false);
 
         when(doubleCourseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe1)).thenReturn(true);
 
@@ -70,7 +70,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() {
         // arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
@@ -83,7 +83,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -103,7 +103,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() {
         // arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
@@ -116,7 +116,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -138,7 +138,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() {
         // arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         Student doubleStudent = mock(Student.class);
@@ -151,7 +151,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -162,7 +162,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudent, doubleProgramme)).thenReturn(true);
         when(doubleProgrammeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(doubleProgramme, doubleSchoolYear)).thenReturn(Optional.of(doubleProgrammeEdition));
 
-        when(doubleProgrammeEditionEnrollmentRepo.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(true);
+        when(doubleProgrammeEditionEnrollmentRepository.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(true);
         // act
         boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
 
@@ -173,7 +173,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() {
         // Arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
@@ -188,7 +188,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -234,7 +234,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testGetAllProgrammes()  {
         // Arrange
          ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-         ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+         ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock (ProgrammeEditionEnrollmentRepository.class);
          ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
          CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
          CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -242,7 +242,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
          ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
          US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -266,7 +266,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testGetAllProgrammes_SizeEqualsTwo() throws Exception {
         // Arrange
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock (ProgrammeEditionEnrollmentRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -274,7 +274,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -298,7 +298,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testGetAllProgrammes_ContainsAllProgrammes() throws Exception {
         // Arrange
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock (ProgrammeEditionEnrollmentRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -306,7 +306,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -332,7 +332,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testGetAllSchoolYears_NotNull() throws Exception {
         // Arrange
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock (ProgrammeEditionEnrollmentRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -340,7 +340,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -364,7 +364,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testGetAllSchoolYears_SizeEqualsTwo() throws Exception {
         // Arrange
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock (ProgrammeEditionEnrollmentRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -372,7 +372,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -396,7 +396,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     void testGetAllSchoolYears_ContainsAllSchoolYears() throws Exception {
         // Arrange
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock (ProgrammeEditionEnrollmentRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -404,7 +404,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         ProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrollmentRepo,
+                        doubleProgrammeEditionEnrollmentRepository,
                         doubleProgrammeEditionRepository,
                         doubleProgrammeList,
                         doubleCourseEditionEnrollmentRepository,
@@ -447,7 +447,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfProgrammeEditionRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -456,7 +456,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo,null,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepository,null,
                     doubleProgrammeList, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
@@ -467,7 +467,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfProgrammeListIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -476,7 +476,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepository, doubleProgrammeEditionRepository,
                     null, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
@@ -487,7 +487,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
@@ -496,7 +496,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepository, doubleProgrammeEditionRepository,
                     doubleProgrammeList, null, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
@@ -507,7 +507,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -516,7 +516,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepository, doubleProgrammeEditionRepository,
                     doubleProgrammeList, doubleCourseEditionEnrollmentRepository, null, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
 
@@ -527,7 +527,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfSchoolYearRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -536,7 +536,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepository, doubleProgrammeEditionRepository,
                     doubleProgrammeList, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, null, doubleEnrolmentRepository);
         });
 
@@ -547,7 +547,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
     @Test
     void shouldReturnExceptionIfEnrolmentRepositoryIsNull (){
         //arrange
-        ProgrammeEditionEnrollmentRepo doubleProgrammeEditionEnrollmentRepo = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doubleProgrammeEditionEnrollmentRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         ProgrammeEditionRepository doubleProgrammeEditionRepository = mock(ProgrammeEditionRepository.class);
         ProgrammeRepository doubleProgrammeList = mock(ProgrammeRepository.class);
         CourseEditionEnrollmentRepository doubleCourseEditionEnrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
@@ -556,7 +556,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepo, doubleProgrammeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(doubleProgrammeEditionEnrollmentRepository, doubleProgrammeEditionRepository,
                     doubleProgrammeList, doubleCourseEditionEnrollmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, null);
         });
 
@@ -574,8 +574,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -594,7 +594,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -662,8 +662,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -682,7 +682,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -729,8 +729,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -749,7 +749,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -798,8 +798,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -818,7 +818,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -857,7 +857,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         Optional<ProgrammeEdition> peOptional = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
         ProgrammeEdition programmeEdition = peOptional.get();
-        programmeEditionEnrollmentRepo.enrollStudentInProgrammeEdition(student, programmeEdition);
+        programmeEditionEnrollmentRepository.enrollStudentInProgrammeEdition(student, programmeEdition);
 
         // Act
         boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
@@ -874,8 +874,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -894,7 +894,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -955,8 +955,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -975,7 +975,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -1017,8 +1017,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
     ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
     ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-    ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-    ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+    ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+    ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
     ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
     ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
     ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1037,7 +1037,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
     US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
             new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    programmeEditionEnrollmentRepo,
+                    programmeEditionEnrollmentRepository,
                     programmeEditionRepository,
                     programmeRepository,
                     courseEditionEnrollmentRepository,
@@ -1078,8 +1078,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1098,7 +1098,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -1143,8 +1143,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1163,7 +1163,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -1191,8 +1191,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1211,7 +1211,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -1238,8 +1238,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1258,7 +1258,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrollmentRepo,
+                        programmeEditionEnrollmentRepository,
                         programmeEditionRepository,
                         programmeRepository,
                         courseEditionEnrollmentRepository,
@@ -1311,8 +1311,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     void shouldReturnExceptionIfProgrammeEditionRepositoryIsNull_IntegrationTest (){
         //arrange
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();;
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1331,7 +1331,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,null,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepository,null,
                     programmeRepository, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, programmeEnrolmentRepository);
         });
 
@@ -1346,8 +1346,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();;
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
         CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
@@ -1363,7 +1363,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepository,programmeEditionRepository,
                     null, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository,programmeEnrolmentRepository);
         });
 
@@ -1378,8 +1378,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1394,7 +1394,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepository,programmeEditionRepository,
                     programmeRepository, null, courseEditionRepository, schoolYearRepository,programmeEnrolmentRepository);
         });
 
@@ -1409,8 +1409,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1426,7 +1426,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepository,programmeEditionRepository,
                     programmeRepository, courseEditionEnrollmentRepository, null, schoolYearRepository,programmeEnrolmentRepository);
         });
 
@@ -1441,8 +1441,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1458,7 +1458,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepository,programmeEditionRepository,
                     programmeRepository, courseEditionEnrollmentRepository, courseEditionRepository, null, programmeEnrolmentRepository);
         });
 
@@ -1473,8 +1473,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
-        ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
+        ProgrammeEditionEnrollmentRepository programmeEditionEnrollmentRepository = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
@@ -1490,7 +1490,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         //act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepo,programmeEditionRepository,
+            new US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrollmentRepository,programmeEditionRepository,
                     programmeRepository, courseEditionEnrollmentRepository, courseEditionRepository, schoolYearRepository, null);
         });
 
