@@ -12,8 +12,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController {
 }
 class CourseEditionEnrollment {
     +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition)
-    +findStudentInCourseEditionEnrollment () : Student
-    +findCourseEditionInEnrollment () : CourseEdition
+    +hasStudent (student: Student) : boolean
+    +hasCourseEdition (courseEdition: CourseEdtion) : boolean
 }
 
 class CourseEditionEnrollmentRepository {
@@ -78,12 +78,16 @@ class ProgrammeRepository {
     +getAllProgrammes() : List<Programme>
 }
 
-class ProgrammeListArrayListFactory {
+class ProgrammeRepositoryListFactoryImpl {
     +copyProgrammeArrayList(List<Programme>)
 }
 
-interface ProgrammeListArrayListFactoryInterface {
+interface ProgrammeRepositoryListFactory {
     +copyProgrammeArrayList(List<Programme>)
+}
+
+class ProgrammeArrayList {
+    +add(): boolean
 }
 
 class SchoolYear {
@@ -100,17 +104,16 @@ class SchoolYearRepository {
 
 class SchoolYearListFactory {
     +copySchoolYearArrayList(List<SchoolYear>)
-
 }
-class SchoolYearArrayList{
-    + add(): boolean
+
+class SchoolYearArrayList {
+    +add(): boolean
 }
 
 interface SchoolYearListFactoryInterface {
     +copySchoolYearArrayList(List<SchoolYear>)
 
 }
-
 
 class ProgrammeEnrollment {
     +ProgrammeEnrolment(student: Student, accessMethod: AccessMethod)
@@ -206,18 +209,21 @@ ProgrammeEditionEnrollmentArrayList "1         " .u.> " *  " ProgrammeEditionEnr
 ProgrammeEditionEnrollmentRepo "1"..> "1" ProgrammeEditionEnrollmentListFactory
 ProgrammeEditionEnrollmentRepo ..> ProgrammeEditionEnrollmentListFactoryInterface
 ProgrammeEditionEnrollmentListFactoryInterface ..> ProgrammeEditionEnrollmentArrayList
-ProgrammeRepository "1     " ..> " _listOfProgrammes * " Programme
 CourseEdition "_listOfCourseEdition *  " <-- "1   " ProgrammeEdition
 ProgrammeEditionEnrollmentFactoryInterface <|.. ProgrammeEditionEnrollmentFactory
 ProgrammeEditionEnrollmentListFactoryInterface <|.. ProgrammeEditionEnrollmentListFactory
-
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrollment
-ProgrammeRepository "1" --> "1" ProgrammeListArrayListFactory
-ProgrammeListArrayListFactory ..|> ProgrammeListArrayListFactoryInterface
-ProgrammeListArrayListFactory "1" ..> "1" Programme
-ProgrammeEditionEnrollmentFactoryInterface ..>ProgrammeEditionEnrollment
+
+ProgrammeRepository ..> ProgrammeRepositoryListFactory
+ProgrammeRepository ..> Programme
+ProgrammeRepository "1" --> "1" ProgrammeArrayList
+ProgrammeArrayList "1" --> " _programme * " Programme
+ProgrammeRepositoryListFactory ..> ProgrammeArrayList
+ProgrammeRepositoryListFactoryImpl ..|> ProgrammeRepositoryListFactory
+
 SchoolYearRepository  ..> SchoolYearListFactoryInterface
 SchoolYearListFactory ..|> SchoolYearListFactoryInterface
+SchoolYearListFactoryInterface ..> SchoolYearArrayList
 SchoolYearRepository  ..>  SchoolYear
 SchoolYearRepository "1" --> "1" SchoolYearArrayList
 SchoolYearArrayList "1" --> " _schoolYear *          "SchoolYear

@@ -1,8 +1,8 @@
 package PAI.repository;
 
 import PAI.domain.TeacherCategory;
-import PAI.factory.TeacherCategoryFactory;
-import PAI.factory.TeacherCategoryRepositoryListFactory;
+import PAI.factory.TeacherCategoryFactoryImpl;
+import PAI.factory.TeacherCategoryRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,15 +14,15 @@ import static org.mockito.Mockito.when;
 class TeacherCategoryRepositoryTest {
 
     // Helper method to create repository with explicit dependencies.
-    private TeacherCategoryRepository createRepository(TeacherCategoryFactory teacherCategoryFactory) {
-        TeacherCategoryRepositoryListFactory listFactory = new TeacherCategoryRepositoryListFactory();
+    private TeacherCategoryRepository createRepository(TeacherCategoryFactoryImpl teacherCategoryFactory) {
+        TeacherCategoryRepositoryListFactoryImpl listFactory = new TeacherCategoryRepositoryListFactoryImpl();
         return new TeacherCategoryRepository(teacherCategoryFactory, listFactory);
     }
 
     @Test
     void shouldReturnTrueIfCategoryIsAlreadyRegisteredInTheRepository() throws Exception {
         // Arrange
-        TeacherCategoryFactory teacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryFactoryImpl teacherCategoryFactory = mock(TeacherCategoryFactoryImpl.class);
         TeacherCategoryRepository teacherCategoryRepository = createRepository(teacherCategoryFactory);
         TeacherCategory teacherCategory = new TeacherCategory("Professor Adjunto");
 
@@ -39,7 +39,7 @@ class TeacherCategoryRepositoryTest {
     @Test
     void shouldReturnFalseIfCategoryIsNotRegisteredInTheRepository() throws Exception {
         // Arrange
-        TeacherCategoryFactory teacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryFactoryImpl teacherCategoryFactory = mock(TeacherCategoryFactoryImpl.class);
         TeacherCategoryRepository teacherCategoryRepository = createRepository(teacherCategoryFactory);
         TeacherCategory teacherCategory1 = new TeacherCategory("Professor Adjunto");
 
@@ -56,7 +56,7 @@ class TeacherCategoryRepositoryTest {
     @Test
     void testTeacherCategoryRepositoryCreationValid() {
         // Arrange
-        TeacherCategoryFactory teacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryFactoryImpl teacherCategoryFactory = mock(TeacherCategoryFactoryImpl.class);
 
         // Act
         TeacherCategoryRepository teacherCategoryRepository = createRepository(teacherCategoryFactory);
@@ -68,7 +68,7 @@ class TeacherCategoryRepositoryTest {
     @Test
     void shouldReturnTrueIfTeacherCategoryIsRegistered() throws Exception {
         // Arrange
-        TeacherCategoryFactory teacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryFactoryImpl teacherCategoryFactory = mock(TeacherCategoryFactoryImpl.class);
         TeacherCategoryRepository teacherCategoryRepository = createRepository(teacherCategoryFactory);
         TeacherCategory teacherCategory = new TeacherCategory("Professor Adjunto");
 
@@ -84,7 +84,7 @@ class TeacherCategoryRepositoryTest {
     @Test
     void shouldReturnFalseIfTeacherCategoryCannotBeRegistered() throws Exception {
         // Arrange
-        TeacherCategoryFactory teacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryFactoryImpl teacherCategoryFactory = mock(TeacherCategoryFactoryImpl.class);
         TeacherCategoryRepository teacherCategoryRepository = createRepository(teacherCategoryFactory);
         TeacherCategory teacherCategory = new TeacherCategory("Professor Adjunto");
 
@@ -101,7 +101,7 @@ class TeacherCategoryRepositoryTest {
     @Test
     void shouldReturnExceptionIfCategoryListIsEmpty() {
         // Arrange
-        TeacherCategoryFactory teacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryFactoryImpl teacherCategoryFactory = mock(TeacherCategoryFactoryImpl.class);
         TeacherCategoryRepository teacherCategoryRepository = createRepository(teacherCategoryFactory);
 
         // Act + Assert
@@ -111,7 +111,7 @@ class TeacherCategoryRepositoryTest {
     @Test
     void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
         // Arrange
-        TeacherCategoryFactory teacherCategoryFactory = mock(TeacherCategoryFactory.class);
+        TeacherCategoryFactoryImpl teacherCategoryFactory = mock(TeacherCategoryFactoryImpl.class);
         TeacherCategoryRepository teacherCategoryRepository = createRepository(teacherCategoryFactory);
         TeacherCategory teacherCategory = new TeacherCategory("Professor Adjunto");
 

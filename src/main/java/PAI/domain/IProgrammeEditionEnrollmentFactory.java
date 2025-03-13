@@ -1,8 +1,6 @@
 package PAI.domain;
 
-import java.time.LocalDate;
-
-public interface ProgrammeEditionEnrollmentFactoryInterface {
+public interface IProgrammeEditionEnrollmentFactory {
 
     ProgrammeEditionEnrollment newProgrammeEditionEnrollment(Student student, ProgrammeEdition programmeEdition);
 }

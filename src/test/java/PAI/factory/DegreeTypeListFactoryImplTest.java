@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DegreeTypeListFactoryTest {
+class DegreeTypeListFactoryImplTest {
 
     @Test
     public void shouldCreateDegreeTypeList() {
         //Arrange
-        DegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactory();
+        DegreeTypeListFactoryImpl degreeTypeListFactoryImpl = new DegreeTypeListFactoryImpl();
         // Act + Assert
-        assertNotNull(degreeTypeListFactory);
+        assertNotNull(degreeTypeListFactoryImpl);
     }
 
 }

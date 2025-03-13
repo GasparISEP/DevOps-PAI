@@ -178,29 +178,54 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
     //integration tests
 
-    //auxiliary methods
-    private ProgrammeEditionEnrollmentRepo setUpProgrammeEditionEnrollmentRepo(){
-        ProgrammeEditionEnrollmentFactory peeFactory = new ProgrammeEditionEnrollmentFactory();
+    //testing find Programme Editions that Student is Enrolled Method
+    @Test
+    void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest(){
+        //arrange
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
-        return new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
-    }
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
 
-    private CourseEditionEnrollmentRepository setUpCourseEditionEnrollmentRepository () {
         CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
         CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
-        return new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
-    }
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
 
-    private CourseEditionRepository setUpCourseEditionRepository() {
         CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
         CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
-        return new CourseEditionRepository(ceFactory, ceListFactory);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
+
+        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        //act
+        Optional<List<ProgrammeEdition>> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
+
+        //assert
+        assertTrue(result.isEmpty());
     }
 
-    private Programme setUpProgramme () throws Exception {
+    @Test
+    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest () throws Exception {
+        //arrange
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+
+        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
+        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
+
+        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactory();
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
@@ -218,59 +243,15 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
 
-        return new Programme(
+        Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
                 programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
                 studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
 
-    }
-    private ProgrammeEdition setUpProgrammeEdition() throws Exception {
-        Programme programme1 = setUpProgramme();
-
         SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
 
-        return new ProgrammeEdition(programme1, schoolYear1);
-    }
-
-    private Student setUpStudent () {
-        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        return new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-    }
-
-
-    //testing find Programme Editions that Student is Enrolled Method
-
-    @Test
-    void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest(){
-        //arrange
-        ProgrammeEditionEnrollmentRepo peeRepository = setUpProgrammeEditionEnrollmentRepo();
-        CourseEditionEnrollmentRepository ceeRepository = setUpCourseEditionEnrollmentRepository();
-        CourseEditionRepository courseEditionRepository = setUpCourseEditionRepository();
-
-        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
-
-        //act
-        Optional<List<ProgrammeEdition>> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
-
-        //assert
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest () throws Exception {
-        //arrange
-        ProgrammeEditionEnrollmentRepo peeRepository = setUpProgrammeEditionEnrollmentRepo();
-        CourseEditionEnrollmentRepository ceeRepository = setUpCourseEditionEnrollmentRepository();
-        CourseEditionRepository courseEditionRepository = setUpCourseEditionRepository();
-
-        US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
-
-        Student st1 = setUpStudent();
-
-        ProgrammeEdition programmeEdition1 = setUpProgrammeEdition();
-
-        Programme programme1 = setUpProgramme();
+        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
         SchoolYear schoolYear2 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1, schoolYear2);
@@ -289,13 +270,49 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentRepo peeRepository = setUpProgrammeEditionEnrollmentRepo();
-        CourseEditionEnrollmentRepository ceeRepository = setUpCourseEditionEnrollmentRepository();
-        CourseEditionRepository courseEditionRepository = setUpCourseEditionRepository();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+
+        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
+        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        ProgrammeEdition programmeEdition1 = setUpProgrammeEdition();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+        Department dpt1 = new Department("DEI", "Department1");
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+
+        Teacher t1 = new Teacher(
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores", "4444-098", "Porto", "Portugal",
+                addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
+        );
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+
+        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
         Course course2 = new Course ("Mechanics", "MFN", 6, 1);
@@ -314,20 +331,56 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentRepo peeRepository = setUpProgrammeEditionEnrollmentRepo();
-        CourseEditionEnrollmentRepository ceeRepository = setUpCourseEditionEnrollmentRepository();
-        CourseEditionRepository courseEditionRepository = setUpCourseEditionRepository();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+
+        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
+        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        Student st1 = setUpStudent();
-
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
         Student st2 = new Student("1234367", "Joana", "123556789", "963741369", "joana@gmail.com", address1);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
-        ProgrammeEdition programmeEdition1 = setUpProgrammeEdition();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+        Department dpt1 = new Department("DEI", "Department1");
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+
+        Teacher t1 = new Teacher(
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores", "4444-098", "Porto", "Portugal",
+                addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
+        );
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+
+        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
         CourseEdition ce1 = new CourseEdition(course1, programmeEdition1);
 
@@ -344,17 +397,54 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfStudentIsAlreadyEnrolledInCourseEdition_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrollmentRepo peeRepository = setUpProgrammeEditionEnrollmentRepo();
-        CourseEditionEnrollmentRepository ceeRepository = setUpCourseEditionEnrollmentRepository();
-        CourseEditionRepository courseEditionRepository = setUpCourseEditionRepository();
+        ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactory peeListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+
+        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
+        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        Student st1 = setUpStudent();
+        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
+        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
-        ProgrammeEdition programmeEdition1 = setUpProgrammeEdition();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+        Department dpt1 = new Department("DEI", "Department1");
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+
+        Teacher t1 = new Teacher(
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores", "4444-098", "Porto", "Portugal",
+                addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
+        );
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+
+        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
         CourseEdition ce1 = new CourseEdition(course1, programmeEdition1);
 

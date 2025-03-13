@@ -28,8 +28,8 @@ class CourseEditionEnrollmentTest {
 
         // assert
         assertNotNull(enrollment);
-        assertEquals(studentDouble, enrollment.findStudentInCourseEditionEnrollment());
-        assertEquals(courseEditionDouble, enrollment.findCourseEditionInEnrollment());
+        assertTrue(enrollment.hasStudent(studentDouble));
+        assertTrue(enrollment.hasCourseEdition(courseEditionDouble));
     }
 
     @Test
@@ -92,10 +92,10 @@ class CourseEditionEnrollmentTest {
         CourseEditionEnrollment enrollment = new CourseEditionEnrollment(st1, courseEditionDouble);
 
         // Act
-        CourseEdition result = enrollment.findCourseEditionInEnrollment();
+        boolean result = enrollment.hasCourseEdition(courseEditionDouble);
 
         // Assert
-        assertEquals(courseEditionDouble, result);
+        assertTrue(result);
     }
 
     @Test
@@ -106,10 +106,10 @@ class CourseEditionEnrollmentTest {
         CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, courseEditionDouble);
 
         // Act
-        Student result = enrollment1.findStudentInCourseEditionEnrollment();
+        boolean result = enrollment1.hasStudent(st1);
 
         // Assert
-        assertEquals(st1, result);
+        assertTrue(result);
     }
 
     @Test
@@ -141,22 +141,6 @@ class CourseEditionEnrollmentTest {
 
         //assert
         assertEquals(doubleCe1, returnedCourseEdition);
-    }
-
-
-    @Test
-    void shouldReturnStudentInCourseEdition() {
-        // Arrange
-        Student st1 = mock(Student.class);
-        CourseEdition courseEditionDouble = mock(CourseEdition.class);
-        CourseEditionEnrollment enrollment1 = new CourseEditionEnrollment(st1, courseEditionDouble);
-
-
-        // Act
-        Student result = enrollment1.findStudentInCourseEditionEnrollment();
-
-        // Assert
-        assertEquals(st1, result);
     }
 
     @Test

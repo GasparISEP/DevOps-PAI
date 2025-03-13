@@ -1,10 +1,10 @@
 package PAI.controller;
 import PAI.domain.*;
+import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -89,7 +89,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     }
 
     @Test
-    void testGetAllDepartments() throws Exception {
+    void testGetAllDepartments() {
         // Arrange
         DepartmentRepository dr1Double = mock(DepartmentRepository.class);
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
@@ -103,6 +103,91 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         departmentSet.add(department2);
 
         when(dr1Double.getDepartments()).thenReturn(departmentSet);
+
+        // Act
+        Set<Department> departments = controller.getAllDepartments();
+
+        // Assert
+        assertEquals(2, departments.size());
+    }
+
+    //Integration tests
+
+    @Test
+    void shouldReturnFalseIfDepartmentIsNull_IntegrationTest () throws Exception {
+        //arrange
+        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
+        DepartmentRepository dr1 = new DepartmentRepository(factory, listFactory);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
+
+        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        Department dpt1 = new Department ("DEI", "Department1");
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
+
+        //act
+        boolean result = controller.updateDepartmentDirector(null, t1);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherIsNull_IntegrationTest () throws Exception {
+        //arrange
+        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
+        DepartmentRepository dr1 = new DepartmentRepository(factory, listFactory);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
+
+        Department dpt1 = new Department("MAT", "Mathematics");
+
+        //act
+        boolean result = controller.updateDepartmentDirector(dpt1, null);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfUpdateDepartmentDirector_IntegrationTest () throws Exception {
+        //arrange
+        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
+        DepartmentRepository dr1 = new DepartmentRepository(factory, listFactory);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
+
+        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
+        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        Department dpt1 = new Department ("DEI", "Department1");
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
+
+        dr1.registerDepartment("MAT", "Mathematics");
+
+        //act
+        boolean result = controller.updateDepartmentDirector(dpt1, t1);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void testGetAllDepartments_IntegrationTest() throws Exception {
+        // Arrange
+        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
+        DepartmentRepository dr1 = new DepartmentRepository(factory, listFactory);
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
+
+        dr1.registerDepartment("MAT", "Mathematics");
+        dr1.registerDepartment("DED","Informatic Engineering");
 
         // Act
         Set<Department> departments = controller.getAllDepartments();

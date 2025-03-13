@@ -21,7 +21,7 @@ GR -> GSF ++ #application : newGradeStudent (Grade, Date, Student, CourseEdition
 
 
 
-create ":GradeStudent" as GS
+create "gs1:GradeStudent" as GS
 GSF -> GS ++ #application : <Create> (Grade, Date, Student, CourseEdition)
 GS -> GS : isGradeValid()
 GS -> GS : isDateValid()

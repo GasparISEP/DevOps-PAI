@@ -6,7 +6,7 @@ actor ASC #Orange/White
 participant ":UI" as UI
 participant ":US28_RemoveTheEnrollmentOfAStudentInACourseEditionController" as Controller
 participant ":CourseEditionEnrollmentRepository" as Repository
-participant ":CourseEditionEnrollment" as Enrollment
+participant "cee:CourseEditionEnrollment" as Enrollment
 
 ASC -> UI : I want to remove the enrollment of a student in a course edition
 activate UI
@@ -24,7 +24,8 @@ activate Controller
 
 Controller -> Repository : removeEnrollment(student, courseEdition)
 activate Repository
-Repository -> Repository : findByStudentAndEdition(student, courseEdition)
+
+Repository -> Repository : cee:findByStudentAndEdition(student, courseEdition)
 
 Repository -> Enrollment : isEnrollmentActive()
 activate Enrollment
