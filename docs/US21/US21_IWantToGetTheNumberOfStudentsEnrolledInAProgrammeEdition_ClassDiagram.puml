@@ -42,8 +42,6 @@ class ProgrammeEditionEnrollment {
     +findStudentInProgrammeEdition ()
 }
 
-
-
 class ProgrammeEdition {
     -_programme: Programme
     -_schoolYear: SchoolYear
@@ -54,17 +52,10 @@ class ProgrammeEdition {
     +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
 }
 
-class Enrolment {
-    -_student: Student
-    -_accessMethod: AccessMethod
-    +Enrolment(Student: student, AccessMethod: accessMethod)
-    +isSameStudent(Student: student)
-    +findStudentInEnrollments()
-}
 
 US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController "1" ..> "1" ProgrammeEditionRepository
 US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController "1" ..> "1" ProgrammeEditionEnrollmentRepo
-ProgrammeEditionEnrollmentRepo "List<ProgrammeEditionEnrollment>" *-- "0..*" ProgrammeEditionEnrollment
-ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition
+ProgrammeEditionEnrollmentRepo "1" --> "_programmeEditionEnrollments *" ProgrammeEditionEnrollment
+ProgrammeEditionRepository "1" --> "_programmeEditions *" ProgrammeEdition
 
 @enduml
