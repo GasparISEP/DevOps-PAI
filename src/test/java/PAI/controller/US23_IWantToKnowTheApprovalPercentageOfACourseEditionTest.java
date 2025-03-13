@@ -19,7 +19,6 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     @Test
     void gradeStudentInRepository() {
         //arrange
-        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
         List<GradeStudent> mockGradeList = spy(new ArrayList<>());
