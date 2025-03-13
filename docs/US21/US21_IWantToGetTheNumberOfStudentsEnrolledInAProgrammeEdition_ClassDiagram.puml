@@ -35,13 +35,12 @@ class ProgrammeEditionEnrollment {
     -_student: Student
     -_programmeEdition: ProgrammeEdition
     -_enrollmentDate: LocalDate
-    +ProgrammeEditionEnrollment(student:Student, programmeEdition: ProgrammeEdition,
-     enrollmentDate: LocalDate)
+    +ProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition)
     +isEnrollmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
     +getStudentUniqueNumber()
     +equals (obj: Object)
-    +findProgrammeEditionInEnrollment ()
-    +findStudentInProgrammeEdition ()
+    +findProgrammeEditionInEnrollment()
+    +findStudentInProgrammeEdition()
 }
 
 class ProgrammeEdition {
