@@ -574,7 +574,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -662,7 +662,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -729,7 +729,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -798,7 +798,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -874,7 +874,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -955,7 +955,7 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1017,7 +1017,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
     ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
     ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-    ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+    ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
     ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
     ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
     ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1078,7 +1078,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1143,7 +1143,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1191,7 +1191,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1238,7 +1238,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1311,7 +1311,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     void shouldReturnExceptionIfProgrammeEditionRepositoryIsNull_IntegrationTest (){
         //arrange
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();;
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1346,7 +1346,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();;
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
         CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
@@ -1378,7 +1378,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1409,7 +1409,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1441,7 +1441,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -1473,7 +1473,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();

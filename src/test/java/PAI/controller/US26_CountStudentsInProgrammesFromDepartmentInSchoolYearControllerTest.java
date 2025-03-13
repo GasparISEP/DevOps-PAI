@@ -169,7 +169,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
@@ -232,7 +232,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
 
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
@@ -296,7 +296,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
 
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
@@ -362,7 +362,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
@@ -426,7 +426,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 

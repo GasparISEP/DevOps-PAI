@@ -173,7 +173,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         // Act
@@ -213,7 +213,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         // Act
@@ -254,7 +254,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         // Act
@@ -299,7 +299,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         // Act
@@ -317,7 +317,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull() throws Exception {
         // Arrange
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         // Act + Assert
@@ -346,7 +346,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
                 new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrollmentRepo);
@@ -382,7 +382,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
@@ -423,7 +423,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
@@ -466,7 +466,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactory();
+        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepo programmeEditionEnrollmentRepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
