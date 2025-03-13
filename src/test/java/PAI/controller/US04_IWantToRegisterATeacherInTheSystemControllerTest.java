@@ -246,9 +246,10 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         return new TeacherRepository(teacherFactory, teacherListFactory);
     }
     private TeacherCategoryRepository createTeacherCategoryRepo() throws Exception {
-        TeacherCategoryFactory teacherCategoryFactory = new TeacherCategoryFactory();
+        TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
         teacherCategoryFactory.createTeacherCategory("Professor");
-        TeacherCategoryRepositoryListFactory teacherCategoryRepositoryListFactory = new TeacherCategoryRepositoryListFactory();
+        TeacherCategoryRepositoryListFactoryImpl
+                teacherCategoryRepositoryListFactory = new TeacherCategoryRepositoryListFactoryImpl();
 
      TeacherCategoryRepository teacherCategoryRepository= new TeacherCategoryRepository(teacherCategoryFactory,teacherCategoryRepositoryListFactory);
      teacherCategoryRepository.registerTeacherCategory("Professor");
@@ -262,11 +263,11 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         return departmentRepository;
     }
     private TeacherCategory createTeacherCategory() throws Exception {
-        TeacherCategoryFactory teacherCategoryFactory = new TeacherCategoryFactory();
+        TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
         return teacherCategoryFactory.createTeacherCategory("Professor");
     }
     private TeacherCategory createTeacherCategory1() throws Exception {
-        TeacherCategoryFactory teacherCategoryFactory = new TeacherCategoryFactory();
+        TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
         return teacherCategoryFactory.createTeacherCategory("Assistant Professor");
     }
     private Department createDepartment() throws Exception {

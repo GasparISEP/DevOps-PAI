@@ -2,10 +2,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.factory.CourseEditionEnrollmentFactory;
-import PAI.factory.CourseEditionEnrollmentListFactory;
-import PAI.factory.GradeStudentFactoryImpl;
-import PAI.factory.GradeStudentListFactoryImpl;
+import PAI.factory.*;
 import PAI.repository.GradeStudentRepository;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
@@ -21,14 +18,14 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     @Test
     void gradeStudentInRepository() {
         //arrange
-        GradeStudentFactoryImpl gradeStudentFactoryImpl = mock(GradeStudentFactoryImpl.class);
-        GradeStudentListFactoryImpl gradeStudentListFactoryImpl = mock(GradeStudentListFactoryImpl.class);
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
         List<GradeStudent> mockGradeList = spy(new ArrayList<>());
 
-        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
+        when(gradeStudentListFactory.newArrayList()).thenReturn( mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactoryImpl, gradeStudentListFactoryImpl);
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
 
         //act
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(list);
@@ -42,14 +39,14 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     void approvalRateInACourseEdition () throws Exception {
         //arrange
 
-        GradeStudentFactoryImpl gradeStudentFactoryImpl = mock(GradeStudentFactoryImpl.class);
-        GradeStudentListFactoryImpl gradeStudentListFactoryImpl = mock(GradeStudentListFactoryImpl.class);
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
         List<GradeStudent> mockGradeList = spy(new ArrayList<>());
 
-        when(gradeStudentListFactoryImpl.newArrayList()).thenReturn((ArrayList<GradeStudent>) mockGradeList);
+        when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactoryImpl, gradeStudentListFactoryImpl);
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
         CourseEditionEnrollmentFactory factoryDouble = mock (CourseEditionEnrollmentFactory.class);
         CourseEditionEnrollmentListFactory listFactoryDouble = mock(CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository enrollmentRepository= new CourseEditionEnrollmentRepository (factoryDouble, listFactoryDouble);
@@ -67,8 +64,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         GradeStudent gradeStudent2 = mock(GradeStudent.class);
 
 
-        when(gradeStudentFactoryImpl.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudentFactoryImpl.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+        when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
 
         when(gradeStudent1.knowGrade()).thenReturn(8.0);
         when(gradeStudent2.knowGrade()).thenReturn(20.0);

@@ -6,7 +6,7 @@ import PAI.domain.TeacherCategoryRepositoryListFactoryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherCategoryRepositoryListFactory implements TeacherCategoryRepositoryListFactoryInterface {
+public class TeacherCategoryRepositoryListFactoryImpl implements TeacherCategoryRepositoryListFactoryInterface {
 
     @Override
     public List <TeacherCategory> getTeacherCategoryList()  {

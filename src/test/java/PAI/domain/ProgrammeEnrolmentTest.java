@@ -90,6 +90,66 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "20-03-2010");
     }
 
+    @Test
+    void shouldReturnExceptionIfStudentNullWithoutIsolation () throws Exception {
+        //arrange
+        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(null, attributes._accessMethod, attributes._programme, "20-03-2010"));
+    }
+
+    @Test
+    void shouldReturnExceptionIfStudentNullWithIsolation () {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
+        Programme programmeDouble = (Programme) doubles[2];
+
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(null, accessMethodDouble, programmeDouble, "20-03-2010"));
+    }
+
+    @Test
+    void shouldReturnExceptionIfAccessMethodNullWithoutIsolation () throws Exception {
+        //arrange
+        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(attributes._student, null, attributes._programme, "20-03-2010"));
+    }
+
+    @Test
+    void shouldReturnExceptionIfAccessMethodNullWithIsolation () {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Student studentDouble = (Student) doubles[0];
+        Programme programmeDouble = (Programme) doubles[2];
+
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(studentDouble, null, programmeDouble, "20-03-2010"));
+    }
+
+    @Test
+    void shouldReturnExceptionIfProgrammeNullWithoutIsolation () throws Exception {
+        //arrange
+        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
+
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(attributes._student, attributes._accessMethod, null, "20-03-2010"));
+    }
+
+    @Test
+    void shouldReturnExceptionIfProgrammeNullWithIsolation () {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Student studentDouble = (Student) doubles[0];
+        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
+
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(studentDouble, accessMethodDouble, null, "20-03-2010"));
+    }
+
     public static Stream<Arguments> provideInvalidDateForTestWithoutIsolation() {
         return Stream.of(
                 arguments(""),
