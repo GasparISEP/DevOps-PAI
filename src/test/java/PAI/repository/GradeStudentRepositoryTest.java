@@ -54,23 +54,30 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
-    void shouldNotGradeAStudentOnCourseEditionWithoutStudents() throws IllegalArgumentException {
+    void shouldNotGradeAStudentOnCourseEditionWithoutStudents() throws Exception {
         // Arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
+        Student student1 = mock(Student.class);
         List<GradeStudent> emptyGradeList = spy(new ArrayList<>());
+        when(gradeStudentListFactory.newArrayList()).thenReturn(emptyGradeList);
+
+        GradeStudent gradeStudent1 = mock(GradeStudent.class);
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(emptyGradeList);
 
         GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
+
+        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
 
         // Act
-        double approvalRate = list.knowApprovalRate(courseEdition1);
+        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
 
         // Assert
-        assertEquals(0.0, approvalRate, 0.01);
+        assertFalse(result1.isPresent());
     }
 
 
