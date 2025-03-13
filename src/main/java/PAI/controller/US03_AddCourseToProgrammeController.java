@@ -9,22 +9,22 @@ import java.util.List;
 
 public class US03_AddCourseToProgrammeController {
 
-    private final ProgrammeRepository programmeList;
+    private final ProgrammeRepository programmeRepository;
     private final CourseRepository courseRepository;
     
-    public US03_AddCourseToProgrammeController(ProgrammeRepository programmeList, CourseRepository courseRepository) throws Exception {
-        if(programmeList == null) {
+    public US03_AddCourseToProgrammeController(ProgrammeRepository programmeRepository, CourseRepository courseRepository) throws Exception {
+        if(programmeRepository == null) {
             throw new IllegalArgumentException("ProgrammeList cannot be null.");
         }
         if (courseRepository == null) {
             throw new IllegalArgumentException("CourseRepository cannot be null.");
         }
-        this.programmeList = programmeList;
+        this.programmeRepository = programmeRepository;
         this.courseRepository = courseRepository;
     }
 
     public List<Programme> getAllProgrammes() {
-        return programmeList.getAllProgrammes();
+        return programmeRepository.getAllProgrammes();
     }
 
     public List<Course> getAllCourses() {
