@@ -5,7 +5,6 @@ import PAI.domain.CourseEdition;
 import PAI.domain.GradeStudent;
 import PAI.factory.GradeStudentFactory;
 import PAI.factory.GradeStudentListFactory;
-import PAI.factory.GradeStudentListFactoryImpl;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 
@@ -109,10 +108,10 @@ class GradeStudentRepositoryTest {
 
         when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-
-        // Act
         list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
+
+        // act
         double approvalRate = list.knowApprovalRate(courseEdition1);
 
         // Assert
@@ -217,7 +216,6 @@ class GradeStudentRepositoryTest {
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);
 
-        // Assert
         // Assert
         assertEquals(0, averageGrade, 0.01);
 
