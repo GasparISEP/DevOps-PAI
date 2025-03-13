@@ -5,7 +5,6 @@ import PAI.domain.GradeStudent;
 import PAI.factory.GradeStudentFactory;
 import PAI.factory.GradeStudentListFactory;
 import PAI.domain.Student;
-import PAI.factory.GradeStudentFactoryImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +69,7 @@ public class GradeStudentRepository {
         }
 
         if (totalOfStudents == 0) {
-            return 0;
+            return 0.0;
         }
 
         double approvalRate = ((double) totalApprovalStudents / totalOfStudents) * 100;

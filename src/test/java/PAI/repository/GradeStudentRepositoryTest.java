@@ -144,6 +144,28 @@ class GradeStudentRepositoryTest {
     }
 
     @Test
+    void shouldGradeAStudent0() throws IllegalArgumentException {
+
+        // Arrange
+        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
+        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
+
+        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+
+        when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        GradeStudentRepository list = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
+
+        CourseEdition courseEdition3 = mock(CourseEdition.class);
+
+        // act
+        double approvalRate = list.knowApprovalRate(courseEdition3);
+
+        // Assert
+        assertEquals(0.0, approvalRate, 0.01);
+    }
+
+    @Test
     void shouldGetAverageGradeOfCourseEditionOf15() throws Exception {
 
         // Arrange
