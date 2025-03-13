@@ -1,7 +1,7 @@
 @startuml
 !pragma layout smetana
 
-class US27_RegisterAProgrammeInTheSystemIncludingStudyPlan {
+class US11_RegisterAProgrammeInTheSystem {
     -_programmeRepository: ProgrammeRepository
     +US11_RegisterProgrammeInTheSystem(ProgrammeRepository programmeRepo)
     +registerProgrammeInTheSystem(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, \nDegreeType degreeType, Department department, Teacher programmeDirector, ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1, \nCourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory CourseFactory): boolean

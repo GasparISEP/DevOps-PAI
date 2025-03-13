@@ -2,7 +2,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
+import PAI.repository.ProgrammeEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -15,7 +15,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldCreateControllerWhenRepositoriesAreValid() {
         // arrange
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble= mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble= mock(DepartmentRepository.class);
 
@@ -42,7 +42,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearRepoIsNull(){
         // arrange
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         DepartmentRepository departmentRepoDouble= mock(DepartmentRepository.class);
 
         // Act & Assert
@@ -56,7 +56,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentRepoNull(){
         // arrange
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble= mock(SchoolYearRepository.class);
 
         // Act & Assert
@@ -72,7 +72,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // Arrange
         Department departmentDouble = mock(Department.class);
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
-        ProgrammeEditionEnrollmentRepo PEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -95,7 +95,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentIsNull() {
         // arrange
-        ProgrammeEditionEnrollmentRepo pEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository pEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -116,7 +116,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearIsNull() {
         // arrange
-        ProgrammeEditionEnrollmentRepo pEERepoDouble = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository pEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -171,7 +171,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -234,7 +234,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -298,7 +298,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -364,7 +364,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -428,7 +428,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepo pEERepo = new ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);

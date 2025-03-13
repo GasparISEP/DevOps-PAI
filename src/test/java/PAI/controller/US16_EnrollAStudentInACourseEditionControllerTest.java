@@ -4,7 +4,7 @@ import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import PAI.repository.CourseEditionRepository;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
+import PAI.repository.ProgrammeEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -36,7 +36,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
         //arrange
         CourseEditionEnrollmentRepository doubleCeeRepository = mock (CourseEditionEnrollmentRepository.class);
-        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doublePeeRepository = mock (ProgrammeEditionEnrollmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -51,7 +51,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
         //arrange
         CourseEditionRepository doubleCeRepository = mock(CourseEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock (ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doublePeeRepository = mock (ProgrammeEditionEnrollmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -67,7 +67,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnOptionalEmptyWhenStudentIsNull(){
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doublePeeRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         CourseEditionEnrollmentRepository doubleCeeRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
@@ -84,7 +84,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled (){
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doublePeeRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         CourseEditionEnrollmentRepository doubleCeeRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
@@ -111,7 +111,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition(){
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doublePeeRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         CourseEditionEnrollmentRepository doubleCeeRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
@@ -136,7 +136,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doublePeeRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         CourseEditionEnrollmentRepository doubleCeeRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
@@ -158,7 +158,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
     void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition () {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        ProgrammeEditionEnrollmentRepo doublePeeRepository = mock(ProgrammeEditionEnrollmentRepo.class);
+        ProgrammeEditionEnrollmentRepository doublePeeRepository = mock(ProgrammeEditionEnrollmentRepository.class);
         CourseEditionEnrollmentRepository doubleCeeRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US16_EnrollAStudentInACourseEditionController controller = new US16_EnrollAStudentInACourseEditionController(
@@ -184,7 +184,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+        ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
         CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
         CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
@@ -208,7 +208,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+        ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
         CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
         CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
@@ -272,7 +272,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+        ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
         CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
         CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
@@ -333,7 +333,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+        ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
         CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
         CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
@@ -399,7 +399,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrollmentFactoryImpl peeFactory = new ProgrammeEditionEnrollmentFactoryImpl();
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentRepo peeRepository = new ProgrammeEditionEnrollmentRepo(peeFactory, peeListFactory);
+        ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
         CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
         CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();

@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.repository.CourseEditionEnrollmentRepository;
 import PAI.repository.CourseEditionRepository;
-import PAI.repository.ProgrammeEditionEnrollmentRepo;
+import PAI.repository.ProgrammeEditionEnrollmentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,12 +11,12 @@ import java.util.Optional;
 public class US16_EnrollAStudentInACourseEditionController {
 
     private final CourseEditionEnrollmentRepository _ceeRepository;
-    private final ProgrammeEditionEnrollmentRepo _peeRepository;
+    private final ProgrammeEditionEnrollmentRepository _peeRepository;
     private final CourseEditionRepository _courseEditionRepository;
 
 
     public US16_EnrollAStudentInACourseEditionController(
-            CourseEditionEnrollmentRepository ceeRepository, ProgrammeEditionEnrollmentRepo peeRepository, CourseEditionRepository courseEditionRepository) {
+            CourseEditionEnrollmentRepository ceeRepository, ProgrammeEditionEnrollmentRepository peeRepository, CourseEditionRepository courseEditionRepository) {
 
         validateCourseEditionEnrollmentRepository (ceeRepository);
         validateProgrammeEditionEnrollmentRepo (peeRepository);
@@ -55,7 +55,7 @@ public class US16_EnrollAStudentInACourseEditionController {
     }
 
     //Verify if the programme edition enrollment repo is valid
-    private void validateProgrammeEditionEnrollmentRepo (ProgrammeEditionEnrollmentRepo peeRepository) throws IllegalArgumentException {
+    private void validateProgrammeEditionEnrollmentRepo (ProgrammeEditionEnrollmentRepository peeRepository) throws IllegalArgumentException {
         if (peeRepository == null) {
             throw new IllegalArgumentException("Programme edition enrollment repository cannot be null!");
         }

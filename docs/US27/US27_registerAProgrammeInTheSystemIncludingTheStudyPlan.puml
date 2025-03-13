@@ -1,4 +1,5 @@
 @startuml
+autonumber
 
 title US27: As an ASC, I want to register a programme in the system, including the study plan.
 
@@ -23,23 +24,23 @@ C -> PR ++ #application : registerProgramme(name, acronym, quantityOfEcts, quant
 
 
 PR -> PF ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
-create ":Programme" as P #lightblue
+create "P1:Programme" as P #lightblue
 PF -> P ++ #application : Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nStudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory)
 
 P -> P : isNameInvalid()
 P -> P : isAcronymInvalid()
 P -> P : isQuantityOfEctsInvalid()
 P -> P : isQuantityOfSemestersInvalid()
-participant ":StudyplanFactory" as SPF #lightblue
+participant ":StudyPlanFactory" as SPF #lightblue
 P -> SPF ++ #application : newStudyPlan(courseInStudyPlanFactory, \nstudyPlanListFactory, courseFactory)
-create ":StudyPlan" as SP #lightblue
+create "SP1:StudyPlan" as SP #lightblue
 
 SPF -> SP ++ #application : StudyPlan()
 
-participant ":studyPlanListFactory" as SPLF #lightblue
+participant ":StudyPlanListFactory" as SPLF #lightblue
 SP -> SPLF ++ #application: newArrayList()
 
-create "List<CourseInStudyPlan>" as LCSP #lightblue
+create "LCSP1:List<CourseInStudyPlan>" as LCSP #lightblue
 SPLF -> LCSP ++ #application : newArrayList()
 LCSP --> SPLF -- : List<CourseInStudyPlan> LCSP1
 participant ":CourseInStudyPlanFactory" as CSPF #lightblue
