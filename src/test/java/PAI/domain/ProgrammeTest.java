@@ -310,14 +310,25 @@ class ProgrammeTest {
     }
 
     @Test
-    void creatNewProgrammeDirector() throws Exception {
+    void shouldReturnTrueWhenChangeDirector() throws Exception {
         //arrange
         Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
         Teacher teacher1 = mock(Teacher.class);
         //act + assert
-         CE.newProgrammeDirector(teacher1);
+        boolean result = CE.newProgrammeDirector(teacher1);
+        //assert
+        assertTrue(result);
+    }
 
-
+    @Test
+    void shouldReturnFalseWhenChangeDirectorIsNull() throws Exception {
+        //arrange
+        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        Teacher teacher1 = null;
+        //act + assert
+        boolean result = CE.newProgrammeDirector(teacher1);
+        //assert
+        assertFalse(result);
     }
 
 

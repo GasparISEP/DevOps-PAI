@@ -1,5 +1,6 @@
 @startuml
 actor ASC
+autonumber
 
 ASC -> System ++ #application: I want to add course to a programme
 System --> ASC: Which Programme? List of Programmes

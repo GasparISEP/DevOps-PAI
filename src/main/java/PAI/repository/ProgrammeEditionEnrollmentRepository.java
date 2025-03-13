@@ -8,13 +8,13 @@ import PAI.factory.IProgrammeEditionEnrollmentListFactory;
 
 import java.util.*;
 
-public class ProgrammeEditionEnrollmentRepo {
+public class ProgrammeEditionEnrollmentRepository {
 
     private Set<ProgrammeEditionEnrollment> _programmeEditionEnrollments;
     private final IProgrammeEditionEnrollmentFactory _iProgrammeEditionEnrollmentFactory;
 
-    public ProgrammeEditionEnrollmentRepo(IProgrammeEditionEnrollmentFactory iProgrammeEditionEnrollmentFactory,
-                                          IProgrammeEditionEnrollmentListFactory iProgrammeEditionEnrolmentListFactory) {
+    public ProgrammeEditionEnrollmentRepository(IProgrammeEditionEnrollmentFactory iProgrammeEditionEnrollmentFactory,
+                                                IProgrammeEditionEnrollmentListFactory iProgrammeEditionEnrolmentListFactory) {
 
         _iProgrammeEditionEnrollmentFactory = iProgrammeEditionEnrollmentFactory;
         _programmeEditionEnrollments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
