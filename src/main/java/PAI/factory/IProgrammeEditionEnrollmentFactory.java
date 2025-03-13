@@ -1,4 +1,8 @@
-package PAI.domain;
+package PAI.factory;
+
+import PAI.domain.ProgrammeEdition;
+import PAI.domain.ProgrammeEditionEnrollment;
+import PAI.domain.Student;
 
 public interface IProgrammeEditionEnrollmentFactory {
 
