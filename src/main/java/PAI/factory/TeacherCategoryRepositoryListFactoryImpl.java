@@ -1,7 +1,6 @@
 package PAI.factory;
 
 import PAI.domain.TeacherCategory;
-import PAI.domain.TeacherCategoryRepositoryListFactoryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
