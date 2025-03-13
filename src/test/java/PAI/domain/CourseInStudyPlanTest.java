@@ -4,6 +4,8 @@ import PAI.factory.*;
 import PAI.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.Callable;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -284,4 +286,22 @@ class CourseInStudyPlanTest {
         assertNotEquals(cis, null);
         assertNotEquals(cis, "uma string");
     }
-}
+
+    @Test
+    void shouldReturnTrueWhenSameLocation() throws Exception {
+        // Arrange
+
+        Course course = mock(Course.class);
+        Programme programme = mock(Programme.class);
+        when(programme.getQuantityOfSemester()).thenReturn(4);
+        when(programme.calculateNumberOfYears(4)).thenReturn(2);
+
+        CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(1,1,course,programme);
+
+        //act
+        boolean result = courseInStudyPlan.equals(courseInStudyPlan);
+        //assert
+        assertTrue(result);
+    }
+
+    }
