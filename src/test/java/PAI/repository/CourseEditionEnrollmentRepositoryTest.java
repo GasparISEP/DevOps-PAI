@@ -195,8 +195,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
         // Assert
         assertTrue(result.isPresent(), "The student was enrolled in the course edition successfully.");
-      //  assertEquals(result.get().findStudentInCourseEditionEnrollment(), doubleSt1, "The student enrolled in the correct course edition.");
-      //  assertEquals(result.get().findCourseEditionInEnrollment(), doubleCe1, "The course edition enrolled is correct.");
+
     }
 
 
@@ -224,7 +223,7 @@ class CourseEditionEnrollmentRepositoryTest {
 
         // Assert
         assertTrue(result.isPresent(), "The student should be enrolled in the course edition.");
-      //  assertEquals(doubleCe1, result.get().findCourseEditionInEnrollment(), "The course edition returned should match the one in the enrollment.");
+
     }
 
 
@@ -236,16 +235,12 @@ class CourseEditionEnrollmentRepositoryTest {
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
         CourseEdition doubleCe1 = mock (CourseEdition.class);
-        Student doubleSt1 = mock (Student.class);
 
         // Act
         Optional<CourseEditionEnrollment> result = repository.findByStudentAndEdition(null, doubleCe1);
 
         //Assert
         assertTrue(result.isEmpty(), "Expected Optional.empty() when student is null");
-
-//        result = repository.findByStudentAndEdition(doubleSt1, null);
-//        assertTrue(result.isEmpty(), "Expected Optional.empty() when courseEdition is null");
 
     }
 
@@ -256,7 +251,6 @@ class CourseEditionEnrollmentRepositoryTest {
         ICourseEditionEnrollmentListFactory CeeListFactory = mock (CourseEditionEnrollmentListFactory.class);
         CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository (doubleCeeFactory, CeeListFactory);
 
-        CourseEdition doubleCe1 = mock (CourseEdition.class);
         Student doubleSt1 = mock (Student.class);
 
         // Act

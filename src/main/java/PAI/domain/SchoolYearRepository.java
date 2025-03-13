@@ -11,6 +11,7 @@ public class SchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
     private SchoolYearFactoryImpl _schoolYearFactoryImpl;
+    private SchoolYearListFactoryImpl _schoolYearListFactoryImpl;
 
     public SchoolYearRepository(SchoolYearFactoryImpl schoolYearFactoryImpl, SchoolYearListFactoryImpl schoolYearListFactoryImpl) {
 
@@ -23,6 +24,7 @@ public class SchoolYearRepository {
 
         this._schoolYearList = schoolYearListFactoryImpl.newArrayList();
         this._schoolYearFactoryImpl = schoolYearFactoryImpl;
+        this._schoolYearListFactoryImpl = schoolYearListFactoryImpl;
     }
 
     public boolean addSchoolYear(String description, String startDate, String endDate) throws Exception {
@@ -65,6 +67,6 @@ public class SchoolYearRepository {
     }
 
     public List<SchoolYear> getAllSchoolYears() {
-        return new ArrayList<>(_schoolYearList);
+        return _schoolYearListFactoryImpl.copySchoolYearArrayList(_schoolYearList);
     }
 }

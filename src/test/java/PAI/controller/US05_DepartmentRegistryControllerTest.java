@@ -1,4 +1,6 @@
 package PAI.controller;
+import PAI.factory.DepartmentFactoryImpl;
+import PAI.factory.DepartmentListFactoryImpl;
 import PAI.repository.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,6 +73,55 @@ class US05_DepartmentRegistryControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(acronym, name);
+        });
+
+        //assert
+        assertEquals("Acronym or name cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnTrueWhenDepartmentIs_Registered() throws Exception{
+        //arrange
+        String acronym= "DEI";
+        String name= "Departamento Engenharia Informática";
+        DepartmentFactoryImpl iDepartmentFactory= new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory= new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        //act
+        boolean result=  controller.registerDepartment(acronym,name);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAcronymIs_Null(){
+        //arrange
+        String name= "Departamento Engenharia Informática";
+        DepartmentFactoryImpl iDepartmentFactory= new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory= new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        //act
+        Exception exception = assertThrows(Exception.class, () -> {
+            controller.registerDepartment(null, name);
+        });
+
+        //assert
+        assertEquals("Acronym or name cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNameIs_Null(){
+        //arrange
+        String acronym="DEI";
+        DepartmentFactoryImpl iDepartmentFactory= new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory= new DepartmentListFactoryImpl();
+        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        //act
+        Exception exception = assertThrows(Exception.class, () -> {
+            controller.registerDepartment(acronym, null);
         });
 
         //assert
