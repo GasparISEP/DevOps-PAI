@@ -16,9 +16,10 @@ import static org.mockito.Mockito.*;
 
 class CourseEditionEnrollmentTest {
 
-    @Test
-    void should_return_a_valid_course_edition_enrollment() {
 
+
+    @Test
+    void should_create_valid_course_edition_enrollment_instance() {
         // arrange
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
@@ -28,9 +29,30 @@ class CourseEditionEnrollmentTest {
 
         // assert
         assertNotNull(enrollment);
+    }
+
+    @Test
+    void should_contain_the_correct_student() {
+        // arrange
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEditionEnrollment enrollment = new CourseEditionEnrollment(studentDouble, courseEditionDouble);
+
+        // act + assert
         assertTrue(enrollment.hasStudent(studentDouble));
+    }
+
+    @Test
+    void should_return_true_if_enrollment_contains_correct_course_edition() {
+        // arrange
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEditionEnrollment enrollment = new CourseEditionEnrollment(studentDouble, courseEditionDouble);
+
+        // act + assert
         assertTrue(enrollment.hasCourseEdition(courseEditionDouble));
     }
+
 
     @Test
     void testCourseEditionEnrollmentWhenStudentIsNull() throws IllegalArgumentException {
