@@ -116,53 +116,6 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     }
 
     @Test
-    void iWantToCheckIfStudentIsEnrolledInCourseEdition () throws Exception {
-        //arrange
-        GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
-        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
-
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
-
-        when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
-        CourseEditionEnrollmentRepository enrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
-
-        US22_IWantToGradeAStudentInACourseEdition controller1 = mock(US22_IWantToGradeAStudentInACourseEdition.class);
-
-        Student student1 = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-
-
-        when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-
-        when(gradeStudent1.knowGrade()).thenReturn(8.0);
-
-        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-
-        CourseEditionEnrollment enrollment1 = mock(CourseEditionEnrollment.class);
-
-        when(enrollment1.knowStudent()).thenReturn(student1);
-        when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
-        when(enrollment1.isEnrollmentActive()).thenReturn(true);
-
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
-
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
-
-        when(controller1.isStudentEnrolledInCourseEdition(student1, courseEdition1)).thenReturn(true);
-
-
-        // act
-        Boolean result = controller1.isStudentEnrolledInCourseEdition(student1,courseEdition1);
-
-        //assert
-
-        assertTrue(result);
-    }
-
-    @Test
     void iWantToCheckIfStudentIsNotEnrolledInCourseEdition () throws Exception {
         //arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
@@ -297,6 +250,29 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         });
         assertEquals("Cannot be null", exception.getMessage());
 
+    }
+
+    @Test
+    public void shouldReturnOptionalWithGradeStudentIfGradeStudentWasAddedSuccessfully() throws Exception{
+
+        //arrange
+
+        GradeStudentRepository gradeStudentRepositoryDouble = mock(GradeStudentRepository.class);
+        CourseEditionEnrollmentRepository courseEditionEnrollmentRepositoryDouble = mock(CourseEditionEnrollmentRepository.class);
+        US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepositoryDouble,courseEditionEnrollmentRepositoryDouble);
+
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        GradeStudent gradeStudentDouble = mock(GradeStudent.class);
+        when(courseEditionEnrollmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentDouble,courseEditionDouble)).thenReturn(true);
+        when(gradeStudentRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(Optional.of(gradeStudentDouble));
+
+        //act
+        Optional<GradeStudent> optional = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
+
+        //assert
+
+        assertTrue(optional.isPresent());
     }
 }
 
