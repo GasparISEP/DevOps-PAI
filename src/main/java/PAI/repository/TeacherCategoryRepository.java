@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.domain.TeacherCategory;
 import PAI.factory.TeacherCategoryFactoryImpl;
-import PAI.factory.TeacherCategoryRepositoryListFactory;
+import PAI.factory.TeacherCategoryRepositoryListFactoryImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public class TeacherCategoryRepository {
 
 
     // Constructor taking both the factory and the repository list factory
-    public TeacherCategoryRepository(TeacherCategoryFactoryImpl teacherCategoryFactory, TeacherCategoryRepositoryListFactory teacherCategoryRepositoryListFactory) {
+    public TeacherCategoryRepository(TeacherCategoryFactoryImpl teacherCategoryFactory, TeacherCategoryRepositoryListFactoryImpl teacherCategoryRepositoryListFactory) {
         this.teacherCategoryFactory = teacherCategoryFactory;
         this.teacherCategoryRepositoryList = teacherCategoryRepositoryListFactory.getTeacherCategoryList();
     }

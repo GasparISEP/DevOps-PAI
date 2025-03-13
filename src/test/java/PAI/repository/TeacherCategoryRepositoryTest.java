@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.domain.TeacherCategory;
 import PAI.factory.TeacherCategoryFactoryImpl;
-import PAI.factory.TeacherCategoryRepositoryListFactory;
+import PAI.factory.TeacherCategoryRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,7 +15,7 @@ class TeacherCategoryRepositoryTest {
 
     // Helper method to create repository with explicit dependencies.
     private TeacherCategoryRepository createRepository(TeacherCategoryFactoryImpl teacherCategoryFactory) {
-        TeacherCategoryRepositoryListFactory listFactory = new TeacherCategoryRepositoryListFactory();
+        TeacherCategoryRepositoryListFactoryImpl listFactory = new TeacherCategoryRepositoryListFactoryImpl();
         return new TeacherCategoryRepository(teacherCategoryFactory, listFactory);
     }
 

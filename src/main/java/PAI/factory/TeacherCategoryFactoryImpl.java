@@ -1,7 +1,6 @@
 package PAI.factory;
 
 import PAI.domain.TeacherCategory;
-import PAI.domain.TeacherCategoryFactoryInterface;
 
 public class TeacherCategoryFactoryImpl implements TeacherCategoryFactoryInterface {
 
