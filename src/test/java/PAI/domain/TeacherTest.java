@@ -592,14 +592,20 @@ class TeacherTest {
         assertEquals(expectedMessage, exception.getMessage());
     }
 
-    public static Stream<Arguments> provideInvalidDates() {
+    public static Stream<Arguments> provideInvalidDatesWorkingPercentage() {
         return Stream.of(
-                Arguments.of("1", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
-                Arguments.of("14@04_2005", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.")
+                Arguments.of("2005-04-14", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14-04-05", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14 de Setembro de 2005", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14/13/2024", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("32112024", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14-04-05Sd", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14-04-0??2", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.")
         );
     }
+
     @ParameterizedTest
-    @MethodSource("provideInvalidDates")
+    @MethodSource("provideInvalidDatesWorkingPercentage")
     void throwsExceptionWhenDateIsInvalidWhileUpdatingWorkingPercentage(String date2, String expectedMessage) throws IllegalArgumentException {
         //arrange
         String date1 = "15-04-2005";
@@ -626,8 +632,17 @@ class TeacherTest {
         assertEquals(expectedMessage, exception.getMessage());
     }
 
-    @Test
-    void returnsExceptionWhenWorkingPercentageIsInvalid() throws IllegalArgumentException {
+
+    public static Stream<Arguments> provideInvalidWorkingPercentage() {
+        return Stream.of(
+                Arguments.of(-1),
+                Arguments.of(101)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidWorkingPercentage")
+    void returnsExceptionWhenWorkingPercentageIsInvalid(int workingPercentage) throws IllegalArgumentException {
         //arrange
         String date1 = "15-04-2005";
         String date2 = "17-04-2005";
@@ -646,12 +661,12 @@ class TeacherTest {
 
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
 
-        when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble, 200)).thenThrow(new IllegalArgumentException("Working Percentage must be a value between 0 and 100."));
+        when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble, workingPercentage)).thenThrow(new IllegalArgumentException("Working Percentage must be a value between 0 and 100."));
 
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act + assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, 200));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, workingPercentage));
         assertEquals("Working Percentage must be a value between 0 and 100.", exception.getMessage());
     }
 
@@ -744,38 +759,6 @@ class TeacherTest {
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, _tcDouble));
     }
 
-//    @Test
-//    void updateTeacherCategory_InTeacherCareer_SameDateEdgeCase_ShouldReturnFalseTest() throws IllegalArgumentException {
-//        // Arrange
-//        String date1 = "25-12-2024";
-//        String date2 = "25-12-2024"; // Same date as the initial date
-//
-//        createDoubles();
-//
-//        TeacherCategory _tcDouble2 = mock(TeacherCategory.class);
-//
-//        //Arranging creation of an Address
-//        when(_addressFactoryDouble.createAddress("Rua das Flores", "4444-098", "Porto", "Portugal")).thenReturn(_addressDouble);
-//
-//        TeacherCareerProgression updatedtcpDouble = mock(TeacherCareerProgression.class);
-//
-//        // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
-//        when(_tcpFactoryDouble.createTeacherCareerProgression(date1, _tcDouble, 70)).thenReturn(_tcpDouble);
-//        when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble2, 70)).thenReturn(updatedtcpDouble);
-//
-//        createListDouble();
-//
-//        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
-//        // Set up behaviors needed for the System Under Test
-//        when(_tcpDouble.getWorkingPercentage()).thenReturn(70);
-//        when(_tcpDouble.getCategory()).thenReturn(_tcDouble);
-//
-//        when(!updatedtcpDouble.isDateAfter(_tcpDouble)).thenThrow(new IllegalArgumentException("The date must be greater than the last date registered!"));
-//
-//        // Act + Assert
-//        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, _tcDouble2));
-//    }
-
     @Test
     void updateTeacherCategory_InTeacherCareer_NullDate_ExceptionIsCaught() throws IllegalArgumentException {
         // Arrange
@@ -834,11 +817,23 @@ class TeacherTest {
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2));
     }
 
-    @Test
-    void updateTeacherCategory_InTeacherCareer_InvalidDateFormat_UnsuccessfulTest() throws IllegalArgumentException {
+    public static Stream<Arguments> provideInvalidDatesTeacherCategory() {
+        return Stream.of(
+                Arguments.of("2005-04-14", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14-04-05", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14 de Setembro de 2005", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14/13/2024", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("32112024", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14-04-05Sd", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
+                Arguments.of("14-04-0??2", "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidDatesTeacherCategory")
+    void updateTeacherCategory_InTeacherCareer_InvalidDateFormat_UnsuccessfulTest(String date2, String result) throws IllegalArgumentException {
         // Arrange
         String date1 = "24-12-2024";
-        String date2 = "25/12/2024"; // Invalid date format
 
         TeacherCategory tcDouble2 = mock(TeacherCategory.class);
 
@@ -860,7 +855,8 @@ class TeacherTest {
         Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2));
+        IllegalArgumentException exceptionResult = assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2));
+        assertEquals(result, exceptionResult.getMessage());
     }
 
     @Test
