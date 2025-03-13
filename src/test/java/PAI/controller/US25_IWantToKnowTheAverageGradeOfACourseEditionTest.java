@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
     @Test
-    void newGradeStudentRepository() throws Exception {
+    void newGradeStudentRepository() throws IllegalArgumentException {
         //arrange
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
@@ -33,6 +33,24 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         //assert
         assertNotNull(average1);
+    }
+
+    @Test
+    void newGradeStudentRepositoryWithMock() throws Exception{
+        //arrange
+
+        GradeStudentRepository gradeStudentRepository = mock(GradeStudentRepository.class);
+        US25_IWantToKnowTheAverageGradeOfACourseEdition controller = new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository);
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        //act
+        when(gradeStudentRepository.KnowAverageGrade(courseEdition)).thenReturn(100.0);
+
+        Double contr = controller.IWantToKnowTheAvgGrade(courseEdition);
+
+        //assert
+        assertNotNull(contr);
     }
 
     @Test
