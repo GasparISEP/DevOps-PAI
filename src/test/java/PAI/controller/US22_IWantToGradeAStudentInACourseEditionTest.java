@@ -40,7 +40,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentFactoryImpl courseEditionEnrollmentFactoryImpl = mock (CourseEditionEnrollmentFactoryImpl.class);
         CourseEditionEnrollmentRepository enrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
         US22_IWantToGradeAStudentInACourseEdition controller = mock(US22_IWantToGradeAStudentInACourseEdition.class);
 
@@ -58,7 +58,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
         when(enrollment1.isEnrollmentActive()).thenReturn(true);
 
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
+        when(courseEditionEnrollmentFactoryImpl.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
         when(enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1)).thenReturn(true);
 
         //act
@@ -76,9 +76,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         GradeStudentListFactory gradeStudentListFactory = new GradeStudentListFactoryImpl();
         GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(gradeStudentFactory, gradeStudentListFactory);
 
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrollmentFactory();
-        CourseEditionEnrollmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrollmentListFactory();
-        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
+        CourseEditionEnrollmentFactoryImpl courseEditionEnrollmentFactoryImpl = new CourseEditionEnrollmentFactoryImpl();
+        CourseEditionEnrollmentListFactoryImpl courseEditionEnrollmentListFactoryImpl = new CourseEditionEnrollmentListFactoryImpl();
+        CourseEditionEnrollmentRepository enrollmentRepository = new CourseEditionEnrollmentRepository(courseEditionEnrollmentFactoryImpl, courseEditionEnrollmentListFactoryImpl);
         CourseFactory courseFactory = new CourseFactoryImpl();
         IProgrammeCourseListFactory IProgrammeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
@@ -125,7 +125,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         when(gradeStudentListFactory.newArrayList()).thenReturn((mockGradeList));
 
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentFactoryImpl courseEditionEnrollmentFactoryImpl = mock (CourseEditionEnrollmentFactoryImpl.class);
         CourseEditionEnrollmentRepository enrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
 
         US22_IWantToGradeAStudentInACourseEdition controller1 = mock(US22_IWantToGradeAStudentInACourseEdition.class);
@@ -139,7 +139,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
+        when(courseEditionEnrollmentFactoryImpl.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
@@ -176,7 +176,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         when(gradeStudentListFactory.newArrayList()).thenReturn((mockGradeList));
 
-        CourseEditionEnrollmentFactory courseEditionEnrollmentFactory = mock (CourseEditionEnrollmentFactory.class);
+        CourseEditionEnrollmentFactoryImpl courseEditionEnrollmentFactoryImpl = mock (CourseEditionEnrollmentFactoryImpl.class);
         CourseEditionEnrollmentRepository enrollmentRepository = mock(CourseEditionEnrollmentRepository.class);
 
         GradeStudentRepository gradeStudentRepository = mock(GradeStudentRepository.class);
@@ -192,7 +192,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrollmentFactory.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
+        when(courseEditionEnrollmentFactoryImpl.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 

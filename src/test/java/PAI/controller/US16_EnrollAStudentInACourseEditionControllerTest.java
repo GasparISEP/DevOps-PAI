@@ -186,8 +186,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
-        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
-        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentFactoryImpl ceeFactory = new CourseEditionEnrollmentFactoryImpl();
+        CourseEditionEnrollmentListFactoryImpl ceeListFactory = new CourseEditionEnrollmentListFactoryImpl();
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
 
         CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
@@ -210,8 +210,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
-        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
-        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentFactoryImpl ceeFactory = new CourseEditionEnrollmentFactoryImpl();
+        CourseEditionEnrollmentListFactoryImpl ceeListFactory = new CourseEditionEnrollmentListFactoryImpl();
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
 
         CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
@@ -274,8 +274,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
-        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
-        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentFactoryImpl ceeFactory = new CourseEditionEnrollmentFactoryImpl();
+        CourseEditionEnrollmentListFactoryImpl ceeListFactory = new CourseEditionEnrollmentListFactoryImpl();
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
 
         CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
@@ -335,8 +335,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
-        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
-        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentFactoryImpl ceeFactory = new CourseEditionEnrollmentFactoryImpl();
+        CourseEditionEnrollmentListFactoryImpl ceeListFactory = new CourseEditionEnrollmentListFactoryImpl();
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
 
         CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
@@ -401,8 +401,8 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         ProgrammeEditionEnrollmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrollmentListFactoryImpl();
         ProgrammeEditionEnrollmentRepository peeRepository = new ProgrammeEditionEnrollmentRepository(peeFactory, peeListFactory);
 
-        CourseEditionEnrollmentFactory ceeFactory = new CourseEditionEnrollmentFactory();
-        CourseEditionEnrollmentListFactory ceeListFactory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentFactoryImpl ceeFactory = new CourseEditionEnrollmentFactoryImpl();
+        CourseEditionEnrollmentListFactoryImpl ceeListFactory = new CourseEditionEnrollmentListFactoryImpl();
         CourseEditionEnrollmentRepository ceeRepository = new CourseEditionEnrollmentRepository(ceeFactory, ceeListFactory);
 
         CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();

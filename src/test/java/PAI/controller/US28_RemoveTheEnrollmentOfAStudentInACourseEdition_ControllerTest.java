@@ -176,7 +176,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeExistingEnrollment_ShouldReturnTrue_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactoryImpl(), new CourseEditionEnrollmentListFactoryImpl());
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
         Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
@@ -210,7 +210,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeNonExistingEnrollment_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactoryImpl(), new CourseEditionEnrollmentListFactoryImpl());
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
         Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
@@ -242,7 +242,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeEnrollment_WithNullCourseEditionOrStudent_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactoryImpl(), new CourseEditionEnrollmentListFactoryImpl());
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
         Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
@@ -278,7 +278,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactoryImpl(), new CourseEditionEnrollmentListFactoryImpl());
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
         Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
@@ -314,7 +314,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactoryImpl(), new CourseEditionEnrollmentListFactoryImpl());
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
         Student student1 = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
@@ -353,7 +353,7 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
-        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactory(), new CourseEditionEnrollmentListFactory());
+        CourseEditionEnrollmentRepository repository = new CourseEditionEnrollmentRepository(new CourseEditionEnrollmentFactoryImpl(), new CourseEditionEnrollmentListFactoryImpl());
         US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrollmentOfAStudentInACourseEdition_Controller(repository);
         Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
