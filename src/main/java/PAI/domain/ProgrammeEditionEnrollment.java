@@ -38,17 +38,12 @@ public class ProgrammeEditionEnrollment {
         return _student.getUniqueNumber();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        ProgrammeEditionEnrollment other = (ProgrammeEditionEnrollment) obj;
-        return Objects.equals(this._student, other._student) && Objects.equals(this._programmeEdition, other._programmeEdition);
+    public boolean hasSameStudent(Student student) {
+        return _student.equals(student);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(_student, _programmeEdition);
+    public boolean hasSameProgrammeEdition(ProgrammeEdition programmeEdition) {
+        return _programmeEdition.equals(programmeEdition);
     }
 
     public ProgrammeEdition findProgrammeEditionInEnrollment() {
@@ -57,5 +52,18 @@ public class ProgrammeEditionEnrollment {
 
     public Student findStudentInProgrammeEdition() {
         return _student;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_student, _programmeEdition);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ProgrammeEditionEnrollment other = (ProgrammeEditionEnrollment) obj;
+        return Objects.equals(this._student, other._student) && Objects.equals(this._programmeEdition, other._programmeEdition);
     }
 }
