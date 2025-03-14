@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SchoolYearListFactoryImpl implements SchoolYearListFactory {
 
-    public ArrayList<SchoolYear> newArrayList() {return new ArrayList<>();}
+    public List<SchoolYear> newArrayList() {return new ArrayList<>();}
 
     @Override
     public List<SchoolYear> copySchoolYearArrayList(List<SchoolYear> list) {
