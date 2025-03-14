@@ -35,8 +35,7 @@ public class ProgrammeEditionEnrollmentRepository {
             return false;
         }
         for (ProgrammeEditionEnrollment enrollment : _programmeEditionEnrollments) {
-            if (enrollment.getStudentUniqueNumber().equals(student.getUniqueNumber())
-                    && enrollment.findProgrammeEditionInEnrollment().equals(programmeEdition)) {
+            if (enrollment.hasSameStudent(student) && enrollment.hasSameProgrammeEdition(programmeEdition)) {
                 return true;
             }
         }

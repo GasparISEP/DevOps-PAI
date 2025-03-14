@@ -116,8 +116,7 @@ public class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControll
         }
         this._schoolYearRepository = schoolYearRepository;
     }
-
-    //Verify if the enrolment list is valid
+    //Verify if the enrollment repository is valid
     private void validateEnrolmentRepository(ProgrammeEnrolmentRepository enrolmentRepository) {
         if (enrolmentRepository == null) {
             throw new IllegalStateException("Enrolment repository cannot be null.");

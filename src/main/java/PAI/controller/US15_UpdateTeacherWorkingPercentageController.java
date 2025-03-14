@@ -8,6 +8,7 @@ import java.util.Optional;
 public class US15_UpdateTeacherWorkingPercentageController {
 
     private TeacherRepository _teacherRepository;
+    private Teacher _teacher;
 
     // Constructor
     public US15_UpdateTeacherWorkingPercentageController (TeacherRepository teacherRepository) {
@@ -23,12 +24,18 @@ public class US15_UpdateTeacherWorkingPercentageController {
 
         Optional<Teacher> optT1 = _teacherRepository.getTeacherByNIF(NIF);
 
+        if(optT1.isPresent())
+            _teacher = optT1.get();
+
         return optT1;
     }
 
-    public boolean updateTeacherWorkingPercentageInTeacherCareerProgression (Teacher teacher, String date, int workingPercentage) {
+    public boolean updateTeacherWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage) {
 
-        teacher.updateWorkingPercentageInTeacherCareerProgression(date, workingPercentage);
+        if(_teacher == null)
+            return false;
+
+        _teacher.updateWorkingPercentageInTeacherCareerProgression(date, workingPercentage);
 
         return true;
     }
