@@ -16,7 +16,7 @@ class TeacherFactoryImplTest {
     void shouldCreateAValidTeacherWhenMockedConstructorIsGiven() {
         // Arrange
         TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory tcpListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
+        TeacherCareerProgressionListFactoryImpl tcpListFactoryDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
         TeacherFactoryImpl teacherFactory = new TeacherFactoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);

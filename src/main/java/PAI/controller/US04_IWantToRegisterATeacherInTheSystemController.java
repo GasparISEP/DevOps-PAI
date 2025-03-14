@@ -2,9 +2,6 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.AddressFactory;
-import PAI.factory.AddressFactoryImpl;
-import PAI.factory.TeacherCareerProgressionFactory;
-import PAI.factory.TeacherCareerProgressionListFactory;
 import PAI.repository.DepartmentRepository;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;

@@ -228,7 +228,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -289,7 +289,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -357,7 +357,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -421,7 +421,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",

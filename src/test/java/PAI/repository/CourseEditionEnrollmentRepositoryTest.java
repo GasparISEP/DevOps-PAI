@@ -693,7 +693,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                new TeacherCareerProgressionListFactoryImpl());
 
         Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
@@ -731,7 +731,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                new TeacherCareerProgressionListFactoryImpl());
 
         Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
@@ -767,7 +767,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                new TeacherCareerProgressionListFactoryImpl());
 
         Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
@@ -806,7 +806,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                new TeacherCareerProgressionListFactoryImpl());
 
         Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
@@ -846,7 +846,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                new TeacherCareerProgressionListFactoryImpl());
 
         Student student1 = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Student student2 = new Student("1000001", "João Santos", "998194999", "221234467", "joao456@gmail.com", add1);
@@ -888,7 +888,7 @@ class CourseEditionEnrollmentRepositoryTest {
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                new TeacherCareerProgressionListFactoryImpl());
 
         Student student1 = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 

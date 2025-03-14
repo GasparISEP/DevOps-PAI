@@ -9,7 +9,6 @@ import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -290,7 +289,7 @@ class US19_CreateCourseEditionControllerTest {
     private Course course;
     private AddressFactory addressFactory;
 
-    private TeacherCareerProgressionListFactory teacherCareerListFactory;
+    private TeacherCareerProgressionListFactoryImpl teacherCareerListFactory;
     private TeacherCareerProgressionFactory teacherCareerFactory;
     private TeacherCategory teacherCategory;
 
@@ -325,7 +324,7 @@ class US19_CreateCourseEditionControllerTest {
         course = new Course("Informatics", "INF", 6, 1);
         addressFactory = new AddressFactoryImpl();
 
-        teacherCareerListFactory = new TeacherCareerProgressionListFactory();
+        teacherCareerListFactory = new TeacherCareerProgressionListFactoryImpl();
         teacherCareerFactory = new TeacherCareerProgressionFactory();
         teacherCategory = new TeacherCategory("Professor Adjunto");
 

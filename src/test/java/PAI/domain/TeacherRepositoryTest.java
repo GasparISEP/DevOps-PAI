@@ -29,7 +29,7 @@ class TeacherRepositoryTest {
 
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
-        TeacherCareerProgressionListFactory tcplFDouble = mock(TeacherCareerProgressionListFactory.class);
+        TeacherCareerProgressionListFactoryImpl tcplFDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
         List<TeacherCareerProgression> mockList = mock(ArrayList.class);
 
         when(TCPfactoryDouble.createTeacherCareerProgression("15-04-2005", teacherCategoryDouble, 70)).thenReturn(tcpDouble);
@@ -62,7 +62,7 @@ class TeacherRepositoryTest {
 
         TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
-        TeacherCareerProgressionListFactory tcplFDouble = mock(TeacherCareerProgressionListFactory.class);
+        TeacherCareerProgressionListFactoryImpl tcplFDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
         List<TeacherCareerProgression> mockList = mock(ArrayList.class);
 
         when(TCPfactoryDouble.createTeacherCareerProgression("15-04-2005", tcDouble, 70)).thenReturn(tcpDouble);
@@ -464,7 +464,7 @@ class TeacherRepositoryTest {
         AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department departmentDouble = mock(Department.class);
         TeacherCareerProgressionFactory careerProgressionFactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory careerProgressionListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
+        TeacherCareerProgressionListFactoryImpl careerProgressionListFactoryDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
         Teacher teacherDouble = mock(Teacher.class);
 
         when(teacherFactoryDouble.createTeacher(
