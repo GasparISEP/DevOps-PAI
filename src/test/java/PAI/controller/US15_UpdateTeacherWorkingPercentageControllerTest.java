@@ -104,13 +104,35 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
         Teacher teacherDouble = mock(Teacher.class);
 
+        //get Teacher
+        when(repositoryDouble.getTeacherByNIF("123456789")).thenReturn(Optional.of(teacherDouble));
+        ctrl.getTeacherByNIF("123456789");
+
         when(teacherDouble.updateWorkingPercentageInTeacherCareerProgression("15-04-2008", 50)).thenReturn(true);
 
         //act
-        boolean result = ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacherDouble,"15-04-2008", 50);
+        boolean result = ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression("15-04-2008", 50);
 
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenNIFNotFoundInTeacherRepository() {
+        //arrange
+        TeacherRepository repositoryDouble = mock(TeacherRepository.class);
+        US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
+
+        //get Teacher
+        when(repositoryDouble.getTeacherByNIF("123456789")).thenReturn(Optional.empty());
+        ctrl.getTeacherByNIF("123456789");
+
+        //act
+        boolean result = ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression("15-04-2008", 70);
+
+        //assert
+        assertFalse(result);
+
     }
 
     @Test
@@ -120,11 +142,16 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
         TeacherRepository repositoryDouble = mock(TeacherRepository.class);
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
         Teacher teacherDouble = mock(Teacher.class);
+
+        //getTeacher
+        when(repositoryDouble.getTeacherByNIF("123456789")).thenReturn(Optional.of(teacherDouble));
+        ctrl.getTeacherByNIF("123456789");
+
         when(teacherDouble.updateWorkingPercentageInTeacherCareerProgression("15-04-2008", 70))
                 .thenThrow(new IllegalArgumentException("Working percentage must be different than the last working percentage!"));
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacherDouble,"15-04-2008", 70));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression("15-04-2008", 70));
 
         //assert
         assertEquals("Working percentage must be different than the last working percentage!", exception.getMessage());
@@ -146,11 +173,15 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
         US15_UpdateTeacherWorkingPercentageController ctrl = new US15_UpdateTeacherWorkingPercentageController(repositoryDouble);
         Teacher teacherDouble = mock(Teacher.class);
 
+        //getTeacher
+        when(repositoryDouble.getTeacherByNIF("123456789")).thenReturn(Optional.of(teacherDouble));
+        ctrl.getTeacherByNIF("123456789");
+
         when(teacherDouble.updateWorkingPercentageInTeacherCareerProgression(date, 50))
                 .thenThrow(new IllegalArgumentException("Date must be greater than the last date registered!"));
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(teacherDouble, date, 50));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.updateTeacherWorkingPercentageInTeacherCareerProgression(date, 50));
 
         //assert
         assertEquals(expectedException, exception.getMessage());

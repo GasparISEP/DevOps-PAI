@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SchoolYearListFactory {
 
-    ArrayList<SchoolYear> newArrayList();
+    List<SchoolYear> newArrayList();
 
     List<SchoolYear> copySchoolYearArrayList(List<SchoolYear> list);
 }
