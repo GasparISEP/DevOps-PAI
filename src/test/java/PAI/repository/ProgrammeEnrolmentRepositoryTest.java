@@ -1,6 +1,11 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.AccessMethod;
+import PAI.domain.Programme;
+import PAI.domain.ProgrammeEnrolment;
+import PAI.domain.Student;
 import PAI.factory.ProgrammeEnrolmentFactory;
+import PAI.factory.ProgrammeEnrolmentListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

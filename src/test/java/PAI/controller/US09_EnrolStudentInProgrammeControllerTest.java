@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
+import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
