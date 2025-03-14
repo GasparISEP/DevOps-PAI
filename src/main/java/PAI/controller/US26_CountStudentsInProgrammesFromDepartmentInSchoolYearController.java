@@ -6,9 +6,9 @@ import PAI.repository.DepartmentRepository;
 import PAI.repository.ProgrammeEditionEnrollmentRepository;
 
 public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
-    private ProgrammeEditionEnrollmentRepository _PEERepo;
-    private SchoolYearRepository _schoolYearRepository;
-    private DepartmentRepository _departmentRepository;
+    private final ProgrammeEditionEnrollmentRepository _PEERepo;
+    private final SchoolYearRepository _schoolYearRepository;
+    private final DepartmentRepository _departmentRepository;
 
     public US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(
             ProgrammeEditionEnrollmentRepository PEERepo,

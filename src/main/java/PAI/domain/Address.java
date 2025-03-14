@@ -10,41 +10,45 @@ public class Address {
     //constructor with validations
     public Address (String street, String postalCode, String location, String country) throws IllegalArgumentException {
 
-        //validation Street
-        if (areParametersInvalid(street))
+        validStreet(street);
+        validPostalCode(postalCode);
+        validLocation(location);
+        validCountry(country);
+    }
+
+    private void validStreet (String street) {
+        if(street == null || street.isBlank()) {
             throw new IllegalArgumentException("Street cannot be empty!");
-
+        }
         _street = street;
+    }
 
-        //validation postcode
-        if (areParametersInvalid(postalCode))
-            throw new IllegalArgumentException("Postal Code cannot be empty!");
-
+    private void validPostalCode (String postalCode) {
+        if(postalCode == null || postalCode.isBlank()){
+            throw new IllegalArgumentException("Postal code cannot be empty!");
+        }
         _postalCode = postalCode;
+    }
 
-        //validation location
-        if (areParametersInvalid(location))
+    private void validLocation (String location) {
+        if(location == null || location.isBlank()) {
             throw new IllegalArgumentException("Location cannot be empty!");
-
+        }
+        if(!location.matches("^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$")){
+            throw new IllegalArgumentException("Write a valid location!");
+        }
         _location = location;
+    }
 
-        //validation country
-        if (areParametersInvalid(country))
+    private void validCountry (String country) {
+        if(country == null || country.isBlank()) {
             throw new IllegalArgumentException("Country cannot be empty!");
+        }
+        if(!country.matches("^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$")){
+            throw new IllegalArgumentException("Write a valid country!");
 
+        }
         _country = country;
     }
 
-    public String getStreet() { return _street; }
-
-    public String getPostalCode() { return _postalCode; }
-
-    public String getLocation() { return _location; }
-
-    public String getCountry() { return _country; }
-
-    private boolean areParametersInvalid(String parameter) {
-
-        return parameter == null || parameter.isBlank();
-    }
 }

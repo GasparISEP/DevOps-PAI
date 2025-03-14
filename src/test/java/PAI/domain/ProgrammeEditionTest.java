@@ -145,7 +145,6 @@ class ProgrammeEditionTest {
         assertEquals(_schoolYear, result);
     }
 
-    //US26
     //Test ensures that method returns true when both the department and school year are correctly associated with the programme edition
     @Test
     void shouldReturnTrueWhenEditionIsAssociatedToDepartmentAndSchoolYear() throws Exception {

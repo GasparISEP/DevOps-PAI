@@ -43,7 +43,7 @@ public class ProgrammeEditionEnrollmentRepository {
         return false;
     }
 
-    //US26- number of students enrolled in all programmes associated to a department, in a given school year
+
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
         Set<String> studentUniqueNumbers = new HashSet<>();
 

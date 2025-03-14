@@ -12,14 +12,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockConstruction;
 
 
-class CourseEditionEnrollmentFactoryTest {
+class CourseEditionEnrollmentFactoryImplTest {
 
     @Test
     void should_create_courseEditionEnrollments() {
         // arrange
         try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
 
-            CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+            CourseEditionEnrollmentFactoryImpl factory = new CourseEditionEnrollmentFactoryImpl();
             Student studentDouble = mock(Student.class);
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
@@ -35,7 +35,7 @@ class CourseEditionEnrollmentFactoryTest {
     void should_create_exactly_one_instance_of_CourseEditionEnrollment() {
         try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
             // arrange
-            CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+            CourseEditionEnrollmentFactoryImpl factory = new CourseEditionEnrollmentFactoryImpl();
             Student studentDouble = mock(Student.class);
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
@@ -50,7 +50,7 @@ class CourseEditionEnrollmentFactoryTest {
     void should_create_instance_of_CourseEditionEnrollment_class() {
         try (MockedConstruction<CourseEditionEnrollment> mockEnrollments = mockConstruction(CourseEditionEnrollment.class)) {
             // arrange
-            CourseEditionEnrollmentFactory factory = new CourseEditionEnrollmentFactory();
+            CourseEditionEnrollmentFactoryImpl factory = new CourseEditionEnrollmentFactoryImpl();
             Student studentDouble = mock(Student.class);
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 

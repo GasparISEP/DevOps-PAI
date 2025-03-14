@@ -8,13 +8,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseEditionEnrollmentListFactoryTest {
+class CourseEditionEnrollmentListFactoryImplTest {
 
     @Test
     void testCourseEditionEnrollmentListFactory() {
 
         // arrange
-        CourseEditionEnrollmentListFactory factory = new CourseEditionEnrollmentListFactory();
+        CourseEditionEnrollmentListFactoryImpl factory = new CourseEditionEnrollmentListFactoryImpl();
 
         // act
         Set<CourseEditionEnrollment> result = factory.getCourseEditionEnrollmentList();

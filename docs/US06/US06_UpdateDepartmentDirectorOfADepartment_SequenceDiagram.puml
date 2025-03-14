@@ -1,16 +1,18 @@
 @startuml
+autonumber
+
 title US06: UpdateDepartmentDirectorOfADepartment
 actor Administrator
-participant ":UI" as UI #Orange/White
+participant ":UI" as UI
 
 Administrator -> UI: I want to update the Department Director of a Department!
-activate UI
+activate UI #ddfada
 participant ":US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController" as Controller
 UI -> Controller: getAllDepartments ()
-activate Controller
+activate Controller #ddfada
 participant ":DepartmentRepository" as DepartmentRepository
 Controller -> DepartmentRepository: getDepartments ()
-activate DepartmentRepository
+activate DepartmentRepository #ddfada
 DepartmentRepository --> Controller: setOfDepartments
 deactivate DepartmentRepository
 Controller --> UI: setOfDepartments
@@ -19,27 +21,27 @@ deactivate Controller
 UI --> Administrator: What Department?
 deactivate UI
 Administrator -> UI: Enter the Department!
-activate UI
+activate UI #ddfada
 UI --> Administrator: What Teacher?
 deactivate UI
 Administrator -> UI: Enter the Teacher!
-activate UI
+activate UI #ddfada
 UI --> Administrator: Sure?
 deactivate UI
 Administrator -> UI: Yes!
-activate UI
+activate UI #ddfada
 
 UI -> Controller : updateDepartmentDirector (department, teacher)
-activate Controller
+activate Controller #ddfada
 participant ":DepartmentRepository" as DepartmentRepository
 Controller -> DepartmentRepository: updateOfDepartmentDirector(department, teacher)
-participant ":Department" as Department #DeepPink/White
-activate DepartmentRepository
+participant ":Department" as Department
+activate DepartmentRepository #ddfada
 DepartmentRepository -> Department: changeDirector (Teacher)
-activate Department
-participant ":Teacher" as Teacher #Violet/White
+activate Department #ddfada
+participant ":Teacher" as Teacher
 Department -> Teacher: isInDepartment (d1)
-activate Teacher
+activate Teacher #ddfada
 Teacher --> Department: True
 deactivate Teacher
 Department --> DepartmentRepository: True
