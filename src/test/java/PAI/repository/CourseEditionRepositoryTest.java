@@ -1,7 +1,9 @@
 package PAI.repository;
 
 import PAI.domain.*;
+import PAI.factory.CourseEditionFactory;
 import PAI.factory.CourseEditionFactoryImpl;
+import PAI.factory.CourseEditionListFactory;
 import PAI.factory.CourseEditionListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
@@ -17,20 +19,21 @@ class CourseEditionRepositoryTest {
     //US19
     @Test
     void shouldReturnTrueIfCourseEditionHasBeenCreated() throws Exception {
-        //SUT = CourseEditionRepository -> CourseEditionFactory and CourseEdition as Doubles
+        //SUT = CourseEditionRepository
         //Arrange
             //Doubles' instantiation
-        CourseEditionFactoryImpl courseEditionFactoryImplDouble = mock (CourseEditionFactoryImpl.class);
-        CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
+        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
+        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
+
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
         CourseEdition courseEditionDouble = mock (CourseEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryImplDouble, courseEditionListFactoryImplDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
             //instructions
-        when(courseEditionFactoryImplDouble.newCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(courseEditionDouble);
+        when(courseEditionFactoryDouble.newCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(courseEditionDouble);
 
         //Act
         boolean result = courseEditionRepository.createAndSaveCourseEdition(courseDouble,programmeEditionDouble);

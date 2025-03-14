@@ -5,7 +5,7 @@ import PAI.domain.CourseEditionEnrollment;
 import PAI.domain.Student;
 
 
-public class CourseEditionEnrollmentFactory implements ICourseEditionEnrollmentFactory {
+public class CourseEditionEnrollmentFactoryImpl implements ICourseEditionEnrollmentFactory {
 
     public CourseEditionEnrollment createCourseEditionEnrollment(Student student, CourseEdition courseEdition) {
         return new CourseEditionEnrollment(student, courseEdition);

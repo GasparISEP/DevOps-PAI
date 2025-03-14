@@ -1,35 +1,34 @@
 package PAI.domain;
 
-import PAI.factory.SchoolYearListFactoryImpl;
+import PAI.factory.SchoolYearListFactory;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class SchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
-    private SchoolYearFactoryImpl _schoolYearFactoryImpl;
-    private SchoolYearListFactoryImpl _schoolYearListFactoryImpl;
+    private SchoolYearFactory _schoolYearFactory;
+    private SchoolYearListFactory _schoolYearListFactory;
 
-    public SchoolYearRepository(SchoolYearFactoryImpl schoolYearFactoryImpl, SchoolYearListFactoryImpl schoolYearListFactoryImpl) {
+    public SchoolYearRepository(SchoolYearFactory schoolYearFactory, SchoolYearListFactory schoolYearListFactory) {
 
-        if (schoolYearFactoryImpl == null) {
+        if (schoolYearFactory == null) {
             throw new IllegalArgumentException("SchoolYearFactory cannot be null");
         }
-        if (schoolYearListFactoryImpl == null) {
+        if (schoolYearListFactory == null) {
             throw new IllegalArgumentException("SchoolYearListFactory cannot be null");
         }
 
-        this._schoolYearList = schoolYearListFactoryImpl.newArrayList();
-        this._schoolYearFactoryImpl = schoolYearFactoryImpl;
-        this._schoolYearListFactoryImpl = schoolYearListFactoryImpl;
+        this._schoolYearList = schoolYearListFactory.newArrayList();
+        this._schoolYearFactory = schoolYearFactory;
+        this._schoolYearListFactory = schoolYearListFactory;
     }
 
     public boolean addSchoolYear(String description, String startDate, String endDate) throws Exception {
 
-        SchoolYear newSchoolYear = _schoolYearFactoryImpl.createSchoolYear(description, startDate, endDate);
+        SchoolYear newSchoolYear = _schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
         // Check if the school year already exists in the list
         if(schoolYearExists(newSchoolYear)){
@@ -67,6 +66,6 @@ public class SchoolYearRepository {
     }
 
     public List<SchoolYear> getAllSchoolYears() {
-        return _schoolYearListFactoryImpl.copySchoolYearArrayList(_schoolYearList);
+        return _schoolYearListFactory.copySchoolYearArrayList(_schoolYearList);
     }
 }
