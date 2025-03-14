@@ -4,8 +4,8 @@ import PAI.domain.*;
 
 public class TeacherFactoryImpl implements TeacherFactory {
 
-    private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
-    private TeacherCareerProgressionListFactory _teacherCareerProgressionListFactory;
+    private TeacherCareerProgressionFactoryInterface _teacherCareerProgressionFactory;
+    private TeacherCareerProgressionListFactoryInterface _teacherCareerProgressionListFactory;
 
     public TeacherFactoryImpl(TeacherCareerProgressionFactory tcpFact, TeacherCareerProgressionListFactory tcplFact){
         _teacherCareerProgressionFactory = tcpFact;

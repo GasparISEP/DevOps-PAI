@@ -1,9 +1,7 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactory;
-import PAI.factory.AddressFactoryImpl;
-import PAI.factory.TeacherCareerProgressionFactory;
-import PAI.factory.TeacherCareerProgressionListFactory;
+import PAI.factory.*;
+
 import java.util.List;
 
 public class Teacher {
@@ -28,14 +26,14 @@ public class Teacher {
 
     private List<TeacherCareerProgression> _teacherCareerProgressionList;
 
-    private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
+    private TeacherCareerProgressionFactoryInterface _teacherCareerProgressionFactory;
 
     //constructor
     public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
                    String street, String postalCode, String location, String country, AddressFactory addressFactory,
                    String date, TeacherCategory category, int workingPercentage, Department department,
-                   TeacherCareerProgressionFactory teacherCareerProgressionFactory,
-                   TeacherCareerProgressionListFactory teacherCareerProgressionListFactory) throws IllegalArgumentException {
+                   TeacherCareerProgressionFactoryInterface teacherCareerProgressionFactory,
+                   TeacherCareerProgressionListFactoryInterface teacherCareerProgressionListFactory) throws IllegalArgumentException {
 
         validateAcronym(acronym);
         validateName(name);
