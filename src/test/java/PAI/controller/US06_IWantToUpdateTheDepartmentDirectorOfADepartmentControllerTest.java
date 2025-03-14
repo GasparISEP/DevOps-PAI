@@ -122,7 +122,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
 
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Department dpt1 = new Department ("DEI", "Department1");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
@@ -162,7 +162,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
 
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Department dpt1 = new Department ("DEI", "Department1");
         TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
         TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
