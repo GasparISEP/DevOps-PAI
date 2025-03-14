@@ -1,7 +1,6 @@
 package PAI.domain;
 
 import PAI.factory.ProgrammeEnrolmentFactory;
-import PAI.factory.ProgrammeEnrolmentFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -26,21 +25,21 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEnrolmentFactoryIsNull() {
         //arrange
-        ProgrammeEnrolmentFactory programmeEnrolmentFactoryImpl = mock(ProgrammeEnrolmentFactory.class);
+        ProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(ProgrammeEnrolmentFactory.class);
         ProgrammeEnrolmentListFactory listFactoryDouble = null;
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactoryImpl, listFactoryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble));
     }
 
     @Test
     void shouldThrowExceptionWhenProgrammeEnrolmentRepositoryFactoryIsNull() {
         //arrange
-        ProgrammeEnrolmentFactoryImpl programmeEnrolmentFactoryImpl = null;
+        ProgrammeEnrolmentFactory programmeEnrolmentFactory = null;
         ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactoryImpl, listFactoryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble));
     }
 
     @Test
