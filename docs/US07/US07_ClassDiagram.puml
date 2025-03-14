@@ -47,8 +47,8 @@ SchoolYearRepository "1" ...> "schoolYearListFactory \n 1" SchoolYearListFactory
 SchoolYearRepository "1 " .u..> "schoolYearFactory \n 1" SchoolYearFactory
 US07_IWantToCreateASchoolYearController "1" ---> "schoolYearRepository \n 1" SchoolYearRepository
 SchoolYear "List<SchoolYear> \n *" <--- "1" SchoolYearRepository
-SchoolYearFactoryImpl "0..1 " ...|> "SchoolYearFactory \n 1" SchoolYearFactory
+SchoolYearFactoryImpl "*" ...|> "SchoolYearFactory \n 1" SchoolYearFactory
 SchoolYearFactory "1   " ...> "1 " SchoolYear: <<create>>
-SchoolYearListFactory "1" ...> "1  " List
+SchoolYearListFactory "1" ...> "1  " List: <<create>>
 SchoolYearListFactory "1  " ..> "1  " SchoolYear
 @enduml
