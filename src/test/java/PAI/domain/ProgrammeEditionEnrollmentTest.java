@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.repository.ProgrammeEditionEnrollmentRepository;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
@@ -221,5 +222,53 @@ class ProgrammeEditionEnrollmentTest {
         assertFalse(enrollment1.equals(enrollment2));
     }
 
+    @Test
+    void shouldReturnTrue_WhenSameStudentIsPassedAsParameter() {
+        // Arrange
+        Student doubleStudent = mock(Student.class);
+        ProgrammeEdition doublePE = mock(ProgrammeEdition.class);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(doubleStudent, doublePE);
+
+        // Act & Assert
+        assertTrue(enrollment.hasSameStudent(doubleStudent));
+
+    }
+
+    @Test
+    void shouldReturnTrue_WhenDifferentStudentIsPassedAsParameter() {
+        // Arrange
+        Student doubleStudent = mock(Student.class);
+        Student doubleStudent1 = mock(Student.class);
+        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(doubleStudent, doubleProgrammeEdition);
+
+        // Act & Assert
+        assertFalse(enrollment.hasSameStudent(doubleStudent1));
+    }
+
+    @Test
+    void shouldReturnTrue_WhenSameProgrammeEdtionIsPassedAsParameter() {
+        // Arrange
+        Student doubleStudent = mock(Student.class);
+        ProgrammeEdition doublePE = mock(ProgrammeEdition.class);
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(doubleStudent, doublePE);
+
+        // Act & Assert
+        assertTrue(enrollment.hasSameProgrammeEdition(doublePE));
+    }
+
+    @Test
+    void shouldReturnFalse_WhenDifferentProgrammeEditionIsPassedAsParameter() {
+        // Arrange
+        Student doubleStudent = mock(Student.class);
+        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
+
+        ProgrammeEditionEnrollment enrollment = new ProgrammeEditionEnrollment(doubleStudent, doubleProgrammeEdition);
+
+        // Act & Assert
+        assertFalse(enrollment.hasSameProgrammeEdition(doubleProgrammeEdition1));
+    }
 
 }

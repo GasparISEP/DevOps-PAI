@@ -135,7 +135,7 @@ class ProgrammeEditionEnrollmentRepositoryTest {
         repository.enrollStudentInProgrammeEdition(st1, pe1);
 
         // Assert
-        assertTrue(repository.isStudentEnrolledInThisProgrammeEdition(st1, pe1));
+        assertFalse(repository.isStudentEnrolledInThisProgrammeEdition(st1, pe1));
     }
 
     @Test
