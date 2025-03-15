@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.*;
 
-class TeacherCareerProgressionFactoryTest {
+class TeacherCareerProgressionFactoryImplTest {
 
     @Test
     void shouldCreateTeacherCareerProgression () throws IllegalArgumentException {
@@ -30,7 +30,7 @@ class TeacherCareerProgressionFactoryTest {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        TeacherCareerProgressionFactory TCPfactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl TCPfactory = new TeacherCareerProgressionFactoryImpl();
 
         // Mock the construction of TeacherCareerProgression objects
         try (MockedConstruction<TeacherCareerProgression> mockedConstruction = Mockito.mockConstruction(TeacherCareerProgression.class, (mock, context) -> {
@@ -71,7 +71,7 @@ class TeacherCareerProgressionFactoryTest {
     void shouldThrowExceptionIfDateProvidedIsInvalid (String date, String expectedException) {
 
         // Arrange
-        TeacherCareerProgressionFactory factory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl factory = new TeacherCareerProgressionFactoryImpl();
         TeacherCategory tcDouble = mock(TeacherCategory.class);
 
         // Act + Assert
@@ -84,7 +84,7 @@ class TeacherCareerProgressionFactoryTest {
     void shouldThrowExceptionWhenCategoryIsNull () throws IllegalArgumentException {
 
         // Arrange
-        TeacherCareerProgressionFactory factory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl factory = new TeacherCareerProgressionFactoryImpl();
 
         // Act + Assert
         Exception exception = assertThrows(IllegalArgumentException.class,
@@ -104,7 +104,7 @@ class TeacherCareerProgressionFactoryTest {
     void shouldThrowExceptionWhenWorkingPercentageIsInvalid (int workingPercentage, String expectedException) {
 
         // Arrange
-        TeacherCareerProgressionFactory factory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl factory = new TeacherCareerProgressionFactoryImpl();
         String date = "01-10-2022";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
 

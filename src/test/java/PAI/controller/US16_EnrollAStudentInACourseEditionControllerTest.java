@@ -227,7 +227,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         Department dpt1 = new Department("DEI", "Department1");
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
@@ -288,7 +288,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         Department dpt1 = new Department("DEI", "Department1");
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
@@ -356,7 +356,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         Department dpt1 = new Department("DEI", "Department1");
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
@@ -420,7 +420,7 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
         Department dpt1 = new Department("DEI", "Department1");
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(

@@ -24,7 +24,7 @@ class ProgrammeEnrolmentTest {
         Department _department;
         TeacherCategory _teacherCategory;
         AddressFactory _addressFactory;
-        TeacherCareerProgressionFactoryInterface _tcpFactory;
+        TeacherCareerProgressionFactory _tcpFactory;
         TeacherCareerProgressionListFactory _tcpListFactory;
         Teacher _teacher;
         IProgrammeCourseListFactory _programmeCourseListFactory;
@@ -42,7 +42,7 @@ class ProgrammeEnrolmentTest {
             _department = new Department("CSE", "Computer Science Engineer");
             _teacherCategory = new TeacherCategory("Assistant Professor");
             _addressFactory = new AddressFactoryImpl();
-            _tcpFactory = new TeacherCareerProgressionFactory();
+            _tcpFactory = new TeacherCareerProgressionFactoryImpl();
             _tcpListFactory = new TeacherCareerProgressionListFactoryImpl();
             _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",

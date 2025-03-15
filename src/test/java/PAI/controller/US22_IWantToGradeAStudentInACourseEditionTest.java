@@ -84,7 +84,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactory studyPlanListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         AddressFactory addressFactory = new AddressFactoryImpl();
 
@@ -97,7 +97,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Department dpt1 = new Department("MAT", "Mathematics");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"12-03-2025", tc1, 70,
-                dpt1,teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                dpt1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory,studyPlanListFactory,
                 studyPlanFactory,courseFactory);

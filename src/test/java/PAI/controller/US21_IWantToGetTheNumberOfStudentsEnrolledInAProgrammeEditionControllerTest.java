@@ -194,12 +194,12 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -235,12 +235,12 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -277,12 +277,12 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -366,12 +366,12 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -407,12 +407,12 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -450,12 +450,12 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();

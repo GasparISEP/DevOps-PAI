@@ -141,13 +141,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Department department = new Department("CSE", "Computer Science Engineer");
 
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactoryImpl = new TeacherCareerProgressionListFactoryImpl();
         AddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactoryImpl);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactoryImpl);
 
         SchoolYear schoolYear1 = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
         SchoolYear schoolYear2 = new SchoolYear("2022-2023","01-09-2022", "31-07-2026");
@@ -207,12 +207,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);
         Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -271,12 +271,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);
         Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -338,12 +338,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);
         Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -402,12 +402,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);
         Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department1, teacher1, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),

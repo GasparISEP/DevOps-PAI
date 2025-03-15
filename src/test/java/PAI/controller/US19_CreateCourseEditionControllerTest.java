@@ -290,7 +290,7 @@ class US19_CreateCourseEditionControllerTest {
     private AddressFactory addressFactory;
 
     private TeacherCareerProgressionListFactoryImpl teacherCareerListFactory;
-    private TeacherCareerProgressionFactory teacherCareerFactory;
+    private TeacherCareerProgressionFactoryImpl teacherCareerFactory;
     private TeacherCategory teacherCategory;
 
     private ProgrammeEdition programmeEdition;
@@ -325,7 +325,7 @@ class US19_CreateCourseEditionControllerTest {
         addressFactory = new AddressFactoryImpl();
 
         teacherCareerListFactory = new TeacherCareerProgressionListFactoryImpl();
-        teacherCareerFactory = new TeacherCareerProgressionFactory();
+        teacherCareerFactory = new TeacherCareerProgressionFactoryImpl();
         teacherCategory = new TeacherCategory("Professor Adjunto");
 
         programme = new Programme("Computer Engineering", "CE", 20, 6,

@@ -225,9 +225,9 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
     //Methods
     private TeacherRepository createTeacherRepo() {
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory= new TeacherCareerProgressionFactory();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
-        TeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactory,tcpLFactoryDouble);
+        TeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
         TeacherListFactory teacherListFactory = new TeacherListFactory();
         return new TeacherRepository(teacherFactory, teacherListFactory);
     }
