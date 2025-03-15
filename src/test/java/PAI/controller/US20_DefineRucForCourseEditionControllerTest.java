@@ -5,7 +5,7 @@ import PAI.domain.Teacher;
 import PAI.factory.CourseEditionFactoryImpl;
 import PAI.factory.CourseEditionListFactoryImpl;
 import PAI.factory.TeacherFactoryImpl;
-import PAI.factory.TeacherListFactory;
+import PAI.factory.TeacherListFactoryImpl;
 import PAI.repository.CourseEditionRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
@@ -322,8 +322,8 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         // Initialize TeacherRepository and its dependencies
         TeacherFactoryImpl teacherFactory = mock(TeacherFactoryImpl.class);
-        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
-        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
+        TeacherListFactoryImpl teacherListFactoryImpl = mock(TeacherListFactoryImpl.class);
+        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactoryImpl);
 
         // Create controller with repositories
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);

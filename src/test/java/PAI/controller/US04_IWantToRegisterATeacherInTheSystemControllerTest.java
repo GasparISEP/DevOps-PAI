@@ -228,8 +228,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
         TeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
-        TeacherListFactory teacherListFactory = new TeacherListFactory();
-        return new TeacherRepository(teacherFactory, teacherListFactory);
+        TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
+        return new TeacherRepository(teacherFactory, teacherListFactoryImpl);
     }
     private TeacherCategoryRepository createTeacherCategoryRepo() throws Exception {
         TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();

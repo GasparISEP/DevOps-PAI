@@ -12,9 +12,9 @@ public class TeacherRepository {
     private TeacherFactory _teacherFactory;
 
     //constructor
-    public TeacherRepository(TeacherFactory teacherFactory, TeacherListFactory teacherListFactory){
+    public TeacherRepository(TeacherFactory teacherFactory, TeacherListFactoryImpl teacherListFactoryImpl){
 
-        _teachers = teacherListFactory.newArrayList();
+        _teachers = teacherListFactoryImpl.newArrayList();
         _teacherFactory = teacherFactory;
     }
 
