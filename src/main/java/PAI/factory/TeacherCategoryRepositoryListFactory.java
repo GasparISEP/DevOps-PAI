@@ -4,6 +4,6 @@ import PAI.domain.TeacherCategory;
 
 import java.util.List;
 
-public interface TeacherCategoryRepositoryListFactoryInterface {
+public interface TeacherCategoryRepositoryListFactory {
     List<TeacherCategory> getTeacherCategoryList();
 }
