@@ -1,7 +1,7 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
