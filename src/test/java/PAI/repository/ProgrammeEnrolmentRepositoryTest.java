@@ -107,7 +107,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(listDouble.iterator()).thenReturn(itDouble);
 
-        when(itDouble.hasNext()).thenReturn(false, true, false);
+        when(itDouble.hasNext()).thenReturn(false, true);
 
         when(itDouble.next()).thenReturn(programmeEnrolmentDouble1);
 
