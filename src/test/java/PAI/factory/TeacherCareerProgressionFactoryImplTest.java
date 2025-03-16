@@ -18,9 +18,9 @@ import static org.mockito.Mockito.*;
 class TeacherCareerProgressionFactoryImplTest {
 
     @Test
-    void shouldTeacherCreateCareerProgression() {
+    void shouldCreateTeacherCareerProgression() {
         // Arrange
-        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
         String date = "13-11-2002";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -28,8 +28,7 @@ class TeacherCareerProgressionFactoryImplTest {
 
 
         try (
-                MockedConstruction <TeacherCareerProgression> tcpConstructorMock = mockConstruction(TeacherCareerProgression.class, (mock, context) -> {
-                })){
+                MockedConstruction <TeacherCareerProgression> tcpConstructorMock = mockConstruction(TeacherCareerProgression.class)){
 
             // Act
             TeacherCareerProgression careerProgression = tcpFactory.createTeacherCareerProgression(date, tcDouble, workingPercentage);
@@ -56,7 +55,8 @@ class TeacherCareerProgressionFactoryImplTest {
     @MethodSource ("provideInvalidDate")
     void invalidDateDoesNotCreateTeacherCareerProgression (String date) {
         // Arrange
-        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
+
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         int workingPercentage = 100;
 
@@ -76,7 +76,7 @@ class TeacherCareerProgressionFactoryImplTest {
     @Test
     void nullTeacherCategoryDoesNotCreateTeacherCareerProgression () {
         // Arrange
-        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
         String date = "13-11-2002";
         int workingPercentage = 100;
@@ -111,7 +111,8 @@ class TeacherCareerProgressionFactoryImplTest {
     void shouldThrowExceptionWhenWorkingPercentageIsInvalid (int workingPercentage) {
 
         // Arrange
-        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
+
         String date = "01-10-2022";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
 
