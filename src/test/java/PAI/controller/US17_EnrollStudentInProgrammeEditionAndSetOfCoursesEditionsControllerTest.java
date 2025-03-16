@@ -609,8 +609,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                new TeacherCareerProgressionListFactoryImpl());
 
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
@@ -698,8 +698,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                new TeacherCareerProgressionListFactoryImpl());
 
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
@@ -764,8 +764,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                new TeacherCareerProgressionListFactoryImpl());
 
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
@@ -833,8 +833,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                new TeacherCareerProgressionListFactoryImpl());
 
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
@@ -909,8 +909,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                new TeacherCareerProgressionListFactoryImpl());
 
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
@@ -990,8 +990,8 @@ class US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest 
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                new TeacherCareerProgressionListFactoryImpl());
 
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
@@ -1051,8 +1051,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
     Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
             "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-            "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-            new TeacherCareerProgressionListFactory());
+            "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+            new TeacherCareerProgressionListFactoryImpl());
     Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
             new CourseFactoryImpl());
@@ -1112,8 +1112,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactory(),
-                new TeacherCareerProgressionListFactory());
+                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                new TeacherCareerProgressionListFactoryImpl());
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());

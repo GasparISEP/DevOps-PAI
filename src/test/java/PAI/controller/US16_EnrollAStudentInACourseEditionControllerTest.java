@@ -225,10 +225,10 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -286,10 +286,10 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -354,10 +354,10 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
@@ -418,10 +418,10 @@ class US16_EnrollAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",

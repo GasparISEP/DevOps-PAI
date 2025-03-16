@@ -182,13 +182,13 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -216,13 +216,13 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -248,13 +248,13 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -284,13 +284,13 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -322,13 +322,13 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
         new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -359,13 +359,13 @@ class US28_RemoveTheEnrollmentOfAStudentInACourseEdition_ControllerTest {
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
-                teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),

@@ -7,12 +7,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class TeacherCareerProgressionListFactoryTest {
+class TeacherCareerProgressionListFactoryImplTest {
 
     @Test
     void shouldCreateTeacherCareerProgressionList() {
         //arrange
-        TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionListFactoryImpl tcplF = new TeacherCareerProgressionListFactoryImpl();
 
         //act
         List<TeacherCareerProgression> tcpl = tcplF.createTeacherCareerProgressionList();
@@ -25,7 +25,7 @@ class TeacherCareerProgressionListFactoryTest {
     @Test
     void shouldAddToTheFabricatedList () {
         // Arrange
-        TeacherCareerProgressionListFactory tcpListFactory = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionListFactoryImpl tcpListFactory = new TeacherCareerProgressionListFactoryImpl();
         List<TeacherCareerProgression> tcpList = tcpListFactory.createTeacherCareerProgressionList();
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
 

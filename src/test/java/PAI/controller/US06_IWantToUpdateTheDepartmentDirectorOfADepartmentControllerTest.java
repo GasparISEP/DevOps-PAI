@@ -122,10 +122,10 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
 
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Department dpt1 = new Department ("DEI", "Department1");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactoryImpl tcplF = new TeacherCareerProgressionListFactoryImpl();
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
 
@@ -162,10 +162,10 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller = new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(dr1);
 
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         Department dpt1 = new Department ("DEI", "Department1");
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcplF = new TeacherCareerProgressionListFactory();
+        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactoryImpl tcplF = new TeacherCareerProgressionListFactoryImpl();
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
 

@@ -1,7 +1,7 @@
 package PAI.domain;
 import PAI.factory.AddressFactoryImpl;
-import PAI.factory.TeacherCareerProgressionFactory;
-import PAI.factory.TeacherCareerProgressionListFactory;
+import PAI.factory.TeacherCareerProgressionFactoryImpl;
+import PAI.factory.TeacherCareerProgressionListFactoryImpl;
 import PAI.factory.TeacherFactoryImpl;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +14,8 @@ class TeacherFactoryImplTest {
     void shouldCreateTeacher() {
 
         //arrange
-        TeacherCareerProgressionFactory tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory tcpListFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
+        TeacherCareerProgressionFactoryImpl tcpFactoryDouble = mock(TeacherCareerProgressionFactoryImpl.class);
+        TeacherCareerProgressionListFactoryImpl tcpListFactoryDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
         TeacherFactoryImpl tf1 = new TeacherFactoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);

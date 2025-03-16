@@ -70,9 +70,6 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         TeacherCategory tc1Double = mock(TeacherCategory.class);
         AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dpt1Double = mock(Department.class);
-        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
-
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
@@ -82,7 +79,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(true);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005", tc1Double, 70, dpt1Double, TCPfactoryDouble, tcpLFactoryDouble);
+        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005", tc1Double, 70, dpt1Double);
         //assert
         assertTrue(result);
     }
@@ -96,9 +93,6 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         TeacherCategory tc1Double = mock(TeacherCategory.class);
         AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dpt1Double = mock(Department.class);
-        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
-
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
@@ -108,7 +102,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(false);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005", tc1Double, 70, dpt1Double, TCPfactoryDouble, tcpLFactoryDouble);
+        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005", tc1Double, 70, dpt1Double);
         //assert
         assertFalse(result);
     }
@@ -122,8 +116,6 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         TeacherCategory tc1Double = mock(TeacherCategory.class);
         AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Department dpt1Double = mock(Department.class);
-        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionListFactory tcpLFactoryDouble = mock(TeacherCareerProgressionListFactory.class);
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
                 teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
@@ -133,7 +125,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(true);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005", tc1Double, 70, dpt1Double, TCPfactoryDouble, tcpLFactoryDouble);
+        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, "15-04-2005", tc1Double, 70, dpt1Double);
         //assert
         assertFalse(result);
     }
@@ -178,10 +170,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
         //Arrange
         Department department = createDepartment();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
         TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
@@ -190,17 +180,15 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson","jjj@isep.ipp.pt",
                 "123123123","B109","Doctorate in Computer Science in 1987,Isep","Rua do Homem Aranha",
                 "4430-123","Porto","Portugal",addressFactory,"12-01-2025",teacherCategory,
-                100,department,teacherCareerProgressionFactory,teacherCareerProgressionListFactory);
+                100,department);
         //Assert
         assertTrue(result);
     }
     @Test
     void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
         Department department1 = createDepartment1();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
         TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
@@ -210,7 +198,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson",
                 "jjj@isep.ipp.pt","123123123","B109","Doctorate in Computer Science in 1987,Isep",
                 "Rua do Homem Aranha","4430-123","Porto","Portugal",addressFactory,"12-01-2025",
-                teacherCategory,100,department1,teacherCareerProgressionFactory,teacherCareerProgressionListFactory);
+                teacherCategory,100,department1);
         //Assert
         assertFalse(result);
     }
@@ -218,10 +206,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidTeacherCategory_integrationTest() throws Exception {
         Department department = createDepartment();
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
+        AddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory1 = createTeacherCategory1();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
         TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
@@ -231,7 +217,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson",
                 "jjj@isep.ipp.pt","123123123","B109","Doctorate in Computer Science in 1987,Isep",
                 "Rua do Homem Aranha","4430-123","Porto","Portugal",addressFactory,"12-01-2025",
-                teacherCategory1,100,department,teacherCareerProgressionFactory,teacherCareerProgressionListFactory);
+                teacherCategory1,100,department);
         //Assert
         assertFalse(result);
     }
@@ -239,11 +225,11 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
     //Methods
     private TeacherRepository createTeacherRepo() {
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory= new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory tcpLFactoryDouble = new TeacherCareerProgressionListFactory();
-        TeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactory,tcpLFactoryDouble);
-        TeacherListFactory teacherListFactory = new TeacherListFactory();
-        return new TeacherRepository(teacherFactory, teacherListFactory);
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactoryImpl tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
+        TeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
+        TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
+        return new TeacherRepository(teacherFactory, teacherListFactoryImpl);
     }
     private TeacherCategoryRepository createTeacherCategoryRepo() throws Exception {
         TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();

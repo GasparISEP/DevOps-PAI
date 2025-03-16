@@ -1,8 +1,8 @@
 package PAI.domain;
 
 import PAI.factory.AddressFactory;
-import PAI.factory.TeacherCareerProgressionFactory;
-import PAI.factory.TeacherCareerProgressionListFactory;
+import PAI.factory.TeacherCareerProgressionFactoryImpl;
+import PAI.factory.TeacherCareerProgressionListFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -21,9 +21,9 @@ class TeacherTest {
     private AddressFactory _addressFactoryDouble;
     private Address _addressDouble;
     private Department _dptDouble;
-    private TeacherCareerProgressionFactory _tcpFactoryDouble;
+    private TeacherCareerProgressionFactoryImpl _tcpFactoryDouble;
     private TeacherCareerProgression _tcpDouble;
-    private TeacherCareerProgressionListFactory _tcplFDouble;
+    private TeacherCareerProgressionListFactoryImpl _tcplFDouble;
     private List<TeacherCareerProgression> _listDouble;
 
     private void createDoubles () {
@@ -31,9 +31,9 @@ class TeacherTest {
         _addressFactoryDouble = mock(AddressFactory.class);
         _addressDouble = mock(Address.class);
         _dptDouble = mock(Department.class);
-        _tcpFactoryDouble = mock(TeacherCareerProgressionFactory.class);
+        _tcpFactoryDouble = mock(TeacherCareerProgressionFactoryImpl.class);
         _tcpDouble = mock(TeacherCareerProgression.class);
-        _tcplFDouble = mock(TeacherCareerProgressionListFactory.class);
+        _tcplFDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
     }
 
     private void createListDouble () {
