@@ -22,7 +22,7 @@ ProgrammeEditionEnrolmentRepository -> ":ProgrammeEditionList": newArrayList()
 activate ":ProgrammeEditionList" #ddfada
 ":ProgrammeEditionList" --> ProgrammeEditionEnrolmentRepository: EmptyList<ProgrammeEdition>
 deactivate ":ProgrammeEditionList"
-loop for each "pee[i]:ProgrammeEditionEnrolment" in ProgrammeEditionEnrollmentRepo
+loop for each "pee[i]:ProgrammeEditionEnrolment" in ProgrammeEditionEnrolmentRepo
 participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment : findStudentInProgrammeEdition (student)
 activate ProgrammeEditionEnrolment #ddfada
@@ -87,7 +87,7 @@ activate Controller #ddfada
 participant ":CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
 Controller -> CourseEditionEnrolmentRepository: enrollStudentInACourseEdition (student, courseEdition)
 activate CourseEditionEnrolmentRepository #ddfada
-participant ":ICourseEditionEnrollmentFactory" as CourseEditionEnrolmentFactoryInterface
+participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactoryInterface
 CourseEditionEnrolmentRepository -> CourseEditionEnrolmentFactoryInterface: createCourseEditionEnrolment (student, courseEdition)
 activate CourseEditionEnrolmentFactoryInterface #ddfada
 create "cee1:CourseEditionEnrolment"
