@@ -1,0 +1,54 @@
+@startuml
+skinparam sequence {
+
+LifeLineBorderColor Grey
+LifeLineBackgroundColor HoneyDew
+}
+
+title US28: Remove the enrolment of a student in a course edition
+
+actor ASC #Orange/White
+participant ":UI" as UI
+participant ":US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller" as Controller
+participant ":CourseEditionEnrolmentRepository" as Repository
+participant "cee:CourseEditionEnrolment" as Enrolment
+autonumber
+
+ASC -> UI : I want to remove the enrolment\n of a student in a course edition
+activate UI
+UI --> ASC : What student?
+deactivate UI
+ASC -> UI : Student!
+activate UI
+UI --> ASC : What course edition?
+deactivate UI
+ASC -> UI : Course edition!
+activate UI
+
+UI -> Controller : removeStudentEnrolment(student, courseEdition)
+activate Controller
+
+Controller -> Repository : removeEnrolment(student, courseEdition)
+activate Repository
+
+Repository -> Repository : cee:findByStudentAndEdition(student, courseEdition)
+
+Repository -> Enrolment : isEnrolmentActive()
+activate Enrolment
+Enrolment --> Repository : true
+deactivate Enrolment
+
+Repository -> Enrolment : deactivateEnrollment()
+activate Enrolment
+Enrolment --> Repository : Enrolment is now inactive
+deactivate Enrolment
+
+Repository --> Controller : true
+deactivate Repository
+
+Controller --> UI : true
+deactivate Controller
+UI --> ASC : Enrolment removed
+deactivate UI
+
+@enduml

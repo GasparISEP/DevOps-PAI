@@ -2,7 +2,7 @@
 actor RUC
 participant ":UI" as UI
 participant ":Controller" as ctr
-participant ":CourseEditionEnrollmentRepository" as CEER
+participant ":CourseEditionEnrolmentRepository" as CEER
 participant ":GradeStudentRepository" as GR
 participant ":GradeStudentFactory" as GSF
 

@@ -13,7 +13,17 @@ public class US14_UpdateTeachersCategoryController {
     private TeacherCategoryRepository _teacherCategoryRepository;
 
     public US14_UpdateTeachersCategoryController(TeacherRepository teacherRepository, TeacherCategoryRepository teacherCategoryRepository) {
+
+        if (teacherRepository == null) {
+            throw new IllegalArgumentException("Teacher Repository cannot be null");
+        }
+
         _teacherRepository = teacherRepository;
+
+        if (teacherCategoryRepository == null) {
+            throw new IllegalArgumentException("Teacher Category Repository cannot be null");
+        }
+
         _teacherCategoryRepository = teacherCategoryRepository;
     }
 

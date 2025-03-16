@@ -6,9 +6,9 @@ class US24_KnowTheNumberOfStudentsEnroledInACourseEditionController {
 +IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition)
 }
 
-class CourseEditionEnrollmentRepository {
-    -_courseEditionEnrollments: ArrayList<CourseEditionEnrollment>
-    +CourseEditionEnrollmentRepository ()
+class CourseEditionEnrolmentRepository {
+    -_courseEditionEnrolments: ArrayList<CourseEditionEnrolment>
+    +CourseEditionEnrolmentRepository ()
     +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
     enrollmentDate: LocalDate)
     +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition)
@@ -17,19 +17,19 @@ class CourseEditionEnrollmentRepository {
     +enrollStudentInProgrammeCourseEditions(student :Student, courseEditions : List<CourseEdition>)
 }
 
-class CourseEditionEnrollment {
+class CourseEditionEnrolment {
     -_enrollmentDate: LocalDate
-    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
+    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition,
      enrollmentDate: LocalDate)
     +equals (obj: Object)
-    +findStudentInCourseEditionEnrollment ()
-    +findCourseEditionInEnrollment ()
+    +findStudentInCourseEditionEnrolment ()
+    +findCourseEditionInEnrolment ()
     +knowStudent ()
     +knowCourseEdition ()
 }
 
-US24_KnowTheNumberOfStudentsEnroledInACourseEditionController "1" ---> "_courseEditionEnrollmentRepository 1"CourseEditionEnrollmentRepository
-CourseEditionEnrollmentRepository "1 " ---> " * "CourseEditionEnrollment
+US24_KnowTheNumberOfStudentsEnroledInACourseEditionController "1" ---> "_courseEditionEnrolmentRepository 1"CourseEditionEnrolmentRepository
+CourseEditionEnrolmentRepository "1 " ---> " * "CourseEditionEnrolment
 
 
 @enduml

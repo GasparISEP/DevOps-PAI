@@ -4,7 +4,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.GradeStudentRepository;
-import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.CourseEditionEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         GradeStudentRepository list = mock(GradeStudentRepository.class);
 
-        CourseEditionEnrollmentRepository enrollmentRepository= mock(CourseEditionEnrollmentRepository.class);
+        CourseEditionEnrolmentRepository enrollmentRepository= mock(CourseEditionEnrolmentRepository.class);
 
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition controlador1 = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(list);
 

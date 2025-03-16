@@ -26,14 +26,25 @@ class US14UpdateTeachersCategoryControllerTest {
     @BeforeAll
     static void setUp() throws Exception {
 
-        tcr1 = mock(TeacherCategoryRepository.class);
         tr1 = mock(TeacherRepository.class);
+        tcr1 = mock(TeacherCategoryRepository.class);
 
     }
 
     @Test
-    void shouldCreateUpdateTeachersCategoryController() {
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(tr1, tcr1);
+    void shouldCreateUpdateTeachersCategoryControllerIfNullTeacherRepository() {
+        //arrange
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new US14_UpdateTeachersCategoryController(null, tcr1));
+    }
+
+    @Test
+    void shouldNotCreateUpdateTeachersCategoryControllerIfNullTeacherCategoryRepository() {
+        //arrange
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new US14_UpdateTeachersCategoryController(tr1, null));
     }
 
     static Stream<Arguments> testValues() {

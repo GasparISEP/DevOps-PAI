@@ -13,7 +13,7 @@ participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as 
 participant ":SchoolYearRepo" as SchoolYearRepo #LightBlue/White
 participant ":DepartmentRepo" as DepartmentRepo #LightBlue/White
 participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrolRepo #LightBlue/White
-participant "pee[i]:ProgrammeEditionEnrollment" as ProgrammeEditionEnrollmenti #LightBlue/White
+participant "pee[i]:ProgrammeEditionEnrollment" as ProgrammeEditionEnrolment #LightBlue/White
 participant ":Student" as Student #LightBlue/White
 participant ":studentUniqueNumbers" as StudentUniqueNumbers #LightBlue/White
 participant ":ProgrammeEdition" as ProgrammeEdition #LightBlue/White
@@ -45,9 +45,9 @@ activate ProgrammeEditionEnrolRepo
 ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new HashSet<>()
 activate StudentUniqueNumbers
 loop for each ProgrammeEditionEnrollment[i] in ProgrammeEditionEnrolRepo
-ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrollmenti :isEnrollmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
-activate ProgrammeEditionEnrollmenti
-ProgrammeEditionEnrollmenti -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
+ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrollmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
+activate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEdition
 ProgrammeEdition->SchoolYear: isSameSchoolYear(sy1)
 activate SchoolYear
@@ -57,19 +57,19 @@ ProgrammeEdition->Programme: isInDepartment(d1)
 activate Programme
 Programme-->ProgrammeEdition:true
 deactivate Programme
-ProgrammeEdition-->ProgrammeEditionEnrollmenti: true
+ProgrammeEdition-->ProgrammeEditionEnrolment: true
 deactivate ProgrammeEdition
-ProgrammeEditionEnrollmenti-->ProgrammeEditionEnrolRepo: true
-deactivate ProgrammeEditionEnrollmenti
+ProgrammeEditionEnrolment-->ProgrammeEditionEnrolRepo: true
+deactivate ProgrammeEditionEnrolment
 alt isEnrollmentAssociatedToDepartmentAndSchoolYear
-ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrollmenti: getStudentUniqueNumber ()
-activate ProgrammeEditionEnrollmenti
-ProgrammeEditionEnrollmenti -> Student:getUniqueNumber
+ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrolment: getStudentUniqueNumber ()
+activate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment -> Student:getUniqueNumber
 activate Student
-Student -->ProgrammeEditionEnrollmenti: uniqueNumber
+Student -->ProgrammeEditionEnrolment: uniqueNumber
 deactivate Student
-ProgrammeEditionEnrollmenti --> ProgrammeEditionEnrolRepo: uniqueNumber
-deactivate ProgrammeEditionEnrollmenti
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolRepo: uniqueNumber
+deactivate ProgrammeEditionEnrolment
 ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: add(uniqueNumber)
 end
 end

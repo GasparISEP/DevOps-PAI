@@ -3,24 +3,24 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.GradeStudentRepository;
-import PAI.repository.CourseEditionEnrollmentRepository;
+import PAI.repository.CourseEditionEnrolmentRepository;
 
 import java.util.Optional;
 
 public class US22_IWantToGradeAStudentInACourseEdition {
     GradeStudentRepository _gradeStudentRepository;
-    CourseEditionEnrollmentRepository _courseEditionEnrollmentRepository;
+    CourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
 
-    public US22_IWantToGradeAStudentInACourseEdition(GradeStudentRepository gradeStudentRepository, CourseEditionEnrollmentRepository courseEditionEnrollmentRepository){
-        if (gradeStudentRepository == null || courseEditionEnrollmentRepository == null){
+    public US22_IWantToGradeAStudentInACourseEdition(GradeStudentRepository gradeStudentRepository, CourseEditionEnrolmentRepository courseEditionEnrolmentRepository){
+        if (gradeStudentRepository == null || courseEditionEnrolmentRepository == null){
             throw new IllegalArgumentException("Cannot be null");
         }
         _gradeStudentRepository = gradeStudentRepository;
-        _courseEditionEnrollmentRepository = courseEditionEnrollmentRepository;
+        _courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
     }
 
     public boolean isStudentEnrolledInCourseEdition (Student student, CourseEdition courseEdition){
-       return _courseEditionEnrollmentRepository.isStudentEnrolledInCourseEdition(student,courseEdition);
+       return _courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(student,courseEdition);
     }
 
     public Optional<GradeStudent> iWantToGradeAStudent (double grade, String date, Student student, CourseEdition courseEdition){

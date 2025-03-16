@@ -2,7 +2,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
-import PAI.repository.ProgrammeEditionEnrollmentRepository;
+import PAI.repository.ProgrammeEditionEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -15,7 +15,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldCreateControllerWhenRepositoriesAreValid() {
         // arrange
-        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
+        ProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble= mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble= mock(DepartmentRepository.class);
 
@@ -42,7 +42,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearRepoIsNull(){
         // arrange
-        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
+        ProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepository.class);
         DepartmentRepository departmentRepoDouble= mock(DepartmentRepository.class);
 
         // Act & Assert
@@ -56,7 +56,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentRepoNull(){
         // arrange
-        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
+        ProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble= mock(SchoolYearRepository.class);
 
         // Act & Assert
@@ -72,7 +72,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // Arrange
         Department departmentDouble = mock(Department.class);
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
-        ProgrammeEditionEnrollmentRepository PEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
+        ProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -95,7 +95,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentIsNull() {
         // arrange
-        ProgrammeEditionEnrollmentRepository pEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
+        ProgrammeEditionEnrolmentRepository pEERepoDouble = mock(ProgrammeEditionEnrolmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -116,7 +116,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearIsNull() {
         // arrange
-        ProgrammeEditionEnrollmentRepository pEERepoDouble = mock(ProgrammeEditionEnrollmentRepository.class);
+        ProgrammeEditionEnrolmentRepository pEERepoDouble = mock(ProgrammeEditionEnrolmentRepository.class);
         SchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         DepartmentRepository departmentRepoDouble = mock(DepartmentRepository.class);
 
@@ -169,9 +169,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
-        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -232,9 +232,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
 
-        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -296,9 +296,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
 
-        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -362,9 +362,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
-        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
@@ -426,9 +426,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
         Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
-        ProgrammeEditionEnrollmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrollmentListFactoryImpl();
-        ProgrammeEditionEnrollmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrollmentFactoryImpl();
-        ProgrammeEditionEnrollmentRepository pEERepo = new ProgrammeEditionEnrollmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
         pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
         pEERepo.enrollStudentInProgrammeEdition(student2, edition2);

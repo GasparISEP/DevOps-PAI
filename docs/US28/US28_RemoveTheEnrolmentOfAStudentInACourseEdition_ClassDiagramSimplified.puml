@@ -1,0 +1,51 @@
+@startuml
+!pragma layout smetana
+
+class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
+    +US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(courseEditionEnrolmentRepository: CourseEditionEnrolmentRepository)
+    +removeStudentEnrolment(student: Student, courseEdition: CourseEdition): boolean
+}
+
+class CourseEditionEnrolment {
+    -_enrollmentDate: LocalDate
+    -_isActive: boolean
+    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
+    +hasStudent() : boolean
+    +hasCourseEdition() : boolean
+    +isEnrolmentActive(): boolean
+    +deactivateEnrolment(): void
+}
+
+class CourseEditionEnrolmentRepository {
+     +CourseEditionEnrolmentRepository(courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+        courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrolment>
+    +removeEnrolment (student: Student, courseEdition: CourseEdition) : boolean
+}
+
+class Student {
+    -_uniqueNumber:String
+    -_name:String
+    -_NIF:String
+    -_phone:String
+    -_email:String
+    -_address:Address
+    -_institutionalEmail:String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+}
+
+class CourseEdition {
+    -_course: Course
+    -_programmeEdition: ProgrammeEdition
+    -_ruc: Teacher
+    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+}
+
+
+
+CourseEditionEnrolment "*" --> "_student 1" Student
+CourseEditionEnrolment "*" --> "_courseEdition 1    " CourseEdition
+CourseEditionEnrolmentRepository"1"..> "    _courseEditionEnrolments *  "CourseEditionEnrolment
+US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller "1" ..> "1 " CourseEditionEnrolmentRepository
+
+@enduml

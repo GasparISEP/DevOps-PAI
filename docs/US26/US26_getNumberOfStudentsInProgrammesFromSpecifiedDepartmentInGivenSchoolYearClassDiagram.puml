@@ -4,7 +4,7 @@ title US26_getNumberOfStudentsInProgrammesFromSpecifiedDepartmentInGivenSchoolYe
 /'left to right direction'/
 
 class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
-    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( ProgrammeEditionEnrollmentRepo PEERepo,SchoolYearRepository schoolYearRepository,DepartmentRepository departmentRepository
+    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( ProgrammeEditionEnrolmentRepo PEERepo,SchoolYearRepository schoolYearRepository,DepartmentRepository departmentRepository
     +countStudentsInProgrammeFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear): int
 }
 
@@ -20,15 +20,15 @@ class DepartmentRepository {
     +departmentExists(department: Department): boolean
 }
 
-class ProgrammeEditionEnrollmentRepo {
-    +ProgrammeEditionEnrollmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrollmentFactory)
+class ProgrammeEditionEnrolmentRepo {
+    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear): int
 }
 
-class ProgrammeEditionEnrollment {
+class ProgrammeEditionEnrolment {
     _enrollmentDate: LocalDate
-    +ProgrammeEditionEnrollment(student: Student, programmeEdition: ProgrammeEdition, _enrollmentDate: LocalDate)
-    +isEnrollmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear): boolean
+    +ProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition, _enrollmentDate: LocalDate)
+    +isEnrolmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear): boolean
     +getStudentUniqueNumber(): int
 }
 
@@ -73,12 +73,12 @@ Class Student {
 Department "*\n _departmentsList " <-- " 1  " DepartmentRepository
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "        1\n_departmentRepository " DepartmentRepository
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "                      _schoolYearRepository 1  " SchoolYearRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1"   ..> "      1\n_peeRepo"  ProgrammeEditionEnrollmentRepo
-ProgrammeEditionEnrollmentRepo "1" --> "_programmeEditionEnrollmentList  * " ProgrammeEditionEnrollment
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1"   ..> "      1\n_peeRepo"  ProgrammeEditionEnrolmentRepo
+ProgrammeEditionEnrolmentRepo "1" --> "_programmeEditionEnrolmentList  * " ProgrammeEditionEnrolment
 SchoolYearRepository "1" --> "_schoolYearList\n                       *" SchoolYear
 ProgrammeEdition "           *\n_programme" <-- "1" Programme
 ProgrammeEdition "_schoolYear\n1..*" <-- "1" SchoolYear
 Programme"*\n_department"-->"1" Department
-ProgrammeEdition"1\n_programmeEdition"<--"*" ProgrammeEditionEnrollment
-ProgrammeEditionEnrollment"*\n_student "<--"1 " Student
+ProgrammeEdition"1\n_programmeEdition"<--"*" ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment"*\n_student "<--"1 " Student
 @enduml

@@ -1,6 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.ProgrammeEditionEnrollmentListFactoryImpl;
+import PAI.factory.ProgrammeEditionEnrolmentListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -14,10 +14,10 @@ class ProgrammeEditionEnrolmentListFactoryTest {
     void whenNewListProgrammeEditionEnrollmentInvoked_ThenSetShouldBeEmpty() {
         // arrange
 
-            ProgrammeEditionEnrollmentListFactoryImpl factory = new ProgrammeEditionEnrollmentListFactoryImpl();
+            ProgrammeEditionEnrolmentListFactoryImpl factory = new ProgrammeEditionEnrolmentListFactoryImpl();
 
             // act
-            Set<ProgrammeEditionEnrollment> enrollmentSet = factory.newListProgrammeEditionEnrollment();
+            Set<ProgrammeEditionEnrolment> enrollmentSet = factory.newListProgrammeEditionEnrollment();
 
             // assert
             assertEquals(HashSet.class, enrollmentSet.getClass());

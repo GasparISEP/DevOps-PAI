@@ -1,0 +1,70 @@
+package PAI.controller;
+
+import PAI.domain.*;
+import PAI.repository.CourseEditionEnrolmentRepository;
+import PAI.repository.CourseEditionRepository;
+import PAI.repository.ProgrammeEditionEnrolmentRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public class US16_EnrolAStudentInACourseEditionController {
+
+    private final CourseEditionEnrolmentRepository _ceeRepository;
+    private final ProgrammeEditionEnrolmentRepository _peeRepository;
+    private final CourseEditionRepository _courseEditionRepository;
+
+
+    public US16_EnrolAStudentInACourseEditionController(
+            CourseEditionEnrolmentRepository ceeRepository, ProgrammeEditionEnrolmentRepository peeRepository, CourseEditionRepository courseEditionRepository) {
+
+        validateCourseEditionEnrollmentRepository (ceeRepository);
+        validateProgrammeEditionEnrollmentRepo (peeRepository);
+        validateCourseEditionRepository (courseEditionRepository);
+
+        this._ceeRepository = ceeRepository;
+        this._peeRepository = peeRepository;
+        this._courseEditionRepository = courseEditionRepository;
+    }
+
+    //show a list of programme editions that student is enrolled
+    public Optional<List<ProgrammeEdition>> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
+
+        if (student == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(_peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student));
+    }
+
+    //show a list of course editions that belongs to a course edition for student choose a course edition
+    public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
+        return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+    }
+
+    //enroll a student in a course edition
+    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition) {
+        return _ceeRepository.enrollStudentInACourseEdition(student, courseEdition);
+    }
+
+    //Verify if the course edition enrollment repository is valid
+    private void validateCourseEditionEnrollmentRepository (CourseEditionEnrolmentRepository ceeRepository) throws IllegalArgumentException {
+        if (ceeRepository == null) {
+            throw new IllegalArgumentException("Course edition enrollment repository cannot be null!");
+        }
+    }
+
+    //Verify if the programme edition enrollment repo is valid
+    private void validateProgrammeEditionEnrollmentRepo (ProgrammeEditionEnrolmentRepository peeRepository) throws IllegalArgumentException {
+        if (peeRepository == null) {
+            throw new IllegalArgumentException("Programme edition enrollment repository cannot be null!");
+        }
+    }
+
+    //verify if the course edition repository is valid
+    private void validateCourseEditionRepository (CourseEditionRepository courseEditionRepository) throws IllegalArgumentException {
+        if (courseEditionRepository == null) {
+            throw new IllegalArgumentException("Course edition repository cannot be null!");
+        }
+    }
+}

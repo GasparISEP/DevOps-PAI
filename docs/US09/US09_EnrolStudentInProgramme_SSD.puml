@@ -14,6 +14,6 @@ ASC -> System : Programme Name
 System --> ASC : What is the date?
 ASC --> System : Date
 
-System --> ASC : Enrollment successful
+System --> ASC : Enrolment successful
 
 @enduml
