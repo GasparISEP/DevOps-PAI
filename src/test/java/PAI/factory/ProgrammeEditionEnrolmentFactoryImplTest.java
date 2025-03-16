@@ -36,4 +36,36 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
             assertEquals(mockProgrammeEdition, enrollment.findProgrammeEditionInEnrollment());
         }
     }
+
+    @Test
+    void whenStudentIsNull_thenThrowIllegalArgumentException() {
+        // Arrange:
+        ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
+
+        ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            factory.newProgrammeEditionEnrollment(null, mockProgrammeEdition);
+        });
+
+        assertEquals("Student cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void whenProgrammeEditionIsNull_thenThrowIllegalArgumentException() {
+        // Arrange:
+        Student mockStudent = mock(Student.class);
+
+        ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            factory.newProgrammeEditionEnrollment(mockStudent, null);
+        });
+
+        assertEquals("ProgrammeEdition cannot be null.", exception.getMessage());
+    }
 }
+
+

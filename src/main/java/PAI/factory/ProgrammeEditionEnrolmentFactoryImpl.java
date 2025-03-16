@@ -8,6 +8,15 @@ public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEn
 
     public ProgrammeEditionEnrolment newProgrammeEditionEnrollment(
             Student student, ProgrammeEdition programmeEdition) {
+
+        if (student == null) {
+            throw new IllegalArgumentException("Student cannot be null.");
+        }
+
+        if (programmeEdition == null) {
+            throw new IllegalArgumentException("ProgrammeEdition cannot be null.");
+        }
+
         return new ProgrammeEditionEnrolment( student, programmeEdition);
     }
 }
