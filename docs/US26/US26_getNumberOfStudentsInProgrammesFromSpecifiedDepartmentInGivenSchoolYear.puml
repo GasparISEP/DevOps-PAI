@@ -12,8 +12,8 @@ participant ":UI" as UI #LightBlue/White
 participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
 participant ":SchoolYearRepo" as SchoolYearRepo #LightBlue/White
 participant ":DepartmentRepo" as DepartmentRepo #LightBlue/White
-participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrolRepo #LightBlue/White
-participant "pee[i]:ProgrammeEditionEnrollment" as ProgrammeEditionEnrolment #LightBlue/White
+participant ":ProgrammeEditionEnrolmentRepo" as ProgrammeEditionEnrolRepo #LightBlue/White
+participant "pee[i]:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment #LightBlue/White
 participant ":Student" as Student #LightBlue/White
 participant ":studentUniqueNumbers" as StudentUniqueNumbers #LightBlue/White
 participant ":ProgrammeEdition" as ProgrammeEdition #LightBlue/White
@@ -44,8 +44,8 @@ activate ProgrammeEditionEnrolRepo
 
 ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new HashSet<>()
 activate StudentUniqueNumbers
-loop for each ProgrammeEditionEnrollment[i] in ProgrammeEditionEnrolRepo
-ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrollmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
+loop for each ProgrammeEditionEnrolment[i] in ProgrammeEditionEnrolRepo
+ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrolmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEditionEnrolment
 ProgrammeEditionEnrolment -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEdition
@@ -61,7 +61,7 @@ ProgrammeEdition-->ProgrammeEditionEnrolment: true
 deactivate ProgrammeEdition
 ProgrammeEditionEnrolment-->ProgrammeEditionEnrolRepo: true
 deactivate ProgrammeEditionEnrolment
-alt isEnrollmentAssociatedToDepartmentAndSchoolYear
+alt isEnrolmentAssociatedToDepartmentAndSchoolYear
 ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrolment: getStudentUniqueNumber ()
 activate ProgrammeEditionEnrolment
 ProgrammeEditionEnrolment -> Student:getUniqueNumber
