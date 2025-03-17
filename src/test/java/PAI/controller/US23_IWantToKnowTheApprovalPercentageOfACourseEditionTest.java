@@ -73,8 +73,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
-        enrollmentRepository.enrollStudentInACourseEdition(student2, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student2, courseEdition1);
 
         list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);

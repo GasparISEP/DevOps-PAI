@@ -13,7 +13,7 @@ public class US22_IWantToGradeAStudentInACourseEdition {
 
     public US22_IWantToGradeAStudentInACourseEdition(GradeStudentRepository gradeStudentRepository, CourseEditionEnrolmentRepository courseEditionEnrolmentRepository){
         if (gradeStudentRepository == null || courseEditionEnrolmentRepository == null){
-            throw new IllegalArgumentException("Cannot be null");
+            throw new IllegalArgumentException("Repository cannot be null");
         }
         _gradeStudentRepository = gradeStudentRepository;
         _courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;

@@ -17,7 +17,7 @@ class CourseEditionEnrolmentListFactoryImplTest {
         CourseEditionEnrolmentListFactoryImpl factory = new CourseEditionEnrolmentListFactoryImpl();
 
         // act
-        Set<CourseEditionEnrolment> result = factory.getCourseEditionEnrollmentList();
+        Set<CourseEditionEnrolment> result = factory.getCourseEditionEnrolmentList();
 
         // assert
         assertEquals(HashSet.class, result.getClass());
