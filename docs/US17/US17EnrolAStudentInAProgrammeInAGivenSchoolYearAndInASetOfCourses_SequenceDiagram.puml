@@ -11,7 +11,7 @@ ASC -> UI : Enter the student!
 '' Get Programmes
 
 activate UI
-participant ":US17_EnrollStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
+participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
 UI -> Controller : getAllProgrammes()
 activate Controller
 participant ":ProgrammeRepository" as ProgrammeRepository
@@ -67,7 +67,7 @@ deactivate UI
 ASC -> UI : Yes!
 
 activate UI
-UI -> Controller : enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
+UI -> Controller : enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
 activate Controller
 participant ":ProgrammeEnrolmentRepository" as ProgrammeEnrolmentRepository
 
@@ -162,16 +162,16 @@ activate "ce[i]:CourseEditionArrayList"
 "ce[i]:CourseEditionArrayList" --> CourseEditionRepository: True
 deactivate "ce[i]:CourseEditionArrayList"
 end
-participant ":CourseEditionEnrollmentRepository" as CourseEditionEnrolmentRepository
+participant ":CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
 CourseEditionRepository -> CourseEditionEnrolmentRepository : ListOfCourseEditions
 deactivate CourseEditionRepository
-participant ":CourseEditionEnrolment" as CourseEditionEnrollment
+participant ":CourseEditionEnrolment" as CourseEditionEnrolment
 activate CourseEditionEnrolmentRepository
-loop for each "cee[i]:CourseEditionEnrollmentRepository" as CourseEditionEnrolmentRepository
-CourseEditionEnrolmentRepository -> CourseEditionEnrollment : findByStudentAndEdition(student, cee[i])
-CourseEditionEnrolmentRepository -> CourseEditionEnrollment : isPresent()
+loop for each "cee[i]:CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
+CourseEditionEnrolmentRepository -> CourseEditionEnrolment : findByStudentAndEdition(student, cee[i])
+CourseEditionEnrolmentRepository -> CourseEditionEnrolment : isPresent()
 create CourseEditionEnrolmentHashSet
-CourseEditionEnrolmentRepository -> CourseEditionEnrolmentHashSet : enrollStudentInACourseEdition(student, cee1)
+CourseEditionEnrolmentRepository -> CourseEditionEnrolmentHashSet : enrolStudentInACourseEdition(student, cee1)
 activate CourseEditionEnrolmentHashSet
 CourseEditionEnrolmentHashSet --> CourseEditionEnrolmentRepository : True
 deactivate CourseEditionEnrolmentHashSet

@@ -11,16 +11,16 @@ class US22_IWantToGradeAStudentInACourseEdition {
 
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: CourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: CourseEditionEnrolmentListFactory)
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
     +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition): boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition): CourseEditionEnrolment
     +numberOfStudentsEnrolledInCourseEdition (CourseEdition : CourseEdition): int
     +removeEnrolment (student : Student): boolean
-    +enrollStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
+    +enrolStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
 }
 
 class CourseEditionEnrolment {
-    -_enrollmentDate: LocalDate
+    -_enrolmentDate: LocalDate
     - _isActive: boolean
     +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
     +equals (obj: Object): boolean
