@@ -6,7 +6,7 @@
 class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
     +US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrolmentRepo: ProgrammeEditionEnrolmentRepo, programmeEditionRepository: ProgrammeEditionRepository, programmeRepository ProgrammeRepository,
     courseEditionEnrolmentRepository: CourseEditionEnrolmentRepository, courseEditionRepository: CourseEditionRepository, schoolYearRepository: SchoolYearRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
-    +enrollStudentInProgrammeEditionAndSetOfCoursesEditionsController(student: Student, programme: Programme, schoolYear: SchoolYear)
+    +enrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(student: Student, programme: Programme, schoolYear: SchoolYear)
     +getAllProgrammes(): List<Programme>
     +getAllSchoolYears(): List<SchoolYear>
 }
@@ -18,9 +18,9 @@ class CourseEditionEnrolment {
 
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository ()
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition) : boolean
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition) : boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrolment>
-    +enrollStudentInProgrammeEditionCoursesEditions (student: Student, courseEditions: List<CourseEdition>) : void
+    +enrolStudentInProgrammeEditionCoursesEditions (student: Student, courseEditions: List<CourseEdition>) : void
 }
 
 class CourseEditionEnrolmentListFactory {
@@ -39,8 +39,8 @@ class ProgrammeEditionEnrolment {
 }
 
 class ProgrammeEditionEnrolmentRepo {
-    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
-    +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition) : boolean
+    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
+    +enrolStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition) : boolean
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
 }
 
@@ -60,7 +60,7 @@ class ProgrammeEditionEnrolmentArrayList{
      +add(programmeEditionEnrolment: ProgrammeEditionEnrolment): boolean
 }
 
-interface ProgrammeEditionEnrollmentListFactoryInterface {
+interface ProgrammeEditionEnrolmentListFactoryInterface {
     +newProgrammeEditionEnrolmentList(): Set<ProgrammeEditionEnrolment>
 }
 
@@ -207,11 +207,11 @@ ProgrammeEditionEnrolmentRepo "1" --> "1    " ProgrammeEditionEnrolmentArrayList
 ProgrammeEditionEnrolmentFactoryInterface <.. ProgrammeEditionEnrolmentRepo
 ProgrammeEditionEnrolmentArrayList "1         " .u.> " *  " ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepo "1"..> "1" ProgrammeEditionEnrolmentListFactory
-ProgrammeEditionEnrolmentRepo ..> ProgrammeEditionEnrollmentListFactoryInterface
-ProgrammeEditionEnrollmentListFactoryInterface ..> ProgrammeEditionEnrolmentArrayList
+ProgrammeEditionEnrolmentRepo ..> ProgrammeEditionEnrolmentListFactoryInterface
+ProgrammeEditionEnrolmentListFactoryInterface ..> ProgrammeEditionEnrolmentArrayList
 CourseEdition "_listOfCourseEdition *  " <-- "1   " ProgrammeEdition
 ProgrammeEditionEnrolmentFactoryInterface <|.. ProgrammeEditionEnrolmentFactory
-ProgrammeEditionEnrollmentListFactoryInterface <|.. ProgrammeEditionEnrolmentListFactory
+ProgrammeEditionEnrolmentListFactoryInterface <|.. ProgrammeEditionEnrolmentListFactory
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrolment
 
 ProgrammeRepository ..> ProgrammeRepositoryListFactory

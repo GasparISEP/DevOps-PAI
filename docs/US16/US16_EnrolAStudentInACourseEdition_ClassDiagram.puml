@@ -10,42 +10,42 @@ class US16_EnrolAStudentInACourseEditionController {
 }
 
 class CourseEditionEnrolmentFactoryImpl{
-    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition)
+    +createCourseEditionEnrolment(student: Student, courseEdition: CourseEdition)
 }
 
 class CourseEditionEnrolment {
-    -_enrollmentDate: LocalDate
+    -_enrolmentDate: LocalDate
     - _isActive: boolean
     +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
     +equals (obj: Object): boolean
 }
 
 interface ICourseEditionEnrolmentListFactory{
-    +getCourseEditionEnrollmentList(): Set<CourseEditionEnrolment>
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
 }
 
 class CourseEditionEnrolmentListFactoryImpl {
-    +getCourseEditionEnrollmentList(): Set<CourseEditionEnrolment>
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
 }
 
 interface ICourseEditionEnrolmentFactory{
-    +createCourseEditionEnrollment(student: Student, courseEdition: CourseEdition): CourseEditionEnrolment
+    +createCourseEditionEnrolment(student: Student, courseEdition: CourseEdition): CourseEditionEnrolment
 }
 
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
 }
 
 class ProgrammeEditionEnrolment {
-    -_enrollmentDate: LocalDate
+    -_enrolmentDate: LocalDate
     +ProgrammeEditionEnrolment(student:Student, programmeEdition: ProgrammeEdition)
-    +findStudentInProgrammeEditionEnrollment () : Student
+    +findStudentInProgrammeEditionEnrolment () : Student
     +findProgrammeEditionInEnrolment () : ProgrammeEdition
 }
 
 interface CourseEditionEnrolmentSet {
-    +add(courseEditionEnrollment: CourseEditionEnrolment): boolean
+    +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
 }
 
 class ProgrammeEditionEnrolmentRepository {

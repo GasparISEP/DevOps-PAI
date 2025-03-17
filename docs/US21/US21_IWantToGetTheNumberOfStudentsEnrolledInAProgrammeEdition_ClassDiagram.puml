@@ -14,7 +14,7 @@ class ProgrammeEditionEnrolmentRepo {
     -_programmeEditionEnrolments: Set<ProgrammeEditionEnrolment>
     -_programmeEditionEnrolments: ProgrammeEditionEnrolmentFactoryImpl
     +ProgrammeEditionEnrolmentRepo(programmeEditionEnrollmentFactory: ProgrammeEditionEnrolmentFactoryImpl, programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
-    +enrollStudentInProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
+    +enrolStudentInProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
     +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
@@ -34,9 +34,9 @@ class ProgrammeEditionRepository {
 class ProgrammeEditionEnrolment {
     -_student: Student
     -_programmeEdition: ProgrammeEdition
-    -_enrollmentDate: LocalDate
+    -_enrolmentDate: LocalDate
     +ProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition)
-    +isEnrollmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
+    +isEnrolmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
     +getStudentUniqueNumber()
     +equals (obj: Object)
     +findProgrammeEditionInEnrollment()

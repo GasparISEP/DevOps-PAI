@@ -18,8 +18,8 @@ public class US16_EnrolAStudentInACourseEditionController {
     public US16_EnrolAStudentInACourseEditionController(
             CourseEditionEnrolmentRepository ceeRepository, ProgrammeEditionEnrolmentRepository peeRepository, CourseEditionRepository courseEditionRepository) {
 
-        validateCourseEditionEnrollmentRepository (ceeRepository);
-        validateProgrammeEditionEnrollmentRepo (peeRepository);
+        validateCourseEditionEnrolmentRepository (ceeRepository);
+        validateProgrammeEditionEnrolmentRepository (peeRepository);
         validateCourseEditionRepository (courseEditionRepository);
 
         this._ceeRepository = ceeRepository;
@@ -42,22 +42,22 @@ public class US16_EnrolAStudentInACourseEditionController {
         return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
     }
 
-    //enroll a student in a course edition
-    public boolean enrollStudentInCourseEdition(Student student, CourseEdition courseEdition) {
-        return _ceeRepository.enrollStudentInACourseEdition(student, courseEdition);
+    //enrol a student in a course edition
+    public boolean enrolStudentInCourseEdition(Student student, CourseEdition courseEdition) {
+        return _ceeRepository.enrolStudentInACourseEdition(student, courseEdition);
     }
 
     //Verify if the course edition enrollment repository is valid
-    private void validateCourseEditionEnrollmentRepository (CourseEditionEnrolmentRepository ceeRepository) throws IllegalArgumentException {
+    private void validateCourseEditionEnrolmentRepository (CourseEditionEnrolmentRepository ceeRepository) throws IllegalArgumentException {
         if (ceeRepository == null) {
-            throw new IllegalArgumentException("Course edition enrollment repository cannot be null!");
+            throw new IllegalArgumentException("Course edition enrolment repository cannot be null!");
         }
     }
 
     //Verify if the programme edition enrollment repo is valid
-    private void validateProgrammeEditionEnrollmentRepo (ProgrammeEditionEnrolmentRepository peeRepository) throws IllegalArgumentException {
+    private void validateProgrammeEditionEnrolmentRepository (ProgrammeEditionEnrolmentRepository peeRepository) throws IllegalArgumentException {
         if (peeRepository == null) {
-            throw new IllegalArgumentException("Programme edition enrollment repository cannot be null!");
+            throw new IllegalArgumentException("Programme edition enrolment repository cannot be null!");
         }
     }
 

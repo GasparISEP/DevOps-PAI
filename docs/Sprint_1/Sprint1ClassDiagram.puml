@@ -174,7 +174,7 @@ DegreeType "1" <-- "*" Programme
 Enrolment "*" --> "1" AccessMethod: is registered
 Programme "1"  -u-> "*\n      " Enrolment
 Programme .u.> Enrolment: <<create>>\n\n
-Student "1" <-- "*" Enrolment: enrolls
+Student "1" <-- "*" Enrolment: enrols
 StudentRepository "List<Student>" ---> "*" Student: "      "
 StudentRepository ...> Student: <<create>>
 SchoolYearRepository "List<SchoolYear> " ---> "*" SchoolYear: "      "

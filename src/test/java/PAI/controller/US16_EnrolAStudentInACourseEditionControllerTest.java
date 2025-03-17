@@ -29,7 +29,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         });
 
         //assert
-        assertEquals("Programme edition enrollment repository cannot be null!", exception.getMessage());
+        assertEquals("Programme edition enrolment repository cannot be null!", exception.getMessage());
     }
 
     @Test
@@ -59,7 +59,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         });
 
         //assert
-        assertEquals("Course edition enrollment repository cannot be null!", exception.getMessage());
+        assertEquals("Course edition enrolment repository cannot be null!", exception.getMessage());
     }
 
     //testing find Programme Editions that Student is Enrolled Method
@@ -145,10 +145,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Student doubleSt1 = mock (Student.class);
         CourseEdition doubleCe1 = mock (CourseEdition.class);
 
-        when (doubleCeeRepository .enrollStudentInACourseEdition(doubleSt1,doubleCe1)).thenReturn (true);
+        when (doubleCeeRepository .enrolStudentInACourseEdition(doubleSt1,doubleCe1)).thenReturn (true);
 
         //act
-        boolean result = controller.enrollStudentInCourseEdition(doubleSt1,doubleCe1);
+        boolean result = controller.enrolStudentInCourseEdition(doubleSt1,doubleCe1);
 
         //assert
         assertTrue(result);
@@ -167,10 +167,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Student doubleStudent = mock (Student.class);
         CourseEdition doubleCe = mock (CourseEdition.class);
 
-        when (doubleCeeRepository.enrollStudentInACourseEdition(doubleStudent,doubleCe)).thenReturn(false);
+        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudent,doubleCe)).thenReturn(false);
 
         //act
-        boolean result = controller.enrollStudentInCourseEdition (doubleStudent, doubleCe);
+        boolean result = controller.enrolStudentInCourseEdition(doubleStudent, doubleCe);
 
         //assert
         assertFalse(result);
@@ -385,10 +385,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEdition ce1 = new CourseEdition(course1, programmeEdition1);
 
         courseEditionRepository.createAndSaveCourseEdition(course1,programmeEdition1);
-        ceeRepository.enrollStudentInACourseEdition(st2,ce1);
+        ceeRepository.enrolStudentInACourseEdition(st2,ce1);
 
         //act
-        boolean result = controller.enrollStudentInCourseEdition(st1,ce1);
+        boolean result = controller.enrolStudentInCourseEdition(st1,ce1);
 
         //assert
         assertTrue(result);
@@ -449,10 +449,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEdition ce1 = new CourseEdition(course1, programmeEdition1);
 
         courseEditionRepository.createAndSaveCourseEdition(course1,programmeEdition1);
-        ceeRepository.enrollStudentInACourseEdition(st1,ce1);
+        ceeRepository.enrolStudentInACourseEdition(st1,ce1);
 
         //act
-        boolean result = controller.enrollStudentInCourseEdition(st1,ce1);
+        boolean result = controller.enrolStudentInCourseEdition(st1,ce1);
 
         //assert
         assertFalse(result);

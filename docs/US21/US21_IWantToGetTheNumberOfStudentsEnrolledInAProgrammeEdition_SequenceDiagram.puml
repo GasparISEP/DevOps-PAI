@@ -3,7 +3,7 @@ actor ASC
 participant UI #application
 participant ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" #application
 participant "ProgrammeEditionRepo" #application
-participant ":ProgrammeEditionEnrollmentRepo" #application
+participant ":ProgrammeEditionEnrolmentRepo" #application
 participant "programmeEditionList1:List<ProgrammeEdition>"#application
 participant "programmeEdition1:ProgrammeEdition" #application
 
@@ -18,8 +18,8 @@ UI --> ASC -- : which ProgrammeEdition?
 
 ASC -> UI ++ #application: programmeEdition1!
 UI -> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" ++ #application: iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1)
-":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -> ":ProgrammeEditionEnrollmentRepo" ++ #application : getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1)
-":ProgrammeEditionEnrollmentRepo" --> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -- #application : int
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -> ":ProgrammeEditionEnrolmentRepo" ++ #application : getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1)
+":ProgrammeEditionEnrolmentRepo" --> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -- #application : int
 ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" --> "UI" -- #application : int
 "UI" --> ASC -- #application : int
 @enduml

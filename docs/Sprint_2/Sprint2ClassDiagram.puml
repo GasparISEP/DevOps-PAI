@@ -199,7 +199,7 @@ class Enrolment {
 
 class ProgrammeEnrolmentRepository {
      +enrolStudents (Student : student, AccessMethod : accessMethod, Programme : programme, String enrolmentDate)
-     +isEnrolmentRepetead(Enrolment : newEnrolment)
+     +isEnrolmentRepeated(Enrolment : newEnrolment)
      +isStudentEnrolled (Student : student, Programme : programme)
 }
 

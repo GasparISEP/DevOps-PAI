@@ -58,12 +58,17 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
         when(enrollment1.isEnrollmentActive()).thenReturn(true);
 
-        when(courseEditionEnrolmentFactoryImpl.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
-        when(enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1)).thenReturn(true);
+        when(courseEditionEnrolmentFactoryImpl.createCourseEditionEnrolment(student1, courseEdition1)).thenReturn(enrollment1);
+        when(enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1)).thenReturn(true);
 
         //act
+<<<<<<< HEAD
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
         Optional<StudentGrade> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
+=======
+        enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
+        Optional<GradeStudent> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
+>>>>>>> refs/remotes/origin/main
 
         //assert
         assertTrue(optc1.isPresent());
@@ -106,7 +111,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         // Act
         Optional<StudentGrade> result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
@@ -139,9 +144,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrolmentFactoryImpl.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
+        when(courseEditionEnrolmentFactoryImpl.createCourseEditionEnrolment(student1, courseEdition1)).thenReturn(enrollment1);
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
@@ -192,9 +197,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollment1.knowStudent()).thenReturn(student1);
         when(enrollment1.knowCourseEdition()).thenReturn(courseEdition1);
 
-        when(courseEditionEnrolmentFactoryImpl.createCourseEditionEnrollment(student1, courseEdition1)).thenReturn(enrollment1);
+        when(courseEditionEnrolmentFactoryImpl.createCourseEditionEnrolment(student1, courseEdition1)).thenReturn(enrollment1);
 
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
 

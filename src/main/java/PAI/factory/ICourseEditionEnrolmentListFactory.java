@@ -6,5 +6,5 @@ import java.util.Set;
 
 public interface ICourseEditionEnrolmentListFactory {
 
-    Set<CourseEditionEnrolment> getCourseEditionEnrollmentList ();
+    Set<CourseEditionEnrolment> getCourseEditionEnrolmentList();
 }

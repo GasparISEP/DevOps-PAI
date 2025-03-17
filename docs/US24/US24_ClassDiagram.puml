@@ -12,8 +12,8 @@ class US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController {
 class CourseEditionEnrolmentRepository {
     -_courseEditionEnrolments: ArrayList<CourseEditionEnrolment>
     +CourseEditionEnrolmentRepository ()
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
-    enrollmentDate: LocalDate)
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
+    enrolmentDate: LocalDate)
     +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition)
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition)
     +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition)
@@ -23,7 +23,7 @@ class CourseEditionEnrolmentRepository {
 class CourseEditionEnrolment {
     -_enrollmentDate: LocalDate
     +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition,
-     enrollmentDate: LocalDate)
+     enrolmentDate: LocalDate)
     +equals (obj: Object)
     +findStudentInCourseEditionEnrolment ()
     +findCourseEditionInEnrolment ()
@@ -32,11 +32,11 @@ class CourseEditionEnrolment {
 }
 
 class CourseEditionEnrolmentFactory {
-createCourseEditionEnrollment(Student, CourseEdition)
+createCourseEditionEnrolment(Student, CourseEdition)
 }
 
 class ICourseEditionEnrolmentFactory {
-CourseEditionEnrolment createCourseEditionEnrollment(Student, CourseEdition)
+CourseEditionEnrolment createCourseEditionEnrolment(Student, CourseEdition)
 }
 
 US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController "1  " ---> "1  "CourseEditionEnrolmentRepository

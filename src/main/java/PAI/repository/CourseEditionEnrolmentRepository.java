@@ -10,18 +10,18 @@ public class CourseEditionEnrolmentRepository {
 
     private Set<CourseEditionEnrolment> _courseEditionEnrolments;
 
-    private final ICourseEditionEnrolmentFactory _courseEditionEnrollmentFactory;
+    private final ICourseEditionEnrolmentFactory _courseEditionEnrolmentFactory;
 
     //constructor
-    public CourseEditionEnrolmentRepository(ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory, ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory) {
+    public CourseEditionEnrolmentRepository(ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory, ICourseEditionEnrolmentListFactory courseEditionEnrolmentListFactory) {
 
-        _courseEditionEnrolments = courseEditionEnrollmentListFactory.getCourseEditionEnrollmentList();
-        _courseEditionEnrollmentFactory = courseEditionEnrollmentFactory;
+        _courseEditionEnrolments = courseEditionEnrolmentListFactory.getCourseEditionEnrolmentList();
+        _courseEditionEnrolmentFactory = courseEditionEnrolmentFactory;
     }
 
-    public boolean enrollStudentInACourseEdition(Student student, CourseEdition courseEdition) {
+    public boolean enrolStudentInACourseEdition(Student student, CourseEdition courseEdition) {
         try {
-            CourseEditionEnrolment cee1 = _courseEditionEnrollmentFactory.createCourseEditionEnrollment(student, courseEdition);
+            CourseEditionEnrolment cee1 = _courseEditionEnrolmentFactory.createCourseEditionEnrolment(student, courseEdition);
 
             return _courseEditionEnrolments.add(cee1);
 
@@ -72,7 +72,7 @@ public class CourseEditionEnrolmentRepository {
     }
 
     // Method to remove (deactivate) an enrollment
-    public boolean removeEnrollment(Student student, CourseEdition courseEdition) {
+    public boolean removeEnrolment(Student student, CourseEdition courseEdition) {
         Optional<CourseEditionEnrolment> enrollment = findByStudentAndEdition(student, courseEdition);
         if (enrollment.isPresent()) {
             CourseEditionEnrolment cee = enrollment.get();
@@ -92,7 +92,7 @@ public class CourseEditionEnrolmentRepository {
             if (existingEnrollment.isPresent()) {
                 throw new IllegalStateException("This course edition enrollment is already in the list.");
             }
-            enrollStudentInACourseEdition(student, courseEdition);
+            enrolStudentInACourseEdition(student, courseEdition);
         }
     }
 }

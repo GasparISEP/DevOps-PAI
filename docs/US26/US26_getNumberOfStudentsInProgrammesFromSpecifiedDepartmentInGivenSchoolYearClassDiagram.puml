@@ -26,8 +26,8 @@ class ProgrammeEditionEnrolmentRepo {
 }
 
 class ProgrammeEditionEnrolment {
-    _enrollmentDate: LocalDate
-    +ProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition, _enrollmentDate: LocalDate)
+    _enrolmentDate: LocalDate
+    +ProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition, _enrolmentDate: LocalDate)
     +isEnrolmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear): boolean
     +getStudentUniqueNumber(): int
 }

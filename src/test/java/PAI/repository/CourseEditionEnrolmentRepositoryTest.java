@@ -25,10 +25,10 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition doubleCe1 = mock(CourseEdition.class);
         CourseEditionEnrolment doubleCee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, doubleCe1)).thenReturn(doubleCee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(doubleCee1);
 
         //act
-        boolean result = repository.enrollStudentInACourseEdition(doubleSt1, doubleCe1);
+        boolean result = repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
 
         //assert
         assertTrue(result);
@@ -45,17 +45,17 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition ce1 = mock(CourseEdition.class);
         CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(st1, ce1)).thenReturn(cee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(st1, ce1)).thenReturn(cee1);
 
         Student st2 = mock(Student.class);
         CourseEdition ce2 = mock(CourseEdition.class);
         CourseEditionEnrolment cee2 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(st2, ce1)).thenReturn(cee2);
+        when(doubleCeeFactory.createCourseEditionEnrolment(st2, ce1)).thenReturn(cee2);
 
         //act
-        boolean result1 = repository.enrollStudentInACourseEdition(st1, ce1);
-        boolean result2 = repository.enrollStudentInACourseEdition(st2, ce2);
+        boolean result1 = repository.enrolStudentInACourseEdition(st1, ce1);
+        boolean result2 = repository.enrolStudentInACourseEdition(st2, ce2);
 
         //assert
         assertEquals(true, result1);
@@ -75,13 +75,13 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEditionEnrolment cee1 = new CourseEditionEnrolmentDoubleEqualsTrue(doubleSt1, doubleCe1);
         CourseEditionEnrolment cee2 = new CourseEditionEnrolmentDoubleEqualsTrue(doubleSt1, doubleCe1);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, doubleCe1)).thenReturn(cee1);
-        repository.enrollStudentInACourseEdition(doubleSt1, doubleCe1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(cee1);
+        repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, doubleCe1)).thenReturn(cee2);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(cee2);
 
         //act
-        boolean result2 = repository.enrollStudentInACourseEdition(doubleSt1, doubleCe1);
+        boolean result2 = repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
 
         //assert
         assertFalse(result2);
@@ -96,10 +96,10 @@ class CourseEditionEnrolmentRepositoryTest {
 
         CourseEdition doubleCe1 = mock(CourseEdition.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(null, doubleCe1)).thenThrow();
+        when(doubleCeeFactory.createCourseEditionEnrolment(null, doubleCe1)).thenThrow();
 
         //act
-        boolean result = repository.enrollStudentInACourseEdition(null, doubleCe1);
+        boolean result = repository.enrolStudentInACourseEdition(null, doubleCe1);
 
         //assert
         assertFalse(result);
@@ -114,10 +114,10 @@ class CourseEditionEnrolmentRepositoryTest {
 
         Student doubleSt1 = mock(Student.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, null)).thenThrow();
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, null)).thenThrow();
 
         //act
-        boolean result = repository.enrollStudentInACourseEdition(doubleSt1, null);
+        boolean result = repository.enrolStudentInACourseEdition(doubleSt1, null);
 
         //assert
         assertFalse(result);
@@ -135,11 +135,11 @@ class CourseEditionEnrolmentRepositoryTest {
         Student student1 = mock(Student.class);
         CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(student1, ce1)).thenReturn(cee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(student1, ce1)).thenReturn(cee1);
         when(cee1.knowStudent()).thenReturn(student1);
         when(cee1.knowCourseEdition()).thenReturn(ce1);
         when(cee1.isEnrollmentActive()).thenReturn(true);
-        repository.enrollStudentInACourseEdition(student1, ce1);
+        repository.enrolStudentInACourseEdition(student1, ce1);
 
         //act & assert
         assertTrue(repository.isStudentEnrolledInCourseEdition(student1, ce1));
@@ -157,11 +157,11 @@ class CourseEditionEnrolmentRepositoryTest {
         Student student2 = mock(Student.class);
         CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(student1, ce1)).thenReturn(cee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(student1, ce1)).thenReturn(cee1);
         when(cee1.knowStudent()).thenReturn(student1);
         when(cee1.knowCourseEdition()).thenReturn(ce1);
         when(cee1.isEnrollmentActive()).thenReturn(true);
-        repository.enrollStudentInACourseEdition(student1, ce1);
+        repository.enrolStudentInACourseEdition(student1, ce1);
 
         //act
         //assert
@@ -179,7 +179,7 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition doubleCe1 = mock(CourseEdition.class);
         CourseEditionEnrolment courseEEnrollments = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, doubleCe1)).thenReturn(courseEEnrollments);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(courseEEnrollments);
 
         when(courseEEnrollments.hasStudent(doubleSt1)).thenReturn(true);
 
@@ -187,7 +187,7 @@ class CourseEditionEnrolmentRepositoryTest {
 
         when(courseEEnrollments.isEnrollmentActive()).thenReturn(true);
 
-        repository.enrollStudentInACourseEdition(doubleSt1, doubleCe1);
+        repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
         // Act
         Optional<CourseEditionEnrolment> result = repository.findByStudentAndEdition(doubleSt1, doubleCe1);
 
@@ -208,13 +208,13 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition doubleCe1 = mock(CourseEdition.class);
         CourseEditionEnrolment courseEEnrollments = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleSt1, doubleCe1)).thenReturn(courseEEnrollments);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(courseEEnrollments);
 
         when(courseEEnrollments.hasStudent(doubleSt1)).thenReturn(true);
 
         when(courseEEnrollments.hasCourseEdition(doubleCe1)).thenReturn(true);
 
-        repository.enrollStudentInACourseEdition(doubleSt1, doubleCe1);
+        repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
 
         // Act
         Optional<CourseEditionEnrolment> result = repository.findByStudentAndEdition(doubleSt1, doubleCe1);
@@ -306,11 +306,11 @@ class CourseEditionEnrolmentRepositoryTest {
         Student doubleStudent1 = mock(Student.class);
         CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent1, doubleCourseEdition1)).thenReturn(cee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStudent1, doubleCourseEdition1)).thenReturn(cee1);
 
         when(cee1.knowCourseEdition()).thenReturn(doubleCourseEdition1);
 
-        repo.enrollStudentInACourseEdition(doubleStudent1, doubleCourseEdition1);
+        repo.enrolStudentInACourseEdition(doubleStudent1, doubleCourseEdition1);
 
         // Act
         int studentsEnrolled = repo.numberOfStudentsEnrolledInCourseEdition(doubleCourseEdition1);
@@ -335,14 +335,14 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolment cee2 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent1, doubleCourseEdition2)).thenReturn(cee1);
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent2, doubleCourseEdition2)).thenReturn(cee2);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStudent1, doubleCourseEdition2)).thenReturn(cee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStudent2, doubleCourseEdition2)).thenReturn(cee2);
 
         when(cee1.knowCourseEdition()).thenReturn(doubleCourseEdition2);
         when(cee2.knowCourseEdition()).thenReturn(doubleCourseEdition2);
 
-        repo.enrollStudentInACourseEdition(doubleStudent1, doubleCourseEdition2);
-        repo.enrollStudentInACourseEdition(doubleStudent2, doubleCourseEdition2);
+        repo.enrolStudentInACourseEdition(doubleStudent1, doubleCourseEdition2);
+        repo.enrolStudentInACourseEdition(doubleStudent2, doubleCourseEdition2);
 
         // Act
         int studentsEnrolled = repo.numberOfStudentsEnrolledInCourseEdition(doubleCourseEdition1);
@@ -396,17 +396,17 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
         CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
 
-        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition))
+        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition))
                 .thenReturn(mockCee);
 
         when(mockCee.hasStudent(mockStudent)).thenReturn(true);
         when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee.isEnrollmentActive()).thenReturn(true);
 
-        enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition);
+        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition);
 
         // Act
-        boolean result = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition);
+        boolean result = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
 
         // Assert
         assertTrue(result, "Enrollment should be removed successfully.");
@@ -425,16 +425,16 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
         // Act
-        boolean result = repository.removeEnrollment(mockStudent, mockCourseEdition);
+        boolean result = repository.removeEnrolment(mockStudent, mockCourseEdition);
 
         // Assert
         assertFalse(result, "Removing a non existing enrollment should return false.");
-        verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any()); // Ensure no enrollment creation occurs
+        verify(enrollmentFactoryMock, never()).createCourseEditionEnrolment(any(), any()); // Ensure no enrollment creation occurs
     }
 
     // If the student or course edition information is missing (null), the system should reject the operation
     @Test
-    void removeEnrollment_WithNullStudentOrCourseEdition_ShouldReturnFalse() {
+    void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse() {
         // Arrange
         ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
@@ -444,19 +444,19 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
         // Act & Assert for null Student
-        boolean result1 = repository.removeEnrollment(null, mockCourseEdition);
+        boolean result1 = repository.removeEnrolment(null, mockCourseEdition);
         assertFalse(result1);
-        verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
+        verify(enrollmentFactoryMock, never()).createCourseEditionEnrolment(any(), any());
 
         // Act & Assert for null CourseEdition
-        boolean result2 = repository.removeEnrollment(mockStudent, null);
+        boolean result2 = repository.removeEnrolment(mockStudent, null);
         assertFalse(result2);
-        verify(enrollmentFactoryMock, never()).createCourseEditionEnrollment(any(), any());
+        verify(enrollmentFactoryMock, never()).createCourseEditionEnrolment(any(), any());
     }
 
     // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
     @Test
-    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
+    void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt() {
         // Arrange
         ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
@@ -466,7 +466,7 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
         CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
 
-        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition))
+        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition))
                 .thenReturn(mockCee);
 
         when(mockCee.hasStudent(mockStudent)).thenReturn(true);
@@ -475,17 +475,17 @@ class CourseEditionEnrolmentRepositoryTest {
         // Simulate first call: Enrollment starts as active, then becomes inactive
         when(mockCee.isEnrollmentActive()).thenReturn(true).thenReturn(false);
 
-        enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition);
+        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition);
 
         // Act
-        boolean firstRemoval = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition);
+        boolean firstRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
 
         // Assert first removal is successful
         assertTrue(firstRemoval, "Enrollment should be removed successfully.");
         verify(mockCee).deactivateEnrollment(); // Ensure deactivation was called
 
         // Act again: Try removing a second time
-        boolean secondRemoval = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition);
+        boolean secondRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
 
         // Assert second removal fails
         assertFalse(secondRemoval, "The second removal should not succeed.");
@@ -509,7 +509,7 @@ class CourseEditionEnrolmentRepositoryTest {
         when(mockCee.isEnrollmentActive()).thenReturn(false); // Enrollment is already inactive
 
         // Act: Try removing an already inactive enrollment
-        boolean result = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition);
+        boolean result = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
 
         // Assert
         assertFalse(result, "Removing an already inactive enrollment should return false.");
@@ -530,9 +530,9 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEditionEnrolment mockCee1 = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolment mockCee2 = mock(CourseEditionEnrolment.class);
 
-        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent1, mockCourseEdition))
+        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent1, mockCourseEdition))
                 .thenReturn(mockCee1);
-        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent2, mockCourseEdition))
+        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent2, mockCourseEdition))
                 .thenReturn(mockCee2);
 
         when(mockCee1.hasStudent(mockStudent1)).thenReturn(true);
@@ -543,12 +543,12 @@ class CourseEditionEnrolmentRepositoryTest {
         when(mockCee2.hasCourseEdition(mockCourseEdition)).thenReturn(true);
         when(mockCee2.isEnrollmentActive()).thenReturn(true);
 
-        enrollmentRepository.enrollStudentInACourseEdition(mockStudent1, mockCourseEdition);
-        enrollmentRepository.enrollStudentInACourseEdition(mockStudent2, mockCourseEdition);
+        enrollmentRepository.enrolStudentInACourseEdition(mockStudent1, mockCourseEdition);
+        enrollmentRepository.enrolStudentInACourseEdition(mockStudent2, mockCourseEdition);
 
         // Act
-        boolean firstRemoval = enrollmentRepository.removeEnrollment(mockStudent1, mockCourseEdition);
-        boolean secondRemoval = enrollmentRepository.removeEnrollment(mockStudent2, mockCourseEdition);
+        boolean firstRemoval = enrollmentRepository.removeEnrolment(mockStudent1, mockCourseEdition);
+        boolean secondRemoval = enrollmentRepository.removeEnrolment(mockStudent2, mockCourseEdition);
 
         // Assert
         assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
@@ -571,8 +571,8 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEditionEnrolment mockCee1 = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolment mockCee2 = mock(CourseEditionEnrolment.class);
 
-        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition1)).thenReturn(mockCee1);
-        when(enrollmentFactoryMock.createCourseEditionEnrollment(mockStudent, mockCourseEdition2)).thenReturn(mockCee2);
+        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition1)).thenReturn(mockCee1);
+        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition2)).thenReturn(mockCee2);
 
         when(mockCee1.hasStudent(mockStudent)).thenReturn(true);
         when(mockCee1.hasCourseEdition(mockCourseEdition1)).thenReturn(true);
@@ -582,12 +582,12 @@ class CourseEditionEnrolmentRepositoryTest {
         when(mockCee2.hasCourseEdition(mockCourseEdition2)).thenReturn(true);
         when(mockCee2.isEnrollmentActive()).thenReturn(true);
 
-        enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition1);
-        enrollmentRepository.enrollStudentInACourseEdition(mockStudent, mockCourseEdition2);
+        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition2);
 
         // Act
-        boolean firstRemoval = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition1);
-        boolean secondRemoval = enrollmentRepository.removeEnrollment(mockStudent, mockCourseEdition2);
+        boolean firstRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition1);
+        boolean secondRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition2);
 
         // Assert
         assertTrue(firstRemoval, "Student should be removed from the first course edition.");
@@ -607,12 +607,12 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
         CourseEditionEnrolment doubleEnrollment = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment);
         when(doubleEnrollment.hasStudent(doubleStudent)).thenReturn(true);
         when(doubleEnrollment.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
 
         // Act
-        repository.enrollStudentInACourseEdition(doubleStudent, doubleCourseEdition1);
+        repository.enrolStudentInACourseEdition(doubleStudent, doubleCourseEdition1);
 
         // Assert
         assertTrue(repository.findByStudentAndEdition(doubleStudent, doubleCourseEdition1).isPresent());
@@ -633,9 +633,9 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEditionEnrolment doubleEnrollment1 = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolment doubleEnrollment2 = mock(CourseEditionEnrolment.class);
 
-        when(doubleFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment1);
+        when(doubleFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment1);
 
-        when(doubleFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition2)).thenReturn(doubleEnrollment2);
+        when(doubleFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition2)).thenReturn(doubleEnrollment2);
 
         when(doubleEnrollment1.hasStudent(doubleStudent)).thenReturn(true);
 
@@ -665,7 +665,7 @@ class CourseEditionEnrolmentRepositoryTest {
         Student doubleStudent = mock(Student.class);
         CourseEdition doubleCourseEdition1 = mock(CourseEdition.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrollment(doubleStudent, doubleCourseEdition1)).thenReturn(null);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition1)).thenReturn(null);
 
         // Act
 
@@ -707,10 +707,10 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
-        courseEditionEnrolmentRepository.enrollStudentInACourseEdition(student, courseEdition);
+        courseEditionEnrolmentRepository.enrolStudentInACourseEdition(student, courseEdition);
 
         //Act
-        boolean result = courseEditionEnrolmentRepository.removeEnrollment(student, courseEdition);
+        boolean result = courseEditionEnrolmentRepository.removeEnrolment(student, courseEdition);
 
         // Assert
         assertTrue(result, "Enrollment should be removed successfully.");
@@ -746,14 +746,14 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
         //Act
-        boolean result = courseEditionEnrolmentRepository.removeEnrollment(student, courseEdition);
+        boolean result = courseEditionEnrolmentRepository.removeEnrolment(student, courseEdition);
 
         // Assert
         assertFalse(result, "Removing a non existing enrollment should return false.");
     }
 
     @Test
-    void removeEnrollment_WithNullStudentOrCourseEdition_ShouldReturnFalse_IntegrationTest() throws Exception {
+    void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -783,16 +783,16 @@ class CourseEditionEnrolmentRepositoryTest {
 
         // Act and assert
         // test for the case where Student is null
-        boolean result1 = repository.removeEnrollment(null, courseEdition);
+        boolean result1 = repository.removeEnrolment(null, courseEdition);
         assertFalse(result1, "Removing a non existing enrollment should return false.");
 
         // test for the case where CourseEdition is null.
-        boolean result2 = repository.removeEnrollment(student, null);
+        boolean result2 = repository.removeEnrolment(student, null);
         assertFalse(result2, "Removing a non existing enrollment should return false.");
     }
 
     @Test
-    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
+    void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
         // Arrange
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -820,11 +820,11 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
-        repository.enrollStudentInACourseEdition(student, courseEdition);
+        repository.enrolStudentInACourseEdition(student, courseEdition);
 
         // Act
-        boolean firstRemoval = repository.removeEnrollment(student, courseEdition);
-        boolean secondRemoval = repository.removeEnrollment(student, courseEdition);
+        boolean firstRemoval = repository.removeEnrolment(student, courseEdition);
+        boolean secondRemoval = repository.removeEnrolment(student, courseEdition);
 
         // Assert
         assertTrue(firstRemoval, "Enrollment should be removed successfully.");
@@ -861,12 +861,12 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
-        repository.enrollStudentInACourseEdition(student1, courseEdition);
-        repository.enrollStudentInACourseEdition(student2, courseEdition);
+        repository.enrolStudentInACourseEdition(student1, courseEdition);
+        repository.enrolStudentInACourseEdition(student2, courseEdition);
 
         //Act
-        boolean firstRemoval = repository.removeEnrollment(student1, courseEdition);
-        boolean secondRemoval = repository.removeEnrollment(student2, courseEdition);
+        boolean firstRemoval = repository.removeEnrolment(student1, courseEdition);
+        boolean secondRemoval = repository.removeEnrolment(student2, courseEdition);
 
         // Assert
         assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
@@ -904,12 +904,12 @@ class CourseEditionEnrolmentRepositoryTest {
         CourseEdition courseEdition1 = new CourseEdition(c1, pe);
         CourseEdition courseEdition2 = new CourseEdition(c2, pe);
 
-        repository.enrollStudentInACourseEdition(student1, courseEdition1);
-        repository.enrollStudentInACourseEdition(student1, courseEdition2);
+        repository.enrolStudentInACourseEdition(student1, courseEdition1);
+        repository.enrolStudentInACourseEdition(student1, courseEdition2);
 
         //Act
-        boolean firstRemoval = repository.removeEnrollment(student1, courseEdition1);
-        boolean secondRemoval = repository.removeEnrollment(student1, courseEdition2);
+        boolean firstRemoval = repository.removeEnrolment(student1, courseEdition1);
+        boolean secondRemoval = repository.removeEnrolment(student1, courseEdition2);
 
         // Assert
         assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");

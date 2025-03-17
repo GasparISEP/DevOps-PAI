@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class CourseEditionEnrolmentListFactoryImpl implements ICourseEditionEnrolmentListFactory {
 
-    public Set<CourseEditionEnrolment> getCourseEditionEnrollmentList(){
+    public Set<CourseEditionEnrolment> getCourseEditionEnrolmentList(){
         return new HashSet<>();
     }
 }
