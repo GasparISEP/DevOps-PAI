@@ -72,7 +72,7 @@ public class CourseEditionEnrolmentRepository {
     }
 
     // Method to remove (deactivate) an enrollment
-    public boolean removeEnrollment(Student student, CourseEdition courseEdition) {
+    public boolean removeEnrolment(Student student, CourseEdition courseEdition) {
         Optional<CourseEditionEnrolment> enrollment = findByStudentAndEdition(student, courseEdition);
         if (enrollment.isPresent()) {
             CourseEditionEnrolment cee = enrollment.get();

@@ -22,14 +22,14 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             Student mockStudent = mock(Student.class);
             CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
-            when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition)).thenReturn(true);
+            when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition)).thenReturn(true);
 
             // Act
-            boolean result = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
+            boolean result = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
 
             // Assert
             assertTrue(result, "Enrollment should be removed successfully.");
-            verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition);
+            verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition);
         }
 
     // Ensures that the system does not allow the removal of a non-existent enrollment
@@ -43,11 +43,11 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             CourseEdition mockCourseEdition = mock (CourseEdition.class);
 
             // Act
-            boolean result = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
+            boolean result = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
 
             // Assert
             assertFalse(result, "Removing a non existing enrollment should return false.");
-            verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition); // Ensure no enrollment creation occurs
+            verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition); // Ensure no enrollment creation occurs
         }
 
     // If the student or course edition information is missing (null), the system should reject the operation.
@@ -62,11 +62,11 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
             // Act and assert
         // test for the case where Student is null.
-        boolean result1 = controller.removeStudentEnrollment(null, mockCourseEdition);
+        boolean result1 = controller.removeStudentEnrolment(null, mockCourseEdition);
         assertFalse(result1, "Removing a non existing enrollment should return false.");
 
         // test for the case where CourseEdition is null
-        boolean result2 = controller.removeStudentEnrollment(mockStudent, null);
+        boolean result2 = controller.removeStudentEnrolment(mockStudent, null);
         assertFalse(result2, "Removing a non existing enrollment should return false.");
 
         }
@@ -81,20 +81,20 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Student mockStudent = mock(Student.class);
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
 
-        when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition)).thenReturn(true)
+        when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition)).thenReturn(true)
                 .thenReturn(false);
         // Act
-        boolean firstRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
+        boolean firstRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
 
         // Assert first removal is successful
         assertTrue(firstRemoval, "Enrollment should be removed successfully.");
 
         // Act again: Try removing a second time
-        boolean secondRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
+        boolean secondRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
 
         // Assert second removal fails
         assertFalse(secondRemoval, "The second removal should not succeed.");
-        verify(mockRepository, times(2)).removeEnrollment(mockStudent, mockCourseEdition);
+        verify(mockRepository, times(2)).removeEnrolment(mockStudent, mockCourseEdition);
     }
 
     // Ensures that the system does not allow the removal of an enrollment that has already been deactivated
@@ -114,7 +114,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         when(mockCee.isEnrollmentActive()).thenReturn(false); // Enrollment is already inactive
 
         // Act: Try removing an already inactive enrollment
-        boolean result = controller.removeStudentEnrollment(mockStudent, mockCourseEdition);
+        boolean result = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
 
         // Assert
         assertFalse(result, "Removing an already inactive enrollment should return false.");
@@ -132,18 +132,18 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Student mockStudent1 = mock(Student.class);
         Student mockStudent2 = mock(Student.class);
 
-        when(mockRepository.removeEnrollment(mockStudent1, mockCourseEdition)).thenReturn(true);
-        when(mockRepository.removeEnrollment(mockStudent2, mockCourseEdition)).thenReturn(true);
+        when(mockRepository.removeEnrolment(mockStudent1, mockCourseEdition)).thenReturn(true);
+        when(mockRepository.removeEnrolment(mockStudent2, mockCourseEdition)).thenReturn(true);
 
         // Act
-        boolean firstRemoval = controller.removeStudentEnrollment(mockStudent1, mockCourseEdition);
-        boolean secondRemoval = controller.removeStudentEnrollment(mockStudent2, mockCourseEdition);
+        boolean firstRemoval = controller.removeStudentEnrolment(mockStudent1, mockCourseEdition);
+        boolean secondRemoval = controller.removeStudentEnrolment(mockStudent2, mockCourseEdition);
 
         // Assert
         assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
         assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
-        verify(mockRepository).removeEnrollment(mockStudent1, mockCourseEdition);
-        verify(mockRepository).removeEnrollment(mockStudent2, mockCourseEdition);
+        verify(mockRepository).removeEnrolment(mockStudent1, mockCourseEdition);
+        verify(mockRepository).removeEnrolment(mockStudent2, mockCourseEdition);
     }
 
     // Ensures that a student can be removed from multiple course editions correctly
@@ -157,18 +157,18 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEdition mockCourseEdition2 = mock(CourseEdition.class);
         Student mockStudent = mock(Student.class);
 
-        when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition1)).thenReturn(true);
-        when(mockRepository.removeEnrollment(mockStudent, mockCourseEdition2)).thenReturn(true);
+        when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition1)).thenReturn(true);
+        when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition2)).thenReturn(true);
 
         // Act
-        boolean firstRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition1);
-        boolean secondRemoval = controller.removeStudentEnrollment(mockStudent, mockCourseEdition2);
+        boolean firstRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition1);
+        boolean secondRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition2);
 
         // Assert
         assertTrue(firstRemoval, "Student should be removed from the first course edition.");
         assertTrue(secondRemoval, "Student should be removed from the second course edition.");
-        verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition1);
-        verify(mockRepository).removeEnrollment(mockStudent, mockCourseEdition2);
+        verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition1);
+        verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition2);
     }
 
 
@@ -201,7 +201,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         repository.enrolStudentInACourseEdition(student, courseEdition);
 
         // Act
-        boolean result = controller.removeStudentEnrollment(student, courseEdition);
+        boolean result = controller.removeStudentEnrolment(student, courseEdition);
 
         // Assert
         assertTrue(result, "Enrollment should be removed successfully.");
@@ -233,7 +233,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         // Act
-        boolean result = controller.removeStudentEnrollment(student, courseEdition);
+        boolean result = controller.removeStudentEnrolment(student, courseEdition);
 
         // Assert
         assertFalse(result, "Removing a non existing enrollment should return false.");
@@ -267,11 +267,11 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Act and assert
 
         // test for the case where Student is null
-        boolean result1 = controller.removeStudentEnrollment(null, courseEdition);
+        boolean result1 = controller.removeStudentEnrolment(null, courseEdition);
         assertFalse(result1, "Removing a non existing enrollment should return false.");
 
         // test for the case where CourseEdition is null.
-        boolean result2 = controller.removeStudentEnrollment(student, null);
+        boolean result2 = controller.removeStudentEnrolment(student, null);
         assertFalse(result2, "Removing a non existing enrollment should return false.");
     }
 
@@ -303,8 +303,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         repository.enrolStudentInACourseEdition(student, courseEdition);
 
         // Act
-        boolean firstRemoval = controller.removeStudentEnrollment(student, courseEdition);
-        boolean secondRemoval = controller.removeStudentEnrollment(student, courseEdition);
+        boolean firstRemoval = controller.removeStudentEnrolment(student, courseEdition);
+        boolean secondRemoval = controller.removeStudentEnrolment(student, courseEdition);
 
         // Assert
         assertTrue(firstRemoval, "Enrollment should be removed successfully.");
@@ -342,8 +342,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         repository.enrolStudentInACourseEdition(student2, courseEdition);
 
         // Act
-        boolean firstRemoval = controller.removeStudentEnrollment(student1, courseEdition);
-        boolean secondRemoval = controller.removeStudentEnrollment(student2, courseEdition);
+        boolean firstRemoval = controller.removeStudentEnrolment(student1, courseEdition);
+        boolean secondRemoval = controller.removeStudentEnrolment(student2, courseEdition);
 
         // Assert
         assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
@@ -385,8 +385,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         repository.enrolStudentInACourseEdition(student, courseEdition2);
 
         // Act
-        boolean firstRemoval = controller.removeStudentEnrollment(student, courseEdition1);
-        boolean secondRemoval = controller.removeStudentEnrollment(student, courseEdition2);
+        boolean firstRemoval = controller.removeStudentEnrolment(student, courseEdition1);
+        boolean secondRemoval = controller.removeStudentEnrolment(student, courseEdition2);
 
         // Assert
         assertTrue(firstRemoval, "Student should be removed from the first course edition.");
