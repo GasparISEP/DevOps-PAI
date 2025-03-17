@@ -62,13 +62,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1)).thenReturn(true);
 
         //act
-<<<<<<< HEAD
-        enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
-        Optional<StudentGrade> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
-=======
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
-        Optional<GradeStudent> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
->>>>>>> refs/remotes/origin/main
+        Optional<StudentGrade> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
 
         //assert
         assertTrue(optc1.isPresent());
@@ -280,4 +275,5 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         assertTrue(optional.isPresent());
     }
 }
+
 
