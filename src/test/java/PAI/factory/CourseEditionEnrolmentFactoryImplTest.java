@@ -61,4 +61,36 @@ class CourseEditionEnrolmentFactoryImplTest {
             assertEquals(CourseEditionEnrolment.class, mockEnrollments.constructed().get(0).getClass());
         }
     }
+    @Test
+    void should_throw_an_exception_if_student_is_null() throws IllegalArgumentException {
+
+        //arrange
+
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEditionEnrolmentFactoryImpl CEEFactory = new CourseEditionEnrolmentFactoryImpl();
+
+        // act + assert
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            CEEFactory.createCourseEditionEnrollment(null,courseEditionDouble);
+        });
+
+        assertEquals("Student cannot be null!",exception.getMessage());
+    }
+    @Test
+    void should_throw_an_exception_if_courseEdition_is_null(){
+
+        //arrange
+        Student studentDouble = mock(Student.class);
+        CourseEditionEnrolmentFactoryImpl CEEFactory = new CourseEditionEnrolmentFactoryImpl();
+
+        //act + assert
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            CEEFactory.createCourseEditionEnrollment(studentDouble,null);
+        });
+
+        assertEquals("Course edition cannot be null!",exception.getMessage());
+
+    }
 }

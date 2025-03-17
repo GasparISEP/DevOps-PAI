@@ -1,5 +1,6 @@
-package PAI.domain;
+package PAI.factory;
 
+import PAI.domain.SchoolYear;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

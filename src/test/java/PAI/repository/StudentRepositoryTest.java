@@ -6,15 +6,21 @@ import PAI.factory.StudentFactory;
 import PAI.factory.StudentFactoryImpl;
 import PAI.factory.StudentListFactory;
 import PAI.factory.StudentListFactoryImpl;
+import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,10 +57,24 @@ class StudentRepositoryTest {
         }
 
         @Test
-        void shouldCreateStudentRepository() throws Exception {
+        void shouldCreateStudentRepository() {
 
             //act
             new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
+        }
+
+        @Test
+        void shouldThrowExceptionWhenStudentFactoryisNull() {
+
+            //act
+            assertThrows(IllegalArgumentException.class, () -> new StudentRepository(null, _studentListFactoryImplDouble));
+        }
+
+        @Test
+        void shouldThrowExceptionWhenStudentFactoryListIsNull() {
+
+            //act
+            assertThrows(IllegalArgumentException.class, () -> new StudentRepository(_studentFactoryImplDouble, null));
         }
 
         @Test

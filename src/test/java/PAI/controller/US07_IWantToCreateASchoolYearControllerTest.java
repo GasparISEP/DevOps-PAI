@@ -1,9 +1,8 @@
 package PAI.controller;
 
-import PAI.domain.SchoolYear;
-import PAI.domain.SchoolYearFactory;
-import PAI.domain.SchoolYearFactoryImpl;
-import PAI.domain.SchoolYearRepository;
+import PAI.factory.SchoolYearFactory;
+import PAI.factory.SchoolYearFactoryImpl;
+import PAI.repository.SchoolYearRepository;
 import PAI.factory.SchoolYearListFactory;
 import PAI.factory.SchoolYearListFactoryImpl;
 import org.junit.jupiter.api.Test;

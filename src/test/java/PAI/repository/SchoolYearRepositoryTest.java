@@ -1,9 +1,8 @@
-package PAI.domain;
+package PAI.repository;
 
-import PAI.factory.ProgrammeFactory;
-import PAI.factory.ProgrammeRepositoryListFactory;
+import PAI.domain.SchoolYear;
+import PAI.factory.SchoolYearFactoryImpl;
 import PAI.factory.SchoolYearListFactoryImpl;
-import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

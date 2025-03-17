@@ -1,8 +1,11 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class US24_KnowTheNumberOfStudentsEnroledInACourseEditionController {
-+US24_KnowTheNumberOfStudentsEnroledInACourseEditionController ()
+!pragma layout smetana
+'left to right direction'
+
+class US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController {
++US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController ()
 +IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition)
 }
 
@@ -28,8 +31,17 @@ class CourseEditionEnrolment {
     +knowCourseEdition ()
 }
 
-US24_KnowTheNumberOfStudentsEnroledInACourseEditionController "1" ---> "_courseEditionEnrolmentRepository 1"CourseEditionEnrolmentRepository
-CourseEditionEnrolmentRepository "1 " ---> " * "CourseEditionEnrolment
+class CourseEditionEnrolmentFactory {
+createCourseEditionEnrollment(Student, CourseEdition)
+}
 
+class ICourseEditionEnrolmentFactory {
+CourseEditionEnrolment createCourseEditionEnrollment(Student, CourseEdition)
+}
 
+US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController "1  " ---> "1  "CourseEditionEnrolmentRepository
+CourseEditionEnrolment "<<creates>> " <...  CourseEditionEnrolmentFactory
+CourseEditionEnrolmentFactory  ...|>  ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentRepository "List<CourseEditionEnrolment>   " o--- "1..*" CourseEditionEnrolment
+CourseEditionEnrolmentFactory <-- CourseEditionEnrolmentRepository
 @enduml

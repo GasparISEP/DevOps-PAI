@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.domain.SchoolYearRepository;
+import PAI.repository.SchoolYearRepository;
 
 public class US07_IWantToCreateASchoolYearController {
 
