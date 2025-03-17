@@ -2,7 +2,7 @@
 package PAI.repository;
 
 import PAI.domain.CourseEdition;
-import PAI.domain.GradeStudent;
+import PAI.domain.StudentGrade;
 import PAI.factory.GradeStudentFactory;
 import PAI.factory.GradeStudentListFactory;
 import PAI.domain.Student;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class GradeStudentRepositoryTest {
+class StudentGradeRepositoryTest {
 
     @Test
     void shouldAddGradeToAStudent() throws Exception {
@@ -23,7 +23,7 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -33,18 +33,18 @@ class GradeStudentRepositoryTest {
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-        GradeStudent gradeStudent2 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
 
         when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1))
-                .thenReturn(gradeStudent1);
+                .thenReturn(studentGrade1);
 
         when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student2, courseEdition1))
-                .thenReturn(gradeStudent2);
+                .thenReturn(studentGrade2);
 
         // Act
-        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
-        Optional<GradeStudent> result2 = list.addGradeToStudent(8, "10-10-2025", student2, courseEdition1);
+        Optional<StudentGrade> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+        Optional<StudentGrade> result2 = list.addGradeToStudent(8, "10-10-2025", student2, courseEdition1);
 
         // Assert
         assertTrue(result1.isPresent());
@@ -59,10 +59,10 @@ class GradeStudentRepositoryTest {
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
         Student student1 = mock(Student.class);
-        List<GradeStudent> emptyGradeList = spy(new ArrayList<>());
+        List<StudentGrade> emptyGradeList = spy(new ArrayList<>());
         when(gradeStudentListFactory.newArrayList()).thenReturn(emptyGradeList);
 
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(emptyGradeList);
 
@@ -70,10 +70,10 @@ class GradeStudentRepositoryTest {
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
 
-        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
+        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
 
         // Act
-        Optional<GradeStudent> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
+        Optional<StudentGrade> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
 
         // Assert
         assertFalse(result1.isPresent());
@@ -87,7 +87,7 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -97,17 +97,17 @@ class GradeStudentRepositoryTest {
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-        GradeStudent gradeStudent2 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
 
-        when(gradeStudent1.knowGrade()).thenReturn(10.0);
-        when(gradeStudent2.knowGrade()).thenReturn(20.0);
+        when(studentGrade1.knowGrade()).thenReturn(10.0);
+        when(studentGrade2.knowGrade()).thenReturn(20.0);
 
-        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
 
@@ -125,7 +125,7 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -137,7 +137,7 @@ class GradeStudentRepositoryTest {
         when(gradeStudentFactory.newGradeStudent(25, "10/10/2025", validStudent, courseEditionValid)).thenThrow(new IllegalArgumentException("Grade is Invalid!"));
 
         // Act
-        Optional<GradeStudent> result = list.addGradeToStudent(25, "10/10/2025", validStudent, courseEditionValid);
+        Optional<StudentGrade> result = list.addGradeToStudent(25, "10/10/2025", validStudent, courseEditionValid);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -150,7 +150,7 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -172,7 +172,7 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -182,17 +182,17 @@ class GradeStudentRepositoryTest {
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-        GradeStudent gradeStudent2 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+        when(gradeStudentFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
 
-        when(gradeStudent1.knowGrade()).thenReturn(10.0);
-        when(gradeStudent2.knowGrade()).thenReturn(20.0);
+        when(studentGrade1.knowGrade()).thenReturn(10.0);
+        when(studentGrade2.knowGrade()).thenReturn(20.0);
 
-        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
         list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
@@ -211,7 +211,7 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -220,17 +220,17 @@ class GradeStudentRepositoryTest {
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-        GradeStudent gradeStudent2 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(gradeStudentFactory.newGradeStudent(0, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudentFactory.newGradeStudent(0, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+        when(gradeStudentFactory.newGradeStudent(0, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(gradeStudentFactory.newGradeStudent(0, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
 
-        when(gradeStudent1.knowGrade()).thenReturn(0.0);
-        when(gradeStudent2.knowGrade()).thenReturn(0.0);
+        when(studentGrade1.knowGrade()).thenReturn(0.0);
+        when(studentGrade2.knowGrade()).thenReturn(0.0);
 
-        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
         list.addGradeToStudent(0, "10-10-2025", student1, courseEdition1);
         list.addGradeToStudent(0, "10-10-2025", student2, courseEdition1);
@@ -250,7 +250,7 @@ class GradeStudentRepositoryTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 

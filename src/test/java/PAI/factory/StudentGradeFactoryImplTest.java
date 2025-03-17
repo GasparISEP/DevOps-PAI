@@ -1,7 +1,7 @@
 package PAI.factory;
 
 import PAI.domain.CourseEdition;
-import PAI.domain.GradeStudent;
+import PAI.domain.StudentGrade;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class GradeStudentFactoryImplTest {
+class StudentGradeFactoryImplTest {
     @Test
     void creatingConstrutor () throws Exception {
         // Arrange
@@ -21,7 +21,7 @@ class GradeStudentFactoryImplTest {
         Student student = mock(Student.class);
         CourseEdition courseEdition =  mock(CourseEdition.class);
 
-        try(MockedConstruction<GradeStudent> mockConstruction =  mockConstruction(GradeStudent.class,(mock, context) -> {
+        try(MockedConstruction<StudentGrade> mockConstruction =  mockConstruction(StudentGrade.class,(mock, context) -> {
             double gradeAtual = (Double) context.arguments().get(0);
             String dateAtual = (String) context.arguments().get(1);
             Student studentAtual = (Student) context.arguments().get(2);
@@ -36,11 +36,11 @@ class GradeStudentFactoryImplTest {
 
             // act
             GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
-            GradeStudent gradeStudent = factory.newGradeStudent(grade, date, student, courseEdition);
+            StudentGrade studentGrade = factory.newGradeStudent(grade, date, student, courseEdition);
 
             // Assert
             assertEquals(1, mockConstruction.constructed().size());
-            GradeStudent createdStudent = mockConstruction.constructed().get(0);
+            StudentGrade createdStudent = mockConstruction.constructed().get(0);
 
             assertEquals(grade, createdStudent.knowGrade());
             assertEquals(date, createdStudent.get_date().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
@@ -60,7 +60,7 @@ class GradeStudentFactoryImplTest {
         Student student = mock(Student.class);
         CourseEdition courseEdition =  mock(CourseEdition.class);
 
-        try(MockedConstruction<GradeStudent> mockConstruction =  mockConstruction(GradeStudent.class,(mock, context) -> {
+        try(MockedConstruction<StudentGrade> mockConstruction =  mockConstruction(StudentGrade.class,(mock, context) -> {
             double gradeAtual = (Double) context.arguments().get(0);
             String dateAtual = (String) context.arguments().get(1);
             Student studentAtual = (Student) context.arguments().get(2);
@@ -75,11 +75,11 @@ class GradeStudentFactoryImplTest {
 
             // act
             GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
-            GradeStudent gradeStudent = factory.newGradeStudent(grade, date, student, courseEdition);
+            StudentGrade studentGrade = factory.newGradeStudent(grade, date, student, courseEdition);
 
             // Assert
             assertEquals(1, mockConstruction.constructed().size());
-            GradeStudent createdStudent = mockConstruction.constructed().get(0);
+            StudentGrade createdStudent = mockConstruction.constructed().get(0);
 
             assertEquals(grade, createdStudent.knowGrade());
             assertEquals(date, createdStudent.get_date().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));

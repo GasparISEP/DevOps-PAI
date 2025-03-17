@@ -2,15 +2,9 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.factory.GradeStudentFactory;
-import PAI.factory.GradeStudentFactoryImpl;
-import PAI.factory.GradeStudentListFactory;
-import PAI.factory.GradeStudentListFactoryImpl;
 import PAI.repository.GradeStudentRepository;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,11 +36,11 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-        GradeStudent gradeStudent2 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(gradeStudent1));
-        when(list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(Optional.of(gradeStudent2));
+        when(list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
+        when(list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(Optional.of(studentGrade2));
         when(list.KnowAverageGrade(courseEdition1)).thenReturn(14.0);
 
         // Act

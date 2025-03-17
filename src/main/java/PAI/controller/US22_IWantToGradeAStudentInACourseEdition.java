@@ -23,9 +23,9 @@ public class US22_IWantToGradeAStudentInACourseEdition {
        return _courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(student,courseEdition);
     }
 
-    public Optional<GradeStudent> iWantToGradeAStudent (double grade, String date, Student student, CourseEdition courseEdition){
+    public Optional<StudentGrade> iWantToGradeAStudent (double grade, String date, Student student, CourseEdition courseEdition){
         if (isStudentEnrolledInCourseEdition(student, courseEdition)){
-            Optional<GradeStudent> GradeStudent1 = _gradeStudentRepository.addGradeToStudent(grade,date,student,courseEdition);
+            Optional<StudentGrade> GradeStudent1 = _gradeStudentRepository.addGradeToStudent(grade,date,student,courseEdition);
             return GradeStudent1;
         }
         return Optional.empty();

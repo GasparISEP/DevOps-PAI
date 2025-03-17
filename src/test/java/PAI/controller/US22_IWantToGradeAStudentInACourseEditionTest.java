@@ -21,7 +21,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         //arrange
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -36,7 +36,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         //arrange
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory= mock(GradeStudentListFactory.class);
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
 
@@ -46,12 +46,12 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-        when(controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(gradeStudent1));
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        when(controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
 
-        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudent1.knowGrade()).thenReturn(20.0);
-        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(studentGrade1.knowGrade()).thenReturn(20.0);
+        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         CourseEditionEnrolment enrollment1 = mock(CourseEditionEnrolment.class);
 
         when(enrollment1.knowStudent()).thenReturn(student1);
@@ -63,7 +63,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         //act
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
-        Optional<GradeStudent> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
+        Optional<StudentGrade> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
 
         //assert
         assertTrue(optc1.isPresent());
@@ -109,7 +109,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
         // Act
-        Optional<GradeStudent> result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
+        Optional<StudentGrade> result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
 
         // Assert
         assertTrue(result.isPresent(), "A nota deveria ser criada corretamente.");
@@ -121,7 +121,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn((mockGradeList));
 
@@ -143,18 +143,18 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
-        GradeStudent gradeStudent2 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
 
 
-        when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(gradeStudent2);
+        when(gradeStudentFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
 
-        when(gradeStudent1.knowGrade()).thenReturn(8.0);
-        when(gradeStudent2.knowGrade()).thenReturn(20.0);
+        when(studentGrade1.knowGrade()).thenReturn(8.0);
+        when(studentGrade2.knowGrade()).thenReturn(20.0);
 
-        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(gradeStudent2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(controller1.isStudentEnrolledInCourseEdition(student1, courseEdition1)).thenReturn(false);
 
         // act
@@ -172,7 +172,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         GradeStudentFactory gradeStudentFactory = mock(GradeStudentFactory.class);
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn((mockGradeList));
 
@@ -196,17 +196,17 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         enrollmentRepository.enrollStudentInACourseEdition(student1, courseEdition1);
 
-        GradeStudent gradeStudent1 = mock(GradeStudent.class);
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
 
 
-        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(gradeStudent1);
-        when(gradeStudent1.knowGrade()).thenReturn(20.0);
-        when(gradeStudent1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(gradeStudentFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(studentGrade1.knowGrade()).thenReturn(20.0);
+        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(controller1.isStudentEnrolledInCourseEdition(student1, courseEdition1)).thenReturn(false);
 
 
         // act
-        Optional <GradeStudent> opt1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student2,courseEdition1);
+        Optional <StudentGrade> opt1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student2,courseEdition1);
 
         //assert
         assertTrue(opt1.isEmpty());
@@ -236,7 +236,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         //arrange
         GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
 
-        List<GradeStudent> mockGradeList = spy(new ArrayList<>());
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(gradeStudentListFactory.newArrayList()).thenReturn((mockGradeList));
 
@@ -263,12 +263,12 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
-        GradeStudent gradeStudentDouble = mock(GradeStudent.class);
+        StudentGrade studentGradeDouble = mock(StudentGrade.class);
         when(courseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentDouble,courseEditionDouble)).thenReturn(true);
-        when(gradeStudentRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(Optional.of(gradeStudentDouble));
+        when(gradeStudentRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(Optional.of(studentGradeDouble));
 
         //act
-        Optional<GradeStudent> optional = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
+        Optional<StudentGrade> optional = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
 
         //assert
 

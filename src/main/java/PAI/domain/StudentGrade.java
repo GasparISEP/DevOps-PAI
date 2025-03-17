@@ -5,14 +5,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
-public class GradeStudent {
+public class StudentGrade {
 
         private double _grade;
         private LocalDate _date;
         private Student _student;
         private CourseEdition _courseEdition;
 
-        public GradeStudent(double grade, String date, Student student, CourseEdition courseEdition) throws Exception {
+        public StudentGrade(double grade, String date, Student student, CourseEdition courseEdition) throws Exception {
             if (!isGradeValid(grade)) throw new IllegalArgumentException("Grade should be between 0 and 20");
             _grade = grade;
 
@@ -70,7 +70,7 @@ public class GradeStudent {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GradeStudent that = (GradeStudent) o;
+        StudentGrade that = (StudentGrade) o;
         return Objects.equals(_student, that._student) && Objects.equals(_courseEdition, that._courseEdition);
     }
 }
