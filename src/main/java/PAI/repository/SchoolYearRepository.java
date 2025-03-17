@@ -1,5 +1,7 @@
-package PAI.domain;
+package PAI.repository;
 
+import PAI.domain.SchoolYear;
+import PAI.factory.SchoolYearFactory;
 import PAI.factory.SchoolYearListFactory;
 
 import java.time.LocalDate;

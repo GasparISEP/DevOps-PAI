@@ -4,6 +4,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.repository.DepartmentRepository;
 import PAI.repository.ProgrammeEditionEnrolmentRepository;
+import PAI.repository.SchoolYearRepository;
 
 public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
     private final ProgrammeEditionEnrolmentRepository _PEERepo;

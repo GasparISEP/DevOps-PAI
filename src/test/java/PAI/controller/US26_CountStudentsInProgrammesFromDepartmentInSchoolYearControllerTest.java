@@ -3,6 +3,7 @@ import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
 import PAI.repository.ProgrammeEditionEnrolmentRepository;
+import PAI.repository.SchoolYearRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
