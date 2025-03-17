@@ -16,6 +16,10 @@ public class StudentRepository {
     private List<Student> _students;
 
     public StudentRepository(StudentFactory studentFactory, StudentListFactory studentListFactory) {
+        if(studentFactory == null || studentListFactory == null){
+            throw new IllegalArgumentException("Invalid factory argument, null values are not allowed!");
+        }
+
         _studentFactoryImpl = studentFactory;
         _students = studentListFactory.newArrayList();
     }
