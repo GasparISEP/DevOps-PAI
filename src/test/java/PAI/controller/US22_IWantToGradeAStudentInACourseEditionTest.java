@@ -226,7 +226,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1, courseEditionEnrolmentRepository1);
         });
-        assertEquals("Cannot be null", exception.getMessage());
+        assertEquals("Repository cannot be null", exception.getMessage());
 
     }
 
@@ -248,7 +248,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new US22_IWantToGradeAStudentInACourseEdition(list, courseEditionEnrolmentRepository1);
         });
-        assertEquals("Cannot be null", exception.getMessage());
+        assertEquals("Repository cannot be null", exception.getMessage());
 
     }
 
