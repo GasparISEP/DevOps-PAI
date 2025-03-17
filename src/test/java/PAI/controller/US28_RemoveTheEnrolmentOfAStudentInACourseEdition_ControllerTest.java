@@ -198,7 +198,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
-        repository.enrollStudentInACourseEdition(student, courseEdition);
+        repository.enrolStudentInACourseEdition(student, courseEdition);
 
         // Act
         boolean result = controller.removeStudentEnrollment(student, courseEdition);
@@ -300,7 +300,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
-        repository.enrollStudentInACourseEdition(student, courseEdition);
+        repository.enrolStudentInACourseEdition(student, courseEdition);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrollment(student, courseEdition);
@@ -338,8 +338,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
-        repository.enrollStudentInACourseEdition(student1, courseEdition);
-        repository.enrollStudentInACourseEdition(student2, courseEdition);
+        repository.enrolStudentInACourseEdition(student1, courseEdition);
+        repository.enrolStudentInACourseEdition(student2, courseEdition);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrollment(student1, courseEdition);
@@ -381,8 +381,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Course course2 = new Course("Programming 102", "P102", 6.0, 1);
         CourseEdition courseEdition2 = new CourseEdition(course2, programmeEdition2);
 
-        repository.enrollStudentInACourseEdition(student, courseEdition1);
-        repository.enrollStudentInACourseEdition(student, courseEdition2);
+        repository.enrolStudentInACourseEdition(student, courseEdition1);
+        repository.enrolStudentInACourseEdition(student, courseEdition2);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrollment(student, courseEdition1);

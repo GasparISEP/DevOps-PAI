@@ -7,13 +7,13 @@ public class CourseEditionEnrolment {
 
     private Student _student;
     private CourseEdition _courseEdition;
-    private LocalDate _enrollmentDate;
+    private LocalDate _enrolmentDate;
     private boolean _isActive;
 
     public CourseEditionEnrolment(Student student, CourseEdition courseEdition) throws IllegalArgumentException {
         validateStudent(student);
         validateCourseEdition(courseEdition);
-        this._enrollmentDate=LocalDate.now();
+        this._enrolmentDate=LocalDate.now();
         this._isActive=true;
     }
 

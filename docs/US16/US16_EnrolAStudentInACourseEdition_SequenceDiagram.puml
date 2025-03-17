@@ -1,10 +1,10 @@
 @startuml
-title US16: Enroll a student in a course edition
+title US16: Enrol a student in a course edition
 autonumber
 
 actor ASC
 participant ":UI" as UI
-ASC -> UI: I want to enroll a student in a course edition!
+ASC -> UI: I want to enrol a student in a course edition!
 activate UI #ddfada
 UI --> ASC: What Student?
 deactivate UI
@@ -81,11 +81,11 @@ deactivate UI
 ASC -> UI: Yes!
 activate UI #ddfada
 
-UI -> Controller: enrollStudentInACourseEdition (student, courseEdition)
+UI -> Controller: enrolStudentInACourseEdition (student, courseEdition)
 activate Controller #ddfada
 
 participant ":CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
-Controller -> CourseEditionEnrolmentRepository: enrollStudentInACourseEdition (student, courseEdition)
+Controller -> CourseEditionEnrolmentRepository: enrolStudentInACourseEdition (student, courseEdition)
 activate CourseEditionEnrolmentRepository #ddfada
 participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactoryInterface
 CourseEditionEnrolmentRepository -> CourseEditionEnrolmentFactoryInterface: createCourseEditionEnrolment (student, courseEdition)

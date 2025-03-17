@@ -24,7 +24,7 @@ class CourseEditionEnrolmentFactoryImplTest {
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
             // act
-            CourseEditionEnrolment courseEditionEnrolment = factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
+            CourseEditionEnrolment courseEditionEnrolment = factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
 
             // assert
             assertNotNull(courseEditionEnrolment);
@@ -40,7 +40,7 @@ class CourseEditionEnrolmentFactoryImplTest {
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
             // act
-            factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
+            factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
 
             // assert
             assertEquals(1, mockEnrollments.constructed().size());
@@ -55,7 +55,7 @@ class CourseEditionEnrolmentFactoryImplTest {
             CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
             // act
-            factory.createCourseEditionEnrollment(studentDouble, courseEditionDouble);
+            factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
 
             // assert
             assertEquals(CourseEditionEnrolment.class, mockEnrollments.constructed().get(0).getClass());
@@ -72,7 +72,7 @@ class CourseEditionEnrolmentFactoryImplTest {
         // act + assert
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            CEEFactory.createCourseEditionEnrollment(null,courseEditionDouble);
+            CEEFactory.createCourseEditionEnrolment(null,courseEditionDouble);
         });
 
         assertEquals("Student cannot be null!",exception.getMessage());
@@ -87,7 +87,7 @@ class CourseEditionEnrolmentFactoryImplTest {
         //act + assert
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            CEEFactory.createCourseEditionEnrollment(studentDouble,null);
+            CEEFactory.createCourseEditionEnrolment(studentDouble,null);
         });
 
         assertEquals("Course edition cannot be null!",exception.getMessage());

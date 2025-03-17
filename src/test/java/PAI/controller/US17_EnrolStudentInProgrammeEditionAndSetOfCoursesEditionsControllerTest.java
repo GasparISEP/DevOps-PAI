@@ -938,8 +938,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         courseEditionRepository.createAndSaveCourseEdition(c2, pe1);
         CourseEdition ce1 = courseEditionRepository.getCourseEditions().get(0);
         CourseEdition ce2 = courseEditionRepository.getCourseEditions().get(1);
-        courseEditionEnrolmentRepository.enrollStudentInACourseEdition(student, ce1);
-        courseEditionEnrolmentRepository.enrollStudentInACourseEdition(student, ce2);
+        courseEditionEnrolmentRepository.enrolStudentInACourseEdition(student, ce1);
+        courseEditionEnrolmentRepository.enrolStudentInACourseEdition(student, ce2);
         // Act + Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
