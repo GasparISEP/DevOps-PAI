@@ -34,6 +34,14 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         validateEnrolmentRepository(programmeEnrolmentRepository);
     }
 
+    public List<Programme> getAllProgrammes() {
+        return _programmeList.getAllProgrammes();
+    }
+
+    public List<SchoolYear> getAllSchoolYears() {
+        return _schoolYearRepository.getAllSchoolYears();
+    }
+
     // Enroll a student in a ProgrammeEdition.
     public boolean enrollStudentInProgrammeEditionAndSetOfCoursesEditions(
             Student student, Programme programme, SchoolYear schoolYear ) {
@@ -64,14 +72,6 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
 
         _courseEditionEnrolmentRepository.enrollStudentInProgrammeCourseEditions(student, courseEditions);
         return true;
-    }
-
-    public List<Programme> getAllProgrammes() {
-        return _programmeList.getAllProgrammes();
-    }
-
-    public List<SchoolYear> getAllSchoolYears() {
-        return _schoolYearRepository.getAllSchoolYears();
     }
 
     //Verify if the programme edition enrollment repo is valid
@@ -123,6 +123,7 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         }
         this._programmeEnrolmentRepository = enrolmentRepository;
     }
+
 }
 
 
