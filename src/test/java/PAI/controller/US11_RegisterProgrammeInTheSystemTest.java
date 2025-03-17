@@ -14,9 +14,7 @@ class US11_RegisterProgrammeInTheSystemTest {
     @Test
     void newProgrammeList() throws Exception {
         //arrange
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
-        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
+        ProgrammeRepository programmeRepo = mock(ProgrammeRepository.class);
 
         //act
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeRepo);
@@ -26,7 +24,7 @@ class US11_RegisterProgrammeInTheSystemTest {
     }
 
     @Test
-    void nullProgrammeInTheSystemFailure() throws Exception{
+    void nullProgrammeInTheSystemFailure() throws IllegalArgumentException{
         //arrange
         ProgrammeRepository programmeRepo = null;
 
@@ -40,10 +38,8 @@ class US11_RegisterProgrammeInTheSystemTest {
 
     @Test
     void testRegisterProgrammeInTheSystemCorrectly() throws Exception{
-
-        ProgrammeFactory programmeFactory = mock(ProgrammeFactory.class);
-        ProgrammeRepositoryListFactory programmeRepoListFactory = mock(ProgrammeRepositoryListFactory.class);
-        ProgrammeRepository programmeRepo = new ProgrammeRepository(programmeFactory,programmeRepoListFactory);
+        //arrange
+        ProgrammeRepository programmeRepo = mock(ProgrammeRepository.class);
 
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeRepo);
 
@@ -55,14 +51,16 @@ class US11_RegisterProgrammeInTheSystemTest {
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
+        IProgrammeCourseListFactory programmeCourseListFactory = mock(IProgrammeCourseListFactory.class);
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
-        CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
+        CourseFactory courseFactory = mock(CourseFactory.class);
 
-        boolean result = controller1.registerProgrammeInTheSystem(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory ,studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+        //act
+        boolean result = controller1.registerProgrammeInTheSystem(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanListFactory, studyPlanFactory, courseFactory);
 
+        //assert
         assertTrue(result);
     }
 }

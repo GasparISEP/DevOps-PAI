@@ -68,7 +68,7 @@ class US14UpdateTeachersCategoryControllerTest {
     }
 
     @Test
-    void successfullyUpdatedTeachersCategory() throws Exception {
+    void successfullyUpdatedTeachersCategory() {
         // Arrange
         Teacher teacherDouble = mock(Teacher.class);
         TeacherCategory tc1Double = mock(TeacherCategory.class);
@@ -106,7 +106,7 @@ class US14UpdateTeachersCategoryControllerTest {
     }
 
     @Test
-    void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdatedTeachersCategory() throws Exception {
+    void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdatedTeachersCategory() {
         // Arrange
         Teacher teacher = mock(Teacher.class);
 

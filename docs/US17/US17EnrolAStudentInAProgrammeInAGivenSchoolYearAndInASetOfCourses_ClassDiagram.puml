@@ -79,7 +79,7 @@ class ProgrammeRepository {
 }
 
 class ProgrammeRepositoryListFactoryImpl {
-    +copyProgrammeArrayList(List<Programme>)
+    +copyProgrammeArrayList(List<Programme>): List<Programme>
 }
 
 interface ProgrammeRepositoryListFactory {
@@ -103,7 +103,7 @@ class SchoolYearRepository {
 }
 
 class SchoolYearListFactory {
-    +copySchoolYearArrayList(List<SchoolYear>)
+    +copySchoolYearArrayList(List<SchoolYear>) : List<SchoolYear>
 }
 
 class SchoolYearArrayList {
