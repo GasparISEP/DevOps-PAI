@@ -6,6 +6,6 @@ import java.util.Set;
 
 public interface IProgrammeEditionEnrolmentListFactory {
 
-    public Set<ProgrammeEditionEnrolment> newListProgrammeEditionEnrollment();
+    public Set<ProgrammeEditionEnrolment> newListProgrammeEditionEnrolment();
 
 }

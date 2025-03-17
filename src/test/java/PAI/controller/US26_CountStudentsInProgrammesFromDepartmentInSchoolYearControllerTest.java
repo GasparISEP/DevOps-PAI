@@ -174,9 +174,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
-        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
-        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
-        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+        pEERepo.enrolStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrolStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrolStudentInProgrammeEdition(student3, edition3);
 
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
@@ -237,9 +237,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
-        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
-        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
-        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+        pEERepo.enrolStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrolStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrolStudentInProgrammeEdition(student3, edition3);
 
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
@@ -301,9 +301,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
-        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
-        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
-        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+        pEERepo.enrolStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrolStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrolStudentInProgrammeEdition(student3, edition3);
 
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
@@ -367,9 +367,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
-        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
-        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
-        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+        pEERepo.enrolStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrolStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrolStudentInProgrammeEdition(student3, edition3);
 
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
@@ -431,9 +431,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
 
-        pEERepo.enrollStudentInProgrammeEdition(student1, edition1);
-        pEERepo.enrollStudentInProgrammeEdition(student2, edition2);
-        pEERepo.enrollStudentInProgrammeEdition(student3, edition3);
+        pEERepo.enrolStudentInProgrammeEdition(student1, edition1);
+        pEERepo.enrolStudentInProgrammeEdition(student2, edition2);
+        pEERepo.enrolStudentInProgrammeEdition(student3, edition3);
 
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();

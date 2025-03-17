@@ -13,7 +13,7 @@ import org.mockito.MockedConstruction;
 class ProgrammeEditionEnrolmentFactoryImplTest {
 
     @Test
-    void whenNewProgrammeEditionEnrollmentInvoked_ThenMockObjectShouldBeCreated() {
+    void whenNewProgrammeEditionEnrolmentInvoked_ThenMockObjectShouldBeCreated() {
         // arrange
         Student mockStudent = mock(Student.class);
         ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
@@ -21,19 +21,19 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
         try (MockedConstruction<ProgrammeEditionEnrolment> enrollmentDouble =
                      mockConstruction(ProgrammeEditionEnrolment.class, (mock, context) -> {
                          when(mock.findStudentInProgrammeEdition()).thenReturn((Student) context.arguments().get(0));
-                         when(mock.findProgrammeEditionInEnrollment()).thenReturn((ProgrammeEdition) context.arguments().get(1));
+                         when(mock.findProgrammeEditionInEnrolment()).thenReturn((ProgrammeEdition) context.arguments().get(1));
                      })) {
 
             ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
 
             // act
-            ProgrammeEditionEnrolment enrollment =
-                    factory.newProgrammeEditionEnrollment(mockStudent, mockProgrammeEdition);
+            ProgrammeEditionEnrolment enrolment =
+                    factory.newProgrammeEditionEnrolment(mockStudent, mockProgrammeEdition);
 
             // assert
             assertEquals(1, enrollmentDouble.constructed().size());
-            assertEquals(mockStudent, enrollment.findStudentInProgrammeEdition());
-            assertEquals(mockProgrammeEdition, enrollment.findProgrammeEditionInEnrollment());
+            assertEquals(mockStudent, enrolment.findStudentInProgrammeEdition());
+            assertEquals(mockProgrammeEdition, enrolment.findProgrammeEditionInEnrolment());
         }
     }
 
@@ -46,7 +46,7 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.newProgrammeEditionEnrollment(null, mockProgrammeEdition);
+            factory.newProgrammeEditionEnrolment(null, mockProgrammeEdition);
         });
 
         assertEquals("Student cannot be null.", exception.getMessage());
@@ -61,7 +61,7 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.newProgrammeEditionEnrollment(mockStudent, null);
+            factory.newProgrammeEditionEnrolment(mockStudent, null);
         });
 
         assertEquals("ProgrammeEdition cannot be null.", exception.getMessage());

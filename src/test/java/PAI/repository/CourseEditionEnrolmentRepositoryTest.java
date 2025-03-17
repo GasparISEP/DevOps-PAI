@@ -646,13 +646,13 @@ class CourseEditionEnrolmentRepositoryTest {
         when(doubleEnrollment2.hasCourseEdition(doubleCourseEdition2)).thenReturn(true);
 
         //act
-        repository.enrollStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
+        repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            repository.enrollStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
+            repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
         });
 
         //assert
-        assertEquals("This course edition enrollment is already in the list.", exception.getMessage());
+        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
     }
 
     @Test

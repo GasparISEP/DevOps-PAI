@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProgrammeEditionEnrolmentListFactoryTest {
 
     @Test
-    void whenNewListProgrammeEditionEnrollmentInvoked_ThenSetShouldBeEmpty() {
+    void whenNewListProgrammeEditionEnrolmentInvoked_ThenSetShouldBeEmpty() {
         // arrange
 
             ProgrammeEditionEnrolmentListFactoryImpl factory = new ProgrammeEditionEnrolmentListFactoryImpl();
 
             // act
-            Set<ProgrammeEditionEnrolment> enrollmentSet = factory.newListProgrammeEditionEnrollment();
+            Set<ProgrammeEditionEnrolment> enrollmentSet = factory.newListProgrammeEditionEnrolment();
 
             // assert
             assertEquals(HashSet.class, enrollmentSet.getClass());

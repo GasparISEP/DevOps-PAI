@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ProgrammeEditionEnrolmentListFactoryImpl implements IProgrammeEditionEnrolmentListFactory {
 
-    public Set<ProgrammeEditionEnrolment> newListProgrammeEditionEnrollment() {
+    public Set<ProgrammeEditionEnrolment> newListProgrammeEditionEnrolment() {
         return new HashSet<>();
     }
 }

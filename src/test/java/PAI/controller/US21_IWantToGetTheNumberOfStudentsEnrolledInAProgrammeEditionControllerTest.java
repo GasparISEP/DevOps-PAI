@@ -220,7 +220,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controlador1 =
                 new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
 
-        programmeEditionEnrolmentRepository.enrollStudentInProgrammeEdition(st1, pe1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(st1, pe1);
         int result = controlador1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
 
         // Assert
@@ -306,7 +306,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controlador1 =
                 new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
 
-        programmeEditionEnrolmentRepository.enrollStudentInProgrammeEdition(st1, pe1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(st1, pe1);
         int result = controlador1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(pe2);
 
         // Assert

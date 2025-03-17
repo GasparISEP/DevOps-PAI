@@ -77,7 +77,7 @@ class ProgrammeEditionEnrolmentTest {
 
 
     @Test
-    void shouldReturnProgrammeEditionFromEnrollment_NotNull() throws Exception {
+    void shouldReturnProgrammeEditionFromEnrolment_NotNull() throws Exception {
         // Arrange
         Student studentDouble = mock(Student.class);
         ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
@@ -85,14 +85,14 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDouble, peDouble);
 
         // Act
-        ProgrammeEdition foundProgrammeEdition = enrollment.findProgrammeEditionInEnrollment();
+        ProgrammeEdition foundProgrammeEdition = enrollment.findProgrammeEditionInEnrolment();
 
         // Assert
         assertNotNull(foundProgrammeEdition, "The programme edition should not be null.");
     }
 
     @Test
-    void shouldReturnProgrammeEditionFromEnrollment_Equals() throws Exception {
+    void shouldReturnProgrammeEditionFromEnrolment_Equals() throws Exception {
         // Arrange
         Student studentDouble = mock(Student.class);
         ProgrammeEdition peDouble = mock(ProgrammeEdition.class);
@@ -100,7 +100,7 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDouble, peDouble);
 
         // Act
-        ProgrammeEdition foundProgrammeEdition = enrollment.findProgrammeEditionInEnrollment();
+        ProgrammeEdition foundProgrammeEdition = enrollment.findProgrammeEditionInEnrolment();
 
         // Assert
         assertEquals(peDouble, foundProgrammeEdition, "The found programme edition should be the same as the mock programme edition.");
@@ -150,7 +150,7 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1Double, editionDouble);
 
         // act
-        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
+        boolean result = enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
 
         // assert
         assertTrue(result);
@@ -158,7 +158,7 @@ class ProgrammeEditionEnrolmentTest {
 
     // Test returns false when department and school year are not associated with the enrollment
     @Test
-    void shouldReturnFalseWhenDepartmentAndSchoolYearAreNotAssociatedWithTheEnrollment() {
+    void shouldReturnFalseWhenDepartmentAndSchoolYearAreNotAssociatedWithTheEnrolment() {
         // arrange
         Student student1Double = mock(Student.class);
         Department departmentDouble = mock(Department.class);
@@ -171,7 +171,7 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1Double, editionDouble);
 
         // act
-        boolean result = enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
+        boolean result = enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
 
         // assert
         assertFalse(result);
@@ -247,7 +247,7 @@ class ProgrammeEditionEnrolmentTest {
     }
 
     @Test
-    void shouldReturnTrue_WhenSameProgrammeEdtionIsPassedAsParameter() {
+    void shouldReturnTrue_WhenSameProgrammeEditionIsPassedAsParameter() {
         // Arrange
         Student doubleStudent = mock(Student.class);
         ProgrammeEdition doublePE = mock(ProgrammeEdition.class);

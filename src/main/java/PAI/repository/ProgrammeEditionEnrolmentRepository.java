@@ -17,17 +17,17 @@ public class ProgrammeEditionEnrolmentRepository {
                                                IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory) {
 
         _iProgrammeEditionEnrolmentFactory = iProgrammeEditionEnrolmentFactory;
-        _programmeEditionEnrolments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrollment();
+        _programmeEditionEnrolments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment();
     }
 
-    public boolean enrollStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
+    public boolean enrolStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
             if (programmeEdition == null || student == null) {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
-            ProgrammeEditionEnrolment programmeEditionEnroll = _iProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrollment(student, programmeEdition);
+            ProgrammeEditionEnrolment programmeEditionEnrol = _iProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrolment(student, programmeEdition);
 
-            return _programmeEditionEnrolments.add(programmeEditionEnroll);
+            return _programmeEditionEnrolments.add(programmeEditionEnrol);
     }
 
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
@@ -47,7 +47,7 @@ public class ProgrammeEditionEnrolmentRepository {
         Set<String> studentUniqueNumbers = new HashSet<>();
 
         for (ProgrammeEditionEnrolment enrollment : _programmeEditionEnrolments) {
-            if (enrollment.isEnrollmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
+            if (enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
                 String studentUniqueNumber = enrollment.getStudentUniqueNumber();
                 studentUniqueNumbers.add(studentUniqueNumber);
                 }
@@ -60,7 +60,7 @@ public class ProgrammeEditionEnrolmentRepository {
         int numberOfStudents = 0;
 
         for(ProgrammeEditionEnrolment programmeEditionEnrolment : _programmeEditionEnrolments)
-            if(programmeEditionEnrolment.findProgrammeEditionInEnrollment().equals(programmeEdition)){
+            if(programmeEditionEnrolment.findProgrammeEditionInEnrolment().equals(programmeEdition)){
                 numberOfStudents++;
             }
 
@@ -72,7 +72,7 @@ public class ProgrammeEditionEnrolmentRepository {
 
         for(ProgrammeEditionEnrolment programmeEditionEnrolment : _programmeEditionEnrolments){
             if(programmeEditionEnrolment.findStudentInProgrammeEdition().equals(student)){
-                ProgrammeEdition programmeEdition = programmeEditionEnrolment.findProgrammeEditionInEnrollment();
+                ProgrammeEdition programmeEdition = programmeEditionEnrolment.findProgrammeEditionInEnrolment();
                 list.add(programmeEdition);
             }
         }

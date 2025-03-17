@@ -6,13 +6,13 @@ import java.util.Objects;
 public class ProgrammeEditionEnrolment {
     private Student _student;
     private ProgrammeEdition _programmeEdition;
-    private LocalDate _enrollmentDate;
+    private LocalDate _enrolmentDate;
 
     //constructor
     public ProgrammeEditionEnrolment(Student student, ProgrammeEdition programmeEdition) {
         validateStudent(student);
         validateProgrammeEdition(programmeEdition);
-        this._enrollmentDate = LocalDate.now();
+        this._enrolmentDate = LocalDate.now();
     }
 
     private void validateStudent(Student student) {
@@ -30,7 +30,7 @@ public class ProgrammeEditionEnrolment {
     }
 
 
-    public boolean isEnrollmentAssociatedToDepartmentAndSchoolYear(Department department, SchoolYear schoolYear) {
+    public boolean isEnrolmentAssociatedToDepartmentAndSchoolYear(Department department, SchoolYear schoolYear) {
         return _programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
     }
 
@@ -46,7 +46,7 @@ public class ProgrammeEditionEnrolment {
         return _programmeEdition.equals(programmeEdition);
     }
 
-    public ProgrammeEdition findProgrammeEditionInEnrollment() {
+    public ProgrammeEdition findProgrammeEditionInEnrolment() {
         return _programmeEdition;
     }
 

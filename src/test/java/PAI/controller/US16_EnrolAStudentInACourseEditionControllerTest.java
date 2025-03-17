@@ -256,8 +256,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         SchoolYear schoolYear2 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1, schoolYear2);
 
-        peeRepository.enrollStudentInProgrammeEdition(st1,programmeEdition1);
-        peeRepository.enrollStudentInProgrammeEdition(st1,programmeEdition2);
+        peeRepository.enrolStudentInProgrammeEdition(st1,programmeEdition1);
+        peeRepository.enrolStudentInProgrammeEdition(st1,programmeEdition2);
 
         //act
         Optional<List<ProgrammeEdition>> result = controller.findProgrammeEditionsThatStudentIsEnrolled(st1);

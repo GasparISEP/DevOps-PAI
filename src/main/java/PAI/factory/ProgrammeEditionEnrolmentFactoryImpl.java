@@ -6,7 +6,7 @@ import PAI.domain.Student;
 
 public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEnrolmentFactory {
 
-    public ProgrammeEditionEnrolment newProgrammeEditionEnrollment(
+    public ProgrammeEditionEnrolment newProgrammeEditionEnrolment(
             Student student, ProgrammeEdition programmeEdition) {
 
         if (student == null) {

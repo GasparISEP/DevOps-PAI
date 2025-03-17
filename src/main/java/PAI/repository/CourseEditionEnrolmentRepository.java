@@ -85,12 +85,12 @@ public class CourseEditionEnrolmentRepository {
     }
 
 
-    public void enrollStudentInProgrammeCourseEditions(Student student,  List<CourseEdition> courseEditions){
+    public void enrolStudentInProgrammeCourseEditions(Student student, List<CourseEdition> courseEditions){
 
         for (CourseEdition courseEdition : courseEditions) {
             Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(student, courseEdition);
             if (existingEnrollment.isPresent()) {
-                throw new IllegalStateException("This course edition enrollment is already in the list.");
+                throw new IllegalStateException("This course edition enrolment is already in the list.");
             }
             enrolStudentInACourseEdition(student, courseEdition);
         }

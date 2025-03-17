@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_Success() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success() {
         // Arrange
         ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(ProgrammeEditionEnrolmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -57,7 +57,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         when(doubleCourseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe2)).thenReturn(true);
 
         // Act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
         boolean result2 = doubleCourseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe1);
         boolean result3 = doubleCourseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(doubleStudent, doubleCe2);
 
@@ -68,7 +68,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() {
         // arrange
         ProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(ProgrammeEditionEnrolmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -94,14 +94,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         doubleProgrammeEditionRepository.createProgrammeEdition(doubleProgramme, doubleSchoolYear);
 
         // act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
 
         //assert
         assertFalse(result);
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() {
         // arrange
         ProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(ProgrammeEditionEnrolmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -129,14 +129,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         // act
 
-        boolean result =controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+        boolean result =controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
 
         //assert
         assertFalse(result);
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() {
         // arrange
         ProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(ProgrammeEditionEnrolmentRepository.class);
         Programme doubleProgramme = mock(Programme.class);
@@ -164,7 +164,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         when(doubleProgrammeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(doubleStudent, doubleProgrammeEdition)).thenReturn(true);
         // act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
 
         //assert
         assertFalse(result);
@@ -218,16 +218,16 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 .thenReturn(Optional.of(new CourseEditionEnrolment(doubleStudent, ce2)));
 
 
-        doThrow(new IllegalStateException("This course edition enrollment is already in the list."))
+        doThrow(new IllegalStateException("This course edition enrolment is already in the list."))
                 .when(doubleCourseEditionEnrolmentRepository)
-                .enrollStudentInProgrammeCourseEditions(any(Student.class), anyList());
+                .enrolStudentInProgrammeCourseEditions(any(Student.class), anyList());
 
         // Act + Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
+            controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(doubleStudent, doubleProgramme, doubleSchoolYear);
         });
 
-        assertEquals("This course edition enrollment is already in the list.", exception.getMessage());
+        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
     }
 
     @Test
@@ -441,7 +441,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                     doubleProgrammeList, doubleCourseEditionEnrolmentRepository, doubleCourseEditionRepository, doubleSchoolYearRepository, doubleEnrolmentRepository);
         });
         //assert
-        assertEquals("Programme edition enrollment repository cannot be null.", exception.getMessage());
+        assertEquals("Programme edition enrolment repository cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -501,7 +501,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         });
 
         //assert
-        assertEquals("Course edition enrollment repository cannot be null.", exception.getMessage());
+        assertEquals("Course edition enrolment repository cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -568,7 +568,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     //----------------------INTEGRATION TESTS------------------------------
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_Success_IntegrationTest() throws Exception {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success_IntegrationTest() throws Exception {
         // Arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -645,7 +645,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         CourseEdition ce2 = courseEditionRepository.getCourseEditions().get(1);
 
         // Act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
         boolean result2 = courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(student, ce1);
         boolean result3 = courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(student, ce2);
 
@@ -656,7 +656,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme_IntegrationTest() throws Exception {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme_IntegrationTest() throws Exception {
         // Arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -716,14 +716,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
 
         // Act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
 
         //Assert
         assertFalse(result);
     }
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound_IntegrationTests() throws Exception {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound_IntegrationTests() throws Exception {
         // Arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -785,14 +785,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
             programmeEnrolmentRepository.enrolStudents(student, am1, programme1,"25-02-2023");
         }
         // Act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
 
         assertFalse(result);
     }
 
 
     @Test
-    void testEnrollStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition_IntegrationTest() throws Exception {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition_IntegrationTest() throws Exception {
         // Arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -857,10 +857,10 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         Optional<ProgrammeEdition> peOptional = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
         ProgrammeEdition programmeEdition = peOptional.get();
-        programmeEditionEnrolmentRepository.enrollStudentInProgrammeEdition(student, programmeEdition);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(student, programmeEdition);
 
         // Act
-        boolean result = controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
 
         //assert
         assertFalse(result);
@@ -942,9 +942,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         courseEditionEnrolmentRepository.enrolStudentInACourseEdition(student, ce2);
         // Act + Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controller.enrollStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
+            controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
         });
-        assertEquals("This course edition enrollment is already in the list.", exception.getMessage());
+        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
     }
 
 
@@ -1304,7 +1304,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                     programmeRepository, courseEditionEnrolmentRepository, courseEditionRepository, schoolYearRepository, programmeEnrolmentRepository);
         });
         //assert
-        assertEquals("Programme edition enrollment repository cannot be null.", exception.getMessage());
+        assertEquals("Programme edition enrolment repository cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -1399,7 +1399,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         });
 
         //assert
-        assertEquals("Course edition enrollment repository cannot be null.", exception.getMessage());
+        assertEquals("Course edition enrolment repository cannot be null.", exception.getMessage());
     }
 
     @Test

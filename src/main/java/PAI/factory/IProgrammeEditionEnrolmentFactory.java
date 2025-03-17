@@ -6,5 +6,5 @@ import PAI.domain.Student;
 
 public interface IProgrammeEditionEnrolmentFactory {
 
-    ProgrammeEditionEnrolment newProgrammeEditionEnrollment(Student student, ProgrammeEdition programmeEdition);
+    ProgrammeEditionEnrolment newProgrammeEditionEnrolment(Student student, ProgrammeEdition programmeEdition);
 }
