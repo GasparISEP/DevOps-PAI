@@ -41,6 +41,7 @@ public class Teacher {
         validateNif(nif);
         validatePhoneNumber(phoneNumber);
         validateAcademicBackground(academicBackground);
+        validateFactories(teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
 
         this._address = addressFactory.createAddress(street, postalCode, location, country);
 
@@ -120,6 +121,16 @@ public class Teacher {
             throw new IllegalArgumentException("Teacher's academic background must be a non-empty String.");
 
         this._academicBackground = academicBackground;
+    }
+
+    private void validateFactories (TeacherCareerProgressionFactory tcpFactory, TeacherCareerProgressionListFactory tcpListFactory) {
+
+        if (tcpFactory == null)
+            throw new IllegalArgumentException("Teacher Career Progression Factory must not be null.");
+
+        if (tcpListFactory == null) {
+            throw new IllegalArgumentException("Teacher Career Progression List Factory must not be null.");
+        }
     }
 
     public boolean hasSameAcronym(Teacher teacher) {
