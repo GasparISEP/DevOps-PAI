@@ -19,19 +19,20 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
     public US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
             ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
             ProgrammeEditionRepository programmeEditionRepository,
-            ProgrammeRepository programmeList,
+            ProgrammeRepository programmeRepository,
             CourseEditionEnrolmentRepository courseEditionEnrolmentRepository,
             CourseEditionRepository courseEditionRepository,
             SchoolYearRepository schoolYearRepository,
             ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
 
-        validateProgrammeEditionEnrollmentRepo(programmeEditionEnrolmentRepository);
-        validateProgrammeEditionRepository(programmeEditionRepository);
-        validateProgrammeList(programmeList);
-        validateCourseEditionEnrolmentRepository(courseEditionEnrolmentRepository);
-        validateCourseEditionRepository(courseEditionRepository);
-        validateSchoolYearRepository(schoolYearRepository);
-        validateEnrolmentRepository(programmeEnrolmentRepository);
+        this._programmeEditionEnrolmentRepository= validateRepository(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
+        this._programmeEditionRepository= validateRepository(programmeEditionRepository, "Programme edition repository");
+        this._programmeList= validateRepository(programmeRepository, "Programme list");
+        this._courseEditionEnrolmentRepository= validateRepository(courseEditionEnrolmentRepository, "Course edition enrolment repository");
+        this._courseEditionRepository= validateRepository(courseEditionRepository, "Course edition repository");
+        this._schoolYearRepository= validateRepository(schoolYearRepository, "School year repository");
+        this._programmeEnrolmentRepository= validateRepository(programmeEnrolmentRepository, "Enrolment repository");
+
     }
 
     public List<Programme> getAllProgrammes() {
@@ -74,54 +75,11 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         return true;
     }
 
-    //Verify if the programme edition enrollment repo is valid
-    private void validateProgrammeEditionEnrollmentRepo(ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository) {
-        if (programmeEditionEnrolmentRepository == null) {
-            throw new IllegalStateException("Programme edition enrolment repository cannot be null.");
+    private <T> T validateRepository(T repository, String name) {
+        if (repository == null) {
+            throw new IllegalStateException(name + " cannot be null.");
         }
-        this._programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
-    }
-    //Verify if the programme edition repository is valid
-    private void validateProgrammeEditionRepository(ProgrammeEditionRepository programmeEditionRepository) {
-        if (programmeEditionRepository == null) {
-            throw new IllegalStateException("Programme edition repository cannot be null.");
-        }
-        this._programmeEditionRepository = programmeEditionRepository;
-    }
-    //Verify if the programme list is valid
-    private void validateProgrammeList(ProgrammeRepository programmeList) {
-        if (programmeList == null) {
-            throw new IllegalStateException("Programme list cannot be null.");
-        }
-        this._programmeList = programmeList;
-    }
-    //Verify if the course edition enrollment repository is valid
-    private void validateCourseEditionEnrolmentRepository(CourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
-        if (courseEditionEnrolmentRepository == null) {
-            throw new IllegalStateException("Course edition enrolment repository cannot be null.");
-        }
-        this._courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
-    }
-    //verify if the course edition repository is valid
-    private void validateCourseEditionRepository(CourseEditionRepository courseEditionRepository) {
-        if(courseEditionRepository == null) {
-            throw new IllegalStateException("Course edition repository cannot be null.");
-        }
-        this._courseEditionRepository = courseEditionRepository;
-    }
-    //verify if the school year repository is valid
-    private void validateSchoolYearRepository(SchoolYearRepository schoolYearRepository) {
-        if(schoolYearRepository == null) {
-            throw new IllegalStateException("School year repository cannot be null.");
-        }
-        this._schoolYearRepository = schoolYearRepository;
-    }
-    //Verify if the enrolment repository is valid
-    private void validateEnrolmentRepository(ProgrammeEnrolmentRepository enrolmentRepository) {
-        if (enrolmentRepository == null) {
-            throw new IllegalStateException("Enrolment repository cannot be null.");
-        }
-        this._programmeEnrolmentRepository = enrolmentRepository;
+        return repository;
     }
 
 }
