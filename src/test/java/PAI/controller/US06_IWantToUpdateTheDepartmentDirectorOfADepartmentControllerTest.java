@@ -126,7 +126,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         Department dpt1 = new Department ("DEI", "Department1");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcplF = new TeacherCareerProgressionListFactoryImpl();
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
 
         //act
@@ -166,7 +166,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         Department dpt1 = new Department ("DEI", "Department1");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcplF = new TeacherCareerProgressionListFactoryImpl();
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
 
         dr1.registerDepartment("MAT", "Mathematics");

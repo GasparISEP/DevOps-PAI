@@ -107,14 +107,13 @@ public class Teacher {
     }
 
     private void validatePhoneNumber(String phoneNumber) throws IllegalArgumentException {
-        if (phoneNumber == null || phoneNumber.isBlank())
-            throw new IllegalArgumentException("Teacher´s office phoneNumber must be a non-empty String.");
-
-        if (!phoneNumber.matches("^[A-Z][0-9]{3}$"))
-            throw new IllegalArgumentException("Teacher´s office phoneNumber must have a letter followed by 3 digits.");
+        if (phoneNumber == null || phoneNumber.isBlank() || !phoneNumber.matches("^\\+?\\d{1,4}?[ -.]?\\(?\\d{1,4}?\\)?[ -.]?\\d{3,4}[ -.]?\\d{3,4}$")) {
+            throw new IllegalArgumentException("Teacher's phone number is invalid!");
+        }
 
         this._phoneNumber = phoneNumber;
     }
+
 
     private void validateAcademicBackground(String academicBackground) throws IllegalArgumentException {
         if (academicBackground == null || academicBackground.isBlank())

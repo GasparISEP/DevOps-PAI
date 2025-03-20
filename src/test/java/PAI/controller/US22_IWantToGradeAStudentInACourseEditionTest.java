@@ -95,7 +95,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"12-03-2025", tc1, 70,
                 dpt1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);

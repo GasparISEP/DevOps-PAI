@@ -145,7 +145,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactoryImpl = new TeacherCareerProgressionListFactoryImpl();
         AddressFactory addressFactory = new AddressFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactoryImpl);
@@ -210,7 +210,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -274,7 +274,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -341,7 +341,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -405,7 +405,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
                 "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);

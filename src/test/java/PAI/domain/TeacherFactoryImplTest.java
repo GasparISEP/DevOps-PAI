@@ -25,7 +25,7 @@ class TeacherFactoryImplTest {
 
         //act
         Teacher teacher = tf1.createTeacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789",
-                "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+                "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble, "15-04-2005",
                 tcDouble, 70, dptDouble);
 

@@ -231,7 +231,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
@@ -292,7 +292,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
@@ -362,7 +362,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
@@ -428,7 +428,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF

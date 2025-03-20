@@ -178,7 +178,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository,teacherCategoryRepository,departmentRepository);
         //Act
         boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson","jjj@isep.ipp.pt",
-                "123123123","B109","Doctorate in Computer Science in 1987,Isep","Rua do Homem Aranha",
+                "123123123","+351 912 345 678","Doctorate in Computer Science in 1987,Isep","Rua do Homem Aranha",
                 "4430-123","Porto","Portugal",addressFactory,"12-01-2025",teacherCategory,
                 100,department);
         //Assert

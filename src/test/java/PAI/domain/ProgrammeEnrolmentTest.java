@@ -44,7 +44,7 @@ class ProgrammeEnrolmentTest {
             _addressFactory = new AddressFactoryImpl();
             _tcpFactory = new TeacherCareerProgressionFactoryImpl();
             _tcpListFactory = new TeacherCareerProgressionListFactoryImpl();
-            _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+            _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory,_tcpListFactory);
             _programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
@@ -463,7 +463,7 @@ class ProgrammeEnrolmentTest {
         DegreeType dt = new DegreeType("Master", 240);
         Department dpt = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", attributes._addressFactory, "20-12-2010", tc, 100, dpt, attributes._tcpFactory, attributes._tcpListFactory);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", attributes._addressFactory, "20-12-2010", tc, 100, dpt, attributes._tcpFactory, attributes._tcpListFactory);
 
         Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._courseFactory);
 
