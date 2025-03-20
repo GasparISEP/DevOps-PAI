@@ -41,4 +41,8 @@ public class ProgrammeEdition {
         return _schoolYear.isSameSchoolYear(schoolYear) && _programme.isInDepartment(department);
     }
 
+    public boolean isCourseInProgrammeCourseListByProgrammeEdition(ProgrammeEdition programmeEdition, Course course){
+        return (programmeEdition.findProgrammeInProgrammeEdition().getCourseList().contains(course));
+    }
+
 }

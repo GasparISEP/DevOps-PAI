@@ -317,6 +317,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Course course1 = new Course ("Informatics", "INF", 6, 1);
         Course course2 = new Course ("Mechanics", "MFN", 6, 1);
 
+        programme1.addCourseToAProgramme(course1);
+        programme1.addCourseToAProgramme(course2);
         courseEditionRepository.createAndSaveCourseEdition(course1,programmeEdition1);
         courseEditionRepository.createAndSaveCourseEdition(course2,programmeEdition1);
 
@@ -377,6 +379,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
                 studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
+
+        programme1.addCourseToAProgramme(course1);
 
         SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
 
@@ -441,6 +445,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
                 studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
+
+        programme1.addCourseToAProgramme(course1);
 
         SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
 

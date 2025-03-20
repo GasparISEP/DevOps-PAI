@@ -703,6 +703,8 @@ class CourseEditionEnrolmentRepositoryTest {
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
+        programme1.addCourseToAProgramme(c1);
+
         SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
@@ -741,6 +743,8 @@ class CourseEditionEnrolmentRepositoryTest {
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
+        programme1.addCourseToAProgramme(c1);
+
         SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
@@ -776,6 +780,8 @@ class CourseEditionEnrolmentRepositoryTest {
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
+
+        programme1.addCourseToAProgramme(c1);
 
         SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
@@ -815,6 +821,8 @@ class CourseEditionEnrolmentRepositoryTest {
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
+
+        programme1.addCourseToAProgramme(c1);
 
         SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
@@ -857,6 +865,8 @@ class CourseEditionEnrolmentRepositoryTest {
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
+        programme1.addCourseToAProgramme(c1);
+
         SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
@@ -898,6 +908,9 @@ class CourseEditionEnrolmentRepositoryTest {
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
+
+        programme1.addCourseToAProgramme(c1);
+        programme1.addCourseToAProgramme(c2);
 
         SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);

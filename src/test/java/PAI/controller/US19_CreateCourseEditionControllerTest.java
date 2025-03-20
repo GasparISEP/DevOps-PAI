@@ -349,8 +349,9 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseEditionIsCreated_integration() {
+    void shouldReturnTrueIfCourseEditionIsCreated_integration() throws Exception {
         // Arrange
+        programme.addCourseToAProgramme(course);
         // Act
         boolean result = controller.createCourseEdition(course, programmeEdition);
 

@@ -630,6 +630,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
+        programme1.addCourseToAProgramme(c1);
+        programme1.addCourseToAProgramme(c2);
+
         if (!programmeEnrolmentRepository.isStudentEnrolled(student, programme1)) {
             programmeEnrolmentRepository.enrolStudents(student, am1, programme1,"25-02-2023");
         }
@@ -934,6 +937,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeEdition pe1 = pe1Opt.get();
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Development1", "DEV1", 5, 1);
+        programme1.addCourseToAProgramme(c1);
+        programme1.addCourseToAProgramme(c2);
         courseEditionRepository.createAndSaveCourseEdition(c1, pe1);
         courseEditionRepository.createAndSaveCourseEdition(c2, pe1);
         CourseEdition ce1 = courseEditionRepository.getCourseEditions().get(0);

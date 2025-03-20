@@ -9,7 +9,10 @@ public class CourseEdition {
 
     public CourseEdition (Course course, ProgrammeEdition programmeEdition) throws Exception {
         if (programmeEdition == null || course==null) {
-            throw new Exception ("Course and ProgrammeEdition are required");
+            throw new Exception ("ProgrammeEdition and Course must be valid");
+        }
+        if (!programmeEdition.isCourseInProgrammeCourseListByProgrammeEdition(programmeEdition, course)) {
+            throw new Exception ("Course must be in Programme's Course List");
         }
         _course = course;
         _programmeEdition = programmeEdition;
@@ -44,6 +47,5 @@ public class CourseEdition {
     public Course getCourse() {
         return _course;
     }
-
 }
 

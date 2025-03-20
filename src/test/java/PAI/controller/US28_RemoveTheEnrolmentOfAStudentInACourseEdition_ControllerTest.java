@@ -196,6 +196,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
+        programme.addCourseToAProgramme(course);
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         repository.enrolStudentInACourseEdition(student, courseEdition);
@@ -230,6 +231,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
+        programme.addCourseToAProgramme(course);
+
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         // Act
@@ -262,6 +265,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
+        programme.addCourseToAProgramme(course);
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         // Act and assert
@@ -298,6 +302,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
+        programme.addCourseToAProgramme(course);
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         repository.enrolStudentInACourseEdition(student, courseEdition);
@@ -336,6 +341,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
+        programme.addCourseToAProgramme(course);
         CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
 
         repository.enrolStudentInACourseEdition(student1, courseEdition);
@@ -373,12 +379,14 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
+        programme.addCourseToAProgramme(course);
         CourseEdition courseEdition1 = new CourseEdition(course, programmeEdition);
         Programme programme2 = new Programme("Civil Engineering", "CE", 20, 6, master, department, teacher,
         new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2, schoolYear);
         Course course2 = new Course("Programming 102", "P102", 6.0, 1);
+        programme2.addCourseToAProgramme(course2);
         CourseEdition courseEdition2 = new CourseEdition(course2, programmeEdition2);
 
         repository.enrolStudentInACourseEdition(student, courseEdition1);
