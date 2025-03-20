@@ -1,23 +1,28 @@
 @startuml
 
 title US26: Get number of students enrolled in programmes from specified department in a given school year
+autonumber
+skinparam sequence {
+   LifelineBorderColor LigthBlue
+   LifelineBackgroundColor LightBlue
+ }
 
-actor "Department Director" as DepartmentDir #Orange/White
-participant ":UI" as UI #DeepPink/White
-participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #Violet/White
-participant ":SchoolYearRepo" as SchoolYearRepo #Cyan/White
-participant ":DepartmentRepo" as DepartmentRepo #Cyan/White
-participant ":ProgrammeEditionEnrollmentRepo" as ProgrammeEditionEnrolRepo #Cyan/White
-participant "pee[i]:ProgrammeEditionEnrollment" as ProgrammeEditionEnrollmenti #Cyan/White
-participant ":Student" as Student #Cyan/White
-participant ":studentUniqueNumbers" as StudentUniqueNumbers #Cyan/White
-participant ":ProgrammeEdition" as ProgrammeEdition #Cyan/White
-participant ":SchoolYear" as SchoolYear #Cyan/White
-participant ":Programme" as Programme #Cyan/White
+actor "Department Director" as DepartmentDir #White
+participant ":UI" as UI #LightBlue/White
+participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+participant ":SchoolYearRepo" as SchoolYearRepo #LightBlue/White
+participant ":DepartmentRepo" as DepartmentRepo #LightBlue/White
+participant ":ProgrammeEditionEnrolmentRepo" as ProgrammeEditionEnrolRepo #LightBlue/White
+participant "pee[i]:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment #LightBlue/White
+participant ":Student" as Student #LightBlue/White
+participant ":studentUniqueNumbers" as StudentUniqueNumbers #LightBlue/White
+participant ":ProgrammeEdition" as ProgrammeEdition #LightBlue/White
+participant ":SchoolYear" as SchoolYear #LightBlue/White
+participant ":Programme" as Programme #LightBlue/White
 
 
 activate DepartmentDir
-DepartmentDir -> UI: I want to get number of students enrolled in programmes from my department in a given school year
+DepartmentDir -> UI: I want to get number of students \n enrolled in programmes from my \n department in a given school year
 activate UI
 UI-->DepartmentDir: Choose Department
 DepartmentDir ->UI: Department selected
@@ -39,10 +44,10 @@ activate ProgrammeEditionEnrolRepo
 
 ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new HashSet<>()
 activate StudentUniqueNumbers
-loop for each ProgrammeEditionEnrollment[i] in ProgrammeEditionEnrolRepo
-ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrollmenti :isEnrollmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
-activate ProgrammeEditionEnrollmenti
-ProgrammeEditionEnrollmenti -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
+loop for each ProgrammeEditionEnrolment[i] in ProgrammeEditionEnrolRepo
+ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrolmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
+activate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEdition
 ProgrammeEdition->SchoolYear: isSameSchoolYear(sy1)
 activate SchoolYear
@@ -52,19 +57,19 @@ ProgrammeEdition->Programme: isInDepartment(d1)
 activate Programme
 Programme-->ProgrammeEdition:true
 deactivate Programme
-ProgrammeEdition-->ProgrammeEditionEnrollmenti: true
+ProgrammeEdition-->ProgrammeEditionEnrolment: true
 deactivate ProgrammeEdition
-ProgrammeEditionEnrollmenti-->ProgrammeEditionEnrolRepo: true
-deactivate ProgrammeEditionEnrollmenti
-alt isEnrollmentAssociatedToDepartmentAndSchoolYear
-ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrollmenti: getStudentUniqueNumber ()
-activate ProgrammeEditionEnrollmenti
-ProgrammeEditionEnrollmenti -> Student:getUniqueNumber
+ProgrammeEditionEnrolment-->ProgrammeEditionEnrolRepo: true
+deactivate ProgrammeEditionEnrolment
+alt isEnrolmentAssociatedToDepartmentAndSchoolYear
+ProgrammeEditionEnrolRepo -> ProgrammeEditionEnrolment: getStudentUniqueNumber ()
+activate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment -> Student:getUniqueNumber
 activate Student
-Student -->ProgrammeEditionEnrollmenti: uniqueNumber
+Student -->ProgrammeEditionEnrolment: uniqueNumber
 deactivate Student
-ProgrammeEditionEnrollmenti --> ProgrammeEditionEnrolRepo: uniqueNumber
-deactivate ProgrammeEditionEnrollmenti
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolRepo: uniqueNumber
+deactivate ProgrammeEditionEnrolment
 ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: add(uniqueNumber)
 end
 end

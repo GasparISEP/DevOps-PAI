@@ -7,7 +7,6 @@ import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -16,14 +15,14 @@ import static org.mockito.Mockito.*;
 public class US03AddCourseToProgrammeControllerTest {
 
     private US03_AddCourseToProgrammeController us03AddCourseToProgrammeController;
-    private ProgrammeRepository programmeListDouble;
+    private ProgrammeRepository programmeRepositoryDouble;
     private CourseRepository courseRepositoryDouble;
 
     @BeforeEach
     void setUp() throws Exception {
-        programmeListDouble = mock(ProgrammeRepository.class);
+        programmeRepositoryDouble = mock(ProgrammeRepository.class);
         courseRepositoryDouble = mock(CourseRepository.class);
-        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeListDouble, courseRepositoryDouble);
+        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeRepositoryDouble, courseRepositoryDouble);
     }
 
     @Test
@@ -84,114 +83,30 @@ public class US03AddCourseToProgrammeControllerTest {
         });
     }
 
-    @Test
-    void shouldReturnSizeOneIfOnlyOneCourseInList_IsolatedTest(){
-        // arrange
-        Course courseDouble = mock(Course.class);
-
-        ArrayList<Course> courseList = new ArrayList<>();
-        courseList.add(courseDouble);
-
-        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
-
-        // act
-        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
-
-        // assert
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void shouldReturnCourseInList_IsolatedTest() {
-        // arrange
-        Course courseDouble = mock(Course.class);
-
-        ArrayList<Course> courseList = new ArrayList<>();
-        courseList.add(courseDouble);
-
-        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
-
-        // act
-        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
-
-        // assert
-        assertEquals(courseDouble, result.get(0));
-    }
-
-    @Test
-    void shouldReturnSizeOneIfOnlyOneProgrammeInList_IsolatedTest() {
-        // arrange
-        Programme programmeDouble = mock(Programme.class);
-
-        List<Programme> programmeList = new ArrayList<>();
-        programmeList.add(programmeDouble);
-
-        when(programmeListDouble.getAllProgrammes()).thenReturn(programmeList);
-
-        // act
-        List<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
-
-        // assert
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void shouldReturnProgrammeInList_IsolatedTest()  {
-        // arrange
-        Programme programmeDouble = mock(Programme.class);
-
-        List<Programme> programmeList = new ArrayList<>();
-        programmeList.add(programmeDouble);
-
-        when(programmeListDouble.getAllProgrammes()).thenReturn(programmeList);
-
-        // act
-        List<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
-
-        // assert
-        assertEquals(programmeDouble, result.get(0));
-    }
 
     @Test
     void shouldReturnAllProgrammes_IsolatedTest() {
         // arrange
-        Programme programmeDouble1 = mock(Programme.class);
-        Programme programmeDouble2 = mock(Programme.class);
+        List<Programme> programmeList = mock(List.class);
 
-        List<Programme> programmeList = new ArrayList<>();
-        programmeList.add(programmeDouble1);
-        programmeList.add(programmeDouble2);
-
-        when(programmeListDouble.getAllProgrammes()).thenReturn(programmeList);
+        when(programmeRepositoryDouble.getAllProgrammes()).thenReturn(programmeList);
 
         // act
         List<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
 
         // assert
-        assertEquals(2, result.size());
-        assertEquals(programmeList.get(0), result.get(0));
-        assertEquals(programmeList.get(1), result.get(1));
+        assertEquals(programmeList, result);
     }
 
     @Test
     void shouldReturnAllCourses_IsolatedTest() {
         // arrange
-        Course courseDouble1 = mock(Course.class);
-        Course courseDouble2 = mock(Course.class);
-
-        ArrayList<Course> courseList = new ArrayList<>();
-        courseList.add(courseDouble1);
-        courseList.add(courseDouble2);
-
-        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseList);
-
+        List<Course> courseListDouble = mock(List.class);
+        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseListDouble);
         // act
         List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
-
         // assert
-        assertEquals(courseList.size(), result.size());
-        assertEquals(courseList.get(0), result.get(0));
-        assertEquals(courseList.get(1), result.get(1));
+        assertEquals(courseListDouble, result);
     }
 
     @Test
@@ -212,13 +127,13 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "A123","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
@@ -245,13 +160,13 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "A123","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
@@ -281,13 +196,13 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "A123","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         CourseFactory courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
@@ -340,14 +255,14 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "A123","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactory courseListFactory = new CourseListFactory();
@@ -420,14 +335,14 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "A123","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -455,14 +370,14 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "A123","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -491,14 +406,14 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactory);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactoryImpl addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactory();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactory();
+        AddressFactory addressFactory = new AddressFactoryImpl();
+        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "A123","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();

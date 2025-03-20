@@ -65,8 +65,8 @@ interface ProgrammeEnrolmentListFactory {
     +newArrayList()
 }
 
-class US09_EnrollStudentInProgrammeController {
-     + US09_EnrollStudentInProgrammeController(studentRepository: StudentRepository, accessMethodRepository: AccessMethodRepository, programmeList: ProgrammeRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
+class US09_EnrolStudentInProgrammeController {
+     + US09_EnrolStudentInProgrammeController(studentRepository: StudentRepository, accessMethodRepository: AccessMethodRepository, programmeList: ProgrammeRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
      + getStudentByUniqueNumber(uniqueNumber: String)
      + getAccessMethodByName(accessMethod: String)
      + getProgrammeByName(programmeName: String)
@@ -94,10 +94,10 @@ ProgrammeRepository "1   " ---> "_programmeList *" Programme
 Student "_student \n1" <-- "*" ProgrammeEnrolment
 AccessMethod "_accessmethod \n1" <-- "*" ProgrammeEnrolment
 Programme "_programme \n1"  <-r- "*" ProgrammeEnrolment
-US09_EnrollStudentInProgrammeController "1" .r.> "_studentRepository \n1\n" StudentRepository
-US09_EnrollStudentInProgrammeController "1" ..> "_accessmethodRepository \n1" AccessMethodRepository
-US09_EnrollStudentInProgrammeController "1" ..l.> "_programmeList \n1\n" ProgrammeRepository
-US09_EnrollStudentInProgrammeController "1" ..> "_programmeEnrolmentRepository \n1\n" ProgrammeEnrolmentRepository
+US09_EnrolStudentInProgrammeController "1" .r.> "_studentRepository \n1\n" StudentRepository
+US09_EnrolStudentInProgrammeController "1" ..> "_accessmethodRepository \n1" AccessMethodRepository
+US09_EnrolStudentInProgrammeController "1" ..l.> "_programmeList \n1\n" ProgrammeRepository
+US09_EnrolStudentInProgrammeController "1" ..> "_programmeEnrolmentRepository \n1\n" ProgrammeEnrolmentRepository
 ProgrammeEnrolmentRepository"1" ..> "1"ProgrammeEnrolmentFactory
 ProgrammeEnrolmentFactory"1" ..> "1..* \ncreates"ProgrammeEnrolment
 ProgrammeEnrolmentFactory <|.. ProgrammeEnrolmentFactoryImpl

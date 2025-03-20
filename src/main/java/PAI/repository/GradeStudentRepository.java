@@ -1,7 +1,7 @@
 package PAI.repository;
 
 import PAI.domain.CourseEdition;
-import PAI.domain.GradeStudent;
+import PAI.domain.StudentGrade;
 import PAI.factory.GradeStudentFactory;
 import PAI.factory.GradeStudentListFactory;
 import PAI.domain.Student;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class GradeStudentRepository {
     private final GradeStudentFactory _gradeStudentFactory;
-    private List<GradeStudent> _gradeStudentList;
+    private List<StudentGrade> _StudentGradeList;
 
     public GradeStudentRepository (GradeStudentFactory gradeStudentFactory, GradeStudentListFactory gradeStudentListFactory){
         if (gradeStudentFactory== null){
@@ -23,15 +23,15 @@ public class GradeStudentRepository {
             throw new IllegalArgumentException("Factory cannot be null!");
 
         }
-        _gradeStudentList = gradeStudentListFactory.newArrayList();
+        _StudentGradeList = gradeStudentListFactory.newArrayList();
     }
 
 
-    public Optional<GradeStudent> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
+    public Optional<StudentGrade> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
         try {
-                GradeStudent gradeStudent = _gradeStudentFactory.newGradeStudent(grade,date,student,courseEdition);
-                _gradeStudentList.add(gradeStudent);
-                return Optional.of(gradeStudent);
+                StudentGrade studentGrade = _gradeStudentFactory.newGradeStudent(grade,date,student,courseEdition);
+                _StudentGradeList.add(studentGrade);
+                return Optional.of(studentGrade);
         }
         catch (Exception ex) {
             return Optional.empty(); }
@@ -41,9 +41,9 @@ public class GradeStudentRepository {
         int numOfStudent = 0;
         double sumGrade = 0;
 
-        for (GradeStudent gradeStudent: _gradeStudentList) {
-            if (gradeStudent.hasThisCourseEdition(courseEdition)) {
-                double grade = gradeStudent.knowGrade();
+        for (StudentGrade studentGrade : _StudentGradeList) {
+            if (studentGrade.hasThisCourseEdition(courseEdition)) {
+                double grade = studentGrade.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;
             }
@@ -59,10 +59,10 @@ public class GradeStudentRepository {
         int totalApprovalStudents = 0;
         int totalOfStudents = 0;
 
-        for (GradeStudent gradeStudent : _gradeStudentList) {
-            if (gradeStudent.hasThisCourseEdition(courseEdition)) {
+        for (StudentGrade studentGrade : _StudentGradeList) {
+            if (studentGrade.hasThisCourseEdition(courseEdition)) {
                 totalOfStudents++;
-                if (gradeStudent.knowGrade() >= 10) {
+                if (studentGrade.knowGrade() >= 10) {
                     totalApprovalStudents++;
                 }
             }

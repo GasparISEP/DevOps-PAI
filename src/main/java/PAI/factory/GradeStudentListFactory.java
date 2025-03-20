@@ -1,10 +1,9 @@
 package PAI.factory;
 
-import PAI.domain.GradeStudent;
+import PAI.domain.StudentGrade;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface GradeStudentListFactory {
-    List<GradeStudent> newArrayList ();
+    List<StudentGrade> newArrayList ();
 }

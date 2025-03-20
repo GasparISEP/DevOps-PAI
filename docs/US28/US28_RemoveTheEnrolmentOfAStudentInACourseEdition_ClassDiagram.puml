@@ -1,0 +1,70 @@
+@startuml
+!pragma layout smetana
+
+class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
+    +US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(courseEditionEnrolmentRepository: CourseEditionEnrolmentRepository)
+    +removeStudentEnrolment(student: Student, courseEdition: CourseEdition): boolean
+}
+
+class CourseEditionEnrolment {
+    -_enrollmentDate: LocalDate
+    -_isActive: boolean
+    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
+    +hasStudent() : boolean
+    +hasCourseEdition() : boolean
+    +isEnrolmentActive(): boolean
+    +deactivateEnrolment(): void
+}
+
+class CourseEditionEnrolmentRepository {
+    +CourseEditionEnrolmentRepository(courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
+    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrolment>
+    +removeEnrolment (student: Student, courseEdition: CourseEdition) : boolean
+}
+
+class Student {
+    -_uniqueNumber:String
+    -_name:String
+    -_NIF:String
+    -_phone:String
+    -_email:String
+    -_address:Address
+    -_institutionalEmail:String
+    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+}
+
+class CourseEdition {
+    -_course: Course
+    -_programmeEdition: ProgrammeEdition
+    -_ruc: Teacher
+    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+}
+
+class CourseEditionEnrolmentFactory {
+    +createCourseEditionEnrolment(student: Student, courseEdition: CourseEdition)
+}
+
+class CourseEditionEnrolmentListFactory{
++getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+}
+
+interface ICourseEditionEnrolmentFactory{
+    +createCourseEditionEnrolment(student: Student, courseEdition: CourseEdition)
+}
+interface ICourseEditionEnrolmentListFactory{
++getCourseEditionEnrolmentList():Set<CourseEditionEnrolment>
+}
+
+
+CourseEditionEnrolment "*" --> "_student 1" Student
+CourseEditionEnrolment "*" --> "_courseEdition 1    " CourseEdition
+US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller "1" ..> "1 " CourseEditionEnrolmentRepository
+ICourseEditionEnrolmentFactory  <|..  CourseEditionEnrolmentFactory
+ICourseEditionEnrolmentListFactory  <|..  CourseEditionEnrolmentListFactory
+CourseEditionEnrolmentRepository ..> ICourseEditionEnrolmentFactory
+ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
+CourseEditionEnrolmentRepository .u.> ICourseEditionEnrolmentListFactory
+
+@enduml

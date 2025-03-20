@@ -3,15 +3,16 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.repository.DepartmentRepository;
-import PAI.repository.ProgrammeEditionEnrollmentRepository;
+import PAI.repository.ProgrammeEditionEnrolmentRepository;
+import PAI.repository.SchoolYearRepository;
 
 public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
-    private ProgrammeEditionEnrollmentRepository _PEERepo;
-    private SchoolYearRepository _schoolYearRepository;
-    private DepartmentRepository _departmentRepository;
+    private final ProgrammeEditionEnrolmentRepository _PEERepo;
+    private final SchoolYearRepository _schoolYearRepository;
+    private final DepartmentRepository _departmentRepository;
 
     public US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(
-            ProgrammeEditionEnrollmentRepository PEERepo,
+            ProgrammeEditionEnrolmentRepository PEERepo,
             SchoolYearRepository schoolYearRepository,
             DepartmentRepository departmentRepository
     ) {

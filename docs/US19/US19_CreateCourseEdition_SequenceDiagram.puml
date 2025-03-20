@@ -43,6 +43,7 @@ CER -> CEF ++ #application : createCourseEdition(c1,pE1)
 
 create "cE1:CourseEdition" as CE #lightblue
 CEF --> CE : <create> (c1, pE1)
+CE -> CE : isCourseInProgrammeCourseListByProgrammeEdition(programmeEdition, course)
 CEF --> CER -- : cE1
 CER -> CER : isCourseEditionAlreadyInRepository (cE1)
 CER -> CER : addCourseEdition (cE1)

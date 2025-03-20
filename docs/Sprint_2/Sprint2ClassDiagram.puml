@@ -29,55 +29,54 @@ class TeacherCategory {
     + TeacherCategory (name:String)
 }
 
-class CourseEditionEnrollment {
+class CourseEditionEnrolment {
     -_student: Student
     -_courseEdition: CourseEdition
     -_enrollmentDate: LocalDate
-    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition,
+    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition,
      enrollmentDate: LocalDate)
     +equals (obj: Object)
-    +findStudentInCourseEditionEnrollment ()
-    +findCourseEditionInEnrollment ()
+    +findStudentInCourseEditionEnrolment ()
+    +findCourseEditionInEnrolment ()
     +knowStudent ()
     +knowCourseEdition ()
 }
 
-class CourseEditionEnrollmentRepository {
-    -_courseEditionEnrollments: ArrayList<CourseEditionEnrollment>
-    +CourseEditionEnrollmentRepository ()
+class CourseEditionEnrolmentRepository {
+    -_courseEditionEnrolments: ArrayList<CourseEditionEnrolment>
+    +CourseEditionEnrolmentRepository ()
     +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition,
     enrollmentDate: LocalDate)
     +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition)
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition)
     +numberOfStudentsEnrolledInCourseEdition (courseEdition: CourseEdition)
-    +removeEnrollment (student: Student, courseEdition: CourseEdition)
+    +removeEnrolment (student: Student, courseEdition: CourseEdition)
     +enrollStudentInProgrammeCourseEditions(student :Student, courseEditions : List<CourseEdition>)
 }
 
-class ProgrammeEditionEnrollment {
+class ProgrammeEditionEnrolment {
     -_student: Student
     -_programmeEdition: ProgrammeEdition
     -_enrollmentDate: LocalDate
-    +ProgrammeEditionEnrollment(student:Student, programmeEdition: ProgrammeEdition,
+    +ProgrammeEditionEnrolment(student:Student, programmeEdition: ProgrammeEdition,
      enrollmentDate: LocalDate)
     +isEnrollmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
     +getStudentUniqueNumber()
     +equals (obj: Object)
-    +findProgrammeEditionInEnrollment ()
+    +findProgrammeEditionInEnrolment ()
     +findStudentInProgrammeEdition ()
 }
 
-class ProgrammeEditionEnrollmentRepo {
-    -_programmeEditionEnrollments: List<ProgrammeEditionEnrollment>
-    +ProgrammeEditionEnrollmentRepo()
+class ProgrammeEditionEnrolmentRepo {
+    -_programmeEditionEnrolments: List<ProgrammeEditionEnrolment>
+    +ProgrammeEditionEnrolmentRepo()
     +enrollStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition,
     localDate: LocalDate)
     +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
-    +checkIfThisEnrollmentAlreadyExists(programmeEditionEnrollment: ProgrammeEditionEnrollment)
+    +checkIfThisEnrolmentAlreadyExists(programmeEditionEnrolment: ProgrammeEditionEnrolment)
     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
     +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
 }
-
 
 class TeacherCategoryRepository {
     +TeacherCategoryRepository()
@@ -194,13 +193,13 @@ class Enrolment {
     -_accessMethod: AccessMethod
     +Enrolment(Student: student, AccessMethod: accessMethod)
     +isSameStudent(Student: student)
-    +findStudentInEnrollments()
+    +findStudentInEnrolments()
 }
 
 
 class ProgrammeEnrolmentRepository {
      +enrolStudents (Student : student, AccessMethod : accessMethod, Programme : programme, String enrolmentDate)
-     +isEnrolmentRepetead(Enrolment : newEnrolment)
+     +isEnrolmentRepeated(Enrolment : newEnrolment)
      +isStudentEnrolled (Student : student, Programme : programme)
 }
 
@@ -354,12 +353,12 @@ StudyPlan "1" <-- "1..*" CourseInStudyPlan: belongs
 CourseInStudyPlan "*" --> "1" Programme: belongs
 CourseInStudyPlan "0..1" <-u- "1" Course: happens
 CourseEdition "1" ..> "1" TeacherRepository
-Student "1" <--- "*" CourseEditionEnrollment : > enrols
-CourseEditionEnrollment "*" -- "1" CourseEdition : > relates to
-CourseEditionEnrollment "*" -- "1" CourseEditionEnrollmentRepository
-ProgrammeEdition "1" -- "*" ProgrammeEditionEnrollment : < happens
-ProgrammeEditionEnrollment "*" -- "1" Student : < enrols
-ProgrammeEditionEnrollment "*" -- "1" ProgrammeEditionEnrollmentRepo
+Student "1" <--- "*" CourseEditionEnrolment : > enrols
+CourseEditionEnrolment "*" -- "1" CourseEdition : > relates to
+CourseEditionEnrolment "*" -- "1" CourseEditionEnrolmentRepository
+ProgrammeEdition "1" -- "*" ProgrammeEditionEnrolment : < happens
+ProgrammeEditionEnrolment "*" -- "1" Student : < enrols
+ProgrammeEditionEnrolment "*" -- "1" ProgrammeEditionEnrolmentRepo
 GradeStudentRepository "1" --> "*" GradeStudent
 CourseEditionRepository "List<CourseEdition>" *-- "0..*" CourseEdition
 ProgrammeEditionRepository "List<ProgrammeEdition>" *-- "0..*" ProgrammeEdition

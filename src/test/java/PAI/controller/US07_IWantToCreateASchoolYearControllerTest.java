@@ -1,7 +1,10 @@
 package PAI.controller;
 
-import PAI.domain.SchoolYear;
-import PAI.domain.SchoolYearRepository;
+import PAI.factory.SchoolYearFactory;
+import PAI.factory.SchoolYearFactoryImpl;
+import PAI.repository.SchoolYearRepository;
+import PAI.factory.SchoolYearListFactory;
+import PAI.factory.SchoolYearListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,5 +67,18 @@ class US07_IWantToCreateASchoolYearControllerTest {
         //Act & Assert
         assertThrows(IllegalArgumentException.class, () -> { US07_controller.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
         });
+    }
+
+    @Test
+    void shouldCreateSchoolYear_IntegrationTest() throws Exception {
+
+        //Arrange
+        SchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        SchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
+        SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearListFactory);
+        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
+
+        // Act + Assert
+        assertTrue(controller.addSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024"));
     }
 }

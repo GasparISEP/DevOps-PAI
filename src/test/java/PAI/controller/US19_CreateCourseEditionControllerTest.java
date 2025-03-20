@@ -9,7 +9,6 @@ import PAI.repository.ProgrammeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -290,8 +289,8 @@ class US19_CreateCourseEditionControllerTest {
     private Course course;
     private AddressFactory addressFactory;
 
-    private TeacherCareerProgressionListFactory teacherCareerListFactory;
-    private TeacherCareerProgressionFactory teacherCareerFactory;
+    private TeacherCareerProgressionListFactoryImpl teacherCareerListFactory;
+    private TeacherCareerProgressionFactoryImpl teacherCareerFactory;
     private TeacherCategory teacherCategory;
 
     private ProgrammeEdition programmeEdition;
@@ -325,8 +324,8 @@ class US19_CreateCourseEditionControllerTest {
         course = new Course("Informatics", "INF", 6, 1);
         addressFactory = new AddressFactoryImpl();
 
-        teacherCareerListFactory = new TeacherCareerProgressionListFactory();
-        teacherCareerFactory = new TeacherCareerProgressionFactory();
+        teacherCareerListFactory = new TeacherCareerProgressionListFactoryImpl();
+        teacherCareerFactory = new TeacherCareerProgressionFactoryImpl();
         teacherCategory = new TeacherCategory("Professor Adjunto");
 
         programme = new Programme("Computer Engineering", "CE", 20, 6,
@@ -350,8 +349,9 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseEditionIsCreated_integration() {
+    void shouldReturnTrueIfCourseEditionIsCreated_integration() throws Exception {
         // Arrange
+        programme.addCourseToAProgramme(course);
         // Act
         boolean result = controller.createCourseEdition(course, programmeEdition);
 

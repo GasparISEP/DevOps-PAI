@@ -11,7 +11,7 @@ class SchoolYearListFactoryImplTest {
     @Test
     void shouldCreateSchoolYearList() {
         // Arrange
-        SchoolYearListFactoryImpl syListFactory = new SchoolYearListFactoryImpl();
+        SchoolYearListFactory syListFactory = new SchoolYearListFactoryImpl();
 
         // Act
         List<SchoolYear> schoolYearList = syListFactory.newArrayList();

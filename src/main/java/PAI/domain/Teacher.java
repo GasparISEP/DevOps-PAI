@@ -1,9 +1,7 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactory;
-import PAI.factory.AddressFactoryImpl;
-import PAI.factory.TeacherCareerProgressionFactory;
-import PAI.factory.TeacherCareerProgressionListFactory;
+import PAI.factory.*;
+
 import java.util.List;
 
 public class Teacher {
@@ -43,6 +41,7 @@ public class Teacher {
         validateNif(nif);
         validatePhoneNumber(phoneNumber);
         validateAcademicBackground(academicBackground);
+        validateFactories(teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
 
         this._address = addressFactory.createAddress(street, postalCode, location, country);
 
@@ -111,7 +110,7 @@ public class Teacher {
         if (phoneNumber == null || phoneNumber.isBlank())
             throw new IllegalArgumentException("Teacher´s office phoneNumber must be a non-empty String.");
 
-        if (!phoneNumber.matches("^[A-Z][0-9]{3}$") || phoneNumber.length() != 4)
+        if (!phoneNumber.matches("^[A-Z][0-9]{3}$"))
             throw new IllegalArgumentException("Teacher´s office phoneNumber must have a letter followed by 3 digits.");
 
         this._phoneNumber = phoneNumber;
@@ -122,6 +121,16 @@ public class Teacher {
             throw new IllegalArgumentException("Teacher's academic background must be a non-empty String.");
 
         this._academicBackground = academicBackground;
+    }
+
+    private void validateFactories (TeacherCareerProgressionFactory tcpFactory, TeacherCareerProgressionListFactory tcpListFactory) {
+
+        if (tcpFactory == null)
+            throw new IllegalArgumentException("Teacher Career Progression Factory must not be null.");
+
+        if (tcpListFactory == null) {
+            throw new IllegalArgumentException("Teacher Career Progression List Factory must not be null.");
+        }
     }
 
     public boolean hasSameAcronym(Teacher teacher) {

@@ -3,9 +3,10 @@ package PAI.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ProgrammeEditionTest {
     private Programme _programme;
@@ -145,7 +146,6 @@ class ProgrammeEditionTest {
         assertEquals(_schoolYear, result);
     }
 
-    //US26
     //Test ensures that method returns true when both the department and school year are correctly associated with the programme edition
     @Test
     void shouldReturnTrueWhenEditionIsAssociatedToDepartmentAndSchoolYear() throws Exception {
@@ -453,5 +453,45 @@ class ProgrammeEditionTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfProgrammeEditionHasCourseInProgrammeCourseList() throws Exception {
+        Programme programmeDouble = mock(Programme.class);
+        SchoolYear schoolYearDouble = mock(SchoolYear.class);
+        Course courseDouble = mock(Course.class);
+
+        programmeDouble.addCourseToAProgramme(courseDouble);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programmeDouble, schoolYearDouble);
+
+        when(programmeDouble.getCourseList()).thenReturn(List.of(courseDouble));
+
+        //act
+        boolean result = programmeEdition.isCourseInProgrammeCourseListByProgrammeEdition(programmeEdition, courseDouble);
+
+        //assert
+        assertTrue(result);
+        assertEquals(programmeEdition.findProgrammeInProgrammeEdition(), programmeDouble);
+        verify(programmeDouble).getCourseList();
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionDoesNotHaveCourseInProgrammeCourseList() throws Exception {
+        Programme programmeDouble = mock(Programme.class);
+        SchoolYear schoolYearDouble = mock(SchoolYear.class);
+        Course courseDouble = mock(Course.class);
+
+        ProgrammeEdition programmeEdition = new ProgrammeEdition(programmeDouble, schoolYearDouble);
+
+        when(programmeDouble.getCourseList()).thenReturn(List.of());
+
+        //act
+        boolean result = programmeEdition.isCourseInProgrammeCourseListByProgrammeEdition(programmeEdition, courseDouble);
+
+        //assert
+        assertFalse(result);
+        assertEquals(programmeEdition.findProgrammeInProgrammeEdition(), programmeDouble);
+        verify(programmeDouble).getCourseList();
     }
 }

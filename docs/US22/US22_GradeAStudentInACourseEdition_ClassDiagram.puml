@@ -3,26 +3,26 @@ title US22: I want to grade a student in a CourseEdition
 'left to right direction
 
 class US22_IWantToGradeAStudentInACourseEdition {
-    +US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository : GradeStudentRepository, courseEditionEnrollmentRepository : CourseEditionEnrollmentRepository)
+    +US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository : GradeStudentRepository, courseEditionEnrolmentRepository : CourseEditionEnrolmentRepository)
     +isStudentEnrolledInCourseEdition(courseEdition : CourseEdition, student : Student): boolean
     +iWantToGradeAStudent(grade : int, date : String student : Student, courseEdition : CourseEdition): GradeStudent
 
 }
 
-class CourseEditionEnrollmentRepository {
-    +CourseEditionEnrollmentRepository (courseEditionEnrollmentFactory: CourseEditionEnrollmentFactory, courseEditionEnrollmentListFactory: CourseEditionEnrollmentListFactory)
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+class CourseEditionEnrolmentRepository {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: CourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: CourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
     +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition): boolean
-    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition): CourseEditionEnrollment
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition): CourseEditionEnrolment
     +numberOfStudentsEnrolledInCourseEdition (CourseEdition : CourseEdition): int
-    +removeEnrollment (student : Student): boolean
-    +enrollStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
+    +removeEnrolment (student : Student): boolean
+    +enrolStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
 }
 
-class CourseEditionEnrollment {
-    -_enrollmentDate: LocalDate
+class CourseEditionEnrolment {
+    -_enrolmentDate: LocalDate
     - _isActive: boolean
-    +CourseEditionEnrollment(student:Student, courseEdition: CourseEdition)
+    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
     +equals (obj: Object): boolean
     +knowStudent(): Student
     +knowCourseEdition(): CourseEdition
@@ -107,15 +107,15 @@ GradeStudentFactory  <|..  GradeStudentFactoryImpl
 GradeStudentListFactory ..|> List
 GradeStudent <-- List
 List <-- GradeStudentRepository
-CourseEditionEnrollmentRepository "1" --> "*" CourseEditionEnrollment
-CourseEditionEnrollment "*" --> "1" Student
-CourseEditionEnrollment "*" -up-> "1" CourseEdition
+CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolment
+CourseEditionEnrolment "*" --> "1" Student
+CourseEditionEnrolment "*" -up-> "1" CourseEdition
 
 
 GradeStudentRepository "1" ....> "*" GradeStudent
 
 
-US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrollmentRepository
+US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrolmentRepository
 US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " GradeStudentRepository
 
 @enduml

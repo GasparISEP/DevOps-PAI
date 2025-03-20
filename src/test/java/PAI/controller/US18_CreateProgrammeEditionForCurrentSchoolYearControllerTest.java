@@ -3,6 +3,7 @@ package PAI.controller;
 import PAI.domain.*;
 import PAI.repository.ProgrammeEditionRepository;
 import PAI.repository.ProgrammeRepository;
+import PAI.repository.SchoolYearRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

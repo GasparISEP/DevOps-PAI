@@ -1,0 +1,16 @@
+@startuml
+title US16: Enroll a student in a course edition
+actor ASC
+participant ":System" as System
+ASC -> System: I want enrol a student in a course edition.
+System --> ASC: What student?
+ASC -> System: Enter a student.
+System --> ASC: Here is a list of programme editions the student is enrolled in . What programme edition?
+ASC -> System: Enter programme edition.
+System --> ASC: Here is a list of course editions that belongs to this programme edition. What course edition?
+ASC -> System: Enter course edition.
+System --> ASC: Sure?
+ASC -> System: Yes!
+System --> ASC: Ok!
+
+@enduml

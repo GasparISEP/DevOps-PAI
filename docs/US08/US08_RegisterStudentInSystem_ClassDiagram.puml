@@ -60,14 +60,17 @@ class AddressFactoryImpl {
     + createAddress(street : String, postalCode : String, location : String, country : String) : Address
 }
 
-US08_IWantToRegisterAStudentInTheSystemController "1" ---> "1" StudentRepository
-StudentRepository "1" --> "1" StudentFactory
-StudentRepository "1" --> "1..* _students" Student
-StudentRepository "1" --> "1" StudentListFactory
-Student "1" --> "1" Address
-StudentFactoryImpl ..|> StudentFactory
-StudentListFactoryImpl ..|> StudentListFactory
-AddressFactoryImpl ..|> AddressFactory
-AddressFactory "1" --> "1..*" Address
+interface List<Student> <<interface>> {}
 
+US08_IWantToRegisterAStudentInTheSystemController "1" ---> "1 " StudentRepository
+StudentRepository "1" ..> "1" StudentFactory
+StudentRepository "1" ---> "List<student>\n*" Student
+StudentRepository "1" ..> "1" StudentListFactory
+StudentListFactory "1 " ..> "1  " List: <<create>>
+Student "1" --> "1  " Address
+StudentFactoryImpl "*" ..|> "1     " StudentFactory
+StudentListFactoryImpl "*" ..|> "1     " StudentListFactory
+AddressFactoryImpl "*" ..|> "1  " AddressFactory
+AddressFactory "1" .l.> "1" Address: <<create>>
+StudentFactory "1" ..> "1" Student: <<create>>
 @enduml

@@ -1,5 +1,5 @@
 @startuml
-'https://plantuml.com/class-diagram
+top to bottom direction
 
 class SchoolYear {
     -_description:String
@@ -11,27 +11,27 @@ class SchoolYear {
 }
 
 class SchoolYearRepository {
-    +schoolYearRepository(SchoolYearFactoryImpl, SchoolYearListFactoryImpl)
+    +schoolYearRepository(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
     +addSchoolYear(description: String, StartDate: String, EndDate: String)
     +schoolYearExists(schoolYear: SchoolYear)
-    +getLatestSchoolYear()
-    +getAllSchoolYears()
+    +getLatestSchoolYear(): SchoolYear
+    +getAllSchoolYears(): List<SchoolYear>
 }
 
 class US07_IWantToCreateASchoolYearController {
-   +US07_IWantToCreateASchoolYearController(SchoolYearRepository)
-   +addSchoolYear(description:String, startDate:LocalDate, endDate:LocalDate)
+   +US07_IWantToCreateASchoolYearController(schoolYearRepository: SchoolYearRepository)
+   +addSchoolYear(description: String, startDate: LocalDate, endDate: LocalDate)
 }
 
-class SchoolYearListFactory {
-   +newArrayList(): ArrayList<SchoolYear>
+interface SchoolYearListFactory <<interface>> {
+   +newArrayList(): List<SchoolYear>
 }
 
 class SchoolYearListFactoryImpl {
-   +newArrayList(): ArrayList<SchoolYear>
+   +newArrayList(): List<SchoolYear>
 }
 
-class SchoolYearFactory {
+interface SchoolYearFactory <<interface>> {
    +createSchoolYear(description: String, startDate: String, endDate: String): SchoolYear
 }
 
@@ -39,11 +39,16 @@ class SchoolYearFactoryImpl {
    +createSchoolYear(description: String, startDate: String, endDate: String): SchoolYear
 }
 
-SchoolYearRepository "1" ---> "schoolYearListFactoryImpl \n 1" SchoolYearListFactoryImpl
-SchoolYearRepository "1" ---> "schoolYearFactoryImpl \n 1" SchoolYearFactoryImpl
-SchoolYearListFactoryImpl "1" <|-- "schoolYearListFactory \n 1" SchoolYearListFactory
-US07_IWantToCreateASchoolYearController "1" ---> "schoolYearRepo \n 1" SchoolYearRepository
-SchoolYear "1" ---> "_schoolYearList \n *" SchoolYearRepository
-SchoolYearFactoryImpl "1" ---> "SchoolYearFactory \n 1" SchoolYearFactory
+interface List<SchoolYear> <<interface>> {
+}
 
+SchoolYearListFactoryImpl "1 " ..u.|> "1  " SchoolYearListFactory
+SchoolYearRepository "1" ...> "schoolYearListFactory \n 1" SchoolYearListFactory
+SchoolYearRepository "1 " .u..> "schoolYearFactory \n 1" SchoolYearFactory
+US07_IWantToCreateASchoolYearController "1" ---> "schoolYearRepository \n 1" SchoolYearRepository
+SchoolYear "List<SchoolYear> \n *" <--- "1" SchoolYearRepository
+SchoolYearFactoryImpl "*" ...|> "SchoolYearFactory \n 1" SchoolYearFactory
+SchoolYearFactory "1   " ...> "1 " SchoolYear: <<create>>
+SchoolYearListFactory "1" ...> "1  " List: <<create>>
+SchoolYearListFactory "1  " ..> "1  " SchoolYear
 @enduml

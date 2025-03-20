@@ -40,12 +40,22 @@ package "PAI.repository" {
     }
 }
 
+' Placeholder for List<TeacherCategory>
+class "List<TeacherCategory>" as ListTeacherCategory
+
+' Implementations (Realization)
 TeacherCategoryFactoryInterface <|.. TeacherCategoryFactoryImpl
 TeacherCategoryRepositoryListFactoryInterface <|.. TeacherCategoryRepositoryListFactoryImpl
 
-TeacherCategoryFactoryImpl --> TeacherCategory
-TeacherCategoryRepositoryListFactoryImpl --> TeacherCategoryRepository
+' Factory Dependencies
+TeacherCategoryRepository ..> TeacherCategoryFactoryImpl : uses  ' TeacherCategoryRepository depends on TeacherCategoryFactoryImpl for creating TeacherCategory instances.
+TeacherCategoryRepository ..> TeacherCategoryRepositoryListFactoryImpl : uses  ' TeacherCategoryRepository depends on TeacherCategoryRepositoryListFactoryImpl to get the list of TeacherCategory.
 
-TeacherCategory "1..*" --> "1" TeacherCategoryRepository: teacherCategoryRepositoryList
+' Associations
+TeacherCategoryRepository "1" --> "*" TeacherCategory : teacherCategoryRepositoryList  ' TeacherCategoryRepository contains a list of TeacherCategory objects.
+
+' Explicitly show List<TeacherCategory> dependency
+TeacherCategoryRepositoryListFactoryImpl ..> ListTeacherCategory : returns  ' TeacherCategoryRepositoryListFactoryImpl returns a List<TeacherCategory>.
+TeacherCategoryRepository ..> ListTeacherCategory : contains  ' TeacherCategoryRepository contains a List<TeacherCategory>.
 
 @enduml

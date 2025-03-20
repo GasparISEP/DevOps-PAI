@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionTest {
 
@@ -16,11 +17,27 @@ class CourseEditionTest {
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
 
+        when(programmeEditionDouble.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble, courseDouble)).thenReturn(true);
+
         //Act
         CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
 
         //Assert
         assertNotNull(courseEdition1);
+
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseIsNotInTheProgramme() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEdition and Course as Doubles
+        //Arrange
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        Course courseDouble = mock (Course.class);
+
+        when(programmeEditionDouble.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble, courseDouble)).thenReturn(false);
+
+        //Act+Assert
+        assertThrows(Exception.class, () -> {new CourseEdition(courseDouble, programmeEditionDouble);});
 
     }
 
@@ -61,6 +78,9 @@ class CourseEditionTest {
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
+
+        when(programmeEditionDouble.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble, courseDouble)).thenReturn(true);
+
         CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
         Object courseEdition2 = courseEdition1;
 
@@ -77,6 +97,9 @@ class CourseEditionTest {
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
+
+        when(programmeEditionDouble.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble, courseDouble)).thenReturn(true);
+
         CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
         TeacherCategory teacherCategoryDouble = mock (TeacherCategory.class);
 
@@ -93,6 +116,9 @@ class CourseEditionTest {
         //Arrange
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
+
+        when(programmeEditionDouble.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble, courseDouble)).thenReturn(true);
+
         CourseEdition courseEdition1 = new CourseEdition(courseDouble, programmeEditionDouble);
         CourseEdition courseEdition2 = new CourseEdition(courseDouble, programmeEditionDouble);
 
@@ -109,6 +135,9 @@ class CourseEditionTest {
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
         Course courseDouble2 = mock (Course.class);
+
+        when(programmeEditionDouble1.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble1, courseDouble1)).thenReturn(true);
+        when(programmeEditionDouble1.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble1, courseDouble2)).thenReturn(true);
 
         CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
         CourseEdition courseEdition2 = new CourseEdition(courseDouble2, programmeEditionDouble1);
@@ -127,6 +156,10 @@ class CourseEditionTest {
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
+
+        when(programmeEditionDouble1.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble1, courseDouble1)).thenReturn(true);
+        when(programmeEditionDouble2.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble2, courseDouble1)).thenReturn(true);
+
 
         CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
         CourseEdition courseEdition2 = new CourseEdition(courseDouble1, programmeEditionDouble2);
@@ -147,6 +180,8 @@ class CourseEditionTest {
         Course courseDouble1 = mock (Course.class);
         Teacher rucDouble = mock (Teacher.class);
 
+        when(programmeEditionDouble1.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble1, courseDouble1)).thenReturn(true);
+
         CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
 
         //Act
@@ -161,6 +196,9 @@ class CourseEditionTest {
         //arrange
         Course doubleC1 = mock(Course.class);
         ProgrammeEdition doublePE1 = mock(ProgrammeEdition.class);
+
+        when(doublePE1.isCourseInProgrammeCourseListByProgrammeEdition(doublePE1, doubleC1)).thenReturn(true);
+
         CourseEdition courseEdition1 = new CourseEdition(doubleC1, doublePE1);
 
         //act
@@ -177,6 +215,8 @@ class CourseEditionTest {
             //Doubles' instantiation
         Course courseDouble = mock(Course.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+
+        when(programmeEditionDouble.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble, courseDouble)).thenReturn(true);
 
             //SUT
         CourseEdition courseEdition = new CourseEdition (courseDouble, programmeEditionDouble);
