@@ -19,14 +19,14 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     @Test
     void gradeStudentInRepository() {
         //arrange
-        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
+        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
 
-        when(gradeStudentListFactory.newArrayList()).thenReturn( mockGradeList);
+        when(studentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
 
         GradeStudentRepository list = mock(GradeStudentRepository.class);
         when(list.addGradeToStudent(10, "13-03-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
@@ -45,10 +45,10 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         //arrange
         StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        GradeStudentListFactory gradeStudentListFactory = mock(GradeStudentListFactory.class);
+        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-        when(gradeStudentListFactory.newArrayList()).thenReturn(mockGradeList);
+        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
         GradeStudentRepository list = mock(GradeStudentRepository.class);
 

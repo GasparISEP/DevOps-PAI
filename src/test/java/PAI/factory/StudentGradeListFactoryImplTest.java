@@ -9,8 +9,8 @@ class StudentGradeListFactoryImplTest {
     @Test
     void newArrayList() {
         // Arrange
-        GradeStudentListFactoryImpl gradeStudentListFactoryImpl = new GradeStudentListFactoryImpl();
+        StudentGradeListFactoryImpl studentGradeListFactoryImpl = new StudentGradeListFactoryImpl();
 
         // act + assert
-        assertNotNull(gradeStudentListFactoryImpl);    }
+        assertNotNull(studentGradeListFactoryImpl);    }
 }

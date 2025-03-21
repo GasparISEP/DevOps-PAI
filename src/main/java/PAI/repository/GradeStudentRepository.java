@@ -3,7 +3,7 @@ package PAI.repository;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.StudentGradeFactory;
-import PAI.factory.GradeStudentListFactory;
+import PAI.factory.StudentGradeListFactory;
 import PAI.domain.Student;
 
 import java.util.List;
@@ -13,17 +13,17 @@ public class GradeStudentRepository {
     private final StudentGradeFactory _StudentGradeFactory;
     private List<StudentGrade> _StudentGradeList;
 
-    public GradeStudentRepository (StudentGradeFactory studentGradeFactory, GradeStudentListFactory gradeStudentListFactory){
+    public GradeStudentRepository (StudentGradeFactory studentGradeFactory, StudentGradeListFactory studentGradeListFactory){
         if (studentGradeFactory == null){
             throw new IllegalArgumentException("Factory cannot be null!");
         }
         this._StudentGradeFactory = studentGradeFactory;
 
-        if (gradeStudentListFactory == null) {
+        if (studentGradeListFactory == null) {
             throw new IllegalArgumentException("Factory cannot be null!");
 
         }
-        _StudentGradeList = gradeStudentListFactory.newArrayList();
+        _StudentGradeList = studentGradeListFactory.newArrayList();
     }
 
 
