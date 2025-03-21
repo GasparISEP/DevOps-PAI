@@ -4,7 +4,6 @@ import PAI.domain.DegreeType;
 import PAI.factory.DegreeTypeFactoryImpl;
 import PAI.factory.DegreeTypeFactoryInterface;
 import PAI.factory.DegreeTypeListFactoryInterface;
-import PAI.factory.GradeStudentFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
