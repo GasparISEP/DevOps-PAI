@@ -55,6 +55,12 @@ class GradeStudentRepository {
     +knowApprovalRate()
 }
 
+Interface GradeStudentRepositoryInterface {
+    +addGradeToStudent()
+    +knowAverageGrade()
+    +knowApprovalRate()
+}
+
 interface GradeStudentFactory {
     +newGradeStudent()
 }
@@ -99,23 +105,24 @@ class CourseEdition {
 
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
-GradeStudentRepository "1" ....> GradeStudentFactory
+GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
 GradeStudentFactory "1" ....> "Creates" GradeStudent
-GradeStudentRepository "1" ....>  GradeStudentListFactory
+GradeStudentRepositoryInterface "1" ....>  GradeStudentListFactory
 GradeStudentListFactoryImpl ..|>  GradeStudentListFactory
 GradeStudentFactory  <|..  GradeStudentFactoryImpl
+GradeStudentRepository <|.. GradeStudentRepositoryInterface
 GradeStudentListFactory ..|> List
 GradeStudent <-- List
-List <-- GradeStudentRepository
+List <-- GradeStudentRepositoryInterface
 CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolment
 CourseEditionEnrolment "*" --> "1" Student
 CourseEditionEnrolment "*" -up-> "1" CourseEdition
 
 
-GradeStudentRepository "1" ....> "*" GradeStudent
+GradeStudentRepositoryInterface "1" ....> "*" GradeStudent
 
 
 US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrolmentRepository
-US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " GradeStudentRepository
+US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " GradeStudentRepositoryInterface
 
 @enduml
