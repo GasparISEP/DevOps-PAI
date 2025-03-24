@@ -36,22 +36,22 @@ class List<GradeStudent> {
 
 package "StudentGrade" {
 entity "<<root>>\nGradeStudent"  {
-    -grade: double
-    -date: String
-    +knowGrade()
     +hasThisCourseEdition(CourseEdition : CourseEdition)
     +knowCourseEdition()
-    +isDateValid(String date)
-    +get_date()
     +get_student()
     +get_courseEdition()
-     +equals (objectToCompare: Object)
+    +equals (objectToCompare: Object)
 
     }
     class Grade <<ValueObject>> {
         -grade: double
         +knowGrade()
     }
+    class LocalDate <<ValueObject>> {
+            -date: String
+            +isDateValid(String date)
+            +get_date()
+        }
 }
 
 
@@ -112,6 +112,7 @@ class CourseEdition {
 
 
 "<<root>>\nGradeStudent" "*" --> "1" Grade
+"<<root>>\nGradeStudent" "*" --> "1" LocalDate
 "<<root>>\nGradeStudent" --> "1" Student: belongs
 "<<root>>\nGradeStudent" --> "1" CourseEdition: refers to
 GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
@@ -128,7 +129,7 @@ CourseEditionEnrolment "*" --> "1" Student
 CourseEditionEnrolment "*" -up-> "1" CourseEdition
 
 
-GradeStudentRepositoryInterface "1" ....> "*" GradeStudent
+GradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
 
 
 US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrolmentRepository
