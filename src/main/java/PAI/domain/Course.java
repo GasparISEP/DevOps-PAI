@@ -13,7 +13,7 @@ public class Course {
         if (!isValidAcronym(acronym))
             throw new IllegalArgumentException("Course acronym cannot be null or blank");
         if (!isValidQuantityCreditsEcts(quantityOfEcts))
-            throw new IllegalArgumentException("quantityCredtisEcts can only have 1 decimal place");
+            throw new IllegalArgumentException("quantityCreditsEcts can only have 1 decimal place");
         if (!isValidDurationCourseInSemester(durationCourseInSemester))
             throw new IllegalArgumentException("durationCourseInSemester can only have a value between 1 and 2");
 
