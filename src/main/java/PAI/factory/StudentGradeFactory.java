@@ -4,6 +4,6 @@ import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.domain.Student;
 
-public interface GradeStudentFactory {
+public interface StudentGradeFactory {
     StudentGrade newGradeStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception;
 }

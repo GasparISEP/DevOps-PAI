@@ -4,6 +4,6 @@ import PAI.domain.StudentGrade;
 
 import java.util.List;
 
-public interface GradeStudentListFactory {
+public interface StudentGradeListFactory {
     List<StudentGrade> newArrayList ();
 }
