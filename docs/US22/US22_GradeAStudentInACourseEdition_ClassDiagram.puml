@@ -34,7 +34,7 @@ class List<GradeStudent> {
 
 }
 
-class GradeStudent {
+class GradeStudent <<Root>> {
     -grade: double
     -date: String
     +knowGrade()
@@ -45,6 +45,11 @@ class GradeStudent {
     +get_student()
     +get_courseEdition()
     +equals (objectToCompare: Object)
+}
+
+class Grade <<ValueObject>> {
+    -grade: double
+    +knowGrade()
 }
 
 class GradeStudentRepository {
@@ -103,6 +108,7 @@ class CourseEdition {
 }
 
 
+GradeStudent "*" --> "1" Grade
 GradeStudent "*" --> "1" Student: belongs
 GradeStudent "*" --> "1" CourseEdition: refers to
 GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
