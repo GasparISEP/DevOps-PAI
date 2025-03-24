@@ -34,7 +34,8 @@ class List<GradeStudent> {
 
 }
 
-class GradeStudent <<Root>> {
+package "StudentGrade" {
+entity "<<root>>\nGradeStudent"  {
     -grade: double
     -date: String
     +knowGrade()
@@ -44,13 +45,15 @@ class GradeStudent <<Root>> {
     +get_date()
     +get_student()
     +get_courseEdition()
-    +equals (objectToCompare: Object)
+     +equals (objectToCompare: Object)
+
+    }
+    class Grade <<ValueObject>> {
+        -grade: double
+        +knowGrade()
+    }
 }
 
-class Grade <<ValueObject>> {
-    -grade: double
-    +knowGrade()
-}
 
 class GradeStudentRepository {
     -gradeStudentList: List<GradeStudent>
@@ -108,17 +111,17 @@ class CourseEdition {
 }
 
 
-GradeStudent "*" --> "1" Grade
-GradeStudent "*" --> "1" Student: belongs
-GradeStudent "*" --> "1" CourseEdition: refers to
+"<<root>>\nGradeStudent" "*" --> "1" Grade
+"<<root>>\nGradeStudent" --> "1" Student: belongs
+"<<root>>\nGradeStudent" --> "1" CourseEdition: refers to
 GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
-GradeStudentFactory "1" ....> "Creates" GradeStudent
+GradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
 GradeStudentRepositoryInterface "1" ....>  GradeStudentListFactory
 GradeStudentListFactoryImpl ..|>  GradeStudentListFactory
 GradeStudentFactory  <|..  GradeStudentFactoryImpl
 GradeStudentRepository <|.. GradeStudentRepositoryInterface
 GradeStudentListFactory ..|> List
-GradeStudent <-- List
+"<<root>>\nGradeStudent" <-- List
 List <-- GradeStudentRepositoryInterface
 CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolment
 CourseEditionEnrolment "*" --> "1" Student
