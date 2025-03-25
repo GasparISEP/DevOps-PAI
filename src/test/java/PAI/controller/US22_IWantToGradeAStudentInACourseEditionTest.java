@@ -85,8 +85,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         StudyPlanListFactory studyPlanListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactory studyPlanFactory = new StudyPlanFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository, enrollmentRepository);
 

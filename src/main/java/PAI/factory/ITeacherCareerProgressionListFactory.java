@@ -4,7 +4,7 @@ import PAI.domain.TeacherCareerProgression;
 
 import java.util.List;
 
-public interface TeacherCareerProgressionListFactory {
+public interface ITeacherCareerProgressionListFactory {
 
     List<TeacherCareerProgression> createTeacherCareerProgressionList();
 }

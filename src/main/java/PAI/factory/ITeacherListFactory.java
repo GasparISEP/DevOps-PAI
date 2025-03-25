@@ -4,6 +4,6 @@ import PAI.domain.Teacher;
 
 import java.util.ArrayList;
 
-public interface TeacherListFactory {
+public interface ITeacherListFactory {
     ArrayList<Teacher> newArrayList();
 }

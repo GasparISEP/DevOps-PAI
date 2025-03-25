@@ -2,25 +2,19 @@ package PAI.repository;
 
 import PAI.domain.Address;
 import PAI.domain.Student;
-import PAI.factory.StudentFactory;
+import PAI.factory.IStudentFactory;
 import PAI.factory.StudentFactoryImpl;
-import PAI.factory.StudentListFactory;
+import PAI.factory.IStudentListFactory;
 import PAI.factory.StudentListFactoryImpl;
-import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,8 +24,8 @@ class StudentRepositoryTest {
 
     @Nested
     class TestsWithIsolation {
-        private StudentFactory _studentFactoryImplDouble;
-        private StudentListFactory _studentListFactoryImplDouble;
+        private IStudentFactory _studentFactoryImplDouble;
+        private IStudentListFactory _studentListFactoryImplDouble;
         private Iterator _iterator;
         private Address _addressDouble;
         private Student _studentDouble1;
@@ -40,8 +34,8 @@ class StudentRepositoryTest {
         @BeforeEach
         //arrange
         void setup() {
-            _studentFactoryImplDouble = mock(StudentFactory.class);
-            _studentListFactoryImplDouble = mock(StudentListFactory.class);
+            _studentFactoryImplDouble = mock(IStudentFactory.class);
+            _studentListFactoryImplDouble = mock(IStudentListFactory.class);
 
             _addressDouble = mock(Address.class);
             _studentDouble1 = mock(Student.class);

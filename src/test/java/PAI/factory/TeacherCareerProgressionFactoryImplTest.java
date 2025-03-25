@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mock;
 import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
+
 import java.util.List;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +19,7 @@ class TeacherCareerProgressionFactoryImplTest {
     @Test
     void shouldCreateTeacherCareerProgression() {
         // Arrange
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
         String date = "13-11-2002";
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -55,7 +54,7 @@ class TeacherCareerProgressionFactoryImplTest {
     @MethodSource ("provideInvalidDate")
     void invalidDateDoesNotCreateTeacherCareerProgression (String date) {
         // Arrange
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         int workingPercentage = 100;
@@ -76,7 +75,7 @@ class TeacherCareerProgressionFactoryImplTest {
     @Test
     void nullTeacherCategoryDoesNotCreateTeacherCareerProgression () {
         // Arrange
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
         String date = "13-11-2002";
         int workingPercentage = 100;
@@ -111,7 +110,7 @@ class TeacherCareerProgressionFactoryImplTest {
     void shouldThrowExceptionWhenWorkingPercentageIsInvalid (int workingPercentage) {
 
         // Arrange
-        TeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
+        ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
         String date = "01-10-2022";
         TeacherCategory tcDouble = mock(TeacherCategory.class);

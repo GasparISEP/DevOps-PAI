@@ -4,11 +4,10 @@ package PAI.factory;
 import PAI.domain.SchoolYear;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public interface SchoolYearListFactory {
+public interface ISchoolYearListFactory {
 
     List<SchoolYear> newArrayList();
 
