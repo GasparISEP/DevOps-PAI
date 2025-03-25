@@ -159,7 +159,7 @@ GradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
 GradeStudentRepositoryInterface "1" ....>  GradeStudentListFactory
 GradeStudentListFactoryImpl ..|>  GradeStudentListFactory
 GradeStudentFactory  <|..  GradeStudentFactoryImpl
-GradeStudentRepository <|.. GradeStudentRepositoryInterface
+GradeStudentRepository ..|> GradeStudentRepositoryInterface
 GradeStudentListFactory ..|> List
 "<<root>>\nGradeStudent" <-- List
 List <-- GradeStudentRepositoryInterface
