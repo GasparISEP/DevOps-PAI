@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedConstruction;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +19,7 @@ class StudentFactoryImplTest {
     @Test
     void shouldReturnStudentWhenInputIsValid() {
         //arrange
-        StudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
         String uniqueNumber = "1234567";
 
@@ -55,7 +54,7 @@ class StudentFactoryImplTest {
     @MethodSource("testInputUniqueNumberIsInvalid")
     void shouldThrowExceptionWhenInputUniqueNumberIsInvalid(String uniqueNumber) {
         //arrange
-        StudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
@@ -82,7 +81,7 @@ class StudentFactoryImplTest {
     @MethodSource("testInputNameIsInvalid")
     void shouldThrowExceptionWhenInputNameIsInvalid(String name) {
         //arrange
-        StudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
@@ -111,7 +110,7 @@ class StudentFactoryImplTest {
     @MethodSource("testInputNIFIsInvalid")
     void shouldThrowExceptionWhenInputNIFIsInvalid(String NIF) {
         //arrange
-        StudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
@@ -144,7 +143,7 @@ class StudentFactoryImplTest {
     @MethodSource("testInputPhoneNumberIsInvalid")
     void shouldThrowExceptionWhenInputPhoneNumberIsInvalid(String phone) {
         //arrange
-        StudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
@@ -177,7 +176,7 @@ class StudentFactoryImplTest {
     @MethodSource("testInputEmailIsInvalid")
     void shouldThrowExceptionWhenInputEmailIsInvalid(String email) {
         //arrange
-        StudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {

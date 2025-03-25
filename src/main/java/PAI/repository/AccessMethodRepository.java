@@ -1,8 +1,6 @@
 package PAI.repository;
 
 import PAI.domain.AccessMethod;
-import PAI.factory.AccessMethodArrayListFactory;
-import PAI.factory.AccessMethodFactory;
 import PAI.factory.IAccessMethodFactory;
 import PAI.factory.IAccessMethodListFactory;
 

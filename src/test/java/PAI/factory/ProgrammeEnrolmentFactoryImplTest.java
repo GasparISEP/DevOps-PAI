@@ -24,7 +24,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         DegreeType _degreeType;
         Department _department;
         TeacherCategory _teacherCategory;
-        AddressFactory _addressFactory;
+        IAddressFactory _addressFactory;
         TeacherCareerProgressionFactoryImpl _tcpFactory;
         TeacherCareerProgressionListFactoryImpl _tcpLFactoryDouble;
         Teacher _teacher;

@@ -4,8 +4,6 @@ import PAI.factory.*;
 import PAI.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.Callable;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,9 +39,9 @@ class CourseInStudyPlanTest {
         CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
+        ICourseFactory ICourseFactory = mock(ICourseFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
@@ -82,9 +80,9 @@ class CourseInStudyPlanTest {
 
     @Test
     void testEqualsMethodWithDifferentSemestersAndYears() throws Exception {
-        CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseFactory courseFactory = mock(CourseFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+        CourseListFactoryImpl courseListFactoryImpl = mock(CourseListFactoryImpl.class);
+        ICourseFactory ICourseFactory = mock(ICourseFactory.class);
+        CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         DegreeType master = new DegreeType("Master", 240);
@@ -95,7 +93,7 @@ class CourseInStudyPlanTest {
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactory);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         programme.addCourseToAProgramme(course1);
 

@@ -4,7 +4,7 @@ import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.domain.Student;
 
-public class StudentGradeFactoryImpl implements StudentGradeFactory {
+public class StudentGradeFactoryImpl implements IStudentGradeFactory {
 
     public StudentGrade newGradeStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception {
         if (grade < 0 ||  grade > 20){

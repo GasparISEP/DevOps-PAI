@@ -1,17 +1,17 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.ProgrammeEnrolmentFactory;
-import PAI.factory.ProgrammeEnrolmentListFactory;
+import PAI.factory.IProgrammeEnrolmentFactory;
+import PAI.factory.IProgrammeEnrolmentListFactory;
 
 import java.util.List;
 
 public class ProgrammeEnrolmentRepository {
 
     private List<ProgrammeEnrolment> _enrolmentList;
-    private ProgrammeEnrolmentFactory _programmeEnrolmentFactory;
+    private IProgrammeEnrolmentFactory _programmeEnrolmentFactory;
 
-    public ProgrammeEnrolmentRepository(ProgrammeEnrolmentFactory programmeEnrolmentFactory, ProgrammeEnrolmentListFactory programmeEnrolmentList){
+    public ProgrammeEnrolmentRepository(IProgrammeEnrolmentFactory programmeEnrolmentFactory, IProgrammeEnrolmentListFactory programmeEnrolmentList){
 
         if(programmeEnrolmentFactory == null || programmeEnrolmentList == null)
             throw new IllegalArgumentException("Factory cannot be null!");

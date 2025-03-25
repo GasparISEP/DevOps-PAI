@@ -4,7 +4,7 @@ import PAI.domain.ProgrammeEnrolment;
 
 import java.util.ArrayList;
 
-public class ProgrammeEnrolmentListFactoryImpl implements ProgrammeEnrolmentListFactory {
+public class ProgrammeEnrolmentListFactoryImpl implements IProgrammeEnrolmentListFactory {
 
     public ArrayList<ProgrammeEnrolment> newArrayList() {
 

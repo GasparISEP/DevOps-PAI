@@ -3,10 +3,10 @@ package PAI.factory;
 import PAI.domain.TeacherCategory;
 
 /**
- * Implementation of the {@link TeacherCategoryFactory} interface.
+ * Implementation of the {@link ITeacherCategoryFactory} interface.
  * This class is responsible for creating instances of {@link TeacherCategory}.
  */
-public class TeacherCategoryFactoryImpl implements TeacherCategoryFactory {
+public class TeacherCategoryFactoryImpl implements ITeacherCategoryFactory {
 
     /**
      * Creates a new {@link TeacherCategory} instance with the specified category name.

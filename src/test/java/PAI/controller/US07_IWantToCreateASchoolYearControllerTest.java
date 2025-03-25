@@ -1,9 +1,9 @@
 package PAI.controller;
 
-import PAI.factory.SchoolYearFactory;
+import PAI.factory.ISchoolYearFactory;
 import PAI.factory.SchoolYearFactoryImpl;
 import PAI.repository.SchoolYearRepository;
-import PAI.factory.SchoolYearListFactory;
+import PAI.factory.ISchoolYearListFactory;
 import PAI.factory.SchoolYearListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
@@ -73,8 +73,8 @@ class US07_IWantToCreateASchoolYearControllerTest {
     void shouldCreateSchoolYear_IntegrationTest() throws Exception {
 
         //Arrange
-        SchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        SchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearListFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
 

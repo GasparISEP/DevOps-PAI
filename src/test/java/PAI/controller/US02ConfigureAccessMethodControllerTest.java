@@ -1,8 +1,8 @@
 package PAI.controller;
 
 import PAI.domain.AccessMethod;
-import PAI.factory.AccessMethodFactory;
-import PAI.factory.AccessMethodArrayListFactory;
+import PAI.factory.AccessMethodFactoryImpl;
+import PAI.factory.AccessMethodArrayListFactoryImpl;
 import PAI.repository.AccessMethodRepository;
 import org.junit.jupiter.api.Test;
 
@@ -34,9 +34,9 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldNotConfigureAccessMethodIfAccessMethodRepositoryIsNull() throws Exception {
         //arrange
-        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
+        AccessMethodFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodFactoryImpl.class);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
-        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        when(doubleAccessMethodFactoryImpl.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         //act
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(null);
 
@@ -48,11 +48,11 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldConfigureAnAccessMethod() throws Exception {
         //arrange
-        AccessMethodArrayListFactory doubleAccessMethodArrayListFactory = mock(AccessMethodArrayListFactory.class);
-        AccessMethodFactory doubleAccessMethodFactory = mock(AccessMethodFactory.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactory, doubleAccessMethodArrayListFactory);
+        AccessMethodArrayListFactoryImpl doubleAccessMethodArrayListFactoryImpl = mock(AccessMethodArrayListFactoryImpl.class);
+        AccessMethodFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodFactoryImpl.class);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodArrayListFactoryImpl);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
-        when(doubleAccessMethodFactory.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        when(doubleAccessMethodFactoryImpl.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
         //act
         boolean isConfigured = ctrl1.configureAccessMethod("Maiores 23");

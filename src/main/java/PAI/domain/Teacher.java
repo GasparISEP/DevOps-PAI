@@ -20,20 +20,20 @@ public class Teacher {
 
     private Address _address;
 
-    private AddressFactory _addressFactory;
+    private IAddressFactory _addressFactory;
 
     private Department _department;
 
     private List<TeacherCareerProgression> _teacherCareerProgressionList;
 
-    private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
+    private ITeacherCareerProgressionFactory _teacherCareerProgressionFactory;
 
     //constructor
     public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
-                   String street, String postalCode, String location, String country, AddressFactory addressFactory,
+                   String street, String postalCode, String location, String country, IAddressFactory addressFactory,
                    String date, TeacherCategory category, int workingPercentage, Department department,
-                   TeacherCareerProgressionFactory teacherCareerProgressionFactory,
-                   TeacherCareerProgressionListFactory teacherCareerProgressionListFactory) throws IllegalArgumentException {
+                   ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
+                   ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory) throws IllegalArgumentException {
 
         validateAcronym(acronym);
         validateName(name);
@@ -122,7 +122,7 @@ public class Teacher {
         this._academicBackground = academicBackground;
     }
 
-    private void validateFactories (TeacherCareerProgressionFactory tcpFactory, TeacherCareerProgressionListFactory tcpListFactory) {
+    private void validateFactories (ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionListFactory tcpListFactory) {
 
         if (tcpFactory == null)
             throw new IllegalArgumentException("Teacher Career Progression Factory must not be null.");

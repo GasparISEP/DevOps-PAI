@@ -20,7 +20,7 @@ class ProgrammeTest {
     private CourseInStudyPlanFactory _courseInStudyPlanFactory;
     private StudyPlanListFactory _studyPlanListFactory;
     private StudyPlanFactory _studyPlanFactory;
-    private CourseFactory _courseFactor;
+    private ICourseFactory _courseFactor;
 
     @BeforeEach
     void setup() throws Exception {
@@ -31,7 +31,7 @@ class ProgrammeTest {
         _courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
         _studyPlanListFactory = mock(StudyPlanListFactory.class);
         _studyPlanFactory = mock(StudyPlanFactory.class);
-        _courseFactor = mock(CourseFactory.class);
+        _courseFactor = mock(ICourseFactory.class);
 
     }
     @Test

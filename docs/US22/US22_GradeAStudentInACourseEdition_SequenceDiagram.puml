@@ -1,10 +1,13 @@
 @startuml
 actor RUC
 participant ":UI" as UI
-participant ":Controller" as ctr
+participant ":US22_iWantToGradeAStudentInACourseEditionController" as ctr
 participant ":CourseEditionEnrolmentRepository" as CEER
 participant ":GradeStudentRepository" as GR
 participant ":GradeStudentFactory" as GSF
+participant "g1:Grade «Value Object»" as G
+participant "LocalDate «ValueObject»" as D
+participant "gs1:StudentGrade" as GS
 
 autonumber
 
@@ -17,21 +20,31 @@ CEER --> ctr -- : true
 
 
 ctr -> GR ++ #application : addGradeToStudent (Grade, Date, Student, CourseEdition)
+GR -> GR : !hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)
 GR -> GSF ++ #application : newStudentGrade (Grade, Date, Student, CourseEdition)
 
+create G
+GSF -> G ++ #application : <Create> new(grade)
+G -> G : isGradeValid()
+G -> GSF :  g1
+deactivate G
+
+create D
+GSF -> D ++ #application : <Create> new(Date)
+D -> D : isDateValid()
+D --> GSF : d1
+deactivate D
 
 
-create "sg1:StudentGrade" as GS
-GSF -> GS ++ #application : <Create> (Grade, Date, Student, CourseEdition)
-GS -> GS : isGradeValid()
-GS -> GS : isDateValid()
-GS --> GSF -- : sg1
-GSF --> GR -- : sg1
+create GS
+GSF -> GS ++ #application : <Create> (g1, d1, Student, CourseEdition)
+GS --> GSF -- : true
+GSF --> GR -- : true
 
 
-GR -> GR : addGrade(sg1)
-GR --> ctr --: sg1
-ctr --> UI --: sg1
+GR -> GR : addGrade(true)
+GR --> ctr --: true
+ctr --> UI --: true
 UI --> RUC --: Succeed
 
 @enduml
