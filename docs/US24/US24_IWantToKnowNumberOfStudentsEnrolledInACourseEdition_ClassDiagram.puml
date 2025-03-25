@@ -1,0 +1,71 @@
+@startuml
+
+!pragma layout smetana
+
+
+    class US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController {
+        +US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController()
+        +getNumberOfStudentsEnrolled(CourseEditionId courseEditionId)
+    }
+
+    class "CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository {
+        -_courseEditionEnrolments: List<CourseEditionEnrolment>
+        +CourseEditionEnrolmentRepository()
+        +enrolStudentInACourseEdition(StudentId studentId, CourseEditionId courseEditionId, EnrolmentDate enrolmentDate)
+        +isStudentEnrolledInCourseEdition(StudentId studentId, CourseEditionId courseEditionId): boolean
+        +findByStudentAndEdition(StudentId studentId, CourseEditionId courseEditionId): CourseEditionEnrolment
+        +numberOfStudentsEnrolledInCourseEdition(CourseEditionId courseEditionId): int
+        +enrollStudentInProgrammeCourseEditions(StudentId studentId, List<CourseEditionId> courseEditionIds)
+        +findByCourseEditionId(CourseEditionId courseEditionId): List<CourseEditionEnrolment>
+        +countStudentsInCourseEdition(CourseEditionId courseEditionId): int
+    }
+
+
+package "CourseEditionEnrolmentAggr" {
+    entity "<<root>>\nCourseEditionEnrolment" as CourseEditionEnrolment {
+        -_enrolmentDate: LocalDate
+        +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
+                 +equals (obj: Object): boolean
+                 +knowStudent(): Student
+                 +knowCourseEdition(): CourseEdition
+                 +deactivateEnrollment()
+    }
+
+    class "<<ValueObject>>\nEnrolmentDate" as EnrolmentDate {
+        -_enrolmentDate: LocalDate
+        }
+}
+
+    class "<<ValueObject>>\nStudentId" as StudentId {
+
+        }
+
+    class "<<ValueObject>>\nCourseEditionId" as CourseEditionId {
+
+        }
+
+    class "<<ValueObject>>\nCourseEditionEnrolmentId" as CourseEditionEnrolmentId {
+
+            }
+
+class CourseEditionEnrolmentFactoryImpl {
+        +createEnrolment(StudentId studentId, CourseEditionId courseEditionId, EnrolmentDate enrolmentDate): CourseEditionEnrolment
+    }
+
+interface ICourseEditionEnrolmentFactory {
+        +createEnrolment(StudentId studentId, CourseEditionId courseEditionId, EnrolmentDate enrolmentDate): CourseEditionEnrolment
+    }
+
+
+US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController "1  " ---> "1  " CourseEditionEnrolmentRepository
+CourseEditionEnrolmentRepository "List<CourseEditionEnrolment>          " ---> "1..*" CourseEditionEnrolment
+CourseEditionEnrolmentFactoryImpl ...|> ICourseEditionEnrolmentFactory
+CourseEditionEnrolment "   creates" <...... CourseEditionEnrolmentFactoryImpl
+
+CourseEditionEnrolment ---> "1          " CourseEditionId
+CourseEditionEnrolment -----> "1   " StudentId
+CourseEditionEnrolment ---> "1" EnrolmentDate
+CourseEditionEnrolment ---> "1     " CourseEditionEnrolmentId
+
+CourseEditionEnrolmentRepository ---> "1  " CourseEditionEnrolmentId
+@enduml
