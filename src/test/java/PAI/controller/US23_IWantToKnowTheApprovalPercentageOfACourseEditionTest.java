@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
     @Test
-    void gradeStudentInRepository() {
+    void gradeStudentInRepository() throws Exception {
         //arrange
         StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
 
@@ -29,7 +29,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(studentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
-        when(list.addGradeToStudent(10, "13-03-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
+        when(list.addGradeToStudent(10, "13-03-2025", student1, courseEdition1)).thenReturn(true);
 
         //act
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = mock(US23_IWantToKnowTheApprovalPercentageOfACourseEdition.class);

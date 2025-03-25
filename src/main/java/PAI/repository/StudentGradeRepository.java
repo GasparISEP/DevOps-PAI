@@ -27,15 +27,22 @@ public class StudentGradeRepository {
     }
 
 
-    public Optional<StudentGrade> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
-        try {
-                StudentGrade studentGrade = _StudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
-                _StudentGradeList.add(studentGrade);
-                return Optional.of(studentGrade);
+    public boolean addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception{
+        if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)){
+            StudentGrade studentGrade = _StudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
+            _StudentGradeList.add(studentGrade);
+            return true;
         }
-        catch (Exception ex) {
-            return Optional.empty(); }
+        return false;
     }
+
+    private boolean hasStudentAlreadyGradeAtThisCourseEdition (Student student, CourseEdition courseEdition){
+        for ( StudentGrade existingGradeStudent : _StudentGradeList){
+            if ( existingGradeStudent.hasThisStudent(student) && existingGradeStudent.hasThisCourseEdition(courseEdition)) return true;
+            }
+        return false;
+        }
+
 
     public Double KnowAverageGrade(CourseEdition courseEdition) {
         int numOfStudent = 0;

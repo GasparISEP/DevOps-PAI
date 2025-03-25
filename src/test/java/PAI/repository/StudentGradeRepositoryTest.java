@@ -43,42 +43,52 @@ class StudentGradeRepositoryTest {
                 .thenReturn(studentGrade2);
 
         // Act
-        Optional<StudentGrade> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
-        Optional<StudentGrade> result2 = list.addGradeToStudent(8, "10-10-2025", student2, courseEdition1);
+        boolean result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+        boolean result2 = list.addGradeToStudent(8, "10-10-2025", student2, courseEdition1);
 
         // Assert
-        assertTrue(result1.isPresent());
-        assertTrue(result2.isPresent());
+        assertTrue(result1);
+        assertTrue(result2);
 
     }
 
     @Test
-    void shouldNotGradeAStudentOnCourseEditionWithoutStudents() throws Exception {
+    void shouldNotAddGradeWhenStudentHasAlreadyGradeAtCertainCourseEdition() throws Exception {
         // Arrange
         StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
         StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
 
-        Student student1 = mock(Student.class);
-        List<StudentGrade> emptyGradeList = spy(new ArrayList<>());
-        when(studentGradeListFactory.newArrayList()).thenReturn(emptyGradeList);
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        StudentGrade studentGrade1 = mock(StudentGrade.class);
-
-        when(studentGradeListFactory.newArrayList()).thenReturn(emptyGradeList);
+        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
-        CourseEdition courseEdition2 = mock(CourseEdition.class);
 
-        when(studentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        Student student1 = mock(Student.class);
+        Student student2 = mock(Student.class);
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+        when(studentGrade1.hasThisStudent(student1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+
+        when(studentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1))
+                .thenReturn(studentGrade1);
+
+        list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+
+
 
         // Act
-        Optional<StudentGrade> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
+
+        boolean result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+
 
         // Assert
-        assertFalse(result1.isPresent());
-    }
+        assertFalse(result1);
 
+    }
 
     @Test
     void shouldGradeAStudent100() throws Exception {
@@ -118,30 +128,6 @@ class StudentGradeRepositoryTest {
         assertEquals(100.0, approvalRate, 0.01);
     }
 
-    @Test
-    void shouldReturnEmptyWhenGradeIsInvalid() throws Exception {
-
-        // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
-
-        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-
-        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
-
-        Student validStudent = mock(Student.class);
-        CourseEdition courseEditionValid = mock(CourseEdition.class);
-
-        when(studentGradeFactory.newGradeStudent(25, "10/10/2025", validStudent, courseEditionValid)).thenThrow(new IllegalArgumentException("Grade is Invalid!"));
-
-        // Act
-        Optional<StudentGrade> result = list.addGradeToStudent(25, "10/10/2025", validStudent, courseEditionValid);
-
-        // Assert
-        assertTrue(result.isEmpty());
-    }
 
     @Test
     void shouldGradeAStudent0() throws IllegalArgumentException {
