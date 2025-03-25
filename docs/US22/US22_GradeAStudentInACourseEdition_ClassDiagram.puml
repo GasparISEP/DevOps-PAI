@@ -19,15 +19,20 @@ class CourseEditionEnrolmentRepository {
     +enrolStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
 }
 
-class CourseEditionEnrolment {
-    -_enrolmentDate: LocalDate
-    - _isActive: boolean
-    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
-    +equals (obj: Object): boolean
-    +knowStudent(): Student
-    +knowCourseEdition(): CourseEdition
-    +deactivateEnrollment()
-}
+
+ class CourseEditionEnrolmentId <<ValueObject>> {
+
+        }
+package "CourseEditionEnrolment" {
+entity "<<root>>\nCourseEditionEnrolment"  {
+         +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
+         +equals (obj: Object): boolean
+         +knowStudent(): Student
+         +knowCourseEdition(): CourseEdition
+         +deactivateEnrollment()
+
+    }
+    }
 
 
 class List<GradeStudent> {
@@ -55,7 +60,6 @@ entity "<<root>>\nGradeStudent"  {
 }
 
  class StudentGradeId <<ValueObject>> {
-            -StudentGradeId: int
         }
 
 class GradeStudentRepository {
@@ -88,36 +92,45 @@ class GradeStudentFactoryImpl {
     +newGradeStudent()
 }
 
-class Student {
-    -_uniqueNumber:String
-    -_name:String
-    -_NIF:String
-    -_phone:String
-    -_email:String
-    -_institutionalEmail:String
-    +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
-    +isStudentRepeated(students: List<Student>)
-    +hasSameUniqueNumber(Student student)
-    +hasSameNIF (Student student)
-    +getUniqueNumber(): String
-    +hasThisUniqueNumber(String uniqueNumber)
-}
 
-class CourseEdition {
-    -_programmeEdition: ProgrammeEdition
-    -_course: Course
-    -_ruc: Teacher
-    +Equals(objectToCompare: Object)
-    +setRuc(Teacher: ruc)
-    +whatProgrammeEditionBelongsThisCourseEdition ()
-    +getCourse()
-}
+
+class StudentId <<ValueObject>> {
+
+            }
+
+package "Student" {
+entity "<<root>>\nStudent"  {
+        +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+         +isStudentRepeated(students: List<Student>)
+         +hasSameUniqueNumber(Student student)
+         +hasSameNIF (Student student)
+         +getUniqueNumber(): String
+         +hasThisUniqueNumber(String uniqueNumber)
+
+    }
+    }
+    
+class CourseEditionId <<ValueObject>> {
+
+            }
+
+
+package "CourseEdition" {
+entity "<<root>>\nCourseEdition"  {
+        +Equals(objectToCompare: Object)
+      +setRuc(Teacher: ruc)
+      +whatProgrammeEditionBelongsThisCourseEdition ()
+      +getCourse()
+
+    }
+    }
+
 
 
 "<<root>>\nGradeStudent" "*" --> "1" Grade
 "<<root>>\nGradeStudent" "*" --> "1" LocalDate
-"<<root>>\nGradeStudent" --> "1" Student: belongs
-"<<root>>\nGradeStudent" --> "1" CourseEdition: refers to
+"<<root>>\nGradeStudent" --> "1" StudentId: belongs
+"<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
 GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
 GradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
 GradeStudentRepositoryInterface "1" ....>  GradeStudentListFactory
@@ -127,10 +140,14 @@ GradeStudentRepository <|.. GradeStudentRepositoryInterface
 GradeStudentListFactory ..|> List
 "<<root>>\nGradeStudent" <-- List
 List <-- GradeStudentRepositoryInterface
-CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolment
-CourseEditionEnrolment "*" --> "1" Student
-CourseEditionEnrolment "*" -up-> "1" CourseEdition
+CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
+"<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
+"<<root>>\nCourseEditionEnrolment" "*" -up-> "1" "<<root>>\nCourseEdition"
 "<<root>>\nGradeStudent" --> "1" StudentGradeId
+"<<root>>\nCourseEdition" --> "1" CourseEditionId
+"<<root>>\nStudent" --> "1" StudentId
+"<<root>>\nCourseEditionEnrolment" --> "1" CourseEditionEnrolmentId
+
 
 
 GradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
