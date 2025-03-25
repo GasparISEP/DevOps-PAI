@@ -32,6 +32,9 @@ entity "<<root>>\nCourseEditionEnrolment"  {
          +deactivateEnrollment()
 
     }
+    class Localdate <<ValueObject>> {
+                    -LocalDate : String
+                }
     }
 
 
@@ -60,6 +63,7 @@ entity "<<root>>\nGradeStudent"  {
 }
 
  class StudentGradeId <<ValueObject>> {
+    id: Long
         }
 
 class GradeStudentRepository {
@@ -108,6 +112,21 @@ entity "<<root>>\nStudent"  {
          +hasThisUniqueNumber(String uniqueNumber)
 
     }
+    class Name <<ValueObject>> {
+                -Name : String
+            }
+    class NIF <<ValueObject>> {
+                 -NIF : String
+            }
+    class Phone <<ValueObject>> {
+                     -Phone : String
+                }
+    class Email <<ValueObject>> {
+                     -Phone : String
+                    }
+     class Address <<ValueObject>> {
+                     -Adress : String
+                        }
     }
     
 class CourseEditionId <<ValueObject>> {
@@ -125,8 +144,12 @@ entity "<<root>>\nCourseEdition"  {
     }
     }
 
-
-
+"<<root>>\nCourseEditionEnrolment" --> "1" Localdate
+"<<root>>\nStudent" "*" --> "1" Name
+"<<root>>\nStudent" "*" --> "1" NIF
+"<<root>>\nStudent" "*" --> "1" Email
+"<<root>>\nStudent" "*" --> "1" Phone
+"<<root>>\nStudent" "*" --> "1" Address
 "<<root>>\nGradeStudent" "*" --> "1" Grade
 "<<root>>\nGradeStudent" "*" --> "1" LocalDate
 "<<root>>\nGradeStudent" --> "1" StudentId: belongs
@@ -142,7 +165,7 @@ GradeStudentListFactory ..|> List
 List <-- GradeStudentRepositoryInterface
 CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
-"<<root>>\nCourseEditionEnrolment" "*" -up-> "1" "<<root>>\nCourseEdition"
+"<<root>>\nCourseEditionEnrolment" "*" -up-> "1" CourseEditionId
 "<<root>>\nGradeStudent" --> "1" StudentGradeId
 "<<root>>\nCourseEdition" --> "1" CourseEditionId
 "<<root>>\nStudent" --> "1" StudentId
