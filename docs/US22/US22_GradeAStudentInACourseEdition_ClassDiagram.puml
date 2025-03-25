@@ -54,6 +54,9 @@ entity "<<root>>\nGradeStudent"  {
         }
 }
 
+ class StudentGradeId <<ValueObject>> {
+            -StudentGradeId: int
+        }
 
 class GradeStudentRepository {
     -gradeStudentList: List<GradeStudent>
@@ -127,6 +130,7 @@ List <-- GradeStudentRepositoryInterface
 CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolment
 CourseEditionEnrolment "*" --> "1" Student
 CourseEditionEnrolment "*" -up-> "1" CourseEdition
+"<<root>>\nGradeStudent" --> "1" StudentGradeId
 
 
 GradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
