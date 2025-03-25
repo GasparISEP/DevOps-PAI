@@ -38,13 +38,13 @@ deactivate D
 
 create GS
 GSF -> GS ++ #application : <Create> (g1, d1, Student, CourseEdition)
-GS --> GSF -- : sg1
-GSF --> GR -- : sg1
+GS --> GSF -- : true
+GSF --> GR -- : true
 
 
-GR -> GR : addGrade(sg1)
-GR --> ctr --: sg1
-ctr --> UI --: sg1
+GR -> GR : addGrade(true)
+GR --> ctr --: true
+ctr --> UI --: true
 UI --> RUC --: Succeed
 
 @enduml
