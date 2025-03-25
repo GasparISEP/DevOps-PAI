@@ -7,17 +7,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseListFactoryTest {
+class CourseListFactoryImplTest {
 
     @Test
     void shouldReturnCourseListFactory(){
 
         //Arrange
-        CourseListFactory courseListFactory = new CourseListFactory();
+        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
 
         //Act
 
-        List<Course> result = courseListFactory.createCourseList();
+        List<Course> result = courseListFactoryImpl.createCourseList();
 
         //Assert
         assertNotNull(result);

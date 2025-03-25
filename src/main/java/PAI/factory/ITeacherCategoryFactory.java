@@ -6,7 +6,7 @@ import PAI.domain.TeacherCategory;
  * Interface for creating teacher categories.
  * This interface defines the contract for creating instances of {@link TeacherCategory}.
  */
-    public interface TeacherCategoryFactory {
+    public interface ITeacherCategoryFactory {
 
     /**
      * Creates a new teacher category with the specified name.

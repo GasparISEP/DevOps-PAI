@@ -4,7 +4,7 @@ import PAI.domain.AccessMethod;
 
 import java.util.ArrayList;
 
-public class AccessMethodArrayListFactory implements IAccessMethodListFactory{
+public class AccessMethodArrayListFactoryImpl implements IAccessMethodListFactory{
     public ArrayList<AccessMethod> createAccessMethodArrayList(){
         return new ArrayList<>();
     }

@@ -6,7 +6,7 @@ import PAI.domain.Course;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
-public class ProgrammeCourseListFactoryImplTest {
+public class ProgrammeCourseListFactoryImplImplTest {
 
     @Test
     public void shouldCreateProgrammeCourseList() {

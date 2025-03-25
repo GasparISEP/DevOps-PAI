@@ -4,7 +4,7 @@ import PAI.domain.CourseEdition;
 
 import java.util.List;
 
-public interface CourseEditionListFactory {
+public interface ICourseEditionListFactory {
     List<CourseEdition> newArrayList();
 
 }

@@ -3,6 +3,6 @@ package PAI.factory;
 import PAI.domain.Course;
 import java.util.List;
 
-public interface CourseListFactoryInterface {
+public interface ICourseListFactory {
     List<Course> createCourseList();
 }

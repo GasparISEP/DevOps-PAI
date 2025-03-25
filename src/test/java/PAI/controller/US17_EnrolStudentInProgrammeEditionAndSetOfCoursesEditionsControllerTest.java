@@ -579,9 +579,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory =  new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -615,8 +615,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactory();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactory();
+        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
@@ -670,9 +670,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory =  new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -707,8 +707,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactory();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactory();
+        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         amr.registerAccessMethod("Over 23");
 
@@ -737,9 +737,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory =  new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -773,8 +773,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactory();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactory();
+        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
@@ -806,9 +806,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory =  new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -842,8 +842,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactory();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactory();
+        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
@@ -882,9 +882,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory =  new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -918,8 +918,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactory();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactory();
+        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
@@ -965,9 +965,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1027,9 +1027,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
     ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
     ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-    CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-    CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-    CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+    ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+    ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+    CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
     ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
     ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
     CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1088,9 +1088,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1153,9 +1153,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1201,9 +1201,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1248,9 +1248,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1290,9 +1290,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1321,9 +1321,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1353,9 +1353,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();;
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1388,9 +1388,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl, schoolYearListFactoryImpl);
@@ -1451,9 +1451,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
@@ -1483,9 +1483,9 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         ProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ProgrammeRepository programmeRepository = new ProgrammeRepository(programmeFactory, programmeRepositoryListFactory);
-        CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
         ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);

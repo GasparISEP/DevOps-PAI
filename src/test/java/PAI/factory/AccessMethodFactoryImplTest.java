@@ -4,23 +4,21 @@ import PAI.domain.AccessMethod;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class AccessMethodFactoryTest {
+class AccessMethodFactoryImplTest {
 
     @Test
     void givenMockedConstructorAccessMethodFactoryShouldCreateAccessMethod() throws InstantiationException {
         //arrange
-        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
         String accessMethodName = "Maiores 23";
         try (MockedConstruction<AccessMethod> mockAccessMethod = mockConstruction(AccessMethod.class, (mock, context) ->{
             when(mock.hasThisAccessMethodName(accessMethodName)).thenReturn(true);
         })) {
         //act
-        AccessMethod accessMethod = accessMethodFactory.createAccessMethod(accessMethodName);
+        AccessMethod accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodName);
         //assert
         assertNotNull(accessMethod);
         assertTrue(accessMethod.hasThisAccessMethodName(accessMethodName));
@@ -39,7 +37,7 @@ class AccessMethodFactoryTest {
     @Test
     void mockingConstructorThrowingException(){
         //arrange
-        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
 
         //Use tyr-with-resources to mock construction and throw an exception
         try (MockedConstruction<AccessMethod> mock = mockConstruction(AccessMethod.class,(mocked, context) ->
@@ -49,7 +47,7 @@ class AccessMethodFactoryTest {
             })) {
             //Act: trying to create accessMethod will throw the exception
             try {
-                accessMethodFactory.createAccessMethod("Maiores 23");
+                accessMethodFactoryImpl.createAccessMethod("Maiores 23");
                 fail("Expect exception not thrown");
             } catch (Exception e) {
                 //Assertion to check if the exception is thrown
@@ -60,9 +58,9 @@ class AccessMethodFactoryTest {
     @Test
     void shouldNotCreateAccessMethod() throws InstantiationException {
         //arrange
-        AccessMethodFactory accessMethodFactory = new AccessMethodFactory();
+        AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
         //act
         //assert
-        assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(""));
+        assertThrows(Exception.class, () -> accessMethodFactoryImpl.createAccessMethod(""));
     }
 }

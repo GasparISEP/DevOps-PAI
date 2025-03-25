@@ -4,7 +4,7 @@ import PAI.domain.Course;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseListFactory implements CourseListFactoryInterface {
+public class CourseListFactoryImpl implements ICourseListFactory {
 
     public List<Course> createCourseList() {
         return new ArrayList<>();

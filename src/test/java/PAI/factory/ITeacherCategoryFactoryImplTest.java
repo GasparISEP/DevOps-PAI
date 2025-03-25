@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.when;
 
-public class TeacherCategoryFactoryImplTest {
+public class ITeacherCategoryFactoryImplTest {
 
     @Test
     void shouldCreateTeacherCategory() throws Exception {

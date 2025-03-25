@@ -234,8 +234,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     private TeacherCategoryRepository createTeacherCategoryRepo() throws Exception {
         TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
         teacherCategoryFactory.createTeacherCategory("Professor");
-        TeacherCategoryRepositoryListFactoryImpl
-                teacherCategoryRepositoryListFactory = new TeacherCategoryRepositoryListFactoryImpl();
+        TeacherCategoryListFactoryImpl
+                teacherCategoryRepositoryListFactory = new TeacherCategoryListFactoryImpl();
 
      TeacherCategoryRepository teacherCategoryRepository= new TeacherCategoryRepository(teacherCategoryFactory,teacherCategoryRepositoryListFactory);
      teacherCategoryRepository.registerTeacherCategory("Professor");

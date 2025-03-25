@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of the {@link TeacherCategoryRepositoryListFactory} interface.
+ * Implementation of the {@link ITeacherCategoryListFactory} interface.
  * This class is responsible for providing a list of {@link TeacherCategory} instances.
  */
-public class TeacherCategoryRepositoryListFactoryImpl implements TeacherCategoryRepositoryListFactory {
+public class TeacherCategoryListFactoryImpl implements ITeacherCategoryListFactory {
 
     /**
      * {@inheritDoc}

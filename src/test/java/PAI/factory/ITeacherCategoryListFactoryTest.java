@@ -8,12 +8,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TeacherCategoryRepositoryListFactoryTest {
+class ITeacherCategoryListFactoryTest {
 
     @Test
     void shouldReturnEmptyTeacherCategoryList() {
         // Arrange
-        TeacherCategoryRepositoryListFactoryImpl factory = new TeacherCategoryRepositoryListFactoryImpl();
+        TeacherCategoryListFactoryImpl factory = new TeacherCategoryListFactoryImpl();
 
         // Act
         List<TeacherCategory> categoryList = factory.getTeacherCategoryList();
