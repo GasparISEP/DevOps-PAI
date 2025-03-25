@@ -688,9 +688,9 @@ class CourseEditionEnrolmentRepositoryTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
@@ -728,9 +728,9 @@ class CourseEditionEnrolmentRepositoryTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
@@ -766,9 +766,9 @@ class CourseEditionEnrolmentRepositoryTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
@@ -807,9 +807,9 @@ class CourseEditionEnrolmentRepositoryTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
@@ -849,9 +849,9 @@ class CourseEditionEnrolmentRepositoryTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
@@ -893,9 +893,9 @@ class CourseEditionEnrolmentRepositoryTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "B106",
+        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());

@@ -270,8 +270,8 @@ class US19_CreateCourseEditionControllerTest {
     private IProgrammeEditionListFactory programmeEditionListFactory;
     private ProgrammeEditionRepository programmeEditionRepository;
 
-    private CourseEditionFactory courseEditionFactory;
-    private CourseEditionListFactory courseEditionListFactory;
+    private ICourseEditionFactory ICourseEditionFactory;
+    private ICourseEditionListFactory ICourseEditionListFactory;
     private CourseEditionRepository courseEditionRepository;
 
     private ProgrammeFactory programmeFactory;
@@ -282,12 +282,12 @@ class US19_CreateCourseEditionControllerTest {
     private CourseInStudyPlanFactory courseInStudyPlanFactory;
     private StudyPlanListFactory studyPlanListFactory;
     private StudyPlanFactory studyPlanFactory;
-    private CourseFactory courseFactory;
+    private ICourseFactory ICourseFactory;
 
     private US19_CreateCourseEditionController controller;
 
     private Course course;
-    private AddressFactory addressFactory;
+    private IAddressFactory addressFactory;
 
     private TeacherCareerProgressionListFactoryImpl teacherCareerListFactory;
     private TeacherCareerProgressionFactoryImpl teacherCareerFactory;
@@ -305,9 +305,9 @@ class US19_CreateCourseEditionControllerTest {
         programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
 
-        courseEditionFactory = new CourseEditionFactoryImpl();
-        courseEditionListFactory = new CourseEditionListFactoryImpl();
-        courseEditionRepository = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory = new CourseEditionListFactoryImpl();
+        courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
 
         programmeFactory = new ProgrammeFactoryImpl();
         programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
@@ -317,7 +317,7 @@ class US19_CreateCourseEditionControllerTest {
         courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         studyPlanListFactory = new StudyPlanListFactoryImpl();
         studyPlanFactory = new StudyPlanFactoryImpl();
-        courseFactory = new CourseFactoryImpl();
+        ICourseFactory = new CourseFactoryImpl();
 
         controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeRepository);
 
@@ -331,7 +331,7 @@ class US19_CreateCourseEditionControllerTest {
         programme = new Programme("Computer Engineering", "CE", 20, 6,
                         new DegreeType("Master", 240),
                         new Department("CSE", "Computer Science Engineer"),
-                        new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                        new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                                 "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
                                 teacherCategory, 70,
@@ -341,7 +341,7 @@ class US19_CreateCourseEditionControllerTest {
                         courseInStudyPlanFactory,
                         studyPlanListFactory,
                         studyPlanFactory,
-                        courseFactory);
+                ICourseFactory);
 
         schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
 
@@ -401,7 +401,7 @@ class US19_CreateCourseEditionControllerTest {
             Programme programme2 = new Programme("Computer Science", "CC", 20, 6,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
-                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
                             "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
                             teacherCategory, 70,
@@ -411,7 +411,7 @@ class US19_CreateCourseEditionControllerTest {
                     courseInStudyPlanFactory,
                     studyPlanListFactory,
                     studyPlanFactory,
-                    courseFactory);
+                    ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
             programmeEditionRepository.createProgrammeEdition(programme2,schoolYear);
@@ -442,7 +442,7 @@ class US19_CreateCourseEditionControllerTest {
             Programme programme2 = new Programme("Computer Science", "CC", 20, 6,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
-                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
                             "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
                             teacherCategory, 70,
@@ -452,7 +452,7 @@ class US19_CreateCourseEditionControllerTest {
                     courseInStudyPlanFactory,
                     studyPlanListFactory,
                     studyPlanFactory,
-                    courseFactory);
+                    ICourseFactory);
 
             ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2,schoolYear);
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -468,8 +468,8 @@ class US19_CreateCourseEditionControllerTest {
         @Test
         void shouldReturnSizeOfCourseListInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
             // Arrange
-            CourseListFactory courseListFactory = new CourseListFactory();
-            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
+            CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
             Course c1 = new Course ("Informatica", "INF", 6, 1);
@@ -478,7 +478,7 @@ class US19_CreateCourseEditionControllerTest {
             programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
-                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
                             "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
                             teacherCategory, 70,
@@ -488,7 +488,7 @@ class US19_CreateCourseEditionControllerTest {
                     courseInStudyPlanFactory,
                     studyPlanListFactory,
                     studyPlanFactory,
-                    courseFactory);
+                    ICourseFactory);
 
             programme.addCourseToAProgramme(c1);
             programme.addCourseToAProgramme(c2);
@@ -502,15 +502,15 @@ class US19_CreateCourseEditionControllerTest {
         @Test
         void shouldReturnNotNullEvenIfCourseListIsEmptyInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
             // Arrange
-            CourseListFactory courseListFactory = new CourseListFactory();
-            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
+            CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
 
             programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
-                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
                             "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
                             teacherCategory, 70,
@@ -520,7 +520,7 @@ class US19_CreateCourseEditionControllerTest {
                     courseInStudyPlanFactory,
                     studyPlanListFactory,
                     studyPlanFactory,
-                    courseFactory);
+                    ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
 
@@ -532,15 +532,15 @@ class US19_CreateCourseEditionControllerTest {
         @Test
         void shouldReturnTrueIfCourseListHasCourseInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
             // Arrange
-            CourseListFactory courseListFactory = new CourseListFactory();
-            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
+            CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
 
             programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
-                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
                             "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
                             teacherCategory, 70,
@@ -550,7 +550,7 @@ class US19_CreateCourseEditionControllerTest {
                     courseInStudyPlanFactory,
                     studyPlanListFactory,
                     studyPlanFactory,
-                    courseFactory);
+                    ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
 
@@ -567,15 +567,15 @@ class US19_CreateCourseEditionControllerTest {
         @Test
         void shouldReturnFalseIfCourseListNotHaveCourseInProgrammeForGetCoursesInProgrammeMethod_integration() throws Exception {
             // Arrange
-            CourseListFactory courseListFactory = new CourseListFactory();
-            CourseRepository courseRepository = new CourseRepository(courseFactory, courseListFactory);
+            CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
+            CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
 
             programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
-                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                    new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
                             "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
                             teacherCategory, 70,
@@ -585,7 +585,7 @@ class US19_CreateCourseEditionControllerTest {
                     courseInStudyPlanFactory,
                     studyPlanListFactory,
                     studyPlanFactory,
-                    courseFactory);
+                    ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
 

@@ -18,7 +18,7 @@ public class AddressFactoryImplTest {
     @Test
     void shouldCreateAddress()  {
         //arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         String street = "Praceta do Sol, nº19";
         String postalCode = "3745-144";
@@ -53,7 +53,7 @@ public class AddressFactoryImplTest {
     @MethodSource("provideInvalidStreet")
     void invalidStreetDoesNotCreateObject(String street) {
         //arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         String postalCode = "3745-144";
         String location = "Tomar";
@@ -88,7 +88,7 @@ public class AddressFactoryImplTest {
     @MethodSource("provideInvalidPostalCode")
     void invalidPostalCodeDoesNotCreateObject(String postalCode) {
         //arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         String street = "Praceta do Sol, nº19";
         String location = "Tomar";
@@ -123,7 +123,7 @@ public class AddressFactoryImplTest {
     @MethodSource("provideInvalidLocation")
     void invalidLocationDoesNotCreateObject(String location) {
         //arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         String street = "Praceta do Sol, nº19";
         String postalCode = "3745-144";
@@ -160,7 +160,7 @@ public class AddressFactoryImplTest {
     @MethodSource("unmatchedLocation")
     void locationDoesNotMatchFormat(String location) {
         //arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         String street = "Praceta do Sol, nº19";
         String postalCode = "3745-144";
@@ -195,7 +195,7 @@ public class AddressFactoryImplTest {
     @MethodSource("provideInvalidCountry")
     void invalidCountryDoesNotCreateObject(String country) {
         //arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         String street = "Praceta do Sol, nº19";
         String postalCode = "3745-144";
@@ -231,7 +231,7 @@ public class AddressFactoryImplTest {
     @MethodSource("unmatchedCountry")
     void countryDoesNotMatchFormat(String country) {
         //arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
 
         String street = "Praceta do Sol, nº19";
         String postalCode = "3745-144";

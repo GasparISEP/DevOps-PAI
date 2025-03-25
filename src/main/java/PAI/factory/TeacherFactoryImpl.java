@@ -2,10 +2,10 @@ package PAI.factory;
 
 import PAI.domain.*;
 
-public class TeacherFactoryImpl implements TeacherFactory {
+public class TeacherFactoryImpl implements ITeacherFactory {
 
-    private TeacherCareerProgressionFactory _teacherCareerProgressionFactory;
-    private TeacherCareerProgressionListFactory _teacherCareerProgressionListFactory;
+    private ITeacherCareerProgressionFactory _teacherCareerProgressionFactory;
+    private ITeacherCareerProgressionListFactory _teacherCareerProgressionListFactory;
 
     public TeacherFactoryImpl(TeacherCareerProgressionFactoryImpl tcpFact, TeacherCareerProgressionListFactoryImpl tcplFact){
         _teacherCareerProgressionFactory = tcpFact;
@@ -14,7 +14,7 @@ public class TeacherFactoryImpl implements TeacherFactory {
 
     public Teacher createTeacher(String acronym, String name, String email, String nif, String phoneNumber,
                                  String academicBackground, String street, String postalCode, String location,
-                                 String country, AddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
+                                 String country, IAddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
                                  Department department) throws IllegalArgumentException {
 
         return new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode,

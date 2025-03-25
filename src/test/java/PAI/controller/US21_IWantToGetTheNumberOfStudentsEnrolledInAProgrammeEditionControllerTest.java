@@ -187,7 +187,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
         // Arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student st1 = new Student("1111111", "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
@@ -195,8 +195,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
                 100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -230,14 +230,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() throws Exception{
         // Arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
                 100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -270,7 +270,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() throws Exception{
         // Arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Student st1 = new Student("1111111", "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
@@ -278,8 +278,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
                 100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -360,15 +360,15 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList() throws Exception{
         // Arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
                 100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -402,14 +402,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldReturnProgrammeEditionInList() throws Exception{
         // Arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
                 100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
@@ -445,14 +445,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldReturnAllProgrammeEdition() throws Exception{
         // Arrange
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
                 "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
                 100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);

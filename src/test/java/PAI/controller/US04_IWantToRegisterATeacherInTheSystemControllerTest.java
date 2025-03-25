@@ -170,7 +170,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
         //Arrange
         Department department = createDepartment();
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
@@ -178,7 +178,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository,teacherCategoryRepository,departmentRepository);
         //Act
         boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson","jjj@isep.ipp.pt",
-                "123123123","B109","Doctorate in Computer Science in 1987,Isep","Rua do Homem Aranha",
+                "123123123","+351 912 345 678","Doctorate in Computer Science in 1987,Isep","Rua do Homem Aranha",
                 "4430-123","Porto","Portugal",addressFactory,"12-01-2025",teacherCategory,
                 100,department);
         //Assert
@@ -187,7 +187,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
         Department department1 = createDepartment1();
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
@@ -206,7 +206,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidTeacherCategory_integrationTest() throws Exception {
         Department department = createDepartment();
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory1 = createTeacherCategory1();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
@@ -227,15 +227,15 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     private TeacherRepository createTeacherRepo() {
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
-        TeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
         TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
         return new TeacherRepository(teacherFactory, teacherListFactoryImpl);
     }
     private TeacherCategoryRepository createTeacherCategoryRepo() throws Exception {
         TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
         teacherCategoryFactory.createTeacherCategory("Professor");
-        TeacherCategoryRepositoryListFactoryImpl
-                teacherCategoryRepositoryListFactory = new TeacherCategoryRepositoryListFactoryImpl();
+        TeacherCategoryListFactoryImpl
+                teacherCategoryRepositoryListFactory = new TeacherCategoryListFactoryImpl();
 
      TeacherCategoryRepository teacherCategoryRepository= new TeacherCategoryRepository(teacherCategoryFactory,teacherCategoryRepositoryListFactory);
      teacherCategoryRepository.registerTeacherCategory("Professor");

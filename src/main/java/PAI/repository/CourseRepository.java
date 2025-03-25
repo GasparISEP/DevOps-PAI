@@ -1,28 +1,28 @@
 package PAI.repository;
 
 import PAI.domain.Course;
-import PAI.factory.CourseFactory;
-import PAI.factory.CourseListFactory;
+import PAI.factory.ICourseFactory;
+import PAI.factory.CourseListFactoryImpl;
 
 import java.util.List;
 
 public class CourseRepository {
 
-    private final CourseFactory _courseFactory;
+    private final ICourseFactory _I_courseFactory;
     private final List<Course> _courseRepository;
 
 //Constructor delegation calls automatic the courseFactory
    // public CourseRepository () { this(new CourseFactory()); }
 
-    public CourseRepository (CourseFactory courseFactory, CourseListFactory courseListFactory){
+    public CourseRepository (ICourseFactory ICourseFactory, CourseListFactoryImpl courseListFactoryImpl){
 
-        this._courseFactory = courseFactory;
-       _courseRepository = courseListFactory.createCourseList();
+        this._I_courseFactory = ICourseFactory;
+       _courseRepository = courseListFactoryImpl.createCourseList();
     }
 
     public boolean registerCourse (String courseName, String acronym, double quantityCreditsECTS, int durationCourseInSemester) throws Exception {
 
-        Course course = _courseFactory.createCourse(courseName, acronym, quantityCreditsECTS, durationCourseInSemester);
+        Course course = _I_courseFactory.createCourse(courseName, acronym, quantityCreditsECTS, durationCourseInSemester);
 
         if (isCourseRegistered(course))
             return false;

@@ -35,7 +35,7 @@ class StudentGradeFactoryImplTest {
         } )) {
 
             // act
-            GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+            StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
             StudentGrade studentGrade = factory.newGradeStudent(grade, date, student, courseEdition);
 
             // Assert
@@ -74,7 +74,7 @@ class StudentGradeFactoryImplTest {
         } )) {
 
             // act
-            GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+            StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
             StudentGrade studentGrade = factory.newGradeStudent(grade, date, student, courseEdition);
 
             // Assert
@@ -92,7 +92,7 @@ class StudentGradeFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenGradeIsLessThanZero() {
         // Arrange
-        GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         String date = "05-03-2025";
@@ -106,7 +106,7 @@ class StudentGradeFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenGradeIsMoreThanTwenty() {
         // Arrange
-        GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         String date = "05-03-2025";
@@ -120,7 +120,7 @@ class StudentGradeFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenDateIsNull() {
         // Arrange
-        GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
@@ -133,7 +133,7 @@ class StudentGradeFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenDateIsEmpty() {
         // Arrange
-        GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
@@ -146,7 +146,7 @@ class StudentGradeFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenDateIsBlank() {
         // Arrange
-        GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
@@ -159,7 +159,7 @@ class StudentGradeFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenStudentIsNull() {
         // Arrange
-        GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         CourseEdition courseEdition = mock(CourseEdition.class);
         String date = "05-03-2025";
 
@@ -172,7 +172,7 @@ class StudentGradeFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenCourseEditionIsNull() {
         // Arrange
-        GradeStudentFactoryImpl factory = new GradeStudentFactoryImpl();
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         String date = "05-03-2025";
 

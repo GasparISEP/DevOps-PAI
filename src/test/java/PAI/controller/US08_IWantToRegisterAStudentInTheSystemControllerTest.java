@@ -1,9 +1,9 @@
 package PAI.controller;
 
 import PAI.domain.Address;
-import PAI.factory.StudentFactory;
+import PAI.factory.IStudentFactory;
 import PAI.factory.StudentFactoryImpl;
-import PAI.factory.StudentListFactory;
+import PAI.factory.IStudentListFactory;
 import PAI.factory.StudentListFactoryImpl;
 import PAI.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
@@ -23,8 +23,8 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     @Test
     void IWantToRegisterAStudentInTheSystemControllerConstructorTestWithoutIsolation() {
         //arrange
-        StudentFactory sFactory = new StudentFactoryImpl();
-        StudentListFactory studentList = new StudentListFactoryImpl();
+        IStudentFactory sFactory = new StudentFactoryImpl();
+        IStudentListFactory studentList = new StudentListFactoryImpl();
         StudentRepository studentRepository = new StudentRepository(sFactory, studentList);
         //act
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentRepository);
@@ -53,8 +53,8 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void registerStudentWithValidParametersReturnsTrueWithoutIsolation() throws Exception {
         //arrange
         Address address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        StudentFactory sFactory = new StudentFactoryImpl();
-        StudentListFactory studentList = new StudentListFactoryImpl();
+        IStudentFactory sFactory = new StudentFactoryImpl();
+        IStudentListFactory studentList = new StudentListFactoryImpl();
         StudentRepository studentRepository = new StudentRepository(sFactory, studentList);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentRepository);
 
@@ -94,8 +94,8 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void throwsExceptionIfNIFOrUniqueNumberAreRepeatedWithoutIsolation(String uniqueNumber, String NIF) throws Exception {
         //arrange
         Address address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        StudentFactory sFactory = new StudentFactoryImpl();
-        StudentListFactory studentList = new StudentListFactoryImpl();
+        IStudentFactory sFactory = new StudentFactoryImpl();
+        IStudentListFactory studentList = new StudentListFactoryImpl();
         StudentRepository studentRepository = new StudentRepository(sFactory, studentList);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentRepository);
         ctrl.registerStudent("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address);

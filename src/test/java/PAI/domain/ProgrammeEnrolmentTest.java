@@ -23,16 +23,16 @@ class ProgrammeEnrolmentTest {
         DegreeType _degreeType;
         Department _department;
         TeacherCategory _teacherCategory;
-        AddressFactory _addressFactory;
-        TeacherCareerProgressionFactory _tcpFactory;
-        TeacherCareerProgressionListFactory _tcpListFactory;
+        IAddressFactory _addressFactory;
+        ITeacherCareerProgressionFactory _tcpFactory;
+        ITeacherCareerProgressionListFactory _tcpListFactory;
         Teacher _teacher;
         IProgrammeCourseListFactory _programmeCourseListFactory;
         Programme _programme;
         CourseInStudyPlanFactory _courseInStudyPlanFactory;
         StudyPlanListFactory _studyPlanListFactory;
         StudyPlanFactory _studyPlanFactory;
-        CourseFactory _courseFactory;
+        ICourseFactory _I_courseFactory;
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
@@ -44,15 +44,15 @@ class ProgrammeEnrolmentTest {
             _addressFactory = new AddressFactoryImpl();
             _tcpFactory = new TeacherCareerProgressionFactoryImpl();
             _tcpListFactory = new TeacherCareerProgressionListFactoryImpl();
-            _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+            _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
                     "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory,_tcpListFactory);
             _programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
-            _courseFactory = new CourseFactoryImpl();
-            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactory);
+            _I_courseFactory = new CourseFactoryImpl();
+            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _I_courseFactory);
         }
     }
 
@@ -350,7 +350,7 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, attributes._degreeType, attributes._department, attributes._teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._courseFactory);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, attributes._degreeType, attributes._department, attributes._teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._I_courseFactory);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, programme2,"15-10-2010");
@@ -389,7 +389,7 @@ class ProgrammeEnrolmentTest {
 
         Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
 
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, attributes._degreeType, attributes._department, attributes._teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._courseFactory);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, attributes._degreeType, attributes._department, attributes._teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._I_courseFactory);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, attributes._accessMethod, programme2,"15-10-2010");
@@ -426,7 +426,7 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        Programme programme2 = new Programme("Computer Engineering", "CE", 20, 6, attributes._degreeType, attributes._department, attributes._teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._courseFactory);
+        Programme programme2 = new Programme("Computer Engineering", "CE", 20, 6, attributes._degreeType, attributes._department, attributes._teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._I_courseFactory);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme,"17-09-2005");
         //act
@@ -463,9 +463,9 @@ class ProgrammeEnrolmentTest {
         DegreeType dt = new DegreeType("Master", 240);
         Department dpt = new Department("CSE", "Space Science Engineer");
         TeacherCategory tc = new TeacherCategory("Assistant Professor");
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", attributes._addressFactory, "20-12-2010", tc, 100, dpt, attributes._tcpFactory, attributes._tcpListFactory);
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto", "Portugal", attributes._addressFactory, "20-12-2010", tc, 100, dpt, attributes._tcpFactory, attributes._tcpListFactory);
 
-        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._courseFactory);
+        Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, dt, dpt, teacher, attributes._programmeCourseListFactory, attributes._courseInStudyPlanFactory, attributes._studyPlanListFactory, attributes._studyPlanFactory, attributes._I_courseFactory);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
 

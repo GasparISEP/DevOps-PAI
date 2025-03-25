@@ -5,7 +5,7 @@ import PAI.domain.SchoolYear;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SchoolYearListFactoryImpl implements SchoolYearListFactory {
+public class SchoolYearListFactoryImpl implements ISchoolYearListFactory {
 
     public List<SchoolYear> newArrayList() {return new ArrayList<>();}
 

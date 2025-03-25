@@ -1,6 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactory;
+import PAI.factory.IAddressFactory;
 import PAI.factory.TeacherCareerProgressionFactoryImpl;
 import PAI.factory.TeacherCareerProgressionListFactoryImpl;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 class TeacherTest {
 
     private TeacherCategory _tcDouble;
-    private AddressFactory _addressFactoryDouble;
+    private IAddressFactory _addressFactoryDouble;
     private Address _addressDouble;
     private Department _dptDouble;
     private TeacherCareerProgressionFactoryImpl _tcpFactoryDouble;
@@ -28,7 +28,7 @@ class TeacherTest {
 
     private void createDoubles () {
         _tcDouble = mock(TeacherCategory.class);
-        _addressFactoryDouble = mock(AddressFactory.class);
+        _addressFactoryDouble = mock(IAddressFactory.class);
         _addressDouble = mock(Address.class);
         _dptDouble = mock(Department.class);
         _tcpFactoryDouble = mock(TeacherCareerProgressionFactoryImpl.class);
@@ -51,7 +51,7 @@ class TeacherTest {
         createListDouble();
 
         // Act
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
+        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores","4444-098","Porto","Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Assert
@@ -67,7 +67,7 @@ class TeacherTest {
         createListDouble();
 
         //act
-        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher teacher = new Teacher("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores","4444-098","Porto","Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //assert
         assertNotNull(teacher);
@@ -83,7 +83,7 @@ class TeacherTest {
         createListDouble();
 
         //act
-        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "B106","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher teacher = new Teacher("ABC", "J".repeat(100), "abc@isep.ipp.pt", "123456789", "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, ISEP","Rua das Flores","4444-098","Porto","Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //assert
         assertNotNull(teacher);
@@ -115,7 +115,7 @@ class TeacherTest {
         String name = "Maria Manuela Lima";
         String nif = "123456789";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -153,7 +153,7 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "123456789";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -189,7 +189,7 @@ class TeacherTest {
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
         String nif = "123456789";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -225,7 +225,7 @@ class TeacherTest {
         String name = "Maria Manuela Lima";
         String acronym = "MMM";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -243,18 +243,18 @@ class TeacherTest {
     //testing teacher's office phone number
     public static Stream<Arguments> provideInvalidTeacherPhoneNumber() {
         return Stream.of(
-                arguments(null, "Teacher´s office phoneNumber must be a non-empty String."),
-                arguments("", "Teacher´s office phoneNumber must be a non-empty String."),
-                arguments("   ", "Teacher´s office phoneNumber must be a non-empty String."),
-                arguments("919234567", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments(" B123", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments("B123 ", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments("b123", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments("B12", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments("B1234", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments("-123", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments("B12 3", "Teacher´s office phoneNumber must have a letter followed by 3 digits."),
-                arguments("B+23", "Teacher´s office phoneNumber must have a letter followed by 3 digits.")
+                arguments(null, "Teacher's phone number is invalid!"),
+                arguments("", "Teacher's phone number is invalid!"),
+                arguments("   ", "Teacher's phone number is invalid!"),
+                arguments("+351-91 23 45678", "Teacher's phone number is invalid!"),
+                arguments("+351.912.34.567", "Teacher's phone number is invalid!"),
+                arguments("(351) 912-3456-78", "Teacher's phone number is invalid!"),
+                arguments("+351 9123-45678", "Teacher's phone number is invalid!"),
+                arguments("+12345 678 910 1112", "Teacher's phone number is invalid!"),
+                arguments("+35a 912 345 678", "Teacher's phone number is invalid!"),
+                arguments("9123456", "Teacher's phone number is invalid!"),
+                arguments("+351--912..345...678", "Teacher's phone number is invalid!"),
+                arguments("0044-20-7946-01234", "Teacher's phone number is invalid!")
         );
     }
     @ParameterizedTest
@@ -295,7 +295,7 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
 
         createDoubles();
         when(_addressFactoryDouble.createAddress("Passeio Alegre", "4432-345", "Porto","Portugal")).thenReturn(_addressDouble);
@@ -325,7 +325,7 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -357,7 +357,7 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -389,7 +389,7 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -421,7 +421,7 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -453,7 +453,7 @@ class TeacherTest {
         String acronym = "MMM";
         String nif = "777777777";
         String email = "MMM@isep.ipp.pt";
-        String phoneNumber = "B123";
+        String phoneNumber = "+351 912 345 678";
         String academicBackground = "Doutoramento em Engenharia Informatica, 2005, ISEP";
 
         createDoubles();
@@ -477,7 +477,7 @@ class TeacherTest {
         when(_tcpFactoryDouble.createTeacherCareerProgression("15-04-2005", _tcDouble, 70)).thenReturn(_tcpDouble);
         createListDouble();
 
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act & assert
         assertTrue(t1.hasThisNIF("123456789"));
@@ -491,7 +491,7 @@ class TeacherTest {
         when(_tcpFactoryDouble.createTeacherCareerProgression("15-04-2005", _tcDouble, 70)).thenReturn(_tcpDouble);
         createListDouble();
 
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble,"15-04-2005", _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act & assert
         assertFalse(t1.hasThisNIF("123856789"));
@@ -521,7 +521,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble, 50)).thenReturn(updatedtcpDouble);
 
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble,date1 , _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble,date1 , _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act
         boolean result = t1.updateWorkingPercentageInTeacherCareerProgression(date2, 50);
@@ -548,7 +548,7 @@ class TeacherTest {
         when(_tcpDouble.getWorkingPercentage()).thenReturn(70);
         when(_tcpDouble.getCategory()).thenReturn(_tcDouble);
 
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, 70));
@@ -585,7 +585,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble, 100)).thenReturn(updatedtcpDouble);
 
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, 100));
@@ -625,7 +625,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble, 100)).thenThrow(new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."));
 
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, 100));
@@ -663,7 +663,7 @@ class TeacherTest {
 
         when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble, workingPercentage)).thenThrow(new IllegalArgumentException("Working Percentage must be a value between 0 and 100."));
 
-        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> t1.updateWorkingPercentageInTeacherCareerProgression(date2, workingPercentage));
@@ -696,7 +696,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(_tcpFactoryDouble.createTeacherCareerProgression(date2, _tcDouble2, 70)).thenReturn(tcpDouble2);
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Act
         boolean result = t1.updateTeacherCategoryInTeacherCareer(date2, _tcDouble2);
@@ -729,7 +729,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(_tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenReturn(tcpDouble2);
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2));
@@ -748,7 +748,7 @@ class TeacherTest {
 
         createListDouble();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Set up behaviors needed for the System Under Test
         when(_listDouble.getLast()).thenReturn(_tcpDouble);
@@ -774,7 +774,7 @@ class TeacherTest {
 
         createListDouble();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Set up behaviors needed for the System Under Test
         when(_listDouble.getLast()).thenReturn(_tcpDouble);
@@ -806,7 +806,7 @@ class TeacherTest {
 
         createListDouble();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Set up behaviors needed for the System Under Test
         when(_listDouble.getLast()).thenReturn(_tcpDouble);
@@ -852,7 +852,7 @@ class TeacherTest {
         // Arranging the creation of a TCP which will be inherent to the creation of a Teacher
         when(_tcpFactoryDouble.createTeacherCareerProgression(date2, tcDouble2, 70)).thenThrow(new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."));
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Act + Assert
         IllegalArgumentException exceptionResult = assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, tcDouble2));
@@ -872,7 +872,7 @@ class TeacherTest {
 
         createListDouble();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> t1.updateTeacherCategoryInTeacherCareer(date2, null));
@@ -886,8 +886,8 @@ class TeacherTest {
 
         createDoubles();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
-        Teacher t2 = new Teacher("CBB", "João Fonseca", "cbb@isep.ipp.pt", "744872363", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t2 = new Teacher("CBB", "João Fonseca", "cbb@isep.ipp.pt", "744872363", "+351 987 654 321", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act
         boolean result= t1.hasSameAcronym(t2);
@@ -904,8 +904,8 @@ class TeacherTest {
 
         createDoubles();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
-        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "744872363", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "744872363", "+351 987 654 321", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act
         boolean result= t1.hasSameAcronym(t2);
@@ -922,8 +922,8 @@ class TeacherTest {
 
         createDoubles();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
-        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "234542322", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "234542322", "+351 987 654 321", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act
         boolean result= t1.hasSameNif(t2);
@@ -940,8 +940,8 @@ class TeacherTest {
 
         createDoubles();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
-        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "744872363", "C203", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t2 = new Teacher("JJF", "João Fonseca", "jjf@isep.ipp.pt", "744872363", "+351 987 654 321", "Doutoramento em Engenharia Mecânica, 2008, ISEP", "Rua do Parque", "6543-044", "Porto", "Portugal", _addressFactoryDouble, date2, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act
         boolean result= t1.hasSameNif(t2);
@@ -957,7 +957,7 @@ class TeacherTest {
 
         createDoubles();
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act
         boolean result = t1.isInDepartment(_dptDouble);
@@ -975,7 +975,7 @@ class TeacherTest {
 
         Department _dptDouble2 = mock(Department.class);
 
-        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
+        Teacher t1 = new Teacher("CBB", "Abel Martins", "cbb@isep.ipp.pt", "234542322", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", _addressFactoryDouble, date1, _tcDouble, 70, _dptDouble, _tcpFactoryDouble, _tcplFDouble);
 
         //act
         boolean result = t1.isInDepartment(_dptDouble2);

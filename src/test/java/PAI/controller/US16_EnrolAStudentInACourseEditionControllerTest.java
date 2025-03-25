@@ -225,13 +225,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
@@ -286,13 +286,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
@@ -356,13 +356,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
@@ -422,13 +422,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
         Teacher t1 = new Teacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
+                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
                 addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF

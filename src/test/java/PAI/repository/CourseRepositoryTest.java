@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.domain.Course;
 import PAI.factory.CourseFactoryImpl;
-import PAI.factory.CourseListFactory;
+import PAI.factory.CourseListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -20,9 +20,9 @@ class CourseRepositoryTest {
 
         //Arrange
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
-        CourseListFactory courseListFactory = mock(CourseListFactory.class);
+        CourseListFactoryImpl courseListFactoryImpl = mock(CourseListFactoryImpl.class);
         //act
-        CourseRepository cR1 = new CourseRepository(courseFactoryImpl, courseListFactory);
+        CourseRepository cR1 = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
         //assert
         assertNotNull(cR1);
     }
@@ -32,8 +32,8 @@ class CourseRepositoryTest {
 
         //arrange
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
-        CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl,courseListFactory);
+        CourseListFactoryImpl courseListFactoryImpl = mock(CourseListFactoryImpl.class);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
 
 
         String courseName = "Matemática";
@@ -55,8 +55,8 @@ class CourseRepositoryTest {
         //arrange
 
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
-        CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl,courseListFactory);
+        CourseListFactoryImpl courseListFactoryImpl = mock(CourseListFactoryImpl.class);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
 
         Course course1 = mock(Course.class);
 
@@ -80,8 +80,8 @@ class CourseRepositoryTest {
 
         //arrange
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
-        CourseListFactory courseListFactory = mock(CourseListFactory.class);
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl,courseListFactory);
+        CourseListFactoryImpl courseListFactoryImpl = mock(CourseListFactoryImpl.class);
+        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
 
         String courseName1 = "Matemática";
         String acronym1 = "MAT";

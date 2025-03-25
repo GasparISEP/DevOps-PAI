@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.domain.TeacherCategory;
 import PAI.factory.TeacherCategoryFactoryImpl;
-import PAI.factory.TeacherCategoryRepositoryListFactoryImpl;
+import PAI.factory.TeacherCategoryListFactoryImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public class TeacherCategoryRepository {
      * @param teacherCategoryFactory the factory responsible for creating teacher categories.
      * @param teacherCategoryRepositoryListFactory the factory responsible for providing the list of teacher categories.
      */
-    public TeacherCategoryRepository(TeacherCategoryFactoryImpl teacherCategoryFactory, TeacherCategoryRepositoryListFactoryImpl teacherCategoryRepositoryListFactory) {
+    public TeacherCategoryRepository(TeacherCategoryFactoryImpl teacherCategoryFactory, TeacherCategoryListFactoryImpl teacherCategoryRepositoryListFactory) {
         this.teacherCategoryFactory = teacherCategoryFactory;
         this.teacherCategoryRepositoryList = teacherCategoryRepositoryListFactory.getTeacherCategoryList();
     }
