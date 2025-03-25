@@ -3,33 +3,33 @@ package PAI.repository;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
-import PAI.factory.IStudentGradeListFactory;
 import PAI.domain.Student;
+import PAI.factory.IStudentGradeListFactory;
 
 import java.util.List;
 import java.util.Optional;
 
-public class GradeStudentRepository {
-    private final IStudentGradeFactory _I_StudentGradeFactory;
+public class StudentGradeRepository {
+    private final IStudentGradeFactory _IStudentGradeFactory;
     private List<StudentGrade> _StudentGradeList;
 
-    public GradeStudentRepository (IStudentGradeFactory IStudentGradeFactory, IStudentGradeListFactory IStudentGradeListFactory){
-        if (IStudentGradeFactory == null){
+    public StudentGradeRepository(IStudentGradeFactory studentGradeFactory, IStudentGradeListFactory studentGradeListFactory){
+        if (studentGradeFactory == null){
             throw new IllegalArgumentException("Factory cannot be null!");
         }
-        this._I_StudentGradeFactory = IStudentGradeFactory;
+        this._IStudentGradeFactory = studentGradeFactory;
 
-        if (IStudentGradeListFactory == null) {
+        if (studentGradeListFactory == null) {
             throw new IllegalArgumentException("Factory cannot be null!");
 
         }
-        _StudentGradeList = IStudentGradeListFactory.newArrayList();
+        _StudentGradeList = studentGradeListFactory.newArrayList();
     }
 
 
     public Optional<StudentGrade> addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition){
         try {
-                StudentGrade studentGrade = _I_StudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
+                StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
                 _StudentGradeList.add(studentGrade);
                 return Optional.of(studentGrade);
         }
@@ -75,7 +75,4 @@ public class GradeStudentRepository {
         double approvalRate = ((double) totalApprovalStudents / totalOfStudents) * 100;
         return approvalRate;
     }
-
-
-
 }

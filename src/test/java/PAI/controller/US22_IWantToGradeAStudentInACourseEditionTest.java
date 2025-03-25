@@ -3,7 +3,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.GradeStudentRepository;
+import PAI.repository.StudentGradeRepository;
 import PAI.repository.CourseEditionEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 
@@ -74,7 +74,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         // Arrange
         IStudentGradeFactory IStudentGradeFactory = new StudentGradeFactoryImpl();
         IStudentGradeListFactory IStudentGradeListFactory = new StudentGradeListFactoryImpl();
-        GradeStudentRepository gradeStudentRepository = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         CourseEditionEnrolmentFactoryImpl courseEditionEnrolmentFactoryImpl = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl courseEditionEnrolmentListFactoryImpl = new CourseEditionEnrolmentListFactoryImpl();
@@ -88,7 +88,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
 
-        US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository, enrollmentRepository);
+        US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(studentGradeRepository, enrollmentRepository);
 
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
@@ -180,9 +180,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseEditionEnrolmentFactoryImpl courseEditionEnrolmentFactoryImpl = mock (CourseEditionEnrolmentFactoryImpl.class);
         CourseEditionEnrolmentRepository enrollmentRepository = mock(CourseEditionEnrolmentRepository.class);
 
-        GradeStudentRepository gradeStudentRepository = mock(GradeStudentRepository.class);
+        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);
 
-        US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository,enrollmentRepository);
+        US22_IWantToGradeAStudentInACourseEdition controller1 = new US22_IWantToGradeAStudentInACourseEdition(studentGradeRepository,enrollmentRepository);
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
@@ -219,13 +219,13 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     void iWantToGradeAStudentInACourseEditionWithNullGradeStudentRepo () throws IllegalArgumentException {
 
         //arrange
-        GradeStudentRepository gradeStudentRepository1 = null;
+        StudentGradeRepository studentGradeRepository1 = null;
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository1 = mock(CourseEditionEnrolmentRepository.class);
 
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository1, courseEditionEnrolmentRepository1);
+            new US22_IWantToGradeAStudentInACourseEdition(studentGradeRepository1, courseEditionEnrolmentRepository1);
         });
         assertEquals("Repository cannot be null", exception.getMessage());
 
@@ -241,7 +241,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn((mockGradeList));
 
-        GradeStudentRepository list = mock(GradeStudentRepository.class);
+        StudentGradeRepository list = mock(StudentGradeRepository.class);
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository1 = null;
 
 
@@ -258,15 +258,15 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         //arrange
 
-        GradeStudentRepository gradeStudentRepositoryDouble = mock(GradeStudentRepository.class);
+        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryDouble = mock(CourseEditionEnrolmentRepository.class);
-        US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepositoryDouble, courseEditionEnrolmentRepositoryDouble);
+        US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(studentGradeRepositoryDouble, courseEditionEnrolmentRepositoryDouble);
 
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
         when(courseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentDouble,courseEditionDouble)).thenReturn(true);
-        when(gradeStudentRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(Optional.of(studentGradeDouble));
+        when(studentGradeRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(Optional.of(studentGradeDouble));
 
         //act
         Optional<StudentGrade> optional = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);

@@ -27,7 +27,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
@@ -66,7 +66,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(emptyGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
 
@@ -91,7 +91,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
@@ -129,7 +129,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         Student validStudent = mock(Student.class);
         CourseEdition courseEditionValid = mock(CourseEdition.class);
@@ -154,7 +154,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         CourseEdition courseEdition3 = mock(CourseEdition.class);
 
@@ -176,7 +176,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
@@ -215,7 +215,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
@@ -254,7 +254,7 @@ class StudentGradeRepositoryTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = new GradeStudentRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
@@ -273,7 +273,7 @@ class StudentGradeRepositoryTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new GradeStudentRepository(null, IStudentGradeListFactory));
+                new StudentGradeRepository(null, IStudentGradeListFactory));
 
         assertEquals("Factory cannot be null!", exception.getMessage());
     }
@@ -286,7 +286,7 @@ class StudentGradeRepositoryTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new GradeStudentRepository(IStudentGradeFactory, null));
+                new StudentGradeRepository(IStudentGradeFactory, null));
 
         assertEquals("Factory cannot be null!", exception.getMessage());
     }

@@ -3,7 +3,7 @@ package PAI.controller;
 
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.GradeStudentRepository;
+import PAI.repository.StudentGradeRepository;
 import PAI.repository.CourseEditionEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
 
-        GradeStudentRepository list = mock(GradeStudentRepository.class);
+        StudentGradeRepository list = mock(StudentGradeRepository.class);
         when(list.addGradeToStudent(10, "13-03-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
 
         //act
@@ -50,7 +50,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        GradeStudentRepository list = mock(GradeStudentRepository.class);
+        StudentGradeRepository list = mock(StudentGradeRepository.class);
 
         CourseEditionEnrolmentRepository enrollmentRepository= mock(CourseEditionEnrolmentRepository.class);
 
