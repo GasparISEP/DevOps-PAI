@@ -95,7 +95,7 @@ class StudentGradeRepositoryTest {
     }
 
     @Test
-    void shouldGradeAStudent100() throws Exception {
+    void shouldGradeStudentsAndHave100ApprovalRate() throws Exception {
 
         // Arrange
         IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
@@ -134,7 +134,7 @@ class StudentGradeRepositoryTest {
 
 
     @Test
-    void shouldGradeAStudent0() throws IllegalArgumentException {
+    void shouldGradeStudentsAndHave0ApprovalRate() throws IllegalArgumentException {
 
         // Arrange
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);

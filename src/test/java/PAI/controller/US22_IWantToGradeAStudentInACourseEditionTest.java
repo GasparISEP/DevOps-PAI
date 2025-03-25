@@ -253,7 +253,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     }
 
     @Test
-    public void shouldReturnOptionalWithGradeStudentIfGradeStudentWasAddedSuccessfully() throws Exception{
+    public void shouldReturnTrueWithGradeStudentIfGradeStudentWasAddedSuccessfully() throws Exception{
 
         //arrange
 
