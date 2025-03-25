@@ -1,11 +1,11 @@
 @startuml
 title US25: I Want to Know the Average Grade of a Course Edition
-'left to right direction
+
 
 class US25_IWantToKnowTheAverageGradeOfACourseEdition {
     -_studentGradeList: StudentGradeRepository
     +US25_IWantToKnowTheAverageGradeOfACourseEdition(studentGradeList: StudentGradeRepository)
-    +IWantToKnowTheAvgGrade(courseEditionID : CourseEditioniD): double
+    +IWantToKnowTheAvgGrade(courseEditionID : CourseEditionID): double
 }
 
 package "StudentGrade" {
@@ -145,13 +145,13 @@ class CourseEditionID <<ValueObject>> {
 "<<root>>\nStudent" "*" --> "1" StudentID
 "<<root>>\nStudent" "*" --> "1" InstitutionalEmail
 IStudentGradeRepository "1" ....> IStudentGradeFactory
-IStudentGradeFactory "1" ....> "Creates" "<<root>>\nStudentGrade"
 IStudentGradeRepository "1" ....>  IStudentGradeListFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nStudentGrade"
 StudentGradeListFactoryImpl ..|>  IStudentGradeListFactory
 IStudentGradeFactory  <|..  StudentGradeFactoryImpl
-StudentGradeRepository <|.. IStudentGradeRepository
 IStudentGradeListFactory ..|> List
 "<<root>>\nStudentGrade" <-- List
+StudentGradeRepository <|.. IStudentGradeRepository
 List <-- IStudentGradeRepository
 
 "<<root>>\nCourseEdition" --> "1" CourseEditionID
