@@ -1,8 +1,8 @@
 package PAI.repository;
 
 import PAI.domain.SchoolYear;
-import PAI.factory.SchoolYearFactory;
-import PAI.factory.SchoolYearListFactory;
+import PAI.factory.ISchoolYearFactory;
+import PAI.factory.ISchoolYearListFactory;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
 public class SchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
-    private SchoolYearFactory _schoolYearFactory;
-    private SchoolYearListFactory _schoolYearListFactory;
+    private ISchoolYearFactory _schoolYearFactory;
+    private ISchoolYearListFactory _schoolYearListFactory;
 
-    public SchoolYearRepository(SchoolYearFactory schoolYearFactory, SchoolYearListFactory schoolYearListFactory) {
+    public SchoolYearRepository(ISchoolYearFactory schoolYearFactory, ISchoolYearListFactory schoolYearListFactory) {
 
         if (schoolYearFactory == null) {
             throw new IllegalArgumentException("SchoolYearFactory cannot be null");

@@ -1,9 +1,9 @@
 package PAI.repository;
 
 import PAI.domain.*;
-import PAI.factory.CourseEditionFactory;
+import PAI.factory.ICourseEditionFactory;
 import PAI.factory.CourseEditionFactoryImpl;
-import PAI.factory.CourseEditionListFactory;
+import PAI.factory.ICourseEditionListFactory;
 import PAI.factory.CourseEditionListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
@@ -22,18 +22,18 @@ class CourseEditionRepositoryTest {
         //SUT = CourseEditionRepository
         //Arrange
             //Doubles' instantiation
-        CourseEditionFactory courseEditionFactoryDouble = mock (CourseEditionFactory.class);
-        CourseEditionListFactory courseEditionListFactoryDouble = mock (CourseEditionListFactory.class);
+        ICourseEditionFactory ICourseEditionFactoryDouble = mock (ICourseEditionFactory.class);
+        ICourseEditionListFactory ICourseEditionListFactoryDouble = mock (ICourseEditionListFactory.class);
 
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         Course courseDouble = mock (Course.class);
         CourseEdition courseEditionDouble = mock (CourseEdition.class);
 
             //SUT
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ICourseEditionFactoryDouble, ICourseEditionListFactoryDouble);
 
             //instructions
-        when(courseEditionFactoryDouble.newCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(courseEditionDouble);
+        when(ICourseEditionFactoryDouble.newCourseEdition(courseDouble, programmeEditionDouble)).thenReturn(courseEditionDouble);
 
         //Act
         boolean result = courseEditionRepository.createAndSaveCourseEdition(courseDouble,programmeEditionDouble);

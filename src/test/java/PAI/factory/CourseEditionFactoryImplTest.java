@@ -30,10 +30,10 @@ class CourseEditionFactoryImplTest {
         })) {
 
                 //SUT
-            CourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
+            ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
             // Act
-            CourseEdition courseEdition = courseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
+            CourseEdition courseEdition = ICourseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
 
             // Asserts
             assertNotNull(courseEdition);

@@ -4,9 +4,8 @@ import PAI.domain.Course;
 import PAI.domain.CourseEdition;
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.Teacher;
-import PAI.factory.CourseEditionFactory;
-import PAI.factory.CourseEditionListFactory;
-import PAI.factory.CourseEditionListFactoryImpl;
+import PAI.factory.ICourseEditionFactory;
+import PAI.factory.ICourseEditionListFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +13,18 @@ import java.util.List;
 public class CourseEditionRepository {
 
     private List<CourseEdition> _courseEditions;
-    private final CourseEditionFactory _courseEditionFactory;
+    private final ICourseEditionFactory _I_courseEditionFactory;
 
-    public CourseEditionRepository(CourseEditionFactory courseEditionFactory, CourseEditionListFactory courseEditionListFactory) {
-        _courseEditionFactory = courseEditionFactory;
-        _courseEditions = courseEditionListFactory.newArrayList();
+    public CourseEditionRepository(ICourseEditionFactory ICourseEditionFactory, ICourseEditionListFactory ICourseEditionListFactory) {
+        _I_courseEditionFactory = ICourseEditionFactory;
+        _courseEditions = ICourseEditionListFactory.newArrayList();
 
     }
 
     public boolean createAndSaveCourseEdition(Course course, ProgrammeEdition programmeEdition) {
 
         try {
-            CourseEdition courseEdition = _courseEditionFactory.newCourseEdition(course, programmeEdition);
+            CourseEdition courseEdition = _I_courseEditionFactory.newCourseEdition(course, programmeEdition);
             if (isCourseEditionAlreadyInRepository(courseEdition))
                 return false;
 

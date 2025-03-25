@@ -1,17 +1,17 @@
 package PAI.controller;
 
 import PAI.domain.CourseEdition;
-import PAI.repository.GradeStudentRepository;
+import PAI.repository.StudentGradeRepository;
 
 public class US23_IWantToKnowTheApprovalPercentageOfACourseEdition {
 
-    GradeStudentRepository _gradeStudentRepository;
+    StudentGradeRepository _StudentGradeRepository;
 
-    public US23_IWantToKnowTheApprovalPercentageOfACourseEdition(GradeStudentRepository gradeStudentRepository){
-        _gradeStudentRepository = gradeStudentRepository;
+    public US23_IWantToKnowTheApprovalPercentageOfACourseEdition(StudentGradeRepository studentGradeRepository){
+        _StudentGradeRepository = studentGradeRepository;
     }
 
     public double IWantToKnowTheApprovalPercentageOfACourseEdition(CourseEdition courseEdition){
-        return _gradeStudentRepository.knowApprovalRate(courseEdition);
+        return _StudentGradeRepository.knowApprovalRate(courseEdition);
     }
 }

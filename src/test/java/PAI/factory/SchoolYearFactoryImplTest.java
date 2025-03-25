@@ -29,7 +29,7 @@ class SchoolYearFactoryImplTest {
                     when(mock.getEndDate()).thenReturn(LocalDate.parse(actualEndDate, formatter));
                 })) {
 
-            SchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+            ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
 
             //act
             SchoolYear schoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
@@ -46,7 +46,7 @@ class SchoolYearFactoryImplTest {
     @Test
     void mockingConstructorThrowingException() {
         //arrange
-        SchoolYearFactory factory = new SchoolYearFactoryImpl();
+        ISchoolYearFactory factory = new SchoolYearFactoryImpl();
         String description = "";
         String startDate = "01-09-2023";
         String endDate = "31-08-2024";

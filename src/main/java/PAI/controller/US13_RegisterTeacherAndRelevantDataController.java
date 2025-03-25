@@ -1,7 +1,6 @@
 package PAI.controller;
 import PAI.domain.*;
-import PAI.factory.AddressFactory;
-import PAI.factory.AddressFactoryImpl;
+import PAI.factory.IAddressFactory;
 
 import PAI.repository.DepartmentRepository;
 import PAI.repository.TeacherCategoryRepository;
@@ -46,7 +45,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to register the Teacher object
-    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, AddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
+    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, IAddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
                                    Department department) throws IllegalArgumentException {
 
         _teacherRepository.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, addressFactory, date, category, workingPercentage, department);
