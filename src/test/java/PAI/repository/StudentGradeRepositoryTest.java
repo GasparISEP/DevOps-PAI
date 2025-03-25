@@ -9,6 +9,7 @@ import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,45 +54,35 @@ class StudentGradeRepositoryTest {
     }
 
     @Test
-    void shouldNotAddGradeWhenStudentHasAlreadyGradeAtCertainCourseEdition() throws Exception {
-        // Arrange
-        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
-        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
+    void shouldNotAddGradeWhenStudentHasAlreadyGradeAtCertainCourseEdition() throws Exception{
+        //arrange
+        IStudentGradeFactory IStudentGradeFactoryDouble = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactoryDouble = mock(IStudentGradeListFactory.class);
+        StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactoryDouble,IStudentGradeListFactoryDouble);
 
-        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        StudentGrade studentGradeDouble = mock(StudentGrade.class);
+        when (IStudentGradeFactoryDouble.newGradeStudent(20,"22-02-2022",studentDouble,courseEditionDouble)).thenReturn(studentGradeDouble);
 
-        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+        when(studentGradeDouble.hasThisStudent(studentDouble)).thenReturn(true);
+        when(studentGradeDouble.hasThisCourseEdition(courseEditionDouble)).thenReturn(true);
 
-        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
+        ArrayList<StudentGrade> listDouble = mock(ArrayList.class);
+        Iterator<StudentGrade> iteratorDouble = mock(Iterator.class);
 
-        Student student1 = mock(Student.class);
-        List<StudentGrade> emptyGradeList = spy(new ArrayList<>());
-        when(IStudentGradeListFactory.newArrayList()).thenReturn(emptyGradeList);
+        when(listDouble.iterator()).thenReturn(iteratorDouble);
+        when(iteratorDouble.hasNext()).thenReturn(true,false);
+        when(iteratorDouble.next()).thenReturn(studentGradeDouble);
 
-        StudentGrade studentGrade1 = mock(StudentGrade.class);
-
-        when(IStudentGradeListFactory.newArrayList()).thenReturn(emptyGradeList);
-
-        Student student2 = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
-
-
-        when(IStudentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1))
-                .thenReturn(studentGrade1);
-
-        list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
-
-        when(IStudentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-
-
-        // Act
-
-        boolean result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
-
-
-        // Assert
-        assertTrue(result1);
-
+        //Act I
+        boolean firstResult = studentGradeRepository.addGradeToStudent(20,"22-02-2022",studentDouble,courseEditionDouble);
+        //assert I
+        assertTrue(firstResult);
+        //act II
+        boolean result = studentGradeRepository.addGradeToStudent(20,"22-02-2022",studentDouble,courseEditionDouble);
+        //assert II
+        assertFalse(result);
     }
 
     @Test
