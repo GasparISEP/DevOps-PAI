@@ -1,12 +1,8 @@
 package PAI.VOs;
 
-import PAI.domain.CourseEdition;
-import PAI.domain.Student;
-import PAI.domain.StudentGrade;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 class GradeTest {
 
@@ -20,14 +16,14 @@ class GradeTest {
     }
 
     @Test
-    void shouldNotCreateGradeWithValueBelow0() throws Exception {
+    void shouldNotCreateGradeWithValueBelow0()  {
 
         // Act + Assert
         assertThrows(Exception.class, () -> new Grade(-1));
     }
 
     @Test
-    void shouldNotCreateGradeWithValueAbove20() throws Exception {
+    void shouldNotCreateGradeWithValueAbove20() {
 
         // Act + Assert
         assertThrows(Exception.class, () -> new Grade(21));
