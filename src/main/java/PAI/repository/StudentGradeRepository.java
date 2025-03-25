@@ -2,22 +2,22 @@ package PAI.repository;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
-import PAI.factory.StudentGradeFactory;
-import PAI.factory.StudentGradeListFactory;
+import PAI.factory.IStudentGradeFactory;
 import PAI.domain.Student;
+import PAI.factory.IStudentGradeListFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 public class StudentGradeRepository {
-    private final StudentGradeFactory _StudentGradeFactory;
+    private final IStudentGradeFactory _IStudentGradeFactory;
     private List<StudentGrade> _StudentGradeList;
 
-    public StudentGradeRepository(StudentGradeFactory studentGradeFactory, StudentGradeListFactory studentGradeListFactory){
+    public StudentGradeRepository(IStudentGradeFactory studentGradeFactory, IStudentGradeListFactory studentGradeListFactory){
         if (studentGradeFactory == null){
             throw new IllegalArgumentException("Factory cannot be null!");
         }
-        this._StudentGradeFactory = studentGradeFactory;
+        this._IStudentGradeFactory = studentGradeFactory;
 
         if (studentGradeListFactory == null) {
             throw new IllegalArgumentException("Factory cannot be null!");
@@ -29,7 +29,7 @@ public class StudentGradeRepository {
 
     public boolean addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception{
         if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)){
-            StudentGrade studentGrade = _StudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
+            StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
             _StudentGradeList.add(studentGrade);
             return true;
         }

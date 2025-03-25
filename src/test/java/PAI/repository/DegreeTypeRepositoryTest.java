@@ -1,9 +1,9 @@
 package PAI.repository;
 
 import PAI.domain.DegreeType;
+import PAI.factory.IDegreeTypeListFactory;
 import PAI.factory.DegreeTypeFactoryImpl;
-import PAI.factory.DegreeTypeFactoryInterface;
-import PAI.factory.DegreeTypeListFactoryInterface;
+import PAI.factory.IDegreeTypeFactoryInterface;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ class DegreeTypeRepositoryTest {
         //arrange
 
         DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock (DegreeTypeFactoryImpl.class);
-        DegreeTypeListFactoryInterface degreeTypeListFactoryInterface = mock (DegreeTypeListFactoryInterface.class);
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl, degreeTypeListFactoryInterface);
+        IDegreeTypeListFactory IDegreeTypeListFactory = mock (IDegreeTypeListFactory.class);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl, IDegreeTypeListFactory);
 
         //act
         degreeTypeRepository.registerDegreeType("Master",300);
@@ -31,11 +31,11 @@ class DegreeTypeRepositoryTest {
     @Test
     public void DoesntCreateListWithNullDTLFI() {
 
-        DegreeTypeFactoryInterface degreeTypeFactoryInterface = mock(DegreeTypeFactoryInterface.class);
+        IDegreeTypeFactoryInterface IDegreeTypeFactoryInterface = mock(IDegreeTypeFactoryInterface.class);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new DegreeTypeRepository(degreeTypeFactoryInterface, null));
+                new DegreeTypeRepository(IDegreeTypeFactoryInterface, null));
 
         assertEquals("Factory cannot be null!", exception.getMessage());
     }
@@ -43,7 +43,7 @@ class DegreeTypeRepositoryTest {
     @Test
     public void shouldReturnFalseWhenDegreeTypeIsDuplicated() throws Exception {
         // Arrange
-        DegreeTypeListFactoryInterface degreeTypeListFactoryInterface = mock(DegreeTypeListFactoryInterface.class);
+        IDegreeTypeListFactory IDegreeTypeListFactory = mock(IDegreeTypeListFactory.class);
         DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock(DegreeTypeFactoryImpl.class);
 
         List<DegreeType> degreeTypes = spy(new ArrayList<>());
@@ -51,9 +51,9 @@ class DegreeTypeRepositoryTest {
         DegreeType masterDegree = mock(DegreeType.class);
 
         when(degreeTypeFactoryImpl.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
-        when(degreeTypeListFactoryInterface.createDegreeTypeList()).thenReturn(degreeTypes);
+        when(IDegreeTypeListFactory.createDegreeTypeList()).thenReturn(degreeTypes);
 
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl,degreeTypeListFactoryInterface);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl, IDegreeTypeListFactory);
 
         degreeTypeRepository.registerDegreeType("Master", 300);
 
@@ -67,7 +67,7 @@ class DegreeTypeRepositoryTest {
     @Test
     public void shouldReturnTrueWhenOnlyNameIsEqual() throws Exception {
         // Arrange
-        DegreeTypeListFactoryInterface degreeTypeListFactoryInterface = mock(DegreeTypeListFactoryInterface.class);
+        IDegreeTypeListFactory IDegreeTypeListFactory = mock(IDegreeTypeListFactory.class);
         DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock(DegreeTypeFactoryImpl.class);
 
         List<DegreeType> degreeTypes = spy(new ArrayList<>());
@@ -75,9 +75,9 @@ class DegreeTypeRepositoryTest {
         DegreeType masterDegree = mock(DegreeType.class);
 
         when(degreeTypeFactoryImpl.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
-        when(degreeTypeListFactoryInterface.createDegreeTypeList()).thenReturn(degreeTypes);
+        when(IDegreeTypeListFactory.createDegreeTypeList()).thenReturn(degreeTypes);
 
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl,degreeTypeListFactoryInterface);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl, IDegreeTypeListFactory);
 
         degreeTypeRepository.registerDegreeType("Master", 300);
 
@@ -91,7 +91,7 @@ class DegreeTypeRepositoryTest {
     @Test
     public void shouldReturnTrueWhenOnlyMaxEctsIsEqual() throws Exception {
         // Arrange
-        DegreeTypeListFactoryInterface degreeTypeListFactoryInterface = mock(DegreeTypeListFactoryInterface.class);
+        IDegreeTypeListFactory IDegreeTypeListFactory = mock(IDegreeTypeListFactory.class);
         DegreeTypeFactoryImpl degreeTypeFactoryImpl = mock(DegreeTypeFactoryImpl.class);
 
         List<DegreeType> degreeTypes = spy(new ArrayList<>());
@@ -99,9 +99,9 @@ class DegreeTypeRepositoryTest {
         DegreeType masterDegree = mock(DegreeType.class);
 
         when(degreeTypeFactoryImpl.addNewDegreeType("Master", 300)).thenReturn(masterDegree);
-        when(degreeTypeListFactoryInterface.createDegreeTypeList()).thenReturn(degreeTypes);
+        when(IDegreeTypeListFactory.createDegreeTypeList()).thenReturn(degreeTypes);
 
-        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl,degreeTypeListFactoryInterface);
+        DegreeTypeRepository degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryImpl, IDegreeTypeListFactory);
 
         degreeTypeRepository.registerDegreeType("Master", 300);
 
