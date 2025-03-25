@@ -19,4 +19,30 @@ class GradeTest {
         assertNotNull(grade1);
     }
 
+    @Test
+    void shouldNotCreateGradeWithValueBelow0() throws Exception {
+
+        // Act + Assert
+        assertThrows(Exception.class, () -> new Grade(-1));
+    }
+
+    @Test
+    void shouldNotCreateGradeWithValueAbove20() throws Exception {
+
+        // Act + Assert
+        assertThrows(Exception.class, () -> new Grade(21));
+    }
+
+    @Test
+    void shouldReturnCorrectGrade() throws Exception {
+        // Arrange
+        double expectedValue = 18;
+        Grade grade1= new Grade(expectedValue);
+
+        // Act
+        double actualValue = grade1.knowGrade();
+
+        // Assert
+        assertEquals(expectedValue, actualValue);
+    }
 }
