@@ -2,7 +2,7 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.repository.GradeStudentRepository;
+import PAI.repository.StudentGradeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -15,11 +15,11 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     @Test
     void nullGradeStudentRepository() {
         //arrange
-        GradeStudentRepository gradeStudentRepository = null;
+        StudentGradeRepository studentGradeRepository = null;
 
         //act & assert
         Exception exception = assertThrows(Exception.class, () ->
-            new US25_IWantToKnowTheAverageGradeOfACourseEdition(gradeStudentRepository)
+            new US25_IWantToKnowTheAverageGradeOfACourseEdition(studentGradeRepository)
         );
         assertEquals("GradeStudent Repository cannot be null", exception.getMessage());
     }
@@ -28,7 +28,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     void averageGradeInACourseEdition () throws Exception {
 
         //arrange
-        GradeStudentRepository list = mock(GradeStudentRepository.class);
+        StudentGradeRepository list = mock(StudentGradeRepository.class);
 
         US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 

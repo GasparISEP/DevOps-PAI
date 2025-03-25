@@ -9,11 +9,11 @@ import PAI.domain.Student;
 import java.util.List;
 import java.util.Optional;
 
-public class GradeStudentRepository {
+public class StudentGradeRepository {
     private final StudentGradeFactory _StudentGradeFactory;
     private List<StudentGrade> _StudentGradeList;
 
-    public GradeStudentRepository (StudentGradeFactory studentGradeFactory, StudentGradeListFactory studentGradeListFactory){
+    public StudentGradeRepository(StudentGradeFactory studentGradeFactory, StudentGradeListFactory studentGradeListFactory){
         if (studentGradeFactory == null){
             throw new IllegalArgumentException("Factory cannot be null!");
         }
