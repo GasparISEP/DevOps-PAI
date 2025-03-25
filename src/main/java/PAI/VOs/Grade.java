@@ -3,7 +3,7 @@ package PAI.VOs;
 public class Grade {
     private double _value;
 
-    public Grade(double value) {
+    public Grade(double value) throws Exception {
         if (!isGradeValid(value)){
             throw new IllegalArgumentException("Grade should be between 0 and 20");
         }
