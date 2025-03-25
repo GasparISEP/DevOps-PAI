@@ -17,19 +17,19 @@ import static org.mockito.Mockito.*;
 class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
     @Test
-    void gradeStudentInRepository() {
+    void gradeStudentInRepository() throws Exception {
         //arrange
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
 
-        when(studentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
+        when(IStudentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
-        when(list.addGradeToStudent(10, "13-03-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
+        when(list.addGradeToStudent(10, "13-03-2025", student1, courseEdition1)).thenReturn(true);
 
         //act
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = mock(US23_IWantToKnowTheApprovalPercentageOfACourseEdition.class);
@@ -44,11 +44,11 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     void approvalRateInACourseEdition () throws Exception {
 
         //arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
 
@@ -63,8 +63,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
 
-        when(studentGradeFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(studentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
+        when(IStudentGradeFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
 
         when(studentGrade1.knowGrade()).thenReturn(8.0);
         when(studentGrade2.knowGrade()).thenReturn(20.0);

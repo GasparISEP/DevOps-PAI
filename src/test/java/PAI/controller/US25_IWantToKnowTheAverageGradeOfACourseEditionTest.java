@@ -39,8 +39,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
-        when(list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(Optional.of(studentGrade2));
+        when(list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(true);
+        when(list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(true);
         when(list.KnowAverageGrade(courseEdition1)).thenReturn(14.0);
 
         // Act

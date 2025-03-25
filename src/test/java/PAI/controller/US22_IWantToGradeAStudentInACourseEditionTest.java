@@ -19,11 +19,11 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     @Test
     void gradeStudentInRepository () {
         //arrange
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
         //act
         US22_IWantToGradeAStudentInACourseEdition G1 = mock(US22_IWantToGradeAStudentInACourseEdition.class);
@@ -34,11 +34,11 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     @Test
     void iWantToGradeAStudentInACourseEdition () throws Exception {
         //arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
         CourseEditionEnrolmentFactoryImpl courseEditionEnrolmentFactoryImpl = mock (CourseEditionEnrolmentFactoryImpl.class);
         CourseEditionEnrolmentRepository enrollmentRepository = mock(CourseEditionEnrolmentRepository.class);
@@ -47,9 +47,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
-        when(controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
-
-        when(studentGradeFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(true);
+        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
         when(studentGrade1.knowGrade()).thenReturn(20.0);
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         CourseEditionEnrolment enrollment1 = mock(CourseEditionEnrolment.class);
@@ -63,18 +62,18 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         //act
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
-        Optional<StudentGrade> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
+        boolean result = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
 
         //assert
-        assertTrue(optc1.isPresent());
+        assertTrue(result);
     }
 
     @Test
     void iWantToGradeAStudentInACourseEditionIntegrationTest () throws Exception {
         // Arrange
-        StudentGradeFactory studentGradeFactory = new StudentGradeFactoryImpl();
-        StudentGradeListFactory studentGradeListFactory = new StudentGradeListFactoryImpl();
-        StudentGradeRepository studentGradeRepository = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
+        IStudentGradeFactory IStudentGradeFactory = new StudentGradeFactoryImpl();
+        IStudentGradeListFactory IStudentGradeListFactory = new StudentGradeListFactoryImpl();
+        StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         CourseEditionEnrolmentFactoryImpl courseEditionEnrolmentFactoryImpl = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl courseEditionEnrolmentListFactoryImpl = new CourseEditionEnrolmentListFactoryImpl();
@@ -110,21 +109,21 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         // Act
-        Optional<StudentGrade> result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
+        boolean result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
 
         // Assert
-        assertTrue(result.isPresent(), "A nota deveria ser criada corretamente.");
+        assertTrue(result);
     }
 
     @Test
     void iWantToCheckIfStudentIsNotEnrolledInCourseEdition () throws Exception {
         //arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        when(studentGradeListFactory.newArrayList()).thenReturn((mockGradeList));
+        when(IStudentGradeListFactory.newArrayList()).thenReturn((mockGradeList));
 
         CourseEditionEnrolmentFactoryImpl courseEditionEnrolmentFactoryImpl = mock (CourseEditionEnrolmentFactoryImpl.class);
         CourseEditionEnrolmentRepository enrollmentRepository = mock(CourseEditionEnrolmentRepository.class);
@@ -148,8 +147,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
 
-        when(studentGradeFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(studentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
+        when(IStudentGradeFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
 
         when(studentGrade1.knowGrade()).thenReturn(8.0);
         when(studentGrade2.knowGrade()).thenReturn(20.0);
@@ -170,12 +169,12 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     void iWantoToGradeAStudentInCourseEditionNotEnrolledInCourseEdition () throws Exception {
 
         //arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        when(studentGradeListFactory.newArrayList()).thenReturn((mockGradeList));
+        when(IStudentGradeListFactory.newArrayList()).thenReturn((mockGradeList));
 
         CourseEditionEnrolmentFactoryImpl courseEditionEnrolmentFactoryImpl = mock (CourseEditionEnrolmentFactoryImpl.class);
         CourseEditionEnrolmentRepository enrollmentRepository = mock(CourseEditionEnrolmentRepository.class);
@@ -200,17 +199,17 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         StudentGrade studentGrade1 = mock(StudentGrade.class);
 
 
-        when(studentGradeFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
         when(studentGrade1.knowGrade()).thenReturn(20.0);
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(controller1.isStudentEnrolledInCourseEdition(student1, courseEdition1)).thenReturn(false);
 
 
         // act
-        Optional <StudentGrade> opt1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student2,courseEdition1);
+        boolean result = controller1.iWantToGradeAStudent(20,"20/11/2024",student2,courseEdition1);
 
         //assert
-        assertTrue(opt1.isEmpty());
+        assertFalse(result);
     }
 
 
@@ -235,11 +234,11 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     void iWantToGradeAStudentInACourseEditionWithNullCourseEditionEnrollRepo () throws IllegalArgumentException {
 
         //arrange
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        when(studentGradeListFactory.newArrayList()).thenReturn((mockGradeList));
+        when(IStudentGradeListFactory.newArrayList()).thenReturn((mockGradeList));
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository1 = null;
@@ -266,14 +265,14 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
         when(courseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentDouble,courseEditionDouble)).thenReturn(true);
-        when(studentGradeRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(Optional.of(studentGradeDouble));
+        when(studentGradeRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(true);
 
         //act
-        Optional<StudentGrade> optional = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
+        boolean result = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
 
         //assert
 
-        assertTrue(optional.isPresent());
+        assertTrue(result);
     }
 }
 
