@@ -12,7 +12,7 @@ class ProgrammeEnrolmentListFactoryImplTest {
     @Test
     void shouldCreateArrayList() {
         //arrange
-        ProgrammeEnrolmentListFactory programmeEnrolmentListFactory = new ProgrammeEnrolmentListFactoryImpl();
+        IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = new ProgrammeEnrolmentListFactoryImpl();
 
         //act
         List<ProgrammeEnrolment> programmeEnrolmentList = programmeEnrolmentListFactory.newArrayList();

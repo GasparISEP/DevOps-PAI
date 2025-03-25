@@ -1,6 +1,6 @@
 package PAI.domain;
 
-import PAI.factory.AddressFactory;
+import PAI.factory.IAddressFactory;
 import PAI.factory.TeacherCareerProgressionFactoryImpl;
 import PAI.factory.TeacherCareerProgressionListFactoryImpl;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 class TeacherTest {
 
     private TeacherCategory _tcDouble;
-    private AddressFactory _addressFactoryDouble;
+    private IAddressFactory _addressFactoryDouble;
     private Address _addressDouble;
     private Department _dptDouble;
     private TeacherCareerProgressionFactoryImpl _tcpFactoryDouble;
@@ -28,7 +28,7 @@ class TeacherTest {
 
     private void createDoubles () {
         _tcDouble = mock(TeacherCategory.class);
-        _addressFactoryDouble = mock(AddressFactory.class);
+        _addressFactoryDouble = mock(IAddressFactory.class);
         _addressDouble = mock(Address.class);
         _dptDouble = mock(Department.class);
         _tcpFactoryDouble = mock(TeacherCareerProgressionFactoryImpl.class);

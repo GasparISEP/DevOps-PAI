@@ -4,8 +4,8 @@ import PAI.domain.AccessMethod;
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.domain.Student;
-import PAI.factory.ProgrammeEnrolmentFactory;
-import PAI.factory.ProgrammeEnrolmentListFactory;
+import PAI.factory.IProgrammeEnrolmentFactory;
+import PAI.factory.IProgrammeEnrolmentListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldCreateObject() {
         //arrange
-        ProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(ProgrammeEnrolmentFactory.class);
-        ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
 
         //act
         ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble);
@@ -30,8 +30,8 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEnrolmentFactoryIsNull() {
         //arrange
-        ProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(ProgrammeEnrolmentFactory.class);
-        ProgrammeEnrolmentListFactory listFactoryDouble = null;
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactoryDouble = null;
 
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble));
@@ -40,8 +40,8 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEnrolmentRepositoryFactoryIsNull() {
         //arrange
-        ProgrammeEnrolmentFactory programmeEnrolmentFactory = null;
-        ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = null;
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
 
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble));
@@ -58,8 +58,8 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolment programmeEnrolmentDouble2 = mock(ProgrammeEnrolment.class);
 
         //create programmeEnrolmentRepository
-        ProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactory.class);
-        ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
 
@@ -92,8 +92,8 @@ class ProgrammeEnrolmentRepositoryTest {
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
         Programme programmeDouble = mock(Programme.class);
-        ProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactory.class);
-        ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
         ProgrammeEnrolment programmeEnrolmentDouble1 = mock(ProgrammeEnrolment.class);
         ProgrammeEnrolment programmeEnrolmentDouble2 = mock(ProgrammeEnrolment.class);
         ArrayList<ProgrammeEnrolment> listDouble = mock(ArrayList.class);
@@ -132,8 +132,8 @@ class ProgrammeEnrolmentRepositoryTest {
         Student studentDouble = mock(Student.class);
         Programme programmeDouble = mock(Programme.class);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
-        ProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactory.class);
-        ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
         ArrayList<ProgrammeEnrolment> listDouble = mock(ArrayList.class);
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
@@ -167,8 +167,8 @@ class ProgrammeEnrolmentRepositoryTest {
         Student studentDouble1 = mock(Student.class);
         Programme programmeDouble = mock(Programme.class);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
-        ProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactory.class);
-        ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
         ArrayList<ProgrammeEnrolment> listDouble = mock(ArrayList.class);
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
@@ -201,8 +201,8 @@ class ProgrammeEnrolmentRepositoryTest {
         Student studentDouble = mock(Student.class);
         Programme programmeDouble2 = mock(Programme.class);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
-        ProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactory.class);
-        ProgrammeEnrolmentListFactory listFactoryDouble = mock(ProgrammeEnrolmentListFactory.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
         ArrayList<ProgrammeEnrolment> listDouble = mock(ArrayList.class);
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);

@@ -1,7 +1,6 @@
 package PAI.controller;
 
 import PAI.domain.*;
-import PAI.factory.TeacherFactory;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
 

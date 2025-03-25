@@ -170,7 +170,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
         //Arrange
         Department department = createDepartment();
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
@@ -187,7 +187,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
         Department department1 = createDepartment1();
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory = createTeacherCategory();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
@@ -206,7 +206,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidTeacherCategory_integrationTest() throws Exception {
         Department department = createDepartment();
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory teacherCategory1 = createTeacherCategory1();
         TeacherRepository teacherRepository = createTeacherRepo();
         DepartmentRepository departmentRepository = createDepartmentRepo();
@@ -227,7 +227,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     private TeacherRepository createTeacherRepo() {
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
-        TeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
         TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
         return new TeacherRepository(teacherFactory, teacherListFactoryImpl);
     }

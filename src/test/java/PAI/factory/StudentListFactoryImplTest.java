@@ -14,7 +14,7 @@ class StudentListFactoryImplTest {
     @Test
     void shouldCreateArrayListWhenConstructorIsCalled() {
         // Arrange
-        StudentListFactory studentListFactory = new StudentListFactoryImpl();
+        IStudentListFactory studentListFactory = new StudentListFactoryImpl();
 
         // Act
         List<Student> listStudents = studentListFactory.newArrayList();

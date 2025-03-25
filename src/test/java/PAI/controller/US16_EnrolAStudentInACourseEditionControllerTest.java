@@ -225,7 +225,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
@@ -286,7 +286,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
@@ -356,7 +356,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
@@ -422,7 +422,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();

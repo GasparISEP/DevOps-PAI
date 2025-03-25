@@ -9,16 +9,16 @@ import java.util.Optional;
 
 public class TeacherRepository {
     private List<Teacher> _teachers;
-    private TeacherFactory _teacherFactory;
+    private ITeacherFactory _teacherFactory;
 
     //constructor
-    public TeacherRepository(TeacherFactory teacherFactory, TeacherListFactoryImpl teacherListFactoryImpl){
+    public TeacherRepository(ITeacherFactory teacherFactory, TeacherListFactoryImpl teacherListFactoryImpl){
 
         _teachers = teacherListFactoryImpl.newArrayList();
         _teacherFactory = teacherFactory;
     }
 
-    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, AddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
+    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, IAddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
                                    Department department) throws IllegalArgumentException {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber,

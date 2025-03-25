@@ -127,9 +127,9 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
@@ -160,9 +160,9 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
@@ -196,9 +196,9 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
@@ -255,9 +255,9 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
@@ -335,9 +335,9 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
@@ -370,9 +370,9 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
@@ -406,9 +406,9 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
         Department department1 = new Department("DEI", "Departamento EI");
         TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        AddressFactory addressFactory = new AddressFactoryImpl();
+        IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
