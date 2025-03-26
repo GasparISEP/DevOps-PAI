@@ -138,4 +138,17 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void franceNIFCanBeCreated_FR(){
+        //arrange
+        String stringNIF2letters9digits = "AB123456789";
+        String stringNIF2digits9digits = "12123456789";
+        //act
+        NIF nif1 = new NIF(stringNIF2letters9digits);
+        NIF nif2 = new NIF(stringNIF2digits9digits);
+        //assert
+        assertNotNull(nif1);
+        assertNotNull(nif2);
+    }
+
 }
