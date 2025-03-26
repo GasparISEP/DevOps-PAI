@@ -181,4 +181,18 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void irelandNIFCanBeCreated_IE(){
+        //arrange
+        String stringNIF7digits1letter = "1234567A";
+        String stringNIF7digits2letters = "1234567AB";
+        //act
+        NIF nif1 = new NIF(stringNIF7digits1letter);
+        NIF nif2 = new NIF(stringNIF7digits2letters);
+        //assert
+        assertNotNull(nif1);
+        assertNotNull(nif2);
+    }
+
+
 }
