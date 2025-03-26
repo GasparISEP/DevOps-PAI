@@ -214,5 +214,18 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void lithuaniaNIFCanBeCreated_LT(){
+        //arrange
+        String stringNIF9digits = "123456789";
+        String stringNIF12digits = "123456789012";
+        //act
+        NIF nif1 = new NIF(stringNIF9digits);
+        NIF nif2 = new NIF(stringNIF12digits);
+        //assert
+        assertNotNull(nif1);
+        assertNotNull(nif2);
+    }
+
 
 }
