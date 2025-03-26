@@ -227,5 +227,15 @@ class NIFTest {
         assertNotNull(nif2);
     }
 
+    @Test
+    void luxembourgNIFCanBeCreated_LU(){
+        //arrange
+        String stringNIF8digits = "12345678";
+        //act
+        NIF nif1 = new NIF(stringNIF8digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 
 }
