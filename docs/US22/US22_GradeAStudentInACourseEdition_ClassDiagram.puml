@@ -75,17 +75,17 @@ class GradeStudentRepository {
     +knowApprovalRate(Course Edition)
 }
 
-Interface GradeStudentRepositoryInterface {
+interface IGradeStudentRepositoryInterface {
    +addGradeToStudent(Grade, Date, student, CourseEdition)
    +knowAverageGrade(Course Edition)
    +knowApprovalRate(Course Edition)
 }
 
-interface GradeStudentFactory {
+interface IGradeStudentFactory {
     +newGradeStudent()
 }
 
-interface GradeStudentListFactory {
+interface IGradeStudentListFactory {
     +newArrayList()
 }
 
@@ -155,15 +155,15 @@ entity "<<root>>\nCourseEdition"  {
 "<<root>>\nGradeStudent" "*" --> "1" LocalDate
 "<<root>>\nGradeStudent" --> "1" StudentId: belongs
 "<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
-GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
-GradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
-GradeStudentRepositoryInterface "1" ....>  GradeStudentListFactory
-GradeStudentListFactoryImpl ..|>  GradeStudentListFactory
-GradeStudentFactory  <|..  GradeStudentFactoryImpl
-GradeStudentRepository ..|> GradeStudentRepositoryInterface
-GradeStudentListFactory ..|> List
+IGradeStudentRepositoryInterface "1" ....> IGradeStudentFactory
+IGradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+IGradeStudentRepositoryInterface "1" ....>  IGradeStudentListFactory
+GradeStudentListFactoryImpl ..|>  IGradeStudentListFactory
+IGradeStudentFactory  <|..  GradeStudentFactoryImpl
+GradeStudentRepository ..|> IGradeStudentRepositoryInterface
+IGradeStudentListFactory ..|> List
 "<<root>>\nGradeStudent" <-- List
-List <-- GradeStudentRepositoryInterface
+List <-- IGradeStudentRepositoryInterface
 CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
 "<<root>>\nCourseEditionEnrolment" "*" -up-> "1" CourseEditionId
@@ -173,11 +173,10 @@ CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" --> "1" CourseEditionEnrolmentId
 
 
-
-GradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
+IGradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
 
 
 US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrolmentRepository
-US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " GradeStudentRepositoryInterface
+US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " IGradeStudentRepositoryInterface
 
 @enduml
