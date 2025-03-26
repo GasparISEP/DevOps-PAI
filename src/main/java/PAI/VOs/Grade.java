@@ -1,7 +1,7 @@
 package PAI.VOs;
 
 public class Grade {
-    private double _value;
+    private final double _value;
 
     public Grade(double value) throws Exception {
         if (!isGradeValid(value)){
