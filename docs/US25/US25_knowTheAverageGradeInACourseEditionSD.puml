@@ -2,33 +2,41 @@
 actor ProgrammeDirector
 participant ":UI" as UI
 participant ":IWantToKnowTheAverageGradeInACourseEditionCtr" as KA
+participant "ce1:CourseEdition <<Value Object>>" as CE
 participant ":GradeStudentRepository" as GR
 participant ":GradeStudent" as GradeStudent
+autonumber
 
 
-ProgrammeDirector -> UI ++ #application: 1.I want to know average grade of Course Edition
-UI --> ProgrammeDirector -- : 2.Course Edition?
-ProgrammeDirector -> UI ++ #application: 3.Course Edition!
-UI -> KA ++ #application : 4.IWantToKnowTheAvg(courseEdition1)
-KA -> GR ++ #application : 5.knowTheAverageGrade(courseEdition1)
+ProgrammeDirector -> UI ++ #application: I want to know average grade of Course Edition
+UI --> ProgrammeDirector -- : Course Edition?
+ProgrammeDirector -> UI ++ #application: Course Edition!
+UI -> KA ++ #application : IWantToKnowTheAvg(courseEdition1)
+create CE
+KA -> CE ++ #application : (courseEdition1)
+CE -> KA : (ce1Id)
+deactivate CE
+
+
+KA -> GR ++ #application : knowTheAverageGrade(ce1Id)
 
 
 
 loop for each GradeStudent in GR
-    GR -> GradeStudent : 6.hasThisCourseEdition(courseEdition1)
+    GR -> GradeStudent : hasThisCourseEdition(ce1Id)
     activate GradeStudent
-    GradeStudent --> GR : 7.True!
+    GradeStudent --> GR : True!
     deactivate GradeStudent
 
-    GR -> GradeStudent : 8.knowGrade()
+    GR -> GradeStudent : knowGrade()
     activate GradeStudent
-    GradeStudent --> GR : 9.grade
+    GradeStudent --> GR : grade
     deactivate GradeStudent
 end
 
 
-GR --> KA --: 10.Average Grade of courseEdition1
-KA --> UI --: 11.Average Grade of courseEdition1
-UI --> ProgrammeDirector --: 12.Average Grade of courseEdition1
+GR --> KA --: Average Grade of courseEdition1
+KA --> UI --: Average Grade of courseEdition1
+UI --> ProgrammeDirector --: Average Grade of courseEdition1
 
 @enduml
