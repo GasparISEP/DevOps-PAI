@@ -247,5 +247,15 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void netherlandsNIFCanBeCreated_NL(){
+        //arrange
+        String stringNIF9digitsB2digits = "123456789B12";
+        //act
+        NIF nif1 = new NIF(stringNIF9digitsB2digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 
 }
