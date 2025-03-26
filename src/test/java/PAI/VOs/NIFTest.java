@@ -50,13 +50,26 @@ class NIFTest {
     }
 
     @Test
-    void belgiumNIFCanBeCreated_AT(){
+    void belgiumNIFCanBeCreated_BE(){
         //arrange
         String stringNIF = "1234567890";
         //act
         NIF nif = new NIF(stringNIF);
         //assert
         assertNotNull(nif);
+    }
+
+    @Test
+    void bulgariaNIFCanBeCreated_BG(){
+        //arrange
+        String stringNIF10digits = "1234567890";
+        String stringNIF9digits = "123456789";
+        //act
+        NIF nif1 = new NIF(stringNIF10digits);
+        NIF nif2 = new NIF(stringNIF9digits);
+        //assert
+        assertNotNull(nif1);
+        assertNotNull(nif2);
     }
 
 }
