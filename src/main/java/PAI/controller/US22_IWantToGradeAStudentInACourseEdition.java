@@ -23,12 +23,12 @@ public class US22_IWantToGradeAStudentInACourseEdition {
        return _courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(student,courseEdition);
     }
 
-    public Optional<StudentGrade> iWantToGradeAStudent (double grade, String date, Student student, CourseEdition courseEdition){
+    public boolean iWantToGradeAStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception{
         if (isStudentEnrolledInCourseEdition(student, courseEdition)){
-            Optional<StudentGrade> GradeStudent1 = _StudentGradeRepository.addGradeToStudent(grade,date,student,courseEdition);
-            return GradeStudent1;
+            _StudentGradeRepository.addGradeToStudent(grade,date,student,courseEdition);
+            return true;
         }
-        return Optional.empty();
+        return false;
     }
 
 }

@@ -3,7 +3,7 @@ title US22: I want to grade a student in a CourseEdition
 'left to right direction
 
 class US22_IWantToGradeAStudentInACourseEdition {
-    +US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository : StudentGradeRepository, courseEditionEnrolmentRepository : CourseEditionEnrolmentRepository)
+    +US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository : GradeStudentRepository, courseEditionEnrolmentRepository : CourseEditionEnrolmentRepository)
     +isStudentEnrolledInCourseEdition(courseEdition : CourseEdition, student : Student): boolean
     +iWantToGradeAStudent(grade : int, date : String student : Student, courseEdition : CourseEdition): GradeStudent
 
@@ -43,7 +43,7 @@ class List<GradeStudent> {
 }
 
 package "StudentGrade" {
-entity "<<root>>\nStudentGrade"  {
+entity "<<root>>\nGradeStudent"  {
     +hasThisCourseEdition(CourseEdition : CourseEdition)
     +knowCourseEdition()
     +get_student()
@@ -66,9 +66,9 @@ entity "<<root>>\nStudentGrade"  {
     id: Long
         }
 
-class StudentGradeRepository {
-    -StudentGradeList: List<StudentGrade>
-    - _StudentGradeFactory: GradeStudentFactory
+class GradeStudentRepository {
+    -gradeStudentList: List<GradeStudent>
+    - _gradeStudentFactory: GradeStudentFactory
     +addGradeToStudent()
     +knowAverageGrade()
     +knowApprovalRate()
@@ -80,19 +80,19 @@ Interface GradeStudentRepositoryInterface {
     +knowApprovalRate()
 }
 
-interface StudentGradeFactory {
+interface GradeStudentFactory {
     +newGradeStudent()
 }
 
-interface StudentGradeListFactory {
+interface GradeStudentListFactory {
     +newArrayList()
 }
 
-class StudentGradeListFactoryImpl {
+class GradeStudentListFactoryImpl {
     +newArrayList()
 }
 
-class StudentGradeFactoryImpl {
+class GradeStudentFactoryImpl {
     +newGradeStudent()
 }
 
@@ -150,30 +150,30 @@ entity "<<root>>\nCourseEdition"  {
 "<<root>>\nStudent" "*" --> "1" Email
 "<<root>>\nStudent" "*" --> "1" Phone
 "<<root>>\nStudent" "*" --> "1" Address
-"<<root>>\nStudentGrade" "*" --> "1" Grade
-"<<root>>\nStudentGrade" "*" --> "1" LocalDate
-"<<root>>\nStudentGrade" --> "1" StudentId: belongs
-"<<root>>\nStudentGrade" --> "1" CourseEditionId : refers to
-StudentGradeRepositoryInterface "1" ....> StudentGradeFactory
-StudentGradeFactory "1" ....> "Creates" "<<root>>\nStudentGrade"
-StudentGradeRepositoryInterface "1" ....>  StudentGradeListFactory
-StudentGradeListFactoryImpl ..|>  StudentGradeListFactory
-StudentGradeFactory  <|..  StudentGradeFactoryImpl
-StudentGradeRepository <|.. StudentGradeRepositoryInterface
-StudentGradeListFactory ..|> List
-"<<root>>\nStudentGrade" <-- List
-List <-- StudentGradeRepositoryInterface
+"<<root>>\nGradeStudent" "*" --> "1" Grade
+"<<root>>\nGradeStudent" "*" --> "1" LocalDate
+"<<root>>\nGradeStudent" --> "1" StudentId: belongs
+"<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
+GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
+GradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+GradeStudentRepositoryInterface "1" ....>  GradeStudentListFactory
+GradeStudentListFactoryImpl ..|>  GradeStudentListFactory
+GradeStudentFactory  <|..  GradeStudentFactoryImpl
+GradeStudentRepository ..|> GradeStudentRepositoryInterface
+GradeStudentListFactory ..|> List
+"<<root>>\nGradeStudent" <-- List
+List <-- GradeStudentRepositoryInterface
 CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
 "<<root>>\nCourseEditionEnrolment" "*" -up-> "1" CourseEditionId
-"<<root>>\nStudentGrade" --> "1" StudentGradeId
+"<<root>>\nGradeStudent" --> "1" StudentGradeId
 "<<root>>\nCourseEdition" --> "1" CourseEditionId
 "<<root>>\nStudent" --> "1" StudentId
 "<<root>>\nCourseEditionEnrolment" --> "1" CourseEditionEnrolmentId
 
 
 
-GradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nStudentGrade"
+GradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
 
 
 US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrolmentRepository

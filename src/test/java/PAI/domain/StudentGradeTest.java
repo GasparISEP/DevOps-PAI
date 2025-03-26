@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudentGradeTest {
 
@@ -231,7 +232,7 @@ class StudentGradeTest {
         assertFalse(result);
     }
 @Test
-    void shouldReturnFalseWhenStudentisNull() throws Exception {
+    void shouldReturnFalseWhenStudentIsNull() throws Exception {
     //arrange
     Student student1 = mock(Student.class);
     CourseEdition courseEdition1 = mock(CourseEdition.class);
@@ -249,20 +250,16 @@ class StudentGradeTest {
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        // Testa o limite inferior (0)
         StudentGrade studentGradeMin = new StudentGrade(0.0, "10-12-2023", student, courseEdition);
         assertEquals(0.0, studentGradeMin.knowGrade());
 
-        // Testa o limite superior (20)
         StudentGrade studentGradeMax = new StudentGrade(20.0, "10-12-2023", student, courseEdition);
         assertEquals(20.0, studentGradeMax.knowGrade());
 
-        // Testa um valor abaixo do limite inferior (-0.1)
         Exception exceptionLow = assertThrows(IllegalArgumentException.class, () ->
                 new StudentGrade(-0.1, "10-12-2023", student, courseEdition));
         assertEquals("Grade should be between 0 and 20", exceptionLow.getMessage());
 
-        // Testa um valor acima do limite superior (20.1)
         Exception exceptionHigh = assertThrows(IllegalArgumentException.class, () ->
                 new StudentGrade(20.1, "10-12-2023", student, courseEdition));
         assertEquals("Grade should be between 0 and 20", exceptionHigh.getMessage());
@@ -299,6 +296,31 @@ class StudentGradeTest {
         assertEquals(expectedCourseEdition, studentGrade.get_courseEdition());
     }
 
+    @Test
 
+    void shouldReturnTrueIfHasThisStudent () throws Exception{
+        //arrange
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(20,"22-02-2022",studentDouble,courseEdition);
+        //act
+        boolean result = studentGradeDouble1.hasThisStudent(studentDouble);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+
+    void shouldReturnFalseIfHasNotThisStudent () throws Exception{
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        Student studentDouble2 = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(20,"22-02-2022",studentDouble1,courseEdition);
+        //act
+        boolean result = studentGradeDouble1.hasThisStudent(studentDouble2);
+        //assert
+        assertFalse(result);
+    }
 
 }

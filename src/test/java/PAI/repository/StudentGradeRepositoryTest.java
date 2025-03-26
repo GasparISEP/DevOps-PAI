@@ -3,12 +3,13 @@ package PAI.repository;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
-import PAI.factory.StudentGradeFactory;
-import PAI.factory.StudentGradeListFactory;
+import PAI.factory.IStudentGradeFactory;
+import PAI.factory.IStudentGradeListFactory;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +21,14 @@ class StudentGradeRepositoryTest {
     @Test
     void shouldAddGradeToAStudent() throws Exception {
         // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
@@ -36,62 +37,66 @@ class StudentGradeRepositoryTest {
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(studentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1))
+        when(IStudentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1))
                 .thenReturn(studentGrade1);
 
-        when(studentGradeFactory.newGradeStudent(8, "10-10-2025", student2, courseEdition1))
+        when(IStudentGradeFactory.newGradeStudent(8, "10-10-2025", student2, courseEdition1))
                 .thenReturn(studentGrade2);
 
         // Act
-        Optional<StudentGrade> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
-        Optional<StudentGrade> result2 = list.addGradeToStudent(8, "10-10-2025", student2, courseEdition1);
+        boolean result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition1);
+        boolean result2 = list.addGradeToStudent(8, "10-10-2025", student2, courseEdition1);
 
         // Assert
-        assertTrue(result1.isPresent());
-        assertTrue(result2.isPresent());
+        assertTrue(result1);
+        assertTrue(result2);
 
     }
 
     @Test
-    void shouldNotGradeAStudentOnCourseEditionWithoutStudents() throws Exception {
-        // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+    void shouldNotAddGradeWhenStudentHasAlreadyGradeAtCertainCourseEdition() throws Exception{
+        //arrange
+        IStudentGradeFactory IStudentGradeFactoryDouble = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactoryDouble = mock(IStudentGradeListFactory.class);
+        StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactoryDouble,IStudentGradeListFactoryDouble);
 
-        Student student1 = mock(Student.class);
-        List<StudentGrade> emptyGradeList = spy(new ArrayList<>());
-        when(studentGradeListFactory.newArrayList()).thenReturn(emptyGradeList);
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        StudentGrade studentGradeDouble = mock(StudentGrade.class);
+        when (IStudentGradeFactoryDouble.newGradeStudent(20,"22-02-2022",studentDouble,courseEditionDouble)).thenReturn(studentGradeDouble);
 
-        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        when(studentGradeDouble.hasThisStudent(studentDouble)).thenReturn(true);
+        when(studentGradeDouble.hasThisCourseEdition(courseEditionDouble)).thenReturn(true);
 
-        when(studentGradeListFactory.newArrayList()).thenReturn(emptyGradeList);
+        ArrayList<StudentGrade> listDouble = mock(ArrayList.class);
+        Iterator<StudentGrade> iteratorDouble = mock(Iterator.class);
 
-        StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
-        CourseEdition courseEdition2 = mock(CourseEdition.class);
+        when(listDouble.iterator()).thenReturn(iteratorDouble);
+        when(iteratorDouble.hasNext()).thenReturn(true,false);
+        when(iteratorDouble.next()).thenReturn(studentGradeDouble);
 
-        when(studentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-
-        // Act
-        Optional<StudentGrade> result1 = list.addGradeToStudent(10, "10-10-2025", student1, courseEdition2);
-
-        // Assert
-        assertFalse(result1.isPresent());
+        //Act I
+        boolean firstResult = studentGradeRepository.addGradeToStudent(20,"22-02-2022",studentDouble,courseEditionDouble);
+        //assert I
+        assertTrue(firstResult);
+        //act II
+        boolean result = studentGradeRepository.addGradeToStudent(20,"22-02-2022",studentDouble,courseEditionDouble);
+        //assert II
+        assertFalse(result);
     }
 
-
     @Test
-    void shouldGradeAStudent100() throws Exception {
+    void shouldGradeStudentsAndHave100ApprovalRate() throws Exception {
 
         // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
-        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
@@ -100,8 +105,8 @@ class StudentGradeRepositoryTest {
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(studentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(studentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
+        when(IStudentGradeFactory.newGradeStudent(10, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
 
         when(studentGrade1.knowGrade()).thenReturn(10.0);
         when(studentGrade2.knowGrade()).thenReturn(20.0);
@@ -118,37 +123,13 @@ class StudentGradeRepositoryTest {
         assertEquals(100.0, approvalRate, 0.01);
     }
 
-    @Test
-    void shouldReturnEmptyWhenGradeIsInvalid() throws Exception {
-
-        // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
-
-        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-
-        when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
-
-        Student validStudent = mock(Student.class);
-        CourseEdition courseEditionValid = mock(CourseEdition.class);
-
-        when(studentGradeFactory.newGradeStudent(25, "10/10/2025", validStudent, courseEditionValid)).thenThrow(new IllegalArgumentException("Grade is Invalid!"));
-
-        // Act
-        Optional<StudentGrade> result = list.addGradeToStudent(25, "10/10/2025", validStudent, courseEditionValid);
-
-        // Assert
-        assertTrue(result.isEmpty());
-    }
 
     @Test
-    void shouldGradeAStudent0() throws IllegalArgumentException {
+    void shouldGradeStudentsAndHave0ApprovalRate() throws IllegalArgumentException {
 
         // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory studentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
@@ -169,8 +150,8 @@ class StudentGradeRepositoryTest {
     void shouldGetAverageGradeOfCourseEditionOf15() throws Exception {
 
         // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory studentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
@@ -208,8 +189,8 @@ class StudentGradeRepositoryTest {
     void shouldGetAverageGradeOf0() throws Exception {
 
         // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory studentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
@@ -247,9 +228,8 @@ class StudentGradeRepositoryTest {
     void shouldNotGetAverageGradeOnCourseEditionWithoutStudents() throws IllegalArgumentException {
 
         // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
-
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory studentGradeListFactory = mock(IStudentGradeListFactory.class);
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
 
         when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
@@ -268,7 +248,8 @@ class StudentGradeRepositoryTest {
     @Test
     void shouldNotAddGradeToAStudentWithFactoryNull() throws IllegalArgumentException {
         // Arrange
-        StudentGradeListFactory studentGradeListFactory = mock(StudentGradeListFactory.class);
+        IStudentGradeListFactory studentGradeListFactory = mock(IStudentGradeListFactory.class);
+
         when(studentGradeListFactory.newArrayList()).thenReturn(new ArrayList<>());
 
         // Act & Assert
@@ -281,8 +262,7 @@ class StudentGradeRepositoryTest {
     @Test
     void shouldNotAddGradeToAStudentWithListFactoryNull() throws IllegalArgumentException {
         // Arrange
-        StudentGradeFactory studentGradeFactory = mock(StudentGradeFactory.class);
-
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->

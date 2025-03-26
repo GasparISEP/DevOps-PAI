@@ -1,0 +1,50 @@
+@startuml
+title US25: I Want to Know the Average Grade of a Course Edition
+
+class US25_IWantToKnowTheAverageGradeOfACourseEdition {
+    +US25_IWantToKnowTheAverageGradeOfACourseEdition(studentGradeList: StudentGradeRepository)
+    +IWantToKnowTheAvgGrade(courseEditionID : CourseEditionID): double
+}
+
+class StudentGradeRepository {
+    +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): boolean
+    +knowAverageGrade(courseEditionID: CourseEditionID): Double
+    +knowApprovalRate(courseEditionID: CourseEditionID): double
+}
+
+class StudentGrade {
+    -_grade: Grade
+    -_date: LocalDate
+    -_studentGradeID: StudentGradeID
+    -_studentID: StudentID
+    -_courseEditionID: CourseEditionID
+    +hasThisCourseEdition(courseEditionID : CourseEditionID): boolean
+    +knowCourseEdition()
+    +get_student()
+    +get_courseEdition()
+    +equals(o: Object): boolean
+}
+
+class Student {
+    -_studentID: StudentID
+    -_name: Name
+    -_nif: NIF
+    -_phone: Phone
+    -_email: Email
+    -_institutionalEmail: InstitutionalEmail
+    -_address: Address
+    +Student(studentID: StudentID, name: Name, nif: NIF, phone: Phone, email: Email, institutionalEmail: InstitutionalEmail, address: Address)
+}
+
+class CourseEdition {
+    -_courseEditionID: CourseEditionID
+    +CourseEdition(courseEditionID: CourseEditionID)
+}
+
+
+StudentGradeRepository "1" ..> "_studentGrade *" StudentGrade
+StudentGrade "*" --> "_courseEdition 1" CourseEdition
+StudentGrade "*" --> "_student 1" Student
+US25_IWantToKnowTheAverageGradeOfACourseEdition "1" ..> "1 " StudentGradeRepository
+
+@enduml

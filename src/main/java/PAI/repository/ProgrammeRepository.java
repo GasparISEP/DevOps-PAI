@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProgrammeRepository {
-    private final ProgrammeFactory _programmeFactory;
+    private final IProgrammeFactory _I_programmeFactory;
     private final List<Programme> _programmeRepo;
-    private ProgrammeRepositoryListFactory _programmeRepoListFactory;
+    private IProgrammeRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeRepository(ProgrammeFactory programmeFactory, ProgrammeRepositoryListFactory programmeLisListFactory) {
-        _programmeFactory = programmeFactory;
+    public ProgrammeRepository(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeLisListFactory) {
+        _I_programmeFactory = IProgrammeFactory;
         _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
         _programmeRepoListFactory = programmeLisListFactory;
     }
 
     public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
 
-        Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        Programme programme = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         if (_programmeRepo.contains(programme))
             return false;
