@@ -151,4 +151,14 @@ class NIFTest {
         assertNotNull(nif2);
     }
 
+    @Test
+    void germanyNIFCanBeCreated_DE(){
+        //arrange
+        String stringNIF9digits = "123456789";
+        //act
+        NIF nif1 = new NIF(stringNIF9digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 }
