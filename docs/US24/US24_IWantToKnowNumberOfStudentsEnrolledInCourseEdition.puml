@@ -1,4 +1,4 @@
-6@startuml
+@startuml
 'https://plantuml.com/sequence-diagram
 
 actor AcademicServiceCollaborator as ASC #Purple/White
