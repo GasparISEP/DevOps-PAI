@@ -321,5 +321,15 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void sloveniaNIFCanBeCreated_SI(){
+        //arrange
+        String string8digits = "12345678";
+        //act
+        NIF nif1 = new NIF(string8digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 
 }
