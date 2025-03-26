@@ -274,7 +274,7 @@ class US19_CreateCourseEditionControllerTest {
     private ICourseEditionListFactory ICourseEditionListFactory;
     private CourseEditionRepository courseEditionRepository;
 
-    private ProgrammeFactory programmeFactory;
+    private IProgrammeFactory IProgrammeFactory;
     private ProgrammeCourseListFactoryImpl programmeCourseListFactory;
     private ProgrammeRepositoryListFactory programmeListFactory;
     private ProgrammeRepository programmeRepository;
@@ -309,10 +309,10 @@ class US19_CreateCourseEditionControllerTest {
         ICourseEditionListFactory = new CourseEditionListFactoryImpl();
         courseEditionRepository = new CourseEditionRepository(ICourseEditionFactory, ICourseEditionListFactory);
 
-        programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeFactory = new ProgrammeFactoryImpl();
         programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         programmeListFactory = new ProgrammeRepositoryListFactoryImpl();
-        programmeRepository = new ProgrammeRepository(programmeFactory, programmeListFactory);
+        programmeRepository = new ProgrammeRepository(IProgrammeFactory, programmeListFactory);
 
         courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         studyPlanListFactory = new StudyPlanListFactoryImpl();
