@@ -118,4 +118,14 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void estoniaNIFCanBeCreated_EE(){
+        //arrange
+        String stringNIF9digits = "123456789";
+        //act
+        NIF nif1 = new NIF(stringNIF9digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 }
