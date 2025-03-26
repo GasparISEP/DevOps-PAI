@@ -276,7 +276,7 @@ class US19_CreateCourseEditionControllerTest {
 
     private IProgrammeFactory IProgrammeFactory;
     private ProgrammeCourseListFactoryImpl programmeCourseListFactory;
-    private ProgrammeRepositoryListFactory programmeListFactory;
+    private IProgrammeRepositoryListFactory programmeListFactory;
     private ProgrammeRepository programmeRepository;
 
     private CourseInStudyPlanFactory courseInStudyPlanFactory;

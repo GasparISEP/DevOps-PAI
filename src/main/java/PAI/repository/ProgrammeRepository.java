@@ -10,9 +10,9 @@ import java.util.Optional;
 public class ProgrammeRepository {
     private final IProgrammeFactory _I_programmeFactory;
     private final List<Programme> _programmeRepo;
-    private ProgrammeRepositoryListFactory _programmeRepoListFactory;
+    private IProgrammeRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeRepository(IProgrammeFactory IProgrammeFactory, ProgrammeRepositoryListFactory programmeLisListFactory) {
+    public ProgrammeRepository(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeLisListFactory) {
         _I_programmeFactory = IProgrammeFactory;
         _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
         _programmeRepoListFactory = programmeLisListFactory;
