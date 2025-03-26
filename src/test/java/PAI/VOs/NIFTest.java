@@ -82,4 +82,14 @@ class NIFTest {
         assertNotNull(nif);
     }
 
+    @Test
+    void cyprusNIFCanBeCreated_CY(){
+        //arrange
+        String stringNIF8digits1letter = "12345678C";
+        //act
+        NIF nif1 = new NIF(stringNIF8digits1letter);
+        //assert
+        assertNotNull(nif1);
+    }
+
 }
