@@ -309,7 +309,16 @@ class NIFTest {
         assertNotNull(nif7);
         assertNotNull(nif8);
         assertNotNull(nif9);
+    }
 
+    @Test
+    void slovakiaNIFCanBeCreated_SK(){
+        //arrange
+        String string10digits = "1234567890";
+        //act
+        NIF nif1 = new NIF(string10digits);
+        //assert
+        assertNotNull(nif1);
     }
 
 
