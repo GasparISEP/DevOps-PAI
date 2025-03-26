@@ -72,4 +72,14 @@ class NIFTest {
         assertNotNull(nif2);
     }
 
+    @Test
+    void croatiaNIFCanBeCreated_HR(){
+        //arrange
+        String stringNIF11digits = "12345678901";
+        //act
+        NIF nif = new NIF(stringNIF11digits);
+        //assert
+        assertNotNull(nif);
+    }
+
 }
