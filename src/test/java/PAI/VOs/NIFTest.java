@@ -39,4 +39,14 @@ class NIFTest {
         assertThrows(Exception.class, () -> new NIF(stringNIF));
     }
 
+    @Test
+    void austriaNIFCanBeCreated_AT(){
+        //arrange
+        String stringNIF = "U12345678";
+        //act
+        NIF nif = new NIF(stringNIF);
+        //assert
+        assertNotNull(nif);
+    }
+
 }
