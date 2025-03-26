@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudentGradeTest {
 
@@ -231,7 +232,7 @@ class StudentGradeTest {
         assertFalse(result);
     }
 @Test
-    void shouldReturnFalseWhenStudentisNull() throws Exception {
+    void shouldReturnFalseWhenStudentIsNull() throws Exception {
     //arrange
     Student student1 = mock(Student.class);
     CourseEdition courseEdition1 = mock(CourseEdition.class);
@@ -295,6 +296,31 @@ class StudentGradeTest {
         assertEquals(expectedCourseEdition, studentGrade.get_courseEdition());
     }
 
+    @Test
 
+    void shouldReturnTrueIfHasThisStudent () throws Exception{
+        //arrange
+        Student studentDouble = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(20,"22-02-2022",studentDouble,courseEdition);
+        //act
+        boolean result = studentGradeDouble1.hasThisStudent(studentDouble);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+
+    void shouldReturnFalseIfHasNotThisStudent () throws Exception{
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        Student studentDouble2 = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(20,"22-02-2022",studentDouble1,courseEdition);
+        //act
+        boolean result = studentGradeDouble1.hasThisStudent(studentDouble2);
+        //assert
+        assertFalse(result);
+    }
 
 }
