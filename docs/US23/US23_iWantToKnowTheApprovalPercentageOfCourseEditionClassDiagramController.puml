@@ -8,17 +8,37 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEdition  {
 
 }
 
-class GradeStudent {
-    -grade: double
-    -date: String
-    +knowGrade()
-    +hasThisCourseEdition(CourseEdition : CourseEdition)
+package "StudentGrade" {
+entity "<<root>>\nStudentGrade" {
+    -_grade: Grade
+    -_date: LocalDate
+    -_studentGradeID: StudentGradeID
+    -_studentID: StudentID
+    -_courseEditionID: CourseEditionID
+    +hasThisCourseEdition(courseEditionID : CourseEditionID): boolean
     +knowCourseEdition()
-    +isDateValid(String date)
-    +get_date()
     +get_student()
     +get_courseEdition()
-    +equals (objectToCompare: Object)
+    +equals(o: Object): boolean
+
+    }
+
+    class Grade <<ValueObject>> {
+    -_grade: double
+    +knowGrade(): double
+    }
+
+    class LocalDate <<ValueObject>> {
+    -date: String
+    +isDateValid(date: String): void
+    +get_date(): LocalDate
+    }
+}
+
+class StudentGradeID <<ValueObject>> {
+    -_studentGradeID: Long
+    -_courseEditionID: Long
+    -_studentID: Long
 }
 
 class GradeStudentRepository {
@@ -70,17 +90,19 @@ class CourseEdition {
     +getCourse()
 }
 
-
-GradeStudent "*" --> "1" Student: belongs
-GradeStudent "*" --> "1" CourseEdition: refers to
+"<<root>>\nStudentGrade" "*" --> "1" Grade
+"<<root>>\nStudentGrade" "*" --> "1" LocalDate
+"<<root>>\nStudentGrade" --> "1" StudentGradeID
+"<<root>>\nStudentGrade" "*" --> "1" Student: belongs
+"<<root>>\nStudentGrade""*" --> "1" CourseEdition: refers to
 GradeStudentRepository "1" ....> GradeStudentFactory
-GradeStudentFactory "1" ....> "Creates" GradeStudent
-GradeStudentRepository "1" ....> "*" "GradeStudent"
+GradeStudentFactory "1" ....> "Creates" "<<root>>\nStudentGrade"
+GradeStudentRepository "1" ....> "*" "<<root>>\nStudentGrade"
 GradeStudentRepository "1" ....> GradeStudentListFactory
 GradeStudentListFactory  <|..  GradeStudentListFactoryImpl
 GradeStudentListFactory  ....>  List
 GradeStudentRepository  -->  List
-List --> "*" GradeStudent
+List --> "*" "<<root>>\nStudentGrade"
 GradeStudentFactory  <|..  GradeStudentFactoryImpl
 
 
