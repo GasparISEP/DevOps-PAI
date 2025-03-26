@@ -161,4 +161,14 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void greeceNIFCanBeCreated_EL(){
+        //arrange
+        String stringNIF9digits = "123456789";
+        //act
+        NIF nif1 = new NIF(stringNIF9digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 }
