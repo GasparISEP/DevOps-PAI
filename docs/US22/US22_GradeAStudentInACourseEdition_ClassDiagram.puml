@@ -32,11 +32,11 @@ entity "<<root>>\nCourseEditionEnrolment"  {
          +deactivateEnrollment()
 
     }
-    class Localdate <<ValueObject>> {
-                    -LocalDate : String
-                }
     }
 
+ class Localdate <<ValueObject>> {
+                    -LocalDate : String
+                }
 
 class List<GradeStudent> {
 
@@ -51,7 +51,9 @@ entity "<<root>>\nGradeStudent"  {
     +equals (objectToCompare: Object)
 
     }
-    class Grade <<ValueObject>> {
+
+}
+class Grade <<ValueObject>> {
         -grade: double
         +knowGrade()
     }
@@ -60,7 +62,6 @@ entity "<<root>>\nGradeStudent"  {
             +isDateValid(String date)
             +get_date()
         }
-}
 
  class StudentGradeId <<ValueObject>> {
     id: Long
@@ -69,15 +70,15 @@ entity "<<root>>\nGradeStudent"  {
 class GradeStudentRepository {
     -gradeStudentList: List<GradeStudent>
     - _gradeStudentFactory: GradeStudentFactory
-    +addGradeToStudent()
-    +knowAverageGrade()
-    +knowApprovalRate()
+    +addGradeToStudent(Grade, Date, student, CourseEdition)
+    +knowAverageGrade(Course Edition)
+    +knowApprovalRate(Course Edition)
 }
 
 Interface GradeStudentRepositoryInterface {
-    +addGradeToStudent()
-    +knowAverageGrade()
-    +knowApprovalRate()
+   +addGradeToStudent(Grade, Date, student, CourseEdition)
+   +knowAverageGrade(Course Edition)
+   +knowApprovalRate(Course Edition)
 }
 
 interface GradeStudentFactory {
@@ -112,23 +113,23 @@ entity "<<root>>\nStudent"  {
          +hasThisUniqueNumber(String uniqueNumber)
 
     }
-    class Name <<ValueObject>> {
-                -Name : String
-            }
-    class NIF <<ValueObject>> {
-                 -NIF : String
-            }
-    class Phone <<ValueObject>> {
-                     -Phone : String
-                }
-    class Email <<ValueObject>> {
-                     -Phone : String
-                    }
-     class Address <<ValueObject>> {
-                     -Adress : String
-                        }
+
     }
-    
+    class Name <<ValueObject>> {
+                    -Name : String
+                }
+        class NIF <<ValueObject>> {
+                     -NIF : String
+                }
+        class Phone <<ValueObject>> {
+                         -Phone : String
+                    }
+        class Email <<ValueObject>> {
+                         -Phone : String
+                        }
+         class Address <<ValueObject>> {
+                         -Adress : String
+                            }
 class CourseEditionId <<ValueObject>> {
 
             }
