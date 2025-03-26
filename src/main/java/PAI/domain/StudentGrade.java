@@ -40,6 +40,10 @@ public class StudentGrade {
             return _courseEdition.equals(courseEdition);
         }
 
+        public boolean hasThisStudent (Student student) {
+            return _student.equals(student);
+        }
+
         public CourseEdition KnowCourseEdition() {
             return _courseEdition;
         }

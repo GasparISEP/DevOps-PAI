@@ -47,8 +47,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
-        when(controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(Optional.of(studentGrade1));
-
+        when(controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(true);
         when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
         when(studentGrade1.knowGrade()).thenReturn(20.0);
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
@@ -63,10 +62,10 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         //act
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
-        Optional<StudentGrade> optc1 = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
+        boolean result = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
 
         //assert
-        assertTrue(optc1.isPresent());
+        assertTrue(result);
     }
 
     @Test
@@ -110,10 +109,10 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         // Act
-        Optional<StudentGrade> result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
+        boolean result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
 
         // Assert
-        assertTrue(result.isPresent(), "A nota deveria ser criada corretamente.");
+        assertTrue(result);
     }
 
     @Test
@@ -207,10 +206,10 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
 
         // act
-        Optional <StudentGrade> opt1 = controller1.iWantToGradeAStudent(20,"20/11/2024",student2,courseEdition1);
+        boolean result = controller1.iWantToGradeAStudent(20,"20/11/2024",student2,courseEdition1);
 
         //assert
-        assertTrue(opt1.isEmpty());
+        assertFalse(result);
     }
 
 
@@ -254,7 +253,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
     }
 
     @Test
-    public void shouldReturnOptionalWithGradeStudentIfGradeStudentWasAddedSuccessfully() throws Exception{
+    public void shouldReturnTrueWithGradeStudentIfGradeStudentWasAddedSuccessfully() throws Exception{
 
         //arrange
 
@@ -266,14 +265,14 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
         when(courseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentDouble,courseEditionDouble)).thenReturn(true);
-        when(studentGradeRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(Optional.of(studentGradeDouble));
+        when(studentGradeRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(true);
 
         //act
-        Optional<StudentGrade> optional = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
+        boolean result = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
 
         //assert
 
-        assertTrue(optional.isPresent());
+        assertTrue(result);
     }
 }
 

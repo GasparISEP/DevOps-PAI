@@ -1,0 +1,30 @@
+@startuml
+!pragma layout smetana
+
+title US25:  I want to know the average grade of a course edition
+
+class US25_IWantToKnowTheAverageGradeOfACourseEdition {
+   }
+
+package "StudentGrade Aggregate" {
+    entity "<<root>>\nStudentGrade" {
+    }
+}
+
+package "Student Aggregate" {
+    entity "<<root>>\nStudent" {
+    }
+}
+
+package "CourseEdition Aggregate" {
+    entity "<<root>>\nCourseEdition" {
+    }
+}
+
+US25_IWantToKnowTheAverageGradeOfACourseEdition ..> "<<root>>\nStudentGrade"
+
+
+"<<root>>\nStudent" "1" <-- "*" "<<root>>\nStudentGrade"
+"<<root>>\nCourseEdition" "1" <-l- "*" "<<root>>\nStudentGrade"
+
+@enduml

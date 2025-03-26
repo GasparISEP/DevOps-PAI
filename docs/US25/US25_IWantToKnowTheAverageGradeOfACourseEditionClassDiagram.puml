@@ -60,13 +60,13 @@ class StudentGradeListFactoryImpl {
 class StudentGradeRepository {
     -_studentGradeFactory: IStudentGradeFactory
     -_studentGradeList: List<StudentGrade>
-    +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): Optional<StudentGrade>
+    +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): boolean
     +knowAverageGrade(courseEditionID: CourseEditionID): Double
     +knowApprovalRate(courseEditionID: CourseEditionID): double
 }
 
 interface IStudentGradeRepository {
-    +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): Optional<StudentGrade>
+    +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): boolean
     +knowAverageGrade(courseEditionID: CourseEditionID): Double
     +knowApprovalRate(courseEditionID: CourseEditionID): double
 }

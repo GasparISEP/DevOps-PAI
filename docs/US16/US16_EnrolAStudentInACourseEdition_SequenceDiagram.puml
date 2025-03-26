@@ -14,7 +14,7 @@ activate UI #ddfada
 participant ":US16_EnrolAStudentInACourseEditionController" as Controller
 UI -> Controller: findProgrammeEditionsThatStudentIsEnrolled (student)
 activate Controller #ddfada
-participant ":ProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
 Controller -> ProgrammeEditionEnrolmentRepository: findProgrammeEditionsThatStudentIsEnrolled (student)
 activate ProgrammeEditionEnrolmentRepository #ddfada
 create ":ProgrammeEditionList"
@@ -48,7 +48,7 @@ ASC -> UI:Enter the programme edition!
 activate UI #ddfada
 UI -> Controller: findCourseEditionsByProgrammeEdition (programmeEdition)
 activate Controller #ddfada
-participant ":CourseEditionRepository" as CourseEditionRepository
+participant ":ICourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEdition)
 activate CourseEditionRepository #ddfada
 create ":CourseEditionList"
@@ -84,7 +84,7 @@ activate UI #ddfada
 UI -> Controller: enrolStudentInACourseEdition (student, courseEdition)
 activate Controller #ddfada
 
-participant ":CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
+participant ":ICourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
 Controller -> CourseEditionEnrolmentRepository: enrolStudentInACourseEdition (student, courseEdition)
 activate CourseEditionEnrolmentRepository #ddfada
 participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactoryInterface

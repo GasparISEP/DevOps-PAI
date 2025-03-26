@@ -8,20 +8,46 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEdition  {
 
 }
 
-class GradeStudent {
-    -grade: double
-    -date: String
-    +knowGrade()
-    +hasThisCourseEdition(CourseEdition : CourseEdition)
-    +knowCourseEdition()
-    +isDateValid(String date)
-    +get_date()
-    +get_student()
-    +get_courseEdition()
-    +equals (objectToCompare: Object)
+interface IStudentGradeRepository {
+    +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): Optional<StudentGrade>
+    +knowAverageGrade(courseEditionID: CourseEditionID): Double
+    +knowApprovalRate(courseEditionID: CourseEditionID): double
 }
 
-class GradeStudentRepository {
+package "StudentGrade" {
+entity "<<root>>\nStudentGrade" {
+    -_grade: Grade
+    -_date: LocalDate
+    -_studentGradeID: StudentGradeID
+    -_studentID: StudentID
+    -_courseEditionID: CourseEditionID
+    +hasThisCourseEdition(courseEditionID : CourseEditionID): boolean
+    +knowCourseEdition()
+    +get_student()
+    +get_courseEdition()
+    +equals(o: Object): boolean
+
+    }
+
+    class Grade <<ValueObject>> {
+    -_grade: double
+    +knowGrade(): double
+    }
+
+    class LocalDate <<ValueObject>> {
+    -date: String
+    +isDateValid(date: String): void
+    +get_date(): LocalDate
+    }
+}
+
+class StudentGradeID <<ValueObject>> {
+    -_studentGradeID: Long
+    -_courseEditionID: Long
+    -_studentID: Long
+}
+
+class StudentGradeRepository {
     -gradeStudentList: List<GradeStudent>
     - _gradeStudentFactory: GradeStudentFactory
     +addGradeToStudent()
@@ -29,61 +55,115 @@ class GradeStudentRepository {
     +knowApprovalRate()
 }
 
-class GradeStudentFactoryImpl {
+
+class StudentGradeFactoryImpl {
     +newGradeStudent()
 }
 class List<GradeStudent> {
 
 }
 
-class GradeStudentListFactoryImpl {
+class StudentGradeFactoryImpl {
     +newArrayList()
 }
 
-Interface GradeStudentListFactory {
-    +newArrayList()
+class StudentGradeListFactoryImpl {
+    +newArrayList(): ArrayList<StudentGrade>
 }
 
-Interface GradeStudentFactory {
-    +newGradeStudent()
+interface IStudentGradeListFactory {
+    +newArrayList(): ArrayList<StudentGrade>
 }
 
-class Student {
-    -_uniqueNumber:int
-    -_name:String
-    -_NIF:String
-    -_phone:String
-    -_email:String
-    +hasSameUniqueNumber(Student student)
-    +hasSameNIF (Student student)
-    +getUniqueNumber()
-    +hasThisUniqueNumber(int uniqueNumber)
+interface IStudentGradeFactory {
+    +newStudentGrade(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): StudentGrade
 }
 
-class CourseEdition {
-    -_programmeEdition: ProgrammeEdition
-    -_course: Course
-    -_ruc: Teacher
-    +Equals(objectToCompare: Object)
-    +setRuc(Teacher: ruc)
-    +whatProgrammeEditionBelongsThisCourseEdition ()
+package "Student" {
+class "<<root>>\nStudent" {
+    -_studentID: StudentID
+    -_name: Name
+    -_nif: NIF
+    -_phone: Phone
+    -_email: Email
+    -_institutionalEmail: InstitutionalEmail
+    -_address: Address
+    +hasSameUniqueNumber(student: Student): boolean
+    +hasSameNIF((student: Student): boolean
+    +getUniqueNumber(): String
+    +hasThisUniqueNumber(student: Student): boolean
+    }
+
+    class Name <<ValueObject>> {
+    -_name: String
+    }
+
+    class NIF <<ValueObject>> {
+    -_nif: String
+    }
+
+    class Phone <<ValueObject>> {
+    -_phone: String
+    }
+
+    class Email <<ValueObject>> {
+    -_email: String
+    }
+
+    class InstitutionalEmail <<ValueObject>> {
+    -_institutionalEmail: String
+    }
+
+    class Address <<ValueObject>> {
+    -_address: String
+    }
+}
+
+class StudentID <<ValueObject>> {
+    -_studentID: Long
+}
+package "CourseEdition" {
+class "<<root>>\nCourseEdition" {
+    -_courseEditionID: CourseEditionID
+    +equals(objectToCompare: Object): boolean
+    +setRuc(Teacher: ruc): boolean
+    +whatProgrammeEditionBelongsThisCourseEdition()
     +getCourse()
+    }
 }
 
+class CourseEditionID <<ValueObject>> {
+    -_courseEditionID: Long
+}
 
-GradeStudent "*" --> "1" Student: belongs
-GradeStudent "*" --> "1" CourseEdition: refers to
-GradeStudentRepository "1" ....> GradeStudentFactory
-GradeStudentFactory "1" ....> "Creates" GradeStudent
-GradeStudentRepository "1" ....> "*" "GradeStudent"
-GradeStudentRepository "1" ....> GradeStudentListFactory
-GradeStudentListFactory  <|..  GradeStudentListFactoryImpl
-GradeStudentListFactory  ....>  List
-GradeStudentRepository  -->  List
-List --> "*" GradeStudent
-GradeStudentFactory  <|..  GradeStudentFactoryImpl
+"<<root>>\nStudentGrade" "*" --> "1" Grade
+"<<root>>\nStudentGrade" "*" --> "1" LocalDate
+"<<root>>\nStudentGrade" --> "1" StudentID: belongs
+"<<root>>\nStudentGrade" --> "1" StudentGradeID
+"<<root>>\nStudentGrade" -up-> "1" CourseEditionID : refers to
+"<<root>>\nStudent" "*" --> "1" Name
+"<<root>>\nStudent" "*" --> "1" NIF
+"<<root>>\nStudent" "*" --> "1" Email
+"<<root>>\nStudent" "*" --> "1" Phone
+"<<root>>\nStudent" "*" --> "1" Address
+"<<root>>\nStudent" "*" --> "1" StudentID
+"<<root>>\nStudent" "*" --> "1" InstitutionalEmail
+IStudentGradeRepository "1" ....> IStudentGradeFactory
+IStudentGradeRepository "1" ....>  IStudentGradeListFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nStudentGrade"
+StudentGradeListFactoryImpl ..|>  IStudentGradeListFactory
+IStudentGradeFactory  <|..  StudentGradeFactoryImpl
+IStudentGradeListFactory ..|> List
+"<<root>>\nStudentGrade" <-- List
+StudentGradeRepository <|.. IStudentGradeRepository
+List <-- IStudentGradeRepository
+
+"<<root>>\nCourseEdition" --> "1" CourseEditionID
+
+IStudentGradeRepository "1" ....> "*" "<<root>>\nStudentGrade"
+
+US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1" StudentGradeRepository
 
 
 
-US23_IWantToKnowTheApprovalPercentageOfACourseEdition "1" ..> "1    " GradeStudentRepository
 @enduml
