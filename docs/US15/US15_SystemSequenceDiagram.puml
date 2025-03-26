@@ -6,12 +6,12 @@ actor HRC
 participant ":System" as System
 
 HRC -> System: I want to update Teacher's working percentage
-System --> HRC: What Teacher?
-HRC -> System: This Teacher!
+System --> HRC: Which Teacher?
+HRC -> System: Teacher's acronym
 System --> HRC: What working percentage?
-HRC -> System: This working percentage!
+HRC -> System: Working percentage!
 System --> HRC: What date?
-HRC -> System: This date!
+HRC -> System: Date!
 System --> HRC: Ok!
 
 @enduml
