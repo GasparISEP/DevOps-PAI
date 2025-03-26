@@ -257,5 +257,15 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void polandNIFCanBeCreated_PL(){
+        //arrange
+        String stringNIF10digits = "1234567890";
+        //act
+        NIF nif1 = new NIF(stringNIF10digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 
 }
