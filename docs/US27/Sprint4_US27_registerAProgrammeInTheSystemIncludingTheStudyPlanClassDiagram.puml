@@ -82,8 +82,9 @@ class Semester <<ValueObject>> {
 
 class CurricularYear <<ValueObject>> {
         -_curricularYear: int
-        +isCurricularYearValid(int curricularYear, int numberOfYears): boolean
-        +getSemester()
+        +CurricularYear(int curricularYear)
+        +isCurricularYearPositive(int curricularYear): boolean
+        +getCurricularYear(): int
 }
 
 class CourseInStudyPlanID <<ValueObject>> {}
@@ -199,7 +200,7 @@ IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "<<root>>\nProgramme" "*" --> "1" TeacherID : "is directed"
 "<<root>>\nProgramme" "*" --> "1" DepartmentID : "belongs to"
 "<<root>>\nProgramme" "*" --> "1" DegreeTypeID : "has"
-"<<root>>\nProgramme" "*" --> "1" quantityOfSemesters : "has"
+"<<root>>\nStudyPlan" "*" --> "1" quantityOfSemesters : "has"
 "<<root>>\nProgramme" "*" --> "1" quantityOfEcts : "has"
 "<<root>>\nProgramme" "*" --> "1" Acronym : "has"
 "<<root>>\nProgramme" "*" --> "1" Name : "has"
