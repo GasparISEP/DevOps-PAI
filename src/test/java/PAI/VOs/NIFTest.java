@@ -331,5 +331,18 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void spainNIFCanBeCreated_ES(){
+        //arrange
+        String string1letter7digits1letter = "A1234567A";
+        String string1letter8digits = "A12345678";
+        //act
+        NIF nif1 = new NIF(string1letter7digits1letter);
+        NIF nif2 = new NIF(string1letter8digits);
+        //assert
+        assertNotNull(nif1);
+        assertNotNull(nif2);
+    }
+
 
 }
