@@ -194,5 +194,15 @@ class NIFTest {
         assertNotNull(nif2);
     }
 
+    @Test
+    void italyNIFCanBeCreated_IT(){
+        //arrange
+        String stringNIF11digits = "12345678901";
+        //act
+        NIF nif1 = new NIF(stringNIF11digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 
 }
