@@ -1,0 +1,93 @@
+@startuml
+skinparam sequenceMessageAlign center
+autonumber
+
+actor HRC
+participant ":UI" as UI
+participant "ctrl:UpdateTeacherWorkingPercentageController" as Controller #lightgreen
+participant "teacherRepo:TeacherRepository" as TRepo
+participant "teacherIdVO1:TeacherIdVO" as teacherIdVO1
+participant "dateVO1:DateVO" as dateVO1
+participant "workingPercentageVO1:WorkingPercentageVO" as wpVO1
+participant "tcpRepo: TeacherCareerProgressionRepository" as TCPRepo #lightblue
+participant "lastTCP:TeacherCareerProgression" as TCP #lightpink
+participant "tcpF:TCPfactory" as TCPf #burlywood
+participant "tcp1:TeacherCareerProgression" as TCP1
+
+HRC -> UI : I want to update Teacher's working percentage
+activate HRC
+activate UI
+UI -> Controller : getAllTeachers()
+activate Controller
+Controller -> TRepo : getAllTeachers()
+activate TRepo
+TRepo --> Controller : teachersList
+deactivate TRepo
+Controller --> UI : teachersList
+deactivate Controller
+UI --> HRC : Which Teacher?
+deactivate UI
+HRC -> UI: Teacher's acronym
+activate UI
+UI --> HRC: What working percentage?
+deactivate UI
+HRC -> UI: Working percentage
+activate UI
+UI --> HRC: What date?
+deactivate UI
+HRC -> UI: Date
+activate UI
+UI -> Controller : updateTeacherWorkingPercentage \n (Teacher's acronym, date, workingPercentage)
+activate Controller
+
+Controller -> teacherIdVO1** : createTeacherIdVO(Teacher's acronym)
+activate teacherIdVO1
+teacherIdVO1 -> teacherIdVO1 : isTeacherAcronymValid()
+teacherIdVO1 --> Controller : teacherIdVO1
+deactivate teacherIdVO1
+
+Controller -> dateVO1** : createDateVO(date)
+activate dateVO1
+dateVO1 -> dateVO1 : isDateValid()
+dateVO1 --> Controller : dateVO1
+deactivate dateVO1
+
+Controller -> wpVO1** : createWorkingPercentageVO(workingPercentage)
+activate wpVO1
+wpVO1 -> wpVO1 : isWorkingPercentageValid()
+wpVO1 --> Controller : workingPercentageVO1
+deactivate wpVO1
+
+Controller -> TCPRepo : updateWorkingPercentageInTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherIdVO1)
+activate TCPRepo
+
+TCPRepo -> TCPRepo : lastTCP = findLastTCPFromTeacherID(teacherIdVO1)
+TCPRepo -> TCP : lastTCP.isDateAfter(dateVO1)
+activate TCP
+TCP --> TCPRepo: True
+TCPRepo -> TCP : lastTCP.getCategory()
+TCP --> TCPRepo : teacherCategoryIdVO1
+TCPRepo -> TCP : lastTCP.getWorkingPercentage()
+TCP --> TCPRepo : lastWorkingPercentage
+deactivate TCP
+TCPRepo -> TCPRepo : validate if lastWorkingPercentage \nis different than workingPercentageVO1
+
+TCPRepo -> TCPf : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherCategoryIdVO1, teacherIdVO1)
+activate TCPf
+TCPf -> TCP1** : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherCategoryIdVO1, teacherIdVO1)
+activate TCP1
+TCP1 --> TCPf : tcp1
+deactivate TCP1
+TCPf --> TCPRepo : tcp1
+deactivate TCPf
+TCPRepo -> TCPRepo: add(tcp1)
+TCPRepo --> Controller : True
+deactivate TCPRepo
+
+Controller --> UI : True
+deactivate Controller
+UI --> HRC : Success
+deactivate UI
+deactivate HRC
+
+@enduml
