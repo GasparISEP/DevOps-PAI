@@ -1,27 +1,18 @@
 package PAI.VOs;
 
-import PAI.domain.CourseInStudyPlan;
-
 import java.util.Objects;
 import java.util.UUID;
 
 public class CourseInStudyPlanId {
 
-    private final UUID _id;
+    private final UUID _CourseInStudyPlanId;
 
     public CourseInStudyPlanId() {
-        this._id = UUID.randomUUID();
+        this._CourseInStudyPlanId = UUID.randomUUID();
     }
 
-    public CourseInStudyPlanId(UUID id) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null.");
-        }
-        this._id = id;
-    }
-
-    public UUID getId() {
-        return _id;
+    public UUID getCourseInStudyPlanId() {
+        return _CourseInStudyPlanId;
     }
 
     @Override
@@ -29,16 +20,16 @@ public class CourseInStudyPlanId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CourseInStudyPlanId that = (CourseInStudyPlanId) o;
-        return _id.equals(that._id);
+        return _CourseInStudyPlanId.equals(that._CourseInStudyPlanId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id);
+        return Objects.hash(_CourseInStudyPlanId);
     }
 
     @Override
     public String toString() {
-        return _id.toString();
+        return _CourseInStudyPlanId.toString();
     }
 }
