@@ -92,4 +92,20 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void czechRepublicNIFCanBeCreated_CZ(){
+        //arrange
+        String stringNIF8digits = "12345678";
+        String stringNIF9digits = "123456789";
+        String stringNIF10digits= "1234567890";
+        //act
+        NIF nif1 = new NIF(stringNIF8digits);
+        NIF nif2 = new NIF(stringNIF9digits);
+        NIF nif3 = new NIF(stringNIF10digits);
+        //assert
+        assertNotNull(nif1);
+        assertNotNull(nif2);
+        assertNotNull(nif3);
+    }
+
 }
