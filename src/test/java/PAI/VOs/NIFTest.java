@@ -128,4 +128,14 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void finlandNIFCanBeCreated_FI(){
+        //arrange
+        String stringNIF8digits = "12345678";
+        //act
+        NIF nif1 = new NIF(stringNIF8digits);
+        //assert
+        assertNotNull(nif1);
+    }
+
 }
