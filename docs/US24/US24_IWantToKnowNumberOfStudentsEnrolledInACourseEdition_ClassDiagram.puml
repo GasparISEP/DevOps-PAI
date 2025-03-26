@@ -30,11 +30,11 @@ package "CourseEditionEnrolmentAggr" {
                  +knowCourseEdition(): CourseEdition
                  +deactivateEnrollment()
     }
+}
 
     class "<<ValueObject>>\nEnrolmentDate" as EnrolmentDate {
         -_enrolmentDate: LocalDate
         }
-}
 
     class "<<ValueObject>>\nStudentId" as StudentId {
 

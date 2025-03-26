@@ -2,7 +2,7 @@ package PAI.VOs;
 
 public class QuantEcts {
 
-    private int _quantEcts;
+    private final int _quantEcts;
 
     public QuantEcts(int quantityOfEcts) throws Exception {
         if (!isQuantEctsValid(quantityOfEcts)) {

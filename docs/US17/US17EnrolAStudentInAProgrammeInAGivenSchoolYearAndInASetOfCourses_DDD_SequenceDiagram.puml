@@ -19,7 +19,7 @@ activate UI
 participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
 UI -> Controller : getAllProgrammes()
 activate Controller
-participant ":ProgrammeRepository" as ProgrammeRepository
+participant ":IProgrammeRepository" as ProgrammeRepository
 Controller -> ProgrammeRepository : getAllProgrammes()
 activate ProgrammeRepository
 participant ":ProgrammeRepositoryListFactoryImpl" as ProgrammeRepositoryListFactoryImpl
@@ -43,7 +43,7 @@ ASC -> UI : Enter the programme!
 '' Get SchoolYears
 
 activate UI
-participant ":SchoolYearRepository" as SchoolYearRepository
+participant ":ISchoolYearRepository" as SchoolYearRepository
 UI -> Controller : getAllSchoolYears()
 activate Controller
 participant ":SchoolYearRepository" as SchoolYearRepository
@@ -74,7 +74,7 @@ ASC -> UI : Yes!
 activate UI
 UI -> Controller : enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme, schoolYear)
 activate Controller
-participant ":ProgrammeEnrolmentRepository" as ProgrammeEnrolmentRepository
+participant ":IProgrammeEnrolmentRepository" as ProgrammeEnrolmentRepository
 
 '' Is Student Enrolled
 
@@ -91,7 +91,7 @@ ProgrammeEnrolmentRepository --> Controller : True
 '' Find Programme Edition by SchoolYear and Programme
 
 deactivate ProgrammeEnrolmentRepository
-participant ":ProgrammeEditionRepository" as ProgrammeEditionRepository
+participant ":IProgrammeEditionRepository" as ProgrammeEditionRepository
 Controller -> ProgrammeEditionRepository : findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear)
 activate ProgrammeEditionRepository
 participant ":ProgrammeEdition" as ProgrammeEdition
@@ -105,7 +105,7 @@ deactivate ProgrammeEditionRepository
 
 '' Is Student Enrolled in This Programme Edition
 
-participant ":ProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
 Controller -> ProgrammeEditionEnrolmentRepository : isStudentEnrolledInThisProgrammeEdition(student, pe1)
 activate ProgrammeEditionEnrolmentRepository
 participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
@@ -142,7 +142,7 @@ deactivate ProgrammeEditionEnrolmentRepository
 
 '' Find Course Edition by Programme Edition
 
-participant ":CourseEditionRepository" as CourseEditionRepository
+participant ":ICourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository : findCourseEditionsByProgrammeEdition(pee1)
 participant ":CourseEdition" as CourseEdition
 activate CourseEditionRepository
@@ -167,7 +167,7 @@ activate "ce[i]:CourseEditionArrayList"
 "ce[i]:CourseEditionArrayList" --> CourseEditionRepository: True
 deactivate "ce[i]:CourseEditionArrayList"
 end
-participant ":CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
+participant ":ICourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
 CourseEditionRepository -> CourseEditionEnrolmentRepository : ListOfCourseEditions
 deactivate CourseEditionRepository
 participant ":CourseEditionEnrolment" as CourseEditionEnrolment
