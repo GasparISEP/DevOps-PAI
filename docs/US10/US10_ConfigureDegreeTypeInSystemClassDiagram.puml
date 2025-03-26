@@ -7,12 +7,28 @@ class US10_IWantToConfigureDegreeTypesLevelsController {
     +registerDegreeType(name: String, maxEcts: int): boolean
 }
 
-class DegreeType {
-    - name: string
-    - maxEcts: int
+package "DegreeType" {
+entity "<<root>>\nDegreeType"  {
+    -degreeTypeId: DegreeTypeID
+    -name: Name
+    -maxEcts: MaxECTS
     + nameIsInvalid(): boolean
     + maxEctsIsInvalid(): boolean
+
+    }
 }
+
+class DegreeTypeID <<ValueObject>> {
+    id: Long
+        }
+
+class Name <<ValueObject>> {
+            Name: String
+                }
+
+class MaxECTS <<ValueObject>> {
+            maxEcts: int
+                }
 
 class DegreeTypeRepository {
     -_degreeTypeFactoryInterface: DegreeTypeListFactoryInterface
@@ -20,6 +36,10 @@ class DegreeTypeRepository {
     +DegreeTypeRepository()
     +registerDegreeType(name: String, maxEcts: int): boolean
 }
+
+interface IDegreeTypeRepository {
+    +DegreeTypeRepository()
+    +registerDegreeType(name: String, maxEcts: int)}
 
 class DegreeTypeFactoryImpl {
     +addNewDegreeType(name: String, maxEcts: int): DegreeType
@@ -39,15 +59,21 @@ class DegreeTypeListFactoryImpl {
     +createDegreeTypeList(): List<DegreeType>
     }
 
-US10_IWantToConfigureDegreeTypesLevelsController "1" ..> "1\n_degreeTypeRepository    " DegreeTypeRepository
-DegreeType "degreeTypesList *      " <.. "1" DegreeTypeRepository
+US10_IWantToConfigureDegreeTypesLevelsController "1" ..> "1\n_degreeTypeRepository    " IDegreeTypeRepository
+DegreeType "degreeTypesList *      " <.. "1" IDegreeTypeRepository
 DegreeTypeListFactoryInterface "1" ..> "1" List
-DegreeTypeRepository "1" ..> "1" DegreeTypeFactoryInterface
+IDegreeTypeRepository "1" ..> "1" DegreeTypeFactoryInterface
 DegreeTypeFactoryInterface "1" <|.. "1" DegreeTypeFactoryImpl
 DegreeType "1" <.. "1" DegreeTypeFactoryInterface
 List "1" --> "*" DegreeType
-DegreeTypeRepository "1" --> "1" List
-DegreeTypeRepository "1" ..> "1" DegreeTypeListFactoryInterface
+IDegreeTypeRepository "1" --> "1" List
+IDegreeTypeRepository "1" ..> "1" DegreeTypeListFactoryInterface
 DegreeTypeListFactoryImpl "1" ..|> "1" DegreeTypeListFactoryInterface
+DegreeTypeRepository "1" ..|> "1" IDegreeTypeRepository
+"<<root>>\nDegreeType" --> "1" DegreeTypeID
+"<<root>>\nDegreeType" --> "1" Name
+"<<root>>\nDegreeType" --> "1" MaxECTS
+
+
 
 @enduml

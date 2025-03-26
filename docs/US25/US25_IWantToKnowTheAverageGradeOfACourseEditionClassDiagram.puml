@@ -20,20 +20,21 @@ entity "<<root>>\nStudentGrade" {
     +get_student()
     +get_courseEdition()
     +equals(o: Object): boolean
-
     }
+}
 
-    class Grade <<ValueObject>> {
+
+class Grade <<ValueObject>> {
     -_grade: double
     +knowGrade(): double
-    }
+}
 
-    class LocalDate <<ValueObject>> {
+class LocalDate <<ValueObject>> {
     -date: String
     +isDateValid(date: String): void
     +get_date(): LocalDate
-    }
 }
+
 
 class StudentGradeID <<ValueObject>> {
     -_studentGradeID: Long
@@ -88,31 +89,32 @@ class "<<root>>\nStudent" {
     +getUniqueNumber(): String
     +hasThisUniqueNumber(student: Student): boolean
     }
-
-    class Name <<ValueObject>> {
-    -_name: String
-    }
-
-    class NIF <<ValueObject>> {
-    -_nif: String
-    }
-
-    class Phone <<ValueObject>> {
-    -_phone: String
-    }
-
-    class Email <<ValueObject>> {
-    -_email: String
-    }
-
-    class InstitutionalEmail <<ValueObject>> {
-    -_institutionalEmail: String
-    }
-
-    class Address <<ValueObject>> {
-    -_address: String
-    }
 }
+
+class Name <<ValueObject>> {
+    -_name: String
+}
+
+class NIF <<ValueObject>> {
+    -_nif: String
+}
+
+class Phone <<ValueObject>> {
+    -_phone: String
+}
+
+class Email <<ValueObject>> {
+    -_email: String
+}
+
+class InstitutionalEmail <<ValueObject>> {
+    -_institutionalEmail: String
+}
+
+class Address <<ValueObject>> {
+    -_address: String
+}
+
 
 class StudentID <<ValueObject>> {
     -_studentID: Long
@@ -158,5 +160,5 @@ List <-- IStudentGradeRepository
 
 IStudentGradeRepository "1" ....> "*" "<<root>>\nStudentGrade"
 
-US25_IWantToKnowTheAverageGradeOfACourseEdition "1" ..> "1" StudentGradeRepository
+US25_IWantToKnowTheAverageGradeOfACourseEdition "1" ..> "1" IStudentGradeRepository
 @enduml
