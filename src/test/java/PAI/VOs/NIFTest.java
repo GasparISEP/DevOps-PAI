@@ -344,5 +344,15 @@ class NIFTest {
         assertNotNull(nif2);
     }
 
+    @Test
+    void swedenNIFCanBeCreated_SE(){
+        //arrange
+        String string12digits01 = "12345678901201";
+        //act
+        NIF nif1 = new NIF(string12digits01);
+        //assert
+        assertNotNull(nif1);
+    }
+
 
 }
