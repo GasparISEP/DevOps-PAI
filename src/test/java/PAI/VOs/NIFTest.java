@@ -49,4 +49,14 @@ class NIFTest {
         assertNotNull(nif);
     }
 
+    @Test
+    void belgiumNIFCanBeCreated_AT(){
+        //arrange
+        String stringNIF = "1234567890";
+        //act
+        NIF nif = new NIF(stringNIF);
+        //assert
+        assertNotNull(nif);
+    }
+
 }
