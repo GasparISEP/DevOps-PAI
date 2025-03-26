@@ -277,5 +277,40 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void romaniaNIFCanBeCreated_RO(){
+        //arrange
+        String stringNIF2digits = "12";
+        String stringNIF3digits = "123";
+        String stringNIF4digits = "1234";
+        String stringNIF5digits = "12345";
+        String stringNIF6digits = "123456";
+        String stringNIF7digits = "1234567";
+        String stringNIF8digits = "12345678";
+        String stringNIF9digits = "123456789";
+        String stringNIF10digits = "1234567890";
+        //act
+        NIF nif1 = new NIF(stringNIF2digits);
+        NIF nif2 = new NIF(stringNIF3digits);
+        NIF nif3 = new NIF(stringNIF4digits);
+        NIF nif4 = new NIF(stringNIF5digits);
+        NIF nif5 = new NIF(stringNIF6digits);
+        NIF nif6 = new NIF(stringNIF7digits);
+        NIF nif7 = new NIF(stringNIF8digits);
+        NIF nif8 = new NIF(stringNIF9digits);
+        NIF nif9 = new NIF(stringNIF10digits);
+        //assert
+        assertNotNull(nif1);
+        assertNotNull(nif2);
+        assertNotNull(nif3);
+        assertNotNull(nif4);
+        assertNotNull(nif5);
+        assertNotNull(nif6);
+        assertNotNull(nif7);
+        assertNotNull(nif8);
+        assertNotNull(nif9);
+
+    }
+
 
 }
