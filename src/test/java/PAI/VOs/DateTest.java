@@ -9,18 +9,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class DateTest {
     @Test
     void DateWithLocalDateShouldReturnAValidDate() {
-        //arrange
-        Date date1 = new Date(LocalDate.now());
-        //Act+Assert
-        assertNotNull(date1);
+        // Arrange
+        LocalDate expectedDate = LocalDate.now();
+        Date date= new Date(expectedDate);
+
+        // Act
+        LocalDate actualDate = date.getLocalDate();
+
+        // Assert
+        assertNotNull(date);
+        assertEquals(expectedDate, actualDate, "The date should be the one passed in the constructor.");
     }
 
     @Test
-    void DateWithNullLocalDateShouldReturnException() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+    void DateWithNullLocalDateShouldThrowException() {
+        //arrange
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new Date(null);
         });
         assertEquals("Date cannot be null", exception.getMessage());
     }
 
+    @Test
+    void testGetLocalDate() {
+        // Arrange
+        LocalDate expectedDate = LocalDate.now();
+        Date date = new Date(expectedDate);
+
+        // Act
+        LocalDate actualDate = date.getLocalDate();
+
+        // Assert
+        assertEquals(expectedDate, actualDate, "The local date should match the one passed in the constructor.");
+    }
 }
