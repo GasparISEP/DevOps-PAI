@@ -42,4 +42,11 @@ class PhoneNumberTest {
         //act + assert
         assertThrows(Exception.class, () -> new PhoneNumber("+351", ""));
     }
+
+    @Test
+    void invalidCountryCodeThrowsException(){
+
+        //act + assert
+        assertThrows(Exception.class, () -> new PhoneNumber("000", ""));
+    }
 }
