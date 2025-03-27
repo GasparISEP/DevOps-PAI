@@ -1,7 +1,9 @@
 package PAI.VOs;
 
-public class NIF {
-    private String _NIF;
+import PAI.ddd.ValueObject;
+
+public class NIF implements ValueObject {
+    private final String _NIF;
 
     public NIF (String NIF){
        if(NIF == null || NIF.isBlank()) throw new IllegalArgumentException("NIF cannot be empty.");
