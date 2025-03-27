@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import PAI.VOs.Grade;
+import PAI.VOs.StudentGrade_ID;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +14,7 @@ public class StudentGrade {
         private LocalDate _date;
         private Student _student;
         private CourseEdition _courseEdition;
+        private final StudentGrade_ID _studentGrade_id;
 
         public StudentGrade(Grade grade, String date, Student student, CourseEdition courseEdition) throws Exception {
             if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
@@ -26,11 +28,15 @@ public class StudentGrade {
 
             if (courseEdition == null) throw new IllegalArgumentException("Course Edition cannot be null");
             _courseEdition = courseEdition;
+
+            this._studentGrade_id = new StudentGrade_ID();
         }
 
     public Grade get_grade() {
         return _grade;
     }
+
+    public StudentGrade_ID get_studentGrade_id() {return _studentGrade_id;}
 
     public boolean hasThisCourseEdition(CourseEdition courseEdition) {
             return _courseEdition.equals(courseEdition);
