@@ -1,18 +1,17 @@
 @startuml
-
+!pragma layout smetana
 skinparam ranksep 100
 skinparam nodesep 100
 
 class US15_UpdateTeacherWorkingPercentageController {
-    +US15_UpdateTeacherWorkingPercentageController()
-    +isTeacherRegistered(teacherIDVO: TeacherIDVO)
+    +US15_UpdateTeacherWorkingPercentageController(teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, teacherRepository: ITeacherRepository)
+    +findAll()
     +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: workingPercentageVO,
     teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
 
 package "Teacher Aggregate" {
     entity "<<Root>>\n <<Entity>>\n Teacher" {
-         +hasThisID(teacherIDVO: TeacherIDVO)
     }
 }
 
@@ -26,6 +25,7 @@ package "TeacherCareerProgression Aggregate" {
         +TeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO)
         +isDateAfter(dateVO: DateVO)
         +getCategory()
+        +getWorkingPercentage()
     }
 }
 
@@ -41,16 +41,14 @@ package "TeacherCareerProgression Aggregate" {
               -workingPercentage: int
    }
 
-class TeacherCareerProgressionRepositoryImpl {
+class TeacherCareerProgressionRepository {
     +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
     teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
     +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
-    +isDateAfter(dateVO: DateVO)
-    +getCategory()
 }
 
 class TeacherRepositoryImpl {
-    +isTeacherRegistered(teacherIDVO: TeacherIDVO)
+    +findAll()
 }
 
 package "TeacherCategory Aggregate" {
@@ -63,19 +61,17 @@ interface ITeacherCareerProgressionRepository {
     +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
     teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
     +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
-    +isDateAfter(dateVO: DateVO)
-    +getCategory()
 }
 
 interface ITeacherRepository {
-    +isTeacherRegistered(teacherIDVO: TeacherIDVO)
+    +findAll()
 }
 
 class "<<Value Object>>\n TeacherCategoryIDVO" {
                 -name: String
 }
 
-class TeacherCareerProgressionFactoryImpl {
+class TeacherCareerProgressionFactory {
     +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
                                         teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
@@ -103,7 +99,7 @@ US15_UpdateTeacherWorkingPercentageController "1" ..> "_teacherCareerProgression
 ITeacherCareerProgressionRepository "1" ..> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
 ITeacherCareerProgressionFactory "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
 ITeacherCareerProgressionRepository "1" ..> "  _teacherCareerProgressionList \n                                     1" ITeacherCareerProgressionListFactory
-TeacherCareerProgressionFactoryImpl ..|> ITeacherCareerProgressionFactory
+TeacherCareerProgressionFactory ..|> ITeacherCareerProgressionFactory
 TeacherCareerProgressionListFactoryImpl ..|> ITeacherCareerProgressionListFactory
 ITeacherCareerProgressionListFactory ..> List
 List "1" ----> "1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
@@ -113,7 +109,7 @@ List "1" ----> "1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n WorkingPercentageVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
 "<<Value Object>>\n TeacherCategoryIDVO" "1" <-- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
-ITeacherCareerProgressionRepository <|.. TeacherCareerProgressionRepositoryImpl
+ITeacherCareerProgressionRepository <|.. TeacherCareerProgressionRepository
 ITeacherRepository <|.. TeacherRepositoryImpl
 
 @enduml

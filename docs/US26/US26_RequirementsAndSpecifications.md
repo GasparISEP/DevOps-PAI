@@ -19,8 +19,7 @@ This document presents the analysis for User Story 26, outlining the requirement
 
 ### 3. Non-Functional Requirements
 
-There are no specific non-functional requirements imposed at this stage.
-However, it is essential to adhere to software design best practices such as encapsulation, clear code structure, and performance optimization.
+There are no strict non-functional requirements at this stage, but it is crucial to maintain good software design principles. This includes adhering to encapsulation, ensuring a well-structured and readable codebase, and considering performance efficiency.
 
 ### 4. Event Flow
 

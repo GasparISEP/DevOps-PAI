@@ -1,5 +1,6 @@
 @startuml
 skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor #lightpink
 autonumber
 title: As a HRC, I want to update the teacher’s category in the system.
 
