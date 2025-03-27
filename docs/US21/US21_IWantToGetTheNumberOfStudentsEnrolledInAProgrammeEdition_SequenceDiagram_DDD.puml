@@ -10,14 +10,15 @@ participant ":IWantToKnowTheNumberOfStudents\nEnrolledInAProgrammeEditionControl
 participant "<<interface>>\nIDegreeTypeRepository"  as IDTR
 participant "<<interface>>\nIProgrammeRepository"  as IPR
 participant "<<interface>>\nProgrammeEditionRepository" as IPER
-participant "<<interface>>\nProgrammeEditionEnrolmentRepo"  as IPEER
-participant "programmeEditionList1:\nList<ProgrammeEdition>" as PL
-participant "degreeTypeList1:\nList<ProgrammeEdition>" as DTL1
-participant "programmeEdition1:\nProgrammeEdition"  as PE
+participant "<<interface>>\nProgrammeEditionEnrolmentRepository"  as IPEER
+
+participant "degreeTypeList1:\nList<DegreeType>" #E6E6FA
+participant "programmeList1:\nList<Programme>"  #E6E6FA
+participant "programmeEditionList1:\nList<ProgrammeEdition>" #E6E6FA
 
 autonumber
 
-ASC -> UI:  I want to get the number of students enrolled in a programme edition!
+ASC -> UI ++ :  I want to get the number of students enrolled in a programme edition!
 UI -> CTR ++ : getAllDegreeTypes()
 CTR -> IDTR ++: getAllDegreeTypes()
 CTR <-- IDTR -- : dTL1
@@ -28,7 +29,7 @@ end ref
 
 UI <-- CTR  -- : dTL1_DTO
 UI --> ASC -- : Which Degree Type?
-ASC -> UI: This Degree Type!
+ASC -> UI ++ : This Degree Type!
 
 
 UI -> CTR ++ : getAllPrograms(DegreeTypeID_DTO )
@@ -39,14 +40,16 @@ end ref
 
 CTR -> IPR ++: getAllPrograms(DegreeTypeID)
 CTR <-- IPR --: pL1
+
 ref over CTR
     Convert DOMAIN 2 DTO
 end ref
+
 UI <-- CTR -- : pL1_DTO
 UI --> ASC -- : Which Programme? pL1
 
 
-ASC -> UI: This Programme
+ASC -> UI ++ :This Programme!
 
 UI -> CTR ++ : getAllProgrammeEditions(ProgrammeDTO)
 
@@ -55,13 +58,13 @@ ref over CTR
 end ref
 
 CTR -> IPER ++ : getAllProgrammeEditions(ProgrammeID)
-IPER --> CTR -- : pLE1
+IPER --> CTR -- : pEL1
 
 ref over CTR
     Convert DOMAIN 2 DTO
 end ref
 
-CTR --> UI -- :pLE1
+CTR --> UI -- :pEL1
 UI --> ASC -- :Which Programme Edition?
 ASC -> UI ++ : This Programme Edition
 UI -> CTR ++ : getTheNumberOfStudentsEnrolled\nInAProgrammeEdition(programmeEditionDTO)

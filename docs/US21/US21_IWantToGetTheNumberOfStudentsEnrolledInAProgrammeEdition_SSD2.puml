@@ -6,12 +6,12 @@ actor ASC
 participant SYSTEM
 
 ASC -> SYSTEM:  I want to get the number of students enrolled in a programme edition!
-SYSTEM --> ASC -- : Which Degree Type? (List of Degree Type)
-ASC -> SYSTEM: This Department!
-SYSTEM --> ASC -- : Which Programme? (List of Programme)
+SYSTEM --> ASC -- : Which Degree Type?
+ASC -> SYSTEM: This Degree Type!
+SYSTEM --> ASC -- : Which Programme?
 ASC -> SYSTEM: This Programme!
-SYSTEM --> ASC -- : Which SchoolYear? (List of SchoolYear)
-ASC -> SYSTEM: This SchoolYear!
-SYSTEM --> ASC -- : This is the number of Students in ProgrammeEditionId.
+SYSTEM --> ASC -- : Which Programme Edition?
+ASC -> SYSTEM: This Programme Edition!
+SYSTEM --> ASC -- : This is the number of Students in the Programme Edition, int.
 
 @enduml

@@ -13,35 +13,33 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
 ' === INTERFACE ===
 
-interface IProgrammeEditionRepository {
-    +createProgrammeEdition(...)
-    +getAllProgrammeEditions()
-    ...
-}
+interface IProgrammeEditionRepository {}
+
+interface IProgrammeEditionEnrolmentRepository{}
+
+interface IDegreeTypeRepository{}
+
+interface IProgrammeRepository {}
+
 
 ProgrammeEditionRepository ..|> IProgrammeEditionRepository
 US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IProgrammeEditionRepository
 
+ProgrammeEditionEnrolmentRepository ..|> IProgrammeEditionEnrolmentRepository
+US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IProgrammeEditionEnrolmentRepository
 
-interface IProgrammeEditionEnrolmentRepo{
-    +createProgrammeEdition(...)
-    +getAllProgrammeEditions()
-    ...
-}
-interface IProgrammeEditionEnrolment{}
+DegreeTypeRepository ..|> IDegreeTypeRepository
+US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IDegreeTypeRepository
 
-IProgrammeEditionEnrolmentRepo ..|> ProgrammeEditionEnrolmentRepo
+ProgrammeRepository ..|> IProgrammeRepository
+US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IProgrammeRepository
 
-ProgrammeEditionEnrolmentRepo ..|> IProgrammeEditionEnrolmentRepo
-US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IProgrammeEditionEnrolmentRepo
-
-
-ProgrammeEditionEnrolmentRepo "1" --> " *" ProgrammeEditionEnrolmentId
+ProgrammeEditionEnrolmentRepository "1" --> " *" ProgrammeEditionEnrolmentId
 ProgrammeEditionRepository "1" --> "*" ProgrammeEditionId
 
 ' === REPOSITORYS ===
 
-class ProgrammeEditionEnrolmentRepo {
+class ProgrammeEditionEnrolmentRepository {
     -_programmeEditionEnrolments: Set<ProgrammeEditionEnrolment>
     -_programmeEditionEnrolments: ProgrammeEditionEnrolmentFactoryImpl
     +ProgrammeEditionEnrolmentRepo(programmeEditionEnrollmentFactory:ProgrammeEditionEnrolmentFactoryImpl,\nprogrammeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
@@ -74,7 +72,7 @@ package ProgrammeEditionEnrolmentAggregate{
         +findProgrammeEditionInEnrollment()
         +findStudentInProgrammeEdition()
     }
-}
+ }
 
 ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentId
 ProgrammeEditionEnrolment --> StudentId
@@ -87,6 +85,7 @@ class ProgrammeEditionId <<ValueObject>> {}
 class LocalDateId <<ValueObject>> {}
 
 
+
 package ProgrammeEditionAggregate{
 
     entity ProgrammeEdition <<root>> {
@@ -97,6 +96,7 @@ package ProgrammeEditionAggregate{
         +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
     }
 }
+
 class ProgrammeId <<ValueObject>> {}
 class ProgrammeEditionId <<ValueObject>> {}
 class SchoolYearId <<ValueObject>> {}
