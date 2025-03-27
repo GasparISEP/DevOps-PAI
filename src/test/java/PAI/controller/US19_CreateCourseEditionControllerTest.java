@@ -281,9 +281,9 @@ class US19_CreateCourseEditionControllerTest {
     private IProgrammeRepositoryListFactory programmeListFactory;
     private ProgrammeRepository programmeRepository;
 
-    private CourseInStudyPlanFactory courseInStudyPlanFactory;
-    private StudyPlanListFactory studyPlanListFactory;
-    private StudyPlanFactory studyPlanFactory;
+    private ICourseInStudyPlanFactory ICourseInStudyPlanFactory;
+    private IStudyPlanListFactory IStudyPlanListFactory;
+    private IStudyPlanFactory IStudyPlanFactory;
     private ICourseFactory ICourseFactory;
 
     private US19_CreateCourseEditionController controller;
@@ -316,9 +316,9 @@ class US19_CreateCourseEditionControllerTest {
         programmeListFactory = new ProgrammeRepositoryListFactoryImpl();
         programmeRepository = new ProgrammeRepository(IProgrammeFactory, programmeListFactory);
 
-        courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        studyPlanListFactory = new StudyPlanListFactoryImpl();
-        studyPlanFactory = new StudyPlanFactoryImpl();
+        ICourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        IStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanFactory = new StudyPlanFactoryImpl();
         ICourseFactory = new CourseFactoryImpl();
 
         controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeRepository);
@@ -340,9 +340,9 @@ class US19_CreateCourseEditionControllerTest {
                                 new Department("CSE", "Computer Science Engineer"),
                                 teacherCareerFactory, teacherCareerListFactory),
                         programmeCourseListFactory,
-                        courseInStudyPlanFactory,
-                        studyPlanListFactory,
-                        studyPlanFactory,
+                ICourseInStudyPlanFactory,
+                IStudyPlanListFactory,
+                IStudyPlanFactory,
                 ICourseFactory);
 
         schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -410,9 +410,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -451,9 +451,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2,schoolYear);
@@ -489,9 +489,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programme.addCourseToAProgramme(c1);
@@ -523,9 +523,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -555,9 +555,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -592,9 +592,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
