@@ -101,4 +101,16 @@ class StudentIDTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldGetUniqueNumber () {
+        // Arrange
+        StudentID studentID = new StudentID(1500000);
+
+        // Act
+        int result = studentID.getUniqueNumber();
+
+        //Assert
+        assertEquals(1500000, result);
+    }
 }
