@@ -1,22 +1,19 @@
 package PAI.VOs;
 
 import PAI.ddd.ValueObject;
-import java.util.Objects;
-import java.util.UUID;
 
 public class DegreeType_ID implements ValueObject {
 
     private final String _dtID;
 
-    public DegreeType_ID() {
-        _dtID = UUID.randomUUID().toString();
+    public DegreeType_ID(String dtID) throws Exception {
+        if (!isDegreeType_IDValid(dtID)) throw new  Exception("Id cannot be null or empty");
+        this._dtID = dtID;
     }
 
-    public DegreeType_ID(String id) {
-        if (id == null || id.isBlank()) {
-            throw new IllegalArgumentException("ID must not be blank or null.");
-        }
-        _dtID = id;
+    private boolean isDegreeType_IDValid(String id) {
+        if (id == null || id.isBlank()) return false;
+        return true;
     }
 
     public String getDTID() {
