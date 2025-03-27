@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
@@ -45,7 +46,7 @@ class US11_RegisterProgrammeInTheSystemTest {
         US11_RegisterProgrammeInTheSystem controller1 = new US11_RegisterProgrammeInTheSystem(programmeRepo);
 
         // Criar dados de entrada
-        String name = "Engenharia Informática";
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
         String acronym = "EI";
         QuantEcts quantityOfEcts = new QuantEcts(30);
         QuantSemesters quantityOfSemesters = new QuantSemesters(6);

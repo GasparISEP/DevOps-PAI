@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
@@ -10,7 +11,7 @@ import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 
 
-
+import javax.naming.Name;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,12 +36,13 @@ class ProgrammeRepositoryTest {
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
         Programme programmeDouble = mock(Programme.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
+        when(IProgrammeFactoryDouble.registerProgramme(name, "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
 
         // Act
-        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        boolean result = programmeList.registerProgramme(name, "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Asssert
         assertTrue(result);
@@ -66,13 +68,14 @@ class ProgrammeRepositoryTest {
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
 
         Programme programmeDouble = mock(Programme.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
+        when(IProgrammeFactoryDouble.registerProgramme(name, "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
 
         // Act
-        programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
-        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        programmeList.registerProgramme(name, "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        boolean result = programmeList.registerProgramme(name, "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Asssert
         assertFalse(result);
@@ -143,11 +146,12 @@ class ProgrammeRepositoryTest {
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
 
 
-        when(IProgrammeFactory.registerProgramme("Engenharia Informática","LEI",quantEcts,quantSemesters,degreeType1,department1, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programme);
+        when(IProgrammeFactory.registerProgramme(name,"LEI",quantEcts,quantSemesters,degreeType1,department1, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programme);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(IProgrammeFactory,programmeRepoListFactory);
 
         when(programme.addCourseToAProgramme(course1)).thenReturn(true);
@@ -182,18 +186,19 @@ class ProgrammeRepositoryTest {
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        Programme programme = new Programme(name, "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
+        when(IProgrammeFactoryDouble.registerProgramme(name, "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
                 .thenReturn(programme);
 
-        programmeRepo.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        programmeRepo.registerProgramme(name, "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Act
-        Optional<Programme> result = programmeRepo.getProgrammeByName("Computer Engineering");
+        Optional<Programme> result = programmeRepo.getProgrammeByName(name);
 
         // Assert
         assertTrue(result.isPresent());
@@ -214,17 +219,18 @@ class ProgrammeRepositoryTest {
         StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
 
 
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts,quantSemesters, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
+        when(IProgrammeFactoryDouble.registerProgramme(name, "CE", quantEcts,quantSemesters, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
                 .thenReturn(programme);
 
-        programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        programmeList.registerProgramme(name, "CE", quantEcts, quantSemesters, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Act
-        Optional<Programme> result = programmeList.getProgrammeByName("Space Engineering");
+        Optional<Programme> result = programmeList.getProgrammeByName(name);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -240,7 +246,7 @@ class ProgrammeRepositoryTest {
         List<Programme> programmeListMock = List.of(mock(Programme.class), mock(Programme.class));
         when(programmeRepoListFactory.copyProgrammeArrayList(any())).thenReturn(programmeListMock);
 
-        String name1 = "MATEMATICA";
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
@@ -248,7 +254,7 @@ class ProgrammeRepositoryTest {
         Department cse1 = mock(Department.class);
         Teacher teacher1 = mock(Teacher.class);
 
-        String name2 = "Informatica";
+        NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
         String acronym2= "INF";
         QuantEcts quantityOfEcts2 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters2 = mock(QuantSemesters.class);
@@ -302,7 +308,7 @@ class ProgrammeRepositoryTest {
         IProgrammeRepositoryListFactory programmeRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(IProgrammeFactory, programmeRepoListFactory);
 
-        String name1 = "MATEMATICA";
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
@@ -339,7 +345,7 @@ class ProgrammeRepositoryTest {
         IProgrammeRepositoryListFactory programmeRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(IProgrammeFactory, programmeRepoListFactory);
 
-        String name1 = "MATEMATICA";
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
@@ -377,8 +383,8 @@ class ProgrammeRepositoryTest {
         IProgrammeRepositoryListFactory programmeRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(IProgrammeFactory, programmeRepoListFactory);
 
-        String name1 = "MATEMATICA";
-        String name2 = "ENGENHARIA";
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
@@ -391,19 +397,25 @@ class ProgrammeRepositoryTest {
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
 
+        when(name1.getnameWithNumbersAndSpecialChars()).thenReturn("Matemática");
+        when(name2.getnameWithNumbersAndSpecialChars()).thenReturn("Computer Engineering");
+
+
         Programme programme1 = mock(Programme.class);
         Programme programme2 = mock(Programme.class);
+        when(programme1.getProgrammeNameWithNumbersAndSpecialChars()).thenReturn(name1);
+        when(programme2.getProgrammeNameWithNumbersAndSpecialChars()).thenReturn(name2);
         when(IProgrammeFactory.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programme1);
         when(IProgrammeFactory.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programme2);
 
         programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
         programmeRepo.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
-        when(programme1.getProgrammeName()).thenReturn(name1);
-        when(programme2.getProgrammeName()).thenReturn(name2);
+        when(programme1.getProgrammeNameWithNumbersAndSpecialChars()).thenReturn(name1);
+        when(programme2.getProgrammeNameWithNumbersAndSpecialChars()).thenReturn(name2);
 
         // Act
-        List<String> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
+        List<NameWithNumbersAndSpecialChars> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
 
         // Assert
         assertEquals(2, listOfProgrammeNames.size());
@@ -420,7 +432,7 @@ class ProgrammeRepositoryTest {
         ProgrammeRepository programmeRepo = new ProgrammeRepository(IProgrammeFactory, programmeListRepoFactory);
 
         // Act
-        List<String> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
+        List<NameWithNumbersAndSpecialChars> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
 
         // Assert
         assertEquals(0, listOfProgrammeNames.size());

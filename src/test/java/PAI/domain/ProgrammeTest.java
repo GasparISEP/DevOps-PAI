@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.factory.*;
@@ -231,8 +232,9 @@ class ProgrammeTest {
         QuantEcts quantEcts = new QuantEcts(21);
         QuantEcts quantEcts1 = new QuantEcts(20);
         QuantSemesters quantSemesters = new QuantSemesters(6);
-        Programme CE = new Programme("Computer Engineering", "CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
-        Programme CEE = new Programme("Computer Engineering", "CE", quantEcts1,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
+        Programme CE = new Programme(name, "CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        Programme CEE = new Programme(name, "CE", quantEcts1,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
 
         //act
         boolean result = CE.equals(CEE);
@@ -449,10 +451,14 @@ class ProgrammeTest {
     @Test
     void shouldReturnTrueIfNameIsAProgramme() throws Exception {
         // Arrange
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        QuantEcts quantEcts = mock(QuantEcts.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+
+        Programme p1 = new Programme(programmeName, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
 
         // Act
-        boolean result = p1.hasThisProgrammeName("Computer Engineering");
+        boolean result = p1.hasThisProgrammeName(programmeName);
 
         // Assert
         assertTrue(result);
@@ -461,10 +467,14 @@ class ProgrammeTest {
     @Test
     void shouldReturnFalseIfNameIsAProgramme() throws Exception {
         // Arrange
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars programmeName2 = mock(NameWithNumbersAndSpecialChars.class);
+        QuantEcts quantEcts = mock(QuantEcts.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        Programme p1 = new Programme(programmeName, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
 
         // Act
-        boolean result = p1.hasThisProgrammeName("Space Engineering");
+        boolean result = p1.hasThisProgrammeName(programmeName2);
 
         // Assert
         assertFalse(result);
@@ -512,7 +522,8 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
-        Programme programme = new Programme("Computer Engineering", "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
+        Programme programme = new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
 
         //Act
         QuantSemesters expectedQuantSemesters = programme.getQuantSemesters();
@@ -526,7 +537,8 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
-        Programme programme = new Programme("Computer Engineering", "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
+        Programme programme = new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
 
         //Act
         QuantEcts expectedQuantEcts = programme.getQuantEcts();
@@ -540,7 +552,8 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
-        Programme programme = new Programme("Computer Engineering", "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
+        Programme programme = new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
 
         //Act+Assert
         assertNotNull(programme);
@@ -551,10 +564,11 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = null;
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
     @Test
@@ -562,21 +576,13 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = null;
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
-    @Test
-    void shouldNotCreateProgrammeWhenNameIsEmpty () throws Exception {
-        //Arrange
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        QuantEcts quantEcts = new QuantEcts(20);
-
-        //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("", "CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
-    }
 
     @Test
     void shouldNotCreateProgrammeWhenNameIsNull () throws Exception {
@@ -593,9 +599,10 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
     @Test
@@ -603,29 +610,22 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", null, quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, null, quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
-    @Test
-    void shouldNotCreateProgrammeWhenNameHasSpecialChars () throws Exception {
-        //Arrange
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        QuantEcts quantEcts = new QuantEcts(20);
-
-        //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("@Computer Science", "CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
-    }
 
     @Test
     void shouldNotCreateProgrammeWhenAcronymHasNumbers () throws Exception {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "123", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "123", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
     @Test
@@ -633,9 +633,10 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "@CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
     @Test
@@ -643,9 +644,10 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", quantEcts,quantSemesters,null,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts,quantSemesters,null,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
     @Test
@@ -653,9 +655,10 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", quantEcts,quantSemesters,_degreeType,null, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts,quantSemesters,_degreeType,null, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
     @Test
@@ -663,9 +666,10 @@ class ProgrammeTest {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", quantEcts,quantSemesters,_degreeType,_department,null, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts,quantSemesters,_degreeType,_department,null, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
     }
 
 }
