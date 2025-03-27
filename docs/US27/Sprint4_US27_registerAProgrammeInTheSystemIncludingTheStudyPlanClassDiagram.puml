@@ -29,10 +29,18 @@ class quantityOfEcts <<ValueObject>> {
     +getquantityOfEcts()
 }
 
-class quantityOfSemesters <<ValueObject>> {
+class QuantityOfSemesters <<ValueObject>> {
     -quantityOfSemesters: int
     + isQuantityOfSemestersInvalid(int quantityOfSemesters)
     +getQuantityOfSemester()
+}
+
+class DurationInYears <<ValueObject>> {
+    -_durationInYears: int
+    +DurationInYears (int quantSemester)
+    +isQuantSemesterValid (int quantSemester): boolean
+    +calculateSemestersInYears(int quantSemester): int
+    +getDurationInYears(): int
 }
 
 package "Programme Aggregate" {
@@ -55,7 +63,7 @@ class ProgrammeRepository {
      +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType; department : Department,programmeDirector: Teacher): boolean
 }
 
-interface IRepository {
+interface IProgrammeRepository {
 }
 
 class DegreeTypeID <<ValueObject>> {}
@@ -101,6 +109,8 @@ package "CourseInStudyPlan Aggregate" {
 
 
 }
+interface ICourseInStudyPlanRepository {
+}
 
 class CourseInStudyPlanRepository {
 }
@@ -111,6 +121,9 @@ interface ICourseInStudyPlanFactory{
 
 class CourseInStudyPlanFactoryImpl{
     +newCourseInStudyPlan(int semester, int curricularYear, \nCourse course, StudyPlan studyPlan): CourseInStudyPlan
+    }
+
+interface IStudyPlanRepository {
 }
 
 class StudyPlanRepository {
@@ -154,25 +167,27 @@ class CourseInStudyPlanRepositoryListFactoryImpl {}
 interface ICourseInStudyPlanRepositoryListFactory {}
 
 
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> IRepository
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> IProgrammeRepository
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> ICourseInStudyPlanRepository
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> IStudyPlanRepository
 
-IRepository <|.. StudyPlanRepository
-IRepository ..> IStudyPlanRepositoryListFactory
-IRepositoryListFactory <|.. StudyPlanRepositoryListFactoryImpl
-IRepositoryListFactory ..> "List<StudyPlan>" : "<<creates>>"
-IRepository --> "List<StudyPlan>"
-IRepository ..> IStudyPlanFactory
+IStudyPlanRepository <|.. StudyPlanRepository
+IStudyPlanRepository ..> IStudyPlanRepositoryListFactory
+IStudyPlanRepositoryListFactory <|.. StudyPlanRepositoryListFactoryImpl
+IStudyPlanRepositoryListFactory ..> "List<StudyPlan>" : "<<creates>>"
+IStudyPlanRepository --> "List<StudyPlan>"
+IStudyPlanRepository ..> IStudyPlanFactory
 IStudyPlanFactory <|.. StudyPlanFactoryImpl
 IStudyPlanFactory ..> "<<root>>\nStudyPlan" : "<<creates>>"
 "List<StudyPlan>" --> "<<root>>\nStudyPlan"
 "<<root>>\nStudyPlan" "*" --> "1" ProgrammeID : refers to
 
-IRepository <|.. CourseInStudyPlanRepository
-IRepository ..> ICourseInStudyPlanRepositoryListFactory
+ICourseInStudyPlanRepository <|.. CourseInStudyPlanRepository
+ICourseInStudyPlanRepository ..> ICourseInStudyPlanRepositoryListFactory
 ICourseInStudyPlanRepositoryListFactory <|.. CourseInStudyPlanRepositoryListFactoryImpl
 ICourseInStudyPlanRepositoryListFactory ..> "List<CourseInStudyPlan>" : "<<creates>>"
-IRepository --> "List<CourseInStudyPlan>"
-IRepository ..> ICourseInStudyPlanFactory
+ICourseInStudyPlanRepository --> "List<CourseInStudyPlan>"
+ICourseInStudyPlanRepository ..> ICourseInStudyPlanFactory
 ICourseInStudyPlanFactory <|.. CourseInStudyPlanFactoryImpl
 ICourseInStudyPlanFactory ..> "<<root>>\nCourseInStudyPlan" : "<<creates>>"
 "List<CourseInStudyPlan>" --> "<<root>>\nCourseInStudyPlan"
@@ -181,12 +196,12 @@ ICourseInStudyPlanFactory ..> "<<root>>\nCourseInStudyPlan" : "<<creates>>"
 "<<root>>\nCourseInStudyPlan" <-- CourseInStudyPlanID: has
 
 
-IRepository <|.. ProgrammeRepository
-IRepository ..> IProgrammeRepositoryListFactory
-IRepositoryListFactory <|.. ProgrammeRepositoryListFactoryImpl
-IRepositoryListFactory ..> "List<Programme>" : "<<creates>>"
-IRepository --> "List<Programme>"
-IRepository ..> IProgrammeFactory
+IProgrammeRepository <|.. ProgrammeRepository
+IProgrammeRepository ..> IProgrammeRepositoryListFactory
+IProgrammeRepositoryListFactory <|.. ProgrammeRepositoryListFactoryImpl
+IProgrammeRepositoryListFactory ..> "List<Programme>" : "<<creates>>"
+IProgrammeRepository --> "List<Programme>"
+IProgrammeRepository ..> IProgrammeFactory
 IProgrammeFactory <|.. ProgrammeFactoryImpl
 IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "List<Programme>" --> "<<root>>\nProgramme"
@@ -203,6 +218,7 @@ IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "<<root>>\nCourseInStudyPlan" "*" --> "1" CurricularYear : "has"
 
 "<<root>>\nStudyPlan" "*" <-- "1" StudyPlanID: "has"
+"<<root>>\nStudyPlan" "*" <-- "1" DurationInYears: "has"
 
 
 @enduml

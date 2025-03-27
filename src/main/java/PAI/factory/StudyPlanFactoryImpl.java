@@ -1,10 +1,10 @@
 package PAI.factory;
 
-import PAI.repository.StudyPlan;
+import PAI.domain.StudyPlan;
 
-public class StudyPlanFactoryImpl implements StudyPlanFactory {
+public class StudyPlanFactoryImpl implements IStudyPlanFactory {
 
-    public StudyPlan newStudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, ICourseFactory ICourseFactory) {
-        return new StudyPlan(courseInStudyPlanFactory, studyPlanListFactory, ICourseFactory);
+    public StudyPlan newStudyPlan(ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, ICourseFactory ICourseFactory) {
+        return new StudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 }

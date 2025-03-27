@@ -11,7 +11,7 @@ import PAI.factory.ProgrammeCourseListFactoryImpl;
 import PAI.repository.CourseRepository;
 import PAI.factory.*;
 import PAI.repository.ProgrammeRepository;
-import PAI.repository.StudyPlan;
+import PAI.domain.StudyPlan;
 import org.junit.jupiter.api.Test;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
@@ -71,12 +71,12 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
+        IStudyPlanListFactory IStudyPlanListFactory = mock(IStudyPlanListFactory.class);
+        IStudyPlanFactory IStudyPlanFactory = mock(IStudyPlanFactory.class);
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl1, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, courseFactoryImpl);
 
         assertTrue(result);
     }
