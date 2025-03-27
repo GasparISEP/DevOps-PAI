@@ -8,113 +8,53 @@ class US11_RegisterAProgrammeInTheSystem {
 }
 
 class "List<Programme>" {}
-class "List<Course>" {}
-class "List<CourseInStudyPlan>" {}
 
-class Department {
-    -_acronym:String
-    -_name:String
-    -_director:Teacher
+class DepartmentID <<ValueObject>> {}
+
+class Acronym <<ValueObject>> {
+    -Acronym: String
 }
 
-class Programme {
-     -_name: string
-     -_acronym: string
-     -_quantityOfEcts: int
-     -_quantityOfSemesters: int
-     -_degreeType: DegreeType
-     -_department: Department
-     -_programmeDirector: Teacher
-     -_courseList: List<Course>
-     -_programmeCourseListFactory: ProgrammeCourseListFactory
-     -_studyPlan: StudyPlan
+class Name <<ValueObject>> {
+    -Name: String
+}
 
-     +Programme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType, department: Department, \nprogrammeDirector: Teacher, programmeCourseListFactory: ProgrammeCourseListFactory, courseInStudyPlanFactory: CourseInStudyPlanFactory,
-     studyPlanListFactory: StudyPlanListFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory)
-     + isNameInvalid(name: String): boolean
-     + isAcronymInvalid(acronym: String): boolean
-     + isQuantityOfEctsInvalid(quantityOfEcts: int)
-     + isQuantityOfSemestersInvalid(quantityOfSemesters: int)
-     + equals(o: Object): boolean
-     + isEquals(programme: Programme): boolean
-     + addCourseToAProgramme(course: Course): boolean
-     + isInDepartment(department: Department): boolean
-     + getCourseList(): List<Course>
-     + getQuantityOfSemester(): int
-     + getQuantityOfEcts(): int
-     + getStudyPlan(): StudyPlan
-     + calculateNumberOfYears(quantityOfSemesters: int): int
-     + hasThisProgrammeName(name: String): boolean
- }
+class ProgrammeID <<ValueObject>> {}
+
+class quantityOfEcts <<ValueObject>> {
+    -quantityOfEcts: int
+    +isQuantityOfEctsInvalid(int quantityOfEcts)
+    +getquantityOfEcts()
+}
+
+class quantityOfSemesters <<ValueObject>> {
+    -quantityOfSemesters: int
+    + isQuantityOfSemestersInvalid(int quantityOfSemesters)
+    +getQuantityOfSemester()
+}
+
+package "Programme Aggregate" {
+    class "<<root>>\nProgramme" {
+        + equals(o: Object): boolean
+        + isEquals(programme: Programme): boolean
+        + isInDepartment(department: Department): boolean
+        + calculateNumberOfYears(quantityOfSemesters: int): int
+        + hasThisProgrammeName(name: String): boolean
+   }
+}
 
 class ProgrammeRepository {
      -_programmeFactory: ProgrammeFactory
      -_programmeRepository: List<Programme>
      -_programmeRepositoryListFactory: ProgrammeRepositoryListFactory
      +ProgrammeRepository(programmeFactory: ProgrammeFactory)
-     +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType; department : Department,programmeDirector: Teacher, programmeCourseListFactory: ProgrammeCourseListFactory,
-     courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanListFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory): boolean
+     +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType; department : Department,programmeDirector: Teacher): boolean
 }
 
-class DegreeType {
-    -_name: String
-    -_maxEcts: int
+interface IProgrammeRepository {
 }
 
-class Teacher {
-     -_acronym:String
-     -_name:String
-     -_email:String
-     -_nif:String
-     -_phoneNumber:String
-     -_academicBackground:String
-     -_address: Address
-     -_addressFactory: AddressFactory
-     -_department: Department
-     -_teacherCareerProgressionList: List<TeacherCareerProgression>
-     -_teacherCareerProgressionFactory: TeacherCareerProgressionFactory
-}
-
-
-class StudyPlan {
-    -_courseInStudyPlanFactory: CourseInStudyPlanFactory
-    -_courseFactory: CourseFactory
-    -_studyPlanListFactory: List<CourseInStudyPlan>
-    + StudyPlan(courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanListFactory, courseFactory: CourseFactory)
-    + addCourseToStudyPlan(semester: int, curricularYear: int, course: Course, programme: Programme): boolean
-    + isCourseOrProgrammeInvalid(course: Course, programme: Programme): boolean
-    + isCourseInStudyPlan(course: Course): boolean
-    + addAnnualCourse(semester: int, curricularYear: int, course: Course, programme: Programme): boolean
-    + isEctsLimitExceeded(curricularYear: int, semester: int, courseInStudyPlan: CourseInStudyPlan): boolean
-}
-
-class ProgrammeCourseListFactoryImpl {
-    +createCourseList(): List<Course>
-}
-
-interface ProgrammeCourseListFactory {
-    +createCourseList(): List<Course>
-}
-
-interface StudyPlanListFactory {
-    +newList(): List<CourseInStudyPlan>
-}
-
-class StudyPlanListFactoryImpl {
-    +newList(): List<CourseInStudyPlan>
-}
-
-class StudyPlanFactoryImpl {
-    +newStudyPlan(courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanListFactory,
-    courseFactory: CourseFactory): StudyPlan
-}
-
-interface StudyPlanFactory {
-    +newStudyPlan(courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanListFactory,
-    courseFactory: CourseFactory): StudyPlan
-}
-
-interface ProgrammeRepositoryListFactory {
+interface IProgrammeRepositoryListFactory {
     +newProgrammeArrayList(): ArrayList<Programme>
     +copyProgrammeArrayList(): List<Programme>
 }
@@ -123,57 +63,36 @@ class ProgrammeRepositoryListFactoryImpl {
     +newProgrammeArrayList: ArrayList<Programme>
 }
 
-interface ProgrammeFactory {
-    +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType, department: Department, programmeDirector: Teacher, programmeCourseListFactory: ProgrammeCourseListFactory,
-    courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanListFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory)
+interface IProgrammeFactory {
+    +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType, department: Department, programmeDirector: Teacher)
 }
 
 class ProgrammeFactoryImpl {
-    +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType, department: Department, programmeDirector: Teacher, programmeCourseListFactory: ProgrammeCourseListFactory,
-    courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanListFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory)
+    +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType, department: Department, programmeDirector: Teacher)
 }
 
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> ProgrammeRepository
-ProgrammeRepository ..> ProgrammeRepositoryListFactory
-ProgrammeRepositoryListFactory <|.. ProgrammeRepositoryListFactoryImpl
-ProgrammeRepository --> "List<Programme>"
+class DegreeTypeID <<ValueObject>> {}
 
-Programme --> DegreeType
-Programme --> Department
-Programme --> Teacher
+class TeacherID <<ValueObject>> {}
 
-Programme ..> ProgrammeCourseListFactory
-ProgrammeCourseListFactory <|.. ProgrammeCourseListFactoryImpl
+US11_RegisterAProgrammeInTheSystem ..> IProgrammeRepository
 
+IProgrammeRepository <|.. ProgrammeRepository
+IProgrammeRepository ..> IProgrammeRepositoryListFactory
+IProgrammeRepositoryListFactory <|.. ProgrammeRepositoryListFactoryImpl
+IProgrammeRepositoryListFactory ..> "List<Programme>" : "<<creates>>"
+IProgrammeRepository --> "List<Programme>"
+IProgrammeRepository ..> IProgrammeFactory
+IProgrammeFactory <|.. ProgrammeFactoryImpl
+IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
+"List<Programme>" --> "<<root>>\nProgramme"
+"<<root>>\nProgramme" "*" --> "1" TeacherID : "is directed"
+"<<root>>\nProgramme" "*" --> "1" DepartmentID : "belongs to"
+"<<root>>\nProgramme" "*" --> "1" DegreeTypeID : "has"
+"<<root>>\nProgramme" "*" --> "1" quantityOfEcts : "has"
+"<<root>>\nProgramme" "*" --> "1" Acronym : "has"
+"<<root>>\nProgramme" "*" --> "1" Name : "has"
+"<<root>>\nProgramme" "*" <-- "1" ProgrammeID : "has"
+"<<root>>\nProgramme" "*" --> "1" quantityOfSemesters : "has"
 
-Programme ..> StudyPlanFactory
-StudyPlanFactoryImpl ..|> StudyPlanFactory
-StudyPlanFactory ..> StudyPlan : "<<creates>>"
-Programme --> StudyPlan
-
-StudyPlan --> "List<CourseInStudyPlan>"
-
-
-
-Programme --> "List<Course>"
-
-
-StudyPlan ..> StudyPlanListFactory
-StudyPlanListFactory <|.. StudyPlanListFactoryImpl
-
-ProgrammeRepository ..> ProgrammeFactory
-ProgrammeFactory <|.. ProgrammeFactoryImpl
-ProgrammeFactory ..> Programme : "<<creates>>"
-
-
-
-"List<Programme>" --> Programme
-ProgrammeRepositoryListFactory ..> "List<Programme>" : <<creates>>
-
-ProgrammeCourseListFactory ..> "List<Course>" : <<creates>>
-
-StudyPlanListFactory ..> "List<CourseInStudyPlan>" : <<creates>>
-
-
-ProgrammeRepository ..> Programme
 @enduml

@@ -5,10 +5,12 @@ autonumber
 actor ASC
 participant SYSTEM
 ASC -> SYSTEM:  I want to create a Course Edition
-SYSTEM --> ASC -- : which programme edition??
-ASC -> SYSTEM: programme edition!
-SYSTEM --> ASC -- : which course?
-ASC -> SYSTEM: course!
+SYSTEM --> ASC -- : which programme??
+ASC -> SYSTEM: programme!
+SYSTEM --> ASC -- : which school year??
+ASC -> SYSTEM: school year!
+SYSTEM --> ASC -- : which course from the study plan?
+ASC -> SYSTEM: course in study plan!
 SYSTEM --> ASC --: Success
 
 

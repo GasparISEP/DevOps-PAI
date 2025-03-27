@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.QuantEcts;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.ProgrammeRepository;
@@ -45,7 +46,7 @@ class US11_RegisterProgrammeInTheSystemTest {
         // Criar dados de entrada
         String name = "Engenharia Informática";
         String acronym = "EI";
-        int quantityOfEcts = 30;
+        QuantEcts quantityOfEcts = new QuantEcts(30);
         int quantityOfSemesters = 6;
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
