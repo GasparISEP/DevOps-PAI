@@ -15,10 +15,10 @@ public class ProgrammeRepository {
     private final List<Programme> _programmeRepo;
     private IProgrammeRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeRepository(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeLisListFactory) {
+    public ProgrammeRepository(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeListFactory) {
         _I_programmeFactory = IProgrammeFactory;
-        _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
-        _programmeRepoListFactory = programmeLisListFactory;
+        _programmeRepo = programmeListFactory.newProgrammeArrayList();
+        _programmeRepoListFactory = programmeListFactory;
     }
 
     public boolean registerProgramme(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
