@@ -4,7 +4,8 @@ participant ":UI" as UI
 participant ":US22_iWantToGradeAStudentInACourseEditionController" as ctr
 participant "g1:Grade «Value Object»" as G
 participant "LocalDate «ValueObject»" as D
-participant "StudentID «ValueObject»" as S
+participant "StudentRepository" as SR
+participant "CourseEditionRepository" as CER
 participant "CourseEditionID «ValueObject»" as CE
 participant ":CourseEditionEnrolmentRepository" as CEER
 participant ":GradeStudentRepository" as GR
@@ -29,16 +30,14 @@ ctr -> D ++ #application : <Create> new(Date)
 D -> D : isDateValid()
 D --> ctr : dateVO1
 deactivate D
-create S
-ctr -> S ++ #application : <Create> new(StudentID)
-S -> S : isGradeValid()
-S -> ctr :  studentIdVO1
-deactivate S
-create CE
-ctr -> CE ++ #application : <Create> new(CourseEditionID)
-CE -> CE : isGradeValid()
-CE -> ctr :  ceIdVO1
-deactivate CE
+ctr -> SR ++ #application : findStudentID (Student)
+SR -> SR : findIdByStudent (Student)
+SR -> ctr :  studentIdVO1
+deactivate SR
+ctr -> CER ++ #application : findCourseEditionID ()
+CER -> CER : findIdByCourseEdition (CourseEdition)
+CER -> ctr :  ceIdVO1
+deactivate CER
 
 ctr -> CEER ++ #application : isStudentEnrolledInCourseEdition (studentIdVO1, ceIdVO1)
 CEER --> ctr -- : true

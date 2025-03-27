@@ -9,7 +9,7 @@ participant ":System" as System
 
 ASC -> System: I want to register a student in the system
 System --> ASC: What is the Student's information?
-ASC -> System: Unique number, name, NIF, phone, email, Address
+ASC -> System: uniqueNumber, name, NIF, phone, email, street, postalCode, location, country
 System --> ASC: OK!
 
 @enduml

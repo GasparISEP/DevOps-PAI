@@ -4,25 +4,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AcronymTest {
+class TeacherAcronymTest {
 
     @Test
     void shouldCreateAcronym() throws Exception {
         //Arrange
-        Acronym acronym1 = new Acronym("ABC");
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
 
         //Act+Assert
-        assertNotNull(acronym1);
+        assertNotNull(teacherAcronym1);
     }
 
     @Test
     void shouldReturnCorrectAcronym() throws Exception {
         //Arrange
         String acronym1 = "ABC";
-        Acronym acronym2 = new Acronym(acronym1);
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym(acronym1);
 
         //Act
-        String acronym2String = acronym2.getAcronym();
+        String acronym2String = teacherAcronym2.getAcronym();
 
         //Assert
         assertEquals(acronym1, acronym2String);
@@ -31,33 +31,33 @@ class AcronymTest {
     @Test
     void shouldNotReturnAcronymIfNull() {
         //Act+Assert
-        assertThrows(Exception.class, () -> new Acronym(null));
+        assertThrows(Exception.class, () -> new TeacherAcronym(null));
     }
 
     @Test
     void shouldNotReturnAcronymIfBlank()  {
-        assertThrows(Exception.class, () -> new Acronym(""));
+        assertThrows(Exception.class, () -> new TeacherAcronym(""));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsNumbers()  {
-        assertThrows(Exception.class, () -> new Acronym("AB1"));
+        assertThrows(Exception.class, () -> new TeacherAcronym("AB1"));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsLowerCases() {
-        assertThrows(Exception.class, () -> new Acronym("ABc"));
+        assertThrows(Exception.class, () -> new TeacherAcronym("ABc"));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsSpecialChars() {
-        assertThrows(Exception.class, () -> new Acronym("AB@"));
+        assertThrows(Exception.class, () -> new TeacherAcronym("AB@"));
     }
 
 
     @Test
     void shouldNotReturnAcronymIfMoreThan3Letters() {
-        assertThrows(Exception.class, () -> new Acronym("ABCD"));
+        assertThrows(Exception.class, () -> new TeacherAcronym("ABCD"));
     }
 
 }
