@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.Grade;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
@@ -27,7 +28,7 @@ public class StudentGradeRepository {
     }
 
 
-    public boolean addGradeToStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception{
+    public boolean addGradeToStudent (Grade grade, String date, Student student, CourseEdition courseEdition) throws Exception{
         if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)){
             StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
             _StudentGradeList.add(studentGrade);
@@ -50,7 +51,8 @@ public class StudentGradeRepository {
 
         for (StudentGrade studentGrade : _StudentGradeList) {
             if (studentGrade.hasThisCourseEdition(courseEdition)) {
-                double grade = studentGrade.knowGrade();
+                Grade grade1 = studentGrade.get_grade();
+                double grade = grade1.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;
             }
@@ -69,7 +71,8 @@ public class StudentGradeRepository {
         for (StudentGrade studentGrade : _StudentGradeList) {
             if (studentGrade.hasThisCourseEdition(courseEdition)) {
                 totalOfStudents++;
-                if (studentGrade.knowGrade() >= 10) {
+                Grade grade1 = studentGrade.get_grade();
+                if (grade1.knowGrade() >= 10) {
                     totalApprovalStudents++;
                 }
             }

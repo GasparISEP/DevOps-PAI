@@ -1,5 +1,7 @@
+
 package PAI.factory;
 
+import PAI.VOs.Grade;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.domain.Student;
@@ -16,18 +18,19 @@ class StudentGradeFactoryImplTest {
     @Test
     void creatingConstrutor () throws Exception {
         // Arrange
-        double grade = 11.0;
         String date = "05-03-2025";
         Student student = mock(Student.class);
         CourseEdition courseEdition =  mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
 
         try(MockedConstruction<StudentGrade> mockConstruction =  mockConstruction(StudentGrade.class,(mock, context) -> {
-            double gradeAtual = (Double) context.arguments().get(0);
+            Grade gradeAtual = (Grade) context.arguments().get(0);
             String dateAtual = (String) context.arguments().get(1);
             Student studentAtual = (Student) context.arguments().get(2);
             CourseEdition courseEditionAtual = (CourseEdition) context.arguments().get(3);
 
-            when(mock.knowGrade()).thenReturn(gradeAtual);
+            when(gradeAtual.knowGrade()).thenReturn(11.0);
+            when(mock.get_grade()).thenReturn(gradeAtual);
             when(mock.get_date()).thenReturn(LocalDate.parse(dateAtual, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             when(mock.get_student()).thenReturn(studentAtual);
             when(mock.get_courseEdition()).thenReturn(courseEditionAtual);
@@ -42,7 +45,7 @@ class StudentGradeFactoryImplTest {
             assertEquals(1, mockConstruction.constructed().size());
             StudentGrade createdStudent = mockConstruction.constructed().get(0);
 
-            assertEquals(grade, createdStudent.knowGrade());
+            assertEquals(grade, createdStudent.get_grade());
             assertEquals(date, createdStudent.get_date().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             assertEquals(student, createdStudent.get_student());
             assertEquals(courseEdition, createdStudent.get_courseEdition());
@@ -55,18 +58,19 @@ class StudentGradeFactoryImplTest {
     @Test
     void creatingConstrutorWith0Grade () throws Exception {
         // Arrange
-        double grade = 0.0;
+        Grade grade = mock(Grade.class);
         String date = "05-03-2025";
         Student student = mock(Student.class);
         CourseEdition courseEdition =  mock(CourseEdition.class);
 
         try(MockedConstruction<StudentGrade> mockConstruction =  mockConstruction(StudentGrade.class,(mock, context) -> {
-            double gradeAtual = (Double) context.arguments().get(0);
+            Grade gradeAtual = (Grade) context.arguments().get(0);
             String dateAtual = (String) context.arguments().get(1);
             Student studentAtual = (Student) context.arguments().get(2);
             CourseEdition courseEditionAtual = (CourseEdition) context.arguments().get(3);
 
-            when(mock.knowGrade()).thenReturn(gradeAtual);
+            when(gradeAtual.knowGrade()).thenReturn(11.0);
+            when(mock.get_grade()).thenReturn(gradeAtual);
             when(mock.get_date()).thenReturn(LocalDate.parse(dateAtual, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             when(mock.get_student()).thenReturn(studentAtual);
             when(mock.get_courseEdition()).thenReturn(courseEditionAtual);
@@ -81,7 +85,7 @@ class StudentGradeFactoryImplTest {
             assertEquals(1, mockConstruction.constructed().size());
             StudentGrade createdStudent = mockConstruction.constructed().get(0);
 
-            assertEquals(grade, createdStudent.knowGrade());
+            assertEquals(grade, createdStudent.get_grade());
             assertEquals(date, createdStudent.get_date().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             assertEquals(student, createdStudent.get_student());
             assertEquals(courseEdition, createdStudent.get_courseEdition());
@@ -90,31 +94,20 @@ class StudentGradeFactoryImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenGradeIsLessThanZero() {
+    void shouldThrowExceptionWhenGradeIsNull() {
         // Arrange
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
         String date = "05-03-2025";
+
+        when(grade.knowGrade()).thenReturn(10.0);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(-1, date, student, courseEdition));
-        assertEquals("Grade cannot be less than 0 or higher than 20.", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenGradeIsMoreThanTwenty() {
-        // Arrange
-        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
-        Student student = mock(Student.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
-        String date = "05-03-2025";
-
-        // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(21, date, student, courseEdition));
-        assertEquals("Grade cannot be less than 0 or higher than 20.", exception.getMessage());
+                factory.newGradeStudent(null, date, student, courseEdition));
+        assertEquals("Grade cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -123,10 +116,13 @@ class StudentGradeFactoryImplTest {
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+
+        when(grade.knowGrade()).thenReturn(10.0);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(10, null, student, courseEdition));
+                factory.newGradeStudent(grade, null, student, courseEdition));
         assertEquals("Date cannot be null or empty!", exception.getMessage());
     }
 
@@ -136,10 +132,13 @@ class StudentGradeFactoryImplTest {
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+
+        when(grade.knowGrade()).thenReturn(10.0);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(10, "", student, courseEdition));
+                factory.newGradeStudent(grade, "", student, courseEdition));
         assertEquals("Date cannot be null or empty!", exception.getMessage());
     }
 
@@ -149,10 +148,13 @@ class StudentGradeFactoryImplTest {
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+
+        when(grade.knowGrade()).thenReturn(10.0);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(10, "   ", student, courseEdition));
+                factory.newGradeStudent(grade, "   ", student, courseEdition));
         assertEquals("Date cannot be null or empty!", exception.getMessage());
     }
 
@@ -162,10 +164,13 @@ class StudentGradeFactoryImplTest {
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         CourseEdition courseEdition = mock(CourseEdition.class);
         String date = "05-03-2025";
+        Grade grade = mock(Grade.class);
+
+        when(grade.knowGrade()).thenReturn(10.0);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(10, date,null, courseEdition));
+                factory.newGradeStudent(grade, date,null, courseEdition));
         assertEquals("Student cannot be null", exception.getMessage());
     }
 
@@ -175,11 +180,15 @@ class StudentGradeFactoryImplTest {
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         Student student = mock(Student.class);
         String date = "05-03-2025";
+        Grade grade = mock(Grade.class);
+
+        when(grade.knowGrade()).thenReturn(10.0);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(10, date,student, null));
+                factory.newGradeStudent(grade, date,student, null));
         assertEquals("Course Edition cannot be null", exception.getMessage());
     }
 
 }
+
