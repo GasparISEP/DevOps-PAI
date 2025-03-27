@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import PAI.VOs.QuantEcts;
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactoryImpl;
 import PAI.repository.CourseRepository;
@@ -63,7 +64,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         // Criar dados de entrada
         String name = "Engenharia Informática";
         String acronym = "EI";
-        int quantityOfEcts = 30;
+        QuantEcts quantityOfEcts = new QuantEcts(30);
         int quantityOfSemesters = 6;
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);

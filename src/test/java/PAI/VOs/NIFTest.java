@@ -354,5 +354,41 @@ class NIFTest {
         assertNotNull(nif1);
     }
 
+    @Test
+    void shouldReturnTrueIfSameNIF(){
+        //arrange
+        String string8digits = "12345678";
+        //act
+        NIF nif = new NIF(string8digits);
+        boolean result = nif.equals(nif);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfSameNIFContent(){
+        //arrange
+        String string8digits = "12345678";
+        //act
+        NIF nif = new NIF(string8digits);
+        NIF nif2 = new NIF(string8digits);
+        boolean result = nif.equals(nif2);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNIFNotTheSame(){
+        //arrange
+        String string8digits = "12345678";
+        String string9digits = "123456789";
+        //act
+        NIF nif = new NIF(string8digits);
+        NIF nif2 = new NIF(string9digits);
+        boolean result = nif.equals(nif2);
+        //assert
+        assertFalse(result);
+    }
+
 
 }
