@@ -7,7 +7,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
 }
 
 class CourseEditionEnrolment {
-    -_enrollmentDate: LocalDate
+    -_enrolmentDate: LocalDate
     -_isActive: boolean
     +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
     +hasStudent() : boolean
@@ -19,7 +19,7 @@ class CourseEditionEnrolment {
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository(courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
     courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
-    +enrollStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
     +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrolment>
     +removeEnrolment (student: Student, courseEdition: CourseEdition) : boolean
 }
