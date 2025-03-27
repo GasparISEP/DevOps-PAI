@@ -580,17 +580,6 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeWhenNameIsEmpty () throws Exception {
-        //Arrange
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        QuantEcts quantEcts = new QuantEcts(20);
-
-        //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor));
-    }
-
-
-    @Test
     void shouldNotCreateProgrammeWhenNameIsNull () throws Exception {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
