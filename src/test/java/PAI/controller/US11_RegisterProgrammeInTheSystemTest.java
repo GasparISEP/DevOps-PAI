@@ -54,13 +54,13 @@ class US11_RegisterProgrammeInTheSystemTest {
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         IProgrammeCourseListFactory programmeCourseListFactory = mock(IProgrammeCourseListFactory.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
+        IStudyPlanListFactory IStudyPlanListFactory = mock(IStudyPlanListFactory.class);
+        IStudyPlanFactory IStudyPlanFactory = mock(IStudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
 
         //act
-        boolean result = controller1.registerProgrammeInTheSystem(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory, courseInStudyPlanFactory ,studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        boolean result = controller1.registerProgrammeInTheSystem(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, ICourseFactory);
 
         //assert
         assertTrue(result);

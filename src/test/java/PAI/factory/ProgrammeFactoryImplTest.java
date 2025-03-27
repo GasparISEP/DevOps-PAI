@@ -23,9 +23,9 @@ class ProgrammeFactoryImplTest {
         Department department = mock(Department.class);
         Teacher programmeDirector = mock(Teacher.class);
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
+        IStudyPlanListFactory IStudyPlanListFactory = mock(IStudyPlanListFactory.class);
+        IStudyPlanFactory IStudyPlanFactory = mock(IStudyPlanFactory.class);
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
         try (MockedConstruction<Programme> mockConstruction = mockConstruction(Programme.class, (mock, context) -> {
@@ -42,7 +42,7 @@ class ProgrammeFactoryImplTest {
         })) {
             //act
             ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
-            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, courseFactoryImpl);
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());

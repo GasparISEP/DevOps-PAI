@@ -6,7 +6,6 @@ import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.factory.*;
-import PAI.repository.StudyPlan;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +27,7 @@ public class Programme {
     private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) {
+                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
 
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -70,11 +69,11 @@ public class Programme {
 
         _courseList = _I_programmeCourseListFactory.createCourseList();
 
-        _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, ICourseFactory);
+        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 
     public Programme(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) {
+                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
         if(name==null) {
             throw new IllegalArgumentException("Insert a valid Name");
         }
@@ -115,7 +114,7 @@ public class Programme {
 
         _courseList = _I_programmeCourseListFactory.createCourseList();
 
-        _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, ICourseFactory);
+        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 
     private boolean isNameInvalid(String name) {

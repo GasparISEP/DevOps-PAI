@@ -1,8 +1,10 @@
 package PAI.domain;
 
 import PAI.VOs.Grade;
+import PAI.VOs.StudentGradeID;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -193,7 +195,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
         StudentGrade studentGrade1 = studentGrade;
         //act
-        boolean result = studentGrade.equals(studentGrade1);
+        boolean result = studentGrade.sameAs(studentGrade1);
         //assert
         assertTrue(result);
     }
@@ -210,7 +212,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
 
         //act
-        boolean result = studentGrade.equals(teacher);
+        boolean result = studentGrade.sameAs(teacher);
         //assert
         assertFalse(result);
     }
@@ -226,7 +228,7 @@ class StudentGradeTest {
         StudentGrade studentGrade1 = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
 
         //act
-        boolean result = studentGrade.equals(studentGrade1);
+        boolean result = studentGrade.sameAs(studentGrade1);
         //assert
         assertTrue(result);
     }
@@ -257,7 +259,7 @@ class StudentGradeTest {
     StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
 
     //act
-    boolean result = studentGrade.equals(null);
+    boolean result = studentGrade.sameAs(null);
     //assert
     assertFalse(result);
 }
@@ -324,6 +326,81 @@ class StudentGradeTest {
         boolean result = studentGradeDouble1.hasThisStudent(studentDouble2);
         //assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnGrade() throws Exception{
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
+        //act
+        Grade result = studentGradeDouble1.get_grade();
+        //assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void shouldReturnStudentGradeID() throws Exception{
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
+        //act
+        StudentGradeID result = studentGradeDouble1.get_studentGrade_id();
+        //assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void shouldNotBeEqualWhenIdsAreDifferent() throws Exception {
+        Student studentDouble1 = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+        StudentGrade grade1 = new StudentGrade(grade, "27-03-2025", studentDouble1, courseEdition);
+        StudentGrade grade2 = new StudentGrade(grade, "27-03-2025", studentDouble1, courseEdition);
+
+        assertNotEquals(grade1, grade2);
+    }
+
+    @Test
+    void shouldBeEqualWhenStudentGradeIdsAreEqual() throws Exception {
+        //arrange
+
+        StudentGrade grade1 = new StudentGrade(mock(Grade.class), "27-03-2025", mock(Student.class), mock(CourseEdition.class));
+        StudentGrade grade2 = new StudentGrade(mock(Grade.class), "27-03-2025", mock(Student.class), mock(CourseEdition.class));
+
+
+        Field idField = StudentGrade.class.getDeclaredField("_studentGrade_id");
+        idField.setAccessible(true);
+        StudentGradeID sharedId = new StudentGradeID();
+
+        idField.set(grade1, sharedId);
+        idField.set(grade2, sharedId);
+
+        // Act
+        boolean result = grade1.equals(grade2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnStudentGradeIDWithGetter() throws Exception {
+        // Arrange
+        Grade grade = mock(Grade.class);
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        StudentGrade studentGrade = new StudentGrade(grade, "27-03-2025", student, courseEdition);
+
+        // Act
+        StudentGradeID id = studentGrade.get_StudentGradeID();
+
+        // Assert
+        assertNotNull(id);
     }
 
 }

@@ -20,7 +20,7 @@ public class US11_RegisterProgrammeInTheSystem {
     }
 
     // Metodo para o Controlador de US de registar Programme no sistema
-    public boolean registerProgrammeInTheSystem(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
+    public boolean registerProgrammeInTheSystem(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, ICourseInStudyPlanFactory courseInStudyPlanFactory, IStudyPlanListFactory studyPlanListFactory, IStudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
         _programmeRepo.registerProgramme(name, acronym,  quantityOfEcts,  quantityOfSemesters,  degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, ICourseFactory);
         return true;
     }
