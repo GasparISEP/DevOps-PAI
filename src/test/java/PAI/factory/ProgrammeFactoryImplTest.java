@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.QuantEcts;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -14,7 +15,7 @@ class ProgrammeFactoryImplTest {
         //arrange
         String name = "Mechanics";
         String acronym = "MEC";
-        int quantityOfEcts = 15;
+        QuantEcts quantityOfEcts = new QuantEcts(15);
         int quantityOfSemesters = 4;
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
@@ -28,12 +29,12 @@ class ProgrammeFactoryImplTest {
         try (MockedConstruction<Programme> mockConstruction = mockConstruction(Programme.class, (mock, context) -> {
             String nameActual = (String) context.arguments().get(0);
             String acronymActual = (String) context.arguments().get(1);
-            int qtyOfEctsActual = (int) context.arguments().get(2);
+            QuantEcts qtyOfEctsActual = (QuantEcts) context.arguments().get(2);
             int qtyOfSemesters = (int) context.arguments().get(3);
 
             when(mock.getProgrammeName()).thenReturn(nameActual);
             when(mock.getAcronym()).thenReturn(acronymActual);
-            when(mock.getQuantityOfEcts()).thenReturn(qtyOfEctsActual);
+            when(mock.getQuantEcts()).thenReturn(qtyOfEctsActual);
             when(mock.getQuantityOfSemester()).thenReturn(qtyOfSemesters);
 
         })) {
@@ -47,7 +48,7 @@ class ProgrammeFactoryImplTest {
 
             assertEquals(name, createdProgramme.getProgrammeName());
             assertEquals(acronym, createdProgramme.getAcronym());
-            assertEquals(quantityOfEcts, createdProgramme.getQuantityOfEcts());
+            assertEquals(quantityOfEcts, createdProgramme.getQuantEcts());
             assertEquals(quantityOfSemesters, createdProgramme.getQuantityOfSemester());
         }
     }
