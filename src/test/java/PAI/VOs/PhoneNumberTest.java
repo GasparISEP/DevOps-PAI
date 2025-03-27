@@ -17,7 +17,6 @@ class PhoneNumberTest {
 
     @Test
     void nullCountryCodeThrowsException(){
-        //arrange
 
         //act + assert
         assertThrows(Exception.class, () -> new PhoneNumber(null, "999999999"));
@@ -25,9 +24,22 @@ class PhoneNumberTest {
 
     @Test
     void emptyCountryCodeThrowsException(){
-        //arrange
 
         //act + assert
         assertThrows(Exception.class, () -> new PhoneNumber("", "999999999"));
+    }
+
+    @Test
+    void nullNumberThrowsException(){
+
+        //act + assert
+        assertThrows(Exception.class, () -> new PhoneNumber("+351", null));
+    }
+
+    @Test
+    void emptyNumberThrowsException(){
+
+        //act + assert
+        assertThrows(Exception.class, () -> new PhoneNumber("+351", ""));
     }
 }

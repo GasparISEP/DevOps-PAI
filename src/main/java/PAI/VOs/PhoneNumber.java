@@ -13,6 +13,10 @@ public class PhoneNumber implements ValueObject {
             throw new IllegalArgumentException("Country Code cannot be empty");
         }
 
+        if(number == null || number.isBlank()){
+            throw new IllegalArgumentException("Number cannot be empty");
+        }
+
         this._countryCode = countryCode;
         this._number = number;
     }
