@@ -4,66 +4,54 @@ skinparam sequenceMessageAlign center
 title US08: I want to register a Student in the system
 
 actor ASC
-participant ":UI" as UI #implementation
-participant "ctrl1:RegisterStudentInSystemController" as ctrl #lightyellow
-participant "sr1:StudentRepository" as SR #lightcyan
-participant "s[i]:Student" as Student #strategy
-participant "sf1:StudentFactory" as SF #technology
-participant "s1:Student" as s1 #strategy
-participant "af1:AddressFactory" as AF #motivation
-participant "a1:Address" as A #physical
+participant "sID:StudentID" as studentID #implementation
+participant "name1:Name" as name #motivation
+participant "nif1:NIF" as NIF #physical
+participant "phone1:Phone" as phone #technology
+participant "email1:Email" as email #business
+participant "street1:Street" as street #strategy
+participant "pc1:PostalCode" as postalCode #application
+participant "l1:Location" as location #implementation
+participant "c1:Country" as country #motivation
 
-ASC -> UI: I want to register a student in the system
-activate UI
-UI --> ASC: What is the Student's information?
-ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country
+ASC --> studentID : create StudentID VO (uniqueNumber)
+activate studentID
+studentID --> ASC : studentID VO
+deactivate studentID
 
-UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country)
-activate ctrl
-ref over ctrl
-    Convert uniqueNumber, name, NIF, phone, email,
-    street, postalCode, location, country to VO
-end ref
+ASC --> name : create Name VO (name)
+activate name
+name --> ASC : name VO
+deactivate name
 
-ctrl -> SR: registerStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO)
-activate SR
+ASC --> phone : create Phone VO (phone)
+activate phone
+phone --> ASC : phone VO
+deactivate phone
 
-SR -> SF: newStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO)
-activate SF
+ASC --> email : create Email VO (email)
+activate email
+email --> ASC : email VO
+deactivate email
 
-SF --> AF: createAddress \n (streetVO, postalCodeVO, locationVO, countryVO)
-activate AF
+ASC --> street : create Street VO (street)
+activate street
+street --> ASC : Street VO
+deactivate street
 
-AF --> A**: new Address \n (streetVO, postalCodeVO, locationVO, countryVO)
-activate A
-A --> AF: a1
-deactivate A
+ASC --> postalCode : create PostalCode VO (postalCode)
+activate postalCode
+postalCode --> ASC : PostalCode VO
+deactivate postalCode
 
-AF --> SF: a1
-deactivate AF
-SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, a1)
-activate s1
-s1 --> SF: s1
-deactivate s1
-SF --> SR: s1
-deactivate SF
+ASC --> location : create Location VO (location)
+activate location
+location --> ASC : Location VO
+deactivate location
 
-SR -> SR : isStudentRepeated(s1)
-
-loop for each Student in SR
-    SR -> Student: hasSameID(s1)
-    activate Student
-end
-
-Student --> SR : False
-deactivate Student
-
-SR -> SR: students.add(s1)
-SR --> ctrl: True
-deactivate SR
-ctrl --> UI: True
-deactivate ctrl
-UI --> ASC: Success!
-deactivate UI
+ASC --> country : create Country VO (country)
+activate country
+country --> ASC : Country VO
+deactivate country
 
 @enduml
