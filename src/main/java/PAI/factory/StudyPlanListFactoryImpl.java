@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class StudyPlanListFactoryImpl implements StudyPlanListFactory {
+public class StudyPlanListFactoryImpl implements IStudyPlanListFactory {
 
     public List<CourseInStudyPlan> newArrayList() {
         return new ArrayList<>();

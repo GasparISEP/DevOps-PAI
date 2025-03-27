@@ -15,4 +15,59 @@ class ProgrammeIDTest {
         assertNotNull(programmeID);
     }
 
+    @Test
+    void shouldGetProgID() {
+        //arrange
+        ProgrammeID progID = new ProgrammeID();
+
+        //act
+        String res = progID.getProgID();
+
+        //assert
+        assertEquals(res, progID.getProgID());
+    }
+
+    @Test
+    void shouldReturnTrueIfSameProgID(){
+        //arrange
+        ProgrammeID progID = new ProgrammeID();
+        ProgrammeID progID1 = progID;
+        //act
+        boolean result = progID.equals(progID1);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfFromDifferentInstances(){
+        //arrange
+        ProgrammeID progID = new ProgrammeID();
+        Object o = new Object();
+        //act
+        boolean result = progID.equals(o);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfDifferentContent(){
+        //arrange
+        ProgrammeID progID = new ProgrammeID();
+        ProgrammeID progID1 = new ProgrammeID();
+        //act
+        boolean result = progID.equals(progID1);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenIsContent(){
+        //arrange
+        ProgrammeID progID = new ProgrammeID();
+        ProgrammeID progID1 = null;
+        //act
+        boolean result = progID.equals(progID1);
+        //assert
+        assertFalse(result);
+    }
 }

@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
 import PAI.repository.ProgrammeEnrolmentRepository;
@@ -147,11 +148,13 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     @Test
     void shouldReturnOptionalProgrammeByNameTest() {
         //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+
         _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-        when(_controller.getProgrammeByName("xpto")).thenReturn(Optional.of(_programme));
+        when(_controller.getProgrammeByName(name)).thenReturn(Optional.of(_programme));
 
         //act
-        Optional<Programme> result = _controller.getProgrammeByName("xpto");
+        Optional<Programme> result = _controller.getProgrammeByName(name);
 
 
         //assert
@@ -161,11 +164,12 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     @Test
     void shouldReturnOptionalEmptyWhenGettingProgrammeByNameTest() {
         //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-        when(_controller.getProgrammeByName("xpto")).thenReturn(Optional.empty());
+        when(_controller.getProgrammeByName(name)).thenReturn(Optional.empty());
 
         //act
-        Optional<Programme> result = _controller.getProgrammeByName("xpto");
+        Optional<Programme> result = _controller.getProgrammeByName(name);
 
 
         //assert
