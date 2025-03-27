@@ -65,7 +65,17 @@ class PhoneNumberTest {
                 Arguments.of("+", "999999999"),
                 Arguments.of("+35111", "999999999"),
                 Arguments.of("+3 1", "999999999"),
-                Arguments.of("+000", "999999999"));
+                Arguments.of("+3-1", "999999999"),
+                Arguments.of("+3 1", "999999999"),
+                Arguments.of("+0001", "999999999"),
+                Arguments.of("+000", "999999999"),
+                Arguments.of("+abc", "999999999"),
+                Arguments.of("+1a2", "999999999"),
+                Arguments.of("+1#2", "999999999"),
+                Arguments.of("+11 ", "999999999"),
+                Arguments.of("+ 11", "999999999")
+
+        );
     }
     @ParameterizedTest
     @MethodSource("testCountryCodeWithInvalidInputs")

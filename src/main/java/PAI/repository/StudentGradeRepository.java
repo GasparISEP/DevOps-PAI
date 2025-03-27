@@ -7,11 +7,12 @@ import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
 import PAI.domain.Student;
 import PAI.factory.IStudentGradeListFactory;
+import PAI.factory.IStudentGradeRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class StudentGradeRepository {
+public class StudentGradeRepository implements IStudentGradeRepository {
     private final IStudentGradeFactory _IStudentGradeFactory;
     private List<StudentGrade> _StudentGradeList;
 
