@@ -9,16 +9,29 @@ public class PhoneNumber implements ValueObject {
 
     public PhoneNumber(String countryCode, String number) throws Exception{
 
-        if(countryCode == null || countryCode.isBlank()){
-            throw new IllegalArgumentException("Country Code cannot be empty");
+        if(areParameterInvalid(countryCode)){
+            throw new IllegalArgumentException("Country Code cannot be empty");}
+        if(isCountryCodeInvalid(countryCode)){
+            throw new IllegalArgumentException("Country Code is invalid");
         }
-
-        if(number == null || number.isBlank()){
-            throw new IllegalArgumentException("Number cannot be empty");
-        }
-
         this._countryCode = countryCode;
+
+        if(areParameterInvalid(number)){
+            throw new IllegalArgumentException("Number cannot be empty");}
         this._number = number;
+    }
+
+    public boolean areParameterInvalid(String parameter){
+        return parameter == null || parameter.isBlank();
+    }
+
+    public boolean isCountryCodeInvalid(String countryCode) {
+        return !countryCode.matches("^\\+([1-9]\\d{0,3})$");
+    }
+
+    public boolean isNumberInvalid(String number){
+
+        return false;
     }
 
 }

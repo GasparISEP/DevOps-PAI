@@ -81,9 +81,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseEditionEnrolmentRepository enrollmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrolmentFactoryImpl, courseEditionEnrolmentListFactoryImpl);
         ICourseFactory ICourseFactory = new CourseFactoryImpl();
         IProgrammeCourseListFactory IProgrammeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactory studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactory studyPlanFactory = new StudyPlanFactoryImpl();
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        IStudyPlanListFactory IStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanFactory IStudyPlanFactory = new StudyPlanFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
@@ -99,8 +99,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"12-03-2025", tc1, 70,
                 dpt1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory,studyPlanListFactory,
-                studyPlanFactory, ICourseFactory);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory,
+                IStudyPlanFactory, ICourseFactory);
         p1.addCourseToAProgramme(c1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
