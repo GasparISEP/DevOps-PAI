@@ -3,6 +3,7 @@ package PAI.domain;
 
 
 import PAI.VOs.QuantEcts;
+import PAI.VOs.QuantSemesters;
 import PAI.factory.*;
 import PAI.repository.StudyPlan;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 public class Programme {
 
+    private QuantSemesters _quantSemesters;
     private QuantEcts _quantEcts;
     private String _name;
     private String _acronym;
@@ -69,7 +71,7 @@ public class Programme {
         _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, ICourseFactory);
     }
 
-    public Programme(String name, String acronym, QuantEcts quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
+    public Programme(String name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department,
                      Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) {
         if(isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -85,10 +87,10 @@ public class Programme {
         }
         _quantEcts = quantityOfEcts;
 
-        if (isQuantityOfSemestersInvalid(quantityOfSemesters)) {
+        if (quantityOfSemesters==null) {
             throw new IllegalArgumentException("Insert a valid number of Semesters");
         }
-        _quantityOfSemesters = quantityOfSemesters;
+        _quantSemesters = quantityOfSemesters;
 
         if (degreeType == null) {
             throw new IllegalArgumentException("Insert a valid DegreeType");
@@ -180,6 +182,8 @@ public class Programme {
     public QuantEcts getQuantEcts() {
         return _quantEcts;
     }
+
+    public QuantSemesters getQuantSemesters() {return _quantSemesters;}
 
     public StudyPlan getStudyPlan() {
         return _studyPlan;
