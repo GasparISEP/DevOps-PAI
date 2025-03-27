@@ -29,4 +29,9 @@ public class PhoneNumber implements ValueObject {
         return !countryCode.matches("^\\+([1-9]\\d{0,3})$");
     }
 
+    public boolean isNumberInvalid(String number){
+
+        return false;
+    }
+
 }
