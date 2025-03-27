@@ -1,6 +1,8 @@
 package PAI.VOs;
 
-public class QuantEcts {
+import PAI.ddd.ValueObject;
+
+public class QuantEcts implements ValueObject  {
 
     private final int _quantEcts;
 
