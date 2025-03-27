@@ -1,6 +1,8 @@
 package PAI.VOs;
 
-public class Grade {
+import PAI.ddd.ValueObject;
+
+public class Grade implements ValueObject {
     private final double _value;
 
     public Grade(double value) throws Exception {
