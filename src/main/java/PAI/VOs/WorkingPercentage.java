@@ -20,4 +20,15 @@ public class WorkingPercentage implements ValueObject {
         return workingPercentage >= 0 && workingPercentage <= 100;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) return true;
+
+        if(!(obj instanceof WorkingPercentage)) return false;
+
+        WorkingPercentage other = (WorkingPercentage) obj;
+        return _workingPercentage == other._workingPercentage;
+    }
+
 }
