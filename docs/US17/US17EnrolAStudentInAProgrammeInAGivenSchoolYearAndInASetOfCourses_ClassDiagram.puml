@@ -27,10 +27,6 @@ class CourseEditionEnrolmentListFactory {
     +newArrayList(): List<CourseEditionEnrolment>
 }
 
-class HashSet{
-    + add(): boolean
-}
-
 class ProgrammeEditionEnrolment {
     +ProgrammeEditionEnrolment(student:Student, programmeEdition: ProgrammeEdition)
     +getStudentUniqueNumber() : String
@@ -54,10 +50,6 @@ interface ProgrammeEditionEnrolmentFactoryInterface{
 
 class ProgrammeEditionEnrolmentListFactory{
     +newProgrammeEditionEnrolmentList(): Set<ProgrammeEditionEnrolment>
-}
-
-class ProgrammeEditionEnrolmentArrayList{
-     +add(programmeEditionEnrolment: ProgrammeEditionEnrolment): boolean
 }
 
 interface ProgrammeEditionEnrolmentListFactoryInterface {
@@ -86,10 +78,6 @@ interface ProgrammeRepositoryListFactory {
     +copyProgrammeArrayList(List<Programme>)
 }
 
-class ProgrammeArrayList {
-    +add(): boolean
-}
-
 class SchoolYear {
     -_description:String
     -_startData:String
@@ -104,10 +92,6 @@ class SchoolYearRepository {
 
 class SchoolYearListFactory {
     +copySchoolYearArrayList(List<SchoolYear>)
-}
-
-class SchoolYearArrayList {
-    +add(): boolean
 }
 
 interface SchoolYearListFactoryInterface {
@@ -156,13 +140,8 @@ class CourseEditionRepository {
 }
 
 class CourseEditionListFactory{
-    + newArrayList(CourseEdition)
+    +newArrayList(CourseEdition)
 }
-
-class CourseEditionArrayList{
-     +add(): boolean
-}
-
 
 class ProgrammeEdition {
     +ProgrammeEdition(programme: Programme,schoolYear: SchoolYear)
@@ -189,26 +168,17 @@ Programme " 1 "  --> "  1 _listOfEnrollments " ProgrammeEnrolment
 ProgrammeEdition "* " -->"_schoolYear 1      " SchoolYear
 CourseEditionRepository "1 " -u-> "* _listCourseEditions" CourseEdition
 CourseEditionRepository" 1     " -u-> "1  " CourseEditionListFactory
-CourseEditionRepository "1   " --> "1" CourseEditionArrayList
-CourseEditionArrayList "1 " <.. "1   " CourseEditionListFactory
-CourseEditionArrayList "arrayOfCourseEdition  1         " <.u. "*  " CourseEdition
 Student "_student 1" <-- "*" CourseEditionEnrolment
 CourseEditionEnrolment "_listOfCourseEditionEnrollment *  " <-- " 1 " CourseEditionEnrolmentRepository
 CourseEditionEnrolmentRepository"1" --> "1" CourseEditionEnrolmentListFactory
-CourseEditionEnrolmentRepository"1" --> "1" HashSet
-HashSet "1  " <.. "1   " CourseEditionEnrolmentListFactory
-HashSet "1         " <.u. "*  " SchoolYear
 CourseEditionEnrolment "*" --> "1 _listOfcourseEdition              " CourseEdition
 
 ProgrammeEdition "_programmeEdition 1                " <-- " * " ProgrammeEditionEnrolment
 ProgrammeEditionEnrolment "* " --> "_student 1   " Student
 ProgrammeEditionEnrolmentRepo ..> ProgrammeEditionEnrolment
-ProgrammeEditionEnrolmentRepo "1" --> "1    " ProgrammeEditionEnrolmentArrayList
 ProgrammeEditionEnrolmentFactoryInterface <.. ProgrammeEditionEnrolmentRepo
-ProgrammeEditionEnrolmentArrayList "1         " .u.> " *  " ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepo "1"..> "1" ProgrammeEditionEnrolmentListFactory
 ProgrammeEditionEnrolmentRepo ..> ProgrammeEditionEnrolmentListFactoryInterface
-ProgrammeEditionEnrolmentListFactoryInterface ..> ProgrammeEditionEnrolmentArrayList
 CourseEdition "_listOfCourseEdition *  " <-- "1   " ProgrammeEdition
 ProgrammeEditionEnrolmentFactoryInterface <|.. ProgrammeEditionEnrolmentFactory
 ProgrammeEditionEnrolmentListFactoryInterface <|.. ProgrammeEditionEnrolmentListFactory
@@ -216,16 +186,11 @@ ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrolment
 
 ProgrammeRepository ..> ProgrammeRepositoryListFactory
 ProgrammeRepository ..> Programme
-ProgrammeRepository "1" --> "1" ProgrammeArrayList
-ProgrammeArrayList "1" --> " _programme * " Programme
-ProgrammeRepositoryListFactory ..> ProgrammeArrayList
 ProgrammeRepositoryListFactoryImpl ..|> ProgrammeRepositoryListFactory
 
 SchoolYearRepository  ..> SchoolYearListFactoryInterface
 SchoolYearListFactory ..|> SchoolYearListFactoryInterface
-SchoolYearListFactoryInterface ..> SchoolYearArrayList
 SchoolYearRepository  ..>  SchoolYear
-SchoolYearRepository "1" --> "1" SchoolYearArrayList
-SchoolYearArrayList "1" --> " _schoolYear *          "SchoolYear
+
 @enduml
 
