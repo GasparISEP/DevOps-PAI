@@ -667,4 +667,19 @@ class ProgrammeTest {
         assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts,quantSemesters,_degreeType,_department,null, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
+
+    @Test
+    void shouldGetNameWithNumber() throws Exception {
+        //arrange
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("HI");
+        QuantEcts quantEcts = new QuantEcts(20);
+        QuantSemesters quantSemesters = new QuantSemesters(6);
+        Programme programme = new Programme(name, "CE", quantEcts,quantSemesters,_degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+
+        //act
+        NameWithNumbersAndSpecialChars res = programme.getProgrammeNameWithNumbersAndSpecialChars();
+
+        //assert
+        assertEquals(res, name);
+    }
 }
