@@ -1,6 +1,7 @@
 package PAI.repository;
 
 import PAI.VOs.Grade;
+import PAI.VOs.StudentGradeID;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
@@ -86,6 +87,14 @@ public class StudentGradeRepository {
         return approvalRate;
     }
 
+    public Optional<StudentGradeID> findIdByStudent (StudentGrade studentGrade){
+        for(StudentGrade existingStudentGrade : _StudentGradeList){
+            if(existingStudentGrade.equals(studentGrade)){
+                return Optional.of(studentGrade.get_StudentGradeID()) ;
+            }
+        }
+        return Optional.empty();
+    }
 
 
 }

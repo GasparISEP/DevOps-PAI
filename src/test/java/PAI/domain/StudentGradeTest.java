@@ -387,4 +387,20 @@ class StudentGradeTest {
         assertTrue(result);
     }
 
+    @Test
+    void shouldReturnStudentGradeIDWithGetter() throws Exception {
+        // Arrange
+        Grade grade = mock(Grade.class);
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        StudentGrade studentGrade = new StudentGrade(grade, "27-03-2025", student, courseEdition);
+
+        // Act
+        StudentGradeID id = studentGrade.get_StudentGradeID();
+
+        // Assert
+        assertNotNull(id);
+    }
+
 }

@@ -60,6 +60,9 @@ public class StudentGrade {
         }
     }
 
+    public StudentGradeID get_StudentGradeID (){
+        return _studentGrade_id;
+    }
     public LocalDate get_date() {
         return _date;
     }
@@ -94,6 +97,7 @@ public class StudentGrade {
         }
         return false;
     }
+
 
 }
 
