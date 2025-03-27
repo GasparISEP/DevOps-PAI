@@ -46,6 +46,7 @@ class StudentID <<Value Object>> {
     -_uniqueNumber : int
     + StudentID(uniqueNumber : int)
     + isUniqueNumberValid(uniqueNumber)
+    + getUniqueNumber()
 }
 
 class Name <<Value Object>> {
