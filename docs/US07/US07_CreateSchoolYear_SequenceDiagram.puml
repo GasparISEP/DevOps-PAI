@@ -1,0 +1,72 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+autonumber
+
+actor Admin
+participant ":UI" as UI
+participant "ctrl:US07_IWantToCreateASchoolYearController" as ctrl #lightpink
+participant "descriptionVO1:DescriptionV0" as descriptionVO1
+participant "dateVO1:DateVO" as dateVO1
+participant "syr1:SchoolYearRepository" as syRepo #lightgreen
+participant "sf1:SchoolYearFactoryImpl" as syFactoryImpl  #lightyellow
+participant "sy1:SchoolYear" as SchoolYear #lightblue
+
+Admin -> UI : I want to create a School Year in the System
+activate UI
+UI --> Admin : description?
+Admin -> UI : description!
+UI --> Admin : startDate?
+Admin -> UI : startDate!
+UI --> Admin : endDate?
+Admin -> UI : endDate!
+
+UI -> ctrl : I want to create a School Year in the System \n (description, startDate, endDate)
+activate ctrl
+
+
+ctrl -> descriptionVO1** : createDescriptionVO(description)
+activate descriptionVO1
+descriptionVO1 -> descriptionVO1 : isDescriptionValid()
+descriptionVO1 --> ctrl : descriptionVO1
+deactivate descriptionVO1
+
+ctrl -> dateVO1** : createStartDateVO(date)
+activate dateVO1
+dateVO1 -> dateVO1 : isDateValid()
+dateVO1 --> ctrl : startDateVO1
+deactivate dateVO1
+
+ctrl -> dateVO1** : createEndDateVO(date)
+activate dateVO1
+dateVO1 -> dateVO1 : isDateValid()
+dateVO1 --> ctrl : endDateVO1
+deactivate dateVO1
+
+ctrl -> syRepo : addSchoolYear \n (descriptionVO1,startDateVO1,endDateVO1)
+activate syRepo
+
+loop for each SchoolYear in syRepo
+    syRepo -> syRepo : schoolYearExists(newSchoolYear)
+end
+
+syRepo -> syFactoryImpl: createSchoolYear \n (descriptionVO1, startDateVO1, endDateVO1)
+activate syFactoryImpl
+syFactoryImpl -> SchoolYear: createSchoolYear \n (descriptionVO1, startDateVO1, endDateVO1)
+
+activate SchoolYear
+SchoolYear --> syFactoryImpl: sy1
+deactivate SchoolYear
+
+syFactoryImpl --> syRepo: sy1
+deactivate syFactoryImpl
+
+syRepo -> syRepo : add(sy1)
+syRepo --> ctrl : true
+deactivate syRepo
+ctrl --> UI : true
+deactivate ctrl
+UI --> Admin : Success
+deactivate UI
+
+@enduml
