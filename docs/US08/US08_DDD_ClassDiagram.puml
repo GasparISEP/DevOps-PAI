@@ -145,7 +145,7 @@ StudentListFactoryImpl "*" ..|> "1     " IStudentListFactory
 AddressFactoryImpl "*" ..|> "1  " IAddressFactory
 IAddressFactory "1" .l.> "1" Address: <<create>>
 IStudentFactory "1" ..> "1" Student: <<create>>
-StudentFactoryImpl "1" ..> "1" AddressFactoryImpl
+IStudentFactory "1" ..> "1" IAddressFactory
 StudentRepository ..|> IStudentRepository
 Student "*" ----> "1" StudentID
 Student "*" ----> "1" Name

@@ -1,7 +1,7 @@
 @startuml
 autonumber
 skinparam sequenceMessageAlign center
-
+title US08: I want to register a Student in the system
 
 actor ASC
 participant ":UI" as UI #implementation
