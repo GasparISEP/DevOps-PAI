@@ -13,10 +13,10 @@ class StudyPlanListFactoryImplTest {
     @Test
     void shouldCreateArrayListWhenConstructorIsCalled() {
         // Arrange
-        StudyPlanListFactory studyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanListFactory IStudyPlanListFactory = new StudyPlanListFactoryImpl();
 
         // Act
-        List<CourseInStudyPlan> studyPlan = studyPlanListFactory.newArrayList();
+        List<CourseInStudyPlan> studyPlan = IStudyPlanListFactory.newArrayList();
 
         // Assert
         assertNotNull(studyPlan);

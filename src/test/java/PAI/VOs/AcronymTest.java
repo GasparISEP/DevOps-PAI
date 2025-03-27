@@ -1,63 +1,55 @@
 package PAI.VOs;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AcronymTest {
 
-    @Test
-    void shouldCreateAcronym() throws Exception {
-        //Arrange
-        Acronym acronym1 = new Acronym("ABC");
+    static Stream<Arguments> testValidAcronym(){
+        return Stream.of(
+                Arguments.of("A"),
+                Arguments.of("B123"),
+                Arguments.of("AB12"),
+                Arguments.of("XYZ"),
+                Arguments.of("X9")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testValidAcronym")
+    void shouldCreateAcronymVO(String acronym){
+        //arrange
 
-        //Act+Assert
-        assertNotNull(acronym1);
+        //act
+        new Acronym(acronym);
+        //assert
     }
 
-    @Test
-    void shouldReturnCorrectAcronym() throws Exception {
-        //Arrange
-        String acronym1 = "ABC";
-        Acronym acronym2 = new Acronym(acronym1);
-
-        //Act
-        String acronym2String = acronym2.getAcronym();
-
-        //Assert
-        assertEquals(acronym1, acronym2String);
+    static Stream<Arguments> testInvalidAcronym(){
+        return Stream.of(
+                Arguments.of(""),
+                Arguments.of(" "),
+                Arguments.of((Object) null),
+                Arguments.of("a123"),
+                Arguments.of("123A"),
+                Arguments.of("X_99"),
+                Arguments.of("A 99"),
+                Arguments.of("9"),
+                Arguments.of("Ç99"),
+                Arguments.of("B-12"),
+                Arguments.of("Z1SD2")
+        );
     }
+    @ParameterizedTest
+    @MethodSource("testInvalidAcronym")
+    void shouldReturnExceptionWhenCreatingAcronymWithInvalidInputs(String acronym){
+        //arrange
 
-    @Test
-    void shouldNotReturnAcronymIfNull() {
-        //Act+Assert
-        assertThrows(Exception.class, () -> new Acronym(null));
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new Acronym(acronym));
     }
-
-    @Test
-    void shouldNotReturnAcronymIfBlank()  {
-        assertThrows(Exception.class, () -> new Acronym(""));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsNumbers()  {
-        assertThrows(Exception.class, () -> new Acronym("AB1"));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsLowerCases() {
-        assertThrows(Exception.class, () -> new Acronym("ABc"));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsSpecialChars() {
-        assertThrows(Exception.class, () -> new Acronym("AB@"));
-    }
-
-
-    @Test
-    void shouldNotReturnAcronymIfMoreThan3Letters() {
-        assertThrows(Exception.class, () -> new Acronym("ABCD"));
-    }
-
 }

@@ -1,6 +1,8 @@
 package PAI.factory;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
+import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -13,43 +15,43 @@ class ProgrammeFactoryImplTest {
     void shouldCreatNewProgramme() throws Exception {
         //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1
         //arrange
-        String name = "Mechanics";
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
         String acronym = "MEC";
         QuantEcts quantityOfEcts = new QuantEcts(15);
-        int quantityOfSemesters = 4;
+        QuantSemesters quantityOfSemesters = new QuantSemesters(4);
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
         Teacher programmeDirector = mock(Teacher.class);
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
+        IStudyPlanListFactory IStudyPlanListFactory = mock(IStudyPlanListFactory.class);
+        IStudyPlanFactory IStudyPlanFactory = mock(IStudyPlanFactory.class);
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
         try (MockedConstruction<Programme> mockConstruction = mockConstruction(Programme.class, (mock, context) -> {
-            String nameActual = (String) context.arguments().get(0);
+            NameWithNumbersAndSpecialChars nameActual = (NameWithNumbersAndSpecialChars) context.arguments().get(0);
             String acronymActual = (String) context.arguments().get(1);
             QuantEcts qtyOfEctsActual = (QuantEcts) context.arguments().get(2);
-            int qtyOfSemesters = (int) context.arguments().get(3);
+            QuantSemesters qtyOfSemesters = (QuantSemesters) context.arguments().get(3);
 
-            when(mock.getProgrammeName()).thenReturn(nameActual);
+            when(mock.getProgrammeNameWithNumbersAndSpecialChars()).thenReturn(nameActual);
             when(mock.getAcronym()).thenReturn(acronymActual);
             when(mock.getQuantEcts()).thenReturn(qtyOfEctsActual);
-            when(mock.getQuantityOfSemester()).thenReturn(qtyOfSemesters);
+            when(mock.getQuantSemesters()).thenReturn(qtyOfSemesters);
 
         })) {
             //act
             ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
-            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+            Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, courseFactoryImpl);
 
             //assert
             assertEquals(1, mockConstruction.constructed().size());
             Programme createdProgramme = mockConstruction.constructed().get(0);
 
-            assertEquals(name, createdProgramme.getProgrammeName());
+            assertEquals(name, createdProgramme.getProgrammeNameWithNumbersAndSpecialChars());
             assertEquals(acronym, createdProgramme.getAcronym());
             assertEquals(quantityOfEcts, createdProgramme.getQuantEcts());
-            assertEquals(quantityOfSemesters, createdProgramme.getQuantityOfSemester());
+            assertEquals(quantityOfSemesters, createdProgramme.getQuantSemesters());
         }
     }
 }

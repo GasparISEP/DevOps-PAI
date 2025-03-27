@@ -1,22 +1,19 @@
 package PAI.VOs;
 
-public class Acronym {
+import PAI.ddd.ValueObject;
+
+public class Acronym implements ValueObject {
 
     private final String _acronym;
 
-    public Acronym(String acronym) throws Exception {
-        if (acronym == null || acronym.isBlank()) {
-            throw new Exception("Acronym must be a 3 capital letter non-empty String.");
+    public Acronym(String acronym) {
+        if (isAcronymInvalid(acronym)) {
+            throw new IllegalArgumentException("Acronym must not be empty");
         }
-        if (!acronym.matches("^[A-Z]{3}$")) {
-            throw new Exception("Acronym must contain only three capital letters.");
-        }
-        _acronym = acronym;
+        this._acronym = acronym;
     }
 
-    public String getAcronym() {
-        return _acronym;
+    private boolean isAcronymInvalid(String acronym) {
+        return acronym == null || acronym.isBlank() || !acronym.matches("^[A-Z]+[0-9]*$");
     }
 }
-
-

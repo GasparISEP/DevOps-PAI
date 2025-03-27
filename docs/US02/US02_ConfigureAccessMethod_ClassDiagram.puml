@@ -1,59 +1,77 @@
 @startuml
 
-class AccessMethod
-interface IAccessMethodFactory
-class AccessMethodFactory
-interface IAccessMethodListFactory
-class AccessMethodArrayListFactory
-class AccessMethodRepository
-class US02_ConfigureAccessMethod_Controller
+skinparam ranksep 100
+skinparam nodesep 100
 
-class AccessMethod {
-    -_accessMethodName:String
-    +AccessMethod(accessMethodName: String)
-    +equals(Object: o) : boolean
-    +hasThisAccessMethodName(accessMethodName: String) : boolean
-    -isAccessMethodNameValid((accessMethodName: String) : boolean
+package "AccessMethod Aggregate" as AMAggregate{
+    entity "<<Root>>\n <<Entity>>\n AccessMethod"{
+    + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)
+    + Equals()
+    }
 }
+
+class "<<Value Object>>\n NameWithNumbersAndSpecialChars" as VOName{
+    - accessMethodName: String
+}
+
+class "<<Value Object>>\n AccessMethodId" as VOId{
+    - id: String
+}
+
+'uses
+AMAggregate "1" -> "1" VOName
+AMAggregate "1" -> "1" VOId
+
 
 Interface IAccessMethodFactory {
-    +createAccessMethod(accessMethodName: String) : AccessMethod
+    +createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
-class AccessMethodFactory {
-    +createAccessMethod(accessMethodName: String) : AccessMethod
+class AccessMethodFactoryImpl {
+     +createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
 }
 'implements
-AccessMethodFactory ..|> "implements" IAccessMethodFactory
+AccessMethodFactoryImpl ..|> "implements"  IAccessMethodFactory
 
 
 Interface IAccessMethodListFactory {
- +createAccessMethodArrayList() : List<AccessMethod>
+ +createAccessMethodList() : List<AccessMethod>
 }
 
-class AccessMethodArrayListFactory {
-    +createAccessMethodArrayList() : ArrayList<AccessMethod>
+class AccessMethodListFactoryImpl {
+    +createAccessMethodList() : ArrayList<AccessMethod>
 }
 'implements
-AccessMethodArrayListFactory ..|> "implements" IAccessMethodListFactory
+AccessMethodListFactoryImpl ..|> "implements" IAccessMethodListFactory
 
-class AccessMethodRepository {
+
+Interface IAccessMethodRepository {
+    +AccessMethodRepository(IAccessMethodFactory : iAccessMethodFactory, IAccessMethodListFactory : iAccessMethodListFactory)
+    +registerAccessMethod(accessMethodName: String) : boolean
+    -isAccessMethodRegistered(accessMethodID: AccessMethodID) : boolean
+    +getAccessMethodByName(String AccessMethodName) : AccessMethod
+}
+
+class AccessMethodRepositoryImpl {
     +AccessMethodRepository(IAccessMethodFactory : iAccessMethodFactory, IAccessMethodListFactory : iAccessMethodListFactory)
     +registerAccessMethod(accessMethodName: String) : boolean
     -isAccessMethodRegistered(accessMethod: AccessMethod) : boolean
     +getAccessMethodByName() : AccessMethod
 }
+
+'implements
+AccessMethodRepositoryImpl ..|> "implements" IAccessMethodRepository
 'uses
-AccessMethodRepository "1 " --> "uses 1"IAccessMethodFactory
-AccessMethodRepository "1" --> "uses 1" IAccessMethodListFactory
+IAccessMethodRepository "1 " --> "uses 1"IAccessMethodFactory
+IAccessMethodRepository "1" --> "uses 1" IAccessMethodListFactory
 
 class US02_ConfigureAccessMethod_Controller {
     +US02_ConfigureAccessMethod_Controller(accessMethodRepository : AccessMethodRepository)
     +configureAccessMethod(accessMethodName: String) : boolean
 }
 'uses
-US02_ConfigureAccessMethod_Controller "1" --> "uses 1" AccessMethodRepository
+US02_ConfigureAccessMethod_Controller "1" --> "uses 1" IAccessMethodRepository
 
 'creates
-AccessMethodFactory "1" ..> " creates *" AccessMethod
+IAccessMethodFactory "1" ..> " creates 1..*" AMAggregate
 @enduml

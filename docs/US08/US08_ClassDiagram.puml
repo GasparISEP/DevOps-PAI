@@ -35,29 +35,30 @@ package "Address Aggregate" {
         - _postalCode : PostalCode
         - _location : Location
         - _country : Country
-        + getStreet() : String
-        + getPostalCode() : String
-        + getLocation() : String
-        + getCountry() : String
+        + getStreet() : Street
+        + getPostalCode() : PostalCode
+        + getLocation() : Location
+        + getCountry() : Country
     }
 }
 
 class StudentID <<Value Object>> {
     -_uniqueNumber : int
     + StudentID(uniqueNumber : int)
-    + isUniqueNumberValid()
+    + isUniqueNumberValid(uniqueNumber)
+    + getUniqueNumber()
 }
 
 class Name <<Value Object>> {
     -_name : String
     + Name(name : String)
-    + isNameValid
+    + isNameValid(name)
 }
 
 class NIF <<Value Object>> {
     -_NIF : String
     + NIF(NIF : String)
-    + isNIFInvalid()
+    + isNIFInvalid(NIF)
 }
 
 class Phone <<Value Object>> {
@@ -145,7 +146,7 @@ StudentListFactoryImpl "*" ..|> "1     " IStudentListFactory
 AddressFactoryImpl "*" ..|> "1  " IAddressFactory
 IAddressFactory "1" .l.> "1" Address: <<create>>
 IStudentFactory "1" ..> "1" Student: <<create>>
-StudentFactoryImpl "1" ..> "1" AddressFactoryImpl
+IStudentFactory "1" ..> "1" IAddressFactory
 StudentRepository ..|> IStudentRepository
 Student "*" ----> "1" StudentID
 Student "*" ----> "1" Name

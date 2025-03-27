@@ -1,7 +1,7 @@
 @startuml
 autonumber
 skinparam sequenceMessageAlign center
-
+title US08: I want to register a Student in the system
 
 actor ASC
 participant ":UI" as UI #implementation
@@ -21,7 +21,7 @@ ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, locatio
 UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country)
 activate ctrl
 ref over ctrl
-    Convert uniqueNumber, name, NIF, phone, email,
+    Convert studentID, name, NIF, phone, email,
     street, postalCode, location, country to VO
 end ref
 

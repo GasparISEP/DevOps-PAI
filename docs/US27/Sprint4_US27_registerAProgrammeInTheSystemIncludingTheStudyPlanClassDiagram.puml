@@ -29,10 +29,18 @@ class quantityOfEcts <<ValueObject>> {
     +getquantityOfEcts()
 }
 
-class quantityOfSemesters <<ValueObject>> {
+class QuantityOfSemesters <<ValueObject>> {
     -quantityOfSemesters: int
     + isQuantityOfSemestersInvalid(int quantityOfSemesters)
     +getQuantityOfSemester()
+}
+
+class DurationInYears <<ValueObject>> {
+    -_durationInYears: int
+    +DurationInYears (int quantSemester)
+    +isQuantSemesterValid (int quantSemester): boolean
+    +calculateSemestersInYears(int quantSemester): int
+    +getDurationInYears(): int
 }
 
 package "Programme Aggregate" {
@@ -200,7 +208,7 @@ IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "<<root>>\nProgramme" "*" --> "1" TeacherID : "is directed"
 "<<root>>\nProgramme" "*" --> "1" DepartmentID : "belongs to"
 "<<root>>\nProgramme" "*" --> "1" DegreeTypeID : "has"
-"<<root>>\nStudyPlan" "*" --> "1" quantityOfSemesters : "has"
+"<<root>>\nProgramme" "*" --> "1" quantityOfSemesters : "has"
 "<<root>>\nProgramme" "*" --> "1" quantityOfEcts : "has"
 "<<root>>\nProgramme" "*" --> "1" Acronym : "has"
 "<<root>>\nProgramme" "*" --> "1" Name : "has"
@@ -210,6 +218,7 @@ IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "<<root>>\nCourseInStudyPlan" "*" --> "1" CurricularYear : "has"
 
 "<<root>>\nStudyPlan" "*" <-- "1" StudyPlanID: "has"
+"<<root>>\nStudyPlan" "*" <-- "1" DurationInYears: "has"
 
 
 @enduml
