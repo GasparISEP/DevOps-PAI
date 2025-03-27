@@ -35,29 +35,29 @@ package "Address Aggregate" {
         - _postalCode : PostalCode
         - _location : Location
         - _country : Country
-        + getStreet() : String
-        + getPostalCode() : String
-        + getLocation() : String
-        + getCountry() : String
+        + getStreet() : Street
+        + getPostalCode() : PostalCode
+        + getLocation() : Location
+        + getCountry() : Country
     }
 }
 
 class StudentID <<Value Object>> {
     -_uniqueNumber : int
     + StudentID(uniqueNumber : int)
-    + isUniqueNumberValid()
+    + isUniqueNumberValid(uniqueNumber)
 }
 
 class Name <<Value Object>> {
     -_name : String
     + Name(name : String)
-    + isNameValid
+    + isNameValid(name)
 }
 
 class NIF <<Value Object>> {
     -_NIF : String
     + NIF(NIF : String)
-    + isNIFInvalid()
+    + isNIFInvalid(NIF)
 }
 
 class Phone <<Value Object>> {
