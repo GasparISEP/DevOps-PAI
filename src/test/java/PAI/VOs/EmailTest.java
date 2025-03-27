@@ -55,7 +55,7 @@ class EmailTest {
     }
     @ParameterizedTest
     @MethodSource("testEmailWithInvalidInputs")
-    void invalidEmailInputShouldReturnException(String email) {
+    void invalidEmailInputShouldReturnException(String email) throws IllegalArgumentException {
         //arrange
 
         //act + assert
