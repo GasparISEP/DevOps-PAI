@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,10 @@ class StudentGradeTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         // Act
-        StudentGrade studentGrade1 = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade1 = new StudentGrade(grade, dateDouble, student1, courseEdition1);
         // Assert
         assertNotNull(studentGrade1);
     }
@@ -32,23 +34,11 @@ class StudentGradeTest {
         // Arrange
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
+        Date dateDouble = mock(Date.class);
 
         // Act + Assert
 
-        assertThrows(Exception.class, () -> new StudentGrade(null, "10-02-2025", student1, courseEdition1));
-
-    }
-
-    @Test
-    void shouldNotCreateValidGradeStudentWithDateInvalid()  {
-        // Arrange
-        Student student1 = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
-        Grade grade = mock(Grade.class);
-
-        // Act + Assert
-
-        assertThrows(Exception.class, () -> new StudentGrade(grade, "1a-02-2025", student1, courseEdition1));
+        assertThrows(Exception.class, () -> new StudentGrade(null, dateDouble, student1, courseEdition1));
 
     }
 
@@ -69,10 +59,11 @@ class StudentGradeTest {
         // Arrange
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         // Act + Assert
 
-        assertThrows(Exception.class, () -> new StudentGrade(grade, "10-02-2025", null, courseEdition1));
+        assertThrows(Exception.class, () -> new StudentGrade(grade, dateDouble, null, courseEdition1));
 
     }
 
@@ -81,10 +72,11 @@ class StudentGradeTest {
         // Arrange
         Student student1 = mock(Student.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         // Act + Assert
 
-        assertThrows(Exception.class, () -> new StudentGrade(grade, "10-02-2025", student1, null));
+        assertThrows(Exception.class, () -> new StudentGrade(grade, dateDouble, student1, null));
 
     }
 
@@ -94,10 +86,11 @@ class StudentGradeTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
         when(grade.knowGrade()).thenReturn(18.0);
 
         // Act
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         // Assert
         assertEquals(18, grade.knowGrade(), 0.01);
@@ -109,9 +102,10 @@ class StudentGradeTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         // Act
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         // Assert
         assertEquals(courseEdition1, studentGrade.KnowCourseEdition());
@@ -123,8 +117,9 @@ class StudentGradeTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         // Act
         boolean result = studentGrade.hasThisCourseEdition(courseEdition1);
@@ -142,8 +137,9 @@ class StudentGradeTest {
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         // Act
         boolean result = studentGrade.hasThisCourseEdition(courseEdition2);
@@ -159,9 +155,10 @@ class StudentGradeTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         // Act
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         // Assert
         assertTrue(studentGrade.hasThisCourseEdition(courseEdition1));
@@ -174,9 +171,10 @@ class StudentGradeTest {
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         // Act
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         // Assert
         assertFalse(studentGrade.hasThisCourseEdition(courseEdition2));
@@ -191,8 +189,9 @@ class StudentGradeTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
         StudentGrade studentGrade1 = studentGrade;
         //act
         boolean result = studentGrade.sameAs(studentGrade1);
@@ -208,8 +207,9 @@ class StudentGradeTest {
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Teacher teacher = mock(Teacher.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         //act
         boolean result = studentGrade.sameAs(teacher);
@@ -223,9 +223,10 @@ class StudentGradeTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
-        StudentGrade studentGrade1 = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
+        StudentGrade studentGrade1 = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         //act
         boolean result = studentGrade.sameAs(studentGrade1);
@@ -240,9 +241,10 @@ class StudentGradeTest {
         Student student2 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
-        StudentGrade studentGrade1 = new StudentGrade(grade, "10-02-2025", student2, courseEdition1);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
+        StudentGrade studentGrade1 = new StudentGrade(grade, dateDouble, student2, courseEdition1);
 
         //act
         boolean result = studentGrade.equals(studentGrade1);
@@ -255,8 +257,9 @@ class StudentGradeTest {
     Student student1 = mock(Student.class);
     CourseEdition courseEdition1 = mock(CourseEdition.class);
     Grade grade = mock(Grade.class);
+    Date dateDouble = mock(Date.class);
 
-    StudentGrade studentGrade = new StudentGrade(grade, "10-02-2025", student1, courseEdition1);
+    StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
     //act
     boolean result = studentGrade.sameAs(null);
@@ -267,14 +270,16 @@ class StudentGradeTest {
 
     @Test
     void testGetDate() throws Exception {
-        LocalDate expectedDate = LocalDate.of(2025, 3, 5);
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "05-03-2025", student, courseEdition);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEdition);
 
-        assertEquals(expectedDate, studentGrade.get_date());
+        Date result = studentGrade.get_date();
+
+        assertNotNull(result);
     }
 
     @Test
@@ -282,8 +287,9 @@ class StudentGradeTest {
         Student expectedStudent = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "10-03-2025", expectedStudent, courseEdition);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, expectedStudent, courseEdition);
 
         assertEquals(expectedStudent, studentGrade.get_student());
     }
@@ -293,8 +299,9 @@ class StudentGradeTest {
         Student student = mock(Student.class);
         CourseEdition expectedCourseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "15-03-2025", student, expectedCourseEdition);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, expectedCourseEdition);
 
         assertEquals(expectedCourseEdition, studentGrade.get_courseEdition());
     }
@@ -306,7 +313,8 @@ class StudentGradeTest {
         Student studentDouble = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble,courseEdition);
+        Date dateDouble = mock(Date.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble,courseEdition);
         //act
         boolean result = studentGradeDouble1.hasThisStudent(studentDouble);
         //assert
@@ -321,7 +329,8 @@ class StudentGradeTest {
         Student studentDouble2 = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
+        Date dateDouble = mock(Date.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
         //act
         boolean result = studentGradeDouble1.hasThisStudent(studentDouble2);
         //assert
@@ -334,7 +343,8 @@ class StudentGradeTest {
         Student studentDouble1 = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
+        Date dateDouble = mock(Date.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
         //act
         Grade result = studentGradeDouble1.get_grade();
         //assert
@@ -347,7 +357,8 @@ class StudentGradeTest {
         Student studentDouble1 = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
+        Date dateDouble = mock(Date.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
         //act
         StudentGradeID result = studentGradeDouble1.get_studentGrade_id();
         //assert
@@ -359,8 +370,9 @@ class StudentGradeTest {
         Student studentDouble1 = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
-        StudentGrade grade1 = new StudentGrade(grade, "27-03-2025", studentDouble1, courseEdition);
-        StudentGrade grade2 = new StudentGrade(grade, "27-03-2025", studentDouble1, courseEdition);
+        Date dateDouble = mock(Date.class);
+        StudentGrade grade1 = new StudentGrade(grade, dateDouble, studentDouble1, courseEdition);
+        StudentGrade grade2 = new StudentGrade(grade, dateDouble, studentDouble1, courseEdition);
 
         assertNotEquals(grade1, grade2);
     }
@@ -368,9 +380,9 @@ class StudentGradeTest {
     @Test
     void shouldBeEqualWhenStudentGradeIdsAreEqual() throws Exception {
         //arrange
-
-        StudentGrade grade1 = new StudentGrade(mock(Grade.class), "27-03-2025", mock(Student.class), mock(CourseEdition.class));
-        StudentGrade grade2 = new StudentGrade(mock(Grade.class), "27-03-2025", mock(Student.class), mock(CourseEdition.class));
+        Date dateDouble = mock(Date.class);
+        StudentGrade grade1 = new StudentGrade(mock(Grade.class), dateDouble, mock(Student.class), mock(CourseEdition.class));
+        StudentGrade grade2 = new StudentGrade(mock(Grade.class), dateDouble, mock(Student.class), mock(CourseEdition.class));
 
 
         Field idField = StudentGrade.class.getDeclaredField("_studentGrade_id");
@@ -393,8 +405,9 @@ class StudentGradeTest {
         Grade grade = mock(Grade.class);
         Student student = mock(Student.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
+        Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, "27-03-2025", student, courseEdition);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEdition);
 
         // Act
         StudentGradeID id = studentGrade.get_StudentGradeID();

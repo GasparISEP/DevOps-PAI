@@ -1,6 +1,7 @@
 
 package PAI.controller;
 
+import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.domain.*;
 import PAI.repository.StudentGradeRepository;
@@ -37,6 +38,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         Student student2 = mock(Student.class);
         Grade grade1 = mock(Grade.class);
         Grade grade2 = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
@@ -48,8 +50,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
 
 
-        when(list.addGradeToStudent(grade1, "10-10-2025", student1, courseEdition1)).thenReturn(true);
-        when(list.addGradeToStudent(grade2, "10-10-2025", student2, courseEdition1)).thenReturn(true);
+        when(list.addGradeToStudent(grade1, dateDouble, student1, courseEdition1)).thenReturn(true);
+        when(list.addGradeToStudent(grade2, dateDouble, student2, courseEdition1)).thenReturn(true);
         when(list.KnowAverageGrade(courseEdition1)).thenReturn(14.0);
 
         // Act
