@@ -12,7 +12,7 @@ public class QuantEcts {
     }
 
     private boolean isQuantEctsValid (int quantityOfEcts){
-        return quantityOfEcts >0 && quantityOfEcts <=30;
+        return quantityOfEcts > 0 && quantityOfEcts <= 30;
     }
 
     public int getQuantEcts() {

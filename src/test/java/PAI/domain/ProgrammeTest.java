@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.QuantEcts;
 import PAI.factory.*;
 import PAI.repository.StudyPlan;
 import org.junit.jupiter.api.BeforeEach;
@@ -226,8 +227,10 @@ class ProgrammeTest {
     void returnFalseWhenEctsIsDifferent () throws Exception {
 
         //arrange
-        Programme CE = new Programme("Computer Engineering", "CE", 21,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
-        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        QuantEcts quantEcts = new QuantEcts(21);
+        QuantEcts quantEcts1 = new QuantEcts(20);
+        Programme CE = new Programme("Computer Engineering", "CE", quantEcts,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
+        Programme CEE = new Programme("Computer Engineering", "CE", quantEcts1,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _courseInStudyPlanFactory, _studyPlanListFactory, _studyPlanFactory, _courseFactor);
 
         //act
         boolean result = CE.equals(CEE);
