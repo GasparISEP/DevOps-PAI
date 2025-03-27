@@ -23,9 +23,4 @@ public class ProgrammeID implements DomainId {
         if (!(o instanceof ProgrammeID that)) return false;
         return Objects.equals(_progID, that._progID);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(_progID);
-    }
 }
