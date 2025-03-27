@@ -1,0 +1,59 @@
+@startuml
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+
+title US28: As an ASC, I want to remove the enrolment of a student in a course edition - Sequence Diagram
+
+actor ASC #Orange/White
+participant ":UI" as UI
+participant ":US28_Controller" as Controller
+participant ":ICourseEditionEnrolmentRepository" as IRepo
+participant ":CourseEditionEnrolmentRepository" as Repository
+participant "cee:CourseEditionEnrolment" as Enrolment
+autonumber
+
+ASC -> UI : I want to remove the enrolment\n of a student in a course edition
+activate UI
+UI --> ASC : What is the student ID?
+deactivate UI
+ASC -> UI : Student ID!
+activate UI
+UI --> ASC : What is the course edition ID?
+deactivate UI
+ASC -> UI : Course edition ID!
+activate UI
+
+UI -> Controller : removeStudentEnrolment\n(studentID, courseEditionID)
+activate Controller
+
+Controller -> IRepo : removeEnrolment\n(studentID, courseEditionID)
+activate IRepo
+
+IRepo -> Repository : removeEnrolment\n(studentID, courseEditionID)
+activate Repository
+
+Repository -> Repository : cee:findByStudentAndEdition\n(studentID, courseEditionID)
+
+Repository -> Enrolment : isEnrolmentActive()
+Enrolment --> Repository : true
+deactivate Enrolment
+
+Repository -> Enrolment : deactivateEnrolment()
+activate Enrolment
+Enrolment --> Repository : Enrolment status set to inactive
+deactivate Enrolment
+
+Repository --> IRepo : true
+deactivate Repository
+
+IRepo --> Controller : true
+deactivate IRepo
+
+Controller --> UI : true
+deactivate Controller
+UI --> ASC : Enrolment successfully removed
+deactivate UI
+
+@enduml
