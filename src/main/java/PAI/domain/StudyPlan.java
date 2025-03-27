@@ -1,25 +1,22 @@
-package PAI.repository;
+package PAI.domain;
 
-import PAI.domain.Course;
-import PAI.domain.CourseInStudyPlan;
-import PAI.domain.Programme;
 import PAI.factory.ICourseFactory;
-import PAI.factory.CourseInStudyPlanFactory;
-import PAI.factory.StudyPlanListFactory;
+import PAI.factory.ICourseInStudyPlanFactory;
+import PAI.factory.IStudyPlanListFactory;
 
 import java.util.List;
 
 public class StudyPlan {
 
-    private CourseInStudyPlanFactory _courseInStudyPlanFactory;
+    private ICourseInStudyPlanFactory _I_courseInStudyPlanFactory;
     private ICourseFactory _I_courseFactory;
     private List<CourseInStudyPlan> _studyPlanListFactory;
 
-    public StudyPlan(CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, ICourseFactory ICourseFactory) {
+    public StudyPlan(ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, ICourseFactory ICourseFactory) {
 
-        _courseInStudyPlanFactory = courseInStudyPlanFactory;
+        _I_courseInStudyPlanFactory = ICourseInStudyPlanFactory;
         _I_courseFactory = ICourseFactory;
-        _studyPlanListFactory = studyPlanListFactory.newArrayList();
+        _studyPlanListFactory = IStudyPlanListFactory.newArrayList();
 
     }
 
@@ -38,7 +35,7 @@ public class StudyPlan {
             return addAnnualCourse(semester, curricularYear, course, programme);
         }
 
-        CourseInStudyPlan courseInStudyPlan = _courseInStudyPlanFactory.newCourseInStudyPlan(semester, curricularYear, course, programme);
+        CourseInStudyPlan courseInStudyPlan = _I_courseInStudyPlanFactory.newCourseInStudyPlan(semester, curricularYear, course, programme);
 
         // Verifica se o limite de ECTS foi excedido
         if (isEctsLimitExceeded(curricularYear, semester, courseInStudyPlan)) {
@@ -79,14 +76,14 @@ public class StudyPlan {
 
         double halfEcts = course.getQuantityCreditsEcts() / 2.0;
 
-        CourseInStudyPlan firstSemesterCourse = _courseInStudyPlanFactory.newCourseInStudyPlan(1, curricularYear,
+        CourseInStudyPlan firstSemesterCourse = _I_courseInStudyPlanFactory.newCourseInStudyPlan(1, curricularYear,
                 _I_courseFactory.createCourse(course.getName(), course.getAcronym(), halfEcts, 1), programme);
 
         if (isEctsLimitExceeded(curricularYear, 1, firstSemesterCourse)) {
             throw new IllegalArgumentException("Cannot register course: ECTS limit for this semester exceeded.");
         }
 
-        CourseInStudyPlan secondSemesterCourse = _courseInStudyPlanFactory.newCourseInStudyPlan(2, curricularYear,
+        CourseInStudyPlan secondSemesterCourse = _I_courseInStudyPlanFactory.newCourseInStudyPlan(2, curricularYear,
                 _I_courseFactory.createCourse(course.getName(), course.getAcronym(), halfEcts, 1), programme);
 
         if (isEctsLimitExceeded(curricularYear, 2, secondSemesterCourse)) {
