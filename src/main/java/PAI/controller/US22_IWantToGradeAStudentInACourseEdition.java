@@ -1,6 +1,7 @@
 
 package PAI.controller;
 
+import PAI.VOs.Grade;
 import PAI.domain.*;
 import PAI.repository.StudentGradeRepository;
 import PAI.repository.CourseEditionEnrolmentRepository;
@@ -23,7 +24,7 @@ public class US22_IWantToGradeAStudentInACourseEdition {
        return _courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(student,courseEdition);
     }
 
-    public boolean iWantToGradeAStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception{
+    public boolean iWantToGradeAStudent (Grade grade, String date, Student student, CourseEdition courseEdition) throws Exception{
         if (isStudentEnrolledInCourseEdition(student, courseEdition)){
             _StudentGradeRepository.addGradeToStudent(grade,date,student,courseEdition);
             return true;

@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.Grade;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,13 +9,13 @@ import java.util.Objects;
 
 public class StudentGrade {
 
-        private double _grade;
+        private Grade _grade;
         private LocalDate _date;
         private Student _student;
         private CourseEdition _courseEdition;
 
-        public StudentGrade(double grade, String date, Student student, CourseEdition courseEdition) throws Exception {
-            if (!isGradeValid(grade)) throw new IllegalArgumentException("Grade should be between 0 and 20");
+        public StudentGrade(Grade grade, String date, Student student, CourseEdition courseEdition) throws Exception {
+            if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
             _grade = grade;
 
             if ( date == null || date.isEmpty()) throw new IllegalArgumentException("Date cannot be empty");
@@ -26,17 +28,11 @@ public class StudentGrade {
             _courseEdition = courseEdition;
         }
 
-        private boolean isGradeValid (double grade){
-            return grade >= 0 && grade <=20;
-        }
+    public Grade get_grade() {
+        return _grade;
+    }
 
-
-
-        public double knowGrade() {
-            return _grade;
-        }
-
-        public boolean hasThisCourseEdition(CourseEdition courseEdition) {
+    public boolean hasThisCourseEdition(CourseEdition courseEdition) {
             return _courseEdition.equals(courseEdition);
         }
 
