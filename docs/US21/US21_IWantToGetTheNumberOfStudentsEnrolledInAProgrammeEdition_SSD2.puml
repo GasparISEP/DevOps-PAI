@@ -1,0 +1,17 @@
+@startuml
+title: US21_GET_THE_NUMBER_OF_STUDENTS_ENROLLED_IN_A_PROGRAMME_EDITION_(DDD SEQUENCE SYSTEM DIAGRAM)
+autonumber
+
+actor ASC
+participant SYSTEM
+
+ASC -> SYSTEM:  I want to get the number of students enrolled in a programme edition!
+SYSTEM --> ASC -- : Which Degree Type? (List of Degree Type)
+ASC -> SYSTEM: This Department!
+SYSTEM --> ASC -- : Which Programme? (List of Programme)
+ASC -> SYSTEM: This Programme!
+SYSTEM --> ASC -- : Which SchoolYear? (List of SchoolYear)
+ASC -> SYSTEM: This SchoolYear!
+SYSTEM --> ASC -- : This is the number of Students in ProgrammeEditionId.
+
+@enduml
