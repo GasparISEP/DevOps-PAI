@@ -1,78 +1,117 @@
 @startuml
 
-!pragma layout smetana
-'left to right direction'
+skinparam ranksep 100
+skinparam nodesep 100
 
-class US14_UpdateTeachersCategoryController {
+class US14_UpdateTeacherCategoryController {
     +US14_UpdateTeachersCategoryController()
-    +getTeacherByNIF(NIF: String)
-    +updateTeachersCategoryInTeacherCareerProgression(date: String, teacherNIF: String, teacherCategoryName: String)
+    +updateTeacherCategory(dateVO: DateVO, teacherIDVO: TeacherIDVO, teacherCategoryVO : teacherCategoryVO)
 }
 
-class Teacher {
-     -_acronym:String
-     -_name:String
-     -_email:String
-     -_nif:String
-     -_phoneNumber:String
-     -_academicBackground:String
-     -_address:Address
-     -_department:Department
-     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
-     academicBackground: String, street: String, postalCode: String, location: String, country: String,
-     date: String, category: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory)
-     +validateAcronym(teacherAcronym:String)
-     +validateName(name: String)
-     +validateEmail(email: String)
-     +validateNif(nif: String)
-     +validatePhoneNumber(phoneNumber: String)
-     +validateAcademicBackground(academicBackground: String)
-     +hasSameAcronym(teacher: Teacher)
-     +hasSameNif(teacher: Teacher)
-     +isInDepartment(department: Department)
-     +hasThisNIF(NIF: String)
-     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
-     +updateTeachersCategoryInTeacherCareerProgression(date: String, teacherCategory: TeacherCategory)
+package "Teacher Aggregate" {
+    entity "<<Root>>\n <<Entity>>\n Teacher" {
+         +hasThisID(teacherIDVO: TeacherIDVO)
+    }
 }
 
-class TeacherCareerProgression {
-    -_date: LocalDate
-    -_workingPercentage: int
-    +TeacherCareerProgression(date: String, workingPercentage: int)
+class "<<Value Object>>\n TeacherIDVO" {
+        -acronym: String
+    }
+
+
+package "TeacherCareerProgression Aggregate" {
+    entity "<<Root>>\n <<Entity>>\nTeacherCareerProgression" {
+        +TeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,teacherIDVO: teacherIDVO)
+        +isDateAfter(dateVO: DateVO)
+        +getCategory()
+    }
+}
+
+    class "<<Value Object>>\n TeacherCareerProgressionIDVO" {
+          -ID: int
+    }
+
+    class "<<Value Object>>\n DateVO" {
+          -date: LocalDate
+    }
+
+    class "<<Value Object>>\n WorkingPercentageVO" {
+              -workingPercentage: int
+   }
+
+class TeacherCareerProgressionRepositoryImpl {
+    +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
+    teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+    +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
+    +isDateAfter(dateVO: DateVO)
     +getCategory()
-    +getWorkingPercentage()
-    +isDateAfter(tcp: TeacherCareerProgression)
 }
 
-class TeacherCareerProgressionFactory {
-+createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
+class TeacherRepositoryImpl {
+    +isTeacherRegistered(teacherIDVO: TeacherIDVO)
+    +findAllTeachers()
 }
 
-interface TeacherCareerProgressionFactoryInterface {
-+createTeacherCareerProgression(date: String, category: TeacherCategory, workingPercentage: int)
+package "TeacherCategory Aggregate" {
+    entity "<<Root>>\n <<Entity>>\nTeacherCategory" {
+        + TeacherCategory(name: CategoryNameVO)
+    }
 }
 
-class TeacherRepository {
-    +TeacherRepository()
-    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
-                     address: Address, department: Department)
-    +compareTeacherAcronymAndNifInList(Teacher: teacher)
-    +getAllTeachers()
-    +getTeacherByNIF(NIF: String)
+interface ITeacherCareerProgressionRepository {
+    +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
+    teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+    +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
+    +isDateAfter(dateVO: DateVO)
 }
 
-class TeacherCategory {
-    -_name:String
-    + TeacherCategory (name:String)
+interface ITeacherRepository {
+    +isTeacherRegistered(teacherIDVO: TeacherIDVO)
 }
 
-US14_UpdateTeachersCategoryController "1" --> "1 " TeacherRepository
-Teacher "1..*" --o "List<Teacher>" TeacherRepository
-TeacherCareerProgression "*" --> "1" TeacherCategory: _category
-Teacher --> TeacherCareerProgressionFactory
-Teacher "List<TeacherCareerProgression>" *-- "*" TeacherCareerProgression
-TeacherCareerProgressionFactory ..> TeacherCareerProgression: <<create>>
-TeacherCareerProgressionFactoryInterface <|.. TeacherCareerProgressionFactory
+class "<<Value Object>>\n TeacherCategoryIDVO" {
+                -name: String
+}
 
+class TeacherCareerProgressionFactoryImpl {
+    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
+                                        teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+}
+
+interface ITeacherCareerProgressionFactory {
+    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
+                                        teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+}
+
+class TeacherCareerProgressionListFactoryImpl {
+    +createTeacherCareerProgressionList()
+}
+
+interface ITeacherCareerProgressionListFactory {
+    +createTeacherCareerProgressionList()
+}
+
+class List<TeacherCareerProgression> {
+}
+
+US14_UpdateTeacherCategoryController "1" ..> "_teacherRepository \n 1" ITeacherRepository
+US14_UpdateTeacherCategoryController "1" ..> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
+"<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <---- "1" ITeacherRepository
+"<<Value Object>>\n TeacherIDVO" "1  " <-- "\n 1..*     " "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
+ITeacherCareerProgressionRepository "1" ..> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
+ITeacherCareerProgressionFactory "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
+ITeacherCareerProgressionRepository "1" ..> "  _teacherCareerProgressionList \n                                     1" ITeacherCareerProgressionListFactory
+TeacherCareerProgressionFactoryImpl ..|> ITeacherCareerProgressionFactory
+TeacherCareerProgressionListFactoryImpl ..|> ITeacherCareerProgressionListFactory
+ITeacherCareerProgressionListFactory ..> List
+List "1" ----> "1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
+"<<Root>>\n <<Entity>>\n Teacher" "1" --> "1" "<<Value Object>>\n TeacherIDVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCareerProgressionIDVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n DateVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n WorkingPercentageVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
+"<<Value Object>>\n TeacherCategoryIDVO" "1" <-- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
+ITeacherCareerProgressionRepository <|.. TeacherCareerProgressionRepositoryImpl
+ITeacherRepository <|.. TeacherRepositoryImpl
 
 @enduml
