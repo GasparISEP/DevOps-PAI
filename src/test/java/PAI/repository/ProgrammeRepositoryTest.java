@@ -1,6 +1,7 @@
 package PAI.repository;
 
 import PAI.VOs.QuantEcts;
+import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactoryImpl;
 
@@ -35,10 +36,11 @@ class ProgrammeRepositoryTest {
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
         Programme programmeDouble = mock(Programme.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
 
         // Act
-        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Asssert
         assertTrue(result);
@@ -65,11 +67,12 @@ class ProgrammeRepositoryTest {
 
         Programme programmeDouble = mock(Programme.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programmeDouble);
 
         // Act
-        programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
-        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        boolean result = programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, CSE,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Asssert
         assertFalse(result);
@@ -141,9 +144,10 @@ class ProgrammeRepositoryTest {
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
 
 
-        when(IProgrammeFactory.registerProgramme("Engenharia Informática","LEI",quantEcts,2,degreeType1,department1, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programme);
+        when(IProgrammeFactory.registerProgramme("Engenharia Informática","LEI",quantEcts,quantSemesters,degreeType1,department1, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory)).thenReturn(programme);
         ProgrammeRepository programmeRepo = new ProgrammeRepository(IProgrammeFactory,programmeRepoListFactory);
 
         when(programme.addCourseToAProgramme(course1)).thenReturn(true);
@@ -179,13 +183,14 @@ class ProgrammeRepositoryTest {
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", quantEcts, 6, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        Programme programme = new Programme("Computer Engineering", "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
+        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
                 .thenReturn(programme);
 
-        programmeRepo.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        programmeRepo.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Act
         Optional<Programme> result = programmeRepo.getProgrammeByName("Computer Engineering");
@@ -210,12 +215,13 @@ class ProgrammeRepositoryTest {
         StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
 
 
-        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
+        when(IProgrammeFactoryDouble.registerProgramme("Computer Engineering", "CE", quantEcts,quantSemesters, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory))
                 .thenReturn(programme);
 
-        programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, 6, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        programmeList.registerProgramme("Computer Engineering", "CE", quantEcts, quantSemesters, master, cse,  teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
 
         // Act
         Optional<Programme> result = programmeList.getProgrammeByName("Space Engineering");
@@ -237,7 +243,7 @@ class ProgrammeRepositoryTest {
         String name1 = "MATEMATICA";
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
-        int quantityOfSemesters1 = 4;
+        QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeType master1 = mock(DegreeType.class);
         Department cse1 = mock(Department.class);
         Teacher teacher1 = mock(Teacher.class);
@@ -245,7 +251,7 @@ class ProgrammeRepositoryTest {
         String name2 = "Informatica";
         String acronym2= "INF";
         QuantEcts quantityOfEcts2 = mock(QuantEcts.class);
-        int quantityOfSemesters2 = 4;
+        QuantSemesters quantityOfSemesters2 = mock(QuantSemesters.class);
         DegreeType master2 = mock(DegreeType.class);
         Department cse2 = mock(Department.class);
         Teacher teacher2 = mock(Teacher.class);
@@ -299,7 +305,7 @@ class ProgrammeRepositoryTest {
         String name1 = "MATEMATICA";
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
-        int quantityOfSemesters1 = 4;
+        QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeType master1 = mock(DegreeType.class);
         Department cse1 = mock(Department.class);
         Teacher teacher1 = mock(Teacher.class);
@@ -336,7 +342,7 @@ class ProgrammeRepositoryTest {
         String name1 = "MATEMATICA";
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
-        int quantityOfSemesters1 = 4;
+        QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeType master1 = mock(DegreeType.class);
         Department cse1 = mock(Department.class);
         Teacher teacher1 = mock(Teacher.class);
@@ -375,7 +381,7 @@ class ProgrammeRepositoryTest {
         String name2 = "ENGENHARIA";
         String acronym1 = "MAT";
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
-        int quantityOfSemesters1 = 4;
+        QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeType master1 = mock(DegreeType.class);
         Department cse1 = mock(Department.class);
         Teacher teacher1 = mock(Teacher.class);

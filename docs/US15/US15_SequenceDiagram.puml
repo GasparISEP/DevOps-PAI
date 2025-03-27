@@ -17,9 +17,9 @@ participant "tcp1:TeacherCareerProgression" as TCP1
 HRC -> UI : I want to update Teacher's working percentage
 activate HRC
 activate UI
-UI -> Controller : getAllTeachers()
+UI -> Controller : findAll()
 activate Controller
-Controller -> TRepo : getAllTeachers()
+Controller -> TRepo : findAll()
 activate TRepo
 TRepo --> Controller : teachersList
 deactivate TRepo
@@ -80,7 +80,7 @@ TCP1 --> TCPf : tcp1
 deactivate TCP1
 TCPf --> TCPRepo : tcp1
 deactivate TCPf
-TCPRepo -> TCPRepo: add(tcp1)
+TCPRepo -> TCPRepo: save(tcp1)
 TCPRepo --> Controller : True
 deactivate TCPRepo
 
