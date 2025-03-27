@@ -4,10 +4,10 @@ public class Email {
     private final String _email;
 
     public Email(String email) throws IllegalArgumentException {
-        if (!isEmailInvalid(email))
-            _email = email;
-        else
+        if (isEmailInvalid(email))
             throw new IllegalArgumentException("This email is not valid.");
+        else
+            _email = email;
 
     }
 
@@ -18,6 +18,4 @@ public class Email {
         else
             return false;
     }
-
-
 }

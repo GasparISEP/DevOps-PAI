@@ -36,6 +36,7 @@ class EmailTest {
         //act + assert
         Assertions.assertThrows(Exception.class, () -> new Email(email));
     }
+
     static Stream<Arguments> testEmailWithInvalidInputs() {
         return Streams.of(
                 Arguments.of("emailemail"),
