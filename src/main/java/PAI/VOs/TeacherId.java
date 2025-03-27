@@ -1,10 +1,10 @@
 package PAI.VOs;
 
-public class TeacherAcronym {
+public class TeacherId {
 
     private final String _acronym;
 
-    public TeacherAcronym(String acronym) throws Exception {
+    public TeacherId(String acronym) throws Exception {
         if (acronym == null || acronym.isBlank()) {
             throw new Exception("Acronym must be a 3 capital letter non-empty String.");
         }
