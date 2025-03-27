@@ -4,10 +4,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class StudentGrade_ID {
-    private  String _id;
+    private  final UUID _id;
 
     public StudentGrade_ID () {
-        this._id = UUID.randomUUID().toString();
+        this._id = UUID.randomUUID();
     }
 
     //equals

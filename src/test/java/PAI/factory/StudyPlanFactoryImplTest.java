@@ -1,6 +1,6 @@
 package PAI.factory;
 
-import PAI.repository.StudyPlan;
+import PAI.domain.StudyPlan;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
