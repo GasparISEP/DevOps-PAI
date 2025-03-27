@@ -1,7 +1,7 @@
 package PAI.domain;
 
 import PAI.VOs.Grade;
-import PAI.VOs.StudentGrade_ID;
+import PAI.VOs.StudentGradeID;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -349,7 +349,7 @@ class StudentGradeTest {
         Grade grade = mock(Grade.class);
         StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
         //act
-        StudentGrade_ID result = studentGradeDouble1.get_studentGrade_id();
+        StudentGradeID result = studentGradeDouble1.get_studentGrade_id();
         //assert
         assertNotNull(result);
     }
@@ -375,7 +375,7 @@ class StudentGradeTest {
 
         Field idField = StudentGrade.class.getDeclaredField("_studentGrade_id");
         idField.setAccessible(true);
-        StudentGrade_ID sharedId = new StudentGrade_ID();
+        StudentGradeID sharedId = new StudentGradeID();
 
         idField.set(grade1, sharedId);
         idField.set(grade2, sharedId);
