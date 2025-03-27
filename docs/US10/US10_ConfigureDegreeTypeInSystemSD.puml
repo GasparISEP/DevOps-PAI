@@ -1,20 +1,37 @@
 @startuml
 actor Administrator as Adm
 participant "US10_IWantToConfigureDegreeTypesLevelsController" as Controller #lightcoral
+participant "Name <<Value Object>>" as N #orange
+participant "MaxECTS <<Value Object>>" as MAX #orange
+participant "DegreeTypeID <<Value Object>>" as DTID #orange
 participant "DegreeTypeRepository" as DTR #lightgreen
 participant "DegreeTypeFactoryInterface" as DTF #lightblue
 
-Adm -> Controller : registerDegreeType(name, maxEcts)
+
+Adm -> Controller : registerDegreeType(name, maxEcts, DegreeTypeID)
 activate Controller
-Controller -> DTR : registerDegreeType(name, maxEcts)
+activate N
+Controller -> N : <create> new(name)
+N -> N : IsNameValid
+N -> Controller : nameVO1
+deactivate N
+activate MAX
+Controller -> MAX : <create> new(maxEcts)
+MAX -> MAX : IsMaxEctsValueValid
+MAX -> Controller : MaxEctsVO1
+deactivate MAX
+activate DTID
+Controller -> DTID : <create> new(DegreeTypeID)
+DTID -> DTID : isDegreeTypeIDValid
+DTID -> Controller : "DegreeTypeIDVO1
+deactivate DTID
+Controller -> DTR : registerDegreeType(nameVO1, MaxEctsVO1, DegreeTypeIDVO1)
 activate DTR
-DTR -> DTF : addNewDegreeType(name, maxEcts)
+DTR -> DTF : addNewDegreeType(nameVO1, MaxEctsVO1, DegreeTypeIDVO1)
 activate DTF
 create "DT1:DegreeType" as DT #yellow
-DTF -> DT : Create DegreeType (name, maxEcts)
+DTF -> DT : Create DegreeType (nameVO1, MaxEctsVO1, DegreeTypeIDVO1)
 activate DT
-DT -> DT : nameIsInvalid()
-DT -> DT : maxEctsIsInvalid()
 DT --> DTF : DegreeType Object
 deactivate DT
 DTF --> DTR : DegreeType Object

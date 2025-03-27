@@ -9,7 +9,7 @@ class StudentGrade_IDTest {
     @Test
     void shouldRandomNumber (){
         //arrange
-        StudentGrade_ID studentGradeId = new StudentGrade_ID();
+        StudentGradeID studentGradeId = new StudentGradeID();
         //assert
         assertNotNull(studentGradeId);
     }
@@ -19,8 +19,8 @@ class StudentGrade_IDTest {
     @Test
     void shouldReturnTrueIfSameLoc(){
         //arrange
-        StudentGrade_ID studentGradeId1 = new StudentGrade_ID();
-        StudentGrade_ID studentGradeId2 = studentGradeId1;
+        StudentGradeID studentGradeId1 = new StudentGradeID();
+        StudentGradeID studentGradeId2 = studentGradeId1;
         //act
         boolean result = studentGradeId1.equals(studentGradeId2);
         //assert
@@ -30,7 +30,7 @@ class StudentGrade_IDTest {
     @Test
     void shouldReturnFalseIfFromDifferentInstances(){
         //arrange
-        StudentGrade_ID studentGradeId1 = new StudentGrade_ID();
+        StudentGradeID studentGradeId1 = new StudentGradeID();
         Object o = new Object();
         //act
         boolean result = studentGradeId1.equals(o);
@@ -41,8 +41,8 @@ class StudentGrade_IDTest {
     @Test
     void shouldReturnFalseIfDifferentContent(){
         //arrange
-        StudentGrade_ID studentGradeId1 = new StudentGrade_ID();
-        StudentGrade_ID studentGradeId2 = new StudentGrade_ID();
+        StudentGradeID studentGradeId1 = new StudentGradeID();
+        StudentGradeID studentGradeId2 = new StudentGradeID();
         //act
         boolean result = studentGradeId1.equals(studentGradeId2);
         //assert

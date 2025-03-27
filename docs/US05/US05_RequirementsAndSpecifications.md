@@ -15,9 +15,9 @@ The purpose is to ensure that administrators can create new departments with the
 
 **FR3**: The system must validate that all required fields have valid values before allowing the department to be created. The validation must include:
 
-The acronym must be a 3-character string containing only uppercase letters.
+The acronym must be a string containing only uppercase letters.
 
-The department name must be a non-empty String, between 2 and 100 characters and should start with a capital letter.
+The department name must be a non-empty String, between 3 and 100 letters and should start with a capital letter (it must not have numbers or special characters). 
 
 **FR4**: The system must check if the acronym or department name already exists in the repository before allowing the registration.
 
@@ -50,9 +50,9 @@ However, it is essential to adhere to software design best practices such as enc
 
 **AC1**: The system must prevent the registration of a department with a duplicate name or acronym.
 
-**AC2**: The system must only allow acronyms with uppercase letters and a maximum of 3 characters.
+**AC2**: The system must only allow acronyms with uppercase letters.
 
-**AC3**: The system must only allow names with between 2 and 100 characters and that start with a capital letter.
+**AC3**: The system must only allow names with between 3 and 100 letters and that start with a capital letter.
 
 ### 6. Testing and Validation
 

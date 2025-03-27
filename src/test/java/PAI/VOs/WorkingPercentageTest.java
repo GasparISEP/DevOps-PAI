@@ -1,6 +1,5 @@
 package PAI.VOs;
 
-import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -60,10 +59,10 @@ class WorkingPercentageTest {
     void shouldReturnFalseIfObjectToCompareIsNotAWorkingPercentage () {
         //arrange
         WorkingPercentage wp = new WorkingPercentage(50);
-        Student student = mock(Student.class);
+        Object o = mock(Object.class);
 
         //act
-        boolean result = wp.equals(student);
+        boolean result = wp.equals(o);
 
         //assert
         assertFalse(result);

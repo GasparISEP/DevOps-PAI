@@ -1,0 +1,111 @@
+@startuml
+
+title: US21_GET THE NUMBER OF STUDENTS ENROLLED IN A PROGRAMME EDITION (CLASS DIAGRAM DDD)
+
+' === CONTROLLER ===
+
+class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
+
+    +US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController\n(programmeEditionEnrollmentRepo:ProgrammeEditionEnrolmentRepo,\nprogrammeEditionRepository:ProgrammeEditionRepository, programmeList ProgrammeList)
+    +iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
+    +getAllProgrammeEditions(): List<ProgrammeEdition>
+}
+
+' === INTERFACE ===
+
+interface IProgrammeEditionRepository {}
+
+interface IProgrammeEditionEnrolmentRepository{}
+
+interface IDegreeTypeRepository{}
+
+interface IProgrammeRepository {}
+
+
+ProgrammeEditionRepository ..|> IProgrammeEditionRepository
+US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IProgrammeEditionRepository
+
+ProgrammeEditionEnrolmentRepository ..|> IProgrammeEditionEnrolmentRepository
+US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IProgrammeEditionEnrolmentRepository
+
+DegreeTypeRepository ..|> IDegreeTypeRepository
+US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IDegreeTypeRepository
+
+ProgrammeRepository ..|> IProgrammeRepository
+US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController --> IProgrammeRepository
+
+ProgrammeEditionEnrolmentRepository "1" --> " *" ProgrammeEditionEnrolmentId
+ProgrammeEditionRepository "1" --> "*" ProgrammeEditionId
+
+' === REPOSITORYS ===
+
+class ProgrammeEditionEnrolmentRepository {
+    -_programmeEditionEnrolments: Set<ProgrammeEditionEnrolment>
+    -_programmeEditionEnrolments: ProgrammeEditionEnrolmentFactoryImpl
+    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrollmentFactory:ProgrammeEditionEnrolmentFactoryImpl,\nprogrammeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
+    +enrolStudentInProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
+    +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition)
+    +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear)
+    +getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEdition)
+    +findProgrammeEditionsThatStudentIsEnrolled(student: Student)
+}
+
+class ProgrammeEditionRepository {
+    -_IprogrammeEditionFactory: IProgrammeEditionFactory
+    -_ProgrammeEditions: List<ProgrammeEdition>
+    +ProgrammeEditionRepository(iProgrammeEditionFactory:IProgrammeEditionFactory,\niProgrammeEditionListFactory: IProgrammeEditionListFactory)
+    +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
+    +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
+    +getAllProgrammeEditions()
+    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
+}
+
+' ===AGGREGATES===
+
+package ProgrammeEditionEnrolmentAggregate{
+    entity ProgrammeEditionEnrolment <<root>>{
+
+        +ProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition)
+        +isEnrolmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
+        +getStudentUniqueNumber()
+        +equals (obj: Object)
+        +findProgrammeEditionInEnrollment()
+        +findStudentInProgrammeEdition()
+    }
+ }
+
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentId
+ProgrammeEditionEnrolment --> StudentId
+ProgrammeEditionEnrolment --> ProgrammeEditionId
+ProgrammeEditionEnrolment --> LocalDateId
+
+class ProgrammeEditionEnrolmentId <<ValueObject>> {}
+class StudentId <<ValueObject>> {}
+class ProgrammeEditionId <<ValueObject>> {}
+class LocalDateId <<ValueObject>> {}
+
+
+
+package ProgrammeEditionAggregate{
+
+    entity ProgrammeEdition <<root>> {
+        +ProgrammeEdition(programme: Programme,schoolYear: SchoolYear)
+        +equals(other: Object)
+        +findProgrammeInProgrammeEdition()
+        +findSchoolYearInProgrammeEdition()
+        +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
+    }
+}
+
+class ProgrammeId <<ValueObject>> {}
+class ProgrammeEditionId <<ValueObject>> {}
+class SchoolYearId <<ValueObject>> {}
+
+ProgrammeEdition --> ProgrammeId
+ProgrammeEdition --> SchoolYearId
+ProgrammeEdition --> ProgrammeEditionId
+
+
+
+@enduml
+

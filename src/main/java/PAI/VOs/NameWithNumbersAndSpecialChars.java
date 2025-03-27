@@ -25,4 +25,7 @@ public class NameWithNumbersAndSpecialChars implements ValueObject {
         return Objects.equals(_nameWithNumbersAndSpecialChars, that._nameWithNumbersAndSpecialChars);
     }
 
+    public String getnameWithNumbersAndSpecialChars() {
+        return _nameWithNumbersAndSpecialChars;
+    }
 }
