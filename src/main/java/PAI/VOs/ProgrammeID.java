@@ -1,11 +1,11 @@
 package PAI.VOs;
 
-import PAI.ddd.ValueObject;
+import PAI.ddd.DomainId;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class ProgrammeID implements ValueObject {
+public class ProgrammeID implements DomainId {
 
     private final String _progID;
 
@@ -20,8 +20,12 @@ public class ProgrammeID implements ValueObject {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProgrammeID that = (ProgrammeID) o;
+        if (!(o instanceof ProgrammeID that)) return false;
         return Objects.equals(_progID, that._progID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(_progID);
     }
 }

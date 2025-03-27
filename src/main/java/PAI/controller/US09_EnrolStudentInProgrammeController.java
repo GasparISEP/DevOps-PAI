@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
 import PAI.repository.ProgrammeEnrolmentRepository;
@@ -44,7 +45,7 @@ public class US09_EnrolStudentInProgrammeController {
         return _accessMethodRepository.getAccessMethodByName(accessMethod);
     }
 
-    public Optional<Programme> getProgrammeByName(String programmeName) {
+    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars programmeName) {
         return _programmeList.getProgrammeByName(programmeName);
     }
 

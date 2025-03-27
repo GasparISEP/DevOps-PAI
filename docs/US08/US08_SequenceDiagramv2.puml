@@ -1,0 +1,69 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+title US08: I want to register a Student in the system
+
+actor ASC
+participant ":UI" as UI #implementation
+participant "ctrl1:RegisterStudentInSystemController" as ctrl #lightyellow
+participant "sr1:StudentRepository" as SR #lightcyan
+participant "s[i]:Student" as Student #strategy
+participant "sf1:StudentFactory" as SF #technology
+participant "s1:Student" as s1 #strategy
+participant "af1:AddressFactory" as AF #motivation
+participant "a1:Address" as A #physical
+
+ASC -> UI: I want to register a student in the system
+activate UI
+UI --> ASC: What is the Student's information?
+ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country
+
+UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country)
+activate ctrl
+ref over ctrl
+    Convert uniqueNumber, name, NIF, phone, email,
+    street, postalCode, location, country to VO
+end ref
+
+ctrl -> SR: registerStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO)
+activate SR
+
+SR -> SF: newStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO)
+activate SF
+
+SF --> AF: createAddress \n (streetVO, postalCodeVO, locationVO, countryVO)
+activate AF
+
+AF --> A**: new Address \n (streetVO, postalCodeVO, locationVO, countryVO)
+activate A
+A --> AF: a1
+deactivate A
+
+AF --> SF: a1
+deactivate AF
+SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, a1)
+activate s1
+s1 --> SF: s1
+deactivate s1
+SF --> SR: s1
+deactivate SF
+
+SR -> SR : isStudentRepeated(s1)
+
+loop for each Student in SR
+    SR -> Student: hasSameID(s1)
+    activate Student
+end
+
+Student --> SR : False
+deactivate Student
+
+SR -> SR: students.add(s1)
+SR --> ctrl: True
+deactivate SR
+ctrl --> UI: True
+deactivate ctrl
+UI --> ASC: Success!
+deactivate UI
+
+@enduml

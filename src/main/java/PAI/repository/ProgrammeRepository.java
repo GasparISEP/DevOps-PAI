@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
@@ -20,9 +21,9 @@ public class ProgrammeRepository {
         _programmeRepoListFactory = programmeLisListFactory;
     }
 
-    public boolean registerProgramme(String name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
+    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
 
-        Programme programme = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        Programme programme = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, ICourseFactory);
 
         if (_programmeRepo.contains(programme))
             return false;
@@ -46,7 +47,7 @@ public class ProgrammeRepository {
         return programme.getCourseList();
     }
 
-    public Optional<Programme> getProgrammeByName(String name) {
+    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
         for (Programme programme : _programmeRepo) {
             if (programme.hasThisProgrammeName(name)) {
                 return Optional.of(programme);
@@ -64,11 +65,11 @@ public class ProgrammeRepository {
         return null;
     }
 
-    public List<String> getAllProgrammeNames() {
+    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames() {
 
-        List<String> list = new ArrayList<>();
+        List<NameWithNumbersAndSpecialChars> list = new ArrayList<>();
         for (Programme programme : _programmeRepo) {
-            list.add(programme.getProgrammeName());
+            list.add(programme.getProgrammeNameWithNumbersAndSpecialChars());
         }
         return list;
     }
