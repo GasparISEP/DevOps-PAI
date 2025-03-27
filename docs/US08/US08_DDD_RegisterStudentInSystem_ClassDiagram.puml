@@ -3,14 +3,14 @@ title US08: I want to register a Student in the system
 
 
 class US08_IWantToRegisterAStudentInTheSystemController {
-    + registerStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : boolean
+    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : Phone, email : Email, address : Address) : boolean
 }
 
 class StudentRepository {
     - _studentFactoryImpl : IStudentFactory
     - _students : List<Student>
-    + registerStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : boolean
-    + getStudentByUniqueNumber(uniqueNumber : String) : Optional<Student>
+    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : Phone, email : Email, address : Address) : boolean
+    + getStudentByID(studentID : StudentID) : Optional<Student>
 }
 
 package "Student Aggregate" {
@@ -27,8 +27,10 @@ package "Student Aggregate" {
         + getUniqueNumber() : String
         + hasThisUniqueNumber(uniqueNumber : String) : boolean
     }
+}
 
-    class Address <<Value Object>> {
+package "Address Aggregate" {
+    class Address <<Root>> <<Value Object>> {
         - _street : Street
         - _postalCode : PostalCode
         - _location : Location
@@ -38,70 +40,73 @@ package "Student Aggregate" {
         + getLocation() : String
         + getCountry() : String
     }
+}
 
-    class StudentID <<Value Object>> {
-        -_uniqueNumber : int
-        -_NIF : String
-        +StudentID()
-        +areIdentifiersValid()
-    }
+class StudentID <<Value Object>> {
+    -_uniqueNumber : int
+    + StudentID(uniqueNumber : int)
+    + isUniqueNumberValid()
+}
 
-    class Name <<Value Object>> {
-        -_name : String
-        +Name()
-        +isNameValid
-    }
+class Name <<Value Object>> {
+    -_name : String
+    + Name(name : String)
+    + isNameValid
+}
 
-    class NIF <<Value Object>> {
-        -_NIF : String
-        +NIF()
-        +isNIFInvalid()
-    }
+class NIF <<Value Object>> {
+    -_NIF : String
+    + NIF(NIF : String)
+    + isNIFInvalid()
+}
 
-    class Phone <<Value Object>> {
-        -_phone : String
-        + Phone()
-        +isPhoneNumberValid
-    }
+class Phone <<Value Object>> {
+    -_phone : String
+    + Phone(phone : String)
+    + isPhoneNumberValid
+}
 
-    class Email <<Value Object>> {
-        -_email : String
-        +Email()
-    }
+class Email <<Value Object>> {
+    -_email : String
+    + Email(email : String)
+}
 
-    class InstitutionalEmail <<Value Object>> {
-        -_institutionalEmail : String
-        + InstitutionalEmail()
-        + generateInstitutionalEmail(uniqueNumber)
-    }
+class InstitutionalEmail <<Value Object>> {
+    -_institutionalEmail : String
+    + InstitutionalEmail(institutionalEmail : String)
+    + generateInstitutionalEmail(uniqueNumber)
+}
 
-    class Street <<Value Object>> {
-        -_street
-        +validStreet
-    }
+class Street <<Value Object>> {
+    -_street : String
+    + Street(street : String)
+    + validStreet
+}
 
-    class PostalCode <<Value Object>> {
-        -_postalCode
-        +validPostalCode
-    }
+class PostalCode <<Value Object>> {
+    -_postalCode : String
+    + PostalCode(postalCode : String)
+    + validPostalCode
+}
 
-    class Location <<Value Object>> {
-        -_location
-        +validLocation
-    }
+class Location <<Value Object>> {
+    -_location : String
+    + Location(location : String)
+    + validLocation()
+}
 
-    class Country <<Value Object>> {
-        -_country
-        +validCountry
-    }
+class Country <<Value Object>> {
+    -_country : String
+    + Country(country : String)
+    + validCountry()
 }
 
 interface IStudentFactory <<Interface>> {
-    + newStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : Student
+    + newStudent(StudentID : StudentID, name : Name, NIF : Name, phone : Phone, email : Email, street : Street, postalCode : PostalCode, location : Location, country : Country) : Student
 }
 
 class StudentFactoryImpl {
-    + newStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, address : Address) : Student
+    + newStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, street : Street, postalCode : PostalCode, location : Location, country : Country) : Student
 }
 
 interface IStudentListFactory <<Interface>> {
@@ -113,16 +118,20 @@ class StudentListFactoryImpl {
 }
 
 interface IAddressFactory <<Interface>> {
-    + createAddress(street : String, postalCode : String, location : String, country : String) : Address
+    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : Address
 }
 
 class AddressFactoryImpl {
-    + createAddress(street : String, postalCode : String, location : String, country : String) : Address
+    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : Address
 }
 
-interface List<Student> <<Interface>> {}
+class List<Student> <<Interface>> {}
 
-interface IStudentRepository <<Interface>> {}
+interface IStudentRepository <<Interface>> {
+    +registerStudent
+    +isStudentRegistered
+    +getStudentByID
+}
 
 
 US08_IWantToRegisterAStudentInTheSystemController "1" ---> "1 " StudentRepository
@@ -130,20 +139,23 @@ StudentRepository "1" ..> "1" IStudentFactory
 StudentRepository "1" ---> "_students\n*" Student
 StudentRepository "1" ..> "1" IStudentListFactory
 IStudentListFactory "1 " ..> "1  " List: <<create>>
-Student "1" --> "1  " Address
+Student "1" --> "1" Address
 StudentFactoryImpl "*" ..|> "1     " IStudentFactory
 StudentListFactoryImpl "*" ..|> "1     " IStudentListFactory
 AddressFactoryImpl "*" ..|> "1  " IAddressFactory
 IAddressFactory "1" .l.> "1" Address: <<create>>
 IStudentFactory "1" ..> "1" Student: <<create>>
+StudentFactoryImpl "1" ..> "1" AddressFactoryImpl
+StudentRepository ..|> IStudentRepository
 Student "*" ----> "1" StudentID
 Student "*" ----> "1" Name
-Student "*" ----> "1  " Email
-Student "*" ----> "1   " InstitutionalEmail
-Student "*" ----> "1 " Phone
-Address "*" ----> "1" Street
-Address "*" ----> "1" PostalCode
-Address "*" ----> "1" Location
-Address "*" ----> "1" Country
+Student "\n *" ----> "1  " Email
+Student "\n *" ----> "1   " InstitutionalEmail
+Student "\n *" ----> "1 " Phone
+Student "\n *" ----> "1 " NIF
+Address "\n *" ----> "1" Street
+Address "\n *" ----> "1" PostalCode
+Address "\n *" ----> "1" Location
+Address "\n *" ----> "1" Country
 
 @enduml
