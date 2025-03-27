@@ -1,5 +1,7 @@
 package PAI.VOs;
 
+import PAI.domain.Student;
+import PAI.domain.Teacher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -9,6 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.mock;
 
 class StudentIDTest {
 
@@ -71,6 +74,31 @@ class StudentIDTest {
         boolean result = studentID1.equals(studentID2);
 
         // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfObjectsAreTheSame() {
+        //arrange
+        StudentID id = new StudentID(1000001);
+
+        //act
+        boolean result = id.equals(id);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfObjectToCompareIsNotAStudentID () {
+        //arrange
+        StudentID id = new StudentID(1000001);
+        Teacher teacher = mock(Teacher.class);
+
+        //act
+        boolean result = id.equals(teacher);
+
+        //assert
         assertFalse(result);
     }
 }

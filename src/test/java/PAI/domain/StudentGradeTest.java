@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import PAI.VOs.Grade;
+import PAI.VOs.StudentGrade_ID;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -326,4 +327,29 @@ class StudentGradeTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnGrade() throws Exception{
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
+        //act
+        Grade result = studentGradeDouble1.get_grade();
+        //assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void shouldReturnStudentGradeID() throws Exception{
+        //arrange
+        Student studentDouble1 = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Grade grade = mock(Grade.class);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,"22-02-2022",studentDouble1,courseEdition);
+        //act
+        StudentGrade_ID result = studentGradeDouble1.get_studentGrade_id();
+        //assert
+        assertNotNull(result);
+    }
 }
