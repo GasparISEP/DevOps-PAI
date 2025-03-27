@@ -1,6 +1,8 @@
 package PAI.VOs;
 
-public class Acronym {
+import PAI.ddd.ValueObject;
+
+public class Acronym implements ValueObject {
 
     private final String _acronym;
 
