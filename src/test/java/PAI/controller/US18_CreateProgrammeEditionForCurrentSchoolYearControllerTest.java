@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.*;
 import PAI.repository.ProgrammeEditionRepository;
 import PAI.repository.ProgrammeRepository;
@@ -44,7 +45,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Arrange
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 
-        String programmeName = "Licenciatura Engenharia Informatica";
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
         Programme programmeLEI = mock(Programme.class);
         Optional<Programme> programmeOpt = mock(Optional.class);
 
@@ -69,8 +70,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Arrange
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 
-        String programmeName = "Licenciatura Engenharia Informatica";
-        String programmeName2 = "Licenciatura Engenharia Informatica";
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars programmeName2 = mock(NameWithNumbersAndSpecialChars.class);
+
         Programme programmeLEI = mock(Programme.class);
         Optional<Programme> programmeOpt = mock(Optional.class);
 
@@ -100,7 +102,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Arrange
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 
-        String programmeName = "Licenciatura Informatica";
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
         Programme programmeLEI = mock(Programme.class);
         Optional<Programme> programmeOpt = mock(Optional.class);
         when(programmeList.getProgrammeByName(programmeName)).thenReturn(programmeOpt);
@@ -124,7 +126,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         programmeEditionRepository = null;
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 
-        String programmeName = "Licenciatura Informatica";
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
         // Act
         boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
 
@@ -138,7 +140,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Arrange
         schoolYearRepository = null;
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
-        String programmeName = "Licenciatura Informatica";
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
 
         // Act
         boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
@@ -154,21 +156,24 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
         ProgrammeRepository programmeList = mock(ProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
+
+        when(name1.getnameWithNumbersAndSpecialChars()).thenReturn("Licenciatura em Engenharia Informatica");
+        when(name2.getnameWithNumbersAndSpecialChars()).thenReturn("Mestrado em Engenharia Informatica");
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 
-        String programmeName1 = "Licenciatura em Engenharia Informatica";
-        String programmeName2 = "Mestrado em Engenharia Informatica";
 
-        when(programmeList.getAllProgrammeNames()).thenReturn(List.of(programmeName1, programmeName2));
+        when(programmeList.getAllProgrammeNames()).thenReturn(List.of(name1, name2));
 
         // Act
-        List <String> ListOfProgrammeNames = controller.getAllProgrammeNames();
+        List <NameWithNumbersAndSpecialChars> ListOfProgrammeNames = controller.getAllProgrammeNames();
 
         // Assert
         assertEquals(2, ListOfProgrammeNames.size());
-        assertEquals(programmeName1, ListOfProgrammeNames.get(0));
-        assertEquals(programmeName2, ListOfProgrammeNames.get(1));
+        assertEquals(name1, ListOfProgrammeNames.get(0));
+        assertEquals(name2, ListOfProgrammeNames.get(1));
     }
 
     @Test
@@ -178,14 +183,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
         ProgrammeRepository programmeList = null;
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
 
         // Act
-        List <String> ListOfProgrammeNames = controller.getAllProgrammeNames();
+        List <NameWithNumbersAndSpecialChars> ListOfProgrammeNames = controller.getAllProgrammeNames();
 
         // Assert
         assertEquals(0, ListOfProgrammeNames.size());
-        assertDoesNotThrow(() -> ListOfProgrammeNames.add("Test")); //mutation killer
+        assertDoesNotThrow(() -> ListOfProgrammeNames.add(name)); //mutation killer
     }
 }
