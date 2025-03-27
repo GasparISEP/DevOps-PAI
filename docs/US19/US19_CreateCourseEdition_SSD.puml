@@ -5,6 +5,8 @@ autonumber
 actor ASC
 participant SYSTEM
 ASC -> SYSTEM:  I want to create a Course Edition
+SYSTEM --> ASC -- : which degree type??
+ASC -> SYSTEM:  degree type!
 SYSTEM --> ASC -- : which programme??
 ASC -> SYSTEM: programme!
 SYSTEM --> ASC -- : which school year??
