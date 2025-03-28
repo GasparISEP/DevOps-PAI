@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -149,10 +150,11 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Acronym acronym = new Acronym("LEI");
         QuantEcts quantEcts = new QuantEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, "LEI", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         //act
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
@@ -185,10 +187,11 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Acronym acronym = new Acronym("LEI");
         QuantEcts quantEcts = new QuantEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
-        programmeList.registerProgramme(name, "LEI", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         Programme lei = programmeList.getAllProgrammes().get(0);
         lei.addCourseToAProgramme(courseRepository.getAllCourses().get(0));
@@ -224,10 +227,11 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Acronym acronym = new Acronym("LEI");
         QuantEcts quantEcts = new QuantEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, "LEI", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, ICourseFactoryImpl);
         Course course1 = courseRepository.getAllCourses().get(0);
         Programme lei = programmeList.getAllProgrammes().get(0);
@@ -288,10 +292,11 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Acronym acronym = new Acronym("LEI");
         QuantEcts quantEcts = new QuantEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, "LEI", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         Programme lei = programmeList.getAllProgrammes().get(0);
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
@@ -366,10 +371,11 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Acronym acronym = new Acronym("LEI");
         QuantEcts quantEcts = new QuantEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, "LEI", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
 
@@ -404,10 +410,11 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Acronym acronym = new Acronym("LEI");
         QuantEcts quantEcts = new QuantEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, "LEI", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
         Programme programme = programmeList.getAllProgrammes().get(0);
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
@@ -443,13 +450,15 @@ public class US03AddCourseToProgrammeControllerTest {
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
         StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Acronym acronym1 = new Acronym("LEI");
+        Acronym acronym2 = new Acronym("LEQ");
         QuantEcts quantEcts = new QuantEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Engenharia Informática");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Engenharia Química");
-        programmeList.registerProgramme(name1, "LEI", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name1, acronym1, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
-        programmeList.registerProgramme(name2, "LEQ", quantEcts, quantSemesters,
+        programmeList.registerProgramme(name2, acronym2, quantEcts, quantSemesters,
                 degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
 
         US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);

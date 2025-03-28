@@ -1,9 +1,11 @@
 package PAI.VOs;
 
+import PAI.ddd.DomainId;
+
 import java.util.Objects;
 import java.util.UUID;
 
-public class StudentGradeID {
+public class StudentGradeID implements DomainId {
     private  final UUID _id;
 
     public StudentGradeID() {

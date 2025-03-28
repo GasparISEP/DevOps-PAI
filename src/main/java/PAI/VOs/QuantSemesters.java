@@ -1,6 +1,8 @@
 package PAI.VOs;
 
-public class QuantSemesters {
+import PAI.ddd.ValueObject;
+
+public class QuantSemesters implements ValueObject {
 
     private final int _quantSemesters;
 

@@ -1,26 +1,24 @@
 package PAI.domain;
 
+import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
+import PAI.ddd.AggregateRoot;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
-public class StudentGrade {
+public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
     private Grade _grade;
-    private LocalDate _date;
+    private Date _date;
     private Student _student;
     private CourseEdition _courseEdition;
     private final StudentGradeID _studentGrade_id;
 
-    public StudentGrade(Grade grade, String date, Student student, CourseEdition courseEdition) throws Exception {
+    public StudentGrade(Grade grade, Date date, Student student, CourseEdition courseEdition) throws Exception {
         if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
         _grade = grade;
 
-        if (date == null || date.isEmpty()) throw new IllegalArgumentException("Date cannot be empty");
-        isDateValid(date);
+        if (date == null) throw new IllegalArgumentException("Date cannot be null");
+        _date = date;
 
         if (student == null) throw new IllegalArgumentException("Student cannot be null");
         _student = student;
@@ -35,10 +33,6 @@ public class StudentGrade {
         return _grade;
     }
 
-    public StudentGradeID get_studentGrade_id() {
-        return _studentGrade_id;
-    }
-
     public boolean hasThisCourseEdition(CourseEdition courseEdition) {
         return _courseEdition.equals(courseEdition);
     }
@@ -51,19 +45,12 @@ public class StudentGrade {
         return _courseEdition;
     }
 
-    public void isDateValid(String date) throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        try {
-            _date = LocalDate.parse(date, formatter);
-        } catch (DateTimeParseException e) {
-            throw new Exception("Time format must be dd-MM-YYYY");
-        }
-    }
-
-    public StudentGradeID get_StudentGradeID (){
+    @Override
+    public StudentGradeID identity(){
         return _studentGrade_id;
     }
-    public LocalDate get_date() {
+
+    public Date get_date() {
         return _date;
     }
 
@@ -86,6 +73,7 @@ public class StudentGrade {
         }
         return false;
     }
+
 
     public boolean sameAs(Object object) {
 
