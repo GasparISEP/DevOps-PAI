@@ -11,9 +11,7 @@ public class DurationCourseInCurricularYear implements ValueObject {
     }
 
     public boolean isDurationSemesterValid() {
-        if (duration > 0 && duration < 3)
-            return true;
-        return false;
+        return duration > 0 && duration < 3;
     }
 
 }
