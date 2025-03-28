@@ -1,4 +1,5 @@
 package PAI.domain;
+import PAI.VOs.Date;
 import PAI.VOs.Description;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -164,7 +165,9 @@ class DepartmentTest {
         // Arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         Description description = new Description("School Year 24/25");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2024", "31-07-2025");
+        Date startDate = new Date ("01-09-2024");
+        Date endDate = new Date ("31-07-2025");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate,endDate);
 
         // Act & Assert
         assertFalse(department1.equals(schoolYear1));

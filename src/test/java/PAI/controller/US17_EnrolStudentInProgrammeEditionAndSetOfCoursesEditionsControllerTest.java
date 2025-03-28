@@ -1,13 +1,8 @@
 package PAI.controller;
 
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.*;
 
-import PAI.VOs.Description;
-
-import PAI.VOs.QuantEcts;
-import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.*;
@@ -621,7 +616,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
-        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
+        Date startDate = new Date ("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        schoolYearRepository.addSchoolYear(description, startDate, endDate);
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -714,7 +711,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
-        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
+        Date startDate = new Date ("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        schoolYearRepository.addSchoolYear(description, startDate,endDate);
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -781,7 +780,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
-        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
+        Date startDate = new Date ("23-12-2024");
+        Date endDate = new Date ("09-12-2025");
+        schoolYearRepository.addSchoolYear(description, startDate, endDate);
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -851,7 +852,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
-        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
+        Date startDate = new Date ("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        schoolYearRepository.addSchoolYear(description, startDate,endDate);
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -928,7 +931,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
-        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
+        Date startDate = new Date ("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        schoolYearRepository.addSchoolYear(description, startDate,endDate);
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -1209,16 +1214,20 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         Description description1 = new Description("School Year 24/25");
         Description description2 = new Description("School Year 25/26");
-        schoolYearRepository.addSchoolYear(description1, "23-11-2024", "09-12-2025");
-        schoolYearRepository.addSchoolYear(description2, "10-11-2025", "09-12-2026");
+        Date startDate1 = new Date ("23-11-2024");
+        Date endDate1 = new Date ("09-12-2025");
+        Date startDate2 = new Date ("10-11-2025");
+        Date endDate2 = new Date ("09-12-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
 
         // Act
         List<SchoolYear> schoolYears = controller.getAllSchoolYears();
 
         // Assert
-        assertTrue(schoolYears.contains(new SchoolYear(description1, "23-11-2024", "09-12-2025")),
+        assertTrue(schoolYears.contains(new SchoolYear(description1, startDate1,endDate1)),
                 "The list should contain the school year '24/25'.");
-        assertTrue(schoolYears.contains(new SchoolYear(description2, "10-11-2025", "09-12-2026")),
+        assertTrue(schoolYears.contains(new SchoolYear(description2, startDate2, endDate2)),
                 "The list should contain the school year '25/26'.");
     }
 
@@ -1259,8 +1268,12 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
 
         Description description1 = new Description("School Year 24/25");
         Description description2 = new Description("School Year 25/26");
-        schoolYearRepository.addSchoolYear(description1, "23-11-2024", "09-12-2025");
-        schoolYearRepository.addSchoolYear(description2, "10-11-2025", "09-12-2026");
+        Date startDate1 = new Date ("23-11-2024");
+        Date endDate1 = new Date ("09-12-2025");
+        Date startDate2 = new Date ("10-11-2025");
+        Date endDate2 = new Date ("09-12-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
 
         // Act
         List<SchoolYear> schoolYears = controller.getAllSchoolYears();
@@ -1307,8 +1320,12 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                         programmeEnrolmentRepository);
         Description description1 = new Description("School Year 24/25");
         Description description2 = new Description("School Year 25/26");
-        schoolYearRepository.addSchoolYear(description1, "23-11-2024", "09-12-2025");
-        schoolYearRepository.addSchoolYear(description2, "10-11-2025", "09-12-2026");
+        Date startDate1 = new Date ("23-11-2024");
+        Date endDate1 = new Date ("09-12-2025");
+        Date startDate2 = new Date ("10-11-2025");
+        Date endDate2 = new Date ("09-12-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
 
         // Act
         List<SchoolYear> schoolYears = controller.getAllSchoolYears();

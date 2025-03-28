@@ -1,13 +1,8 @@
 package PAI.controller;
 
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.*;
 
-import PAI.VOs.Description;
-
-import PAI.VOs.QuantEcts;
-import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionRepository;
@@ -352,7 +347,9 @@ class US19_CreateCourseEditionControllerTest {
                 ICourseFactory);
 
         Description description = new Description("School Year 24/25");
-        schoolYear = new SchoolYear(description, "23-11-2024", "09-12-2025");
+        Date startDate = new Date("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        schoolYear = new SchoolYear(description, startDate, endDate);
 
         programmeEdition = new ProgrammeEdition(programme, schoolYear);
     }
