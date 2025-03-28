@@ -2,12 +2,12 @@ package PAI.VOs;
 
 import java.util.Objects;
 
-public class StudentEmail {
+public class StudentAcademicEmail {
 
     private static final String emailDomain = "isep.ipp.pt";
     private final String _studentEmail;
 
-    public StudentEmail (StudentID studentID) {
+    public StudentAcademicEmail(StudentID studentID) {
 
         if (studentID == null) {
             throw new IllegalArgumentException("Student's unique number cannot be null!");
@@ -24,7 +24,7 @@ public class StudentEmail {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StudentEmail that = (StudentEmail) o;
+        StudentAcademicEmail that = (StudentAcademicEmail) o;
         return _studentEmail.equals(that._studentEmail);
     }
 
