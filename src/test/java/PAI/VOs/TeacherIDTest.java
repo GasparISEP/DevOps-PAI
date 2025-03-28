@@ -19,12 +19,12 @@ class TeacherIDTest {
     }
 
     @Test
-    void shouldReturnA_UUID_WhenGettingID() {
+    void shouldReturnA_UUID_WhenCallingIdentity() {
         // Act
         TeacherID firstTeacherID = TeacherID.createNew();
 
         // Assert
-        assertNotNull(firstTeacherID.getID());
+        assertNotNull(firstTeacherID.identity());
     }
 
     @Test
@@ -34,7 +34,7 @@ class TeacherIDTest {
         TeacherID secondTeacherID = TeacherID.createNew();
 
         // Assert
-        assertNotEquals(firstTeacherID.getID(), secondTeacherID.getID());
+        assertNotEquals(firstTeacherID.identity(), secondTeacherID.identity());
     }
 
     @Test
@@ -47,9 +47,82 @@ class TeacherIDTest {
                 var constructor = TeacherID.class.getDeclaredConstructor(UUID.class);
                 constructor.setAccessible(true);
                 constructor.newInstance((Object) null); // Try to instance the constructor with a null value as input
-            } catch (InvocationTargetException e) { // Catches InvocationTargetException
+            } catch (InvocationTargetException e) {
                 throw e.getCause(); // Re-throw the original IllegalArgumentException
             }
         });
+    }
+
+    @Test
+    void shouldReturnTrueWhenObjectsAreTheSame(){
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenUUIDIsTheSame() {
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        UUID id = teacherID.identity();
+        TeacherID teacherID2;
+
+        try {
+            var constructor = TeacherID.class.getDeclaredConstructor(UUID.class);
+            constructor.setAccessible(true);
+            teacherID2 = constructor.newInstance(id);
+        } catch (Exception e) {
+            teacherID2 = null;
+        }
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenObjectAndTeacherIDAreNotTheSame(){
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        Object otherObject = new Object();
+
+        // Act
+        boolean result = teacherID.sameAs(otherObject);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenUUIDsAreNotTheSame() {
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        TeacherID teacherID2 = TeacherID.createNew();
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenTeacherIDIsComparedWithNullObject() {
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        TeacherID teacherID2 = null;
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID2);
+
+        // Assert
+        assertFalse(result);
     }
 }
