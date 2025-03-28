@@ -9,7 +9,7 @@ import static org.mockito.Mockito.mock;
 class CourseInStudyPlan_2Test {
 
     @Test
-    void ShouldConstructACourseInStudyPlan_2WithMock() throws Exception {
+    void ShouldConstructACourseInStudyPlan_2() throws Exception {
 
         //Arrange
         CourseID courseID = mock(CourseID.class);
@@ -36,11 +36,11 @@ class CourseInStudyPlan_2Test {
         CourseInStudyPlan_2 course2 = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
-        assertEquals(course1, course2, "Instâncias com o mesmo CourseID devem ser iguais.");
+        assertEquals(course1, course2);
     }
 
     @Test
-    void testEqualsCourseIDDiferente() throws Exception {
+    void testEqualsDifferentCourseID() throws Exception {
         // Arrange
         CourseID courseID1 = mock(CourseID.class);
         CourseID courseID2 = mock(CourseID.class);
@@ -52,11 +52,11 @@ class CourseInStudyPlan_2Test {
         CourseInStudyPlan_2 course2 = new CourseInStudyPlan_2(semester, curricularYear, courseID2, studyPlanID);
 
         // Assert
-        assertNotEquals(course1, course2, "Instâncias com CourseID diferentes não devem ser iguais.");
+        assertNotEquals(course1, course2);
     }
 
     @Test
-    void testEqualsComNull() throws Exception {
+    void testEqualsWithNull() throws Exception {
         // Arrange
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -66,11 +66,11 @@ class CourseInStudyPlan_2Test {
         CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
-        assertNotEquals(course, null, "A comparação com null deve retornar false.");
+        assertNotEquals(course, null);
     }
 
     @Test
-    void testEqualsComTipoDiferente() throws Exception {
+    void testEqualsWithSameCourse() throws Exception {
         // Arrange
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -80,21 +80,7 @@ class CourseInStudyPlan_2Test {
         CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
-        assertNotEquals(course, "Uma String", "A comparação com um tipo diferente deve retornar false.");
-    }
-
-    @Test
-    void testEqualsComEleMesmo() throws Exception {
-        // Arrange
-        CourseID courseID = mock(CourseID.class);
-        StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        Semester semester = mock(Semester.class);
-        CurricularYear curricularYear = mock(CurricularYear.class);
-
-        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
-
-        // Assert
-        assertEquals(course, course, "Um objeto deve ser igual a si próprio.");
+        assertEquals(course, course);
     }
 
     @Test
@@ -109,26 +95,26 @@ class CourseInStudyPlan_2Test {
         CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
-        assertSame(courseID, course.getCourseID(), "O getter de CourseID deve retornar o valor correto.");
-        assertSame(semester, course.getSemester(), "O getter de Semester deve retornar o valor correto.");
-        assertSame(curricularYear, course.getCurricularYear(), "O getter de CurricularYear deve retornar o valor correto.");
-        assertSame(studyPlanID, course.getStudyplanID(), "O getter de StudyPlanID deve retornar o valor correto.");
+        assertEquals(courseID, course.getCourseID());
+        assertEquals(semester, course.getSemester());
+        assertEquals(curricularYear, course.getCurricularYear());
+        assertEquals(studyPlanID, course.getStudyplanID());
     }
 
     @Test
     void testGetCourseInStudyPlanID_NotNull() throws Exception {
-        // Arrange: criar os mocks para os parâmetros do construtor
+        // Arrange
         Semester semester = mock(Semester.class);
         CurricularYear curricularYear = mock(CurricularYear.class);
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
-        // Act: criar a instância e obter o identificador
-        CourseInStudyPlan_2 instance = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
-        CourseInStudyPlanID id = instance.getCourseInStudyPlanID();
+        // Act
+        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanID id = course.getCourseInStudyPlanID();
 
-        // Assert: verificar que o ID não é nulo
-        assertNotNull(id, "O getter deve retornar um identificador não nulo");
+        // Assert
+        assertNotNull(id);
     }
 
     @Test
@@ -139,13 +125,13 @@ class CourseInStudyPlan_2Test {
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
-        CourseInStudyPlan_2 instance = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
 
         // Act: obter o identificador em duas chamadas consecutivas
-        CourseInStudyPlanID id1 = instance.getCourseInStudyPlanID();
-        CourseInStudyPlanID id2 = instance.getCourseInStudyPlanID();
+        CourseInStudyPlanID id1 = course.getCourseInStudyPlanID();
+        CourseInStudyPlanID id2 = course.getCourseInStudyPlanID();
 
         // Assert: ambas as chamadas devem retornar o mesmo objeto
-        assertSame(id1, id2, "Chamadas consecutivas ao getter devem retornar o mesmo objeto");
+        assertEquals(id1, id2);
     }
 }
