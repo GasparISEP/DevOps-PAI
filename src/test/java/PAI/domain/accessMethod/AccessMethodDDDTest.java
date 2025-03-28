@@ -82,4 +82,16 @@ class AccessMethodDDDTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnFalseIfComparedWithOtherObject(){
+        //arrange
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        //act
+        boolean result = accessMethod.sameAs(accessMethodId);
+        //assert
+        assertFalse(result);
+    }
 }
