@@ -47,5 +47,15 @@ class AccessMethodIDTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnUUIDtoString(){
+        //arrange
+        AccessMethodID accessMethodID = new AccessMethodID();
+        //act
+        String id = accessMethodID.toString();
+        //assert
+        assertEquals(id, accessMethodID.toString());
+    }
+
 
 }

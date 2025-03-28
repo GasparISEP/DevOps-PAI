@@ -22,5 +22,10 @@ public class AccessMethodID implements DomainId {
         return false;
     }
 
+    @Override
+    public String toString(){
+        return this._accessMethodId.toString();
+    }
+
 
 }
