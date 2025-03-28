@@ -7,13 +7,13 @@ public class TeacherAcademicEmail {
         private static final String emailDomain = "isep.ipp.pt";
         private final String _teacherAcademicEmail;
 
-        public TeacherAcademicEmail (TeacherID teacherID) {
+        public TeacherAcademicEmail (TeacherAcronym teacherAcronym) {
 
-            if (teacherID == null) {
+            if (teacherAcronym == null) {
                 throw new IllegalArgumentException("Teacher's acronym cannot be null!");
             }
 
-            _teacherAcademicEmail = teacherID.getAcronym() + "@" + emailDomain;
+            _teacherAcademicEmail = teacherAcronym.getAcronym() + "@" + emailDomain;
         }
 
         public String getTeacherAcademicEmail () {

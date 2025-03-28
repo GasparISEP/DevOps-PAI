@@ -8,8 +8,8 @@ class TeacherAcademicEmailTest {
 
     @Test
     void shouldCreateValidTeacherAcademicEmail() throws Exception {
-        TeacherID teacherID = new TeacherID("ABC");
-        TeacherAcademicEmail teacherEmail = new TeacherAcademicEmail(teacherID);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("ABC");
+        TeacherAcademicEmail teacherEmail = new TeacherAcademicEmail(teacherAcronym);
 
         assertEquals("ABC@isep.ipp.pt", teacherEmail.getTeacherAcademicEmail());
     }
@@ -25,11 +25,11 @@ class TeacherAcademicEmailTest {
 
     @Test
     void shouldBeEqualIfEmailsAreTheSame() throws Exception {
-        TeacherID teacherID1 = new TeacherID("SDE");
-        TeacherID teacherID2 = new TeacherID("SDE");
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("SDE");
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym("SDE");
 
-        TeacherAcademicEmail email1 = new TeacherAcademicEmail(teacherID1);
-        TeacherAcademicEmail email2 = new TeacherAcademicEmail(teacherID2);
+        TeacherAcademicEmail email1 = new TeacherAcademicEmail(teacherAcronym1);
+        TeacherAcademicEmail email2 = new TeacherAcademicEmail(teacherAcronym2);
 
         assertEquals(email1, email2);
 
@@ -37,11 +37,11 @@ class TeacherAcademicEmailTest {
 
     @Test
     void shouldNotBeEqualIfEmailsAreDifferent() throws Exception {
-        TeacherID teacherID1 = new TeacherID("ABC");
-        TeacherID teacherID2 = new TeacherID("XYZ");
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym("XYZ");
 
-        TeacherAcademicEmail email1 = new TeacherAcademicEmail(teacherID1);
-        TeacherAcademicEmail email2 = new TeacherAcademicEmail(teacherID2);
+        TeacherAcademicEmail email1 = new TeacherAcademicEmail(teacherAcronym1);
+        TeacherAcademicEmail email2 = new TeacherAcademicEmail(teacherAcronym2);
 
         assertNotEquals(email1, email2);
 
@@ -49,19 +49,19 @@ class TeacherAcademicEmailTest {
 
     @Test
     void shouldReturnCorrectStringRepresentation() throws Exception {
-        TeacherID teacherID = new TeacherID("DEF");
-        TeacherAcademicEmail teacherEmail = new TeacherAcademicEmail(teacherID);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("DEF");
+        TeacherAcademicEmail teacherEmail = new TeacherAcademicEmail(teacherAcronym);
 
         assertEquals("DEF@isep.ipp.pt", teacherEmail.toString());
     }
 
     @Test
     void shouldGenerateEmailForDifferentTeacherIDs() throws Exception {
-        TeacherID teacherID1 = new TeacherID("LMN");
-        TeacherID teacherID2 = new TeacherID("XYZ");
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("LMN");
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym("XYZ");
 
-        TeacherAcademicEmail email1 = new TeacherAcademicEmail(teacherID1);
-        TeacherAcademicEmail email2 = new TeacherAcademicEmail(teacherID2);
+        TeacherAcademicEmail email1 = new TeacherAcademicEmail(teacherAcronym1);
+        TeacherAcademicEmail email2 = new TeacherAcademicEmail(teacherAcronym2);
 
         assertEquals("LMN@isep.ipp.pt", email1.toString());
         assertEquals("XYZ@isep.ipp.pt", email2.toString());
@@ -69,8 +69,8 @@ class TeacherAcademicEmailTest {
 
     @Test
     void shouldBeImmutableAfterCreation() throws Exception {
-        TeacherID teacherID = new TeacherID("QWE");
-        TeacherAcademicEmail teacherEmail = new TeacherAcademicEmail(teacherID);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("QWE");
+        TeacherAcademicEmail teacherEmail = new TeacherAcademicEmail(teacherAcronym);
 
         String emailBefore = teacherEmail.getTeacherAcademicEmail();
 
