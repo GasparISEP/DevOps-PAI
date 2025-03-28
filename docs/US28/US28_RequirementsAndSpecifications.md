@@ -46,22 +46,21 @@ At this stage, there are no specific non-functional requirements imposed for thi
 The acceptance criteria define the expected behaviour of the system for both **successful** enrolment removal and **failure** scenarios.
 
 ### Success Cases
-- **T1:** **Successful Enrolment Removal**: When the ASC selects a student enrolled in a course edition and confirms the removal, the system should successfully mark the student’s enrolment as “inactive”, ensuring the student is no longer considered actively enrolled in that course edition.
 
-
-- **T2:** **Multiple Course Edition Removals**: Ensures that the student can be correctly removed from multiple course editions.
-
-
-- **T3:** **Batch Removal of Multiple Students**: Given multiple students enrolled in the same course edition, when the ASC selects and removes several students simultaneously, the system should successfully process each removal and mark their enrolments as inactive.
+| Test                            | Description |
+|---------------------------------|-------------|
+| **T1: Successful Enrolment Removal** | When the ASC selects a student enrolled in a course edition and confirms the removal, the system should successfully mark the student’s enrolment as “inactive”, ensuring the student is no longer considered actively enrolled in that course edition. |
+| **T2: Multiple Course Edition Removals** | Ensures that the student can be correctly removed from multiple course editions. |
+| **T3: Batch Removal of Multiple Students** | Given multiple students enrolled in the same course edition, when the ASC selects and removes several students simultaneously, the system should successfully process each removal and mark their enrolments as inactive. |
 
 ### Failure Handling
-- **T4:** **Nonexistent Enrolment**: If an attempt is made to remove an enrolment that does not exist, the system should reject the operation.
 
+| Test                                          | Description |
+|----------------------------------------------------|-------------|
+| **T4: Nonexistent Enrolment**                      | If an attempt is made to remove an enrolment that does not exist, the system should reject the operation. |
+| **T5: Multiple Removal Attempts of Same Enrolment** | If a student’s enrolment has already been removed (marked as inactive), when the ASC attempts to remove the enrolment again, the system should reject the request. The system should ensure that only the first removal attempt succeeds, and any subsequent removal attempts for the same enrolment fail. |
+| **T6: Null Information**                           | If there is missing information regarding the student or the course edition (null data), when the ASC attempts to process the removal, the system should reject the request. |
 
-- **T5:** **Multiple Removal Attempts of Same Enrolment**: If a student’s enrolment has already been removed (marked as inactive), when the ASC attempts to remove the enrolment again, the system should reject the request. The system should ensure that only the first removal attempt succeeds, and any subsequent removal attempts for the same enrolment fail.
-
-
-- **T6:** **Null Information**: If there is missing information regarding the student or the course edition (null data), when the ASC attempts to process the removal, the system should reject the request.
 
 ## Event Flow
 - The ASC initiates the interaction by requesting the system to remove the enrolment of a student in a specific course edition.
