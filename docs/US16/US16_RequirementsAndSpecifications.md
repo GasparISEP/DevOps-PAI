@@ -59,15 +59,32 @@ This functionality is essential for managing academic enrolments and ensuring th
 
 ### 6. Business Rules
 
+- The enrolment should have an unique identifier.
+
+- The enrolment information must always be recorded and stored.
+
 - A student may not be enrolled in multiple overlapping editions of the same course.
 
 - The enrolment date must always be recorded and stored.
 
-- A student may only be enrolled in a course edition if they are already enrolled in a programme edition that includes that course edition.
+- Students are eligible to enrol in a given course edition only if they are concurrently enrolled in the programme edition under which that course edition is offered.
+
+
+### 7. Main Entities
+
+To better understand the key entities involved in this user story, the following entities are defined:
+
+- **Student:** A person who is enrolled in a course edition, participating in the academic programme offered by the institution.
+
+- **Programme Edition:** Represents a specific iteration of an academic programme delivered within a defined school year.
+
+- **Course Edition:** Represents an edition/instance of a curricular unit within a programme edition.
+
+- **Course Edition Enrolment:** Represents the enrolment of a student in a specific course edition.
 
 
 
-### 7. Event Flow
+### 8. Event Flow
 
 - The ASC initiates the enrolment process by requesting to enrol a student in a specific course edition.
 
@@ -91,7 +108,7 @@ This functionality is essential for managing academic enrolments and ensuring th
 
 
 
-### 8. Testing and Validation
+### 9. Testing and Validation
 
 - **T1:** Test course edition enrolment with a null student
 
@@ -111,7 +128,7 @@ Confirm that the system prevents a student from being enrolled more than once in
 
 
 
-### 9. Identified Risks
+### 10. Identified Risks
 
 - Over-enrolment may exceed classroom or instructor capacity, causing logistical constraints.
 
@@ -119,7 +136,7 @@ Confirm that the system prevents a student from being enrolled more than once in
 
 
 
-### 10. Conclusion
+### 11. Conclusion
 
 The enrolment of students into course editions is a critical component of academic operations. This document has formally defined the expected behavior and constraints associated with this process, ensuring that enrolments are performed in a consistent, secure, and reliable manner.
 By addressing both functional and non-functional aspects, as well as potential risks, the analysis supports the implementation of a robust solution that meets the needs of academic service staff while maintaining data integrity and alignment with programme structures.
