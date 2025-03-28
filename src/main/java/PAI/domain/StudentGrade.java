@@ -1,64 +1,56 @@
 package PAI.domain;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Objects;
+import PAI.VOs.Date;
+import PAI.VOs.Grade;
+import PAI.VOs.StudentGradeID;
+import PAI.ddd.AggregateRoot;
 
-public class StudentGrade {
+public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
-        private double _grade;
-        private LocalDate _date;
-        private Student _student;
-        private CourseEdition _courseEdition;
+    private Grade _grade;
+    private Date _date;
+    private Student _student;
+    private CourseEdition _courseEdition;
+    private final StudentGradeID _studentGrade_id;
 
-        public StudentGrade(double grade, String date, Student student, CourseEdition courseEdition) throws Exception {
-            if (!isGradeValid(grade)) throw new IllegalArgumentException("Grade should be between 0 and 20");
-            _grade = grade;
+    public StudentGrade(Grade grade, Date date, Student student, CourseEdition courseEdition) throws Exception {
+        if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
+        _grade = grade;
 
-            if ( date == null || date.isEmpty()) throw new IllegalArgumentException("Date cannot be empty");
-            isDateValid(date);
+        if (date == null) throw new IllegalArgumentException("Date cannot be null");
+        _date = date;
 
-            if (student == null) throw new IllegalArgumentException("Student cannot be null");
-            _student = student;
+        if (student == null) throw new IllegalArgumentException("Student cannot be null");
+        _student = student;
 
-            if (courseEdition == null) throw new IllegalArgumentException("Course Edition cannot be null");
-            _courseEdition = courseEdition;
-        }
+        if (courseEdition == null) throw new IllegalArgumentException("Course Edition cannot be null");
+        _courseEdition = courseEdition;
 
-        private boolean isGradeValid (double grade){
-            return grade >= 0 && grade <=20;
-        }
+        this._studentGrade_id = new StudentGradeID();
+    }
 
+    public Grade get_grade() {
+        return _grade;
+    }
 
+    public boolean hasThisCourseEdition(CourseEdition courseEdition) {
+        return _courseEdition.equals(courseEdition);
+    }
 
-        public double knowGrade() {
-            return _grade;
-        }
+    public boolean hasThisStudent(Student student) {
+        return _student.equals(student);
+    }
 
-        public boolean hasThisCourseEdition(CourseEdition courseEdition) {
-            return _courseEdition.equals(courseEdition);
-        }
+    public CourseEdition KnowCourseEdition() {
+        return _courseEdition;
+    }
 
-        public boolean hasThisStudent (Student student) {
-            return _student.equals(student);
-        }
+    @Override
+    public StudentGradeID identity(){
+        return _studentGrade_id;
+    }
 
-        public CourseEdition KnowCourseEdition() {
-            return _courseEdition;
-        }
-
-        public void isDateValid (String date) throws Exception{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            try {
-                _date = LocalDate.parse(date,formatter);
-            }
-            catch (DateTimeParseException e){
-                throw new Exception("Time format must be dd-MM-YYYY");
-            }
-        }
-
-    public LocalDate get_date() {
+    public Date get_date() {
         return _date;
     }
 
@@ -75,9 +67,28 @@ public class StudentGrade {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StudentGrade that = (StudentGrade) o;
-        return Objects.equals(_student, that._student) && Objects.equals(_courseEdition, that._courseEdition);
+
+        if (this._studentGrade_id.equals(that._studentGrade_id)) {
+            return true;
+        }
+        return false;
     }
+
+
+    public boolean sameAs(Object object) {
+
+        if (object instanceof StudentGrade) {
+            StudentGrade studentGrade = (StudentGrade) object;
+
+            if( this._student.equals(studentGrade._student) && (this._courseEdition.equals(studentGrade._courseEdition)) )
+                return true;
+        }
+        return false;
+    }
+
+
 }
+
 
 
 

@@ -1,5 +1,8 @@
 package PAI.controller;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.QuantEcts;
+import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionRepository;
@@ -279,9 +282,9 @@ class US19_CreateCourseEditionControllerTest {
     private IProgrammeRepositoryListFactory programmeListFactory;
     private ProgrammeRepository programmeRepository;
 
-    private CourseInStudyPlanFactory courseInStudyPlanFactory;
-    private StudyPlanListFactory studyPlanListFactory;
-    private StudyPlanFactory studyPlanFactory;
+    private ICourseInStudyPlanFactory ICourseInStudyPlanFactory;
+    private IStudyPlanListFactory IStudyPlanListFactory;
+    private IStudyPlanFactory IStudyPlanFactory;
     private ICourseFactory ICourseFactory;
 
     private US19_CreateCourseEditionController controller;
@@ -314,9 +317,9 @@ class US19_CreateCourseEditionControllerTest {
         programmeListFactory = new ProgrammeRepositoryListFactoryImpl();
         programmeRepository = new ProgrammeRepository(IProgrammeFactory, programmeListFactory);
 
-        courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        studyPlanListFactory = new StudyPlanListFactoryImpl();
-        studyPlanFactory = new StudyPlanFactoryImpl();
+        ICourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        IStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanFactory = new StudyPlanFactoryImpl();
         ICourseFactory = new CourseFactoryImpl();
 
         controller = new US19_CreateCourseEditionController(programmeEditionRepository, courseEditionRepository, programmeRepository);
@@ -338,9 +341,9 @@ class US19_CreateCourseEditionControllerTest {
                                 new Department("CSE", "Computer Science Engineer"),
                                 teacherCareerFactory, teacherCareerListFactory),
                         programmeCourseListFactory,
-                        courseInStudyPlanFactory,
-                        studyPlanListFactory,
-                        studyPlanFactory,
+                ICourseInStudyPlanFactory,
+                IStudyPlanListFactory,
+                IStudyPlanFactory,
                 ICourseFactory);
 
         schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
@@ -408,9 +411,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -449,9 +452,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2,schoolYear);
@@ -474,8 +477,11 @@ class US19_CreateCourseEditionControllerTest {
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
             Course c1 = new Course ("Informatica", "INF", 6, 1);
             Course c2 = new Course("Matemática", "MAT", 4, 1);
+            QuantEcts quantEcts = new QuantEcts(20);
+            QuantSemesters quantSemesters = new QuantSemesters(6);
+            NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -485,9 +491,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programme.addCourseToAProgramme(c1);
@@ -506,8 +512,11 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            QuantEcts quantEcts = new QuantEcts(20);
+            QuantSemesters quantSemesters = new QuantSemesters(6);
+            NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -517,9 +526,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -536,8 +545,11 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            QuantEcts quantEcts = new QuantEcts(20);
+            QuantSemesters quantSemesters = new QuantSemesters(6);
+            NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -547,9 +559,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);
@@ -571,8 +583,11 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            QuantEcts quantEcts = new QuantEcts(20);
+            QuantSemesters quantSemesters = new QuantSemesters(6);
+            NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme("Computer Science", "CC", 20, 6,
+            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -582,9 +597,9 @@ class US19_CreateCourseEditionControllerTest {
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
-                    courseInStudyPlanFactory,
-                    studyPlanListFactory,
-                    studyPlanFactory,
+                    ICourseInStudyPlanFactory,
+                    IStudyPlanListFactory,
+                    IStudyPlanFactory,
                     ICourseFactory);
 
             programmeEditionRepository.createProgrammeEdition(programme,schoolYear);

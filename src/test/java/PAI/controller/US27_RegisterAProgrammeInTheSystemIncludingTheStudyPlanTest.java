@@ -4,12 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.QuantEcts;
+import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
 import PAI.factory.ProgrammeCourseListFactoryImpl;
 import PAI.repository.CourseRepository;
 import PAI.factory.*;
 import PAI.repository.ProgrammeRepository;
-import PAI.repository.StudyPlan;
+import PAI.domain.StudyPlan;
 import org.junit.jupiter.api.Test;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
@@ -61,20 +64,20 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo);
 
         // Criar dados de entrada
-        String name = "Engenharia Informática";
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
         String acronym = "EI";
-        int quantityOfEcts = 30;
-        int quantityOfSemesters = 6;
+        QuantEcts quantityOfEcts = new QuantEcts(30);
+        QuantSemesters quantityOfSemesters = new QuantSemesters(6);
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = mock(ProgrammeCourseListFactoryImpl.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
+        IStudyPlanListFactory IStudyPlanListFactory = mock(IStudyPlanListFactory.class);
+        IStudyPlanFactory IStudyPlanFactory = mock(IStudyPlanFactory.class);
         CourseFactoryImpl courseFactoryImpl = mock(CourseFactoryImpl.class);
 
-        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl1, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, courseFactoryImpl);
+        boolean result = controller.registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, teacher, programmeCourseListFactoryImpl1, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, courseFactoryImpl);
 
         assertTrue(result);
     }

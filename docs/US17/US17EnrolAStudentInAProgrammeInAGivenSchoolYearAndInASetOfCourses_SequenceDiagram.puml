@@ -1,4 +1,9 @@
 @startuml
+autonumber
+skinparam sequence {
+LifeLineBorderColor Grey
+LifeLineBackgroundColor HoneyDew
+}
 title US17 - enrol a student in a programme in a given school year and in a set of courses
 actor ASC
 participant ":UI" as UI

@@ -33,22 +33,22 @@ class "<<root>>\nProgramme" {
      +calculateNumberOfYears(quantityOfSemesters : int): int
      +hasThisProgrammeName(String : name): boolean
      }
+}
 
-     class Name <<ValueObject>> {
+class Name <<ValueObject>> {
      -_name: String
-     }
+}
 
-     class Acronym <<ValueObject>> {
+class Acronym <<ValueObject>> {
      -_acronym: String
-     }
+}
 
-     class QuantityOfSemesters <<ValueObject>> {
-     -_quantityOfSemesters: int
-     }
+class QuantityOfSemesters <<ValueObject>> {
+    -_quantityOfSemesters: int
+}
 
-     class QuantityOfEcts <<ValueObject>> {
-     -_quantityOfEcts: int
-     }
+class QuantityOfEcts <<ValueObject>> {
+    -_quantityOfEcts: int
 }
 
 class ProgrammeID <<ValueObject>> {
@@ -129,34 +129,34 @@ class "<<root>>\nTeacher" {
      +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int): boolean
      +updateTeacherCategoryInTeacherCareerProgression(date: String, teacherCategory: TeacherCategory): boolean
     }
+}
 
-    class Name <<ValueObject>> {
+class Name <<ValueObject>> {
     -_name: String
-    }
+}
 
-    class Acronym <<ValueObject>> {
+class Acronym <<ValueObject>> {
     -_acronym: String
-    }
+}
 
-    class Email <<ValueObject>> {
+class Email <<ValueObject>> {
     -_email: String
-    }
+}
 
-    class NIF <<ValueObject>> {
+class NIF <<ValueObject>> {
     -_nif: String
-    }
+}
 
-    class PhoneNumber <<ValueObject>> {
+class PhoneNumber <<ValueObject>> {
     -_phoneNumber: String
-    }
+}
 
-    class AcademicBackground <<ValueObject>> {
+class AcademicBackground <<ValueObject>> {
     -_academicBackground: String
-    }
+}
 
-    class Address <<ValueObject>> {
+class Address <<ValueObject>> {
     -_address: String
-    }
 }
 
 "<<root>>\nProgramme" "*" --> "1" Name
@@ -192,6 +192,6 @@ IProgrammeRepository "1" ....>  IProgrammeRepositoryListFactory
 ProgrammeRepository <|.. IProgrammeRepository
 List <-- IProgrammeRepository
 
-US12_iWantToChangeProgrammeDirectorOfProgrammeController "1  " ..> "1  " ProgrammeRepository
+US12_iWantToChangeProgrammeDirectorOfProgrammeController "1  " ..> "1  " IProgrammeRepository
 
 @enduml

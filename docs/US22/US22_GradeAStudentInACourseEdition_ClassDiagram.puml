@@ -19,6 +19,16 @@ class CourseEditionEnrolmentRepository {
     +enrolStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
 }
 
+interface ICourseEditionEnrolmentRepository {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: CourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: CourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition): CourseEditionEnrolment
+    +numberOfStudentsEnrolledInCourseEdition (CourseEdition : CourseEdition): int
+    +removeEnrolment (student : Student): boolean
+    +enrolStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
+}
+
 
  class CourseEditionEnrolmentId <<ValueObject>> {
 
@@ -32,11 +42,11 @@ entity "<<root>>\nCourseEditionEnrolment"  {
          +deactivateEnrollment()
 
     }
-    class Localdate <<ValueObject>> {
-                    -LocalDate : String
-                }
     }
 
+ class Localdate <<ValueObject>> {
+                    -LocalDate : String
+                }
 
 class List<GradeStudent> {
 
@@ -51,7 +61,9 @@ entity "<<root>>\nGradeStudent"  {
     +equals (objectToCompare: Object)
 
     }
-    class Grade <<ValueObject>> {
+
+}
+class Grade <<ValueObject>> {
         -grade: double
         +knowGrade()
     }
@@ -60,7 +72,6 @@ entity "<<root>>\nGradeStudent"  {
             +isDateValid(String date)
             +get_date()
         }
-}
 
  class StudentGradeId <<ValueObject>> {
     id: Long
@@ -69,22 +80,22 @@ entity "<<root>>\nGradeStudent"  {
 class GradeStudentRepository {
     -gradeStudentList: List<GradeStudent>
     - _gradeStudentFactory: GradeStudentFactory
-    +addGradeToStudent()
-    +knowAverageGrade()
-    +knowApprovalRate()
+    +addGradeToStudent(Grade, Date, student, CourseEdition)
+    +knowAverageGrade(Course Edition)
+    +knowApprovalRate(Course Edition)
 }
 
-Interface GradeStudentRepositoryInterface {
-    +addGradeToStudent()
-    +knowAverageGrade()
-    +knowApprovalRate()
+interface IGradeStudentRepositoryInterface {
+   +addGradeToStudent(Grade, Date, student, CourseEdition)
+   +knowAverageGrade(Course Edition)
+   +knowApprovalRate(Course Edition)
 }
 
-interface GradeStudentFactory {
+interface IGradeStudentFactory {
     +newGradeStudent()
 }
 
-interface GradeStudentListFactory {
+interface IGradeStudentListFactory {
     +newArrayList()
 }
 
@@ -112,23 +123,23 @@ entity "<<root>>\nStudent"  {
          +hasThisUniqueNumber(String uniqueNumber)
 
     }
-    class Name <<ValueObject>> {
-                -Name : String
-            }
-    class NIF <<ValueObject>> {
-                 -NIF : String
-            }
-    class Phone <<ValueObject>> {
-                     -Phone : String
-                }
-    class Email <<ValueObject>> {
-                     -Phone : String
-                    }
-     class Address <<ValueObject>> {
-                     -Adress : String
-                        }
+
     }
-    
+    class Name <<ValueObject>> {
+                    -Name : String
+                }
+        class NIF <<ValueObject>> {
+                     -NIF : String
+                }
+        class Phone <<ValueObject>> {
+                         -Phone : String
+                    }
+        class Email <<ValueObject>> {
+                         -Phone : String
+                        }
+         class Address <<ValueObject>> {
+                         -Adress : String
+                            }
 class CourseEditionId <<ValueObject>> {
 
             }
@@ -154,16 +165,17 @@ entity "<<root>>\nCourseEdition"  {
 "<<root>>\nGradeStudent" "*" --> "1" LocalDate
 "<<root>>\nGradeStudent" --> "1" StudentId: belongs
 "<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
-GradeStudentRepositoryInterface "1" ....> GradeStudentFactory
-GradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
-GradeStudentRepositoryInterface "1" ....>  GradeStudentListFactory
-GradeStudentListFactoryImpl ..|>  GradeStudentListFactory
-GradeStudentFactory  <|..  GradeStudentFactoryImpl
-GradeStudentRepository ..|> GradeStudentRepositoryInterface
-GradeStudentListFactory ..|> List
+IGradeStudentRepositoryInterface "1" ....> IGradeStudentFactory
+IGradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+IGradeStudentRepositoryInterface "1" ....>  IGradeStudentListFactory
+GradeStudentListFactoryImpl ..|>  IGradeStudentListFactory
+IGradeStudentFactory  <|..  GradeStudentFactoryImpl
+GradeStudentRepository ..|> IGradeStudentRepositoryInterface
+IGradeStudentListFactory ..|> List
 "<<root>>\nGradeStudent" <-- List
-List <-- GradeStudentRepositoryInterface
-CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
+List <-- IGradeStudentRepositoryInterface
+CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
+ICourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
 "<<root>>\nCourseEditionEnrolment" "*" -up-> "1" CourseEditionId
 "<<root>>\nGradeStudent" --> "1" StudentGradeId
@@ -173,10 +185,10 @@ CourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 
 
 
-GradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
+IGradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
 
 
-US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " CourseEditionEnrolmentRepository
-US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " GradeStudentRepositoryInterface
+US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " ICourseEditionEnrolmentRepository
+US22_IWantToGradeAStudentInACourseEdition "1" ..> "1    " IGradeStudentRepositoryInterface
 
 @enduml

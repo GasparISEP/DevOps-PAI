@@ -1,110 +1,132 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+!pragma layout smetana
+skinparam ranksep 100
+skinparam nodesep 100
 
-skinparam ranksep 180
-skinparam nodesep 180
-
-class Student {
-    -_uniqueNumber:String
-    -_name:String
-    -_NIF:String
-    -_phone:String
-    -_email:String
-    -_institutionalEmail:String
-    +hasThisUniqueNumber(uniqueNumber: String)
+package "Student Aggregate" as S {
+entity "<<root>>\nStudent" {
++hasThisUniqueNumber(uniqueNumber: String)
+}
 }
 
-class AccessMethod {
-    -_name:String
-    +hasThisAccessMethodName(name: String)
+class "<<VO>>\nUniqueNumber" {
+-value: String
++hasThisUniqueNumber(value: String)
+}
+
+"<<root>>\nStudent" --> "<<VO>>\nUniqueNumber"
+
+package "AccessMethod Aggregate" as AM {
+class "<<root>>\nAccessMethod" {
++hasThisAccessMethodName(name: String)
+}
+}
+
+class "<<VO>>\nAccessMethodName" {
+-value: String
+}
+
+"<<root>>\nAccessMethod" --> "<<VO>>\nAccessMethodName"
+
+package "Programme Aggregate" as P {
+entity "<<root>>\nProgramme" {
++hasThisProgrammeName(name: String)
+}
+}
+
+class "<<VO>>\nProgrammeName" {
+-value: String
+}
+
+"<<root>>\nProgramme" --> "<<VO>>\nProgrammeName"
+
+package "ProgrammeEnrolment Aggregate" as PE {
+entity "<<root>>\nProgrammeEnrolment" {
+-enrolmentDate: LocalDate
++ProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: LocalDate)
++hasSameStudent(student: Student)
++hasSameEnrolment(programmeEnrolment: ProgrammeEnrolment)
++hasSameProgramme(programme: Programme)
+}
+}
+
+class US09_EnrolStudentInProgrammeController {
++US09_EnrolStudentInProgrammeController(studentRepository: IStudentRepository, accessMethodRepository: IAccessMethodRepository, programmeList: IProgrammeRepository, programmeEnrolmentRepository: IProgrammeEnrolmentRepository)
++getStudentByUniqueNumber(uniqueNumber: String)
++getAccessMethodByName(accessMethod: String)
++getProgrammeByName(programmeName: String)
++enrolStudent(s1: Student, am1: AccessMethod, p1: Programme, date: String)
+}
+
+interface IStudentRepository {
++getStudentByID(uniqueNumber: String)
+}
+
+class StudentRepository {
++getStudentByID(uniqueNumber: String)
+}
+
+interface IAccessMethodRepository {
++getAccessMethodByID(name: String)
+}
+
+interface IProgrammeRepository {
++getProgrammeByID(name: String)
+}
+
+class ProgrammeEnrolmentRepository {
+-programmeEnrolmentFactory: ProgrammeEnrolmentFactory
+-programmeEnrolmentList: ProgrammeEnrolmentListFactory
++ProgrammeEnrolmentRepository(programmeEnrolmentFactory: ProgrammeEnrolmentFactoryImpl, programmeEnrolmentRepositoryListFactory ProgrammeEnrolmentRepositoryList)
++enrolStudents(student: Student, accessMethod: AccessMethod, programme: Programme, enrolmentDate: String)
+}
+
+interface IProgrammeEnrolmentRepository {
+Student getStudentByUniqueNumber(String uniqueNumber);
+}
+
+interface IProgrammeEnrolmentListFactory {
++newArrayList()
+}
+
+class ProgrammeEnrolmentRepositoryListFactoryImpl {
++newArrayList()
+}
+
+class ProgrammeEnrolmentFactoryImpl {
++createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
+}
+
+interface IProgrammeEnrolmentFactory {
++createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
 }
 
 class List<ProgrammeEnrolment> {
 }
 
-class Programme {
-     - name: string
-     - acronym: string
-     - quantityOfEcts: int
-     - quantityOfSemesters: int
-     - degreeType: DegreeType
-     - department: Department
-     - programmeDirector: Teacher
-     -StudyPlan: _studyPlan
-     +hasThisProgrammeName(name: String)
- }
+IStudentRepository  -.>  "<<root>>\nStudent"
+IAccessMethodRepository  -.>  "<<root>>\nAccessMethod"
+IProgrammeRepository  -.>  "<<root>>\nProgramme"
+IProgrammeEnrolmentFactory "1" .u.> " \ncreates" "<<root>>\nProgrammeEnrolment"
+IProgrammeEnrolmentRepository "1" ..> "1" IProgrammeEnrolmentFactory
+IProgrammeEnrolmentFactory <|.. ProgrammeEnrolmentFactoryImpl
+IProgrammeEnrolmentListFactory <-- "1" IProgrammeEnrolmentRepository
+IProgrammeEnrolmentListFactory <|.u. ProgrammeEnrolmentRepositoryListFactoryImpl
+IProgrammeEnrolmentRepository "1" --> "1" List
+IProgrammeEnrolmentListFactory  ..> "creates\n" List
+List --> "1" "<<root>>\nProgrammeEnrolment"
 
- class ProgrammeEnrolment {
-     -enrolmentDate: LocalDate
-     +ProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: LocalDate)
-     +hasSameStudent(student: Student)
-     +hasSameEnrolment(programmeEnrolment: ProgrammeEnrolment)
-     +hasSameProgramme(programme: Programme)
- }
+US09_EnrolStudentInProgrammeController "1" -.> "1" IStudentRepository
+StudentRepository <|.- IStudentRepository
+US09_EnrolStudentInProgrammeController "1" -.> "1" IAccessMethodRepository
+AccessMethodRepository <|.- IAccessMethodRepository
+US09_EnrolStudentInProgrammeController "1" -.> "1" IProgrammeRepository
+ProgrammeRepository <|.- IProgrammeRepository
+US09_EnrolStudentInProgrammeController "1" -.> "1" IProgrammeEnrolmentRepository
 
- class ProgrammeEnrolmentFactoryImpl {
-    +createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
- }
-
-interface ProgrammeEnrolmentFactory {
-    +createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
-}
-
-class ProgrammeEnrolmentRepository {
-    -programmeEnrolmentFactory: ProgrammeEnrolmentFactory
-    -programmeEnrolmentList: ProgrammeEnrolmentListFactory
-     +ProgrammeEnrolmentRepository(programmeEnrolmentFactory: ProgrammeEnrolmentFactoryImpl, programmeEnrolmentRepositoryListFactory ProgrammeEnrolmentRepositoryList
-     +enrolStudents (student : Student, accessMethod : AccessMethod, programme : Programme, enrolmentDate: String)
-}
-
-class ProgrammeEnrolmentRepositoryListFactoryImpl {
-    +newArrayList()
-}
-
-interface ProgrammeEnrolmentListFactory {
-    +newArrayList()
-}
-
-class US09_EnrolStudentInProgrammeController {
-     + US09_EnrolStudentInProgrammeController(studentRepository: StudentRepository, accessMethodRepository: AccessMethodRepository, programmeList: ProgrammeRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
-     + getStudentByUniqueNumber(uniqueNumber: String)
-     + getAccessMethodByName(accessMethod: String)
-     + getProgrammeByName(programmeName: String)
-     + enrolStudent(s1: Student, am1: AccessMethod, p1: Programme, date: String)
-}
-
-class StudentRepository {
-    -studentFactoryImpl: StudentFactory
-    +getStudentByUniqueNumber(uniqueNumber: String)
-}
-
-class AccessMethodRepository {
-    -accessMethodFactory: AccessMethodFactory
-    +getAccessMethodByName(name: String)
-}
-
-class ProgrammeRepository {
-    -programmeFactory: ProgrammeFactory
-     +getProgrammeByName(name: String)
-}
-
-StudentRepository "1" --> "students \n*" Student
-AccessMethodRepository "1" --> "_accessMethodList \n*" AccessMethod
-ProgrammeRepository "1   " ---> "_programmeList *" Programme
-Student "_student \n1" <-- "*" ProgrammeEnrolment
-AccessMethod "_accessmethod \n1" <-- "*" ProgrammeEnrolment
-Programme "_programme \n1"  <-r- "*" ProgrammeEnrolment
-US09_EnrolStudentInProgrammeController "1" .r.> "_studentRepository \n1\n" StudentRepository
-US09_EnrolStudentInProgrammeController "1" ..> "_accessmethodRepository \n1" AccessMethodRepository
-US09_EnrolStudentInProgrammeController "1" ..l.> "_programmeList \n1\n" ProgrammeRepository
-US09_EnrolStudentInProgrammeController "1" ..> "_programmeEnrolmentRepository \n1\n" ProgrammeEnrolmentRepository
-ProgrammeEnrolmentRepository"1" ..> "1"ProgrammeEnrolmentFactory
-ProgrammeEnrolmentFactory"1" ..> "1..* \ncreates"ProgrammeEnrolment
-ProgrammeEnrolmentFactory <|.. ProgrammeEnrolmentFactoryImpl
-ProgrammeEnrolmentListFactory "_programmeEnrolmentListFactory \n1" <-- "1"ProgrammeEnrolmentRepository
-ProgrammeEnrolmentListFactory <|.. ProgrammeEnrolmentRepositoryListFactoryImpl
-ProgrammeEnrolmentListFactory  ..> "creates\n" List
-ProgrammeEnrolmentRepository"1" --> "1"List
-List --> ProgrammeEnrolment
+IProgrammeEnrolmentRepository .u.|> ProgrammeEnrolmentRepository
+"<<root>>\nProgrammeEnrolment" --> "<<VO>>\nUniqueNumber"
+"<<root>>\nProgrammeEnrolment" --> "<<VO>>\nProgrammeName"
+"<<root>>\nProgrammeEnrolment" --> "<<VO>>\nAccessMethodName"
 
 @enduml

@@ -38,7 +38,7 @@ activate Enrolment
 Enrolment --> Repository : true
 deactivate Enrolment
 
-Repository -> Enrolment : deactivateEnrollment()
+Repository -> Enrolment : deactivateEnrolment()
 activate Enrolment
 Enrolment --> Repository : Enrolment is now inactive
 deactivate Enrolment

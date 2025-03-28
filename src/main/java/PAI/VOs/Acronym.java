@@ -1,10 +1,19 @@
 package PAI.VOs;
 
-public class Acronym {
+import PAI.ddd.ValueObject;
+
+public class Acronym implements ValueObject {
 
     private final String _acronym;
 
     public Acronym(String acronym) {
-        _acronym = acronym;
+        if (isAcronymInvalid(acronym)) {
+            throw new IllegalArgumentException("Acronym must not be empty");
+        }
+        this._acronym = acronym;
+    }
+
+    private boolean isAcronymInvalid(String acronym) {
+        return acronym == null || acronym.isBlank() || !acronym.matches("^[A-Z]+[0-9]*$");
     }
 }

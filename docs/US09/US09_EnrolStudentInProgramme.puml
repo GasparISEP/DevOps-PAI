@@ -1,17 +1,18 @@
 @startuml
 skinparam sequenceMessageAlign center
-
+skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
 actor ASC
 participant ":UI" as UI
-participant "ctrl1:EnrolAStudentInProgrammeController" as CTL
-participant "sr1:StudentRepository" as StudentRepo
+participant "ctrl1:EnrolAStudentInProgrammeController" as CTL #lightgreen
+participant "sr1:<<Interface>>IStudentRepository" as StudentRepo #lightyellow
 participant "s[i]:Student" as Student
-participant "amr1:AccessMethodRepository" as AccessMethodRepo
+participant "amr1:<<Interface>>IAccessMethodRepository" as AccessMethodRepo #lightyellow
 participant "am[i]:AccessMethod" as AccessMethod
-participant "prRepo1:ProgrammeRepository" as ProgrammeRepo
+participant "prRepo1:<<Interface>>IProgrammeRepository" as ProgrammeRepo #lightyellow
 participant "p[i]:Programme" as Programme
-participant "per1:ProgrammeEnrolmentRepository" as EnrolmentRepo
-participant "pef1:ProgrammeEnrolmentFactory" as ProgrammeEnrolmentFactory
+participant "per1:<<Interface>>IProgrammeEnrolmentRepository" as EnrolmentRepo #lightyellow
+participant "pef1:ProgrammeEnrolmentFactoryImpl" as ProgrammeEnrolmentFactory
 participant "pe[i]:ProgrammeEnrolment" as ProgrammeEnrolment
 participant "pe1:ProgrammeEnrolment" as ProgrammeEnrolment1
 
@@ -24,70 +25,81 @@ ASC -> UI : accessMethodName
 UI --> ASC : Programme?
 ASC -> UI : programmeName
 UI --> ASC : Date?
-ASC -> UI : enrolmentDate
-UI -> CTL : I want to enrol a Student in a Programme \n (uniqueNumber, accessMethodName, programmeName, enrolmentDate)
+ASC -> UI : enrolmentDateVO
+UI -> CTL : I want to enrol a Student in a Programme \n (uniqueNumberDTO, accessMethodNameDTO,\n programmeNameDTO, enrolmentDateDTO)
 activate CTL
-CTL -> StudentRepo : getStudentByUniqueNumber(uniqueNumber)
+|||
+ref over CTL
+    \t \t \t \t \t Convert DTO to VO \t
+end ref
+|||
+CTL -> StudentRepo : getStudentByID(uniqueNumberVO)
 activate StudentRepo
 
 loop for each Student in StudentRepo
-    StudentRepo -> Student : hasThisUniqueNumber(uniqueNumber)
+    StudentRepo -> Student : hasThisUniqueNumber(uniqueNumberVO)
     activate Student
-    Student --> StudentRepo : True
+    Student --> StudentRepo : s1VO
     deactivate Student
 end
-StudentRepo --> CTL : s1
+StudentRepo --> CTL : s1VO
 deactivate StudentRepo
 
-CTL -> AccessMethodRepo : getAccessMethodByName(name)
+CTL -> AccessMethodRepo : getAccessMethodByID(accessMethodNameVO)
 activate AccessMethodRepo
 loop for each AccessMethod in AccessMethodRepository
-    AccessMethodRepo -> AccessMethod : hasThisAccessMethodName(accessMethodName)
+    AccessMethodRepo -> AccessMethod : hasThisAccessMethodName(accessMethodNameVO)
     activate AccessMethod
-    AccessMethod --> AccessMethodRepo : True
+    AccessMethod --> AccessMethodRepo : am1VO
     deactivate AccessMethod
 end
-AccessMethodRepo --> CTL : am1
+AccessMethodRepo --> CTL : am1VO
 deactivate AccessMethodRepo
 
-CTL -> ProgrammeRepo : getProgrammeByName(name)
+CTL -> ProgrammeRepo : getProgrammeByID(programmeNameVO)
 activate ProgrammeRepo
 loop for each Programme in ProgrammeRepo
-    ProgrammeRepo -> Programme : hasThisProgrammeName(programmeName)
+    ProgrammeRepo -> Programme : hasThisProgrammeName(programmeNameVO)
     activate Programme
-    Programme --> ProgrammeRepo : True
+    Programme --> ProgrammeRepo : p1VO
     deactivate Programme
 end
-ProgrammeRepo --> CTL : p1
+ProgrammeRepo --> CTL : p1VO
 deactivate ProgrammeRepo
 
-CTL -> EnrolmentRepo: enrolStudent(s1, am1, p1, enrolmentDate)
+CTL -> EnrolmentRepo: enrolStudent(s1VO, am1VO, p1VO, enrolmentDateVO)
 activate EnrolmentRepo
 create "pe1:ProgrammeEnrolment" as ProgrammeEnrolment
-EnrolmentRepo -> ProgrammeEnrolmentFactory: createProgrammeEnrolment(student, accessMethod, programme, enrolmentDate)
+EnrolmentRepo -> ProgrammeEnrolmentFactory: createProgrammeEnrolment(s1VO, am1VO, p1VO, enrolmentDateVO)
 activate ProgrammeEnrolmentFactory
-ProgrammeEnrolmentFactory -> ProgrammeEnrolment1**: createProgrammeEnrolment(student, accessMethod, programme, enrolmentDate)
+ProgrammeEnrolmentFactory -> ProgrammeEnrolment1**: createProgrammeEnrolment(s1VO, am1VO, p1VO, enrolmentDateVO)
 
 activate ProgrammeEnrolment1
 ProgrammeEnrolment1 -> ProgrammeEnrolment1 : validateAndFormatDate(date)
-ProgrammeEnrolment1 --> ProgrammeEnrolmentFactory: pe1
+ProgrammeEnrolment1 --> ProgrammeEnrolmentFactory: pe1VO
 deactivate ProgrammeEnrolment1
-ProgrammeEnrolmentFactory --> EnrolmentRepo: pe1
+ProgrammeEnrolmentFactory --> EnrolmentRepo: pe1VO
 deactivate ProgrammeEnrolmentFactory
 
-
-EnrolmentRepo -> EnrolmentRepo : isEnrolmentRepeated
+EnrolmentRepo -> EnrolmentRepo : isEnrolmentRepeated(pe1VO)
 
 loop for each Enrolment in enrolmentRepository
-    EnrolmentRepo -> ProgrammeEnrolment : hasSameEnrolment(pe1)
+    EnrolmentRepo -> ProgrammeEnrolment : hasSameEnrolment(pe1VO)
     activate ProgrammeEnrolment
     ProgrammeEnrolment --> EnrolmentRepo : False
     deactivate ProgrammeEnrolment
 end
 
-EnrolmentRepo -> EnrolmentRepo: enrolmentList.add(pe1)
+EnrolmentRepo -> EnrolmentRepo: enrolmentList.add(pe1VO)
 EnrolmentRepo --> CTL: True
 deactivate EnrolmentRepo
+
+|||
+ref over CTL
+    \t \t \t \t \t Convert DTO to VO \t
+end ref
+|||
+
 CTL --> UI : True
 deactivate CTL
 UI --> ASC : Success

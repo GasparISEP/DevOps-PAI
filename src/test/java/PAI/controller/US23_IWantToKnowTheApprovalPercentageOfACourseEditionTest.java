@@ -1,6 +1,8 @@
 
 package PAI.controller;
 
+import PAI.VOs.Date;
+import PAI.VOs.Grade;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.StudentGradeRepository;
@@ -9,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,11 +27,13 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
+        Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
-        when(list.addGradeToStudent(10, "13-03-2025", student1, courseEdition1)).thenReturn(true);
+        when(list.addGradeToStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(true);
 
         //act
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = mock(US23_IWantToKnowTheApprovalPercentageOfACourseEdition.class);
@@ -58,16 +62,22 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         Student student1 = mock(Student.class);
         Student student2 = mock(Student.class);
+        Grade grade1 = mock(Grade.class);
+        Grade grade2 = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
+        when(grade1.knowGrade()).thenReturn(8.0);
+        when(grade2.knowGrade()).thenReturn(20.0);
 
-        when(IStudentGradeFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
+        when(studentGrade1.get_grade()).thenReturn(grade1);
+        when(studentGrade2.get_grade()).thenReturn(grade2);
 
-        when(studentGrade1.knowGrade()).thenReturn(8.0);
-        when(studentGrade2.knowGrade()).thenReturn(20.0);
+
+        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(grade2, dateDouble, student2, courseEdition1)).thenReturn(studentGrade2);
 
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
@@ -76,8 +86,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
         enrollmentRepository.enrolStudentInACourseEdition(student2, courseEdition1);
 
-        list.addGradeToStudent(8, "10-10-2025", student1, courseEdition1);
-        list.addGradeToStudent(20, "10-10-2025", student2, courseEdition1);
+        list.addGradeToStudent(grade1, dateDouble, student1, courseEdition1);
+        list.addGradeToStudent(grade2, dateDouble, student2, courseEdition1);
         when(list.knowApprovalRate(courseEdition1)).thenReturn(50.0);
 
 
@@ -89,6 +99,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     }
 
 }
+
+
 
 
 

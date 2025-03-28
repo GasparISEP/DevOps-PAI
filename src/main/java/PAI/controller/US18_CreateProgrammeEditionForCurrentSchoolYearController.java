@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.*;
 import PAI.repository.ProgrammeEditionRepository;
 import PAI.repository.ProgrammeRepository;
@@ -22,14 +23,14 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         _programmeList = programmeList;
     }
 
-    public List<String> getAllProgrammeNames(){
+    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames(){
 
         if (_programmeList == null)
             return new ArrayList<>();
         return _programmeList.getAllProgrammeNames();
     }
 
-    public boolean createAProgrammeEditionForTheCurrentSchoolYear(String programmeName){
+    public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName){
 
         if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
 

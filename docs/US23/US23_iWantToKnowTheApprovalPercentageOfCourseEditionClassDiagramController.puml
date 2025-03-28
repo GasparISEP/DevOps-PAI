@@ -28,8 +28,9 @@ entity "<<root>>\nStudentGrade" {
     +equals(o: Object): boolean
 
     }
+}
 
-    class Grade <<ValueObject>> {
+class Grade <<ValueObject>> {
     -_grade: double
     +knowGrade(): double
     }
@@ -39,7 +40,6 @@ entity "<<root>>\nStudentGrade" {
     +isDateValid(date: String): void
     +get_date(): LocalDate
     }
-}
 
 class StudentGradeID <<ValueObject>> {
     -_studentGradeID: Long
@@ -50,9 +50,9 @@ class StudentGradeID <<ValueObject>> {
 class StudentGradeRepository {
     -gradeStudentList: List<GradeStudent>
     - _gradeStudentFactory: GradeStudentFactory
-    +addGradeToStudent()
-    +knowAverageGrade()
-    +knowApprovalRate()
+    +addGradeToStudent(Grade, Date , Student, Course Edition)
+    +knowAverageGrade(Course Edition)
+    +knowApprovalRate(Course Edition)
 }
 
 
@@ -93,8 +93,9 @@ class "<<root>>\nStudent" {
     +getUniqueNumber(): String
     +hasThisUniqueNumber(student: Student): boolean
     }
+}
 
-    class Name <<ValueObject>> {
+class Name <<ValueObject>> {
     -_name: String
     }
 
@@ -117,7 +118,6 @@ class "<<root>>\nStudent" {
     class Address <<ValueObject>> {
     -_address: String
     }
-}
 
 class StudentID <<ValueObject>> {
     -_studentID: Long

@@ -1,16 +1,18 @@
 package PAI.factory;
 
+import PAI.VOs.Date;
+import PAI.VOs.Grade;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.domain.Student;
 
 public class StudentGradeFactoryImpl implements IStudentGradeFactory {
 
-    public StudentGrade newGradeStudent (double grade, String date, Student student, CourseEdition courseEdition) throws Exception {
-        if (grade < 0 ||  grade > 20){
-            throw new IllegalArgumentException("Grade cannot be less than 0 or higher than 20.");
+    public StudentGrade newGradeStudent (Grade grade, Date date, Student student, CourseEdition courseEdition) throws Exception {
+        if (grade == null){
+            throw new IllegalArgumentException("Grade cannot be null.");
         }
-        if (date == null || date.isBlank()){
+        if (date == null){
             throw new IllegalArgumentException ("Date cannot be null or empty!");
         }
         if (student == null){
@@ -21,4 +23,6 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
         }
         return new StudentGrade(grade, date, student, courseEdition);
     }
+
+
 }

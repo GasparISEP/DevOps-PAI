@@ -1,8 +1,10 @@
 package PAI.VOs;
 
-public class QuantEcts {
+import PAI.ddd.ValueObject;
 
-    private int _quantEcts;
+public class QuantEcts implements ValueObject  {
+
+    private final int _quantEcts;
 
     public QuantEcts(int quantityOfEcts) throws Exception {
         if (!isQuantEctsValid(quantityOfEcts)) {
@@ -12,7 +14,7 @@ public class QuantEcts {
     }
 
     private boolean isQuantEctsValid (int quantityOfEcts){
-        return quantityOfEcts >0 && quantityOfEcts <=30;
+        return quantityOfEcts > 0 && quantityOfEcts <= 30;
     }
 
     public int getQuantEcts() {

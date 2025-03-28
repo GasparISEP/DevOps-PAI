@@ -1,0 +1,72 @@
+@startuml
+title US05: Register a Department in the System
+'left to right direction'
+
+class US05_RegisterADepartmentController {
+    +US05_RegisterADepartmentController(departmentRepo: IDepartmentRepository)
+    +registerDepartment(acronym: Acronym, name: Name): boolean
+}
+
+interface IDepartmentRepository {
+    + registerDepartment(acronym: Acronym, name: Name): boolean
+}
+class DepartmentRepository {
+    +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
+    +registerDepartment(acronym: Acronym, name: Name) :boolean
+}
+
+class DepartmentFactoryImpl {
+    +newDepartment(acronym: Acronym, name: Name): Department
+}
+
+interface IDepartmentFactory {
+    +newDepartment(acronym: Acronym, name: Name): Department
+}
+
+class DepartmentListFactoryImpl {
+    +newDepartmentList: HashSet<Department>
+}
+
+interface IDepartmentListFactory {
+    + newDepartmentList(): HashSet<Department>
+}
+
+interface Set {
+    +add(): boolean
+}
+
+package "Department Aggregate" {
+
+class Department <<root>> {
+    +Department(departmentAcronym: String, departmentName: String)
+    +getName(): String
+    +getAcronym(): String
+}
+}
+
+class Name <<Value Object >> {
+    -_name: String
+    + Name(name: String)
+    + getName(): String
+}
+
+class Acronym <<Value Object>> {
+    -_acronym: String
+    + Acronym(acronym: String)
+    + getAcronym(): String
+}
+
+DepartmentRepository "1" ..> "*" Department
+DepartmentRepository "1" -> "1" Set
+Department "1" <- "1" Set
+DepartmentRepository "1" ..> "_departmentsList 1" IDepartmentListFactory
+IDepartmentListFactory  <|..  DepartmentListFactoryImpl
+IDepartmentFactory  <|..  DepartmentFactoryImpl
+IDepartmentListFactory  ..>  Set
+US05_RegisterADepartmentController "1  " ..> "            1\n_departmentRepo    " IDepartmentRepository
+IDepartmentRepository <|.. DepartmentRepository
+Department "1" <.. "1" IDepartmentFactory
+IDepartmentFactory "_departmentFactory1" <.. "1"  DepartmentRepository
+Name "_departmentName 1" <-- "1" Department
+Acronym "_departmentAcronym 1" <-- "1" Department
+@enduml

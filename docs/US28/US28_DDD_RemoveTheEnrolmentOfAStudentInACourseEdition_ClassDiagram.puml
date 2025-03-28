@@ -1,0 +1,122 @@
+@startuml
+title US28: As an ASC, I want to remove the enrolment of a student in a course edition - Class Diagram
+'!pragma layout smetana
+skinparam classBackgroundColor #E1F5FE
+skinparam titleFontSize 18
+skinparam linetype ortho
+
+class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
+    +US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller\n(courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository)
+    +removeStudentEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
+}
+
+package "CourseEditionEnrolment Aggregate" #LightYellow{
+class CourseEditionEnrolment <<Root>> <<Entity>>{
+    +CourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
+    +hasStudent() : boolean
+    +hasCourseEdition() : boolean
+    +isEnrolmentActive(): boolean
+    +deactivateEnrolment(): void
+}
+}
+
+class Date <<Value Object >> {
+    -_localDate: LocalDate
+    + Date(localDate: LocalDate)
+    + getLocalDate(): LocalDate
+}
+
+class EnrolmentStatus <<Value Object>>{
+    -_isActive: boolean
+    + EnrolmentStatus(isActive: boolean)
+    }
+
+
+class CourseEditionEnrolmentRepository {
+    +CourseEditionEnrolmentRepository(factory: ICourseEditionEnrolmentFactory,
+     listFactory: ICourseEditionEnrolmentListFactory)
+    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
+    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
+    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+}
+
+package "Student Aggregate" #LightYellow{
+class Student <<Root>> <<Entity>>{
+    -_name:Name
+    -_NIF:NIF
+    -_phone:Phone
+    -_email:Email
+    -_address:Address
+    -_institutionalEmail:InstitutionalEmail
+    +Student(uniqueNumber: StudentID, name: Name,
+     NIF: NIF, phone: Phone, email: Email, address: Address)
+}
+}
+
+class StudentID <<Value Object>> {
+    -_uniqueNumber : int
+    + StudentID(uniqueNumber : int)
+    + isUniqueNumberValid(uniqueNumber: int): boolean
+}
+
+
+package "CourseEdition Aggregate" #LightYellow{
+class CourseEdition <<Root>> <<Entity>>{
+    -_courseInStudyPlan: CourseInStudyPlan
+    -_programmeEdition: ProgrammeEdition
+    -_ruc: Teacher
+    +CourseEdition(id: CourseEditionID, programmeEdition:
+    ProgrammeEdition, courseInStudyPlan: CourseInStudyPlan)
+}
+}
+
+class CourseEditionID <<Value Object>> {
+    -_courseEditionID : int
+    + CourseEditionID(courseEditionID : int)
+}
+
+class CourseEditionEnrolmentID <<Value Object>> {
+    -_id : int
+    + CourseEditionEnrolmentID\n(id : int)
+    + equals(object: Object) : boolean
+    }
+
+class CourseEditionEnrolmentFactoryImpl {
+    +createCourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
+}
+
+class CourseEditionEnrolmentListFactoryImpl{
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+}
+
+interface ICourseEditionEnrolmentFactory{
+    +createCourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
+}
+interface ICourseEditionEnrolmentListFactory{
+    +getCourseEditionEnrolmentList():Set<CourseEditionEnrolment>
+}
+
+
+CourseEditionEnrolment "*" --> "_studentID 1" StudentID
+CourseEditionEnrolment "*" --> "_courseEditionID 1    " CourseEditionID
+ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
+ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
+CourseEditionEnrolmentRepository ..> ICourseEditionEnrolmentFactory
+ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
+CourseEditionEnrolmentRepository ..> ICourseEditionEnrolmentListFactory
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepository
+US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller "1" ..> "_enrolmentRepo 1" ICourseEditionEnrolmentRepository
+Date "_enrolmentDate 1" <-- "1" CourseEditionEnrolment
+EnrolmentStatus "_isActive 1" <-- "1" CourseEditionEnrolment
+StudentID "_studentID 1" <-- "1" Student
+CourseEditionEnrolmentRepository "1"..> "_courseEditionEnrolments *    " CourseEditionEnrolment
+CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
+CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
+
+
+
+@enduml

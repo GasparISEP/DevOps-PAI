@@ -1,0 +1,41 @@
+@startuml
+
+autonumber
+
+actor AcademicServiceCollaborator as ASC #Purple/White
+participant ":UI" as UI #application
+participant ":US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController" as C #lightgreen
+participant "courseEditionIDVO1:CourseEditionIDVO" as courseEditionVO1
+participant "ceer[i]:CourseEditionEnrolmentRepository" as CEER #application
+participant "ce1:CourseEditionEnrolment" as CEE
+
+ASC -> UI : I want to know the number of students enrolled in a Course Edition
+activate UI #application
+UI --> ASC : What Course Edition?
+ASC -> UI : CourseEdition!
+UI -> C  : IWantToKnowNumberOfStudentsEnrolledInCourseEdition(courseEdition)
+
+activate C #application
+C -> courseEditionVO1** : createCourseEditionIDVO(description)
+courseEditionVO1 -> courseEditionVO1 : isCourseEditionValid()
+courseEditionVO1 --> C : courseEditionIDVO1
+C -> CEER : numberOfStudentsEnrolledInCourseEdition(courseEditionIDVO1)
+activate CEER #application
+activate CEE #application
+
+ref over CEER, CEE
+Loop ce[i] in ceer
+    enrolment.knowCourseEdition().equals(courseEditionIDVO1)
+end ref
+CEE --> CEER : True!
+deactivate CEE
+
+C <-- CEER : numberOfStudents
+
+deactivate CEER #application
+UI <-- C : numberOfStudents
+deactivate C #application
+ASC <-- UI : numberOfStudents
+deactivate UI #application
+
+@enduml

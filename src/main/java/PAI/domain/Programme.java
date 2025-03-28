@@ -2,14 +2,19 @@ package PAI.domain;
 
 
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.QuantEcts;
+import PAI.VOs.QuantSemesters;
 import PAI.factory.*;
-import PAI.repository.StudyPlan;
 
 import java.util.List;
 import java.util.Objects;
 
 public class Programme {
 
+    private NameWithNumbersAndSpecialChars _nameWithNumbersAndSpecialChars;
+    private QuantSemesters _quantSemesters;
+    private QuantEcts _quantEcts;
     private String _name;
     private String _acronym;
     private int _quantityOfEcts;
@@ -22,7 +27,7 @@ public class Programme {
     private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, CourseInStudyPlanFactory courseInStudyPlanFactory, StudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, ICourseFactory ICourseFactory) {
+                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
 
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -64,7 +69,52 @@ public class Programme {
 
         _courseList = _I_programmeCourseListFactory.createCourseList();
 
-        _studyPlan = studyPlanFactory.newStudyPlan(courseInStudyPlanFactory, studyPlanListFactory, ICourseFactory);
+        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
+    }
+
+    public Programme(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department,
+                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
+        if(name==null) {
+            throw new IllegalArgumentException("Insert a valid Name");
+        }
+        _nameWithNumbersAndSpecialChars = name;
+
+        if (isAcronymInvalid(acronym)) {
+            throw new IllegalArgumentException("Acronym must not be empty");
+        }
+        _acronym = acronym;
+
+        if (quantityOfEcts == null) {
+            throw new IllegalArgumentException("Insert a valid number of ECTS");
+        }
+        _quantEcts = quantityOfEcts;
+
+        if (quantityOfSemesters==null) {
+            throw new IllegalArgumentException("Insert a valid number of Semesters");
+        }
+        _quantSemesters = quantityOfSemesters;
+
+        if (degreeType == null) {
+            throw new IllegalArgumentException("Insert a valid DegreeType");
+        }
+        _degreeType = degreeType;
+
+        if (department == null) {
+            throw new IllegalArgumentException("Insert a valid Department");
+        }
+        _department = department;
+
+        if (programmeDirector == null) {
+            throw new IllegalArgumentException("Insert a valid Programme Director");
+        }
+
+        _programmeDirector = programmeDirector;
+
+        _I_programmeCourseListFactory = IProgrammeCourseListFactory;
+
+        _courseList = _I_programmeCourseListFactory.createCourseList();
+
+        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 
     private boolean isNameInvalid(String name) {
@@ -87,7 +137,7 @@ public class Programme {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Programme programme = (Programme) o;
-        return _quantityOfEcts == programme._quantityOfEcts && _quantityOfSemesters == programme._quantityOfSemesters &&
+        return _quantEcts == programme._quantEcts && _quantityOfSemesters == programme._quantityOfSemesters &&
                 Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
     }
 
@@ -131,6 +181,12 @@ public class Programme {
         return _quantityOfEcts;
     }
 
+    public QuantEcts getQuantEcts() {
+        return _quantEcts;
+    }
+
+    public QuantSemesters getQuantSemesters() {return _quantSemesters;}
+
     public StudyPlan getStudyPlan() {
         return _studyPlan;
     }
@@ -147,7 +203,7 @@ public class Programme {
         return numberOfYears;
     }
 
-    public boolean hasThisProgrammeName(String name) {return _name.equals(name);}
+    public boolean hasThisProgrammeName(NameWithNumbersAndSpecialChars name) {return _nameWithNumbersAndSpecialChars.equals(name);}
 
     public String getAcronym() {
         return _acronym;
@@ -155,5 +211,10 @@ public class Programme {
 
     public String getProgrammeName() {
         return _name;
+    }
+
+    public NameWithNumbersAndSpecialChars getProgrammeNameWithNumbersAndSpecialChars() {
+        return _nameWithNumbersAndSpecialChars;
+
     }
 }

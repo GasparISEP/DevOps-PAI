@@ -2,116 +2,29 @@
 !pragma layout smetana
 'left to right direction
 
+
 class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
-    +US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-          programmeEditionEnrolmentRepo: IProgrammeEditionEnrolmentRepo,
-          programmeEditionRepository: IProgrammeEditionRepository,
-          programmeRepository: IProgrammeRepository,
-          courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository,
-          courseEditionRepository: ICourseEditionRepository,
-          schoolYearRepository: ISchoolYearRepository,
-          programmeEnrolmentRepository: IProgrammeEnrolmentRepository)
+    +US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrolmentRepo: ProgrammeEditionEnrolmentRepo, programmeEditionRepository: ProgrammeEditionRepository, programmeRepository ProgrammeRepository,
+    courseEditionEnrolmentRepository: CourseEditionEnrolmentRepository, courseEditionRepository: CourseEditionRepository, schoolYearRepository: SchoolYearRepository, programmeEnrolmentRepository: ProgrammeEnrolmentRepository)
     +enrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(student: Student, programme: Programme, schoolYear: SchoolYear)
     +getAllProgrammes(): List<Programme>
     +getAllSchoolYears(): List<SchoolYear>
 }
-
-' Interfaces dos repositórios
-interface IProgrammeEditionEnrolmentRepo {
-    +enrolStudentInProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
-    +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
-}
-
-interface IProgrammeEditionRepository {
-    +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear) : Optional<ProgrammeEdition>
-}
-
-interface IProgrammeRepository {
-    +getAllProgrammes() : List<Programme>
-}
-
-interface ICourseEditionEnrolmentRepository {
-    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition) : boolean
-    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional<CourseEditionEnrolment>
-    +enrolStudentInProgrammeEditionCoursesEditions (student: Student, courseEditions: List<CourseEdition>) : void
-}
-
-interface ICourseEditionRepository {
-    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition): List<CourseEdition>
-}
-
-interface ISchoolYearRepository {
-    +getAllSchoolYears() : List<SchoolYear>
-}
-
-interface IProgrammeEnrolmentRepository {
-    +isStudentEnrolled(student: Student, programme: Programme) : boolean
-}
-
-
-
-' Repositórios concretos e suas implementações
-class ProgrammeEditionEnrolmentRepo {
-    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory,
-          programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
-    +enrolStudentInProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
-    +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
-}
-
-class ProgrammeEditionRepository {
-    +ProgrammeEditionRepository(programmeEditionFactory: ProgrammeEditionFactory)
-    +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear) : Optional<ProgrammeEdition>
-}
-
-class ProgrammeRepository {
-    +ProgrammeRepository(programmeFactory: ProgrammeFactory)
-    +getAllProgrammes() : List<Programme>
+class CourseEditionEnrolment {
+    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
+    +hasStudent (student: Student) : boolean
+    +hasCourseEdition (courseEdition: CourseEdtion) : boolean
 }
 
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository ()
-    +enrolStudentInACourseEdition(student: Student, courseEdition: CourseEdition) : boolean
-    +findByStudentAndEdition(student: Student, courseEdition: CourseEdition) : Optional<CourseEditionEnrolment>
-    +enrolStudentInProgrammeEditionCoursesEditions(student: Student, courseEditions: List<CourseEdition>) : void
-}
-
-class CourseEditionRepository {
-    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
-    +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<CourseEdition>
-}
-
-class SchoolYearRepository {
-    +schoolYearRepository(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
-    +getAllSchoolYears() : List<SchoolYear>
-}
-
-class ProgrammeEnrolmentRepository {
-    +ProgrammeEnrolmentRepository()
-    +isStudentEnrolled(student: Student, programme: Programme) : boolean
-}
-
-' Ligações entre interfaces e repositórios concretos (implementações)
-IProgrammeEditionEnrolmentRepo <|.. ProgrammeEditionEnrolmentRepo
-IProgrammeEditionRepository <|.. ProgrammeEditionRepository
-IProgrammeRepository <|.. ProgrammeRepository
-ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepository
-ICourseEditionRepository <|.. CourseEditionRepository
-ISchoolYearRepository <|.. SchoolYearRepository
-IProgrammeEnrolmentRepository <|.. ProgrammeEnrolmentRepository
-
-' Resto do diagrama permanece igual (entidades, factories, etc.)
-class CourseEditionEnrolment {
-    +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
-    +hasStudent (student: Student) : boolean
-    +hasCourseEdition (courseEdition: CourseEdition) : boolean
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition) : boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition) : Optional <CourseEditionEnrolment>
+    +enrolStudentInProgrammeEditionCoursesEditions (student: Student, courseEditions: List<CourseEdition>) : void
 }
 
 class CourseEditionEnrolmentListFactory {
     +newArrayList(): List<CourseEditionEnrolment>
-}
-
-class HashSet{
-    + add(): boolean
 }
 
 class ProgrammeEditionEnrolment {
@@ -121,11 +34,17 @@ class ProgrammeEditionEnrolment {
     +findProgrammeEditionInEnrollment () : ProgrammeEdition
 }
 
+class ProgrammeEditionEnrolmentRepo {
+    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
+    +enrolStudentInProgrammeEdition (student: Student, programmeEdition: ProgrammeEdition) : boolean
+    +isStudentEnrolledInThisProgrammeEdition(student: Student, programmeEdition: ProgrammeEdition) : boolean
+}
+
 class ProgrammeEditionEnrolmentFactory {
     +newProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition)
 }
 
-interface IProgrammeEditionEnrolmentFactory{
+interface ProgrammeEditionEnrolmentFactoryInterface{
     +newProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition)
 }
 
@@ -133,8 +52,8 @@ class ProgrammeEditionEnrolmentListFactory{
     +newProgrammeEditionEnrolmentList(): Set<ProgrammeEditionEnrolment>
 }
 
-class ProgrammeEditionEnrolmentArrayList{
-     +add(programmeEditionEnrolment: ProgrammeEditionEnrolment): boolean
+interface ProgrammeEditionEnrolmentListFactoryInterface {
+    +newProgrammeEditionEnrolmentList(): Set<ProgrammeEditionEnrolment>
 }
 
 class Programme {
@@ -142,20 +61,21 @@ class Programme {
      - acronym: string
      - quantityOfEcts: int
      - quantityOfSemesters: int
-     + Programme(name : String, acronym : String, quantityOfEcts: int, quantityOfSemesters : int,
-          degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory: ProgrammeCourseListFactory)
+     + Programme (name : String, acronym : String, quantityOfEcts: int, quantityOfSemesters : int,
+     degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory: ProgrammeCourseListFactory)
  }
 
-class ProgrammeRepositoryListFactoryImpl {
-    +copyProgrammeArrayList(List<Programme>): List<Programme>
+class ProgrammeRepository {
+    +ProgrammeRepository(programmeFactory: ProgrammeFactory)
+    +getAllProgrammes() : List<Programme>
 }
 
-interface IProgrammeRepositoryListFactory {
+class ProgrammeRepositoryListFactoryImpl {
     +copyProgrammeArrayList(List<Programme>)
 }
 
-class ProgrammeArrayList {
-    +add(): boolean
+interface ProgrammeRepositoryListFactory {
+    +copyProgrammeArrayList(List<Programme>)
 }
 
 class SchoolYear {
@@ -165,22 +85,29 @@ class SchoolYear {
     +SchoolYear(description: String, StartDate: String, EndDate: String)
 }
 
+class SchoolYearRepository {
+    +schoolYearRepository(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
+    +getAllSchoolYears() : List<SchoolYear>
+}
+
 class SchoolYearListFactory {
-    +copySchoolYearArrayList(List<SchoolYear>) : List<SchoolYear>
-}
-
-class SchoolYearArrayList {
-    +add(): boolean
-}
-
-interface ISchoolYearListFactory {
     +copySchoolYearArrayList(List<SchoolYear>)
+}
+
+interface SchoolYearListFactoryInterface {
+    +copySchoolYearArrayList(List<SchoolYear>)
+
 }
 
 class ProgrammeEnrolment {
     +ProgrammeEnrolment(student: Student, accessMethod: AccessMethod)
     +getStudentFromEnrolment() : Student
     +getProgrammeFromEnrolment() : Programme
+}
+
+class ProgrammeEnrolmentRepository {
+    +ProgrammeEnrolmentRepository()
+    +isStudentEnrolled(student: Student, programme: Programme) : boolean
 }
 
 class Student {
@@ -207,74 +134,63 @@ class CourseEdition {
     +whatProgrammeEditionBelongsThisCourseEdition() : ProgrammeEdition
 }
 
+class CourseEditionRepository {
+    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
+    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) : List<CourseEdition>
+}
+
 class CourseEditionListFactory{
     +newArrayList(CourseEdition)
 }
 
-class CourseEditionArrayList{
-     +add(): boolean
-}
-
 class ProgrammeEdition {
-    +ProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
+    +ProgrammeEdition(programme: Programme,schoolYear: SchoolYear)
     +findProgrammeInProgrammeEdition() : Programme
     +findSchoolYearInProgrammeEdition() : SchoolYear
 }
 
 class ProgrammeEditionRepository {
-    +ProgrammeEditionRepository(programmeEditionFactory: ProgrammeEditionFactory)
+    +ProgrammeEditionRepository(programmeEditionFactory: ProgrammeEditionFactory))
     +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear) : Optional<ProgrammeEdition>
 }
 
-' Controller - interfacesRepo
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEditionEnrolmentRepo
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEditionRepository
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeRepository
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" ICourseEditionEnrolmentRepository
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" ICourseEditionRepository
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" ISchoolYearRepository
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEnrolmentRepository
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1 " ..> "1  " ProgrammeEditionEnrolmentRepo
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1                         " ProgrammeEditionRepository
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1                   " ..> "1" ProgrammeRepository
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1 " ..> "1     " CourseEditionEnrolmentRepository
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1 " ..> "1  " CourseEditionRepository
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1   " SchoolYearRepository
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "_programmeEnrolmentRepository 1 " ProgrammeEnrolmentRepository
+Student "1        " --> "_address 1  " Address
+Student "_student  1 " <-u- "* " ProgrammeEnrolment
+Programme " 1 "  --> "  1 _listOfEnrollments " ProgrammeEnrolment
 
-' Other connections
-Student "1" --> "1 _address" Address
-Student "_student" <-u- "*" ProgrammeEnrolment
-Programme "1" --> "1 _listOfEnrollments" ProgrammeEnrolment
-ProgrammeEdition "*" --> "_schoolYear 1" SchoolYear
-CourseEditionRepository "1" -u-> "_listOfCE" CourseEdition
-CourseEditionRepository "1" -u-> "1" CourseEditionListFactory
-CourseEditionRepository "1" --> "1" CourseEditionArrayList
-CourseEditionArrayList "1" <.. "1" CourseEditionListFactory
-CourseEditionArrayList "1 arrayOfCourseEdition" <.u. "*" CourseEdition
-Student "_student" <-- "*" CourseEditionEnrolment
-CourseEditionEnrolment " " ..> " " ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentRepository "1" --> "1" CourseEditionEnrolmentListFactory
-CourseEditionEnrolmentRepository "1" --> "1" HashSet
-HashSet "1" <.. "1" CourseEditionEnrolmentListFactory
-HashSet "1" <.u. "*" SchoolYear
-CourseEditionEnrolment "*" --> "1 _cE" CourseEdition
-ProgrammeEdition "_" <-- "*" ProgrammeEditionEnrolment
-ProgrammeEditionEnrolment "*" --> "_student 1" Student
-ProgrammeEditionEnrolmentRepo "1" --> "1" ProgrammeEditionEnrolmentArrayList
-IProgrammeEditionEnrolmentFactory <.. ProgrammeEditionEnrolmentRepo
-ProgrammeEditionEnrolmentArrayList "1" .u.> "*" ProgrammeEditionEnrolment
-ProgrammeEditionEnrolmentRepo "1" ..> "1" ProgrammeEditionEnrolmentListFactory
+ProgrammeEdition "* " -->"_schoolYear 1      " SchoolYear
+CourseEditionRepository "1 " -u-> "* _listCourseEditions" CourseEdition
+CourseEditionRepository" 1     " -u-> "1  " CourseEditionListFactory
+Student "_student 1" <-- "*" CourseEditionEnrolment
+CourseEditionEnrolment "_listOfCourseEditionEnrollment *  " <-- " 1 " CourseEditionEnrolmentRepository
+CourseEditionEnrolmentRepository"1" --> "1" CourseEditionEnrolmentListFactory
+CourseEditionEnrolment "*" --> "1 _listOfcourseEdition              " CourseEdition
+
+ProgrammeEdition "_programmeEdition 1                " <-- " * " ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment "* " --> "_student 1   " Student
+ProgrammeEditionEnrolmentRepo ..> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentFactoryInterface <.. ProgrammeEditionEnrolmentRepo
+ProgrammeEditionEnrolmentRepo "1"..> "1" ProgrammeEditionEnrolmentListFactory
 ProgrammeEditionEnrolmentRepo ..> ProgrammeEditionEnrolmentListFactoryInterface
-ProgrammeEditionEnrolmentListFactoryInterface ..> ProgrammeEditionEnrolmentArrayList
-CourseEdition "*" <-- "1 _listOfCE" ProgrammeEdition
-IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactory
+CourseEdition "_listOfCourseEdition *  " <-- "1   " ProgrammeEdition
+ProgrammeEditionEnrolmentFactoryInterface <|.. ProgrammeEditionEnrolmentFactory
 ProgrammeEditionEnrolmentListFactoryInterface <|.. ProgrammeEditionEnrolmentListFactory
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrolment
-ProgrammeRepository ..> IProgrammeRepositoryListFactory
+
+ProgrammeRepository ..> ProgrammeRepositoryListFactory
 ProgrammeRepository ..> Programme
-ProgrammeRepository "1" --> "1" ProgrammeArrayList
-ProgrammeArrayList "1" --> " _programme *" Programme
-IProgrammeRepositoryListFactory ..> ProgrammeArrayList
-ProgrammeRepositoryListFactoryImpl ..|> IProgrammeRepositoryListFactory
-SchoolYearRepository ..> ISchoolYearListFactoryInterface
-SchoolYearListFactory ..|> ISchoolYearListFactoryInterface
-ISchoolYearListFactoryInterface ..> SchoolYearArrayList
-SchoolYearRepository ..> SchoolYear
-SchoolYearRepository "1" --> "1" SchoolYearArrayList
-SchoolYearArrayList "1" --> " _schoolYear *" SchoolYear
+ProgrammeRepositoryListFactoryImpl ..|> ProgrammeRepositoryListFactory
+
+SchoolYearRepository  ..> SchoolYearListFactoryInterface
+SchoolYearListFactory ..|> SchoolYearListFactoryInterface
+SchoolYearRepository  ..>  SchoolYear
 
 @enduml
+

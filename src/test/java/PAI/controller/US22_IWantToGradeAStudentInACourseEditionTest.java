@@ -1,6 +1,8 @@
 
 package PAI.controller;
 
+import PAI.VOs.Date;
+import PAI.VOs.Grade;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.StudentGradeRepository;
@@ -10,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -47,9 +48,11 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Student student1 = mock(Student.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
-        when(controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(true);
-        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(studentGrade1.knowGrade()).thenReturn(20.0);
+        Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
+        when(controller.iWantToGradeAStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(true);
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
+        when(studentGrade1.get_grade()).thenReturn(grade);
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         CourseEditionEnrolment enrollment1 = mock(CourseEditionEnrolment.class);
 
@@ -62,7 +65,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         //act
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
-        boolean result = controller.iWantToGradeAStudent(20,"10-10-2025",student1,courseEdition1);
+        boolean result = controller.iWantToGradeAStudent(grade,dateDouble,student1,courseEdition1);
 
         //assert
         assertTrue(result);
@@ -80,9 +83,9 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         CourseEditionEnrolmentRepository enrollmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrolmentFactoryImpl, courseEditionEnrolmentListFactoryImpl);
         ICourseFactory ICourseFactory = new CourseFactoryImpl();
         IProgrammeCourseListFactory IProgrammeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactory studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactory studyPlanFactory = new StudyPlanFactoryImpl();
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        IStudyPlanListFactory IStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanFactory IStudyPlanFactory = new StudyPlanFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
@@ -98,18 +101,19 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
                 "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"12-03-2025", tc1, 70,
                 dpt1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory,studyPlanListFactory,
-                studyPlanFactory, ICourseFactory);
+        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory,
+                IStudyPlanFactory, ICourseFactory);
         p1.addCourseToAProgramme(c1);
         SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-
+        Grade grade = new Grade(20.0);
+        Date date = new Date("22-02-2022");
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         // Act
-        boolean result = controller.iWantToGradeAStudent(20, "10-10-2025", student1, courseEdition1);
+        boolean result = controller.iWantToGradeAStudent(grade, date, student1, courseEdition1);
 
         // Assert
         assertTrue(result);
@@ -145,13 +149,16 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
+        Grade grade = mock(Grade.class);
+        Grade grade1 = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
 
-        when(IStudentGradeFactory.newGradeStudent(8, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student2, courseEdition1)).thenReturn(studentGrade2);
 
-        when(studentGrade1.knowGrade()).thenReturn(8.0);
-        when(studentGrade2.knowGrade()).thenReturn(20.0);
+        when(studentGrade1.get_grade()).thenReturn(grade);
+        when(studentGrade2.get_grade()).thenReturn(grade1);
 
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
@@ -197,16 +204,18 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
+        Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
 
-        when(IStudentGradeFactory.newGradeStudent(20, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(studentGrade1.knowGrade()).thenReturn(20.0);
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
+        when(studentGrade1.get_grade()).thenReturn(grade);
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(controller1.isStudentEnrolledInCourseEdition(student1, courseEdition1)).thenReturn(false);
 
 
         // act
-        boolean result = controller1.iWantToGradeAStudent(20,"20/11/2024",student2,courseEdition1);
+        boolean result = controller1.iWantToGradeAStudent(grade,dateDouble,student2,courseEdition1);
 
         //assert
         assertFalse(result);
@@ -264,16 +273,20 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Student studentDouble = mock(Student.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
+        Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
         when(courseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentDouble,courseEditionDouble)).thenReturn(true);
-        when(studentGradeRepositoryDouble.addGradeToStudent(12,"13-03-2025",studentDouble,courseEditionDouble)).thenReturn(true);
+        when(studentGradeRepositoryDouble.addGradeToStudent(grade,dateDouble,studentDouble,courseEditionDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.iWantToGradeAStudent(12,"13-03-2025",studentDouble,courseEditionDouble);
+        boolean result = controller.iWantToGradeAStudent(grade,dateDouble,studentDouble,courseEditionDouble);
 
         //assert
 
         assertTrue(result);
     }
 }
+
+
 
 

@@ -5,67 +5,58 @@
 
     class US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController {
         +US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController()
-        +getNumberOfStudentsEnrolled(CourseEditionId courseEditionId)
+        +getNumberOfStudentsEnrolled(CourseEditionID courseEditionId)
     }
 
     class "CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository {
         -_courseEditionEnrolments: List<CourseEditionEnrolment>
         +CourseEditionEnrolmentRepository()
-        +enrolStudentInACourseEdition(StudentId studentId, CourseEditionId courseEditionId, EnrolmentDate enrolmentDate)
-        +isStudentEnrolledInCourseEdition(StudentId studentId, CourseEditionId courseEditionId): boolean
-        +findByStudentAndEdition(StudentId studentId, CourseEditionId courseEditionId): CourseEditionEnrolment
-        +numberOfStudentsEnrolledInCourseEdition(CourseEditionId courseEditionId): int
-        +enrollStudentInProgrammeCourseEditions(StudentId studentId, List<CourseEditionId> courseEditionIds)
-        +findByCourseEditionId(CourseEditionId courseEditionId): List<CourseEditionEnrolment>
-        +countStudentsInCourseEdition(CourseEditionId courseEditionId): int
+        +numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId)
     }
 
 
 package "CourseEditionEnrolmentAggr" {
     entity "<<root>>\nCourseEditionEnrolment" as CourseEditionEnrolment {
-        -_enrolmentDate: LocalDate
-        +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
+        +CourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
                  +equals (obj: Object): boolean
-                 +knowStudent(): Student
-                 +knowCourseEdition(): CourseEdition
-                 +deactivateEnrollment()
+                 +knowCourseEdition(): CourseEditionID
     }
+}
 
     class "<<ValueObject>>\nEnrolmentDate" as EnrolmentDate {
         -_enrolmentDate: LocalDate
         }
-}
 
     class "<<ValueObject>>\nStudentId" as StudentId {
-
+        -_studentID: int
         }
 
     class "<<ValueObject>>\nCourseEditionId" as CourseEditionId {
-
+        -_courseEditionID: int
         }
 
     class "<<ValueObject>>\nCourseEditionEnrolmentId" as CourseEditionEnrolmentId {
-
+        -_courseEditionEnrolmentID: int
             }
 
 class CourseEditionEnrolmentFactoryImpl {
-        +createEnrolment(StudentId studentId, CourseEditionId courseEditionId, EnrolmentDate enrolmentDate): CourseEditionEnrolment
+        +createEnrolment(StudentID studentID, CourseEditionID courseEditionID, EnrolmentDate enrolmentDate): CourseEditionEnrolment
     }
 
 interface ICourseEditionEnrolmentFactory {
-        +createEnrolment(StudentId studentId, CourseEditionId courseEditionId, EnrolmentDate enrolmentDate): CourseEditionEnrolment
+        +createEnrolment(StudentID studentID, CourseEditionID courseEditionID, EnrolmentDate enrolmentDate): CourseEditionEnrolment
     }
 
 
 US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController "1  " ---> "1  " CourseEditionEnrolmentRepository
-CourseEditionEnrolmentRepository "List<CourseEditionEnrolment>          " ---> "1..*" CourseEditionEnrolment
+CourseEditionEnrolmentRepository "List<CourseEditionEnrolment>          " -----> "1..*" CourseEditionEnrolment
 CourseEditionEnrolmentFactoryImpl ...|> ICourseEditionEnrolmentFactory
-CourseEditionEnrolment "   creates" <...... CourseEditionEnrolmentFactoryImpl
+CourseEditionEnrolment "\n creates" <...... CourseEditionEnrolmentFactoryImpl
 
-CourseEditionEnrolment ---> "1          " CourseEditionId
-CourseEditionEnrolment -----> "1   " StudentId
-CourseEditionEnrolment ---> "1" EnrolmentDate
-CourseEditionEnrolment ---> "1     " CourseEditionEnrolmentId
+CourseEditionEnrolment "\n *" ---> "1          " CourseEditionId
+CourseEditionEnrolment "\n *" -----> "1   " StudentId
+CourseEditionEnrolment "\n *" ---> "1" EnrolmentDate
+CourseEditionEnrolment "\n *" ---> "1     " CourseEditionEnrolmentId
 
 CourseEditionEnrolmentRepository ---> "1  " CourseEditionEnrolmentId
 @enduml
