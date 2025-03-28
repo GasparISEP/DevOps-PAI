@@ -6,9 +6,18 @@ import java.util.UUID;
 
 public class CourseID implements DomainId {
 
-    private final UUID _uuid;
+    private final UUID _courseId;
 
     public CourseID(){
-        this._uuid = UUID.randomUUID();
+        this._courseId = UUID.randomUUID();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof CourseID))
+            return false;
+        CourseID courseIDTest = (CourseID) object;
+        return _courseId.equals(courseIDTest._courseId);
     }
 }
