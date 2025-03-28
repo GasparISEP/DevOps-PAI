@@ -21,7 +21,7 @@ class StudyPlanRepositoryImpl {
 class CourseRepositoryImpl {
     - _courseFactory: CourseFactory
     -_courseRepository:ArrayList<Course>
-    +registerCourse (courseName: Name, acronym: Acronym, quantityCreditsECTS: QuantityCreditsEcts, durationCourseInSemester: DurationCourseInSemester)
+    +registerCourse (courseName: Name, acronym: Acronym, quantityCreditsECTS: QuantityCreditsEcts, durationCourseInCurricularYear: DurationCourseInCurricularYear)
     +isCourseRegistered (course: Course)
     +getAllCourses()
 }
