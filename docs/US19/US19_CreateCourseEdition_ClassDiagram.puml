@@ -1,7 +1,6 @@
 @startuml
-!pragma layout smetana
-'left to right direction'
-top to bottom direction
+skinparam ranksep 100
+skinparam nodesep 100
 
 class US19_CreateCourseEditionController {
     -_programmeEditionRepository: ProgrammeEditionRepository
@@ -101,11 +100,11 @@ class CourseEditionFactoryImpl {
 }
 
 interface CourseEditionListFactory {
-    +newArrayList()
+    +newList()
 }
 
-class CourseEditionListFactoryImpl {
-    +newArrayList()
+class CourseEditionArrayListFactoryImpl {
+    +newList()
 }
 
 
@@ -114,7 +113,7 @@ class CourseEditionListFactoryImpl {
 
 US19_CreateCourseEditionController "1" ..> "1" ProgrammeEditionRepository
 US19_CreateCourseEditionController "1" ..> "1" CourseEditionRepository
-US19_CreateCourseEditionController "1" ..> "1" ProgrammeRepository
+US19_CreateCourseEditionController "1" ..> "1" CourseInStudyPlanRepository
 CourseEditionRepository "1" ..> "1" CourseEditionFactory
 CourseEditionRepository "1" --> "_courseEditions" CourseEdition
 ProgrammeEditionRepository "1" --> "_programmeEditions" ProgrammeEdition
@@ -123,11 +122,9 @@ Programme "1" --> "_courses" Course
 CourseEdition "*" --> "1" ProgrammeEdition
 CourseEdition "1..*" --> "1..*" Course
 CourseEdition "0..*" ..> "1" CourseEditionFactory
-CourseEditionRepository "1" --> "newArrayList" ArrayList
-CourseEditionListFactory "1" ..> "0..*" ArrayList
 CourseEditionFactoryImpl "1" ..|> "1" CourseEditionFactory
 CourseEditionListFactory "1" <.. "1" CourseEditionRepository
-CourseEditionListFactoryImpl "1" ..|> "1" CourseEditionListFactory
+CourseEditionArrayListFactoryImpl "1" ..|> "1" CourseEditionListFactory
 
 
 

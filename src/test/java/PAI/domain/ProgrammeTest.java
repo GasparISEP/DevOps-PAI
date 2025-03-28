@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -36,10 +37,11 @@ class ProgrammeTest {
         _courseFactor = mock(ICourseFactory.class);
 
     }
+
     @Test
     void shouldReturnFalseWhenProgrammeIsNotInDepartment() throws Exception {
         // arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         Department department1 = mock(Department.class);
 
         // act
@@ -52,7 +54,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnTrueWhenProgrammeIsNotInDepartment() throws Exception {
         // arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         // act
         boolean result = programme.isInDepartment(_department);
         // assert
@@ -61,134 +63,134 @@ class ProgrammeTest {
 
     // Test to check the constructor
     @Test
-    void createAProgramme () throws Exception {
+    void createAProgramme() throws Exception {
 
         //arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         //assert
         assertNotNull(programme);
     }
 
     // Test to empty name in Programme
     @Test
-    void emptyNameDontCreateAProgramme () throws IllegalArgumentException {
+    void emptyNameDontCreateAProgramme() throws IllegalArgumentException {
         //assert
-        assertThrows(Exception.class, () -> new Programme("", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
 
     // Test to a null name in Programme
     @Test
-    void nullNameDontCreateAProgramme () throws IllegalArgumentException {
+    void nullNameDontCreateAProgramme() throws IllegalArgumentException {
         //act + assert
 
-        assertThrows(Exception.class, () -> new Programme(null, "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(null, "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
 
     // Test to empty Acronym in Programme
     @Test
-    void emptyAcronymDontCreateAProgramme () throws IllegalArgumentException {
+    void emptyAcronymDontCreateAProgramme() throws IllegalArgumentException {
 
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     // Test to a null Acronym in Programme
     @Test
-    void nullAcronymDontCreateAProgramme () throws IllegalArgumentException {
+    void nullAcronymDontCreateAProgramme() throws IllegalArgumentException {
 
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", null, 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", null, 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     // Test to check if negative number of ECTS doNot create a programme
     @Test
-    void lessThan0ECTSDontCreateAProgramme () throws IllegalArgumentException {
+    void lessThan0ECTSDontCreateAProgramme() throws IllegalArgumentException {
 
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", -1,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", -1, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     // Test to check if number 0 of ECTS don't create a programme
     @Test
-    void zeroECTSDontCreateAProgramme () throws IllegalArgumentException {
+    void zeroECTSDontCreateAProgramme() throws IllegalArgumentException {
 
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 0,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 0, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
 
     @Test
-    void moreThan30ECTSDontCreateAProgramme () throws IllegalArgumentException {
+    void moreThan30ECTSDontCreateAProgramme() throws IllegalArgumentException {
 
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 31, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
 
     }
 
     @Test
-    void lessThanZeroSemestersDontCreateAProgramme () throws IllegalArgumentException {
+    void lessThanZeroSemestersDontCreateAProgramme() throws IllegalArgumentException {
 
         //act+ assert
-        assertThrows(IllegalArgumentException.class, () -> new Programme("Computer Engineering", "CE", 30,-1,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(IllegalArgumentException.class, () -> new Programme("Computer Engineering", "CE", 30, -1, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
 
     }
 
     @Test
-    void ZeroSemestersDontCreateAProgramme () throws IllegalArgumentException {
+    void ZeroSemestersDontCreateAProgramme() throws IllegalArgumentException {
         //act + assert
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 30,0,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 30, 0, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
 
     }
 
     @Test
-    void specialCharactersInNameDontCreateAProgramme () throws IllegalArgumentException {
-        //act + assert
-
-        assertThrows(Exception.class, () -> new Programme("@Computer Science", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
-    }
-
-
-    @Test
-    void numbersInAcronymDontCreateAProgramme () throws IllegalArgumentException {
+    void specialCharactersInNameDontCreateAProgramme() throws IllegalArgumentException {
         //act + assert
 
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "123", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("@Computer Science", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+    }
+
+
+    @Test
+    void numbersInAcronymDontCreateAProgramme() throws IllegalArgumentException {
+        //act + assert
+
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "123", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void specialCharactersInAcronymDontCreateAProgramme () throws IllegalArgumentException {
+    void specialCharactersInAcronymDontCreateAProgramme() throws IllegalArgumentException {
 
         //act + assert
 
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "@CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void nullDegreeTypeCreateAnException(){
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20,6,null,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+    void nullDegreeTypeCreateAnException() {
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20, 6, null, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void nullDepartmentCreateAnException(){
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20,6,_degreeType,null, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+    void nullDepartmentCreateAnException() {
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20, 6, _degreeType, null, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void nullTeacherCreateAnException(){
-        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,null, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+    void nullTeacherCreateAnException() {
+        assertThrows(Exception.class, () -> new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, null, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     //equals
 
     @Test
-    void equalsProgrammeReturnTrue () throws Exception {
+    void equalsProgrammeReturnTrue() throws Exception {
 
         //arrange
 
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
-        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //act
         boolean result = CE.equals(CEE);
@@ -198,11 +200,16 @@ class ProgrammeTest {
     }
 
     @Test
-    void returnFalseWhenAcronymIsDifferent () throws Exception {
+    void returnFalseWhenAcronymIsDifferent() throws Exception {
+        Acronym acronym1 = new Acronym("CE");
+        Acronym acronym2 = new Acronym("CEE");
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
+        QuantEcts quantEcts = new QuantEcts(20);
+        QuantSemesters quantSemesters = new QuantSemesters(6);
 
         //arrange
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
-        Programme CEE = new Programme("Computer Engineering", "CEE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme(name, acronym1, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CEE = new Programme(name, acronym2, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //act
         boolean result = CE.equals(CEE);
@@ -212,11 +219,11 @@ class ProgrammeTest {
     }
 
     @Test
-    void returnFalseWhenNameIsDifferent () throws Exception {
+    void returnFalseWhenNameIsDifferent() throws Exception {
 
         //arrange
-        Programme CE = new Programme("Computers Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
-        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme("Computers Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //act
         boolean result = CE.equals(CEE);
@@ -224,29 +231,18 @@ class ProgrammeTest {
         //assert
         assertFalse(result);
     }
+
     @Test
-    void returnFalseWhenEctsIsDifferent () throws Exception {
+    void returnFalseWhenEctsIsDifferent() throws Exception {
 
         //arrange
+        Acronym acronym = mock(Acronym.class);
         QuantEcts quantEcts = new QuantEcts(21);
         QuantEcts quantEcts1 = new QuantEcts(20);
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        Programme CE = new Programme(name, "CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
-        Programme CEE = new Programme(name, "CE", quantEcts1,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
-
-        //act
-        boolean result = CE.equals(CEE);
-
-        //assert
-        assertFalse(result);
-    }
-    @Test
-    void returnFalseWhenSemestersIsDifferent () throws Exception {
-
-        //arrange
-        Programme CE = new Programme("Computer Engineering", "CE", 20,5,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
-        Programme CEE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Programme CE = new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CEE = new Programme(name, acronym, quantEcts1, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //act
         boolean result = CE.equals(CEE);
@@ -256,10 +252,24 @@ class ProgrammeTest {
     }
 
     @Test
-    void returnFalseWhenOneOfTheProgrammesIsNull () throws Exception {
+    void returnFalseWhenSemestersIsDifferent() throws Exception {
 
         //arrange
-        Programme CE = new Programme("Computer Engineering", "CE", 20,5,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 5, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CEE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+
+        //act
+        boolean result = CE.equals(CEE);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void returnFalseWhenOneOfTheProgrammesIsNull() throws Exception {
+
+        //arrange
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 5, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         Programme CEE = null;
 
         //act
@@ -272,7 +282,7 @@ class ProgrammeTest {
     @Test
     void equalsCompareObjectReturnTrue() throws Exception {
 
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         //act
         boolean result = CE.equals(CE);
 
@@ -284,10 +294,10 @@ class ProgrammeTest {
     void equalsDontCompareDifferentObjectAndReturnFalse() throws Exception {
 
         //arrange
-       Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //act
-        boolean result = CE.equals( _teacher);
+        boolean result = CE.equals(_teacher);
 
         //assert
         assertFalse(result);
@@ -296,8 +306,8 @@ class ProgrammeTest {
     @Test
     void shouldReturnTrueIfProgrammesIsEqualWithIsolation() throws Exception {
         //arrange
-        Programme existingProgramme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor) ;
-        Programme thisProgramme = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department,_teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor) ;
+        Programme existingProgramme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme thisProgramme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         //act
         boolean result = existingProgramme.isEquals(thisProgramme);
         //assert
@@ -307,8 +317,8 @@ class ProgrammeTest {
     @Test
     void shouldReturnFalseIfProgrammesIsNotEqualWithIsolation() throws Exception {
         //arrange
-        Programme existingProgramme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor) ;
-        Programme thisProgramme = new Programme("Engenharia Informática", "LEI", 30, 2, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor) ;
+        Programme existingProgramme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme thisProgramme = new Programme("Engenharia Informática", "LEI", 30, 2, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         //act
         boolean result = existingProgramme.isEquals(thisProgramme);
         //assert
@@ -318,7 +328,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnTrueWhenChangeDirector() throws Exception {
         //arrange
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         Teacher teacher1 = mock(Teacher.class);
         //act + assert
         boolean result = CE.newProgrammeDirector(teacher1);
@@ -329,7 +339,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnFalseWhenChangeDirectorIsNull() throws Exception {
         //arrange
-        Programme CE = new Programme("Computer Engineering", "CE", 20,6,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme CE = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         Teacher teacher1 = null;
         //act + assert
         boolean result = CE.newProgrammeDirector(teacher1);
@@ -352,7 +362,7 @@ class ProgrammeTest {
 
         Programme programme = new Programme("Engenharia Informática", "LEI", 30, 2, degreeTypeDouble, departmentDouble, teacherDouble, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         Course courseDouble = mock(Course.class);
-         //act
+        //act
         boolean result = programme.addCourseToAProgramme(courseDouble);
         //assert
         assertTrue(result);
@@ -383,7 +393,7 @@ class ProgrammeTest {
         //arrange
         Course course1 = mock(Course.class);
         Course course2 = mock(Course.class);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
         //act
@@ -395,7 +405,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnQuantityOfSemesters() throws Exception {
         // Arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         // Act
         int quantityOfSemesters = programme.getQuantityOfSemester();
 
@@ -406,7 +416,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnCorrectQuantityOfEcts() throws Exception {
         // Arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         // Act
         int quantityOfEcts = programme.getQuantityOfEcts();
         // Assert
@@ -416,7 +426,7 @@ class ProgrammeTest {
     @Test
     void shouldCalculateNumberOfYearsDirectly() throws Exception {
         //arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         // Act + Assert for :Testar valores pares
         assertEquals(1, programme.calculateNumberOfYears(2));
         assertEquals(3, programme.calculateNumberOfYears(6));
@@ -438,22 +448,23 @@ class ProgrammeTest {
         //arrange
         StudyPlan doubleStudyPlan = mock(StudyPlan.class);
         when(_I_studyPlanFactory.newStudyPlan(_I_courseInStudyPlanFactory, _I_studyPlanListFactory, _courseFactor)).thenReturn(doubleStudyPlan);
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         // act
         StudyPlan result = programme.getStudyPlan();
 
         //assert
         assertEquals(result, doubleStudyPlan);
-        }
+    }
 
     @Test
     void shouldReturnTrueIfNameIsAProgramme() throws Exception {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
         NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
-        Programme p1 = new Programme(programmeName, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme p1 = new Programme(programmeName, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         // Act
         boolean result = p1.hasThisProgrammeName(programmeName);
@@ -465,35 +476,37 @@ class ProgrammeTest {
     @Test
     void shouldReturnFalseIfNameIsAProgramme() throws Exception {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
         NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars programmeName2 = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
-        Programme p1 = new Programme(programmeName, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme p1 = new Programme(programmeName, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
         // Act
         boolean result = p1.hasThisProgrammeName(programmeName2);
 
         // Assert
         assertFalse(result);
     }
+
     @Test
     void shouldNotReturnAcronym() throws Exception {
 
         //Arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //Act
         String expectedAcronym = programme.getAcronym();
 
         //Assert
-        assertNotEquals("Invalid",expectedAcronym);
+        assertNotEquals("Invalid", expectedAcronym);
     }
 
     @Test
     void shouldReturnAcronym() throws Exception {
 
         //Arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //Act
         String expectedAcronym = programme.getAcronym();
@@ -505,7 +518,7 @@ class ProgrammeTest {
     @Test
     void shouldReturnProgrammeName() throws Exception {
         // Arrange
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         // Act
         String expectedProgrammeName = programme.getProgrammeName();
@@ -515,12 +528,13 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnQuantOfSemesters () throws Exception {
+    void shouldReturnQuantOfSemesters() throws Exception {
         //Arrange
+        Acronym acronym = mock(Acronym.class);
         QuantSemesters quantSemesters = new QuantSemesters(6);
-        QuantEcts quantEcts = new QuantEcts(20);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        Programme programme = new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        QuantEcts quantEcts = mock(QuantEcts.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Programme programme = new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //Act
         QuantSemesters expectedQuantSemesters = programme.getQuantSemesters();
@@ -530,12 +544,13 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnQuantEcts () throws Exception {
+    void shouldReturnQuantEcts() throws Exception {
         //Arrange
-        QuantSemesters quantSemesters = new QuantSemesters(6);
+        Acronym acronym = mock(Acronym.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
         QuantEcts quantEcts = new QuantEcts(20);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        Programme programme = new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //Act
         QuantEcts expectedQuantEcts = programme.getQuantEcts();
@@ -545,136 +560,112 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldCreateProgramme () throws Exception {
+    void shouldCreateProgramme() throws Exception {
         //Arrange
+        Acronym acronym = new Acronym("CE");
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        Programme programme = new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //Act+Assert
         assertNotNull(programme);
     }
 
     @Test
-    void shouldNotCreateProgrammeWhenQuantSemestersIsNull () throws Exception {
+    void shouldNotCreateProgrammeWhenQuantSemestersIsNull() throws Exception {
         //Arrange
+        Acronym acronym = new Acronym("CE");
         QuantSemesters quantSemesters = null;
         QuantEcts quantEcts = new QuantEcts(20);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void shouldNotCreateProgrammeWhenQuantEctsIsNull () throws Exception {
+    void shouldNotCreateProgrammeWhenQuantEctsIsNull() throws Exception {
         //Arrange
+        Acronym acronym = new Acronym("CE");
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = null;
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts, quantSemesters, _degreeType, _department,  _teacher, _I_programmeCourseListFactory,_I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void shouldNotCreateProgrammeWhenNameIsNull () throws Exception {
+    void shouldNotCreateProgrammeWhenNameIsNull() throws Exception {
         //Arrange
+        Acronym acronym = new Acronym("CE");
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(null, "CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(null, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
-    @Test
-    void shouldNotCreateProgrammeWhenAcronymIsEmpty () throws Exception {
-        //Arrange
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        QuantEcts quantEcts = new QuantEcts(20);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-
-        //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
-    }
 
     @Test
-    void shouldNotCreateProgrammeWhenAcronymIsNull () throws Exception {
+    void shouldNotCreateProgrammeWhenAcronymIsNull() throws Exception {
         //Arrange
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, null, quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, null, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
 
     @Test
-    void shouldNotCreateProgrammeWhenAcronymHasNumbers () throws Exception {
+    void shouldNotCreateProgrammeWhenDegreeTypeIsNull() throws Exception {
         //Arrange
+        Acronym acronym = new Acronym("CE");
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "123", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, acronym, quantEcts, quantSemesters, null, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void shouldNotCreateProgrammeWhenAcronymHasSpecialChars () throws Exception {
+    void shouldNotCreateProgrammeWhenDepartmentIsNull() throws Exception {
         //Arrange
+        Acronym acronym = new Acronym("CE");
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "@CE", quantEcts,quantSemesters,_degreeType,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, null, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
     @Test
-    void shouldNotCreateProgrammeWhenDegreeTypeIsNull () throws Exception {
+    void shouldNotCreateProgrammeWhenTeacherIsNull() throws Exception {
         //Arrange
+        Acronym acronym = new Acronym("CE");
         QuantSemesters quantSemesters = new QuantSemesters(6);
         QuantEcts quantEcts = new QuantEcts(20);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts,quantSemesters,null,_department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
-    }
-
-    @Test
-    void shouldNotCreateProgrammeWhenDepartmentIsNull () throws Exception {
-        //Arrange
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        QuantEcts quantEcts = new QuantEcts(20);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-
-        //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts,quantSemesters,_degreeType,null, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
-    }
-
-    @Test
-    void shouldNotCreateProgrammeWhenTeacherIsNull () throws Exception {
-        //Arrange
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        QuantEcts quantEcts = new QuantEcts(20);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-
-        //Act+Assert
-        assertThrows(Exception.class, () -> new Programme(name, "CE", quantEcts,quantSemesters,_degreeType,_department,null, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+        assertThrows(Exception.class, () -> new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, null, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
     }
 
 
     @Test
     void shouldGetNameWithNumber() throws Exception {
         //arrange
+        Acronym acronym = new Acronym("CE");
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("HI");
         QuantEcts quantEcts = new QuantEcts(20);
         QuantSemesters quantSemesters = new QuantSemesters(6);
-        Programme programme = new Programme(name, "CE", quantEcts,quantSemesters,_degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+        Programme programme = new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
 
         //act
         NameWithNumbersAndSpecialChars res = programme.getProgrammeNameWithNumbersAndSpecialChars();
@@ -682,4 +673,35 @@ class ProgrammeTest {
         //assert
         assertEquals(res, name);
     }
+
+    @Test
+    void shouldGetAcronym() throws Exception {
+        //Arrange
+        Acronym acronym = new Acronym("CE");
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("HI");
+        QuantEcts quantEcts = new QuantEcts(20);
+        QuantSemesters quantSemesters = new QuantSemesters(6);
+        Programme programme = new Programme(name, acronym, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor);
+
+        //Act
+        Acronym result = programme.getAcronymm();
+
+        //Assert
+        assertEquals(result, acronym);
+    }
+
+    @Test
+    void nullAcronymmDontCreateAProgramme() throws Exception {
+        //Arrange
+        Acronym acronym = new Acronym("CE");
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("HI");
+        QuantEcts quantEcts = new QuantEcts(20);
+        QuantSemesters quantSemesters = new QuantSemesters(6);
+
+
+        //Act+Assert
+        assertThrows(Exception.class, () -> new Programme(name, null, quantEcts, quantSemesters, _degreeType, _department, _teacher, _I_programmeCourseListFactory, _I_courseInStudyPlanFactory, _I_studyPlanListFactory, _I_studyPlanFactory, _courseFactor));
+    }
 }
+
+

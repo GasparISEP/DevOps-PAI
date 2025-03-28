@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -995,6 +996,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Acronym acronym1 = new Acronym("CSE");
+        Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
         QuantEcts quantEcts = new QuantEcts(25);
@@ -1005,13 +1008,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Programme programme1 = new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
@@ -1060,6 +1063,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     Department department1 = new Department("DEI", "Departamento Engenharia Informática");
     TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
     IAddressFactory addressFactory = new AddressFactoryImpl();
+    Acronym acronym1 = new Acronym("CSE");
+    Acronym acronym2 = new Acronym("CVE");
     NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
     NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
     QuantEcts quantEcts = new QuantEcts(30);
@@ -1069,13 +1074,13 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
             "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
             "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
             new TeacherCareerProgressionListFactoryImpl());
-    Programme programme1 = new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+    Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
             new CourseFactoryImpl());
-    programmeRepository.registerProgramme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+    programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
             new CourseFactoryImpl());
-    programmeRepository.registerProgramme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+    programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
             new CourseFactoryImpl());
 
@@ -1125,6 +1130,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Acronym acronym1 = new Acronym("CSE");
+        Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
         QuantEcts quantEcts = new QuantEcts(30);
@@ -1134,13 +1141,13 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
-        Programme programme1 = new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
@@ -1148,10 +1155,10 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         List<Programme> programmes = controller.getAllProgrammes();
 
         // Assert
-        assertTrue(programmes.contains(new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        assertTrue(programmes.contains(new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl())));
-        assertTrue(programmes.contains(new Programme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+        assertTrue(programmes.contains(new Programme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
                new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl())));
 
