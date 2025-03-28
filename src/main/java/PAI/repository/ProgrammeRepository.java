@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProgrammeRepository {
+public class ProgrammeRepository implements IProgrammeRepository {
     private final IProgrammeFactory _I_programmeFactory;
     private final List<Programme> _programmeRepo;
     private IProgrammeRepositoryListFactory _programmeRepoListFactory;
