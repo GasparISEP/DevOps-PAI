@@ -2,11 +2,11 @@ package PAI.VOs;
 
 import PAI.ddd.ValueObject;
 
-public class TeacherID implements ValueObject {
+public class TeacherAcronym implements ValueObject {
 
     private final String _acronym;
 
-    public TeacherID(String acronym) throws Exception {
+    public TeacherAcronym(String acronym) throws Exception {
         if (acronym == null || acronym.isBlank()) {
             throw new Exception("Acronym must be a 3 capital letter non-empty String.");
         }
