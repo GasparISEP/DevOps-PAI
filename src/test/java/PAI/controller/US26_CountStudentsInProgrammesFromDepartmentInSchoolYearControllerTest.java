@@ -1,4 +1,5 @@
 package PAI.controller;
+import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.*;
 import PAI.factory.*;
@@ -153,8 +154,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         Description description1 = new Description("School Year 25/26");
         Description description2 = new Description("School Year 22/23");
-        SchoolYear schoolYear1 = new SchoolYear(description1, "01-09-2025", "31-07-2026");
-        SchoolYear schoolYear2 = new SchoolYear(description2,"01-09-2022", "31-07-2026");
+        Date startDate1 = new Date ("01-09-2025");
+        Date endDate1 = new Date ("31-07-2026");
+        Date startDate2 = new Date ("01-09-2022");
+        Date endDate2 = new Date ("31-07-2026");
+        SchoolYear schoolYear1 = new SchoolYear(description1,startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(description2,startDate2, endDate2);
 
         DegreeType master = new DegreeType("Master", 240);
         Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher,  new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -184,8 +189,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description1, "01-09-2025", "31-07-2026");
-        schoolYearRepository.addSchoolYear(description2,"01-09-2022", "31-07-2026");
+        schoolYearRepository.addSchoolYear(description1,startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description2,startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -206,9 +211,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         Description description = new Description("School Year 24/25");
+        Date startDate1 = new Date ("01-09-2024");
+        Date endDate1 = new Date ("31-07-2025");
+        Date startDate2 = new Date ("01-09-2022");
+        Date endDate2 = new Date ("31-07-2023");
 
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear(description, "01-09-2022", "31-07-2023");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -248,7 +257,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description, "01-09-2022", "31-07-2023");
+        schoolYearRepository.addSchoolYear(description, startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -272,8 +281,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
 
         Description description = new Description("School Year 24/25");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear(description, "01-09-2022", "31-07-2023");
+        Date startDate1 = new Date ("01-09-2024");
+        Date endDate1 = new Date ("31-07-2025");
+        Date startDate2 = new Date ("01-09-2022");
+        Date endDate2 = new Date ("31-07-2023");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -314,8 +327,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
 
-        schoolYearRepository.addSchoolYear(description, "01-09-2024", "31-07-2025");
-        schoolYearRepository.addSchoolYear(description, "01-09-2022", "31-07-2023");
+        schoolYearRepository.addSchoolYear(description,startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description,startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -341,8 +354,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
 
         Description description = new Description("School Year 24/25");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear(description, "01-09-2022", "31-07-2023");
+        Date startDate1 = new Date ("01-09-2024");
+        Date endDate1 = new Date ("31-07-2025");
+        Date startDate2 = new Date ("01-09-2022");
+        Date endDate2 = new Date ("31-07-2023");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -381,8 +398,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description, "01-09-2024", "31-07-2025");
-        schoolYearRepository.addSchoolYear(description, "01-09-2022", "31-07-2023");
+        schoolYearRepository.addSchoolYear(description, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description, startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -406,8 +423,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
 
         Description description = new Description("School Year 24/25");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2024", "31-07-2025");
-        SchoolYear schoolYear2 = new SchoolYear(description, "01-09-2022", "31-07-2023");
+        Date startDate1 = new Date ("01-09-2024");
+        Date endDate1 = new Date ("31-07-2025");
+        Date startDate2 = new Date ("01-09-2022");
+        Date endDate2 = new Date ("31-07-2023");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -446,8 +467,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description, "01-09-2024", "31-07-2025");
-        schoolYearRepository.addSchoolYear(description, "01-09-2022", "31-07-2023");
+        schoolYearRepository.addSchoolYear(description, startDate1,endDate1);
+        schoolYearRepository.addSchoolYear(description, startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();

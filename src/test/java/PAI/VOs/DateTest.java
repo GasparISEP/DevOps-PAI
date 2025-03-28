@@ -99,4 +99,30 @@ class DateTest {
         assertEquals(date1.hashCode(), date2.hashCode());
     }
 
+    @Test
+    public void testNow() {
+        Date today = Date.now();
+        assertNotNull(today);
+        assertEquals(LocalDate.now(), today.getLocalDate());
+    }
+
+    @Test
+    public void testIsBefore() {
+        Date date1 = new Date("15-08-2023");
+        Date date2 = new Date("16-08-2023");
+
+        assertTrue(date1.isBefore(date2));
+        assertFalse(date2.isBefore(date1));
+    }
+
+
+    @Test
+    public void testIsAfter() {
+        Date date1 = new Date("15-08-2023");
+        Date date2 = new Date("14-08-2023");
+
+        assertTrue(date1.isAfter(date2));
+        assertFalse(date2.isAfter(date1));
+    }
+
 }
