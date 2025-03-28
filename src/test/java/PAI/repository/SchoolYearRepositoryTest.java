@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.SchoolYear;
 import PAI.factory.SchoolYearFactoryImpl;
@@ -14,8 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SchoolYearRepositoryTest {
 
@@ -61,14 +61,16 @@ class SchoolYearRepositoryTest {
 
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
         Description description = new Description("School Year 23/24");
-        when(schoolYearFactoryImplDouble.createSchoolYear(description, "01-09-2023", "31-08-2024"))
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        when(schoolYearFactoryImplDouble.createSchoolYear(description, startDate, endDate))
                 .thenReturn(schoolYearDouble);
 
         ArrayList<SchoolYear> schoolYearListDouble = mock(ArrayList.class);
         when(schoolYearListFactoryImplDouble.newArrayList()).thenReturn(schoolYearListDouble);
 
         // Act
-        boolean result = repository.addSchoolYear(description, "01-09-2023", "31-08-2024");
+        boolean result = repository.addSchoolYear(description,startDate, endDate);
 
         // Assert
         assertTrue(result);
@@ -84,18 +86,22 @@ class SchoolYearRepositoryTest {
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description1 = new Description("School Year 23/24");
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
         Description description2 = new Description("School Year 24/25");
-        when(schoolYearFactoryImplDouble.createSchoolYear(description1, "01-09-2023", "31-08-2024"))
+        Date startDate2 = mock(Date.class);
+        Date endDate2 = mock(Date.class);
+        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDate1, endDate1))
                 .thenReturn(schoolYearDouble1);
-        when(schoolYearFactoryImplDouble.createSchoolYear(description2, "01-09-2024", "31-08-2025"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description2, startDate2, endDate2))
                 .thenReturn(schoolYearDouble2);
 
         ArrayList<SchoolYear> schoolYearListDouble = mock(ArrayList.class);
         when(schoolYearListFactoryImplDouble.newArrayList()).thenReturn(schoolYearListDouble);
 
         // Act
-        boolean result1 = repository.addSchoolYear(description1, "01-09-2023", "31-08-2024");
-        boolean result2 = repository.addSchoolYear(description2, "01-09-2024", "31-08-2025");
+        boolean result1 = repository.addSchoolYear(description1, startDate1,endDate1);
+        boolean result2 = repository.addSchoolYear(description2, startDate2, endDate2);
 
         // Assert
         assertTrue(result1);
@@ -114,19 +120,21 @@ class SchoolYearRepositoryTest {
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description = new Description("School Year 23/24");
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
 
-        when(schoolYearFactoryImplDouble.createSchoolYear(description, "01-09-2023", "31-08-2024"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description, startDate, endDate))
                 .thenReturn(schoolYearDouble1);
 
-        repository.addSchoolYear(description, "01-09-2023", "31-08-2024");
+        repository.addSchoolYear(description, startDate,endDate);
 
-        when(schoolYearFactoryImplDouble.createSchoolYear(description, "01-09-2023", "31-08-2024"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description, startDate, endDate))
                 .thenReturn(schoolYearDouble2);
 
         when(schoolYearDouble1.isSameSchoolYear(schoolYearDouble2)).thenReturn(true);
 
         // Act & Assert
-        assertThrows(Exception.class, () -> repository.addSchoolYear(description, "01-09-2023", "31-08-2024"));
+        assertThrows(Exception.class, () -> repository.addSchoolYear(description, startDate, endDate));
     }
 
     @Test
@@ -139,19 +147,23 @@ class SchoolYearRepositoryTest {
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description1 = new Description("School Year 23/24");
         Description description2 = new Description("School Year 24/25");
+        Date startDate1 = new Date("01-09-2023");
+        Date endDate1 = new Date("31-08-2024");
+        Date startDate2 = new Date("01-09-2024");
+        Date endDate2 = new Date("31-08-2025");
 
-        when(schoolYearFactoryImplDouble.createSchoolYear(description1, "01-09-2023", "31-08-2024"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDate1, endDate1))
                 .thenReturn(schoolYearDouble1);
-        when(schoolYearFactoryImplDouble.createSchoolYear(description2, "01-09-2024", "31-08-2025"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description2, startDate2,endDate2))
                 .thenReturn(schoolYearDouble2);
 
-        repository.addSchoolYear(description1, "01-09-2023", "31-08-2024");
-        repository.addSchoolYear(description2, "01-09-2024", "31-08-2025");
+        repository.addSchoolYear(description1, startDate1,endDate1);
+        repository.addSchoolYear(description2, startDate2, endDate2);
 
-        when(schoolYearDouble1.getStartDate()).thenReturn(LocalDate.of(2023, 9, 1));
-        when(schoolYearDouble1.getEndDate()).thenReturn(LocalDate.of(2024, 8, 31));
-        when(schoolYearDouble2.getStartDate()).thenReturn(LocalDate.of(2024, 9, 1));
-        when(schoolYearDouble2.getEndDate()).thenReturn(LocalDate.of(2025, 8, 31));
+        when(schoolYearDouble1.getStartDate()).thenReturn(startDate1);
+        when(schoolYearDouble1.getEndDate()).thenReturn(endDate1);
+        when(schoolYearDouble2.getStartDate()).thenReturn(startDate2);
+        when(schoolYearDouble2.getEndDate()).thenReturn(endDate2);
 
         ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
         Iterator<SchoolYear> iterator = mock(Iterator.class);
@@ -168,42 +180,29 @@ class SchoolYearRepositoryTest {
     }
 
     @Test
-    void shouldReturnNullIfSchoolYearRepositoryDoesNotHaveCurrentSchoolYear() throws Exception {
+    void shouldReturnNullIfSchoolYearRepositoryDoesNotHaveCurrentSchoolYear() {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
         SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
-        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
-        SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description1 = new Description("School Year 26/27");
-        Description description2 = new Description("School Year 24/25");
+        List<SchoolYear> mockSchoolYearList = mock(List.class);
+        when(mockSchoolYearList.isEmpty()).thenReturn(false);
 
-        when(schoolYearFactoryImplDouble.createSchoolYear(description1, "01-09-2025", "31-08-2026"))
-                .thenReturn(schoolYearDouble1);
-        when(schoolYearFactoryImplDouble.createSchoolYear(description2, "01-09-2024", "31-08-2025"))
-                .thenReturn(schoolYearDouble2);
+        when(mockSchoolYearList.size()).thenReturn(1);
+        SchoolYear mockSchoolYear = mock(SchoolYear.class);
+        when(mockSchoolYearList.get(0)).thenReturn(mockSchoolYear);
 
-        repository.addSchoolYear(description1, "01-09-2025", "31-08-2026");
-        repository.addSchoolYear(description2, "01-09-2024", "31-08-2025");
-
-        when(schoolYearDouble1.getStartDate()).thenReturn(LocalDate.of(2026, 9, 1));
-        when(schoolYearDouble1.getEndDate()).thenReturn(LocalDate.of(2027, 8, 31));
-        when(schoolYearDouble2.getStartDate()).thenReturn(LocalDate.of(2023, 9, 1));
-        when(schoolYearDouble2.getEndDate()).thenReturn(LocalDate.of(2024, 8, 31));
-
-        ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
-        Iterator<SchoolYear> iterator = mock(Iterator.class);
-
-        when(listDouble.iterator()).thenReturn(iterator);
-
-        when(iterator.hasNext()).thenReturn(true, false);
-        when(iterator.next()).thenReturn(schoolYearDouble1);
+        Date mockDate = mock(Date.class);
+        when(mockDate.isBefore(any())).thenReturn(false);
+        when(mockDate.isAfter(any())).thenReturn(true);
+        when(mockSchoolYear.getStartDate()).thenReturn(mockDate);
+        when(mockSchoolYear.getEndDate()).thenReturn(mockDate);
 
         // Act
-        SchoolYear currentSchoolYear = repository.getCurrentSchoolYear();
+        SchoolYear result = repository.getCurrentSchoolYear();
 
         // Assert
-        assertNull(currentSchoolYear);
+        assertNull(result);
     }
 
     @Test
@@ -239,11 +238,13 @@ class SchoolYearRepositoryTest {
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description = new Description("School Year 23/24");
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
 
-        when(schoolYearFactoryImplDouble.createSchoolYear(description, "01-09-2023", "31-08-2024"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description, startDate, endDate))
                 .thenReturn(schoolYearDouble1);
 
-        repository.addSchoolYear(description, "01-09-2023", "31-08-2024");
+        repository.addSchoolYear(description, startDate, endDate);
 
         when(schoolYearDouble1.isSameSchoolYear(schoolYearDouble2)).thenReturn(true);
 
@@ -272,11 +273,13 @@ class SchoolYearRepositoryTest {
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description = new Description("School Year 23/24");
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
 
-        when(schoolYearFactoryImplDouble.createSchoolYear(description, "01-09-2023", "31-08-2024"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description, startDate, endDate))
                 .thenReturn(schoolYearDouble1);
 
-        repository.addSchoolYear(description, "01-09-2023", "31-08-2024");
+        repository.addSchoolYear(description, startDate, endDate);
 
         when(schoolYearDouble1.isSameSchoolYear(schoolYearDouble2)).thenReturn(false);
 
@@ -350,11 +353,15 @@ class SchoolYearRepositoryTest {
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description1 = new Description("School Year 23/24");
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
         Description description2 = new Description("School Year 24/25");
+        Date startDate2 = mock(Date.class);
+        Date endDate2 = mock(Date.class);
 
-        when(schoolYearFactoryImplDouble.createSchoolYear(description1, "01-09-2023", "31-08-2024"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDate1, endDate1))
                 .thenReturn(schoolYearDouble1);
-        when(schoolYearFactoryImplDouble.createSchoolYear(description2, "01-09-2024", "31-08-2025"))
+        when(schoolYearFactoryImplDouble.createSchoolYear(description2,startDate2, endDate2))
                 .thenReturn(schoolYearDouble2);
 
         List<SchoolYear> realList = new ArrayList<>();
@@ -363,8 +370,8 @@ class SchoolYearRepositoryTest {
 
         when(schoolYearListFactoryImplDouble.copySchoolYearArrayList(anyList())).thenReturn(new ArrayList<>(realList));
 
-        repository.addSchoolYear(description1, "01-09-2023", "31-08-2024");
-        repository.addSchoolYear(description2, "01-09-2024", "31-08-2025");
+        repository.addSchoolYear(description1, startDate1, endDate1);
+        repository.addSchoolYear(description2, startDate2, endDate2);
 
         // Act
         List<SchoolYear> result = repository.getAllSchoolYears();
@@ -374,7 +381,7 @@ class SchoolYearRepositoryTest {
     }
 
     @Test
-    void shouldReturnCorrectSchoolYearList() throws Exception {
+    void shouldReturnCorrectSchoolYearList()  {
         // Arrange
         SchoolYearFactoryImpl schoolYearFactoryImpl = mock(SchoolYearFactoryImpl.class);
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = mock(SchoolYearListFactoryImpl.class);

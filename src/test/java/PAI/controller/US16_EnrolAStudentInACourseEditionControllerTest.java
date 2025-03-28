@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.*;
 import PAI.factory.*;
@@ -251,11 +252,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         );
 
         Description description = new Description("School Year 23/24");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2023", "31-08-2024");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
-        SchoolYear schoolYear2 = new SchoolYear(description, "01-09-2023", "31-08-2024");
+        SchoolYear schoolYear2 = new SchoolYear(description, startDate, endDate);
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1, schoolYear2);
 
         peeRepository.enrolStudentInProgrammeEdition(st1,programmeEdition1);
@@ -313,7 +316,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         );
 
         Description description = new Description("School Year 23/24");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2023", "31-08-2024");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -386,7 +391,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         programme1.addCourseToAProgramme(course1);
 
         Description description = new Description("School Year 23/24");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2023", "31-08-2024");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -453,7 +460,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         programme1.addCourseToAProgramme(course1);
 
         Description description = new Description("School Year 23/24");
-        SchoolYear schoolYear1 = new SchoolYear(description, "01-09-2023", "31-08-2024");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
