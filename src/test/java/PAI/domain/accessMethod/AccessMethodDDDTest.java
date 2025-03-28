@@ -110,4 +110,18 @@ class AccessMethodDDDTest {
         assertTrue(result);
     }
 
+    @Test
+    void shouldReturnTrueIfEqualsComparesObjectsWithSameAccessMethodId(){
+        //arrange
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName1 = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars accessMethodName2 = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethodDDD accessMethod1 = new AccessMethodDDD(accessMethodId, accessMethodName1);
+        AccessMethodDDD accessMethod2 = new AccessMethodDDD(accessMethodId, accessMethodName2);
+        //act
+        boolean result = accessMethod1.equals(accessMethod2);
+        //assert
+        assertTrue(result);
+    }
+
 }
