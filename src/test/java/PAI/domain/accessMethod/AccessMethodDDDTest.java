@@ -124,4 +124,42 @@ class AccessMethodDDDTest {
         assertTrue(result);
     }
 
+    @Test
+    void shouldReturnTrueIfGivenNameEqualsAccessMethodNameIsolationTest(){
+        //arrange
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        //act
+        boolean result = accessMethod.hasThisAccessMethodName(accessMethodName);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfGivenNameEqualsAccessMethodName(){
+        //arrange
+        String maiores23 = "M23";
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = new NameWithNumbersAndSpecialChars(maiores23);
+        NameWithNumbersAndSpecialChars accessMethodNameToSearch = new NameWithNumbersAndSpecialChars(maiores23);
+        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        //act
+        boolean result = accessMethod.hasThisAccessMethodName(accessMethodNameToSearch);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfGivenNameDoesNotEqualsAccessMethodNameIsolationTest(){
+        //arrange
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars accessMethodNameToSearch = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        //act
+        boolean result = accessMethod.hasThisAccessMethodName(accessMethodNameToSearch);
+        //assert
+        assertFalse(result);
+    }
 }

@@ -47,4 +47,8 @@ public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
 
         return false;
     }
+
+    public boolean hasThisAccessMethodName (NameWithNumbersAndSpecialChars accessMethodName) {
+        return _accessMethodName.equals(accessMethodName);
+    }
 }
