@@ -1,26 +1,27 @@
 @startuml
 
-skinparam ranksep 100
-skinparam nodesep 100
+skinparam ranksep 180
+skinparam nodesep 180
 
-package "AccessMethod Aggregate" as AMAggregate{
-    entity "<<Root>>\n <<Entity>>\n AccessMethod"{
+package "AccessMethod Aggregate" {
+    entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
     + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)
-    + Equals()
+    + Equals(Object objectToCompare)
+    }
+    class "<<Value Object>>\n NameWithNumbersAndSpecialChars" as VOName{
+        - accessMethodName: String
+        + Equals(Object objectToCompare)
+    }
+
+    class "<<Value Object>>\n AccessMethodId" as VOId{
+        - id: String
+        + Equals(Object objectToCompare)
     }
 }
 
-class "<<Value Object>>\n NameWithNumbersAndSpecialChars" as VOName{
-    - accessMethodName: String
-}
-
-class "<<Value Object>>\n AccessMethodId" as VOId{
-    - id: String
-}
-
 'uses
-AMAggregate "1" -> "1" VOName
-AMAggregate "1" -> "1" VOId
+AME "1" --> "uses 1" VOName
+AME "1" --> "uses 1" VOId
 
 
 Interface IAccessMethodFactory {
@@ -42,36 +43,42 @@ class AccessMethodListFactoryImpl {
     +createAccessMethodList() : ArrayList<AccessMethod>
 }
 'implements
-AccessMethodListFactoryImpl ..|> "implements" IAccessMethodListFactory
+AccessMethodListFactoryImpl ..|> IAccessMethodListFactory : implements
 
 
-Interface IAccessMethodRepository {
-    +AccessMethodRepository(IAccessMethodFactory : iAccessMethodFactory, IAccessMethodListFactory : iAccessMethodListFactory)
-    +registerAccessMethod(accessMethodName: String) : boolean
-    -isAccessMethodRegistered(accessMethodID: AccessMethodID) : boolean
-    +getAccessMethodByName(String AccessMethodName) : AccessMethod
+Interface IRepository{
+}
+Interface IAccessMethodRepository{
+  +AccessMethodRepository(IAccessMethodListFactory : IAccessMethodListFactory)
+  +registerAccessMethod(accessMethod1: AccessMethod) : boolean
+  -isAccessMethodAlreadyRegistered(accessMethod1: AccessMethod) : boolean
 }
 
+'extends
+IAccessMethodRepository --|> IRepository : extends
+
 class AccessMethodRepositoryImpl {
-    +AccessMethodRepository(IAccessMethodFactory : iAccessMethodFactory, IAccessMethodListFactory : iAccessMethodListFactory)
-    +registerAccessMethod(accessMethodName: String) : boolean
-    -isAccessMethodRegistered(accessMethod: AccessMethod) : boolean
-    +getAccessMethodByName() : AccessMethod
+    +AccessMethodRepository(IAccessMethodListFactory : IAccessMethodListFactory)
+    +registerAccessMethod(accessMethod1: AccessMethod) : boolean
+    -isAccessMethodAlreadyRegistered(accessMethod1: AccessMethod) : boolean
 }
 
 'implements
-AccessMethodRepositoryImpl ..|> "implements" IAccessMethodRepository
+AccessMethodRepositoryImpl ..|>  IAccessMethodRepository : implements
+
 'uses
-IAccessMethodRepository "1 " --> "uses 1"IAccessMethodFactory
-IAccessMethodRepository "1" --> "uses 1" IAccessMethodListFactory
+AccessMethodRepositoryImpl "1" --> "uses 1" IAccessMethodListFactory
 
 class US02_ConfigureAccessMethod_Controller {
-    +US02_ConfigureAccessMethod_Controller(accessMethodRepository : AccessMethodRepository)
-    +configureAccessMethod(accessMethodName: String) : boolean
+    +US02_ConfigureAccessMethod_Controller(accessMethodRepository : IAccessMethodRepository, accessMethodFactory : IAccessMethodFactory)
+    +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
-'uses
-US02_ConfigureAccessMethod_Controller "1" --> "uses 1" IAccessMethodRepository
 
 'creates
-IAccessMethodFactory "1" ..> " creates 1..*" AMAggregate
+IAccessMethodFactory "1" ..> "1..*" AME : creates
+'dependency
+IAccessMethodRepository "1"..> "*" AME
+US02_ConfigureAccessMethod_Controller "1"--> "1" IAccessMethodRepository : uses
+US02_ConfigureAccessMethod_Controller "1"--> "1" IAccessMethodFactory : uses
+US02_ConfigureAccessMethod_Controller ..> AME
 @enduml
