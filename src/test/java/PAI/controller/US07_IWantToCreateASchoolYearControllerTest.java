@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Description;
 import PAI.factory.ISchoolYearFactory;
 import PAI.factory.SchoolYearFactoryImpl;
 import PAI.repository.SchoolYearRepository;
@@ -44,11 +45,12 @@ class US07_IWantToCreateASchoolYearControllerTest {
         //Arrange
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
         US07_IWantToCreateASchoolYearController US07_controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
+        Description description = new Description("School Year 24/25");
 
-        when(schoolYearRepository.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022")).thenReturn(true);
+        when(schoolYearRepository.addSchoolYear(description, "24-09-2021", "20-06-2022")).thenReturn(true);
 
         //Act
-        boolean result = US07_controller.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
+        boolean result = US07_controller.addSchoolYear(description, "24-09-2021", "20-06-2022");
 
         //Assert
         assertTrue(result);
@@ -60,12 +62,13 @@ class US07_IWantToCreateASchoolYearControllerTest {
         //Arrange
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
         US07_IWantToCreateASchoolYearController US07_controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
+        Description description = new Description("School Year 24/25");
 
-        when(schoolYearRepository.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022")).
+        when(schoolYearRepository.addSchoolYear(description, "24-09-2021", "20-06-2022")).
                 thenThrow(new IllegalArgumentException("School year already exists."));
 
         //Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> { US07_controller.addSchoolYear("Ano Letivo de:", "24-09-2021", "20-06-2022");
+        assertThrows(IllegalArgumentException.class, () -> { US07_controller.addSchoolYear(description, "24-09-2021", "20-06-2022");
         });
     }
 
@@ -77,8 +80,9 @@ class US07_IWantToCreateASchoolYearControllerTest {
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearListFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
+        Description description = new Description("School Year 24/25");
 
         // Act + Assert
-        assertTrue(controller.addSchoolYear("School Year 23/24", "01-09-2023", "31-08-2024"));
+        assertTrue(controller.addSchoolYear(description, "01-09-2023", "31-08-2024"));
     }
 }

@@ -1,21 +1,26 @@
 @startuml
 actor ProgrammeDirector
 participant ":UI" as UI
-participant ":Controller1" as KA
+participant ":US23_IWantToKnowTheApprovalPercentageOfACourseEditionController" as KA
+participant ":CourseEditionRepository" as CER
 participant ":GradeStudentRepository" as GR
 participant ":GradeStudent" as GradeStudent
 
 
 ProgrammeDirector -> UI ++ #application: I want to know approval percentage of Course Edition
 UI --> ProgrammeDirector -- : Course Edition?
-ProgrammeDirector -> UI ++ #application: Course Edition!
-UI -> KA ++ #application : IWantToKnowTheApprovalPercentageOfACourseEdition(CourseEdition)
-KA -> GR ++ #application : knowApprovalRate(CourseEdition)
+ProgrammeDirector -> UI ++ #application: CourseEdition1 !
+UI -> KA ++ #application : IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition1)
+KA -> CER ++ #application : findCourseEditionID (courseEdition1)
+CER -> CER : findIdByCourseEdition (CourseEdition1)
+CER -> KA :  ceIdVO1
+deactivate CER
+KA -> GR ++ #application : knowApprovalRate(ceIdVO1)
 
 
 
 loop for each GradeStudent in GR
-    GR -> GradeStudent : hasThisCourseEdition(courseEdition1)
+    GR -> GradeStudent : hasThisCourseEdition(ceIdVO1)
     activate GradeStudent
     GradeStudent --> GR : True!
     deactivate GradeStudent
