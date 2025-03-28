@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -47,7 +48,7 @@ class US11_RegisterProgrammeInTheSystemTest {
 
         // Criar dados de entrada
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        String acronym = "EI";
+        Acronym acronym = new Acronym("CE");
         QuantEcts quantityOfEcts = new QuantEcts(30);
         QuantSemesters quantityOfSemesters = new QuantSemesters(6);
         DegreeType degreeType = mock(DegreeType.class);

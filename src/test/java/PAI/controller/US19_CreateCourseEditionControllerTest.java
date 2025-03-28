@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -477,11 +478,12 @@ class US19_CreateCourseEditionControllerTest {
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
             Course c1 = new Course ("Informatica", "INF", 6, 1);
             Course c2 = new Course("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -512,11 +514,12 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -545,11 +548,12 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -583,11 +587,12 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",

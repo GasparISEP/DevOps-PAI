@@ -10,17 +10,18 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-class StreetTest {
+class PostalCodeTest {
+
     @Test
-    void shouldConstructStreetIfValidString() {
+    void shouldConstructPostalCodeIfValidString() {
         //Arrange
 
         //Act
-        Street s1 = new Street ("Rua de São Pedro, nº12");
+        PostalCode pc1 = new PostalCode ("4452-357");
 
     }
 
-    public static Stream<Arguments> provideInvalidStringForStreet() {
+    public static Stream<Arguments> provideInvalidStringForPostalCode() {
         return Stream.of(
                 arguments(""),
                 arguments(" "),
@@ -29,11 +30,12 @@ class StreetTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideInvalidStringForStreet")
-    void shouldNotConstructStreetIfInvalidString(String street) {
+    @MethodSource("provideInvalidStringForPostalCode")
+    void shouldNotConstructPostalCodeIfInvalidString(String postalCode) {
         //arrange
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new Street(street));
+        assertThrows(IllegalArgumentException.class, () -> new PostalCode(postalCode));
     }
+
 }
