@@ -1,6 +1,7 @@
 package PAI.factory;
 
 import PAI.domain.CourseInStudyPlan;
+import PAI.domain.StudyPlan;
 
 import java.util.ArrayList;
 import java.util.List;

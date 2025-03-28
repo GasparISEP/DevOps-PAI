@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.Date;
 import PAI.VOs.Description;
 import org.junit.jupiter.api.Test;
 
@@ -7,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class SchoolYearTest {
 
@@ -18,8 +20,10 @@ class SchoolYearTest {
     void validArgumentsCreateSchoolYear() {
         // Arrange
         Description description = new Description("School Year 23/24");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
         // Act
-        SchoolYear sy1 = new SchoolYear(description, "01-09-2023", "31-08-2024");
+        SchoolYear sy1 = new SchoolYear(description,startDate,endDate);
         // Assert
         assertNotNull(sy1);
     }
@@ -29,8 +33,10 @@ class SchoolYearTest {
     void sameYearStartAndEndDate() {
         // Arrange
         Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("01-01-2024");
+        Date endDate = new Date ("31-10-2024");
         // Act
-        SchoolYear sy1 = new SchoolYear(description, "01-01-2024", "31-10-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate,endDate);
 
         // Assert
         assertNotNull(sy1);
@@ -40,8 +46,10 @@ class SchoolYearTest {
     void oneDayIntervalIsValid() {
         // Arrange
         Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("01-09-2024");
+        Date endDate = new Date ("02-09-2024");
         // Act
-        SchoolYear sy1 = new SchoolYear(description, "01-09-2024", "02-09-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate,endDate);
 
         // Assert
         assertNotNull(sy1);
@@ -55,9 +63,11 @@ class SchoolYearTest {
     void endDateBeforeStartDateThrowsException() {
         // Arrange
         Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("01-09-2024");
+        Date endDate = new Date ("31-08-2023");
         // Act + Assert
         assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "01-09-2024", "31-08-2023"); // endDate is before startDate
+            new SchoolYear(description, startDate, endDate); // endDate is before startDate
         });
     }
 
@@ -65,37 +75,35 @@ class SchoolYearTest {
     void endDateSameAsStartDateThrowsException() {
         // Arrange
         Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("24-09-2024");
+        Date endDate = new Date ("24-09-2024");
         // Act + Assert
         assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "24-09-2024", "24-09-2024"); // endDate is the same as startDate
-        });
-    }
-
-    @Test
-    void twoDigitYearThrowsException() {
-        // Arrange
-        Description description = new Description("School Year 24/25");
-        // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "24-09-24", "24-09-25"); // Invalid two-digit year
+            new SchoolYear(description, startDate, endDate); // endDate is the same as startDate
         });
     }
 
     @Test
     void nullDescriptionThrowsException() {
+        //Arrange
+        Date startDate = new Date ("24-09-2024");
+        Date endDate = new Date ("24-09-2025");
 
         // Act + Assert
         assertThrows(Exception.class, () -> {
-            new SchoolYear(new Description(null), "10-09-2024", "09-07-2025");
+            new SchoolYear(new Description(null), startDate, endDate);
         });
     }
 
     @Test
     void blankDescriptionThrowsException() {
+        //Arrange
+        Date startDate = new Date ("24-09-2024");
+        Date endDate = new Date ("24-09-2025");
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new SchoolYear(new Description(" "), "10-09-2024", "09-06-2025");
+            new SchoolYear(new Description(" "), startDate, endDate);
         });
     }
 
@@ -103,9 +111,10 @@ class SchoolYearTest {
     void nullStartDateThrowsException() {
         // Arrange
         Description description = new Description("School Year 24/25");
+        Date endDate = new Date ("24-09-2025");
         // Act + Assert
         assertThrows(Exception.class, () -> {
-            new SchoolYear(description, null, "24-06-2025");
+            new SchoolYear(description, null, endDate);
         });
     }
 
@@ -113,19 +122,24 @@ class SchoolYearTest {
     void blankStartDateThrowsException() {
         // Arrange
         Description description = new Description("School Year 24/25");
+
         // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "", "13-06-2025");
+        assertThrows(IllegalArgumentException.class, () -> {
+            Date startDate = new Date("");
+            Date endDate = new Date("24-09-2025");
+            new SchoolYear(description, startDate, endDate);
         });
     }
+
 
     @Test
     void nullEndDateThrowsException() {
         // Arrange
         Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("24-09-2024");
         // Act + Assert
         assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "13-09-2024", null);
+            new SchoolYear(description, startDate, null);
         });
     }
 
@@ -133,38 +147,46 @@ class SchoolYearTest {
     void blankEndDateThrowsException() {
         // Arrange
         Description description = new Description("School Year 24/25");
+
         // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "13-09-2024", "");
+        assertThrows(IllegalArgumentException.class, () -> {
+            Date startDate = new Date("24-09-2023"); // Invalid input
+            Date endDate = new Date("");
+            new SchoolYear(description, startDate, endDate);
         });
     }
 
+
     @Test
-    void invalidDateFormatThrowsException() {
+    void invalidDateFormatThrowsExceptionInSchoolYear() {
         // Arrange
         Description description = new Description("School Year 24/25");
+
         // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "2024-09-24", "2025-06-24"); // Incorrect format
+        assertThrows(IllegalArgumentException.class, () -> {
+            Date startDate = new Date("2024-09-24");
+            Date endDate = new Date("2025-06-24");
+            new SchoolYear(description, startDate, endDate);
         });
     }
+
 
     @Test
     void dateWrittenInWordsThrowsException() {
-        // Arrange
-        Description description = new Description("School Year 24/25");
-        // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(description, "24 de setembro de 2024", "24 de junho de 2025");
-        });
+        assertThrows(IllegalArgumentException.class, () -> new Date("24 de setembro de 2024"));
     }
+
 
     @Test
     void shouldReturnTrueIfTwoSchoolYearsHaveSameStartDateAndEndDate() {
         // Arrange
         Description description = new Description("School Year 23/24");
-        SchoolYear sy1 = new SchoolYear(description, "01-09-2023", "31-08-2024");
-        SchoolYear sy2 = new SchoolYear(description, "01-09-2023", "31-08-2024");
+        Date startDate1 = new Date ("01-09-2023");
+        Date endDate1 = new Date ("31-08-2024");
+        Date startDate2 = new Date ("01-09-2023");
+        Date endDate2 = new Date ("31-08-2024");
+        SchoolYear sy1 = new SchoolYear(description,startDate1,endDate1);
+        SchoolYear sy2 = new SchoolYear(description,startDate2, endDate2);
 
         // Act
         boolean result = (sy1.isSameSchoolYear(sy2));
@@ -177,8 +199,12 @@ class SchoolYearTest {
     void shouldReturnFalseIfTwoSchoolYearsDoNotHaveSameEndDate()  {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(description, "23-11-2024", "09-12-2025");
-        SchoolYear sy2 = new SchoolYear(description, "23-11-2024", "09-10-2025");
+        Date startDate1 = new Date ("23-11-2024");
+        Date endDate1 = new Date ("09-12-2025");
+        Date startDate2 = new Date ("23-11-2024");
+        Date endDate2 = new Date ("09-10-2025");
+        SchoolYear sy1 = new SchoolYear(description, startDate1, endDate1);
+        SchoolYear sy2 = new SchoolYear(description, startDate2, endDate2);
 
         // Act
         boolean result = (sy1.isSameSchoolYear(sy2));
@@ -191,8 +217,12 @@ class SchoolYearTest {
     void shouldReturnFalseIfTwoSchoolYearsDoNotHaveSameStartDate() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(description, "23-11-2024", "09-12-2025");
-        SchoolYear sy2 = new SchoolYear(description, "23-10-2024", "09-12-2025");
+        Date startDate1 = new Date ("23-11-2024");
+        Date endDate1 = new Date ("09-12-2025");
+        Date startDate2 = new Date ("23-10-2024");
+        Date endDate2 = new Date ("09-12-2025");
+        SchoolYear sy1 = new SchoolYear(description, startDate1,endDate1);
+        SchoolYear sy2 = new SchoolYear(description, startDate2, endDate2);
 
         // Act
         boolean result = (sy1.isSameSchoolYear(sy2));
@@ -205,30 +235,30 @@ class SchoolYearTest {
     void shouldReturnEndDateFromSchoolYear() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(description, "23-11-2024", "09-12-2025");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate lc = LocalDate.parse("09-12-2025", formatter);
+        Date startDate = new Date ("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        SchoolYear sy1 = new SchoolYear(description,startDate,endDate);
 
         // Act
-        LocalDate endDate = sy1.getEndDate();
+        Date actualEndDate = sy1.getEndDate();
 
         // Assert
-        assertEquals(endDate, lc);
+        assertEquals(endDate, actualEndDate);
     }
 
     @Test
     void shouldReturnStartDateFromSchoolYear() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(description, "23-11-2024", "09-12-2025");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate lc = LocalDate.parse("23-11-2024", formatter);
+        Date startDate = new Date ("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        SchoolYear sy1 = new SchoolYear(description, startDate,endDate);
 
         // Act
-        LocalDate startDate = sy1.getStartDate();
+        Date actualStartDate = sy1.getStartDate();
 
         // Assert
-        assertEquals(startDate, lc);
+        assertEquals(startDate, actualStartDate);
     }
 
     //US17
@@ -236,8 +266,12 @@ class SchoolYearTest {
     void shouldReturnTrueForEqualSchoolYears() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(  description, "14-10-2024", "30-06-2025");
-        SchoolYear sy2 = new SchoolYear(  description, "14-10-2024", "30-06-2025");
+        Date startDate1 = new Date ("14-10-2024");
+        Date endDate1 = new Date ("30-06-2025");
+        Date startDate2 = new Date ("14-10-2024");
+        Date endDate2 = new Date ("30-06-2025");
+        SchoolYear sy1 = new SchoolYear(  description, startDate1,endDate1);
+        SchoolYear sy2 = new SchoolYear(  description, startDate2,endDate2);
 
         // Act & Assert
         assertTrue(sy1.equals(sy2), "Two identical school years should be equal.");
@@ -249,8 +283,12 @@ class SchoolYearTest {
         // Arrange
         Description description1 = new Description("School Year 23/24");
         Description description2 = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(  description1, "14-10-2024", "30-06-2025");
-        SchoolYear sy2 = new SchoolYear(  description2, "14-10-2025", "30-06-2026");
+        Date startDate1 = new Date ("14-10-2024");
+        Date endDate1 = new Date ("30-06-2025");
+        Date startDate2 = new Date ("14-10-2025");
+        Date endDate2 = new Date ("30-06-2026");
+        SchoolYear sy1 = new SchoolYear(  description1,startDate1,endDate1);
+        SchoolYear sy2 = new SchoolYear(  description2, startDate2, endDate2);
 
         // Act & Assert
         assertFalse(sy1.equals(sy2), "School years with different descriptions should not be equal.");
@@ -261,8 +299,12 @@ class SchoolYearTest {
     void shouldReturnFalseForDifferentStartDates() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(  description, "14-10-2024", "30-06-2025");
-        SchoolYear sy2 = new SchoolYear(  description, "14-11-2024", "30-06-2025");
+        Date startDate1 = new Date ("14-10-2024");
+        Date endDate1 = new Date ("30-06-2025");
+        Date startDate2 = new Date ("14-11-2024");
+        Date endDate2 = new Date ("30-06-2025");
+        SchoolYear sy1 = new SchoolYear(  description, startDate1, endDate1);
+        SchoolYear sy2 = new SchoolYear(  description, startDate2, endDate2);
 
         // Act & Assert
         assertFalse(sy1.equals(sy2), "School years with different start dates should not be equal.");
@@ -273,8 +315,12 @@ class SchoolYearTest {
     void shouldReturnFalseForDifferentEndDates() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(  description, "14-10-2024", "30-06-2025");
-        SchoolYear sy2 = new SchoolYear(  description, "14-10-2024", "30-07-2025");
+        Date startDate1 = new Date ("14-10-2024");
+        Date endDate1 = new Date ("30-06-2025");
+        Date startDate2 = new Date ("14-10-2024");
+        Date endDate2 = new Date ("30-07-2025");
+        SchoolYear sy1 = new SchoolYear(  description, startDate1, endDate1);
+        SchoolYear sy2 = new SchoolYear(  description, startDate2, endDate2);
 
         // Act & Assert
         assertFalse(sy1.equals(sy2), "School years with different end dates should not be equal.");
@@ -285,7 +331,9 @@ class SchoolYearTest {
     void shouldReturnFalseWhenComparedWithNull() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(  description, "14-10-2024", "30-06-2025");
+        Date startDate = new Date ("14-10-2024");
+        Date endDate = new Date ("30-06-2025");
+        SchoolYear sy1 = new SchoolYear(  description,startDate,endDate);
 
         // Act & Assert
         assertFalse(sy1.equals(null), "A school year should not be equal to null.");
@@ -296,7 +344,9 @@ class SchoolYearTest {
     void shouldReturnFalseWhenComparedWithDifferentClass() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(  description, "14-10-2024", "30-06-2025");
+        Date startDate = new Date ("14-10-2024");
+        Date endDate = new Date ("30-06-2025");
+        SchoolYear sy1 = new SchoolYear(  description,startDate, endDate);
         String notASchoolYear = "Not a school year";
 
         // Act & Assert
@@ -308,7 +358,9 @@ class SchoolYearTest {
     void shouldReturnTrueWhenComparedWithItself() {
         // Arrange
         Description description = new Description("School Year 24/25");
-        SchoolYear sy1 = new SchoolYear(  description, "14-10-2024", "30-06-2025");
+        Date startDate = new Date ("14-10-2024");
+        Date endDate = new Date ("30-06-2025");
+        SchoolYear sy1 = new SchoolYear(  description,startDate, endDate);
 
         // Act & Assert
         assertTrue(sy1.equals(sy1), "A school year should be equal to itself.");
@@ -320,8 +372,12 @@ class SchoolYearTest {
         // Arrange
         Description description1 = new Description("School Year 24/25");
         Description description2 = new Description("School Year 23/24");
-        SchoolYear sy1 = new SchoolYear(  description1, "14-10-2024", "30-06-2025");
-        SchoolYear sy2 = new SchoolYear(  description2, "01-09-2023", "15-06-2024");
+        Date startDate1 = new Date ("14-10-2024");
+        Date endDate1 = new Date ("30-06-2025");
+        Date startDate2 = new Date ("01-09-2023");
+        Date endDate2 = new Date ("15-06-2024");
+        SchoolYear sy1 = new SchoolYear(  description1,startDate1, endDate1);
+        SchoolYear sy2 = new SchoolYear(  description2, startDate2, endDate2);
 
         // Act & Assert
         assertFalse(sy1.equals(sy2), "Completely different school years should not be equal.");
