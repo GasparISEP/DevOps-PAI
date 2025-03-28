@@ -26,7 +26,12 @@ public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
     }
 
     @Override
-    public boolean sameAs(Object object) {
+    public boolean sameAs (Object object) {
+
+        if (object instanceof AccessMethodDDD oAccessMethod){
+            return this._accessMethodName.equals(oAccessMethod._accessMethodName);
+        }
+
         return false;
     }
 }
