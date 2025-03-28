@@ -3,12 +3,9 @@ package PAI.domain;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
+import PAI.ddd.AggregateRoot;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
-public class StudentGrade {
+public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
     private Grade _grade;
     private Date _date;
@@ -36,10 +33,6 @@ public class StudentGrade {
         return _grade;
     }
 
-    public StudentGradeID get_studentGrade_id() {
-        return _studentGrade_id;
-    }
-
     public boolean hasThisCourseEdition(CourseEdition courseEdition) {
         return _courseEdition.equals(courseEdition);
     }
@@ -52,7 +45,8 @@ public class StudentGrade {
         return _courseEdition;
     }
 
-    public StudentGradeID get_StudentGradeID (){
+    @Override
+    public StudentGradeID identity(){
         return _studentGrade_id;
     }
 
@@ -79,6 +73,7 @@ public class StudentGrade {
         }
         return false;
     }
+
 
     public boolean sameAs(Object object) {
 

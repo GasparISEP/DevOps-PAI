@@ -6,7 +6,6 @@ import PAI.VOs.StudentGradeID;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -360,7 +359,7 @@ class StudentGradeTest {
         Date dateDouble = mock(Date.class);
         StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
         //act
-        StudentGradeID result = studentGradeDouble1.get_studentGrade_id();
+        StudentGradeID result = studentGradeDouble1.identity();
         //assert
         assertNotNull(result);
     }
@@ -410,7 +409,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEdition);
 
         // Act
-        StudentGradeID id = studentGrade.get_StudentGradeID();
+        StudentGradeID id = studentGrade.identity();
 
         // Assert
         assertNotNull(id);

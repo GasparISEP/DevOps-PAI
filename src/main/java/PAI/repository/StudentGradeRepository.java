@@ -92,7 +92,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     public Optional<StudentGradeID> findIdByStudent (StudentGrade studentGrade){
         for(StudentGrade existingStudentGrade : _StudentGradeList){
             if(existingStudentGrade.equals(studentGrade)){
-                return Optional.of(studentGrade.get_StudentGradeID()) ;
+                return Optional.of(studentGrade.identity()) ;
             }
         }
         return Optional.empty();
