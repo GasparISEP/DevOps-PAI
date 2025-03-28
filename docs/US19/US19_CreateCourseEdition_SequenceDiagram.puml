@@ -7,9 +7,9 @@ participant ":UI" as UI
 participant ":CreateCourseEditionController" as CT
 participant ":DegreeTypeRepository" as DTR
 participant ":ProgrammeRepository" as PR
-participant ":ProgrammeEditionRepository" as PER
 participant ":StudyPlanRepository" as SPR
 participant ":CourseInStudyPlanRepository" as CSPR
+participant ":ProgrammeEditionRepository" as PER
 participant ":CourseEditionRepository" as CER
 participant ":CourseEditionFactory" as CEF
 
@@ -25,51 +25,48 @@ CT --> UI -- : dTL1_DTO
 UI --> ASC -- : which degree type??
 
 ASC -> UI ++ #application :  degree Type 1!
-UI -> CT ++ #application: getAllProgrammes(dTDTO1)
+UI -> CT ++ #application: getAllProgrammes(dT1_DTO)
 ref over CT
     Convert DegreeTypeDTO to DegreeTypeID
 end ref
-CT -> PR ++ #application: getAllProgrammes(degreeTypeID1)
+CT -> PR ++ #application: getAllProgrammes(dT1ID)
 PR --> CT -- : pL1
 ref over CT
     Convert ProgrammeList to ProgrammeDTOList
 end ref
-CT --> UI -- : pLDTO1
+CT --> UI -- : pL1_DTO
 UI --> ASC -- : which programme??
 
 ASC -> UI ++ #application : programme 1!
-UI -> CT ++ #application: getAllProgrammeEditions(pDTO1)
+UI -> CT ++ #application: getLatestStudyPlanId(p1_DTO)
 ref over CT
     Convert ProgrammeDTO to ProgrammeID
 end ref
-CT -> PER ++ #application: getAllProgrammeEditions(pID1)
-PER --> CT -- : pEL1
-ref over CT
-    Convert ProgrammeEditionList to ProgrammeEditionDTOList
-end ref
-CT --> UI -- : pELDTO1
-UI --> ASC -- : which programmeEdition??
-
-
-ASC -> UI ++ #application : programme edition 1!
-UI -> CT ++ #application: getLatestStudyPlanId(programmeDTO1)
-ref over CT
-    Convert ProgrammeEditionDTO to ProgrammeEditionID
-end ref
-CT -> SPR ++ #application: getLatestStudyPlanId(programmeID1)
-SPR --> CT -- : studyPlanID1
-CT -> CSPR ++ #application: getCoursesInStudyPlan(studyPlanID1)
+CT -> SPR ++ #application: getLatestStudyPlanId(p1_ID)
+SPR --> CT -- : sP1_ID
+CT -> CSPR ++ #application: getCoursesInStudyPlan(sP1_ID)
 CSPR --> CT -- : cSPL1
 ref over CT
     Convert CourseInStudyPlanList to CourseInStudyPlanDTOList
 end ref
-CT --> UI -- : cSPLDTO1
+CT --> UI -- : cSPL1_DTO
 UI --> ASC -- : which course from the study plan??
 
-
 ASC -> UI ++ #application : course in study plan 1!
-UI -> CT ++ #application : createCourseEdition(cSPDTO1,pEID1)
+UI -> CT ++ #application: getAllProgrammeEditions(p1_ID)
+CT -> PER ++ #application: getAllProgrammeEditions(p1_ID)
+PER --> CT -- : pEL1
 ref over CT
+    Convert ProgrammeEditionList to ProgrammeEditionDTOList
+end ref
+CT --> UI -- : pEL1_DTO
+UI --> ASC -- : which programmeEdition??
+
+
+ASC -> UI ++ #application : programme edition 1!
+UI -> CT ++ #application : createCourseEdition(cSP1_DTO,pE1_DTO)
+ref over CT
+    Convert ProgrammeEditionDTO to ProgrammeEditionID
     Convert CourseInStudyPlanDTO to CourseInStudyPlanID
 end ref
 CT -> CER ++ #application : createAndSaveCourseEdition(cSpID1,pEID1)
@@ -87,13 +84,16 @@ CER --> CT --: true
 CT --> UI --: true
 UI --> ASC --: true
 
-participant "dTL1:List<DegreeType>" as dTL1
-participant "pL1:List<Programme>" as PL
-participant "p1:Programme" as PG
-participant "pID1:ProgrammeID" as PG
-participant "ciSPL1:List<CourseInStudyPlan>" as CSPL
-participant "pL1:List<Programme>" as PL
-participant "pE1:ProgrammeEdition" as PE
+participant "dTL1\n:List<DegreeType>" as DTL
+participant "dTL1_DTO\n:List<DegreeTypeDTO>" as DTL_DTO
+participant "dT1_DTO\n:DegreeTypeDTO" as DT_DTO
+participant "dT1ID\n:DegreeTypeID" as DTID
+participant "pL1\n:List<Programme>" as PL
+participant "pL1_DTO\n:List<ProgrammeDTO>" as PLDTO
+participant "p1_DTO\n:Programme" as PGDTO
+participant "p1ID\n:ProgrammeID" as PGID
+participant "cSPL1\n:List<CourseInStudyPlan>" as CSPL
+participant "cSPL1\n:List<CourseInStudyPlan>" as CSPL
 
 
 @enduml
