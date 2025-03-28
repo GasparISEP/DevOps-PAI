@@ -53,7 +53,6 @@ public class CourseEditionEnrolmentRepository {
 
     //US24
     public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) throws Exception {
-        validateCourseEdition(courseEdition);
 
         int count = 0;
         for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
@@ -62,13 +61,6 @@ public class CourseEditionEnrolmentRepository {
             }
         }
         return count;
-    }
-
-    // Private method to validate Course Edition
-    private void validateCourseEdition(CourseEdition courseEdition) throws Exception {
-        if (courseEdition == null) {
-            throw new Exception("Course edition cannot be null.");
-        }
     }
 
     // Method to remove (deactivate) an enrollment

@@ -368,22 +368,6 @@ class CourseEditionEnrolmentRepositoryTest {
         assertEquals(0, studentsEnrolled);
     }
 
-    @Test
-    void testNumberOfStudentsEnrolledInCourseEdition_NullCourseEdition_ShouldThrowException() {
-        // Arrange
-        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
-        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
-
-        // Act & Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            repository.numberOfStudentsEnrolledInCourseEdition(null);
-        });
-
-        // Assert
-        assertEquals("Course edition cannot be null.", exception.getMessage());
-    }
-
     // System should allow the successful removal of a student enrolled in a course edition
     @Test
     void removeExistingEnrollment_ShouldReturnTrue() {
