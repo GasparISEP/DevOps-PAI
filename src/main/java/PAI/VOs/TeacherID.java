@@ -1,6 +1,8 @@
 package PAI.VOs;
 
-public class TeacherID {
+import PAI.ddd.ValueObject;
+
+public class TeacherID implements ValueObject {
 
     private final String _acronym;
 

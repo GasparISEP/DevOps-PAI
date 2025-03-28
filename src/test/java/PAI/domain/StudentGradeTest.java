@@ -6,7 +6,6 @@ import PAI.VOs.StudentGradeID;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -194,7 +193,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
         StudentGrade studentGrade1 = studentGrade;
         //act
-        boolean result = studentGrade.sameAs(studentGrade1);
+        boolean result = studentGrade.equals(studentGrade1);
         //assert
         assertTrue(result);
     }
@@ -212,26 +211,9 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
         //act
-        boolean result = studentGrade.sameAs(teacher);
+        boolean result = studentGrade.equals(teacher);
         //assert
         assertFalse(result);
-    }
-    @Test
-
-    void shouldReturnTrueWhenSameContent() throws Exception{
-        //arrange
-        Student student1 = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
-        Grade grade = mock(Grade.class);
-        Date dateDouble = mock(Date.class);
-
-        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
-        StudentGrade studentGrade1 = new StudentGrade(grade, dateDouble, student1, courseEdition1);
-
-        //act
-        boolean result = studentGrade.sameAs(studentGrade1);
-        //assert
-        assertTrue(result);
     }
 
     @Test
@@ -262,7 +244,7 @@ class StudentGradeTest {
     StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition1);
 
     //act
-    boolean result = studentGrade.sameAs(null);
+    boolean result = studentGrade.equals(null);
     //assert
     assertFalse(result);
 }
@@ -360,7 +342,7 @@ class StudentGradeTest {
         Date dateDouble = mock(Date.class);
         StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
         //act
-        StudentGradeID result = studentGradeDouble1.get_studentGrade_id();
+        StudentGradeID result = studentGradeDouble1.identity();
         //assert
         assertNotNull(result);
     }
@@ -410,10 +392,40 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEdition);
 
         // Act
-        StudentGradeID id = studentGrade.get_StudentGradeID();
+        StudentGradeID id = studentGrade.identity();
 
         // Assert
         assertNotNull(id);
     }
 
+    //sameAs
+    @Test
+    void shouldReturnFalseIfObjectsSameAreFromDifferentInstances() throws Exception{
+        // Arrange
+        Grade grade = mock(Grade.class);
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Date dateDouble = mock(Date.class);
+
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEdition);
+        //act
+        boolean result = studentGrade.sameAs(student);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfHaveSameContent() throws Exception{
+        // Arrange
+        Grade grade = mock(Grade.class);
+        Student student = mock(Student.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Date dateDouble = mock(Date.class);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEdition);
+        StudentGrade studentGrade1 = new StudentGrade(grade, dateDouble, student, courseEdition);
+        //act
+        boolean result = studentGrade.sameAs(studentGrade1);
+        //assert
+        assertTrue(result);
+    }
 }

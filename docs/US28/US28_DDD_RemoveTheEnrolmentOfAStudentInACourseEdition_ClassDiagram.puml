@@ -1,16 +1,17 @@
 @startuml
 title US28: As an ASC, I want to remove the enrolment of a student in a course edition - Class Diagram
-!pragma layout smetana
+'!pragma layout smetana
 skinparam classBackgroundColor #E1F5FE
 skinparam titleFontSize 18
+skinparam linetype ortho
 
 class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
     +US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller\n(courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository)
     +removeStudentEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
 }
 
-package "CourseEditionEnrolment Aggregate" #PaleGreen{
-class CourseEditionEnrolment <<root>>{
+package "CourseEditionEnrolment Aggregate" #LightYellow{
+class CourseEditionEnrolment <<Root>> <<Entity>>{
     +CourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
     +hasStudent() : boolean
     +hasCourseEdition() : boolean
@@ -43,8 +44,8 @@ interface ICourseEditionEnrolmentRepository {
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
 }
 
-package "Student Aggregate" #LightBlue{
-class Student <<root>>{
+package "Student Aggregate" #LightYellow{
+class Student <<Root>> <<Entity>>{
     -_name:Name
     -_NIF:NIF
     -_phone:Phone
@@ -63,8 +64,8 @@ class StudentID <<Value Object>> {
 }
 
 
-package "CourseEdition Aggregate" #FFEE58{
-class CourseEdition <<root>>{
+package "CourseEdition Aggregate" #LightYellow{
+class CourseEdition <<Root>> <<Entity>>{
     -_courseInStudyPlan: CourseInStudyPlan
     -_programmeEdition: ProgrammeEdition
     -_ruc: Teacher
@@ -79,8 +80,9 @@ class CourseEditionID <<Value Object>> {
 }
 
 class CourseEditionEnrolmentID <<Value Object>> {
-    -_courseEditionEnrolmentID : int
-    + CourseEditionEnrolmentID\n(courseEditionEnrolmentID : int)
+    -_id : int
+    + CourseEditionEnrolmentID\n(id : int)
+    + equals(object: Object) : boolean
     }
 
 class CourseEditionEnrolmentFactoryImpl {
