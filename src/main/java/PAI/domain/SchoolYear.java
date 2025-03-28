@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.Description;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,15 +9,15 @@ import java.util.Objects;
 
 public class SchoolYear {
 
-    private String _description;
+    private Description _description;
     private LocalDate _startDate;
     private LocalDate _endDate;
 
     // Constructor
-    public SchoolYear(String description, String startDate, String endDate) {
+    public SchoolYear(Description description, String startDate, String endDate) {
 
         try {
-            validateParameters(description, startDate, endDate);
+            validateParameters (startDate, endDate);
             _description = description;
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
@@ -23,10 +25,7 @@ public class SchoolYear {
     }
 
     // Validation of parameters
-    private void validateParameters(String description, String startDate, String endDate) {
-
-        if (description == null || description.isBlank())
-            throw new IllegalArgumentException("Description cannot be null or blank.");
+    private void validateParameters( String startDate, String endDate) {
 
         if (startDate == null || startDate.isBlank())
             throw new IllegalArgumentException("Start date cannot be null or blank.");

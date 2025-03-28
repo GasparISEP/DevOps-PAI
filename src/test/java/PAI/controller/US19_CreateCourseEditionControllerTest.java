@@ -1,7 +1,11 @@
 package PAI.controller;
 
+<<<<<<< Updated upstream
 import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+=======
+import PAI.VOs.Description;
+>>>>>>> Stashed changes
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
@@ -347,7 +351,8 @@ class US19_CreateCourseEditionControllerTest {
                 IStudyPlanFactory,
                 ICourseFactory);
 
-        schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        schoolYear = new SchoolYear(description, "23-11-2024", "09-12-2025");
 
         programmeEdition = new ProgrammeEdition(programme, schoolYear);
     }

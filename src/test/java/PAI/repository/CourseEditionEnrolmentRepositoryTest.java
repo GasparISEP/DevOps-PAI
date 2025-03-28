@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.Description;
 import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
@@ -689,7 +690,8 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -729,7 +731,8 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -767,7 +770,8 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -808,7 +812,8 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -851,7 +856,8 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -896,7 +902,8 @@ class CourseEditionEnrolmentRepositoryTest {
         programme1.addCourseToAProgramme(c1);
         programme1.addCourseToAProgramme(c2);
 
-        SchoolYear schoolYear = new SchoolYear("2024-2025", "01-09-2024", "31-07-2025");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2024", "31-07-2025");
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition1 = new CourseEdition(c1, pe);
         CourseEdition courseEdition2 = new CourseEdition(c2, pe);

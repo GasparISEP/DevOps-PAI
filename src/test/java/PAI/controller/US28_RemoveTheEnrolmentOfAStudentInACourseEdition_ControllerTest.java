@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Description;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
@@ -193,7 +194,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
@@ -228,7 +230,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
@@ -262,7 +265,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
@@ -299,7 +303,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
@@ -338,7 +343,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
@@ -376,7 +382,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYear schoolYear = new SchoolYear("2025-2026", "01-09-2025", "31-07-2026");
+        Description description = new Description("School Year 24/25");
+        SchoolYear schoolYear = new SchoolYear(description, "01-09-2025", "31-07-2026");
         ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);

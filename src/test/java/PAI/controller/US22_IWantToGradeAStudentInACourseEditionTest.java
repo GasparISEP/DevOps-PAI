@@ -1,7 +1,11 @@
 
 package PAI.controller;
 
+<<<<<<< Updated upstream
 import PAI.VOs.Date;
+=======
+import PAI.VOs.Description;
+>>>>>>> Stashed changes
 import PAI.VOs.Grade;
 import PAI.domain.*;
 import PAI.factory.*;
@@ -104,7 +108,8 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory,
                 IStudyPlanFactory, ICourseFactory);
         p1.addCourseToAProgramme(c1);
-        SchoolYear sY1 = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        SchoolYear sY1 = new SchoolYear(description, "23-11-2024", "09-12-2025");
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);

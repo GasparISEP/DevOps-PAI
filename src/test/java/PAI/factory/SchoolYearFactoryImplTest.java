@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.Description;
 import PAI.domain.SchoolYear;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -16,7 +17,8 @@ class SchoolYearFactoryImplTest {
     @Test
     void whenConstructorInvokedThenMockedObjectShouldBeCreated() {
         //arrange
-        String description = "School Year 23/24";
+        Description description = mock(Description.class);
+        when(description.getDescription()).thenReturn("School Year 2023/2024");
         String startDate = "01-09-2023";
         String endDate = "31-08-2024";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -32,7 +34,7 @@ class SchoolYearFactoryImplTest {
             ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
 
             //act
-            SchoolYear schoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
+            SchoolYear schoolYear = schoolYearFactory.createSchoolYear( description, startDate, endDate);
 
             //assert
             List<SchoolYear> schoolYears = schoolYearDouble.constructed();
@@ -47,7 +49,9 @@ class SchoolYearFactoryImplTest {
     void mockingConstructorThrowingException() {
         //arrange
         ISchoolYearFactory factory = new SchoolYearFactoryImpl();
-        String description = "";
+        Description description = mock(Description.class);
+        when(description.getDescription()).thenReturn("School Year 2023/2024");
+
         String startDate = "01-09-2023";
         String endDate = "31-08-2024";
 
