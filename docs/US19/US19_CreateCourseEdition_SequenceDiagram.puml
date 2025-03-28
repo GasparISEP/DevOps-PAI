@@ -19,7 +19,7 @@ UI -> CT ++ #application: getAllDegreeTypes()
 CT -> DTR ++ #application: getAllDegreeTypes()
 DTR --> CT -- : dTL1
 ref over CT
-    Convert DregreeTypeList to DegreeTypeListDTO
+    Convert DregreeTypeList to DegreeTypeDTOList
 end ref
 CT --> UI -- : dTL1_DTO
 UI --> ASC -- : which degree type??
@@ -32,7 +32,7 @@ end ref
 CT -> PR ++ #application: getAllProgrammes(degreeTypeID1)
 PR --> CT -- : pL1
 ref over CT
-    Convert ProgrammeList to ProgrammeListDTO
+    Convert ProgrammeList to ProgrammeDTOList
 end ref
 CT --> UI -- : pLDTO1
 UI --> ASC -- : which programme??
@@ -45,7 +45,7 @@ end ref
 CT -> PER ++ #application: getAllProgrammeEditions(pID1)
 PER --> CT -- : pEL1
 ref over CT
-    Convert ProgrammeEditionList to ProgrammeEditionListDTO
+    Convert ProgrammeEditionList to ProgrammeEditionDTOList
 end ref
 CT --> UI -- : pELDTO1
 UI --> ASC -- : which programmeEdition??
@@ -61,7 +61,7 @@ SPR --> CT -- : studyPlanID1
 CT -> CSPR ++ #application: getCoursesInStudyPlan(studyPlanID1)
 CSPR --> CT -- : cSPL1
 ref over CT
-    Convert CourseInStudyPlanList to CourseInStudyPlanListDTO
+    Convert CourseInStudyPlanList to CourseInStudyPlanDTOList
 end ref
 CT --> UI -- : cSPLDTO1
 UI --> ASC -- : which course from the study plan??
@@ -77,7 +77,7 @@ CER -> CEF ++ #application : createCourseEdition(cSpID1,pEID1)
 
 
 create "cE1:CourseEdition" as CE #lightblue
-CEF --> CE : <create> (cSpID1,pEID1)
+CEF --> CE : <create> (cEID1, cSpID1,pEID1)
 CE -> CE : isCourseInStudyPlanValid (cSpID1,pEID1)
 CEF --> CER -- : cE1
 CER -> CER : isCourseEditionAlreadyInRepository (cE1)
