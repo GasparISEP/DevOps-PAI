@@ -2,7 +2,6 @@ package PAI.domain.accessMethod;
 
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.AccessMethod;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -53,6 +52,17 @@ class AccessMethodDDDFactoryImplTest {
                 assertTrue(e.getCause().getMessage().contains("AccessMethod constructor failed"));
             }
         }
+    }
+
+    @Test
+    void shouldNotCreateAccessMethod(){
+        //arrange
+        AccessMethodDDDFactoryImpl accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        AccessMethodID accessMethodID = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        //act + assert
+        assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(null, accessMethodName));
+        assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(accessMethodID, null));
     }
 
 }
