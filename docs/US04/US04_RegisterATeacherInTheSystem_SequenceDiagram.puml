@@ -4,57 +4,44 @@ autonumber
 title US04: Register a Teacher in the System
 
 actor Administrator
-participant ":UI" as UI
+participant ": UI" as UI
 participant ":US04_IWantToRegisterATeacherInTheSystemController" as Controller
-participant ":TeacherCategoryRepository" as TeacherCategoryRepository
-participant ":TeacherCategory" as TeacherCategory
-participant ":DepartmentRepository" as DepartmentRepository
-participant ":TeacherRepository" as TeacherRepository
-participant ":TeacherFactoryInterface" as TeacherFactory
-participant "t1:Teacher" as Teacher
-participant ":TeacherList" as TeacherI
+participant ": DepartmentRepository" as DepartmentRepository
+participant ": TeacherRepository" as TeacherRepository
+participant ": TeacherFactoryInterface" as TeacherFactory
+participant "t1: Teacher" as Teacher
+participant ": TeacherList" as TeacherI
 
 Administrator -> UI : I want to register a teacher in the system.
 activate UI #ddfada
-UI --> Administrator: What data: acronym, name, email, nif, phoneNumber,\n academicBackground, street, postalCode, location, country,\n date, category, workingPercentage, department?
+UI --> Administrator: What data: teacherID, name, email, nif, phoneNumber,\n academicBackground,address,departmentID?
 deactivate UI
-Administrator -> UI: Enter data: acronym, name, email, nif, phoneNumber,\n academicBackground, street, postalCode, location, country,\n date, category, workingPercentage, department!
+Administrator -> UI: Enter data: teacherID, name, email, nif, phoneNumber,\n academicBackground,address, departmentID!
 activate UI #ddfada
 UI --> Administrator : Sure?
 deactivate UI
 Administrator -> UI: Yes!
 activate UI #ddfada
-UI -> Controller : registerATeacherInTheSystem(acronym,name,email,nif,phoneNumber, academicBackground, \n street,postalCode,location,country,date,category,workingPercentage,department)
+UI -> Controller : registerATeacherInTheSystem( teacherID, name, email, nif, phoneNumber,\n academicBackground,address, departmentID)
 activate Controller #ddfada
-Controller -> TeacherCategoryRepository : isCategoryInTeacherCategoryRepository(category)
-activate TeacherCategoryRepository #ddfada
-loop for each "tc[i]:TeacherCategory in TeacherCategoryRepository
-TeacherCategoryRepository -> TeacherCategory: getName (name)
-activate TeacherCategory  #ddfada
-TeacherCategory --> TeacherCategoryRepository: Optional.of(category)
-deactivate TeacherCategory
-end
-TeacherCategoryRepository --> Controller : True
-deactivate TeacherCategoryRepository
-Controller -> DepartmentRepository : isDepartmentInDepartmentRepository(category)
+Controller -> DepartmentRepository : isDepartmentInDepartmentRepository(departmentID)
 activate DepartmentRepository  #ddfada
 DepartmentRepository -->Controller : True
 deactivate DepartmentRepository
-Controller -> TeacherRepository: registerTeacher(acronym,name,email,nif,phoneNumber,academicBackground,street,\n postalCode,location,country,date,category,workingPercentage,department)
+Controller -> TeacherRepository: registerTeacher(teacherID, name, email, nif, phoneNumber,\n academicBackground,address, departmentID)
 activate TeacherRepository #ddfada
 
-TeacherRepository -> TeacherFactory: createTeacher (acronym,name,email,nif,phoneNumber,academicBackground,street,\n postalCode,location,country,date,category,workingPercentage,department)
-activate TeacherFactory #ddfada
-TeacherFactory -> Teacher **: createTeacher (acronym,name,email,nif,phoneNumber,academicBackground,street,\n postalCode,location,country,date,category,workingPercentage,department)
+TeacherRepository -> TeacherFactory: createTeacher (teacherID, name, email, nif, phoneNumber,\n academicBackground,address, departmentID)
+TeacherFactory -> Teacher **: createTeacher (teacherID, name, email, nif, phoneNumber,\n academicBackground,address, departmentID)
 activate Teacher #ddfada
 Teacher --> TeacherFactory: t1
 deactivate Teacher
 TeacherFactory --> TeacherRepository: t1
 deactivate TeacherFactory
 loop for each Teacher t[i] in TeacherRepository
-TeacherRepository -> TeacherI: compareTeacherAcronymAndNifInList (t1:Teacher)
+TeacherRepository -> TeacherI: compareTeacherIDAndNifInList (t1:Teacher)
 activate TeacherI #ddfada
-TeacherI --> TeacherRepository: Acronym and NIF are not in the list
+TeacherI --> TeacherRepository: TeacherID and NIF are not in the list
 deactivate TeacherI
 end
 TeacherRepository -> TeacherI: add (t1:Teacher)
