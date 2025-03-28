@@ -1,0 +1,94 @@
+@startuml
+
+skinparam ranksep 180
+skinparam linetype ortho
+skinparam nodesep 180
+
+' ======= DDD Base Interfaces =======
+interface "<<DDD>>\nAggregateRoot<ID>" as IAggregateRoot
+interface "<<DDD>>\nDomainEntity<ID>" as IDomainEntity
+interface "<<DDD>>\nValueObject" as IValueObject
+interface "<<DDD>>\nDomainId" as IDomainId
+interface "<<DDD>>\nIRepository<ID, T>" as IRepository
+
+' ======= AGGREGATE =======
+package "TeacherCategory Aggregate" {
+    entity "<<Root>>\n<<Aggregate>>\nTeacherCategoryV2" as TCA {
+        + TeacherCategoryV2(id: TeacherCategoryID, name: Name)
+        + getId(): TeacherCategoryID
+        + getName(): Name
+        + getIdValue(): UUID
+        + getNameValue(): String
+        + identity(): TeacherCategoryID
+        + sameAs(Object obj): boolean
+        + equals(Object obj): boolean
+        + hashCode(): int
+    }
+
+    class "<<Value Object>>\nName" as VOName {
+        - name: String
+        + getName(): String
+        + equals(Object obj): boolean
+    }
+
+    class "<<Value Object>>\nTeacherCategoryID" as VOId {
+        - id: UUID
+        + TeacherCategoryID()
+        + TeacherCategoryID(UUID id)
+        + getValue(): UUID
+        + equals(Object obj): boolean
+        + hashCode(): int
+    }
+
+    ' Associations
+    TCA "1" --> "1" VOName : uses
+    TCA "1" --> "1" VOId : uses
+
+    ' Inheritance / Implements
+    TCA ..|> IAggregateRoot
+    TCA ..|> IDomainEntity
+    VOId ..|> IDomainId
+    VOId ..|> IValueObject
+    VOName ..|> IValueObject
+}
+
+' ======= FACTORY =======
+package "PAI.factory" {
+    interface "<<Factory Interface>>\nTeacherCategoryFactoryInterface" as ITCFactory {
+        + createTeacherCategory(name: Name): TeacherCategoryV2
+    }
+
+    class "TeacherCategoryFactoryImpl" as TCFactoryImpl {
+        + createTeacherCategory(name: Name): TeacherCategoryV2
+    }
+
+    ITCFactory <|.. TCFactoryImpl : implements
+    TCFactoryImpl --> TCA : creates
+    TCFactoryImpl --> VOName : uses
+    TCFactoryImpl --> VOId : generates
+}
+
+' ======= REPOSITORY =======
+package "PAI.repository" {
+    interface "<<Repository>>\nITeacherCategoryRepository" as ITCRepo {
+        + save(category: TeacherCategoryV2): TeacherCategoryV2
+        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategoryV2>
+        + containsOfIdentity(id: TeacherCategoryID): boolean
+        + findAll(): Iterable<TeacherCategoryV2>
+    }
+
+    class "TeacherCategoryRepositoryImpl" as TCRepoImpl {
+        + save(category: TeacherCategoryV2): TeacherCategoryV2
+        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategoryV2>
+        + containsOfIdentity(id: TeacherCategoryID): boolean
+        + findAll(): Iterable<TeacherCategoryV2>
+    }
+
+    IRepository <|.. ITCRepo : extends
+    ITCRepo <|.. TCRepoImpl : implements
+
+    TCRepoImpl --> TCA : stores
+    TCRepoImpl --> VOId : looks up
+}
+
+@enduml
