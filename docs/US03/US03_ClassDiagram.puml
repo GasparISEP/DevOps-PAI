@@ -3,13 +3,13 @@
 
 
 class US03addCourseToProgrammeController {
-    - programmeList: ProgrammeList
     - courseRepository: CourseRepository
     - studyPlanRepository: StudyPlanRepository
+    - courseInStudyPlanRepository: CourseInStudyPlanRepository
     + getAllProgrammes(): List<Programme>
     + getAllCourses(): List<Course>
     + getAllStudyPlans(): List<StudyPlan>
-    + addCourseToProgramme(programme: Programme, course: Course): boolean
+    + addCourseToProgramme(studyPlanID: StudyPlanID, courseID: CourseID, semester: Semester, curricularYear: CurricularYear): boolean
 }
 
 class StudyPlanRepositoryImpl {
@@ -21,7 +21,7 @@ class StudyPlanRepositoryImpl {
 class CourseRepositoryImpl {
     - _courseFactory: CourseFactory
     -_courseRepository:ArrayList<Course>
-    +registerCourse (courseName: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
+    +registerCourse (courseName: Name, acronym: Acronym, quantityCreditsECTS: QuantityCreditsEcts, durationCourseInSemester: DurationCourseInSemester)
     +isCourseRegistered (course: Course)
     +getAllCourses()
 }
@@ -37,7 +37,7 @@ class CourseInStudyPlanFactoryImpl {
 }
 
 
-interface IProgrammeRepository {
+interface ICourseInStudyPlanRepository {
 }
 
 interface IStudyPlanRepository {
@@ -46,23 +46,19 @@ interface IStudyPlanRepository {
 interface ICourseRepository {
 }
 
-class ProgrammeRepositoryImpl {
-     - _programmeFactory: ProgrammeFactory
-     - _programmeRepo: List<Programme>
-     - _programmeRepositoryListFactory: ProgrammeRepositoryListFactory
-     +registerProgramme(String : name, String : acronym, int : quantityOfEcts, int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
-     +changeProgrammeDirector(Programme programme, Teacher newDirector)
-     +getAllProgrammes()
-     +getCourseList(programme: Programme)
-     +getProgrammeByName(String name)
-     +getProgrammeByAcronym(String acronym)
-     +getAllProgrammeNames()
+class CourseInStudyPlanRepositoryImpl {
+     + registerCourseInStudyPlan(semester: Semester, curricularYear: CurricularYear, course: CourseID, studyPlanID:  StudyPlanID)
 
 }
 
 package "CourseInStudyPlan Aggregate" {
     class "<<root>>\nCourseInStudyPlan" {
-        +CourseInStudyPlan(semester: int, curricularYear: int, course: Course, programme: Programme)
+        - courseInStudyPlanID: CourseInStudyPlanID
+        - studyPlanID: StudyPlanID
+        - courseID: CourseID
+        - curricularYear: CurricularYear
+        - semester: Semester
+        +CourseInStudyPlan(semester: Semester, curricularYear: CurricularYear, course: CourseID, studyPlanID:  StudyPlanID)
         +equals(ObjectToCompare: Object): boolean
         +getCourse(): Course
         +getSemester(): Semester
@@ -71,7 +67,7 @@ package "CourseInStudyPlan Aggregate" {
     class Semester <<ValueObject>> {
         -_semester: int
         +isSemesterValid(int semester): boolean
-        +getSemester()
+        +getSemester(): int
     }
 
     class CurricularYear <<ValueObject>> {
@@ -81,29 +77,35 @@ package "CourseInStudyPlan Aggregate" {
             +getCurricularYear(): int
     }
 
-    class CourseInStudyPlanID <<ValueObject>> {}
+    class CourseInStudyPlanID <<ValueObject>> {
+        - uuid: UUID
+    }
 
-    class CourseID <<ValueObject>> {}
+    class CourseID <<ValueObject>> {
+        - uuid: UUID
+    }
 
-    class StudyPlanID <<ValueObject>> {}
+    class StudyPlanID <<ValueObject>> {
+        - uuid: UUID
+    }
 }
 
 
 
 
 US03addCourseToProgrammeController "1" -down--> "*" IStudyPlanRepository: uses
-US03addCourseToProgrammeController "1" -down--> "*" IProgrammeRepository: uses
+US03addCourseToProgrammeController "1" -down--> "*" ICourseInStudyPlanRepository: uses
 US03addCourseToProgrammeController "1" -down--> "*" ICourseRepository: uses
 
-ProgrammeRepositoryImpl -up..|> IProgrammeRepository: implements
-CourseRepositoryImpl -up..|> ICourseRepository : implements
+CourseInStudyPlanRepositoryImpl -up..|> ICourseInStudyPlanRepository: implements
+CourseRepositoryImpl -up...|> ICourseRepository : implements
 StudyPlanRepositoryImpl -up..|> IStudyPlanRepository: implements
 
-IProgrammeRepository -down--|> IRepository: extends
+ICourseInStudyPlanRepository -down--|> IRepository: extends
 ICourseRepository -down--|> IRepository: extends
 IStudyPlanRepository -down--|> IRepository: extends
 
-StudyPlanRepositoryImpl "1" -down-> "1" ICourseInStudyPlanFactory: uses
+CourseInStudyPlanRepositoryImpl "1" -down-> "1" ICourseInStudyPlanFactory: uses
 CourseInStudyPlanFactoryImpl -right..|> ICourseInStudyPlanFactory: implements
 ICourseInStudyPlanFactory "1" -right-> "1..*" "CourseInStudyPlan Aggregate": creates
 
