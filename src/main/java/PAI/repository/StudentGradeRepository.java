@@ -1,16 +1,19 @@
 package PAI.repository;
 
+import PAI.VOs.Date;
 import PAI.VOs.Grade;
+import PAI.VOs.StudentGradeID;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
 import PAI.domain.Student;
 import PAI.factory.IStudentGradeListFactory;
+import PAI.factory.IStudentGradeRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class StudentGradeRepository {
+public class StudentGradeRepository implements IStudentGradeRepository {
     private final IStudentGradeFactory _IStudentGradeFactory;
     private List<StudentGrade> _StudentGradeList;
 
@@ -28,7 +31,7 @@ public class StudentGradeRepository {
     }
 
 
-    public boolean addGradeToStudent (Grade grade, String date, Student student, CourseEdition courseEdition) throws Exception{
+    public boolean addGradeToStudent (Grade grade, Date date, Student student, CourseEdition courseEdition) throws Exception{
         if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)){
             StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
             _StudentGradeList.add(studentGrade);
@@ -86,6 +89,14 @@ public class StudentGradeRepository {
         return approvalRate;
     }
 
+    public Optional<StudentGradeID> findIdByStudent (StudentGrade studentGrade){
+        for(StudentGrade existingStudentGrade : _StudentGradeList){
+            if(existingStudentGrade.equals(studentGrade)){
+                return Optional.of(studentGrade.identity()) ;
+            }
+        }
+        return Optional.empty();
+    }
 
 
 }

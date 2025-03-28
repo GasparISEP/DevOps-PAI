@@ -1,6 +1,7 @@
 @startuml
 skinparam sequenceMessageAlign center
-
+skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
 actor ASC
 participant ":UI" as UI
 participant "ctrl1:EnrolAStudentInProgrammeController" as CTL #lightgreen
@@ -44,7 +45,7 @@ end
 StudentRepo --> CTL : s1VO
 deactivate StudentRepo
 
-CTL -> AccessMethodRepo : getAccessMethodByName(accessMethodNameVO)
+CTL -> AccessMethodRepo : getAccessMethodByID(accessMethodNameVO)
 activate AccessMethodRepo
 loop for each AccessMethod in AccessMethodRepository
     AccessMethodRepo -> AccessMethod : hasThisAccessMethodName(accessMethodNameVO)
@@ -55,7 +56,7 @@ end
 AccessMethodRepo --> CTL : am1VO
 deactivate AccessMethodRepo
 
-CTL -> ProgrammeRepo : getProgrammeByName(programmeNameVO)
+CTL -> ProgrammeRepo : getProgrammeByID(programmeNameVO)
 activate ProgrammeRepo
 loop for each Programme in ProgrammeRepo
     ProgrammeRepo -> Programme : hasThisProgrammeName(programmeNameVO)
@@ -89,9 +90,16 @@ loop for each Enrolment in enrolmentRepository
     deactivate ProgrammeEnrolment
 end
 
-EnrolmentRepo -> EnrolmentRepo: enrolmentList.add(pe1)
+EnrolmentRepo -> EnrolmentRepo: enrolmentList.add(pe1VO)
 EnrolmentRepo --> CTL: True
 deactivate EnrolmentRepo
+
+|||
+ref over CTL
+    \t \t \t \t \t Convert DTO to VO \t
+end ref
+|||
+
 CTL --> UI : True
 deactivate CTL
 UI --> ASC : Success

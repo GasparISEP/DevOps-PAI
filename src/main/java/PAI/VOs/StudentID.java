@@ -34,4 +34,8 @@ public class StudentID {
         }
         return false;
     }
+
+    public int getUniqueNumber () {
+        return _uniqueNumber;
+    }
 }

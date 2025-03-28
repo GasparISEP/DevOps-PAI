@@ -1,6 +1,7 @@
 
 package PAI.controller;
 
+import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.domain.*;
 import PAI.factory.*;
@@ -27,11 +28,12 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
 
         when(IStudentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
-        when(list.addGradeToStudent(grade, "13-03-2025", student1, courseEdition1)).thenReturn(true);
+        when(list.addGradeToStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(true);
 
         //act
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = mock(US23_IWantToKnowTheApprovalPercentageOfACourseEdition.class);
@@ -62,6 +64,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         Student student2 = mock(Student.class);
         Grade grade1 = mock(Grade.class);
         Grade grade2 = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
@@ -73,8 +76,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(studentGrade2.get_grade()).thenReturn(grade2);
 
 
-        when(IStudentGradeFactory.newGradeStudent(grade1, "10-10-2025", student1, courseEdition1)).thenReturn(studentGrade1);
-        when(IStudentGradeFactory.newGradeStudent(grade2, "10-10-2025", student2, courseEdition1)).thenReturn(studentGrade2);
+        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(grade2, dateDouble, student2, courseEdition1)).thenReturn(studentGrade2);
 
         when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
         when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
@@ -83,8 +86,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
         enrollmentRepository.enrolStudentInACourseEdition(student2, courseEdition1);
 
-        list.addGradeToStudent(grade1, "10-10-2025", student1, courseEdition1);
-        list.addGradeToStudent(grade2, "10-10-2025", student2, courseEdition1);
+        list.addGradeToStudent(grade1, dateDouble, student1, courseEdition1);
+        list.addGradeToStudent(grade2, dateDouble, student2, courseEdition1);
         when(list.knowApprovalRate(courseEdition1)).thenReturn(50.0);
 
 

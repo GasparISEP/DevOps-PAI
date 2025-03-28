@@ -36,6 +36,7 @@ class EmailTest {
         //act + assert
         Assertions.assertThrows(Exception.class, () -> new Email(email));
     }
+
     static Stream<Arguments> testEmailWithInvalidInputs() {
         return Streams.of(
                 Arguments.of("emailemail"),
@@ -55,7 +56,7 @@ class EmailTest {
     }
     @ParameterizedTest
     @MethodSource("testEmailWithInvalidInputs")
-    void invalidEmailInputShouldReturnException(String email) {
+    void invalidEmailInputShouldReturnException(String email) throws IllegalArgumentException {
         //arrange
 
         //act + assert

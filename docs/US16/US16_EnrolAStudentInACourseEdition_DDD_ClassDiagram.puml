@@ -1,0 +1,216 @@
+@startuml
+skinparam ranksep 60
+skinparam nodesep 60
+skinparam linetype ortho
+skinparam classBackgroundColor #E1F5FE
+
+
+class US16_EnrolAStudentInACourseEditionController {
+    +US16_EnrolAStudentInACourseEditionController(ceeRepository: ICourseEditionEnrolmentRepository,
+    peeRepository: IProgrammeEditionEnrolmentRepository , courseEditionRepository: ICourseEditionRepository)
+    +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionId>
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionId>
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+class CourseEditionEnrolmentRepositoryImpl {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+interface IProgrammeEditionEnrolmentRepository {
+    +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
+    +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+}
+
+class ProgrammeEditionEnrolmentRepositoryImpl {
+    +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
+    +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+}
+
+interface ICourseEditionRepository {
+    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<ProgrammeEditionID>
+}
+
+class CourseEditionRepositoryImpl {
+    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<ProgrammeEditionID>
+}
+
+interface ICourseEditionEnrolmentListFactory{
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+}
+
+class CourseEditionEnrolmentListFactoryImpl {
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+}
+
+interface ICourseEditionEnrolmentFactory{
+    +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentFactoryImpl{
+    +createCourseEditionEnrolment(studentId: StudentId, courseEditionId: CourseEditionID)
+}
+
+package "CourseEditionEnrolment Aggregate" #LightBlue {
+    entity "<<Root>>\n CourseEditionEnrolment" {
+             +CourseEditionEnrolment(studentId:StudentID,
+              courseEdition: CourseEditionID)
+             +equals (obj: Object): boolean
+    }
+}
+
+class "<<Value Object>>\n EnrollmentStatus" {
+     +EnrollmentStatus(isActive) : boolean
+     isEnrolmentStatus () :  boolean
+}
+
+class "<<Value Object>>\n CourseEditionEnrolmentID" {
+     +CourseEditionEnrolmentID()
+     +findCeeId ()
+     +equals (obj: Object) : boolean
+}
+
+package "CourseEdition Aggregate" #LightBlue{
+    entity "<<Root>>\n CourseEdition" {
+    +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID)
+    +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEditionID
+    }
+}
+
+class "<<Value Object>>\n CourseEditionID" {
+     +CourseEditionID()
+}
+
+package "Student Aggregate" #LightBlue{
+    entity "<<Root>>\n Student" {
+    +Student(uniqueNumber: StudentID, name: Name,
+    NIF: NIF, phone: PhoneNumber, email: Email, address: Address)
+    }
+}
+
+class "<<Value Object>>\n StudentID" {
+     +StudentID ()
+}
+
+class "<<Value Object>>\n Name" {
+     +Name ()
+}
+
+class "<<Value Object>>\n NIF" {
+     +NIF ()
+}
+
+class "<<Value Object>>\n Email" {
+     +Email ()
+}
+
+class "<<Value Object>>\n PhoneNumber" {
+     +PhoneNumber ()
+}
+
+class "<<Value Object>>\n Address" {
+     +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
+}
+
+class "<<Value Object>>\n Street" {
+     +Street()
+}
+
+class "<<Value Object>>\n PostalCode" {
+     +PostalCode()
+}
+
+class "<<Value Object>>\n Location" {
+     +PostalCode()
+}
+
+class "<<Value Object>>\n Country" {
+     +PostalCode()
+}
+class "<<Value Object>>\n Date" {
+     +Date (date : String)
+     +Date (localDate : LocalDate)
+     +getLocalDate () : LocalDate
+     +equals (o: Obj) : boolean
+     +hashcode () : int
+}
+
+package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
+    entity "<<Root>>\n ProgrammeEditionEnrolment" {
+    +ProgrammeEditionEnrolment(student:Student, programmeEdition: ProgrammeEdition)
+    +findStudentInProgrammeEditionEnrolment () : Student
+    +findProgrammeEditionInEnrolment () : ProgrammeEdition
+    }
+}
+
+class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
+     +ProgrammeEditionEnrolmentID()
+     +equals (obj: Object) : boolean
+}
+
+interface CourseEditionEnrolmentSet {
+    +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
+}
+
+
+US16_EnrolAStudentInACourseEditionController "1   ".u.> "1    " ICourseEditionRepository
+US16_EnrolAStudentInACourseEditionController "1  "..> "1       " IProgrammeEditionEnrolmentRepository
+US16_EnrolAStudentInACourseEditionController "1   "..> "  1    " ICourseEditionEnrolmentRepository
+
+"CourseEdition Aggregate" "_listOfCE * " <-- "1   " ICourseEditionRepository
+
+"Student Aggregate" "1" --> "1 _studentID" "<<Value Object>>\n StudentID"
+"Student Aggregate" "1" --> "1 _name" "<<Value Object>>\n Name"
+"Student Aggregate" "1" --> "1 _NIF" "<<Value Object>>\n NIF"
+"Student Aggregate" "1" --> "1 _email" "<<Value Object>>\n Email"
+"Student Aggregate" "1" --> "1 _phoneNumber" "<<Value Object>>\n PhoneNumber"
+"Student Aggregate" "1" -l-> "1 _address" "<<Value Object>>\n Address"
+
+"<<Value Object>>\n Address" "1" -u-> "1 _street" "<<Value Object>>\n Street"
+"<<Value Object>>\n Address" "1" --> "1 _postalCode" "<<Value Object>>\n PostalCode"
+"<<Value Object>>\n Address" "1" --> "1 _location" "<<Value Object>>\n Location"
+"<<Value Object>>\n Address" "1" --> "1 _country" "<<Value Object>>\n Country"
+
+"ProgrammeEditionEnrolment Aggregate" "      *  " -u-> "_studentID 1    ""<<Value Object>>\n StudentID"
+"ProgrammeEditionEnrolment Aggregate" " *    " <-- "1   " IProgrammeEditionEnrolmentRepository
+"ProgrammeEditionEnrolment Aggregate" " 1    " -- "1  _date " "<<Value Object>>\n Date"
+"ProgrammeEditionEnrolment Aggregate" " 1    " -- "1  _peeID " "<<Value Object>>\n ProgrammeEditionEnrolmentID"
+
+
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
+IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
+ICourseEditionRepository <|.. CourseEditionRepositoryImpl
+
+CourseEditionEnrolmentSet "   1            " -->  "CourseEditionEnrolment Aggregate"
+
+ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
+ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
+
+ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " CourseEditionEnrolmentSet
+ICourseEditionEnrolmentRepository"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentRepository "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
+ICourseEditionEnrolmentRepository "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
+ICourseEditionEnrolmentFactory "1  " ..> "1  " "CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentListFactory "1  " .u.> "1  " CourseEditionEnrolmentSet
+
+
+"CourseEditionEnrolment Aggregate" "1" --> "1 _ceeID""<<Value Object>>\n CourseEditionEnrolmentID"
+"CourseEditionEnrolment Aggregate" "1" --> "                                1 _status      ""<<Value Object>>\n EnrollmentStatus"
+"CourseEditionEnrolment Aggregate" "1" --> "_date 1    ""<<Value Object>>\n Date"
+"CourseEditionEnrolment Aggregate" "1" -u-> "1 _studentID" "<<Value Object>>\n StudentID"
+"CourseEditionEnrolment Aggregate" "1" --> "_ceID 1    " "<<Value Object>>\n CourseEditionID"
+
+"CourseEdition Aggregate" "1" --> "_ceID  1" "<<Value Object>>\n CourseEditionID"
+
+
+@enduml

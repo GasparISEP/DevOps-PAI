@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TeacherAcronymTest {
+class TeacherIDTest {
 
     @Test
     void shouldCreateAcronym() throws Exception {
         //Arrange
-        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+        TeacherID teacherAcronym1 = new TeacherID("ABC");
 
         //Act+Assert
         assertNotNull(teacherAcronym1);
@@ -19,7 +19,7 @@ class TeacherAcronymTest {
     void shouldReturnCorrectAcronym() throws Exception {
         //Arrange
         String acronym1 = "ABC";
-        TeacherAcronym teacherAcronym2 = new TeacherAcronym(acronym1);
+        TeacherID teacherAcronym2 = new TeacherID(acronym1);
 
         //Act
         String acronym2String = teacherAcronym2.getAcronym();
@@ -31,33 +31,33 @@ class TeacherAcronymTest {
     @Test
     void shouldNotReturnAcronymIfNull() {
         //Act+Assert
-        assertThrows(Exception.class, () -> new TeacherAcronym(null));
+        assertThrows(Exception.class, () -> new TeacherID(null));
     }
 
     @Test
     void shouldNotReturnAcronymIfBlank()  {
-        assertThrows(Exception.class, () -> new TeacherAcronym(""));
+        assertThrows(Exception.class, () -> new TeacherID(""));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsNumbers()  {
-        assertThrows(Exception.class, () -> new TeacherAcronym("AB1"));
+        assertThrows(Exception.class, () -> new TeacherID("AB1"));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsLowerCases() {
-        assertThrows(Exception.class, () -> new TeacherAcronym("ABc"));
+        assertThrows(Exception.class, () -> new TeacherID("ABc"));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsSpecialChars() {
-        assertThrows(Exception.class, () -> new TeacherAcronym("AB@"));
+        assertThrows(Exception.class, () -> new TeacherID("AB@"));
     }
 
 
     @Test
     void shouldNotReturnAcronymIfMoreThan3Letters() {
-        assertThrows(Exception.class, () -> new TeacherAcronym("ABCD"));
+        assertThrows(Exception.class, () -> new TeacherID("ABCD"));
     }
 
 }

@@ -47,4 +47,16 @@ class NameWithNumbersAndSpecialCharsTest {
         assertNotEquals(obj1, obj2);
         assertFalse(obj1.equals(obj2));
     }
+
+    @Test
+    void shouldReturnNameWithNumber() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Hi");
+
+        //act
+        String res = name.getnameWithNumbersAndSpecialChars();
+
+        //assert
+        assertEquals(res,name.getnameWithNumbersAndSpecialChars());
+    }
 }

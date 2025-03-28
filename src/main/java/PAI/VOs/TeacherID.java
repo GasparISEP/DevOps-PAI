@@ -1,10 +1,12 @@
 package PAI.VOs;
 
-public class TeacherAcronym {
+import PAI.ddd.ValueObject;
+
+public class TeacherID implements ValueObject {
 
     private final String _acronym;
 
-    public TeacherAcronym(String acronym) throws Exception {
+    public TeacherID(String acronym) throws Exception {
         if (acronym == null || acronym.isBlank()) {
             throw new Exception("Acronym must be a 3 capital letter non-empty String.");
         }

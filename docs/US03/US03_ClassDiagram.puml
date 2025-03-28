@@ -1,35 +1,24 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+
 class US03addCourseToProgrammeController {
     - programmeList: ProgrammeList
     - courseRepository: CourseRepository
+    - studyPlanRepository: StudyPlanRepository
     + getAllProgrammes(): List<Programme>
     + getAllCourses(): List<Course>
+    + getAllStudyPlans(): List<StudyPlan>
     + addCourseToProgramme(programme: Programme, course: Course): boolean
 }
-class Programme {
-    - _name: String
-    - _acronym: String
-    - _quantityOfEcts: int
-    - _quantityOfSemesters: int
-    - _degreeType: DegreeType
-    - _department: Department
-    - _programmeDirector: Teacher
-    - _courseList: List<Course>
-    - _programmeCourseListFactory: ProgrammeCourseListFactory
-    - _studyPlan: StudyPlan
-    + addCourseToAProgramme(course: Course)
-}
-class ProgrammeCourseListFactoryImpl {
-    + createCourseList(): List<Course>
+
+class StudyPlanRepositoryImpl {
+    - _studyPlanRepository
+    + getAllStudyPlans()
 }
 
-interface IProgrammeCourseListFactory {
-    + createCourseList(): List<Course>
-}
 
-class CourseRepository {
+class CourseRepositoryImpl {
     - _courseFactory: CourseFactory
     -_courseRepository:ArrayList<Course>
     +registerCourse (courseName: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
@@ -37,7 +26,27 @@ class CourseRepository {
     +getAllCourses()
 }
 
-class ProgrammeRepository {
+interface IRepository {
+}
+
+interface ICourseInStudyPlanFactory {
+}
+
+class CourseInStudyPlanFactoryImpl {
+ + newCourseInStudyPlan();
+}
+
+
+interface IProgrammeRepository {
+}
+
+interface IStudyPlanRepository {
+}
+
+interface ICourseRepository {
+}
+
+class ProgrammeRepositoryImpl {
      - _programmeFactory: ProgrammeFactory
      - _programmeRepo: List<Programme>
      - _programmeRepositoryListFactory: ProgrammeRepositoryListFactory
@@ -51,31 +60,59 @@ class ProgrammeRepository {
 
 }
 
-class Course {
-    -_name: String
-    -_acronym: String
-    -_quantityCreditsEcts: double
-    -_durationCourseInSemester: int
-    +Course(name: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
-    +getQuantityCreditsEcts()
-    +getDurationInSemester()
-    +getName()
-    +getAcronym()
+package "CourseInStudyPlan Aggregate" {
+    class "<<root>>\nCourseInStudyPlan" {
+        +CourseInStudyPlan(semester: int, curricularYear: int, course: Course, programme: Programme)
+        +equals(ObjectToCompare: Object): boolean
+        +getCourse(): Course
+        +getSemester(): Semester
+        +getCurricularYear(): CurricularYear
+    }
+    class Semester <<ValueObject>> {
+        -_semester: int
+        +isSemesterValid(int semester): boolean
+        +getSemester()
+    }
+
+    class CurricularYear <<ValueObject>> {
+            -_curricularYear: int
+            +CurricularYear(int curricularYear)
+            +isCurricularYearPositive(int curricularYear): boolean
+            +getCurricularYear(): int
+    }
+
+    class CourseInStudyPlanID <<ValueObject>> {}
+
+    class CourseID <<ValueObject>> {}
+
+    class StudyPlanID <<ValueObject>> {}
 }
 
 
 
-class ArrayList {
-}
+
+US03addCourseToProgrammeController "1" -down--> "*" IStudyPlanRepository: uses
+US03addCourseToProgrammeController "1" -down--> "*" IProgrammeRepository: uses
+US03addCourseToProgrammeController "1" -down--> "*" ICourseRepository: uses
+
+ProgrammeRepositoryImpl -up..|> IProgrammeRepository: implements
+CourseRepositoryImpl -up..|> ICourseRepository : implements
+StudyPlanRepositoryImpl -up..|> IStudyPlanRepository: implements
+
+IProgrammeRepository -down--|> IRepository: extends
+ICourseRepository -down--|> IRepository: extends
+IStudyPlanRepository -down--|> IRepository: extends
+
+StudyPlanRepositoryImpl "1" -down-> "1" ICourseInStudyPlanFactory: uses
+CourseInStudyPlanFactoryImpl -right..|> ICourseInStudyPlanFactory: implements
+ICourseInStudyPlanFactory "1" -right-> "1..*" "CourseInStudyPlan Aggregate": creates
+
+"<<root>>\nCourseInStudyPlan" --> CourseID: refers to
+"<<root>>\nCourseInStudyPlan" --> StudyPlanID: refers to
+"<<root>>\nCourseInStudyPlan" <-- CourseInStudyPlanID: has
+"<<root>>\nCourseInStudyPlan" --> CurricularYear: has
+"<<root>>\nCourseInStudyPlan" --> Semester: has
 
 
-
-US03addCourseToProgrammeController "1" --> "uses 1" Programme
-US03addCourseToProgrammeController "1" --> "uses 1" CourseRepository
-US03addCourseToProgrammeController "1" --> "uses 1" ProgrammeRepository
-ProgrammeCourseListFactoryImpl ..|> "implements" IProgrammeCourseListFactory
-Programme "1" ..> "uses 1" IProgrammeCourseListFactory
-ProgrammeCourseListFactoryImpl "1" --> "creates 1" ArrayList
-Programme "1" o-- "contains *" Course
 
 @enduml

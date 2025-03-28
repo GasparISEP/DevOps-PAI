@@ -36,12 +36,12 @@ class CourseInStudyPlanTest {
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
         IProgrammeCourseListFactory IProgrammeCourseListFactory = mock(IProgrammeCourseListFactory.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
+        IStudyPlanListFactory IStudyPlanListFactory = mock(IStudyPlanListFactory.class);
+        IStudyPlanFactory IStudyPlanFactory = mock(IStudyPlanFactory.class);
         ICourseFactory ICourseFactory = mock(ICourseFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, ICourseFactory);
 
         programme.addCourseToAProgramme(course1);
         programme.addCourseToAProgramme(course2);
@@ -89,11 +89,11 @@ class CourseInStudyPlanTest {
         Department cse = new Department("CSE", "Computer Science Engineer");
         Teacher teacher = mock(Teacher.class);
         IProgrammeCourseListFactory IProgrammeCourseListFactory = mock(IProgrammeCourseListFactory.class);
-        CourseInStudyPlanFactory courseInStudyPlanFactory = mock(CourseInStudyPlanFactory.class);
-        StudyPlanListFactory studyPlanListFactory = mock(StudyPlanListFactory.class);
-        StudyPlanFactory studyPlanFactory = mock(StudyPlanFactory.class);
+        ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
+        IStudyPlanListFactory IStudyPlanListFactory = mock(IStudyPlanListFactory.class);
+        IStudyPlanFactory IStudyPlanFactory = mock(IStudyPlanFactory.class);
 
-        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, courseInStudyPlanFactory , studyPlanListFactory, studyPlanFactory, ICourseFactory);
+        Programme programme = new Programme("Computer Engineering", "CE", 30, 6, master, cse, teacher, IProgrammeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, ICourseFactory);
 
         programme.addCourseToAProgramme(course1);
 
