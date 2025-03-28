@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -65,7 +66,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
 
         // Criar dados de entrada
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        String acronym = "EI";
+        Acronym acronym = new Acronym("CE");
         QuantEcts quantityOfEcts = new QuantEcts(30);
         QuantSemesters quantityOfSemesters = new QuantSemesters(6);
         DegreeType degreeType = mock(DegreeType.class);
