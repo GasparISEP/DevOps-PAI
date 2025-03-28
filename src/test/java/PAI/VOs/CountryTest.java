@@ -45,6 +45,8 @@ class CountryTest {
                 arguments("P0rtugal"),
                 arguments("Portugal_"),
                 arguments("Portugal@Porto"),
+                arguments("  Portugal"),
+                arguments("Portugal  "),
                 arguments("Portugal4")
         );
     }

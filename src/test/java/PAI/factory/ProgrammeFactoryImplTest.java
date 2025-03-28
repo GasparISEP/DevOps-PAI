@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -16,7 +17,7 @@ class ProgrammeFactoryImplTest {
         //(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactoryImpl1
         //arrange
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        String acronym = "MEC";
+        Acronym acronym = new Acronym("CE");
         QuantEcts quantityOfEcts = new QuantEcts(15);
         QuantSemesters quantityOfSemesters = new QuantSemesters(4);
         DegreeType degreeType = mock(DegreeType.class);
@@ -30,12 +31,12 @@ class ProgrammeFactoryImplTest {
 
         try (MockedConstruction<Programme> mockConstruction = mockConstruction(Programme.class, (mock, context) -> {
             NameWithNumbersAndSpecialChars nameActual = (NameWithNumbersAndSpecialChars) context.arguments().get(0);
-            String acronymActual = (String) context.arguments().get(1);
+            Acronym acronymActual = (Acronym) context.arguments().get(1);
             QuantEcts qtyOfEctsActual = (QuantEcts) context.arguments().get(2);
             QuantSemesters qtyOfSemesters = (QuantSemesters) context.arguments().get(3);
 
             when(mock.getProgrammeNameWithNumbersAndSpecialChars()).thenReturn(nameActual);
-            when(mock.getAcronym()).thenReturn(acronymActual);
+            when(mock.getAcronymm()).thenReturn(acronymActual);
             when(mock.getQuantEcts()).thenReturn(qtyOfEctsActual);
             when(mock.getQuantSemesters()).thenReturn(qtyOfSemesters);
 
@@ -49,7 +50,7 @@ class ProgrammeFactoryImplTest {
             Programme createdProgramme = mockConstruction.constructed().get(0);
 
             assertEquals(name, createdProgramme.getProgrammeNameWithNumbersAndSpecialChars());
-            assertEquals(acronym, createdProgramme.getAcronym());
+            assertEquals(acronym, createdProgramme.getAcronymm());
             assertEquals(quantityOfEcts, createdProgramme.getQuantEcts());
             assertEquals(quantityOfSemesters, createdProgramme.getQuantSemesters());
         }

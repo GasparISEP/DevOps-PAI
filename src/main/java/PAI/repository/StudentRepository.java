@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class StudentRepository {
 
-    private IStudentFactory _studentFactoryImpl;
+    private IStudentFactory _studentFactory;
     private List<Student> _students;
 
     public StudentRepository(IStudentFactory studentFactory, IStudentListFactory studentListFactory) {
@@ -18,13 +18,13 @@ public class StudentRepository {
             throw new IllegalArgumentException("Invalid factory argument, null values are not allowed!");
         }
 
-        _studentFactoryImpl = studentFactory;
+        _studentFactory = studentFactory;
         _students = studentListFactory.newArrayList();
     }
 
     public boolean registerStudent(String uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
 
-        Student newStudent = _studentFactoryImpl.newStudent(uniqueNumber, name, NIF, phone, email, address);
+        Student newStudent = _studentFactory.newStudent(uniqueNumber, name, NIF, phone, email, address);
 
         if (isStudentRepeated(newStudent)) {
             throw new Exception("Duplicate unique number or NIF detected. Student cannot be added.");

@@ -1,24 +1,23 @@
 package PAI.VOs;
 
-import PAI.ddd.ValueObject;
+import java.util.UUID;
 
-public class TeacherID implements ValueObject {
+public class TeacherID {
 
-    private final String _acronym;
+    private final UUID id;
 
-    public TeacherID(String acronym) throws Exception {
-        if (acronym == null || acronym.isBlank()) {
-            throw new Exception("Acronym must be a 3 capital letter non-empty String.");
+    private TeacherID(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Student ID cannot be null");
         }
-        if (!acronym.matches("^[A-Z]{3}$")) {
-            throw new Exception("Acronym must contain only three capital letters.");
-        }
-        _acronym = acronym;
+        this.id = id;
     }
 
-    public String getAcronym() {
-        return _acronym;
+    public UUID getID() {
+        return id;
+    }
+
+    public static TeacherID createNew() {
+        return new TeacherID(UUID.randomUUID());
     }
 }
-
-

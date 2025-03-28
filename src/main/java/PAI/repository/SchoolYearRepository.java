@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.Description;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.factory.ISchoolYearListFactory;
@@ -28,7 +29,7 @@ public class SchoolYearRepository {
         this._schoolYearListFactory = schoolYearListFactory;
     }
 
-    public boolean addSchoolYear(String description, String startDate, String endDate) throws Exception {
+    public boolean addSchoolYear(Description description, String startDate, String endDate) throws Exception {
 
         SchoolYear newSchoolYear = _schoolYearFactory.createSchoolYear(description, startDate, endDate);
 

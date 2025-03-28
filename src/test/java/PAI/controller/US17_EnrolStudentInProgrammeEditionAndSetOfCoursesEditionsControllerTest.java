@@ -1,6 +1,11 @@
 package PAI.controller;
 
+
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+
+import PAI.VOs.Description;
+
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
@@ -615,7 +620,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -707,7 +713,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -773,7 +780,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -842,7 +850,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -918,7 +927,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        schoolYearRepository.addSchoolYear(description, "23-11-2024", "09-12-2025");
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
@@ -995,6 +1005,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Acronym acronym1 = new Acronym("CSE");
+        Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
         QuantEcts quantEcts = new QuantEcts(25);
@@ -1005,13 +1017,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Programme programme1 = new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
@@ -1060,6 +1072,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     Department department1 = new Department("DEI", "Departamento Engenharia Informática");
     TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
     IAddressFactory addressFactory = new AddressFactoryImpl();
+    Acronym acronym1 = new Acronym("CSE");
+    Acronym acronym2 = new Acronym("CVE");
     NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
     NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
     QuantEcts quantEcts = new QuantEcts(30);
@@ -1069,13 +1083,13 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
             "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
             "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
             new TeacherCareerProgressionListFactoryImpl());
-    Programme programme1 = new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+    Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
             new CourseFactoryImpl());
-    programmeRepository.registerProgramme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+    programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
             new CourseFactoryImpl());
-    programmeRepository.registerProgramme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+    programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
             new CourseFactoryImpl());
 
@@ -1125,6 +1139,8 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Acronym acronym1 = new Acronym("CSE");
+        Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
         QuantEcts quantEcts = new QuantEcts(30);
@@ -1134,13 +1150,13 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
-        Programme programme1 = new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
-        programmeRepository.registerProgramme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
 
@@ -1148,10 +1164,10 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         List<Programme> programmes = controller.getAllProgrammes();
 
         // Assert
-        assertTrue(programmes.contains(new Programme(name1, "CSE", quantEcts, quantSemesters, master, department1, teacher1,
+        assertTrue(programmes.contains(new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl())));
-        assertTrue(programmes.contains(new Programme(name2, "CVE", quantEcts, quantSemesters, master, department1, teacher1,
+        assertTrue(programmes.contains(new Programme(name2, acronym2, quantEcts, quantSemesters, master, department1, teacher1,
                new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl())));
 
@@ -1191,16 +1207,18 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
-        schoolYearRepository.addSchoolYear("25/26", "10-11-2025", "09-12-2026");
+        Description description1 = new Description("School Year 24/25");
+        Description description2 = new Description("School Year 25/26");
+        schoolYearRepository.addSchoolYear(description1, "23-11-2024", "09-12-2025");
+        schoolYearRepository.addSchoolYear(description2, "10-11-2025", "09-12-2026");
 
         // Act
         List<SchoolYear> schoolYears = controller.getAllSchoolYears();
 
         // Assert
-        assertTrue(schoolYears.contains(new SchoolYear("24/25", "23-11-2024", "09-12-2025")),
+        assertTrue(schoolYears.contains(new SchoolYear(description1, "23-11-2024", "09-12-2025")),
                 "The list should contain the school year '24/25'.");
-        assertTrue(schoolYears.contains(new SchoolYear("25/26", "10-11-2025", "09-12-2026")),
+        assertTrue(schoolYears.contains(new SchoolYear(description2, "10-11-2025", "09-12-2026")),
                 "The list should contain the school year '25/26'.");
     }
 
@@ -1239,8 +1257,10 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
-        schoolYearRepository.addSchoolYear("25/26", "10-11-2025", "09-12-2026");
+        Description description1 = new Description("School Year 24/25");
+        Description description2 = new Description("School Year 25/26");
+        schoolYearRepository.addSchoolYear(description1, "23-11-2024", "09-12-2025");
+        schoolYearRepository.addSchoolYear(description2, "10-11-2025", "09-12-2026");
 
         // Act
         List<SchoolYear> schoolYears = controller.getAllSchoolYears();
@@ -1285,8 +1305,10 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                         courseEditionRepository,
                         schoolYearRepository,
                         programmeEnrolmentRepository);
-        schoolYearRepository.addSchoolYear("24/25", "23-11-2024", "09-12-2025");
-        schoolYearRepository.addSchoolYear("25/26", "10-11-2025", "09-12-2026");
+        Description description1 = new Description("School Year 24/25");
+        Description description2 = new Description("School Year 25/26");
+        schoolYearRepository.addSchoolYear(description1, "23-11-2024", "09-12-2025");
+        schoolYearRepository.addSchoolYear(description2, "10-11-2025", "09-12-2026");
 
         // Act
         List<SchoolYear> schoolYears = controller.getAllSchoolYears();

@@ -12,7 +12,7 @@ public class Country {
 
     private boolean isCountryInvalid (String country) {
 
-        if  (country ==  null || country.isBlank() || !country.matches("^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$"))
+        if  (country ==  null || country.isBlank() || !country.matches("^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$" ) || country.startsWith(" ") || country.endsWith(" "))
             return true;
         else
             return false;

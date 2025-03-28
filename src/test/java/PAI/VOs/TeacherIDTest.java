@@ -2,62 +2,54 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TeacherIDTest {
 
     @Test
-    void shouldCreateAcronym() throws Exception {
-        //Arrange
-        TeacherID teacherAcronym1 = new TeacherID("ABC");
+    void shouldCreateNewTeacherIDWithValidUUID() {
+        // Act
+        TeacherID teacherID = TeacherID.createNew();
 
-        //Act+Assert
-        assertNotNull(teacherAcronym1);
+        // Assert
+        assertNotNull(teacherID);
     }
 
     @Test
-    void shouldReturnCorrectAcronym() throws Exception {
-        //Arrange
-        String acronym1 = "ABC";
-        TeacherID teacherAcronym2 = new TeacherID(acronym1);
+    void shouldReturnA_UUID_WhenGettingID() {
+        // Act
+        TeacherID firstTeacherID = TeacherID.createNew();
 
-        //Act
-        String acronym2String = teacherAcronym2.getAcronym();
-
-        //Assert
-        assertEquals(acronym1, acronym2String);
+        // Assert
+        assertNotNull(firstTeacherID.getID());
     }
 
     @Test
-    void shouldNotReturnAcronymIfNull() {
-        //Act+Assert
-        assertThrows(Exception.class, () -> new TeacherID(null));
+    void shouldGenerateUniqueTeacherIDsOnEachCall() {
+        // Act
+        TeacherID firstTeacherID = TeacherID.createNew();
+        TeacherID secondTeacherID = TeacherID.createNew();
+
+        // Assert
+        assertNotEquals(firstTeacherID.getID(), secondTeacherID.getID());
     }
 
     @Test
-    void shouldNotReturnAcronymIfBlank()  {
-        assertThrows(Exception.class, () -> new TeacherID(""));
+    void shouldThrowIllegalArgumentExceptionWhenIdIsNull() {
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            try {
+                // Access private constructor
+                var constructor = TeacherID.class.getDeclaredConstructor(UUID.class);
+                constructor.setAccessible(true);
+                constructor.newInstance((Object) null); // Try to instance the constructor with a null value as input
+            } catch (InvocationTargetException e) { // Catches InvocationTargetException
+                throw e.getCause(); // Re-throw the original IllegalArgumentException
+            }
+        });
     }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsNumbers()  {
-        assertThrows(Exception.class, () -> new TeacherID("AB1"));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsLowerCases() {
-        assertThrows(Exception.class, () -> new TeacherID("ABc"));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsSpecialChars() {
-        assertThrows(Exception.class, () -> new TeacherID("AB@"));
-    }
-
-
-    @Test
-    void shouldNotReturnAcronymIfMoreThan3Letters() {
-        assertThrows(Exception.class, () -> new TeacherID("ABCD"));
-    }
-
 }

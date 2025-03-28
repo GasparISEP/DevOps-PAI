@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProgrammeRepository {
+public class ProgrammeRepository implements IProgrammeRepository {
     private final IProgrammeFactory _I_programmeFactory;
     private final List<Programme> _programmeRepo;
     private IProgrammeRepositoryListFactory _programmeRepoListFactory;
@@ -21,7 +22,7 @@ public class ProgrammeRepository {
         _programmeRepoListFactory = programmeLisListFactory;
     }
 
-    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
+    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) throws Exception {
 
         Programme programme = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, programmeDirector, programmeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory, IStudyPlanFactory, ICourseFactory);
 
@@ -56,9 +57,9 @@ public class ProgrammeRepository {
         return Optional.empty();
     }
 
-    public Programme getProgrammeByAcronym(String acronym) {
+    public Programme getProgrammeByAcronym(Acronym acronym) {
         for (Programme programme : _programmeRepo) {
-            if (programme.getAcronym().equals(acronym)) {
+            if (programme.getAcronymm().equals(acronym)) {
                 return programme;
             }
         }

@@ -1,8 +1,10 @@
 package PAI.VOs;
 
+import PAI.ddd.DomainId;
+
 import java.util.UUID;
 
-public class TeacherCareerProgressionID {
+public class TeacherCareerProgressionID implements DomainId {
 
     private final String _ID;
 

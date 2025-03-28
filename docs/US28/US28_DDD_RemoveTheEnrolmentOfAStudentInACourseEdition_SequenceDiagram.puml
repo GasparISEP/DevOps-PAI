@@ -10,7 +10,6 @@ actor ASC #Orange/White
 participant ":UI" as UI
 participant ":US28_Controller" as Controller
 participant ":ICourseEditionEnrolmentRepository" as IRepo
-participant ":CourseEditionEnrolmentRepository" as Repository
 participant "cee:CourseEditionEnrolment" as Enrolment
 autonumber
 
@@ -31,22 +30,19 @@ activate Controller
 Controller -> IRepo : removeEnrolment\n(studentID, courseEditionID)
 activate IRepo
 
-IRepo -> Repository : removeEnrolment\n(studentID, courseEditionID)
-activate Repository
 
-Repository -> Repository : cee:findByStudentAndEdition\n(studentID, courseEditionID)
+IRepo -> IRepo : cee:findByStudentAndEdition\n(studentID, courseEditionID)
 
-Repository -> Enrolment : isEnrolmentActive()
-Enrolment --> Repository : true
-deactivate Enrolment
-
-Repository -> Enrolment : deactivateEnrolment()
+IRepo -> Enrolment : isEnrolmentActive()
 activate Enrolment
-Enrolment --> Repository : Enrolment status set to inactive
+Enrolment --> IRepo : true
 deactivate Enrolment
 
-Repository --> IRepo : true
-deactivate Repository
+IRepo -> Enrolment : deactivateEnrolment()
+activate Enrolment
+Enrolment --> IRepo : Enrolment status set to inactive
+deactivate Enrolment
+
 
 IRepo --> Controller : true
 deactivate IRepo

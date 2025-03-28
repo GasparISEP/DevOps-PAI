@@ -25,7 +25,7 @@ AME "1" --> "uses 1" VOId
 
 
 Interface IAccessMethodFactory {
-    +createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
+    createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 class AccessMethodFactoryImpl {
@@ -36,7 +36,7 @@ AccessMethodFactoryImpl ..|> "implements"  IAccessMethodFactory
 
 
 Interface IAccessMethodListFactory {
- +createAccessMethodList() : List<AccessMethod>
+ createAccessMethodList() : List<AccessMethod>
 }
 
 class AccessMethodListFactoryImpl {
@@ -49,9 +49,8 @@ AccessMethodListFactoryImpl ..|> IAccessMethodListFactory : implements
 Interface IRepository{
 }
 Interface IAccessMethodRepository{
-  +AccessMethodRepository(IAccessMethodListFactory : IAccessMethodListFactory)
-  +registerAccessMethod(accessMethod1: AccessMethod) : boolean
-  -isAccessMethodAlreadyRegistered(accessMethod1: AccessMethod) : boolean
+  registerAccessMethod (accessMethod1: AccessMethod)
+  isAccessMethodAlreadyRegistered(accessMethod1: AccessMethod)
 }
 
 'extends
