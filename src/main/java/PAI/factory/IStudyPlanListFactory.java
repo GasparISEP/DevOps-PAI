@@ -1,10 +1,9 @@
 package PAI.factory;
 
-import PAI.domain.StudyPlan;
-
+import PAI.domain.CourseInStudyPlan;
 import java.util.List;
 
 public interface IStudyPlanListFactory {
 
-    List<StudyPlan> newArrayList();
+    List<CourseInStudyPlan> newArrayList();
 }
