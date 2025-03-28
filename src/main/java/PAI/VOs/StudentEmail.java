@@ -1,0 +1,40 @@
+package PAI.VOs;
+
+import java.util.Objects;
+
+public class StudentEmail {
+
+    private static final String emailDomain = "isep.ipp.pt";
+    private final String _studentEmail;
+
+    public StudentEmail (StudentID studentID) {
+
+        if (studentID == null) {
+            throw new IllegalArgumentException("Student's unique number cannot be null!");
+        }
+
+        _studentEmail = studentID.getUniqueNumber() + "@" + emailDomain;
+    }
+
+    public String getStudentEmail () {
+        return _studentEmail;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentEmail that = (StudentEmail) o;
+        return _studentEmail.equals(that._studentEmail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_studentEmail);
+    }
+
+    @Override
+    public String toString() {
+        return _studentEmail;
+    }
+}
