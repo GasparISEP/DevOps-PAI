@@ -1,0 +1,43 @@
+@startuml
+
+actor admin
+
+participant ":UI" as UI #application
+participant ":ConfigureTeacherCategoryController" as Controller #application
+participant "TeacherCategoryFactoryImpl" as Factory
+participant "TeacherCategoryRepositoryImpl" as Repository
+participant "TeacherCategoryV2" as Aggregate
+participant "Name" as VOName
+participant "TeacherCategoryID" as VOId
+
+' Step 1: Admin interacts with UI
+admin -> UI ++ : I want to configure TeacherCategory
+UI --> admin -- : Enter categoryName?
+
+admin -> UI ++ : (categoryName)
+UI -> Controller ++ : configureTeacherCategory(categoryName)
+
+' Step 2: Controller creates Name VO and delegates to Factory
+Controller -> VOName ++ : new Name(categoryName)
+VOName --> Controller -- : nameVO
+
+Controller -> Factory ++ : createTeacherCategory(nameVO)
+
+' Step 3: Factory creates ID and Aggregate
+Factory -> VOId ++ : new TeacherCategoryID()
+VOId --> Factory -- : idVO
+
+Factory -> Aggregate ++ : new TeacherCategoryV2(idVO, nameVO)
+Aggregate --> Factory -- : tcAggregate
+
+Factory --> Controller -- : tcAggregate
+
+' Step 4: Controller persists aggregate through repository
+Controller -> Repository ++ : save(tcAggregate)
+Repository --> Controller -- : tcAggregate
+
+' Step 5: Return to UI and admin
+Controller --> UI -- : success (true)
+UI --> admin -- : success
+
+@enduml

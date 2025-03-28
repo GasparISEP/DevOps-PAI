@@ -9,21 +9,26 @@ admin -> UI ++ #application : (categoryName)
 UI -> ":ConfigureTeacherCategoryController" as ConfigureTeacherCategoryController ++ #application : configureTeacherCategory(categoryName)
 
 participant ":TeacherCategoryRepository" as TeacherCategoryRepository
-participant ":TeacherCategoryFactory" as TeacherCategoryFactory
+participant ":TeacherCategoryFactoryImpl" as TeacherCategoryFactoryImpl
+participant ":TeacherCategoryRepositoryListFactoryImpl" as TeacherCategoryRepositoryListFactoryImpl
 
+' New repository list initialization
+TeacherCategoryRepositoryListFactoryImpl -> TeacherCategoryRepository ++ #application : getTeacherCategoryList()
+
+' Create TeacherCategory
+ConfigureTeacherCategoryController -> TeacherCategoryFactoryImpl ++ #application : createTeacherCategory(categoryName)
+TeacherCategoryFactoryImpl --> "tc1:TeacherCategory" as TeacherCategory ++ #application : <create>(categoryName)
+
+' Check if category exists
 ConfigureTeacherCategoryController -> TeacherCategoryRepository ++ #application : registerTeacherCategory(categoryName)
-
 TeacherCategoryRepository -> TeacherCategoryRepository : getTeacherCategoryByName(categoryName)
-TeacherCategoryRepository --> ConfigureTeacherCategoryController --: false (if exists)
+TeacherCategoryRepository --> ConfigureTeacherCategoryController --: false (if not found)
 
-ConfigureTeacherCategoryController -> TeacherCategoryFactory ++ #application : createTeacherCategory(categoryName)
-TeacherCategoryFactory --> "tc1:TeacherCategory" as TeacherCategory ++ #application : <create>(categoryName)
-
-TeacherCategory -> TeacherCategory : isNameValid(categoryName)
-
-TeacherCategoryRepository -> TeacherCategoryRepository : add(tc1)
+' Add new category to repository
+ConfigureTeacherCategoryController -> TeacherCategoryRepository : add(tc1)
 TeacherCategoryRepository --> ConfigureTeacherCategoryController --: true
 
+' Respond to UI
 ConfigureTeacherCategoryController --> UI --: true
 UI --> admin --: true
 @enduml
