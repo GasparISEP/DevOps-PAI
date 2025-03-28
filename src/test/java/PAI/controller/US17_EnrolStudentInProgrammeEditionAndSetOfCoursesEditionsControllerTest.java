@@ -1,11 +1,11 @@
 package PAI.controller;
 
-<<<<<<< Updated upstream
+
 import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-=======
+
 import PAI.VOs.Description;
->>>>>>> Stashed changes
+
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
 import PAI.domain.*;
