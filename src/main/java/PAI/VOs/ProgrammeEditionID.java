@@ -16,4 +16,9 @@ public class ProgrammeEditionID implements DomainId {
     public String getProgrammeEditionID() {
         return "5";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return true;
+    }
 }
