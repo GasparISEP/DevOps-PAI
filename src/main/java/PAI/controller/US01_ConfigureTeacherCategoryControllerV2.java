@@ -1,4 +1,4 @@
-package PAI.controller.v2;
+package PAI.controller;
 
 import PAI.VOs.Name;
 import PAI.domain.TeacherCategoryV2;
