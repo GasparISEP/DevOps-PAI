@@ -22,10 +22,10 @@ package "Student Aggregate" {
         - _email : Email
         - _address : Address
         - _institutionalEmail : InstitutionalEmail
-        + hasSameUniqueNumber(student : Student) : boolean
-        + hasSameNIF(student : Student) : boolean
-        + getUniqueNumber() : String
-        + hasThisUniqueNumber(uniqueNumber : String) : boolean
+        + identity() : StudentID
+        + sameAs (object : Object) : boolean
+        + equals(object : Object) : boolean
+        + isEquals(student : Student) : boolean
     }
 }
 
@@ -47,6 +47,9 @@ class StudentID <<Value Object>> {
     + StudentID(uniqueNumber : int)
     + isUniqueNumberValid(uniqueNumber)
     + getUniqueNumber()
+    + equals() : boolean
+    + getUniqueNumber() : int
+    + isEquals(studentID : StudentID) : boolean
 }
 
 class Name <<Value Object>> {
