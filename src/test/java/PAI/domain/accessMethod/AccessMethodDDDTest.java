@@ -14,6 +14,23 @@ import static org.mockito.Mockito.when;
 class AccessMethodDDDTest {
 
     @Test
+    void shouldCreateAccessMethodOnlyWithValidName(){
+        //arrange
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        //act
+        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodName);
+        //assert
+        assertNotNull(accessMethod);
+    }
+
+    @Test
+    void shouldThrowExceptionWithNullName(){
+        //arrange
+        //act + assert
+        assertThrows(Exception.class, () -> new AccessMethodDDD(null));
+    }
+
+    @Test
     void shouldCreateAccessMethodWithValidName(){
         //arrange
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
