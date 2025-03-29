@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.Date;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,9 +11,9 @@ public class ProgrammeEnrolment {
     private Student _student;
     private AccessMethod _accessMethod;
     private Programme _programme;
-    private LocalDate _date;
+    private Date _date;
 
-    public ProgrammeEnrolment(Student student, AccessMethod accessMethod, Programme programme, String date) throws IllegalArgumentException {
+    public ProgrammeEnrolment(Student student, AccessMethod accessMethod, Programme programme, Date date) throws IllegalArgumentException {
 
         if (student == null || accessMethod == null || programme == null){
             throw new IllegalArgumentException ("Argument cannot be null");
@@ -20,7 +22,10 @@ public class ProgrammeEnrolment {
         _student = student;
         _accessMethod = accessMethod;
         _programme = programme;
-        _date = validateAndFormatDate(date);
+
+        if(date == null)
+            throw new IllegalArgumentException("Date cannot be null!");
+        _date = date;
     }
 
     private LocalDate validateAndFormatDate(String date) throws IllegalArgumentException {

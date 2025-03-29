@@ -299,6 +299,10 @@ class US19_CreateCourseEditionControllerTest {
     private ProgrammeEdition programmeEdition;
     private Programme programme;
     private SchoolYear schoolYear;
+    private Date date;
+    private TeacherCategoryID tcID;
+    private WorkingPercentage wp;
+    private TeacherID teacherID;
 
 
 
@@ -330,14 +334,18 @@ class US19_CreateCourseEditionControllerTest {
         teacherCareerListFactory = new TeacherCareerProgressionListFactoryImpl();
         teacherCareerFactory = new TeacherCareerProgressionFactoryImpl();
         teacherCategory = new TeacherCategory("Professor Adjunto");
+        date = new Date("15-04-2005");
+        tcID = new TeacherCategoryID();
+        wp = new WorkingPercentage(70);
+        teacherID = TeacherID.createNew();
 
         programme = new Programme("Computer Engineering", "CE", 20, 6,
                         new DegreeType("Master", 240),
                         new Department("CSE", "Computer Science Engineer"),
                         new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                                "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
-                                teacherCategory, 70,
+                                "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, date,
+                                tcID, wp, teacherID,
                                 new Department("CSE", "Computer Science Engineer"),
                                 teacherCareerFactory, teacherCareerListFactory),
                         programmeCourseListFactory,
@@ -409,8 +417,8 @@ class US19_CreateCourseEditionControllerTest {
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
-                            teacherCategory, 70,
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, date,
+                            tcID, wp, teacherID,
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
@@ -450,8 +458,8 @@ class US19_CreateCourseEditionControllerTest {
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
-                            teacherCategory, 70,
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, date,
+                            tcID, wp, teacherID,
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
@@ -490,8 +498,8 @@ class US19_CreateCourseEditionControllerTest {
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
-                            teacherCategory, 70,
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, date,
+                            tcID, wp, teacherID,
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
@@ -526,8 +534,8 @@ class US19_CreateCourseEditionControllerTest {
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
-                            teacherCategory, 70,
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, date,
+                            tcID, wp, teacherID,
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
@@ -560,8 +568,8 @@ class US19_CreateCourseEditionControllerTest {
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
-                            teacherCategory, 70,
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, date,
+                            tcID, wp, teacherID,
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
@@ -599,8 +607,8 @@ class US19_CreateCourseEditionControllerTest {
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                             "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, "15-04-2005",
-                            teacherCategory, 70,
+                            "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactory, date,
+                            tcID, wp, teacherID,
                             new Department("CSE", "Computer Science Engineer"),
                             teacherCareerFactory, teacherCareerListFactory),
                     programmeCourseListFactory,
