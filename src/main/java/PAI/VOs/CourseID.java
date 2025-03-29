@@ -20,4 +20,10 @@ public class CourseID implements DomainId {
         CourseID courseIDTest = (CourseID) object;
         return _courseId.equals(courseIDTest._courseId);
     }
+
+    @Override
+    public String toString() {
+
+        return _courseId.toString();
+    }
 }

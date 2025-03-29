@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseIDTest {
@@ -48,5 +50,15 @@ class CourseIDTest {
         CourseID courseID2 = new CourseID();
         //Act+Assert
         assertNotEquals(courseID, courseID2);
+    }
+
+    @Test
+    void shouldReturnCorrectUUIDString() {
+        //Arrange
+        CourseID courseID = new CourseID();
+        //Act
+        UUID uuid = UUID.fromString(courseID.toString());
+        //Assert
+        assertEquals(courseID.toString(), uuid.toString());
     }
 }
