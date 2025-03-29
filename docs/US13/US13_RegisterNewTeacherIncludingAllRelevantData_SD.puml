@@ -66,7 +66,7 @@ HRC -> UI: dept1DTO
 |||
 UI --> HRC: What are the attributes?
 |||
-HRC -> UI: acronym, name, email, nif,\n phoneNumber, street, postalCode,\n location, country, academicBackground,\n workingPercentage, date
+HRC -> UI: teacherAcronym, name, email, nif,\n phoneNumber, street, postalCode,\n location, country, academicBackground,\n workingPercentage, date
 
 Note Right HRC #Pink/White
     **tc1** = Teacher Category Object
@@ -82,10 +82,10 @@ ref over Controller
     \t \t Convert DTO to VO \t
 end ref
 |||
-Controller -> TeacherRepository:\t **registerTeacher**(acronymVO, nameVO, emailVO, nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO, academicBackgroundVO, deptAcronymVO)
+Controller -> TeacherRepository:\t **registerTeacher**(teacherAcronymVO, nameVO, emailVO, nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO, academicBackgroundVO, departmentIDVO)
 activate TeacherRepository
 
-TeacherRepository -> TeacherFactory: **createTeacher** (acronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO,\n academicBackgroundVO, deptAcronymVO)
+TeacherRepository -> TeacherFactory: **createTeacher** (teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO,\n academicBackgroundVO, departmentIDVO)
 activate TeacherFactory
 
 TeacherFactory -> Address **: **createAddress** (streetVO, postalCodeVO, locationVO, countryVO)
@@ -94,7 +94,7 @@ activate Address
 Address --> TeacherFactory:\t addrsVO1
 deactivate Address
 |||
-TeacherFactory -> Teacher **: **createTeacher** (acronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, addrsVO1,\n academicBackgroundVO, deptAcronymVO)
+TeacherFactory -> Teacher **: **createTeacher** (teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, addrsVO1,\n academicBackgroundVO, departmentIDVO)
 activate Teacher
 
 |||
@@ -115,13 +115,13 @@ deactivate Teacher
 TeacherRepository --> Controller: True
 deactivate TeacherRepository
 |||
-Controller -> TeacherCareerProgressionRepository: **registerTeacherCareerProgression**(dateVO, tc1NameVO, WorkingPercentage, t1AcronymVO)
+Controller -> TeacherCareerProgressionRepository: **registerTeacherCareerProgression**(dateVO, tc1IDVO, WorkingPercentage, t1IDVO)
 activate TeacherCareerProgressionRepository
 
-TeacherCareerProgressionRepository -> TeacherCareerProgressionFactory: **createTeacherCareerProgression**(dateVO,\n tc1NameVO, WorkingPercentage, t1AcronymVO)
+TeacherCareerProgressionRepository -> TeacherCareerProgressionFactory: **createTeacherCareerProgression**(dateVO,\n tc1IDVO, WorkingPercentage, t1IDVO)
 activate TeacherCareerProgressionFactory
 
-TeacherCareerProgressionFactory -> TeacherCareerProgression: **createTeacherCarrerProgression**(dateVO,\n tc1NameVO, WorkingPercentage, t1AcronymVO)
+TeacherCareerProgressionFactory -> TeacherCareerProgression: **createTeacherCarrerProgression**(dateVO,\n tc1IDVO, WorkingPercentage, t1IDVO)
 activate TeacherCareerProgression
 |||
 TeacherCareerProgression --> TeacherCareerProgressionFactory: \ttcp1
