@@ -31,4 +31,8 @@ public class CourseID implements DomainId {
     public int hashCode() {
         return Objects.hash(_courseId);
     }
+
+    public UUID getCourseId() {
+        return _courseId;
+    }
 }
