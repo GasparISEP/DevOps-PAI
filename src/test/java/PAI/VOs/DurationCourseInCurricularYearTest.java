@@ -11,7 +11,7 @@ class DurationCourseInCurricularYearTest {
         int duration = 1;
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
         // act
-        boolean result = durationCourseInCurricularYear.isDurationSemesterValid();
+        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
         // assert
         assertTrue(result);
     }
@@ -22,7 +22,7 @@ class DurationCourseInCurricularYearTest {
         int duration = 2;
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
         // act
-        boolean result = durationCourseInCurricularYear.isDurationSemesterValid();
+        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
         // assert
         assertTrue(result);
     }
@@ -33,7 +33,7 @@ class DurationCourseInCurricularYearTest {
         int duration = 0;
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
         // act
-        boolean result = durationCourseInCurricularYear.isDurationSemesterValid();
+        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
         // assert
         assertFalse(result);
     }
@@ -44,7 +44,7 @@ class DurationCourseInCurricularYearTest {
         int duration = 3;
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
         // act
-        boolean result = durationCourseInCurricularYear.isDurationSemesterValid();
+        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
         // assert
         assertFalse(result);
     }
@@ -55,7 +55,7 @@ class DurationCourseInCurricularYearTest {
         int duration = -1;
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
         // act
-        boolean result = durationCourseInCurricularYear.isDurationSemesterValid();
+        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
         // assert
         assertFalse(result);
     }

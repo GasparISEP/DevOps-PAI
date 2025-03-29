@@ -10,7 +10,7 @@ public class DurationCourseInCurricularYear implements ValueObject {
         this.duration = duration;
     }
 
-    public boolean isDurationSemesterValid() {
+    public boolean isDurationCurricularYearValid() {
         return duration > 0 && duration < 3;
     }
 
