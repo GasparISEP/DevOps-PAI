@@ -40,12 +40,14 @@ class Teacher {
 
 class TeacherRepository {
     -_teachers: List<Teacher>
-    +TeacherRepository()
-    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
-                          address: Address, teacherCategory: TeacherCategory, department: Department)
-    +getTeacherByNIF(NIF: String)
-    +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
-    +getAllTeachers()
+    -_teacherFactory: ITeacherFactory
+    +TeacherRepository(teacherFactory: ITeacherFactory, teacherListFactoryImpl: TeacherListFactoryImpl)
+    +registerTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+                     street: String, postalCode: String, location: String, country: String, addressFactory: IAddressFactory,
+                     date: Date, category: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID,
+                     department: Department): boolean
+    +getAllTeachers(): List<Teacher>
+    +getTeacherByNIF(NIF: String): Optional<Teacher>
 }
 
 note right of TeacherRepository::getAllTeachers
