@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.StudentID;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudentTest {
 
@@ -18,9 +20,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act
-        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Student student1 = new Student(mockStudentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
     }
 
     static Stream<Arguments> test_NIF_WithDifferentValidInputs() {
@@ -37,9 +40,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        new Student("1234567", "Rita", NIF, "963741258", "rita@gmail.com", address1);
+        new Student(mockStudentID, "Rita", NIF, "963741258", "rita@gmail.com", address1);
     }
 
     static Stream<Arguments> testPhoneNumberWithDifferentValidInputs() {
@@ -59,9 +63,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        new Student("1234567", "Rita", "123456789", phoneNumber, "rita@gmail.com", address1);
+        new Student(mockStudentID, "Rita", "123456789", phoneNumber, "rita@gmail.com", address1);
     }
 
     static Stream<Arguments> testEmailWithDifferentValidInputs() {
@@ -83,49 +88,19 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        new Student("1234567", "Rita", "123456789", "963741258", email, address1);
+        new Student(mockStudentID, "Rita", "123456789", "963741258", email, address1);
     }
 
-    @Test
-    void zeroAsUniqueNumberDoesNotCreateObject() {
+    void invalidStudentIDShouldReturnException() {
 
         //arrange
         Address address1 = mock(Address.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("0000000", "Rita", "123456789", "963741258", "rita@gmail.com", address1));
-    }
-
-    @Test
-    void negativeUniqueNumberDoesNotCreateObject() {
-
-        //arrange
-        Address address1 = mock(Address.class);
-
-        //act + assert
-        assertThrows(Exception.class, () -> new Student("-1000000", "Rita", "123456789", "963741258", "rita@gmail.com", address1));
-    }
-
-    static Stream<Arguments> testUniqueNumber_Null_Blank_InvalidLength() {
-        return Streams.of(
-                Arguments.of(""),
-                Arguments.of(" "),
-                Arguments.of((Object) null),
-                Arguments.of("123"),
-                Arguments.of("1234567890")
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("testUniqueNumber_Null_Blank_InvalidLength")
-    void invalidUniqueNumberInputShouldReturnException(String uniqueNumber) {
-
-        //arrange
-        Address address1 = mock(Address.class);
-
-        //act + assert
-        assertThrows(Exception.class, () -> new Student(uniqueNumber, "Rita", "123456789", "963741258", "rita@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(null, "Rita", "123456789", "963741258", "rita@gmail.com", address1));
     }
 
     @Test
@@ -133,9 +108,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "", "123456789", "963741258", "rita@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "", "123456789", "963741258", "rita@gmail.com", address1));
     }
 
     @Test
@@ -143,9 +119,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", " ", "123456789", "963741258", "rita@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, " ", "123456789", "963741258", "rita@gmail.com", address1));
     }
 
     @Test
@@ -153,9 +130,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", null, "123456789", "963741258", "rita@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, null, "123456789", "963741258", "rita@gmail.com", address1));
     }
 
     @Test
@@ -163,9 +141,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Joaquim", "", "933741758", "joaquim@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Joaquim", "", "933741758", "joaquim@gmail.com", address1));
     }
 
     @Test
@@ -173,9 +152,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Joaquim", " ", "933741758", "joaquim@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Joaquim", " ", "933741758", "joaquim@gmail.com", address1));
     }
 
     @Test
@@ -183,9 +163,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Joaquim", null, "933741758", "joaquim@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Joaquim", null, "933741758", "joaquim@gmail.com", address1));
     }
 
     static Stream<Arguments> test_NIF_WithInvalidInputs() {
@@ -203,9 +184,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Rita", NIF, "963741258", "rita@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Rita", NIF, "963741258", "rita@gmail.com", address1));
     }
 
     @Test
@@ -213,9 +195,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Rute", "569874126", "", "rute@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Rute", "569874126", "", "rute@gmail.com", address1));
     }
 
     @Test
@@ -223,9 +206,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Joaquim", "569874126", " ", "joaquim@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Joaquim", "569874126", " ", "joaquim@gmail.com", address1));
     }
 
     @Test
@@ -233,9 +217,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Rute", "32165498", null, "rute@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Rute", "32165498", null, "rute@gmail.com", address1));
     }
 
     static Stream<Arguments> testPhoneNumberWithInvalidInputs() {
@@ -257,9 +242,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Rita", "32165498", phoneNumber, "rita@gmail.com", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Rita", "32165498", phoneNumber, "rita@gmail.com", address1));
     }
 
     @Test
@@ -267,9 +253,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Pedro", "159753824", "963996987", "", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Pedro", "159753824", "963996987", "", address1));
     }
 
     @Test
@@ -277,9 +264,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Joaquim", "569874126", "963996987", " ", address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Joaquim", "569874126", "963996987", " ", address1));
     }
 
     @Test
@@ -287,9 +275,10 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Pedro", "159753824", "963996987", null, address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Pedro", "159753824", "963996987", null, address1));
     }
 
     static Stream<Arguments> testEmailWithInvalidInputs() {
@@ -315,40 +304,47 @@ class StudentTest {
 
         //arrange
         Address address1 = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student("1234567", "Rita", "32165498", "963996987", email, address1));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, "Rita", "32165498", "963996987", email, address1));
     }
 
     @Test
-    void shouldReturnTrueIfTwoStudentsHaveTheSameUniqueNumber() {
+    void shouldReturnTrueIfTwoStudentsHaveTheSameID() {
         // Arrange
         Address address1 = mock(Address.class);
-        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID mockStudentID = mock(StudentID.class);
+        Student student1 = new Student(mockStudentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
+        when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
 
         Address address2 = mock(Address.class);
-        Student student2 = new Student("1234567", "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        Student student2 = new Student(mockStudentID, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+
+        when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
 
         // Act
-        boolean result = student1.hasSameUniqueNumber(student2);
+        boolean result = student1.equals(student2);
 
         // Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfTwoStudentsDontHaveTheSameUniqueNumber() {
+    void shouldReturnFalseIfTwoStudentsDontHaveTheSameID() {
         // Arrange
         Address address1 = mock(Address.class);
-        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID mockStudentID1 = mock(StudentID.class);
+        Student student1 = new Student(mockStudentID1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
 
         Address address2 = mock(Address.class);
-        Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        StudentID mockStudentID2 = mock(StudentID.class);
+        Student student2 = new Student(mockStudentID2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
 
         // Act
-        boolean result = student1.hasSameUniqueNumber(student2);
+        boolean result = student1.equals(student2);
 
         // Assert
         assertFalse(result);
@@ -359,12 +355,14 @@ class StudentTest {
         // Arrange
         Address address1 = mock(Address.class);
         Address address2 = mock(Address.class);
+        StudentID mockStudentID1 = mock(StudentID.class);
+        StudentID mockStudentID2 = mock(StudentID.class);
 
-        Student student1 = new Student("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
-        Student student2 = new Student("1345678", "Daniela", "123456789", "911855911", "danijose@gmail.com", address2);
+        Student student1 = new Student(mockStudentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+        Student student2 = new Student(mockStudentID2, "Daniela", "123456789", "911855911", "danijose@gmail.com", address2);
 
         // Act
-        boolean result = student1.hasSameNIF(student2);
+        boolean result = student1.sameAs(student2);
 
         // Assert
         assertTrue(result);
@@ -375,52 +373,46 @@ class StudentTest {
         // Arrange
         Address address1 = mock(Address.class);
         Address address2 = mock(Address.class);
+        StudentID mockStudentID1 = mock(StudentID.class);
+        StudentID mockStudentID2 = mock(StudentID.class);
 
-        Student student1 = new Student("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
-        Student student2 = new Student("1345678", "João", "112233445", "919999999", "joao@gmail.com", address2);
+        Student student1 = new Student(mockStudentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
+        Student student2 = new Student(mockStudentID2, "João", "112233445", "919999999", "joao@gmail.com", address2);
 
         // Act
-        boolean result = student1.hasSameNIF(student2);
+        boolean result = student1.sameAs(student2);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnTheUniqueNumber() {
-        //assert
-        Address address1 = mock(Address.class);
-        Student student1 = new Student("1234567", "Daniela", "123456789", "911855911", "danijose@gmail.com", address1);
-
-        //act
-        String result = student1.getUniqueNumber();
-
-        //assert
-        assertEquals(result, "1234567");
-    }
-
-
-    @Test
-    void shouldReturnTrueIfTheUniqueNumberIsFoundInAStudent() {
+    void shouldReturnTrueIfTheIDIsFoundInAStudent() {
         // Arrange
         Address address1 = mock(Address.class);
-        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID mockStudentID = mock(StudentID.class);
+        Student student1 = new Student(mockStudentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        Address address2 = mock(Address.class);
+        Student student2 = new Student(mockStudentID, "Andreia", "987654321", "967452312", "andreia@gmail.com", address2);
 
         // Act
-        boolean result = student1.hasThisUniqueNumber("1234567");
+        boolean result = student1.equals(student2);
 
         // Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfTheUniqueNumberIsNotFoundInAStudent() {
+    void shouldReturnFalseIfTheIDIsNotFoundInAStudent() {
         // Arrange
         Address address1 = mock(Address.class);
-        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID mockStudentID = mock(StudentID.class);
+        Student student1 = new Student(mockStudentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
+        StudentID mockStudentID2 = mock(StudentID.class);
         // Act
-        boolean result = student1.hasThisUniqueNumber("1231117");
+        boolean result = student1.equals(mockStudentID2);
 
         // Assert
         assertFalse(result);

@@ -1,6 +1,8 @@
 package PAI.VOs;
 
-public class StudentID {
+import PAI.ddd.DomainId;
+
+public class StudentID implements DomainId {
 
     private final int _uniqueNumber;
 
@@ -37,5 +39,9 @@ public class StudentID {
 
     public int getUniqueNumber () {
         return _uniqueNumber;
+    }
+
+    public boolean isEquals (StudentID studentID) {
+        return this.equals(studentID);
     }
 }

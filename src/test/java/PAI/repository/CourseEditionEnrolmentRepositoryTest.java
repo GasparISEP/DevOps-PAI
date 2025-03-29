@@ -2,6 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
@@ -681,7 +682,9 @@ class CourseEditionEnrolmentRepositoryTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -724,7 +727,9 @@ class CourseEditionEnrolmentRepositoryTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -765,7 +770,9 @@ class CourseEditionEnrolmentRepositoryTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -809,7 +816,9 @@ class CourseEditionEnrolmentRepositoryTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -854,8 +863,11 @@ class CourseEditionEnrolmentRepositoryTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student1 = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        Student student2 = new Student("1000001", "João Santos", "998194999", "221234467", "joao456@gmail.com", add1);
+        StudentID studentID1 = new StudentID(1000001);
+        StudentID studentID2 = new StudentID(1000002);
+
+        Student student1 = new Student(studentID1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student2 = new Student(studentID2, "João Santos", "998194999", "221234467", "joao456@gmail.com", add1);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -901,7 +913,9 @@ class CourseEditionEnrolmentRepositoryTest {
                 "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student1 = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+
+        Student student1 = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Algebra", "ALG", 5, 2);

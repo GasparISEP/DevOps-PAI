@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.StudentID;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,6 +19,7 @@ class ProgrammeEnrolmentTest {
     // Creation of actual attributes for tests without isolation
     private class AttributesForTestsWithoutIsolation {
         Address _address;
+        StudentID _studentID;
         Student _student;
         AccessMethod _accessMethod;
         DegreeType _degreeType;
@@ -36,7 +38,8 @@ class ProgrammeEnrolmentTest {
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-            _student = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", _address);
+            _studentID = new StudentID(1234567);
+            _student = new Student(_studentID, "Rita", "123456789", "963741258", "rita@gmail.com", _address);
             _accessMethod = new AccessMethod("M1");
             _degreeType = new DegreeType("Master", 240);
             _department = new Department("CSE", "Computer Science Engineer");
@@ -206,7 +209,7 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        Student student2 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", attributes._address);
+        Student student2 = new Student(attributes._studentID, "Rita", "123456789", "963741258", "rita@gmail.com", attributes._address);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme,"17-09-2005");
 
@@ -227,7 +230,7 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "17-09-2005");
 
-        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(true);
+        when(studentDouble.equals(studentDouble)).thenReturn(true);
 
         //act
         boolean result = programmeEnrolment.hasSameStudent(studentDouble);
@@ -241,7 +244,8 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
+        StudentID studentID = new StudentID(1234568);
+        Student student2 = new Student(studentID, "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, "20-03-2010");
 
@@ -257,15 +261,16 @@ class ProgrammeEnrolmentTest {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         Student studentDouble = (Student) doubles[0];
+        Student studentDouble2 = mock(Student.class);
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
 
         ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "12-04-2020");
 
-        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(false);
+        when(studentDouble.isEquals(studentDouble2)).thenReturn(false);
 
         //act
-        boolean result = programmeEnrolmentDouble.hasSameStudent(studentDouble);
+        boolean result = programmeEnrolmentDouble.hasSameStudent(studentDouble2);
 
         //assert
         assertFalse(result);
@@ -297,7 +302,7 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "15-10-2010");
 
-        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(true);
+        when(studentDouble.isEquals(studentDouble)).thenReturn(true);
         when(programmeDouble.isEquals(programmeDouble)).thenReturn(true);
 
         //act
@@ -312,8 +317,10 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
-        Student student1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", attributes._address);
+        StudentID studentID = new StudentID(1345678);
+
+        Student student2 = new Student(studentID, "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
+        Student student1 = new Student(attributes._studentID, "Rita", "123456789", "963741258", "rita@gmail.com", attributes._address);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1, attributes._accessMethod, attributes._programme,"17-09-2005");
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2, attributes._accessMethod, attributes._programme,"17-09-2005");
@@ -330,16 +337,18 @@ class ProgrammeEnrolmentTest {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         Student studentDouble = (Student) doubles[0];
+        Student studentDouble2 = mock(Student.class);
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "17-09-2005");
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "17-09-2005");
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, accessMethodDouble, programmeDouble, "17-09-2005");
 
-        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(false);
+        when(studentDouble.isEquals(studentDouble2)).thenReturn(false);
         when(programmeDouble.isEquals(programmeDouble)).thenReturn(true);
 
         //act
-        boolean result = programmeEnrolment.hasSameEnrolment(programmeEnrolment);
+        boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
 
         //assert
         assertFalse(result);
@@ -372,7 +381,7 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "17-09-2005");
 
-        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(true);
+        when(studentDouble.equals(studentDouble)).thenReturn(true);
         when(programmeDouble.isEquals(programmeDouble)).thenReturn(false);
 
         //act
@@ -387,7 +396,9 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        Student student2 = new Student("1345678", "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
+        StudentID studentID = new StudentID(1345678);
+
+        Student student2 = new Student(studentID, "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
 
         Programme programme2 = new Programme("Space Engineering", "SE", 20, 6, attributes._degreeType, attributes._department, attributes._teacher, attributes._programmeCourseListFactory, attributes._I_courseInStudyPlanFactory, attributes._I_studyPlanListFactory, attributes._I_studyPlanFactory, attributes._I_courseFactory);
 
@@ -411,7 +422,7 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "17-09-2005");
 
-        when(studentDouble.hasSameUniqueNumber(studentDouble)).thenReturn(false);
+        when(studentDouble.isEquals(studentDouble)).thenReturn(false);
         when(programmeDouble.isEquals(programmeDouble)).thenReturn(false);
 
         //act

@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
@@ -180,7 +181,10 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+
+        StudentID studentID = new StudentID(1765342);
+
+        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -218,7 +222,10 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+
+        StudentID studentID = new StudentID(1765342);
+
+        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -255,7 +262,10 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+
+        StudentID studentID = new StudentID(1765342);
+
+        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -295,7 +305,10 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+
+        StudentID studentID = new StudentID(1765342);
+
+        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -335,9 +348,15 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student1 = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+
+        StudentID studentID1 = new StudentID(1765342);
+
+        Student student1 = new Student(studentID1, "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
-        Student student2 = new Student("1762242", "John", "223445667", "222553444", "567@gmail.com",
+
+        StudentID studentID2 = new StudentID(1762242);
+
+        Student student2 = new Student(studentID2, "John", "223445667", "222553444", "567@gmail.com",
         new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -378,7 +397,10 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
+
+        StudentID studentID = new StudentID(1765342);
+
+        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
                 new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");

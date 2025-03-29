@@ -1,6 +1,7 @@
 package PAI.controller;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
@@ -174,9 +175,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
-        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1345678);
+        StudentID studentID3 = new StudentID(1456789);
+        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
@@ -241,9 +245,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
-        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1345678);
+        StudentID studentID3 = new StudentID(1456789);
+        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -310,9 +317,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
-        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1345678);
+        StudentID studentID3 = new StudentID(1456789);
+        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -383,9 +393,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
-        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1345678);
+        StudentID studentID3 = new StudentID(1456789);
+        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
@@ -452,9 +465,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
-        Student student1 = new Student("1234567", "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student("1345678", "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student("1456789", "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1345678);
+        StudentID studentID3 = new StudentID(1456789);
+        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
+        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
+        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();

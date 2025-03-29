@@ -626,8 +626,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
+        StudentID studentID = new StudentID(1500000);
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Development1", "DEV1", 5, 1);
@@ -704,7 +705,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
@@ -790,8 +792,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
+        StudentID studentID = new StudentID(1000001);
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
@@ -862,8 +865,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
+        StudentID studentID = new StudentID(1000001);
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
@@ -941,8 +945,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
+        StudentID studentID = new StudentID(1000001);
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
