@@ -79,6 +79,10 @@ shall be prevented.
 
 ### 6. Business Rules
 
+- The enrolment should have an unique identifier.
+
+- The enrolment information must always be recorded and stored.
+
 - A student cannot be enrolled in multiple overlapping editions of the same programme.
 
 - A student can only be enrolled in a programme edition if they are already enrolled in the related programme.
@@ -90,10 +94,25 @@ shall be prevented.
 - A student can only be enrolled in a course edition if they are already enrolled in the corresponding programme edition.
 
 - The enrolment date for a course edition shall always be recorded and stored.
+- 
+
+### 7. Main Entities
+
+To better understand the key entities involved in this user story, the following entities are defined:
+
+- **Student:** A person who is enrolled in a programme edition and set of course editions, participating in the academic programme offered by the institution.
+
+- **Programme Edition:** Represents a specific iteration of an academic programme delivered within a defined school year.
+
+- **Progamme Edition Enrolment:** Represents the enrolment of a student in a specific programme edition.
+
+- **Course Edition:** Represents an edition/instance of a curricular unit within a programme edition.
+
+- **Course Edition Enrolment:** Represents the enrolment of a student in a specific course edition.
 
 
 
-### 7. Event Flow
+### 8. Event Flow
 
 - The ASC initiates the enrolment process for a student in a specific programme edition.
 
@@ -116,7 +135,7 @@ and course editions.
 
 
 
-### 8. Testing and Validation
+### 9. Testing and Validation
 
 
 - **T1:** Test student not enrolle in programme
@@ -146,7 +165,7 @@ appropriate error or warning message.
 
 
 
-### 9. Identified Risks
+### 10. Identified Risks
 
 - Manual enrolment processes may introduce human errors if adequate validation checks are not implemented.
 
