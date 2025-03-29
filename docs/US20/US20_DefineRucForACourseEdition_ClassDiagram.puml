@@ -55,14 +55,16 @@ note right of TeacherRepository::getAllTeachers
 end note
 
 class CourseEdition {
-    -_programmeEdition: ProgrammeEdition
     -_course: Course
+    -_programmeEdition: ProgrammeEdition
     -_ruc: Teacher
-    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-    +Equals(objectToCompare: Object)
-    +setRuc(Teacher: ruc)
-    +whatProgrammeEditionBelongsThisCourseEdition ()
+    +CourseEdition(course: Course, programmeEdition: ProgrammeEdition)
+    +equals(objectToCompare: Object): boolean
+    +setRuc(ruc: Teacher): boolean
+    +whatProgrammeEditionBelongsThisCourseEdition(): ProgrammeEdition
+    +getCourse(): Course
 }
+
 
 note left of CourseEdition::setRuc
   This method assigns a teacher RUC to a Course Edition.
