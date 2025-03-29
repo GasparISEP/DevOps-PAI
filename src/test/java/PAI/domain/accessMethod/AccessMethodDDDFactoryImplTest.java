@@ -107,4 +107,12 @@ class AccessMethodDDDFactoryImplTest {
         assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(accessMethodID, null));
     }
 
+    @Test
+    void shouldNotCreateAccessMethodWithOnlyName(){
+        //arrange
+        AccessMethodDDDFactoryImpl accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        //act + assert
+        assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(null));
+    }
+
 }
