@@ -70,11 +70,13 @@ package "CourseEditionEnrolment Aggregate" #LightBlue {
 }
 
 class "<<Value Object>>\n EnrollmentStatus" {
+     -_isActive: boolean
      +EnrollmentStatus(isActive) : boolean
      isEnrolmentStatus () :  boolean
 }
 
 class "<<Value Object>>\n CourseEditionEnrolmentID" {
+     -_courseEditionEnrolmentId: UUID
      +CourseEditionEnrolmentID()
      +findCeeId ()
      +equals (obj: Object) : boolean
@@ -88,6 +90,7 @@ package "CourseEdition Aggregate" #LightBlue{
 }
 
 class "<<Value Object>>\n CourseEditionID" {
+     -_courseEditionId: UUID
      +CourseEditionID()
 }
 
@@ -99,45 +102,60 @@ package "Student Aggregate" #LightBlue{
 }
 
 class "<<Value Object>>\n StudentID" {
+     -_uniqueNumber: int
      +StudentID (uniqueNumber: int)
 }
 
 class "<<Value Object>>\n Name" {
+     -_name: String
      +Name (name: String)
 }
 
 class "<<Value Object>>\n NIF" {
+     -_NIF: String
      +NIF (nif: String)
 }
 
 class "<<Value Object>>\n Email" {
+     -_email: String
      +Email (email: String)
 }
 
 class "<<Value Object>>\n PhoneNumber" {
+     -_countryCode: String
+     -_number: String
      +PhoneNumber (countryCode: String, number: String)
 }
 
 class "<<Value Object>>\n Address" {
+     -_street: Street
+     -_country: Country
+     -_postalCode: PostalCode
+     -_location: Location
      +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
 }
 
 class "<<Value Object>>\n Street" {
+     -_street: String
      +Street(street: String)
 }
 
 class "<<Value Object>>\n PostalCode" {
+     -_postalCode: String
      +PostalCode(postalCode: String)
 }
 
 class "<<Value Object>>\n Location" {
+     -_locationName: String
      +Location(locationName: String)
 }
 
 class "<<Value Object>>\n Country" {
+     -_country: String
      +Country(country: String)
 }
 class "<<Value Object>>\n Date" {
+     -localDate: LocalDate
      +Date (date : String)
      +Date (localDate : LocalDate)
      +getLocalDate () : LocalDate
@@ -154,6 +172,7 @@ package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
 }
 
 class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
+     -_id: Long
      +ProgrammeEditionEnrolmentID()
      +equals (obj: Object) : boolean
 }
