@@ -65,15 +65,17 @@ note left of CourseEdition::setRuc
 end note
 
 class CourseEditionRepository {
-    -_courseEditionRepository: ArrayList<CourseEdition>
-    +CourseEditionRepository()
-    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
-    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
-    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
-    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
+    -_courseEditions: List<CourseEdition>
+    -_I_courseEditionFactory: ICourseEditionFactory
+    +CourseEditionRepository(ICourseEditionFactory ICourseEditionFactory, ICourseEditionListFactory ICourseEditionListFactory)
+    +createAndSaveCourseEdition(course: Course, programmeEdition: ProgrammeEdition): boolean
+    +isCourseEditionAlreadyInRepository(courseEdition: CourseEdition): boolean
     +getCourseEditions(): List<CourseEdition>
-    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition)
+    +setRucInACourseEdition(courseEdition: CourseEdition, ruc: Teacher): boolean
+    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition): ProgrammeEdition
+    +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition): List<CourseEdition>
 }
+
 note left of CourseEditionRepository::setRucInACourseEdition
   This method returns all course editions in the repository.
 end note
