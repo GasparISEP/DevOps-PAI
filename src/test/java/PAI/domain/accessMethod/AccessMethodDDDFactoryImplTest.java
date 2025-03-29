@@ -75,6 +75,28 @@ class AccessMethodDDDFactoryImplTest {
     }
 
     @Test
+    void mockingConstructorOnlyWithNameThrowingException(){
+        //arrange
+        AccessMethodDDDFactoryImpl accessMethodFactoryImpl = new AccessMethodDDDFactoryImpl();
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        //Use try-with-resources to mock construction and throw an exception
+        try (MockedConstruction<AccessMethodDDD> mock = mockConstruction(AccessMethodDDD.class,(mocked, context) ->
+        {
+            //Define behavior: throwing an exception when a new instance of Location is created
+            throw new RuntimeException(new InstantiationException("AccessMethod constructor failed"));
+        })) {
+            //Act: trying to create accessMethod will throw the exception
+            try {
+                accessMethodFactoryImpl.createAccessMethod(accessMethodName);
+                fail("Expect exception not thrown");
+            } catch (Exception e) {
+                //Assertion to check if the exception is thrown
+                assertTrue(e.getCause().getMessage().contains("AccessMethod constructor failed"));
+            }
+        }
+    }
+
+    @Test
     void shouldNotCreateAccessMethod(){
         //arrange
         AccessMethodDDDFactoryImpl accessMethodFactory = new AccessMethodDDDFactoryImpl();
