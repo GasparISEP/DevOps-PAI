@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.domain.AccessMethod;
 import PAI.factory.AccessMethodFactoryImpl;
-import PAI.factory.AccessMethodArrayListFactoryImpl;
+import PAI.factory.AccessMethodListFactoryImpl;
 import PAI.repository.AccessMethodRepository;
 import org.junit.jupiter.api.Test;
 
@@ -48,9 +48,9 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldConfigureAnAccessMethod() throws Exception {
         //arrange
-        AccessMethodArrayListFactoryImpl doubleAccessMethodArrayListFactoryImpl = mock(AccessMethodArrayListFactoryImpl.class);
+        AccessMethodListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodListFactoryImpl.class);
         AccessMethodFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodFactoryImpl.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodArrayListFactoryImpl);
+        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         AccessMethod doubleAccessMethod = mock(AccessMethod.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);

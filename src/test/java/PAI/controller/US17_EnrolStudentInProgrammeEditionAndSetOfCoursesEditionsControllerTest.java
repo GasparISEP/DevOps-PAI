@@ -622,7 +622,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
@@ -719,7 +719,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         amr.registerAccessMethod("Over 23");
 
@@ -788,7 +788,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
@@ -861,7 +861,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
@@ -941,7 +941,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 
         IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodArrayListFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
         AccessMethodRepository amr = new AccessMethodRepository(accessMethodFactory, accessMethodListFactory);
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");

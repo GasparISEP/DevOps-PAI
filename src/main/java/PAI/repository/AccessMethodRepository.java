@@ -14,7 +14,7 @@ public class AccessMethodRepository {
 
     public AccessMethodRepository (IAccessMethodFactory iAccessMethodFactory, IAccessMethodListFactory iAccessMethodListFactory) {
         _IaccessMethodFactory = iAccessMethodFactory;
-        _accessMethods = iAccessMethodListFactory.createAccessMethodArrayList();
+        _accessMethods = iAccessMethodListFactory.createAccessMethodList();
     }
 
     //register accessMethod
