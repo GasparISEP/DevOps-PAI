@@ -162,11 +162,11 @@ class "<<Value Object>>\n PostalCode" {
 }
 
 class "<<Value Object>>\n Location" {
-     +PostalCode()
+     +Location()
 }
 
 class "<<Value Object>>\n Country" {
-     +PostalCode()
+     +Country()
 }
 class "<<Value Object>>\n Date" {
      +Date (date : String)
