@@ -80,6 +80,8 @@ class "<<Value Object>>\n CourseEditionEnrolmentID" {
      +CourseEditionEnrolmentID()
      +findCeeId (): UUID
      +equals (obj: Object) : boolean
+     +hashCode(): int
+     +toString(): String
 }
 
 package "CourseEdition Aggregate" #LightBlue{
