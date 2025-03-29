@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.StudentID;
 import PAI.domain.Address;
 import PAI.domain.Student;
 import org.apache.commons.lang3.stream.Streams;
@@ -21,51 +22,38 @@ class StudentFactoryImplTest {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
-        String uniqueNumber = "1234567";
+        StudentID mockStudentID = mock(StudentID.class);
 
         try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
 
-                String actualUniqueNumber = (String) context.arguments().get(0);
-                when(mock.getUniqueNumber()).thenReturn(actualUniqueNumber);
+                StudentID studentID = (StudentID) context.arguments().get(0);
+                when(mock.identity()).thenReturn(mockStudentID);
         })) {
             // Act
-            Student student = studentFactory.newStudent(uniqueNumber, "Daniela", "123456789", "963741258", "rita@gmail.com", address);
+            Student student = studentFactory.newStudent(mockStudentID, "Daniela", "123456789", "963741258", "rita@gmail.com", address);
 
             // Assert
             assertEquals(1, studentDouble.constructed().size());
             assertSame(studentDouble.constructed().get(0), student);
-            assertEquals(uniqueNumber, student.getUniqueNumber());
+            assertEquals(mockStudentID, student.identity());
         }
     }
 
-
-    static Stream<Arguments> testInputUniqueNumberIsInvalid() {
-        return Streams.of(
-                Arguments.of(""),
-                Arguments.of(" "),
-                Arguments.of((Object) null),
-                Arguments.of( "0000000"),
-                Arguments.of( "-1000000"),
-                Arguments.of("123"),
-                Arguments.of("1234567890")
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("testInputUniqueNumberIsInvalid")
-    void shouldThrowExceptionWhenInputUniqueNumberIsInvalid(String uniqueNumber) {
+    void shouldThrowExceptionWhenStudentIDIsInvalid(String uniqueNumber) {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
-            throw new IllegalArgumentException("Student's unique number must have 7 digits and start with 1!");
+            throw new IllegalArgumentException("Student's ID is invalid.");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent(uniqueNumber, "Daniela", "123456789", "963741258", "rita@gmail.com", address);
+                studentFactory.newStudent(mockStudentID, "Daniela", "123456789", "963741258", "rita@gmail.com", address);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
-                assertTrue(e.getCause().getMessage().contains("Student's unique number must have 7 digits and start with 1!"));
+                assertTrue(e.getCause().getMessage().contains("Student's ID is invalid."));
             }
         }
     }
@@ -83,13 +71,14 @@ class StudentFactoryImplTest {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's name cannot be empty!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent("1234567", name, "123456789", "963741258", "rita@gmail.com", address);
+                studentFactory.newStudent(mockStudentID, name, "123456789", "963741258", "rita@gmail.com", address);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's name cannot be empty!"));
@@ -112,13 +101,14 @@ class StudentFactoryImplTest {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's NIF is invalid!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent("1234567", "Daniela", NIF, "963741258", "rita@gmail.com", address);
+                studentFactory.newStudent(mockStudentID, "Daniela", NIF, "963741258", "rita@gmail.com", address);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's NIF is invalid!"));
@@ -145,13 +135,14 @@ class StudentFactoryImplTest {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's phone is invalid!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent("1234567", "Daniela", "123456789", phone, "rita@gmail.com", address);
+                studentFactory.newStudent(mockStudentID, "Daniela", "123456789", phone, "rita@gmail.com", address);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's phone is invalid!"));
@@ -178,13 +169,14 @@ class StudentFactoryImplTest {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's email is not valid!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent("1234567", "Daniela", "123456789", "912345678", email, address);
+                studentFactory.newStudent(mockStudentID, "Daniela", "123456789", "912345678", email, address);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's email is not valid!"));

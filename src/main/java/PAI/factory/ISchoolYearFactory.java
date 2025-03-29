@@ -1,8 +1,10 @@
 package PAI.factory;
 
+import PAI.VOs.Date;
+import PAI.VOs.Description;
 import PAI.domain.SchoolYear;
 
 public interface ISchoolYearFactory {
 
-    SchoolYear createSchoolYear(String description, String startDate, String endDate);
+    SchoolYear createSchoolYear(Description description, Date startDate, Date endDate);
 }

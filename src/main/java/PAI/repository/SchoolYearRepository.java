@@ -1,10 +1,11 @@
 package PAI.repository;
 
+import PAI.VOs.Date;
+import PAI.VOs.Description;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.factory.ISchoolYearListFactory;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -28,7 +29,7 @@ public class SchoolYearRepository {
         this._schoolYearListFactory = schoolYearListFactory;
     }
 
-    public boolean addSchoolYear(String description, String startDate, String endDate) throws Exception {
+    public boolean addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
 
         SchoolYear newSchoolYear = _schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
@@ -58,7 +59,7 @@ public class SchoolYearRepository {
         if (_schoolYearList.isEmpty())
             return null;
 
-        LocalDate today = LocalDate.now();
+        Date today = Date.now();
 
         for (int i = 0; i < _schoolYearList.size(); i++) {
             if (!today.isBefore(_schoolYearList.get(i).getStartDate()) && !today.isAfter(_schoolYearList.get(i).getEndDate()))

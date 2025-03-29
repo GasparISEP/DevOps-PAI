@@ -2,6 +2,7 @@ package PAI.domain;
 
 
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.QuantEcts;
 import PAI.VOs.QuantSemesters;
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 public class Programme {
 
+    private Acronym _acronymm;
     private NameWithNumbersAndSpecialChars _nameWithNumbersAndSpecialChars;
     private QuantSemesters _quantSemesters;
     private QuantEcts _quantEcts;
@@ -72,17 +74,17 @@ public class Programme {
         _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 
-    public Programme(NameWithNumbersAndSpecialChars name, String acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department,
+    public Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department,
                      Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
         if(name==null) {
             throw new IllegalArgumentException("Insert a valid Name");
         }
         _nameWithNumbersAndSpecialChars = name;
 
-        if (isAcronymInvalid(acronym)) {
+        if (acronym == null) {
             throw new IllegalArgumentException("Acronym must not be empty");
         }
-        _acronym = acronym;
+        _acronymm = acronym;
 
         if (quantityOfEcts == null) {
             throw new IllegalArgumentException("Insert a valid number of ECTS");
@@ -138,7 +140,7 @@ public class Programme {
         if (o == null || getClass() != o.getClass()) return false;
         Programme programme = (Programme) o;
         return _quantEcts == programme._quantEcts && _quantityOfSemesters == programme._quantityOfSemesters &&
-                Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
+                Objects.equals(_name, programme._name) && Objects.equals(_acronymm, programme._acronymm);
     }
 
     //Wrapper for equals
@@ -209,12 +211,11 @@ public class Programme {
         return _acronym;
     }
 
-    public String getProgrammeName() {
-        return _name;
-    }
+    public String getProgrammeName() {return _name;}
 
     public NameWithNumbersAndSpecialChars getProgrammeNameWithNumbersAndSpecialChars() {
         return _nameWithNumbersAndSpecialChars;
-
     }
+
+    public Acronym getAcronymm() {return _acronymm;}
 }

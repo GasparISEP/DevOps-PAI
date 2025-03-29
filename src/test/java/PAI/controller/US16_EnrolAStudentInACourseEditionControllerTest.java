@@ -1,5 +1,8 @@
 package PAI.controller;
 
+import PAI.VOs.Date;
+import PAI.VOs.Description;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
@@ -221,7 +224,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID studentID1 = new StudentID(1234567);
+        Student st1 = new Student(studentID1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
@@ -249,11 +253,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
 
-        SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+        Description description = new Description("School Year 23/24");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
-        SchoolYear schoolYear2 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+        SchoolYear schoolYear2 = new SchoolYear(description, startDate, endDate);
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1, schoolYear2);
 
         peeRepository.enrolStudentInProgrammeEdition(st1,programmeEdition1);
@@ -310,7 +317,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
 
-        SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+        Description description = new Description("School Year 23/24");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -348,9 +358,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
-        Student st2 = new Student("1234367", "Joana", "123556789", "963741369", "joana@gmail.com", address1);
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1234367);
+
+        Student st1 = new Student(studentID1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+
+        Student st2 = new Student(studentID2, "Joana", "123556789", "963741369", "joana@gmail.com", address1);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
@@ -382,7 +396,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         programme1.addCourseToAProgramme(course1);
 
-        SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+        Description description = new Description("School Year 23/24");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -416,7 +433,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID studentID = new StudentID(1234567);
+        Student st1 = new Student(studentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
@@ -448,7 +466,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         programme1.addCourseToAProgramme(course1);
 
-        SchoolYear schoolYear1 = new SchoolYear("School Year 23/24", "01-09-2023", "31-08-2024");
+        Description description = new Description("School Year 23/24");
+        Date startDate = new Date ("01-09-2023");
+        Date endDate = new Date ("31-08-2024");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 

@@ -1,5 +1,8 @@
 package PAI.controller;
 
+import PAI.VOs.Date;
+import PAI.VOs.Description;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.ProgrammeEditionEnrolmentRepository;
@@ -189,8 +192,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student("1111111", "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+
+        StudentID studentID = new StudentID(1111111);
+
+        Student st1 = new Student(studentID, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("20-01-2024");
+        Date endDate = new Date ("23-02-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -231,7 +240,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() throws Exception{
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("20-01-2024");
+        Date endDate = new Date ("23-02-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -272,8 +284,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student("1111111", "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
-        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+
+        StudentID studentID = new StudentID(1111111);
+
+        Student st1 = new Student(studentID, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("20-01-2024");
+        Date endDate = new Date ("23-02-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -362,7 +380,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("20-01-2024");
+        Date endDate = new Date ("23-02-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -403,7 +424,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     void shouldReturnProgrammeEditionInList() throws Exception{
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("20-01-2024");
+        Date endDate = new Date ("23-02-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -446,7 +470,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     void shouldReturnAllProgrammeEdition() throws Exception{
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        SchoolYear sy1 = new SchoolYear("adeus", "20-01-2024", "23-02-2024");
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("20-01-2024");
+        Date endDate = new Date ("23-01-2024");
+        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");

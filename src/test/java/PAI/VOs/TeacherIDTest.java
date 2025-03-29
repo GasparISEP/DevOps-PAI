@@ -2,62 +2,127 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TeacherIDTest {
 
     @Test
-    void shouldCreateAcronym() throws Exception {
-        //Arrange
-        TeacherID teacherAcronym1 = new TeacherID("ABC");
+    void shouldCreateNewTeacherIDWithValidUUID() {
+        // Act
+        TeacherID teacherID = TeacherID.createNew();
 
-        //Act+Assert
-        assertNotNull(teacherAcronym1);
+        // Assert
+        assertNotNull(teacherID);
     }
 
     @Test
-    void shouldReturnCorrectAcronym() throws Exception {
-        //Arrange
-        String acronym1 = "ABC";
-        TeacherID teacherAcronym2 = new TeacherID(acronym1);
+    void shouldReturnA_UUID_WhenCallingIdentity() {
+        // Act
+        TeacherID firstTeacherID = TeacherID.createNew();
 
-        //Act
-        String acronym2String = teacherAcronym2.getAcronym();
-
-        //Assert
-        assertEquals(acronym1, acronym2String);
+        // Assert
+        assertNotNull(firstTeacherID.identity());
     }
 
     @Test
-    void shouldNotReturnAcronymIfNull() {
-        //Act+Assert
-        assertThrows(Exception.class, () -> new TeacherID(null));
+    void shouldGenerateUniqueTeacherIDsOnEachCall() {
+        // Act
+        TeacherID firstTeacherID = TeacherID.createNew();
+        TeacherID secondTeacherID = TeacherID.createNew();
+
+        // Assert
+        assertNotEquals(firstTeacherID.identity(), secondTeacherID.identity());
     }
 
     @Test
-    void shouldNotReturnAcronymIfBlank()  {
-        assertThrows(Exception.class, () -> new TeacherID(""));
+    void shouldThrowIllegalArgumentExceptionWhenIdIsNull() {
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            try {
+                // Access private constructor
+                var constructor = TeacherID.class.getDeclaredConstructor(UUID.class);
+                constructor.setAccessible(true);
+                constructor.newInstance((Object) null); // Try to instance the constructor with a null value as input
+            } catch (InvocationTargetException e) {
+                throw e.getCause(); // Re-throw the original IllegalArgumentException
+            }
+        });
     }
 
     @Test
-    void shouldNotReturnAcronymIfContainsNumbers()  {
-        assertThrows(Exception.class, () -> new TeacherID("AB1"));
+    void shouldReturnTrueWhenObjectsAreTheSame(){
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID);
+
+        // Assert
+        assertTrue(result);
     }
 
     @Test
-    void shouldNotReturnAcronymIfContainsLowerCases() {
-        assertThrows(Exception.class, () -> new TeacherID("ABc"));
+    void shouldReturnTrueWhenUUIDIsTheSame() {
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        UUID id = teacherID.identity();
+        TeacherID teacherID2;
+
+        try {
+            var constructor = TeacherID.class.getDeclaredConstructor(UUID.class);
+            constructor.setAccessible(true);
+            teacherID2 = constructor.newInstance(id);
+        } catch (Exception e) {
+            teacherID2 = null;
+        }
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID2);
+
+        // Assert
+        assertTrue(result);
     }
 
     @Test
-    void shouldNotReturnAcronymIfContainsSpecialChars() {
-        assertThrows(Exception.class, () -> new TeacherID("AB@"));
-    }
+    void shouldReturnFalseWhenObjectAndTeacherIDAreNotTheSame(){
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        Object otherObject = new Object();
 
+        // Act
+        boolean result = teacherID.sameAs(otherObject);
+
+        // Assert
+        assertFalse(result);
+    }
 
     @Test
-    void shouldNotReturnAcronymIfMoreThan3Letters() {
-        assertThrows(Exception.class, () -> new TeacherID("ABCD"));
+    void shouldReturnFalseWhenUUIDsAreNotTheSame() {
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        TeacherID teacherID2 = TeacherID.createNew();
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID2);
+
+        // Assert
+        assertFalse(result);
     }
 
+    @Test
+    void shouldReturnFalseWhenTeacherIDIsComparedWithNullObject() {
+        // Arrange
+        TeacherID teacherID = TeacherID.createNew();
+        TeacherID teacherID2 = null;
+
+        // Act
+        boolean result = teacherID.sameAs(teacherID2);
+
+        // Assert
+        assertFalse(result);
+    }
 }

@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.StudentID;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
@@ -181,16 +182,17 @@ class ProgrammeEditionEnrolmentTest {
     void shouldReturnStudentUniqueNumber() {
         // Arrange
         Student studentMock = mock(Student.class);
-        when(studentMock.getUniqueNumber()).thenReturn("1234567");
+        StudentID mockStudentID = mock(StudentID.class);
+        when(studentMock.identity()).thenReturn(mockStudentID);
 
         ProgrammeEdition editionMock = mock(ProgrammeEdition.class);
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentMock, editionMock);
 
         // Act
-        String uniqueNumber = enrollment.getStudentUniqueNumber();
+        StudentID studentID = enrollment.getStudentID();
 
         // Assert
-        assertEquals("1234567", uniqueNumber);
+        assertEquals(mockStudentID, studentID);
     }
 
     @Test

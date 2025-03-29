@@ -6,8 +6,14 @@ import PAI.ddd.AggregateRoot;
 
 public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
 
-    private final AccessMethodID _accessMethodId;
+    private AccessMethodID _accessMethodId;
     private final NameWithNumbersAndSpecialChars _accessMethodName;
+
+    protected AccessMethodDDD (NameWithNumbersAndSpecialChars accessMethodName){
+        if(accessMethodName == null) throw new IllegalArgumentException("Access Method name cannot be null");
+
+        this._accessMethodName = accessMethodName;
+    }
 
 
     protected AccessMethodDDD (AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName){
@@ -26,7 +32,29 @@ public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
     }
 
     @Override
-    public boolean sameAs(Object object) {
+    public boolean equals (Object object){
+
+        if(this == object) return true;
+
+        if(object instanceof AccessMethodDDD oAccessMethod){
+            return this._accessMethodId.equals(oAccessMethod._accessMethodId);
+        }
+
         return false;
+
+    }
+
+    @Override
+    public boolean sameAs (Object object) {
+
+        if (object instanceof AccessMethodDDD oAccessMethod){
+            return this._accessMethodName.equals(oAccessMethod._accessMethodName);
+        }
+
+        return false;
+    }
+
+    public boolean hasThisAccessMethodName (NameWithNumbersAndSpecialChars accessMethodName) {
+        return _accessMethodName.equals(accessMethodName);
     }
 }

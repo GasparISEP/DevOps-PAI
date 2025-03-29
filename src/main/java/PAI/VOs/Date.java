@@ -34,6 +34,18 @@ public class Date implements ValueObject {
         return localDate;
     }
 
+    public static Date now() {
+        return new Date(LocalDate.now());
+    }
+
+    public boolean isBefore(Date other) {
+        return this.localDate.isBefore(other.localDate);
+    }
+
+    public boolean isAfter(Date other) {
+        return this.localDate.isAfter(other.localDate);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

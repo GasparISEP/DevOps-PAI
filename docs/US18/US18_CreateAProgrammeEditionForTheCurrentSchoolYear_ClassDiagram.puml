@@ -1,7 +1,8 @@
 @startuml
 
-skinparam ranksep 100
-skinparam nodesep 100
+skinparam ranksep 50
+skinparam nodesep 50
+'skinparam linetype ortho
 
 class US18_CreateProgrammeEditionForCurrentSchoolYearController {
     + US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository : ProgrammeEditionRepository, schoolYearRepository : SchoolYearRepository, programmeList : ProgrammeList)
@@ -22,6 +23,15 @@ class ProgrammeEditionRepositoryImpl {
     + findProgrammeEditionBySchoolYearAndProgramme(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : Optional <ProgrammeEdition>
     + getAllProgrammeEditions() : List<ProgrammeEdition>
 }
+
+Interface IProgrammeEditionListFactory {
+    createProgrammeEditionList() : List<ProgrammeEdition>
+}
+
+Class ProgrammeEditionListFactoryImpl {
+    + createProgrammeEditionList() : List<ProgrammeEdition>
+}
+
 
 interface ISchoolYearRepository {
     + addSchoolYear(description : Description, date : Date, date : Date) : boolean
@@ -71,11 +81,12 @@ package "ProgrammeEdition Aggregate" {
     }
 
     class "<<Value Object>>\nProgrammeEditionID" {
-            - programmeEditionID : int
-            + getProgrammeEditionID() : int
+            - _programmeEditionID : UUID
+            + ProgrammeEditionID()
+            + getProgrammeEditionID() : UUID
             + equals() : boolean
+            + toString() : String
     }
-
 }
 
 
@@ -110,6 +121,14 @@ package "Programme Aggregate" {
     }
 }
 
+interface IRepository {}
+
+IProgrammeRepository -up-|> IRepository : extends
+IProgrammeEditionRepository -up-|> IRepository : extends
+ISchoolYearRepository -up-|> IRepository : extends
+
+
+
 "<<Root>>\n<<Entity>>\nProgrammeEdition" "1" *-- "1" "<<Value Object>>\nProgrammeEditionID" : contains
 "<<Root>>\n<<Entity>>\nProgramme" "*" *-- "1" "<<Value Object>>\nProgrammeID" : contains
 "<<Root>>\n<<Entity>>\nSchoolYear" "1" *-- "1" "<<Value Object>>\nSchoolYearID" : contains
@@ -127,7 +146,10 @@ US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ....> "*" IProgram
 "<<Root>>\n<<Entity>>\nSchoolYear" "*" <-up- "1" ISchoolYearRepository : contains
 "<<Root>>\n<<Entity>>\nProgramme" "*" <-up- "1" IProgrammeRepository : contains
 
-'"<<Root>>\n<<Entity>>\nProgrammeEdition" "*" *-- "1" "<<Value Object>>\nSchoolYearID" : contains
-' "<<Root>>\n<<Entity>>\nProgramme" "1" --> "1" "<<Value Object>>\nProgrammeID"
+ProgrammeEditionRepositoryImpl "1" -up-> "1" IProgrammeEditionListFactory : uses
+ProgrammeEditionListFactoryImpl ..|> IProgrammeEditionListFactory
+
+'"<<Root>>\n<<Entity>>\nProgrammeEdition" .> "<<Value Object>>\nSchoolYearID" : knows
+'"<<Root>>\n<<Entity>>\nProgrammeEdition" .> "<<Value Object>>\nProgrammeID" : knows
 
 @enduml

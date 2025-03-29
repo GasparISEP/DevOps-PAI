@@ -30,7 +30,7 @@ class StreetTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidStringForStreet")
-    void shouldNotConstructStreetIfInvalidString(String street) throws Exception {
+    void shouldNotConstructStreetIfInvalidString(String street) {
         //arrange
 
         //act & assert

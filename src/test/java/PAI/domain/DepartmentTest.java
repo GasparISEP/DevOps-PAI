@@ -1,4 +1,6 @@
 package PAI.domain;
+import PAI.VOs.Date;
+import PAI.VOs.Description;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -162,7 +164,10 @@ class DepartmentTest {
     void shouldReturnFalseWhenComparedWithDifferentClassObject() throws Exception {
         // Arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        SchoolYear schoolYear1 = new SchoolYear("Ano letivo de", "01-09-2024", "31-07-2025");
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date ("01-09-2024");
+        Date endDate = new Date ("31-07-2025");
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate,endDate);
 
         // Act & Assert
         assertFalse(department1.equals(schoolYear1));

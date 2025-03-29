@@ -1,5 +1,8 @@
 package PAI.domain;
 
+import PAI.VOs.Date;
+import PAI.VOs.Description;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,53 +10,26 @@ import java.util.Objects;
 
 public class SchoolYear {
 
-    private String _description;
-    private LocalDate _startDate;
-    private LocalDate _endDate;
+    private Description _description;
+    private Date _startDate;
+    private Date _endDate;
 
     // Constructor
-    public SchoolYear(String description, String startDate, String endDate) {
+    public SchoolYear(Description description, Date startDate, Date endDate) {
+
+        if (startDate.equals(endDate)) {
+            throw new IllegalArgumentException("Start date and end date cannot be the same.");
+        }
+        if (endDate.isBefore(startDate)) {
+            throw new IllegalArgumentException("End date cannot be before start date.");
+        }
 
         try {
-            validateParameters(description, startDate, endDate);
+            _startDate = startDate;
+            _endDate = endDate;
             _description = description;
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
-        }
-    }
-
-    // Validation of parameters
-    private void validateParameters(String description, String startDate, String endDate) {
-
-        if (description == null || description.isBlank())
-            throw new IllegalArgumentException("Description cannot be null or blank.");
-
-        if (startDate == null || startDate.isBlank())
-            throw new IllegalArgumentException("Start date cannot be null or blank.");
-
-        if (endDate == null || endDate.isBlank())
-            throw new IllegalArgumentException("End date cannot be null or blank.");
-
-        // Validates format and logic of startDate and endDate
-        validateDateFormat(startDate, endDate);
-    }
-
-    // Validation of date format
-    private void validateDateFormat(String startDate, String endDate) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        try {
-            // Conversion of startDate & endDate to Java Object LocalDate
-            _startDate = LocalDate.parse(startDate, formatter);
-            _endDate = LocalDate.parse(endDate, formatter);
-
-            // Verifies if startDate is not greater than endDate
-            if (!_endDate.isAfter(_startDate)) {
-                throw new IllegalArgumentException("End date must be greater than start date.");
-            }
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Use the following format: dd-MM-yyyy.");
         }
     }
 
@@ -62,13 +38,13 @@ public class SchoolYear {
         return _startDate.equals(newSchoolYear._startDate) && _endDate.equals(newSchoolYear._endDate);
     }
 
-    public LocalDate getEndDate() {
-        LocalDate endDate = _endDate;
+    public Date getEndDate() {
+        Date endDate = _endDate;
         return endDate;
     }
 
-    public LocalDate getStartDate() {
-        LocalDate startDate = _startDate;
+    public Date getStartDate() {
+        Date startDate = _startDate;
         return startDate;
     }
 

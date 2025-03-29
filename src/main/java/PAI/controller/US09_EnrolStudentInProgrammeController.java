@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
 import PAI.repository.ProgrammeEnrolmentRepository;
@@ -37,8 +38,8 @@ public class US09_EnrolStudentInProgrammeController {
         this._programmeEnrolmentRepository = programmeEnrolmentRepository;
     }
 
-    public Optional<Student> getStudentByUniqueNumber(String uniqueNumber) {
-        return _studentRepository.getStudentByUniqueNumber(uniqueNumber);
+    public Optional<Student> getStudentByUniqueNumber(StudentID studentID) {
+        return _studentRepository.getStudentByID(studentID);
     }
 
     public Optional<AccessMethod> getAccessMethodByName(String accessMethod) {

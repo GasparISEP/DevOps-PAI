@@ -10,7 +10,7 @@ class QuantEctsTest {
     void shouldCreateQuantEcts() throws Exception {
 
         // Act
-        QuantEcts quantEcts1= new QuantEcts(6);
+        QuantEcts quantEcts1= new QuantEcts(30);
         // Assert
         assertNotNull(quantEcts1);
     }
@@ -32,7 +32,7 @@ class QuantEctsTest {
     void shouldNotCreateQuantEctsWithValueBelow0()  {
 
         // Act + Assert
-        assertThrows(Exception.class, () -> new QuantEcts(-1));
+        assertThrows(Exception.class, () -> new QuantEcts(0));
     }
 
     @Test

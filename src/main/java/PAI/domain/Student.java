@@ -1,10 +1,12 @@
 package PAI.domain;
 
-import java.util.List;
+import PAI.VOs.NIF;
+import PAI.VOs.StudentID;
+import PAI.ddd.AggregateRoot;
 
-public class Student {
+public class Student implements AggregateRoot<StudentID> {
 
-    private String _uniqueNumber;
+    private StudentID _studentID;
     private String _name;
     private String _NIF;
     private String _phone;
@@ -13,13 +15,13 @@ public class Student {
     private String _institutionalEmail;
 
     //constructor validation
-    public Student(String uniqueNumber, String name, String NIF, String phone, String email, Address address) {
+    public Student(StudentID studentID, String name, String NIF, String phone, String email, Address address) {
 
-        //validação Student Unique Number
-        if (isUniqueNumberInvalid(uniqueNumber))
-            throw new IllegalArgumentException("Student's unique number must have 7 digits and start with 1!");
+        // Validation of StudentID
+        if (studentID == null)
+            throw new IllegalArgumentException("Student's ID is invalid.");
 
-        _uniqueNumber = uniqueNumber;
+        this._studentID = studentID;
 
         //Student name validation
         if (areParametersInvalid(name))
@@ -47,15 +49,11 @@ public class Student {
 
         _address = address;
 
-        _institutionalEmail = generateInstitutionalEmail(uniqueNumber);
+        _institutionalEmail = generateInstitutionalEmail(studentID.getUniqueNumber());
     }
 
     private boolean areParametersInvalid(String parameter) {
         return parameter == null || parameter.isBlank();
-    }
-
-    private boolean isUniqueNumberInvalid(String studentNumber) {
-        return !studentNumber.matches("^1\\d{6}$") || areParametersInvalid(studentNumber);
     }
 
     private boolean isNIFInvalid(String NIF){
@@ -71,23 +69,39 @@ public class Student {
     }
 
     // NOTE: In future iterations, implementing a config file might be considered to replace the hardcoded email domain.
-    private String generateInstitutionalEmail(String uniqueNumber){
+    private String generateInstitutionalEmail(int uniqueNumber){
         return uniqueNumber + "@isep.ipp.pt";
     }
 
-    // Check for matching uniqueNumber
-    public boolean hasSameUniqueNumber(Student student) {
-        return _uniqueNumber.equals(student._uniqueNumber);
+    @Override
+    public StudentID identity() {
+        return _studentID;
     }
 
-    // Check for matching NIF
-    public boolean hasSameNIF(Student student) {
-        return _NIF.equals(student._NIF);
+    @Override
+    public boolean sameAs(Object object) {
+
+        if (this == object) return true;
+
+        if (!(object instanceof Student)) return false;
+
+        Student other = (Student) object;
+        return _NIF.equals(other._NIF);
     }
 
-    public String getUniqueNumber() {
-        return _uniqueNumber;
+    @Override
+    public boolean equals(Object object) {
+
+        if (this == object) return true;
+
+        if (!(object instanceof Student)) return false;
+
+        Student other = (Student) object;
+        return _studentID.equals(other._studentID);
     }
 
-    public boolean hasThisUniqueNumber(String uniqueNumber) {return uniqueNumber.equals(_uniqueNumber);}
+    // Wrapper for the equals method
+    public boolean isEquals (Student student) {
+        return this.equals(student);
+    }
 }

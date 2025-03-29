@@ -1,0 +1,128 @@
+@startuml
+title US16: Enrol a student in a course edition
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+
+actor ASC
+participant ":UI" as UI
+ASC -> UI: I want to enrol a student in a \n course edition!
+activate UI #ddfada
+UI --> ASC: What Student?
+deactivate UI
+
+ASC -> UI: Enter the student!
+activate UI #ddfada
+participant ":US16_EnrolAStudentInACourseEditionController" as Controller
+UI -> Controller: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
+activate Controller #ddfada
+participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+Controller -> ProgrammeEditionEnrolmentRepository: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
+activate ProgrammeEditionEnrolmentRepository #ddfada
+create ":ProgrammeEditionIdList"
+ProgrammeEditionEnrolmentRepository -> ":ProgrammeEditionIdList": newArrayList()
+activate ":ProgrammeEditionIdList" #ddfada
+":ProgrammeEditionIdList" --> ProgrammeEditionEnrolmentRepository: EmptyList<ProgrammeEditionId>
+deactivate ":ProgrammeEditionIdList"
+loop for each "pee[i]:ProgrammeEditionEnrolment" in ProgrammeEditionEnrolmentRepository
+participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment : findStudentInProgrammeEdition \n (studentID)
+activate ProgrammeEditionEnrolment #ddfada
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository : pee1
+deactivate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment :  findProgrammeEditionInEnrolment()
+activate ProgrammeEditionEnrolment #ddfada
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository : pe1ID
+deactivate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentRepository -> ":ProgrammeEditionIdList":  add (pe1ID)
+activate ":ProgrammeEditionIdList" #ddfada
+":ProgrammeEditionIdList" --> ProgrammeEditionEnrolmentRepository: True
+deactivate ":ProgrammeEditionIdList"
+end
+ProgrammeEditionEnrolmentRepository --> Controller: List<ProgrammeEditionId>
+deactivate ProgrammeEditionEnrolmentRepository
+Controller --> UI: Optional<List<ProgrammeEditionId>>
+deactivate Controller
+UI --> ASC: Here is a list of programme editions \n the student is enrolled in. \n What Programme Edition?
+deactivate UI
+
+ASC -> UI:Enter the programme edition!
+activate UI #ddfada
+UI -> Controller: findCourseEditionsByProgrammeEdition \n (programmeEditionId)
+activate Controller #ddfada
+participant ":ICourseEditionRepository" as CourseEditionRepository
+Controller -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEditionId)
+activate CourseEditionRepository #ddfada
+create ":CourseEditionList"
+CourseEditionRepository -> ":CourseEditionList": newArrayList ()
+activate ":CourseEditionList" #ddfada
+":CourseEditionList" --> CourseEditionRepository: EmptyList<CourseEdition>
+deactivate ":CourseEditionList"
+loop for each "ce[i]:CourseEdition" in CourseEditionRepository
+participant ":CourseEdition" as CourseEdition
+CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
+activate CourseEdition #ddfada
+CourseEdition --> CourseEditionRepository : ce1
+deactivate CourseEdition
+CourseEditionRepository -> ":CourseEditionList" :  add (ce1)
+activate ":CourseEditionList" #ddfada
+":CourseEditionList" --> CourseEditionRepository: True
+deactivate ":CourseEditionList"
+end
+CourseEditionRepository --> Controller: List<CourseEdition>
+deactivate CourseEditionRepository
+Controller --> UI: List<CourseEdition>
+deactivate Controller
+UI --> ASC: Here is a list of Course Editions!\n What Course Edition?
+deactivate UI
+
+ASC -> UI: Enter the course edition!
+activate UI #ddfada
+UI --> ASC: Sure?
+deactivate UI
+ASC -> UI: Yes!
+activate UI #ddfada
+
+UI -> Controller: enrolStudentInACourseEdition \n (studentID, courseEditionID)
+activate Controller #ddfada
+deactivate CourseEditionRepository
+participant ":ICourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
+Controller -> CourseEditionEnrolmentRepository: enrolStudentInACourseEdition (studentID, courseEditionID)
+activate CourseEditionEnrolmentRepository #ddfada
+participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactoryInterface
+CourseEditionEnrolmentRepository -> CourseEditionEnrolmentFactoryInterface: createCourseEditionEnrolment \n (studentID, courseEditionID)
+activate CourseEditionEnrolmentFactoryInterface #ddfada
+create "cee1:CourseEditionEnrolment"
+CourseEditionEnrolmentFactoryInterface -> "cee1:CourseEditionEnrolment" : createCourseEditionEnrolment \n (studentID, courseEditionID)
+activate "cee1:CourseEditionEnrolment" #ddfada
+create "status: EnrolmentStatus"
+"cee1:CourseEditionEnrolment" -> "status: EnrolmentStatus" : newEnrolmentStatus (true)
+activate "status: EnrolmentStatus" #ddfada
+"status: EnrolmentStatus" -> "cee1:CourseEditionEnrolment" : status
+deactivate "status: EnrolmentStatus"
+create "cee1ID:CourseEditionEnrolmentID"
+"cee1:CourseEditionEnrolment" -> "cee1ID:CourseEditionEnrolmentID": newCourseEditionEnrolmentID ()
+activate "cee1ID:CourseEditionEnrolmentID" #ddfada
+"cee1ID:CourseEditionEnrolmentID" --> "cee1:CourseEditionEnrolment": cee1ID
+deactivate "cee1ID:CourseEditionEnrolmentID"
+"cee1:CourseEditionEnrolment" --> CourseEditionEnrolmentFactoryInterface: cee1
+deactivate "cee1:CourseEditionEnrolment"
+CourseEditionEnrolmentFactoryInterface --> CourseEditionEnrolmentRepository: cee1
+deactivate CourseEditionEnrolmentFactoryInterface
+participant ":CourseEditionEnrolmentSet" as CourseEditionEnrolmentSet
+CourseEditionEnrolmentRepository --> CourseEditionEnrolmentSet: add (cee1)
+activate CourseEditionEnrolmentSet #ddfada
+CourseEditionEnrolmentSet -> CourseEditionEnrolmentRepository: True
+deactivate CourseEditionEnrolmentSet
+CourseEditionEnrolmentRepository --> Controller: True
+deactivate CourseEditionEnrolmentRepository
+Controller --> UI: True
+deactivate Controller
+UI --> ASC: OK!
+deactivate UI
+
+@enduml

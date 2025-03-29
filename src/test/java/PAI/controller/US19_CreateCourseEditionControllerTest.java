@@ -1,8 +1,8 @@
 package PAI.controller;
 
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.QuantEcts;
-import PAI.VOs.QuantSemesters;
+
+import PAI.VOs.*;
+
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionRepository;
@@ -346,7 +346,10 @@ class US19_CreateCourseEditionControllerTest {
                 IStudyPlanFactory,
                 ICourseFactory);
 
-        schoolYear = new SchoolYear("Ano letivo de", "23-11-2024", "09-12-2025");
+        Description description = new Description("School Year 24/25");
+        Date startDate = new Date("23-11-2024");
+        Date endDate = new Date ("09-12-2025");
+        schoolYear = new SchoolYear(description, startDate, endDate);
 
         programmeEdition = new ProgrammeEdition(programme, schoolYear);
     }
@@ -477,11 +480,12 @@ class US19_CreateCourseEditionControllerTest {
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
             Course c1 = new Course ("Informatica", "INF", 6, 1);
             Course c2 = new Course("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -512,11 +516,12 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -545,11 +550,12 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
@@ -583,11 +589,12 @@ class US19_CreateCourseEditionControllerTest {
             CourseRepository courseRepository = new CourseRepository(ICourseFactory, courseListFactoryImpl);
             courseRepository.registerCourse("Informatica", "INF", 6, 1);
             courseRepository.registerCourse("Matemática", "MAT", 4, 1);
+            Acronym acronym = new Acronym("CC");
             QuantEcts quantEcts = new QuantEcts(20);
             QuantSemesters quantSemesters = new QuantSemesters(6);
             NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Engineering");
 
-            programmeRepository.registerProgramme(name, "CC", quantEcts, quantSemesters,
+            programmeRepository.registerProgramme(name, acronym, quantEcts, quantSemesters,
                     new DegreeType("Master", 240),
                     new Department("CSE", "Computer Science Engineer"),
                     new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
