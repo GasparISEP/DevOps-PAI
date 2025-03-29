@@ -78,7 +78,7 @@ class "<<Value Object>>\n EnrollmentStatus" {
 class "<<Value Object>>\n CourseEditionEnrolmentID" {
      -_courseEditionEnrolmentId: UUID
      +CourseEditionEnrolmentID()
-     +findCeeId ()
+     +findCeeId (): UUID
      +equals (obj: Object) : boolean
 }
 
