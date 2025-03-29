@@ -8,7 +8,7 @@ System --> ASC: Which Programme? List of Programmes
 ASC -> System: Programme P1
 System --> ASC : sure?
 ASC -> System: yes!
-System --> ASC: Which Study Plan? List of StudyPlan
+System --> ASC: Which Study Plan of Programme P1? List of StudyPlan
 ASC -> System: StudyPlan SP1
 System --> ASC: sure?
 ASC -> System: yes!
@@ -16,7 +16,14 @@ System --> ASC : Which Course? List of Courses
 ASC -> System: Course C1
 System --> ASC: sure?
 ASC -> System: yes!
-System --> ASC --: C1 was added to SP1 of P1
-
+System --> ASC: Which Curricular Year?
+ASC --> System: 2nd
+System --> ASC: sure?
+ASC -> System: yes!
+System --> ASC: Which Semester?
+ASC --> System: 1st
+System --> ASC: sure?
+ASC -> System: yes!
+System --> ASC --: C1 was added to SP1 of P1 in the 1st semester of the 2nd curricular year
 
 @enduml
