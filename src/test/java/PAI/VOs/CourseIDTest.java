@@ -61,4 +61,15 @@ class CourseIDTest {
         //Assert
         assertEquals(courseID.toString(), uuid.toString());
     }
+
+    @Test
+    void shouldReturnEqualsHashCode() {
+        //Arrange
+        CourseID courseID = new CourseID();
+        //Act
+        int hash1 = courseID.hashCode();
+        int hash2 = courseID.hashCode();
+        //Assert
+        assertEquals(hash1,hash2);
+    }
 }
