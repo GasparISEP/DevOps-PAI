@@ -1,7 +1,5 @@
 package PAI.controller;
-import PAI.VOs.Date;
-import PAI.VOs.Description;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
@@ -144,13 +142,16 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // arrange
         Department department = new Department("CSE", "Computer Science Engineer");
 
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactoryImpl = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactoryImpl);
 
         Description description1 = new Description("School Year 25/26");
@@ -223,13 +224,16 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
         SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);
@@ -295,13 +299,16 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
         SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);
@@ -371,13 +378,16 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
         SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);
@@ -443,13 +453,17 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
         SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
 
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department1,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department1,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         DegreeType master = new DegreeType("Master", 240);

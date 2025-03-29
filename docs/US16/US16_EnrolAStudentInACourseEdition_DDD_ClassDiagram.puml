@@ -37,12 +37,12 @@ class ProgrammeEditionEnrolmentRepositoryImpl {
 
 interface ICourseEditionRepository {
     +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
-    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<ProgrammeEditionID>
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
 }
 
 class CourseEditionRepositoryImpl {
     +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
-    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<ProgrammeEditionID>
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
 }
 
 interface ICourseEditionEnrolmentListFactory{
@@ -58,7 +58,7 @@ interface ICourseEditionEnrolmentFactory{
 }
 
 class CourseEditionEnrolmentFactoryImpl{
-    +createCourseEditionEnrolment(studentId: StudentId, courseEditionId: CourseEditionID)
+    +createCourseEditionEnrolment(studentId: StudentId, courseEditionId: CourseEditionID): CourseEditionEnrolment
 }
 
 package "CourseEditionEnrolment Aggregate" #LightBlue {
@@ -99,23 +99,23 @@ package "Student Aggregate" #LightBlue{
 }
 
 class "<<Value Object>>\n StudentID" {
-     +StudentID ()
+     +StudentID (uniqueNumber: int)
 }
 
 class "<<Value Object>>\n Name" {
-     +Name ()
+     +Name (name: String)
 }
 
 class "<<Value Object>>\n NIF" {
-     +NIF ()
+     +NIF (nif: String)
 }
 
 class "<<Value Object>>\n Email" {
-     +Email ()
+     +Email (email: String)
 }
 
 class "<<Value Object>>\n PhoneNumber" {
-     +PhoneNumber ()
+     +PhoneNumber (countryCode: String, number: String)
 }
 
 class "<<Value Object>>\n Address" {
@@ -123,19 +123,19 @@ class "<<Value Object>>\n Address" {
 }
 
 class "<<Value Object>>\n Street" {
-     +Street()
+     +Street(street: String)
 }
 
 class "<<Value Object>>\n PostalCode" {
-     +PostalCode()
+     +PostalCode(postalCode: String)
 }
 
 class "<<Value Object>>\n Location" {
-     +PostalCode()
+     +Location(locationName: String)
 }
 
 class "<<Value Object>>\n Country" {
-     +PostalCode()
+     +Country(country: String)
 }
 class "<<Value Object>>\n Date" {
      +Date (date : String)

@@ -1,9 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.QuantEcts;
-import PAI.VOs.QuantSemesters;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseRepository;
@@ -129,15 +126,18 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldCreateAddCourseToProgrammeController() throws Exception {
         // arrange
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
+        WorkingPercentage workingPercentage = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
@@ -166,15 +166,18 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
         // arrange
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
+        WorkingPercentage workingPercentage = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
@@ -206,15 +209,18 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldAddCourseToProgrammeIfAllArgumentsAreValid() throws Exception {
         // arrange
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
+        WorkingPercentage workingPercentage = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType degree1 = new DegreeType("Licenciatura",30);
         ICourseFactory ICourseFactoryImpl = new CourseFactoryImpl();
         CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
@@ -269,8 +275,11 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldThrowExceptionIfCourseIsNull() throws Exception {
         // arrange
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
+        WorkingPercentage workingPercentage = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -278,7 +287,7 @@ public class US03AddCourseToProgrammeControllerTest {
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
@@ -350,6 +359,10 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnSizeOneIfOnlyOneProgrammeInList() throws Exception {
         // arrange
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
+        WorkingPercentage workingPercentage = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
@@ -362,7 +375,7 @@ public class US03AddCourseToProgrammeControllerTest {
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -389,11 +402,14 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnProgrammeInList() throws Exception {
         // arrange
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
+        WorkingPercentage workingPercentage = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
         Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -401,7 +417,7 @@ public class US03AddCourseToProgrammeControllerTest {
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -429,11 +445,14 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllProgrammes() throws Exception {
         // arrange
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
+        WorkingPercentage workingPercentage = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
         CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
         Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -441,7 +460,7 @@ public class US03AddCourseToProgrammeControllerTest {
         Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
                 "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
                 "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, "20-12-2010", teacherCategory1, 100, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
 
         ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
         ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();

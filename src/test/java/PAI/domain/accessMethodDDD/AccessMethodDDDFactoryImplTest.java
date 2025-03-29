@@ -1,4 +1,4 @@
-package PAI.domain.accessMethod;
+package PAI.domain.accessMethodDDD;
 
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;

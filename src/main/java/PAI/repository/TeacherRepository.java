@@ -1,5 +1,9 @@
 package PAI.repository;
 
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.domain.*;
 import PAI.factory.*;
 
@@ -18,12 +22,12 @@ public class TeacherRepository {
         _teacherFactory = teacherFactory;
     }
 
-    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, IAddressFactory addressFactory, String date, TeacherCategory category, int workingPercentage,
+    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, IAddressFactory addressFactory, Date date, TeacherCategoryID category, WorkingPercentage workingPercentage, TeacherID teacherID,
                                    Department department) throws IllegalArgumentException {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber,
                 academicBackground, street, postalCode, location, country, addressFactory, date,
-                category, workingPercentage, department);
+                category, workingPercentage, teacherID, department);
 
         compareTeacherAcronymAndNifInList(teacher);
         _teachers.add(teacher);
