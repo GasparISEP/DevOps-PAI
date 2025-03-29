@@ -16,24 +16,26 @@ note right of US20_DefineRucForCourseEditionController::defineRucForCourseEditio
 end note
 
 class Teacher {
-     -_acronym:String
-     -_name:String
-     -_email:String
-     -_nif:String
-     -_phoneNumber:String
-     -_academicBackground:String
-     -_address:Address
-     -_department:Department
-     -_teacherCareerProgression:List<TeacherCareerProgression>
-     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
-     academicBackground: String, street: String, postalCode: String, location: String, country: String,
-     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
-     +hasSameAcronym(teacher: Teacher)
-     +hasSameNif(teacher: Teacher)
-     +isInDepartment(department: Department)
-     +hasThisNIF(NIF: String)
-     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
-     +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+    -_acronym: String
+    -_name: String
+    -_email: String
+    -_nif: String
+    -_phoneNumber: String
+    -_academicBackground: String
+    -_address: Address
+    -_addressFactory: IAddressFactory
+    -_department: Department
+    -_teacherCareerProgressionList: List<TeacherCareerProgression>
+    -_teacherCareerProgressionFactory: ITeacherCareerProgressionFactory
+    +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+             street: String, postalCode: String, location: String, country: String, addressFactory: IAddressFactory,
+             date: Date, category: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID,
+             department: Department, teacherCareerProgressionFactory: ITeacherCareerProgressionFactory,
+             teacherCareerProgressionListFactory: ITeacherCareerProgressionListFactory)
+    +hasSameAcronym(teacher: Teacher): boolean
+    +hasSameNif(teacher: Teacher): boolean
+    +isInDepartment(department: Department): boolean
+    +hasThisNIF(NIF: String): boolean
 }
 
 class TeacherRepository {
