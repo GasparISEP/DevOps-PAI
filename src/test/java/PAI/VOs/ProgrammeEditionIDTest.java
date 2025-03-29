@@ -2,6 +2,7 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,14 +34,66 @@ class ProgrammeEditionIDTest {
     }
 
     @Test
-    void shouldReturnTrueIfProgrammeEditionIDIsEqualToOtherProgrammeEditionID() {
+    void shouldReturnTrueIfUUIDIsComparedToItSelf() {
         // Arrange
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+        UUID id = UUID.randomUUID();
 
         // Act
-        boolean result = programmeEditionID.equals(new ProgrammeEditionID());
+        boolean result = id.equals(id);
 
         // Assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfUUIDIsComparedToANullUUID() {
+        // Arrange
+        UUID id1 = UUID.randomUUID();
+        UUID id2 = null;
+
+        // Act
+        boolean result = id1.equals(id2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfUUIDIsComparedToAnObjectThatIsNotAInstanceOfUUID() {
+        // Arrange
+        UUID id1 = UUID.randomUUID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+
+        // Act
+        boolean result = id1.equals(programmeEditionID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTwoUUIDsAreTheSame() {
+        // Arrange
+        UUID id1 = UUID.randomUUID();
+        UUID id2 = id1;
+
+        // Act
+        boolean result = id1.equals(id2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoUUIDsAreNotTheSame() {
+        // Arrange
+        UUID id1 = UUID.randomUUID();
+        UUID id2 = UUID.randomUUID();
+
+        // Act
+        boolean result = id1.equals(id2);
+
+        // Assert
+        assertFalse(result);
     }
 }

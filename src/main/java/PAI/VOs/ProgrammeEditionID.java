@@ -1,6 +1,7 @@
 package PAI.VOs;
 
 import PAI.ddd.DomainId;
+import PAI.domain.ProgrammeEdition;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -19,6 +20,12 @@ public class ProgrammeEditionID implements DomainId {
 
     @Override
     public boolean equals(Object o) {
-        return true;
+        if (this == o)
+            return true;
+        if (o == null || (!(o instanceof UUID)))
+            return false;
+        if (_programmeEditionID.equals(o))
+            return true;
+        return false;
     }
 }
