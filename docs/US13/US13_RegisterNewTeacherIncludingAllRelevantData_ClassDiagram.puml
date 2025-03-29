@@ -81,26 +81,26 @@ package Teacher_Aggregate {
  }
 
 interface ITeacherCareerProgressionRepository {
-    +registerTeacherCareerProgression(date: Date, teacherCategoryId: Name, workingPercentage: WorkingPercentage, teacherId: TeacherId)
+    +registerTeacherCareerProgression(date: Date, teacherCategoryId: TeacherCategoryId, workingPercentage: WorkingPercentage, teacherId: TeacherId)
 }
 
 class TeacherCareerProgressionRepository {
-    +registerTeacherCareerProgression(date: Date, teacherCategoryId: Name, workingPercentage: WorkingPercentage, teacherId: TeacherId)
+    +registerTeacherCareerProgression(date: Date, teacherCategoryId: TeacherCategoryId, workingPercentage: WorkingPercentage, teacherId: TeacherId)
 }
 
 interface ITeacherCareerProgressionFactory {
-    +createTeacherCareerProgression(date: Date, teacherCategoryId: Name, workingPercentage: WorkingPercentage, teacherId: TeacherId)
+    +createTeacherCareerProgression(date: Date, teacherCategoryId: TeacherCategoryId, workingPercentage: WorkingPercentage, teacherId: TeacherId)
 }
 
 class TeacherCareerProgressionFactoryImpl {
-    +createTeacherCareerProgression(date: Date, teacherCategoryId: Name, workingPercentage: WorkingPercentage, teacherId: TeacherId)
+    +createTeacherCareerProgression(date: Date, teacherCategoryId: TeacherCategoryId, workingPercentage: WorkingPercentage, teacherId: TeacherId)
 }
 
 package TeacherCareerProgression_Aggregate {
     class TeacherCareerProgression <<root>> {
         -_date: Date
         -_workingPercentage: WorkingPercentage
-        +TeacherCareerProgression(date: Date, teacherCategoryId: Name, workingPercentage: WorkingPercentage, teacherId: TeacherId)
+        +TeacherCareerProgression(date: Date, teacherCategoryId: TeacherCategoryId, workingPercentage: WorkingPercentage, teacherId: TeacherId)
     }
 }
 
@@ -164,7 +164,10 @@ class WorkingPercentage <<VO>> {
 class Date <<VO>> {
 }
 
-class DepartmentAcronym <<VO>> {
+class DepartmentId <<VO>> {
+}
+
+class TeacherCategoryId <<VO>> {
 }
 
 class Address <<VO>> {
@@ -213,13 +216,13 @@ ITeacherCareerProgressionRepository "1" --> "1" List_TeacherCareerProgression
 
 '--- DTO Connections ---
 
-Teacher "1" --> "1" TeacherId
+Teacher "1" --> "1" TeacherAcronym
 Teacher "1" --> "1" Name
 Teacher "1" --> "1" Email
 Teacher "1" --> "1" NIF
 Teacher "1" --> "1" PhoneNumber
 Teacher "1" --> "1" AcademicBackground
-Teacher "1" --> "1" DepartmentAcronym
+Teacher "1" --> "1" DepartmentId
 
 Address "1" --> "1" Street
 Address "1" --> "1" PostalCode
@@ -227,7 +230,7 @@ Address "1" --> "1" Location
 Address "1" --> "1" Country
 
 TeacherCareerProgression "1" --> "1" Date
-TeacherCareerProgression "1" --> "1" Name
+TeacherCareerProgression "1" --> "1" TeacherCategoryId
 TeacherCareerProgression "1" --> "1" TeacherId
 TeacherCareerProgression "1" --> "1" WorkingPercentage
 @enduml

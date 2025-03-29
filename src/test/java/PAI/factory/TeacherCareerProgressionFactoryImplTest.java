@@ -1,5 +1,9 @@
 package PAI.factory;
 
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.domain.TeacherCareerProgression;
 import PAI.domain.TeacherCategory;
 import org.junit.jupiter.api.Test;
@@ -21,16 +25,17 @@ class TeacherCareerProgressionFactoryImplTest {
         // Arrange
         ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
-        String date = "13-11-2002";
-        TeacherCategory tcDouble = mock(TeacherCategory.class);
-        int workingPercentage = 100;
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
 
 
         try (
                 MockedConstruction <TeacherCareerProgression> tcpConstructorMock = mockConstruction(TeacherCareerProgression.class)){
 
             // Act
-            TeacherCareerProgression careerProgression = tcpFactory.createTeacherCareerProgression(date, tcDouble, workingPercentage);
+            TeacherCareerProgression careerProgression = tcpFactory.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, teacherIDDouble);
 
             // Assert
             List<TeacherCareerProgression> constructed = tcpConstructorMock.constructed();  // Puts in this list all the objects that were constructed
@@ -56,14 +61,16 @@ class TeacherCareerProgressionFactoryImplTest {
         // Arrange
         ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
-        TeacherCategory tcDouble = mock(TeacherCategory.class);
-        int workingPercentage = 100;
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
 
         try (MockedConstruction<TeacherCareerProgression> tcpConstructionMock = mockConstruction(TeacherCareerProgression.class, (mock, context) -> {
             throw new RuntimeException((new InstantiationException("Date must be valid")));
         })) {
             try {  // Act
-                tcpFactory.createTeacherCareerProgression(date, tcDouble, workingPercentage);
+                tcpFactory.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, teacherIDDouble);
                 fail("Expected exception not thrown");
             }     // Assert
             catch (Exception e) {
@@ -77,8 +84,9 @@ class TeacherCareerProgressionFactoryImplTest {
         // Arrange
         ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
-        String date = "13-11-2002";
-        int workingPercentage = 100;
+        Date dateDouble = mock(Date.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
 
         try (
                 MockedConstruction <TeacherCareerProgression> tcpConstructorMock = mockConstruction(TeacherCareerProgression.class, (mock, context) -> {
@@ -87,7 +95,7 @@ class TeacherCareerProgressionFactoryImplTest {
             ) {
             //Act
             try {
-                tcpFactory.createTeacherCareerProgression(date, null, workingPercentage);
+                tcpFactory.createTeacherCareerProgression(dateDouble, null, wpDouble, teacherIDDouble);
                 fail("Expected exception not thrown");
             }
             catch (Exception e)
@@ -112,8 +120,10 @@ class TeacherCareerProgressionFactoryImplTest {
         // Arrange
         ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
 
-        String date = "01-10-2022";
-        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
 
         try (
                 MockedConstruction <TeacherCareerProgression> tcpConstructorMock = mockConstruction(TeacherCareerProgression.class, (mock, context) -> {
@@ -121,7 +131,7 @@ class TeacherCareerProgressionFactoryImplTest {
                 })
         ){
             try {   // Act
-                tcpFactory.createTeacherCareerProgression(date, tcDouble, workingPercentage);
+                tcpFactory.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, teacherIDDouble);
                 fail("Expected exception not thrown");
             }       // Assert
             catch (Exception e) {

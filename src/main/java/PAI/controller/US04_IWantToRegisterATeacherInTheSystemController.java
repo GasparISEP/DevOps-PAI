@@ -1,5 +1,9 @@
 package PAI.controller;
 
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.domain.*;
 import PAI.factory.IAddressFactory;
 import PAI.repository.DepartmentRepository;
@@ -28,19 +32,19 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
     public boolean registerATeacherInTheSystem(
             String acronym, String name, String email, String nif, String phoneNumber,
             String academicBackground, String street, String postalCode, String location,
-            String country, IAddressFactory addressFactory, String date, TeacherCategory category,
-            int workingPercentage, Department department) {
+            String country, IAddressFactory addressFactory, Date date, TeacherCategoryID category,
+            WorkingPercentage workingPercentage, TeacherID teacherID, Department department) {
 
-        if(!isCategoryInTeacherCategoryRepository(category)){
-            return false;
-        }
+//        if(!isCategoryInTeacherCategoryRepository(category)){
+//            return false;
+//        }
         if(!isDepartmentInDepartmentRepository(department)){
             return false;
         }
 
         _teacherRepository.registerTeacher(
                 acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,
-                location,country, addressFactory,date,category,workingPercentage,department);
+                location,country, addressFactory,date,category,workingPercentage, teacherID, department);
         return true;
     }
 

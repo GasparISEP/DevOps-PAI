@@ -1,4 +1,8 @@
 package PAI.controller;
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
@@ -116,6 +120,10 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     @Test
     void shouldReturnFalseIfDepartmentIsNull_IntegrationTest () throws Exception {
         //arrange
+        Date date = new Date("15-04-2005");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(70);
+        TeacherID teacherID = TeacherID.createNew();
         DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
         DepartmentRepository dr1 = new DepartmentRepository(factory, listFactory);
@@ -127,7 +135,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcplF = new TeacherCareerProgressionListFactoryImpl();
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,date, tcID, wp, teacherID, dpt1, tcpFactory, tcplF);
 
         //act
         boolean result = controller.updateDepartmentDirector(null, t1);
@@ -156,6 +164,10 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
     @Test
     void shouldReturnTrueIfUpdateDepartmentDirector_IntegrationTest () throws Exception {
         //arrange
+        Date date = new Date("15-04-2005");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(70);
+        TeacherID teacherID = TeacherID.createNew();
         DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
         DepartmentRepository dr1 = new DepartmentRepository(factory, listFactory);
@@ -167,7 +179,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcplF = new TeacherCareerProgressionListFactoryImpl();
         Teacher t1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"15-04-2005", tc, 70, dpt1, tcpFactory, tcplF);
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,date, tcID, wp, teacherID, dpt1, tcpFactory, tcplF);
 
         dr1.registerDepartment("MAT", "Mathematics");
 

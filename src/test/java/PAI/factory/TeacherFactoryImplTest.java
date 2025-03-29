@@ -1,5 +1,9 @@
 package PAI.factory;
 
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -22,10 +26,14 @@ class TeacherFactoryImplTest {
         AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
         Address addressDouble = mock(Address.class);
         Department departmentDouble = mock(Department.class);
-        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        Date date = mock(Date.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+
 
         when(addressFactoryDouble.createAddress("Rua Das Flores", "4000-001", "Porto", "Portugal")).thenReturn(addressDouble);
-        when(tcpFactoryDouble.createTeacherCareerProgression("26-12-2024", tcDouble, 100)).thenReturn(mock(TeacherCareerProgression.class));
+        when(tcpFactoryDouble.createTeacherCareerProgression(date, tcIDDouble, wpDouble, teacherIDDouble)).thenReturn(mock(TeacherCareerProgression.class));
         List<TeacherCareerProgression> mockList = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(mockList);
 
@@ -40,15 +48,13 @@ class TeacherFactoryImplTest {
         String postalCode = "4000-001";
         String location = "Porto";
         String country = "Portugal";
-        String date = "26-12-2024";
-        int workingPercentage = 100;
 
         try (MockedConstruction<Teacher> teacherDouble = mockConstruction(Teacher.class, (mock, context) -> {
             when(mock.hasSameAcronym(any(Teacher.class))).thenReturn(true);
         })) {
             // Act
             Teacher teacher = teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-                    street, postalCode, location, country, addressFactoryDouble, date, tcDouble, workingPercentage, departmentDouble);
+                    street, postalCode, location, country, addressFactoryDouble, date, tcIDDouble, wpDouble, teacherIDDouble, departmentDouble);
 
             // Assert
             List<Teacher> teachers = teacherDouble.constructed();
