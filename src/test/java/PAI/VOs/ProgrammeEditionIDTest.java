@@ -16,4 +16,17 @@ class ProgrammeEditionIDTest {
         // Assert
         assertNotNull(programmeEditionID);
     }
+
+    @Test
+    void getProgrammeEditionID() {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+
+        // Act
+        String id = programmeEditionID.getProgrammeEditionID();
+
+        assertEquals("5", id);
+    }
+
+
 }

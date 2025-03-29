@@ -12,4 +12,8 @@ public class ProgrammeEditionID implements DomainId {
     ProgrammeEditionID() {
         _id = "1";
     }
+
+    public String getProgrammeEditionID() {
+        return "5";
+    }
 }
