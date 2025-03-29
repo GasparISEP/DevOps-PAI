@@ -81,11 +81,12 @@ package "ProgrammeEdition Aggregate" {
     }
 
     class "<<Value Object>>\nProgrammeEditionID" {
-            - programmeEditionID : int
-            + getProgrammeEditionID() : int
+            - _programmeEditionID : UUID
+            + ProgrammeEditionID()
+            + getProgrammeEditionID() : UUID
             + equals() : boolean
+            + toString() : String
     }
-
 }
 
 
