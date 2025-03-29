@@ -55,6 +55,26 @@ class AccessMethodDDDFactoryImplTest {
     }
 
     @Test
+    void givenMockedConstructorAccessMethodFactoryShouldCreateAccessMethodOnlyWithName() throws InstantiationException {
+        //arrange
+        AccessMethodDDDFactoryImpl accessMethodFactoryImpl = new AccessMethodDDDFactoryImpl();
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        try (MockedConstruction<AccessMethodDDD> mockAccessMethod = mockConstruction(AccessMethodDDD.class, (mock, context) ->{
+        })) {
+            //act
+            AccessMethodDDD accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodName);
+            //assert
+            assertNotNull(accessMethod);
+
+            //O objeto isolado deve existir
+            assertEquals(1, mockAccessMethod.constructed().size());
+            AccessMethodDDD doubleAccessMethod = mockAccessMethod.constructed().get(0);
+            assertNotNull(doubleAccessMethod);
+            assertEquals(accessMethod,doubleAccessMethod);
+        }
+    }
+
+    @Test
     void shouldNotCreateAccessMethod(){
         //arrange
         AccessMethodDDDFactoryImpl accessMethodFactory = new AccessMethodDDDFactoryImpl();

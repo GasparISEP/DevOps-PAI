@@ -8,4 +8,8 @@ public class AccessMethodDDDFactoryImpl implements IAccessMethodDDDFactory{
     public AccessMethodDDD createAccessMethod (AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName) {
         return new AccessMethodDDD(accessMethodID, accessMethodName);
     }
+
+    public AccessMethodDDD createAccessMethod (NameWithNumbersAndSpecialChars accessMethodName){
+        return new AccessMethodDDD(accessMethodName);
+    }
 }
