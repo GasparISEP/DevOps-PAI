@@ -54,18 +54,28 @@ package "TeacherCategory Aggregate" {
 
 ' ======= FACTORY =======
 package "PAI.factory" {
-    interface "<<Factory Interface>>\nTeacherCategoryFactoryInterface" as ITCFactory {
+    interface "<<Factory Interface>>\nITeacherCategoryFactoryV2" as ITCFactoryV2 {
         + createTeacherCategory(name: Name): TeacherCategoryV2
     }
 
-    class "TeacherCategoryFactoryImpl" as TCFactoryImpl {
+    class "TeacherCategoryFactoryV2Impl" as TCFactoryV2Impl {
         + createTeacherCategory(name: Name): TeacherCategoryV2
     }
 
-    ITCFactory <|.. TCFactoryImpl : implements
-    TCFactoryImpl --> TCA : creates
-    TCFactoryImpl --> VOName : uses
-    TCFactoryImpl --> VOId : generates
+    ITCFactoryV2 <|.. TCFactoryV2Impl : implements
+    TCFactoryV2Impl --> TCA : creates
+    TCFactoryV2Impl --> VOName : uses
+    TCFactoryV2Impl --> VOId : generates
+
+    interface "<<List Factory>>\nITeacherCategoryListFactoryV2" as IListFactoryV2 {
+        + getTeacherCategoryList(): List<TeacherCategoryV2>
+    }
+
+    class "TeacherCategoryListFactoryV2Impl" as ListFactoryV2Impl {
+        + getTeacherCategoryList(): List<TeacherCategoryV2>
+    }
+
+    IListFactoryV2 <|.. ListFactoryV2Impl : implements
 }
 
 ' ======= REPOSITORY =======
@@ -75,6 +85,7 @@ package "PAI.repository" {
         + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategoryV2>
         + containsOfIdentity(id: TeacherCategoryID): boolean
         + findAll(): Iterable<TeacherCategoryV2>
+        + existsByName(name: Name): boolean
     }
 
     class "TeacherCategoryRepositoryImpl" as TCRepoImpl {
@@ -82,6 +93,7 @@ package "PAI.repository" {
         + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategoryV2>
         + containsOfIdentity(id: TeacherCategoryID): boolean
         + findAll(): Iterable<TeacherCategoryV2>
+        + existsByName(name: Name): boolean
     }
 
     IRepository <|.. ITCRepo : extends
@@ -90,5 +102,15 @@ package "PAI.repository" {
     TCRepoImpl --> TCA : stores
     TCRepoImpl --> VOId : looks up
 }
+
+' ======= CONTROLLER =======
+class "US01_ConfigureTeacherCategoryControllerV2" as ControllerV2 {
+    + configureTeacherCategory(categoryName: String): boolean
+}
+
+ControllerV2 --> ITCRepo : uses
+ControllerV2 --> ITCFactoryV2 : uses
+ControllerV2 ..> TCA : creates
+ControllerV2 ..> VOName : uses
 
 @enduml
