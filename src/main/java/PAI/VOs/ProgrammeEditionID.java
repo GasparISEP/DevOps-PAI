@@ -7,10 +7,10 @@ import java.util.UUID;
 
 public class ProgrammeEditionID implements DomainId {
 
-    private final String _id;
+    private final UUID _programmeEditionID;
 
     ProgrammeEditionID() {
-        _id = "1";
+        _programmeEditionID = UUID.randomUUID();
     }
 
     public String getProgrammeEditionID() {
