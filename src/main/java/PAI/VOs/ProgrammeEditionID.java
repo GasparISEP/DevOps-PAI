@@ -13,8 +13,8 @@ public class ProgrammeEditionID implements DomainId {
         _programmeEditionID = UUID.randomUUID();
     }
 
-    public String getProgrammeEditionID() {
-        return "5";
+    public UUID getProgrammeEditionID() {
+        return _programmeEditionID;
     }
 
     @Override

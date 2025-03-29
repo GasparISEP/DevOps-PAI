@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProgrammeEditionIDTest {
@@ -23,10 +25,11 @@ class ProgrammeEditionIDTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
 
         // Act
-        String id = programmeEditionID.getProgrammeEditionID();
+        UUID id = programmeEditionID.getProgrammeEditionID();
 
         // Assert
-        assertEquals("5", id);
+        assertNotNull(id);
+        assertEquals(id, programmeEditionID.getProgrammeEditionID());
     }
 
     @Test
