@@ -47,7 +47,6 @@ Also, outlines the functional and non-functional requirements, acceptance criter
 - The System confirms there is the Teacher in the system.
 - The System verifies if the RUC for that Course Edition is already defined.
 - The System registers the RUC for that Course Edition.
-
 - The System confirms that the RUC for that Course Edition was successfully defined to the Programme Director.
 
 ### 8. Testing and validation ###
