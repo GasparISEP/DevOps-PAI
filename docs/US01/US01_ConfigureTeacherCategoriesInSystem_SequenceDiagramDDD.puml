@@ -3,8 +3,8 @@
 actor admin
 
 participant ":UI" as UI #application
-participant ":ConfigureTeacherCategoryController" as Controller #application
-participant "TeacherCategoryFactoryImpl" as Factory
+participant "US01_ConfigureTeacherCategoryControllerV2" as Controller #application
+participant "TeacherCategoryFactoryV2Impl" as Factory
 participant "TeacherCategoryRepositoryImpl" as Repository
 participant "TeacherCategoryV2" as Aggregate
 participant "Name" as VOName
