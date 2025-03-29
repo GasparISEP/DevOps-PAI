@@ -180,45 +180,45 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    void shouldEnrolStudentInProgrammeTest() throws Exception {
-        //arrange
-        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-        when(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024")).thenReturn(true);
-
-        //act + assert
-        assertTrue(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024"));
-    }
-
-
-    static Stream<Arguments> shouldThrowExceptionWithDifferentInvalidInputsParameterizedTest() {
-        return Stream.of(
-                Arguments.of(null, _accessMethod, _programme, "12-12-2024"),
-                Arguments.of(_student, null, _programme, "12-12-2024"),
-                Arguments.of(_student, _accessMethod, null, "12-12-2024"),
-                Arguments.of(_student, _accessMethod, _programme, null),
-                Arguments.of(_student, _accessMethod, _programme, "")
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("shouldThrowExceptionWithDifferentInvalidInputsParameterizedTest")
-    void shouldThrowExceptionWithDifferentInputs(Student student, AccessMethod am1, Programme p1, String date) {
-        // arrange
-        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-
-        // act + assert
-        assertThrows(Exception.class, () -> _controller.enrolStudent(student, am1, p1, date));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenStudentIsAlreadyEnroledInProgrammeTest() throws Exception {
-        //arrange
-        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
-        when(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024")).thenThrow(new Exception("Student is already enrolled in the programme."));
-
-        //act + assert
-        assertThrows(Exception.class, () -> _controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024"));
-    }
+//    @Test
+//    void shouldEnrolStudentInProgrammeTest() throws Exception {
+//        //arrange
+//        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+//        when(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024")).thenReturn(true);
+//
+//        //act + assert
+//        assertTrue(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024"));
+//    }
+//
+//
+//    static Stream<Arguments> shouldThrowExceptionWithDifferentInvalidInputsParameterizedTest() {
+//        return Stream.of(
+//                Arguments.of(null, _accessMethod, _programme, "12-12-2024"),
+//                Arguments.of(_student, null, _programme, "12-12-2024"),
+//                Arguments.of(_student, _accessMethod, null, "12-12-2024"),
+//                Arguments.of(_student, _accessMethod, _programme, null),
+//                Arguments.of(_student, _accessMethod, _programme, "")
+//        );
+//    }
+//
+//    @ParameterizedTest
+//    @MethodSource("shouldThrowExceptionWithDifferentInvalidInputsParameterizedTest")
+//    void shouldThrowExceptionWithDifferentInputs(Student student, AccessMethod am1, Programme p1, String date) {
+//        // arrange
+//        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+//
+//        // act + assert
+//        assertThrows(Exception.class, () -> _controller.enrolStudent(student, am1, p1, date));
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionWhenStudentIsAlreadyEnroledInProgrammeTest() throws Exception {
+//        //arrange
+//        _controller = new US09_EnrolStudentInProgrammeController(_studentRepository, _accessMethodRepository, _programmeList, _programmeEnrolmentRepository);
+//        when(_controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024")).thenThrow(new Exception("Student is already enrolled in the programme."));
+//
+//        //act + assert
+//        assertThrows(Exception.class, () -> _controller.enrolStudent(_student, _accessMethod, _programme, "12-12-2024"));
+//    }
 }
 

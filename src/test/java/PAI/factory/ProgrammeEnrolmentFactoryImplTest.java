@@ -1,5 +1,9 @@
 package PAI.factory;
 
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
 import org.junit.jupiter.api.Test;
@@ -24,33 +28,37 @@ class ProgrammeEnrolmentFactoryImplTest {
         AccessMethod _accessMethod;
         DegreeType _degreeType;
         Department _department;
-        TeacherCategory _teacherCategory;
+        TeacherCategoryID _teacherCategoryID;
         IAddressFactory _addressFactory;
         TeacherCareerProgressionFactoryImpl _tcpFactory;
         TeacherCareerProgressionListFactoryImpl _tcpLFactoryDouble;
         Teacher _teacher;
         ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl1;
         Programme _programme;
-        String _date;
+        Date _date;
+        WorkingPercentage _wp;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
         StudyPlanListFactoryImpl _studyPlanArrayListFactory;
         StudyPlanFactoryImpl _studyPlanFactory;
         CourseFactoryImpl _courseFactoryImpl;
+        TeacherID _teacherID;
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
             _student = new Student(new StudentID(1234567), "Rita", "123456789", "963741258", "rita@gmail.com", _address);
             _accessMethod = new AccessMethod("M1");
-            _date = "14-02-2024";
+            _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);
             _department = new Department("CSE", "Computer Science Engineer");
-            _teacherCategory = new TeacherCategory("Assistant Professor");
+            _teacherCategoryID = new TeacherCategoryID();
             _addressFactory = new AddressFactoryImpl();
             _tcpFactory = new TeacherCareerProgressionFactoryImpl();
             _tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
+            _teacherID = TeacherID.createNew();
+            _wp = new WorkingPercentage(100);
             _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                     "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                    "4249-015", "Porto", "Portugal", _addressFactory, "20-12-2010", _teacherCategory, 100, _department, _tcpFactory, _tcpLFactoryDouble);
+                    "4249-015", "Porto", "Portugal", _addressFactory, _date, _teacherCategoryID, _wp, _teacherID, _department, _tcpFactory, _tcpLFactoryDouble);
             _programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
@@ -70,7 +78,8 @@ class ProgrammeEnrolmentFactoryImplTest {
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
         Programme programmeDouble = mock(Programme.class);
-        return new Object[]{studentDouble, accessMethodDouble, programmeDouble};
+        Date dateDouble = mock(Date.class);
+        return new Object[]{studentDouble, accessMethodDouble, programmeDouble, dateDouble};
     }
 
     @Test
@@ -96,7 +105,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         Student studentDouble = (Student) doubles[0];
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
-        String date = "14-02-2024";
+        Date dateDouble = (Date) doubles[3];
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -104,7 +113,7 @@ class ProgrammeEnrolmentFactoryImplTest {
                 })) {
 
         //Act
-            ProgrammeEnrolment result = peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date);
+            ProgrammeEnrolment result = peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
 
         //Assert
             //
@@ -122,7 +131,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(null, attributes._accessMethod, attributes._programme, "14-02-2024"));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(null, attributes._accessMethod, attributes._programme, attributes._date));
     }
 
     @Test
@@ -133,6 +142,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         Object[] doubles = createDoublesForTestsWithIsolation();
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
+        Date dateDouble = (Date) doubles[3];
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -140,7 +150,7 @@ class ProgrammeEnrolmentFactoryImplTest {
                 })) {
             //Act
             try {
-                peFactory.createProgrammeEnrolment(null, accessMethodDouble, programmeDouble, "14-02-2024");
+                peFactory.createProgrammeEnrolment(null, accessMethodDouble, programmeDouble, dateDouble);
                 fail("Expected exception not thrown");
             }
             catch (Exception e)
@@ -159,7 +169,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, null, attributes._programme, "14-02-2024"));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, null, attributes._programme, attributes._date));
     }
 
     @Test
@@ -170,6 +180,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         Object[] doubles = createDoublesForTestsWithIsolation();
         Student studentDouble = (Student) doubles[0];
         Programme programmeDouble = (Programme) doubles[2];
+        Date dateDouble = (Date) doubles[3];
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -177,7 +188,7 @@ class ProgrammeEnrolmentFactoryImplTest {
                 })) {
             //Act
             try {
-                peFactory.createProgrammeEnrolment(studentDouble, null, programmeDouble, "14-02-2024");
+                peFactory.createProgrammeEnrolment(studentDouble, null, programmeDouble, dateDouble);
                 fail("Expected exception not thrown");
             }
             catch (Exception e)
@@ -196,7 +207,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, null, "14-02-2024"));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, null, attributes._date));
     }
 
     @Test
@@ -207,6 +218,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         Object[] doubles = createDoublesForTestsWithIsolation();
         Student studentDouble = (Student) doubles[0];
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
+        Date dateDouble = (Date) doubles[3];
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -214,7 +226,7 @@ class ProgrammeEnrolmentFactoryImplTest {
                 })) {
             //Act
             try {
-                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, null, "14-02-2024");
+                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, null, dateDouble);
                 fail("Expected exception not thrown");
             }
             catch (Exception e)
@@ -236,25 +248,6 @@ class ProgrammeEnrolmentFactoryImplTest {
         assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, null));
     }
 
-    public static Stream<Arguments> provideBlankDateForTestWithoutIsolation() {
-        return Stream.of(
-                arguments(""),
-                arguments(" ")
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideBlankDateForTestWithoutIsolation")
-    void blankDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation(String date) throws Exception {
-        //Arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
-
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, date));
-    }
-
     @Test
     void shouldReturnExceptionIfDateIsNullOrBlankWithIsolation() {
         //Arrange
@@ -264,7 +257,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         Student studentDouble = (Student) doubles[0];
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
-        String date = "12-04-2019";
+        Date dateDouble = (Date) doubles[3];
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -272,7 +265,7 @@ class ProgrammeEnrolmentFactoryImplTest {
                 })) {
             //Act
             try {
-                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date);
+                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
                 fail("Expected exception not thrown");
             }
             catch (Exception e)
@@ -281,29 +274,6 @@ class ProgrammeEnrolmentFactoryImplTest {
                 assertTrue(e.getCause().getMessage().contains("Date cannot be empty!"));
             }
         }
-    }
-
-    public static Stream<Arguments> provideInvalidDateForTestWithoutIsolation() {
-        return Stream.of(
-                arguments("2024-12-10"),
-                arguments("10/12/2024"),
-                arguments("10 de dezembro de 2024"),
-                arguments("32-01-2024"),
-                arguments("30-100-2024"),
-                arguments("340-100-2024")
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideInvalidDateForTestWithoutIsolation")
-    void invalidDateDoesNotCreateObjectAndThrowsExceptionWithoutIsolation(String date) throws Exception {
-        //Arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
-        AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
-
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, date));
     }
 
     public static Stream<Arguments> provideInvalidDateForTestWithIsolation() {
@@ -327,6 +297,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         Student studentDouble = (Student) doubles[0];
         AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
         Programme programmeDouble = (Programme) doubles[2];
+        Date dateDouble = (Date) doubles[3];
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -334,7 +305,7 @@ class ProgrammeEnrolmentFactoryImplTest {
                 })) {
             //Act
             try {
-                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, date);
+                peFactory.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
                 fail("Expected exception not thrown");
             }
             catch (Exception e)

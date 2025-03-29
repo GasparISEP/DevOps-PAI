@@ -2,12 +2,8 @@
 package PAI.controller;
 
 
-import PAI.VOs.Date;
+import PAI.VOs.*;
 
-import PAI.VOs.Description;
-
-import PAI.VOs.Grade;
-import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.StudentGradeRepository;
@@ -97,13 +93,16 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(studentGradeRepository, enrollmentRepository);
 
+        Date date1 = new Date("12-03-2025");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(70);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
         Department dpt1 = new Department("MAT", "Mathematics");
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,"12-03-2025", tc1, 70,
+                "Rua das Flores","4444-098","Porto","Portugal", addressFactory,date1, tcID, wp, teacherID,
                 dpt1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         Course c1 = new Course("Informatics", "INF", 6, 1);
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory,
@@ -119,11 +118,11 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         Student student1 = new Student(studentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
         Grade grade = new Grade(20.0);
-        Date date = new Date("22-02-2022");
+        Date date2 = new Date("22-02-2022");
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
 
         // Act
-        boolean result = controller.iWantToGradeAStudent(grade, date, student1, courseEdition1);
+        boolean result = controller.iWantToGradeAStudent(grade, date2, student1, courseEdition1);
 
         // Assert
         assertTrue(result);

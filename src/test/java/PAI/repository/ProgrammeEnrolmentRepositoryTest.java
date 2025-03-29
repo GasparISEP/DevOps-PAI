@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.Date;
 import PAI.domain.AccessMethod;
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEnrolment;
@@ -56,6 +57,7 @@ class ProgrammeEnrolmentRepositoryTest {
         ArrayList<ProgrammeEnrolment> listDouble = mock(ArrayList.class);
         ProgrammeEnrolment programmeEnrolmentDouble1 = mock(ProgrammeEnrolment.class);
         ProgrammeEnrolment programmeEnrolmentDouble2 = mock(ProgrammeEnrolment.class);
+        Date dateDouble = mock(Date.class);
 
         //create programmeEnrolmentRepository
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
@@ -74,13 +76,13 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(it.next()).thenReturn(programmeEnrolmentDouble1);
 
-        when(programmeEnrolmentFactoryDouble.createProgrammeEnrolment(studentDouble1, accessMethodDouble, programmeDouble, "12-12-2025"))
+        when(programmeEnrolmentFactoryDouble.createProgrammeEnrolment(studentDouble1, accessMethodDouble, programmeDouble, dateDouble))
                 .thenReturn(programmeEnrolmentDouble2);
 
         when(programmeEnrolmentDouble1.hasSameEnrolment(programmeEnrolmentDouble2)).thenReturn(false);
 
         //act
-        boolean result = programmeEnrolmentRepository.enrolStudents(studentDouble1, accessMethodDouble, programmeDouble, "12-12-2025");
+        boolean result = programmeEnrolmentRepository.enrolStudents(studentDouble1, accessMethodDouble, programmeDouble, dateDouble);
 
         //assert
         assertTrue(result);
@@ -92,6 +94,7 @@ class ProgrammeEnrolmentRepositoryTest {
         Student studentDouble = mock(Student.class);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
         Programme programmeDouble = mock(Programme.class);
+        Date dateDouble = mock(Date.class);
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
         ProgrammeEnrolment programmeEnrolmentDouble1 = mock(ProgrammeEnrolment.class);
@@ -111,18 +114,18 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(itDouble.next()).thenReturn(programmeEnrolmentDouble1);
 
-        when(programmeEnrolmentFactoryDouble.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "12-12-2025"))
+        when(programmeEnrolmentFactoryDouble.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble))
                 .thenReturn(programmeEnrolmentDouble1);
 
-        enrolmentRepository.enrolStudents(studentDouble, accessMethodDouble, programmeDouble, "12-12-2025");
+        enrolmentRepository.enrolStudents(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
 
-        when(programmeEnrolmentFactoryDouble.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, "12-12-2025"))
+        when(programmeEnrolmentFactoryDouble.createProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble))
                 .thenReturn(programmeEnrolmentDouble2);
 
         when(programmeEnrolmentDouble1.hasSameEnrolment(programmeEnrolmentDouble2)).thenReturn(true);
 
         //act + assert
-        assertThrows(Exception.class, () -> enrolmentRepository.enrolStudents(studentDouble, accessMethodDouble, programmeDouble, "12-12-2025"));
+        assertThrows(Exception.class, () -> enrolmentRepository.enrolStudents(studentDouble, accessMethodDouble, programmeDouble, dateDouble));
     }
 
     //US17

@@ -605,14 +605,17 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
         ;
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory,date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
@@ -641,7 +644,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         programme1.addCourseToAProgramme(c2);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(student, programme1)) {
-            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,"25-02-2023");
+            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,date);
         }
 
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
@@ -700,16 +703,19 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         StudentID studentID = new StudentID(1000001);
         Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory,date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
@@ -771,14 +777,17 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory,date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
@@ -800,7 +809,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new CourseFactoryImpl());
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(student, programme1)) {
-            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,"25-02-2023");
+            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,date);
         }
         // Act
         boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(student, programme1, schoolYear);
@@ -844,6 +853,10 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
@@ -851,7 +864,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory,date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
@@ -873,7 +886,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new CourseFactoryImpl());
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(student, programme1)) {
-            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,"25-02-2023");
+            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,date);
         }
 
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
@@ -924,14 +937,17 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory,"20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory,date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         Description description = new Description("School Year 24/25");
@@ -953,7 +969,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 new CourseFactoryImpl());
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(student, programme1)) {
-            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,"25-02-2023");
+            programmeEnrolmentRepository.enrolStudents(student, am1, programme1,date);
         }
         programmeEditionRepository.createProgrammeEdition(programme1, schoolYear);
         Optional<ProgrammeEdition> pe1Opt = programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme1, schoolYear);
@@ -1011,9 +1027,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
+
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Acronym acronym1 = new Acronym("CSE");
         Acronym acronym2 = new Acronym("CVE");
@@ -1024,7 +1044,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
@@ -1078,9 +1098,13 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                     courseEditionRepository,
                     schoolYearRepository,
                     programmeEnrolmentRepository);
+
+    Date date = new Date("20-12-2010");
+    TeacherCategoryID tcID = new TeacherCategoryID();
+    WorkingPercentage wp = new WorkingPercentage(100);
+    TeacherID teacherID = TeacherID.createNew();
     DegreeType master = new DegreeType("Master", 240);
     Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-    TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
     IAddressFactory addressFactory = new AddressFactoryImpl();
     Acronym acronym1 = new Acronym("CSE");
     Acronym acronym2 = new Acronym("CVE");
@@ -1091,7 +1115,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
     Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
     Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
             "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-            "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+            "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
             new TeacherCareerProgressionListFactoryImpl());
     Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
             new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
@@ -1145,9 +1169,13 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                         courseEditionRepository,
                         schoolYearRepository,
                         programmeEnrolmentRepository);
+
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Acronym acronym1 = new Acronym("CSE");
         Acronym acronym2 = new Acronym("CVE");
@@ -1158,7 +1186,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
         Programme programme1 = new Programme(name1, acronym1, quantEcts, quantSemesters, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),

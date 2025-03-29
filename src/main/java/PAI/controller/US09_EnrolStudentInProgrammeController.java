@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Date;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
@@ -50,13 +51,13 @@ public class US09_EnrolStudentInProgrammeController {
         return _programmeList.getProgrammeByName(programmeName);
     }
 
-    public boolean enrolStudent(Student s1, AccessMethod am1, Programme p1, String date) throws Exception {
+    public boolean enrolStudent(Student s1, AccessMethod am1, Programme p1, Date date) throws Exception {
         validateEnrolmentParameters(s1, am1, p1, date);
         _programmeEnrolmentRepository.enrolStudents(s1, am1, p1, date);
         return true;
     }
 
-    private void validateEnrolmentParameters(Student s1, AccessMethod am1, Programme p1, String date) throws Exception {
+    private void validateEnrolmentParameters(Student s1, AccessMethod am1, Programme p1, Date date) throws Exception {
         if (s1 == null) {
             throw new Exception("Student cannot be null");
         }
@@ -66,7 +67,7 @@ public class US09_EnrolStudentInProgrammeController {
         if (p1 == null) {
             throw new Exception("Programme cannot be null");
         }
-        if (date == null || date.isEmpty()) {
+        if (date == null) {
             throw new Exception("Date cannot be null or empty");
         }
     }

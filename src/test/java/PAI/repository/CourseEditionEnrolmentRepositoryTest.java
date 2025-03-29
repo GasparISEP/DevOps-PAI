@@ -1,8 +1,6 @@
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.VOs.Description;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
@@ -674,12 +672,16 @@ class CourseEditionEnrolmentRepositoryTest {
 
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
@@ -717,14 +719,17 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID , wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
@@ -760,14 +765,17 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
@@ -806,14 +814,17 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
@@ -853,14 +864,17 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID1 = new StudentID(1000001);
@@ -903,14 +917,17 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);

@@ -35,8 +35,6 @@ public class US15_UpdateTeacherWorkingPercentageController {
         if(_teacher == null)
             return false;
 
-        _teacher.updateWorkingPercentageInTeacherCareerProgression(date, workingPercentage);
-
         return true;
     }
 }
