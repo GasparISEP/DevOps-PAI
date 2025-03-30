@@ -15,4 +15,14 @@ class EnrolmentStatusTest {
         // act & assert
         assertTrue(enrolmentStatus.isEnrolmentActive(), "Enrolment should be active");
     }
+
+    @Test
+    void should_return_false_when_enrolment_is_inactive() {
+
+        // arrange
+        EnrolmentStatus enrolmentStatus = new EnrolmentStatus(false);
+
+        // act & assert
+        assertFalse(enrolmentStatus.isEnrolmentActive(), "Enrolment should be inactive");
+    }
 }
