@@ -117,8 +117,9 @@ class DurationCourseInCurricularYearTest {
         // arrange
         int duration = 1;
         DurationCourseInCurricularYear durationCourseInCurricularYear1 = new DurationCourseInCurricularYear(duration);
+        DurationCourseInCurricularYear durationCourseInCurricularYear2 = new DurationCourseInCurricularYear(duration);
         // act
-        boolean result = durationCourseInCurricularYear1.hashCode() == durationCourseInCurricularYear1.hashCode();
+        boolean result = durationCourseInCurricularYear1.hashCode() == durationCourseInCurricularYear2.hashCode();
         // assert
         assertTrue(result);
     }
