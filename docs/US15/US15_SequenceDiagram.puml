@@ -65,7 +65,7 @@ TCPRepo -> TCPRepo : lastTCP = findLastTCPFromTeacherID(teacherIdVO1)
 TCPRepo -> TCP : lastTCP.isDateAfter(dateVO1)
 activate TCP
 TCP --> TCPRepo: True
-TCPRepo -> TCP : lastTCP.getCategory()
+TCPRepo -> TCP : lastTCP.getTeacherCategoryID()
 TCP --> TCPRepo : teacherCategoryIdVO1
 TCPRepo -> TCP : lastTCP.getWorkingPercentage()
 TCP --> TCPRepo : lastWorkingPercentage
@@ -80,6 +80,7 @@ TCP1 --> TCPf : tcp1
 deactivate TCP1
 TCPf --> TCPRepo : tcp1
 deactivate TCPf
+TCPRepo -> TCPRepo : isTeacherCareerProgressionDuplicated(tcp1)
 TCPRepo -> TCPRepo: save(tcp1)
 TCPRepo --> Controller : True
 deactivate TCPRepo
