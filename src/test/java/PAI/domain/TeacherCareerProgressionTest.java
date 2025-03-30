@@ -63,7 +63,7 @@ class TeacherCareerProgressionTest {
         TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
 
         //act
-        TeacherCategoryID result = TCP.getCategory();
+        TeacherCategoryID result = TCP.getTeacherCategoryID();
 
         //assert
         assertEquals(tcIDDouble, result);

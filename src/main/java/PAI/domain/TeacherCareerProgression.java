@@ -38,7 +38,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         _teacherID = teacherID;
     }
 
-    public TeacherCategoryID getCategory () {
+    public TeacherCategoryID getTeacherCategoryID () {
 
         return _category;
     }
