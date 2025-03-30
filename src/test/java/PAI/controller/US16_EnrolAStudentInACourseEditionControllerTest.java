@@ -255,13 +255,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         );
 
         Description description = new Description("School Year 23/24");
+        SchoolYearID schoolYearID = new SchoolYearID();
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
-        SchoolYear schoolYear2 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear2 = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1, schoolYear2);
 
         peeRepository.enrolStudentInProgrammeEdition(st1,programmeEdition1);
@@ -321,10 +322,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 23/24");
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -403,10 +405,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         programme1.addCourseToAProgramme(course1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 23/24");
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -476,10 +479,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         programme1.addCourseToAProgramme(course1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 23/24");
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 

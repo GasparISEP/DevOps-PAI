@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.repository.SchoolYearRepository;
 
 public class US07_IWantToCreateASchoolYearController {
@@ -18,9 +19,9 @@ public class US07_IWantToCreateASchoolYearController {
         _schoolYearRepo = schoolYearRepo;
     }
 
-    public boolean addSchoolYear (Description description, Date startDate, Date endDate) throws Exception {
+    public boolean addSchoolYear (SchoolYearID schoolYearID,Description description, Date startDate, Date endDate) throws Exception {
 
-        _schoolYearRepo.addSchoolYear(description, startDate, endDate);
+        _schoolYearRepo.addSchoolYear(schoolYearID,description, startDate, endDate);
 
         return true;
     }
