@@ -122,7 +122,7 @@ class TeacherCareerProgressionTest {
 
     //isDateAfter
     @Test
-    void shouldReturnTrueIfGivenDateIsAfterLastDate() {
+    void shouldReturnFalseIfGivenDateIsAfterLastDate() {
         //arrange
         Date dateDouble1 = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
@@ -142,11 +142,11 @@ class TeacherCareerProgressionTest {
         boolean result = TCP.isDateAfter(dateDouble2);
 
         //assert
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseIfGivenDateIsAfterLastDate() {
+    void shouldReturnTrueIfGivenDateIsAfterLastDate() {
         //arrange
         Date dateDouble1 = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
@@ -166,7 +166,7 @@ class TeacherCareerProgressionTest {
         boolean result = TCP.isDateAfter(dateDouble2);
 
         //assert
-        assertFalse(result);
+        assertTrue(result);
     }
 
     //sameAs
