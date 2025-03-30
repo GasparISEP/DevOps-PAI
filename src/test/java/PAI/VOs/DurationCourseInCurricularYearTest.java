@@ -111,4 +111,28 @@ class DurationCourseInCurricularYearTest {
         // assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnTrueIfHashCodeIsTheSame(){
+        // arrange
+        int duration = 1;
+        DurationCourseInCurricularYear durationCourseInCurricularYear1 = new DurationCourseInCurricularYear(duration);
+        // act
+        boolean result = durationCourseInCurricularYear1.hashCode() == durationCourseInCurricularYear1.hashCode();
+        // assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfHashCodeIsDifferent(){
+        // arrange
+        int duration1 = 1;
+        int duration2 = 2;
+        DurationCourseInCurricularYear durationCourseInCurricularYear1 = new DurationCourseInCurricularYear(duration1);
+        DurationCourseInCurricularYear durationCourseInCurricularYear2 = new DurationCourseInCurricularYear(duration2);
+        // act
+        boolean result = durationCourseInCurricularYear1.hashCode() == durationCourseInCurricularYear2.hashCode();
+        // assert
+        assertFalse(result);
+    }
 }
