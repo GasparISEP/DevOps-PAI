@@ -5,7 +5,6 @@ import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
 import PAI.domain.TeacherCareerProgression;
-import PAI.domain.TeacherCategory;
 
 public interface ITeacherCareerProgressionFactory {
 
