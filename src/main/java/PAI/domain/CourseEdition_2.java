@@ -39,5 +39,14 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
         return _courseInStudyPlanID.equals(courseEditionTest._courseInStudyPlanID) &&
                 _programmeEditionID.equals(courseEditionTest._programmeEditionID);
     }
+
+    public ProgrammeEditionID getProgrammeEditionID() {
+        return _programmeEditionID;
+    }
+
+    public CourseInStudyPlanID getCourseInStudyPlanID() {
+        return _courseInStudyPlanID;
+    }
+
 }
 

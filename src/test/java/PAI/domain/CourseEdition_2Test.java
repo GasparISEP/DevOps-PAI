@@ -188,4 +188,31 @@ class CourseEdition_2Test {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnProgrammeEditionIDFromCourseEdition() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        //Act
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        //Assert
+        assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
+    }
+
+    @Test
+    void shouldReturnCourseInbStudyPlanIDFromCourseEdition() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        //Act
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        //Assert
+        assertEquals(courseInStudyPlanIDDouble, courseEdition.getCourseInStudyPlanID());
+    }
 }
