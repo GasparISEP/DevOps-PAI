@@ -6,57 +6,50 @@ import static org.junit.jupiter.api.Assertions.*;
 class DurationCourseInCurricularYearTest {
 
     @Test
-    void shouldReturnTrueWhenDurationIs1() {
+    void shouldCreateDurationCourseInCurricularYearWhenDurationIs1() {
         // arrange
         int duration = 1;
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
-        // act
-        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
-        // assert
-        assertTrue(result);
+        // act && assert
+        assertNotNull(durationCourseInCurricularYear);
     }
 
     @Test
-    void shouldReturnTrueWhenDurationIs2() {
+    void shouldCreateDurationCourseInCurricularYearWhenDurationIs2() {
         // arrange
         int duration = 2;
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
-        // act
-        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
-        // assert
-        assertTrue(result);
+        // act && assert
+        assertNotNull(durationCourseInCurricularYear);
     }
 
     @Test
-    void shouldReturnFalseWhenDurationIsLessThan1() {
+    void shouldNotCreateDurationCourseInCurricularYearWhenDurationIs0() {
         // arrange
         int duration = 0;
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
-        // act
-        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
-        // assert
-        assertFalse(result);
+        // act && assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new DurationCourseInCurricularYear(duration);
+        });
     }
 
     @Test
-    void shouldReturnTrueWhenDurationIsHigherThan2() {
+    void shouldNotCreateDurationCourseInCurricularYearWhenDurationIs3() {
         // arrange
         int duration = 3;
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
-        // act
-        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
-        // assert
-        assertFalse(result);
+        // act && assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new DurationCourseInCurricularYear(duration);
+        });
     }
 
     @Test
-    void shouldReturnFalseWhenDurationIsNegative() {
+    void shouldNotCreateDurationCourseInCurricularYearWhenDurationIsNegative() {
         // arrange
         int duration = -1;
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
-        // act
-        boolean result = durationCourseInCurricularYear.isDurationCurricularYearValid();
-        // assert
-        assertFalse(result);
+        // act && assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new DurationCourseInCurricularYear(duration);
+        });
     }
 }

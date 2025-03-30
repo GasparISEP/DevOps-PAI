@@ -4,13 +4,16 @@ import PAI.ddd.ValueObject;
 
 public class DurationCourseInCurricularYear implements ValueObject {
 
-    private final int duration;
+    private final int _duration;
 
     public DurationCourseInCurricularYear(int duration) {
-        this.duration = duration;
+        if(!isDurationCurricularYearValid(duration)) {
+            throw new IllegalArgumentException("The duration of the current year is invalid.");
+        }
+        this._duration = duration;
     }
 
-    public boolean isDurationCurricularYearValid() {
+    private boolean isDurationCurricularYearValid(int duration) {
         return duration > 0 && duration < 3;
     }
 
