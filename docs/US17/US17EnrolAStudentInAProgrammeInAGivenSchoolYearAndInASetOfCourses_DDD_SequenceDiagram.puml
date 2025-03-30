@@ -17,24 +17,24 @@ ASC -> UI : Enter the student!
 
 activate UI
 participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
-UI -> Controller : getAllProgrammes()
+UI -> Controller : getAllProgrammesID()
 activate Controller
 participant ":IProgrammeRepository" as ProgrammeRepository
-Controller -> ProgrammeRepository : getAllProgrammes()
+Controller -> ProgrammeRepository : getAllProgrammesID()
 activate ProgrammeRepository
 participant ":ProgrammeRepositoryListFactoryImpl" as ProgrammeRepositoryListFactoryImpl
-ProgrammeRepository -> ProgrammeRepositoryListFactoryImpl : copyProgrammeArrayList(List<Programme>)
+ProgrammeRepository -> ProgrammeRepositoryListFactoryImpl : copyProgrammeArrayList(List<ProgrammeID>)
 activate ProgrammeRepositoryListFactoryImpl
 create "copyPgmList[i]:ProgrammeRepositoryListFactory"
-ProgrammeRepositoryListFactoryImpl -> "copyPgmList[i]:ProgrammeRepositoryListFactory": copyProgrammeArrayList(List<Programme>)
+ProgrammeRepositoryListFactoryImpl -> "copyPgmList[i]:ProgrammeRepositoryListFactory": copyProgrammeArrayList(List<ProgrammeID>)
 activate "copyPgmList[i]:ProgrammeRepositoryListFactory"
-"copyPgmList[i]:ProgrammeRepositoryListFactory" --> ProgrammeRepositoryListFactoryImpl: EmptyList<Programme>
+"copyPgmList[i]:ProgrammeRepositoryListFactory" --> ProgrammeRepositoryListFactoryImpl: EmptyList<ProgrammeID>
 deactivate "copyPgmList[i]:ProgrammeRepositoryListFactory"
-ProgrammeRepositoryListFactoryImpl --> ProgrammeRepository : copyOfProgrammeList
+ProgrammeRepositoryListFactoryImpl --> ProgrammeRepository : copyOfProgrammeIDList
 deactivate ProgrammeRepositoryListFactoryImpl
-ProgrammeRepository --> Controller : copyOfProgrammeList
+ProgrammeRepository --> Controller : copyOfProgrammeIDList
 deactivate ProgrammeRepository
-Controller --> UI : listOfProgrammes
+Controller --> UI : listOfProgrammesID
 deactivate Controller
 UI --> ASC : Here is the list of Programmes! What programme do you want?
 deactivate UI
@@ -44,24 +44,24 @@ ASC -> UI : Enter the programme!
 
 activate UI
 participant ":ISchoolYearRepository" as SchoolYearRepository
-UI -> Controller : getAllSchoolYears()
+UI -> Controller : getAllSchoolYearsID()
 activate Controller
 participant ":SchoolYearRepository" as SchoolYearRepository
-Controller -> SchoolYearRepository : getAllSchoolYears()
+Controller -> SchoolYearRepository : getAllSchoolYearsID()
 activate SchoolYearRepository
 participant ":SchoolYearRepositoryListFactoryImpl" as SchoolYearRepositoryListFactoryImpl
-SchoolYearRepository -> SchoolYearRepositoryListFactoryImpl : copySchoolYearArrayList(List<SchoolYear>)
+SchoolYearRepository -> SchoolYearRepositoryListFactoryImpl : copySchoolYearArrayList(List<SchoolYearID>)
 activate SchoolYearRepositoryListFactoryImpl
-create "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
-SchoolYearRepositoryListFactoryImpl -> "copySchoolYearList[i]:SchoolYearRepositoryListFactory": copySchoolYearArrayList(List<SchoolYear>)
+create "copySchoolYearIDList[i]:SchoolYearRepositoryListFactory"
+SchoolYearRepositoryListFactoryImpl -> "copySchoolYearIDList[i]:SchoolYearRepositoryListFactory": copySchoolYearArrayList(List<SchoolYearID>)
 activate "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
-"copySchoolYearList[i]:SchoolYearRepositoryListFactory" --> SchoolYearRepositoryListFactoryImpl: EmptyList<SchoolYear>
+"copySchoolYearList[i]:SchoolYearRepositoryListFactory" --> SchoolYearRepositoryListFactoryImpl: EmptyList<SchoolYearID>
 deactivate "copySchoolYearList[i]:SchoolYearRepositoryListFactory"
-SchoolYearRepositoryListFactoryImpl --> SchoolYearRepository : copyOfSchoolYearList
+SchoolYearRepositoryListFactoryImpl --> SchoolYearRepository : copyOfSchoolYearIDList
 deactivate SchoolYearRepositoryListFactoryImpl
-SchoolYearRepository --> Controller : copyOfSchoolYearsList
+SchoolYearRepository --> Controller : copyOfSchoolYearsIDList
 deactivate SchoolYearRepository
-Controller --> UI : listOfSchoolYears
+Controller --> UI : listOfSchoolYearsID
 deactivate Controller
 UI --> ASC : Here is the list SchoolYears! What schoolYear do you want?
 deactivate UI
