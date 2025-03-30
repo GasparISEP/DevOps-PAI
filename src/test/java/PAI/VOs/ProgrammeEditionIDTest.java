@@ -101,11 +101,26 @@ class ProgrammeEditionIDTest {
     void shouldReturnExpectedStringRepresentation() {
         // Arrange
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+        String idString = programmeEditionID.getProgrammeEditionID().toString();
 
         // Act
         String result = programmeEditionID.toString();
 
         // Assert
-        assertEquals("this is a toString Test", result);
+        assertEquals(idString, result);
+    }
+
+    @Test
+    void shouldReturnDifferentStringsForDifferentInstances() {
+        // Arrange
+        ProgrammeEditionID id1 = new ProgrammeEditionID();
+        ProgrammeEditionID id2 = new ProgrammeEditionID();
+        String id1String1 = id1.toString();
+
+        // Act
+        String result = id2.toString();
+
+        // Assert
+        assertNotEquals(id1String1, result);
     }
 }

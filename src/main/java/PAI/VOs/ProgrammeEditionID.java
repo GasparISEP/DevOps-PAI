@@ -31,6 +31,6 @@ public class ProgrammeEditionID implements DomainId {
 
     @Override
     public String toString() {
-        return "this is a toString Test";
+        return _programmeEditionID.toString();
     }
 }
