@@ -11,7 +11,8 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
     private CourseInStudyPlanID _courseInStudyPlanID;
     private ProgrammeEditionID _programmeEditionID;
 
-    public CourseEdition_2 (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) throws Exception {
+    public CourseEdition_2 (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+
         if (programmeEditionID == null) {
             throw new IllegalArgumentException ("ProgrammeEdition must be valid");
         }
@@ -23,6 +24,23 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
         _courseEditionID = new CourseEditionID();
         _courseInStudyPlanID = courseInStudyPlanID;
         _programmeEditionID = programmeEditionID;
+    }
+
+
+    //Auxiliary constructor for tests, in order to define a specific CourseEditionID
+    public CourseEdition_2(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+        if (courseEditionID == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
+        }
+        if (courseInStudyPlanID == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
+        }
+        if (programmeEditionID == null) {
+            throw new IllegalArgumentException("ProgrammeEdition must be valid");
+        }
+        this._courseEditionID = courseEditionID;
+        this._courseInStudyPlanID = courseInStudyPlanID;
+        this._programmeEditionID = programmeEditionID;
     }
 
     @Override
