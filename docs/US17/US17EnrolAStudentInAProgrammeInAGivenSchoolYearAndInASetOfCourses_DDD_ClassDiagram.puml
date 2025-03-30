@@ -1,5 +1,5 @@
 @startuml
-'!pragma layout smetana
+!pragma layout smetana
 'left to right direction
 
 skinparam ranksep 30
@@ -152,10 +152,6 @@ package "ProgrammeEditionEnrolment Aggregate" #Lightblue {
 
 package "Programme Aggregate" #Lightblue{
     class Programme <<Root>> <<Entity>>  {
-     - name: string
-     - acronym: string
-     - quantityOfEcts: int
-     - quantityOfSemesters: int
      + Programme(name : String, acronym : String, quantityOfEcts: int, quantityOfSemesters : int,
           degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory: ProgrammeCourseListFactory)
     }
@@ -258,6 +254,28 @@ class Phone <<Value Object>> {
     -_phone : String
     + Phone(phone : String)
     + isPhoneNumberValid
+}
+
+class Acronym <<Value Object>> {
+     -_acronym : String
+     + Acronym(acronym : String)
+     + isAcronymInvalid(acronym : String)
+}
+
+class QuantEcts <<ValueObject>> {
+    -_quantEcts: int
+    + QuantEcts(quantityOfEcts : int)
+    + isQuantEctsValid(quantityOfEcts : int)
+}
+
+class QuantityOfSemesters <<ValueObject>> {
+    -_quantityOfSemesters: int
+    + QuantSemesters(quantityOfSemesters: int)
+    + isQuantityOfSemestersValid(quantityOfSemesters: int)
+}
+
+class ProgrammeID <<Value Object>> {
+    -_programmeID :
 }
 
 class Email <<Value Object>> {
@@ -442,6 +460,10 @@ CourseEditionEnrolment "1" --> "1" CourseEditionId
 CourseEditionEnrolment "1" --> "1" CourseEditionEnrolmentId
 ProgrammeEnrolment "1" --> "1" ProgrammeId
 Programme "1" --> "1" ProgrammeId
+Programme "1" --> "1" Name
+Programme "1" --> "1" Acronym
+Programme "1" --> "1" QuantEcts
+Programme "1" --> "1" QuantityOfSemesters
 ProgrammeEnrolment "1" --> "1" StudentID
 ProgrammeEnrolment "1" --> "1" ProgrammeEnrolmentId
 Student "1" --> "1" StudentID
