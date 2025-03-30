@@ -23,7 +23,7 @@ package "TeacherCareerProgression Aggregate" {
     entity "<<Root>>\n <<Entity>>\nTeacherCareerProgression" {
         +TeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,teacherIDVO: teacherIDVO)
         +isDateAfter(dateVO: DateVO)
-        +getCategory()
+        +getTeacherCategoryID()
     }
 }
 
