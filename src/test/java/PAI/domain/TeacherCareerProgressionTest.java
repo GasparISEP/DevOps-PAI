@@ -71,7 +71,6 @@ class TeacherCareerProgressionTest {
 
     @Test
     void getWorkingPercentageReturnsWorkingPercentage() {
-
         //arrange
         Date dateDouble = mock(Date.class);
         TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
@@ -85,6 +84,23 @@ class TeacherCareerProgressionTest {
 
         //assert
         assertEquals(wpDouble, result);
+    }
+
+    @Test
+    void getDateReturnsDate() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        //act
+        Date result = TCP.getDate();
+
+        //assert
+        assertEquals(result, dateDouble);
     }
 
     @Test
