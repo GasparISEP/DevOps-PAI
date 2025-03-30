@@ -48,5 +48,20 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
         return _courseInStudyPlanID;
     }
 
+    @Override
+    public boolean equals(Object objectToCompare) {
+
+        if (this == objectToCompare)
+            return true;
+
+        if (objectToCompare instanceof CourseEdition_2) {
+
+            CourseEdition_2 courseEdition = (CourseEdition_2) objectToCompare;
+
+            if (_courseEditionID.equals(courseEdition._courseEditionID))
+                return true;
+        }
+        return false;
+    }
 }
 

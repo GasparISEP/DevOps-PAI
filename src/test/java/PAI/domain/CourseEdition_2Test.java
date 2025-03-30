@@ -5,6 +5,8 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -12,7 +14,7 @@ class CourseEdition_2Test {
 
     //US19
     @Test
-    void shouldCreateCourseEdition() throws Exception {
+    void shouldCreateCourseEditionWithoutCourseEditionIDAsParameter() throws Exception {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
@@ -214,5 +216,69 @@ class CourseEdition_2Test {
 
         //Assert
         assertEquals(courseInStudyPlanIDDouble, courseEdition.getCourseInStudyPlanID());
+    }
+
+    @Test
+    void shouldReturnFalseForEqualsWithNullObjectToCompare() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        //Act
+        boolean result = courseEdition.equals(null);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueEqualsWhenComparedWithSameInstanceOfObject() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        //Act
+        boolean result = courseEdition.equals(courseEdition);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseForEqualsOfCourseEditionsWithSameParameters() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        boolean result = courseEdition.equals(courseEdition2);
+
+        //Assert
+            //false because ids are different (ids are created when object is created)
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfClassesAreDifferent() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEditionID, CourseinStudyPlanID and TeacherCategory as Doubles
+        //Arrange
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        TeacherCategory teacherCategoryDouble = mock (TeacherCategory.class);
+
+        //Act
+        boolean result = courseEdition.equals(teacherCategoryDouble);
+
+        //Assert
+        assertFalse(result);
     }
 }
