@@ -17,4 +17,11 @@ public class DurationCourseInCurricularYear implements ValueObject {
         return duration > 0 && duration < 3;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DurationCourseInCurricularYear that = (DurationCourseInCurricularYear) o;
+        return _duration == that._duration;
+    }
 }
