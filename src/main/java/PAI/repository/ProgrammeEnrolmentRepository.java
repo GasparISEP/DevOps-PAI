@@ -1,6 +1,9 @@
 package PAI.repository;
 
+import PAI.VOs.AccessMethodID;
 import PAI.VOs.Date;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.factory.IProgrammeEnrolmentListFactory;
@@ -21,9 +24,9 @@ public class ProgrammeEnrolmentRepository {
         _programmeEnrolmentFactory = programmeEnrolmentFactory;
     }
 
-    public boolean enrolStudents(Student student, AccessMethod accessMethod, Programme programme, Date enrolmentDate) throws Exception {
+    public boolean enrolStudents(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date enrolmentDate) throws Exception {
 
-        ProgrammeEnrolment newProgrammeEnrolment = _programmeEnrolmentFactory.createProgrammeEnrolment (student, accessMethod, programme, enrolmentDate);
+        ProgrammeEnrolment newProgrammeEnrolment = _programmeEnrolmentFactory.createProgrammeEnrolment(studentID, accessMethodID, programmeID, enrolmentDate);
 
         //Checks if Enrolment is repeated
         if(!isEnrolmentRepeated(newProgrammeEnrolment)) {
@@ -42,9 +45,9 @@ public class ProgrammeEnrolmentRepository {
         return false; // Return false if no repeated enrolment is found
     }
 
-    public boolean isStudentEnrolled (Student student, Programme programme) {
+    public boolean isStudentEnrolled (Student studentID, Programme programmeID) {
         for (ProgrammeEnrolment existingEnrolment : _enrolmentList) {
-            if (existingEnrolment.hasSameStudent(student) && existingEnrolment.hasSameProgramme(programme)) {
+            if (existingEnrolment.hasSameStudent(studentID) && existingEnrolment.hasSameProgramme(programmeID)) {
                 return true;
             }
         }

@@ -1,7 +1,6 @@
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.domain.AccessMethod;
+import PAI.VOs.*;
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.domain.Student;
@@ -51,9 +50,9 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldReturnTrueIfTheEnrolmentInTheProgrammeIsSuccessful() throws Exception {
         //arrange
-        Student studentDouble1 = mock(Student.class);
-        AccessMethod accessMethodDouble = mock(AccessMethod.class);
-        Programme programmeDouble = mock(Programme.class);
+        StudentID studentDouble1 = mock(StudentID.class);
+        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         ArrayList<ProgrammeEnrolment> listDouble = mock(ArrayList.class);
         ProgrammeEnrolment programmeEnrolmentDouble1 = mock(ProgrammeEnrolment.class);
         ProgrammeEnrolment programmeEnrolmentDouble2 = mock(ProgrammeEnrolment.class);
@@ -91,9 +90,9 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldThrowExceptionIfEnrolmentIsNotSuccessfulBecauseStudentIsAlreadyEnrolledInTheProgramme() throws Exception {
         //arrange
-        Student studentDouble = mock(Student.class);
-        AccessMethod accessMethodDouble = mock(AccessMethod.class);
-        Programme programmeDouble = mock(Programme.class);
+        StudentID studentDouble = mock(StudentID.class);
+        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         Date dateDouble = mock(Date.class);
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);

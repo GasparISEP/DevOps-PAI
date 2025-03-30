@@ -28,4 +28,9 @@ public class ProgrammeEditionID implements DomainId {
             return true;
         return false;
     }
+
+    @Override
+    public String toString() {
+        return _programmeEditionID.toString();
+    }
 }

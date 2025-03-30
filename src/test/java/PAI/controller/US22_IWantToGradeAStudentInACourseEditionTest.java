@@ -108,10 +108,11 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher, IProgrammeCourseListFactory, ICourseInStudyPlanFactory, IStudyPlanListFactory,
                 IStudyPlanFactory, ICourseFactory);
         p1.addCourseToAProgramme(c1);
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("23-11-2024");
         Date endDate = new Date ("09-12-2025");
-        SchoolYear sY1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear sY1 = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
         StudentID studentID = new StudentID(1234567);
