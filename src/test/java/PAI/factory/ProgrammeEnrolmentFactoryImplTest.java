@@ -21,6 +21,7 @@ class ProgrammeEnrolmentFactoryImplTest {
     // Creation of actual attributes for tests without isolation
     private class AttributesForTestsWithoutIsolation {
         Address _address;
+        StudentID _studentID;
         Student _student;
         AccessMethodID _accessMethod;
         DegreeType _degreeType;
@@ -43,7 +44,8 @@ class ProgrammeEnrolmentFactoryImplTest {
 
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-            _student = new Student(new StudentID(1234567), "Rita", "123456789", "963741258", "rita@gmail.com", _address);
+            _studentID = new StudentID(1234567);
+            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789"), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _address, new StudentAcademicEmail(_studentID));
             _accessMethod = new AccessMethodID();
             _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);

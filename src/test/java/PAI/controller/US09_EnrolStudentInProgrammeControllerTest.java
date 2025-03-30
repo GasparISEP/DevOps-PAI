@@ -1,7 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
 import PAI.repository.ProgrammeEnrolmentRepository;
@@ -31,6 +30,11 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private static Programme _programme;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
     private Address address1;
+    private Name _name;
+    private NIF _nif;
+    private PhoneNumber _phone;
+    private Email _email;
+    private StudentAcademicEmail _academicEmail;
     private US09_EnrolStudentInProgrammeController _controller;
 
     @BeforeEach
@@ -47,11 +51,21 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         // Register some students
         address1 = mock(Address.class);
         _studentID = mock(StudentID.class);
-        _studentRepository.registerStudent(_studentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        _name = mock(Name.class);
+        _nif = mock(NIF.class);
+        _phone = mock(PhoneNumber.class);
+        _email = mock(Email.class);
+        _academicEmail = mock(StudentAcademicEmail.class);
+        _studentRepository.registerStudent(_studentID, _name, _nif, _phone, _email, address1, _academicEmail);
 
         Address address2 = mock(Address.class);
         StudentID mockStudentID2 = mock(StudentID.class);
-        _studentRepository.registerStudent(mockStudentID2, "Pedro", "159753824", "963996987", "pedro@gmail.com", address2);
+        Name nameDouble2 = mock(Name.class);
+        NIF nifDouble2 = mock(NIF.class);
+        PhoneNumber phoneDouble2 = mock(PhoneNumber.class);
+        Email emailDouble2 = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble2 = new StudentAcademicEmail(mockStudentID2);
+        _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, address2, academicEmailDouble2);
     }
 
     //quando vai buscar

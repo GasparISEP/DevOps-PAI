@@ -115,9 +115,15 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         SchoolYear sY1 = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition pE1 = new ProgrammeEdition(p1, sY1);
         CourseEdition courseEdition1 = new CourseEdition(c1, pE1);
-        StudentID studentID = new StudentID(1234567);
 
-        Student student1 = new Student(studentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID studentID = new StudentID(1234567);
+        Name name = new Name("Rita");
+        NIF nif = new NIF("123456789");
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student1 = new Student(studentID, name, nif, phone, email, address1, academicEmail);
         Grade grade = new Grade(20.0);
         Date date2 = new Date("22-02-2022");
         enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);

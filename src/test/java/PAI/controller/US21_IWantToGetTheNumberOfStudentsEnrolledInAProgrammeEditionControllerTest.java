@@ -192,8 +192,13 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
 
         StudentID studentID = new StudentID(1111111);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("123456789");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student st1 = new Student(studentID, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+        Student st1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("20-01-2024");
@@ -292,9 +297,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
 
         StudentID studentID = new StudentID(1111111);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("123456789");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student st1 = new Student(studentID, "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
         SchoolYearID schoolYearID = new SchoolYearID();
+        Student st1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("20-01-2024");
         Date endDate = new Date ("23-02-2024");
