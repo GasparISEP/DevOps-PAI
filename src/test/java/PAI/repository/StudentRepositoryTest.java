@@ -1,9 +1,6 @@
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentGradeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.Address;
 import PAI.domain.CourseEdition;
 import PAI.domain.Student;
@@ -36,6 +33,11 @@ class StudentRepositoryTest {
         private Student _studentDouble2;
         private StudentID _studentID1;
         private StudentID _studentID2;
+        private Name _name;
+        private NIF _nif;
+        private PhoneNumber _phone;
+        private Email _email;
+        private StudentAcademicEmail _academicEmail;
 
         @BeforeEach
         //arrange
@@ -48,6 +50,11 @@ class StudentRepositoryTest {
             _studentDouble2 = mock(Student.class);
             _studentID1 = mock(StudentID.class);
             _studentID2 = mock(StudentID.class);
+            _name = mock(Name.class);
+            _nif = mock(NIF.class);
+            _phone = mock(PhoneNumber.class);
+            _email = mock(Email.class);
+            _academicEmail = mock(StudentAcademicEmail.class);
 
             // Create ArrayList mock
             ArrayList<Student> _studentListDouble = mock(ArrayList.class);
@@ -84,17 +91,19 @@ class StudentRepositoryTest {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
 
-            when(_studentFactoryImplDouble.newStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
+
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
+
             when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(true);
 
-            studentRepository.registerStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
 
             // Act & Assert
             Exception exception = assertThrows(Exception.class, () -> {
-                studentRepository.registerStudent(_studentID1, "Miguel", "123456789", "912345678", "miguel@gmail.com", _addressDouble);
+                studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
             });
             assertEquals(exception.getMessage(), "Duplicate ID or NIF detected. Student cannot be added.");
         }
@@ -103,12 +112,12 @@ class StudentRepositoryTest {
         void testRegisterDuplicateStudentIDThrowsException() throws Exception {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
 
             when(_iterator.hasNext()).thenReturn(false);
 
-            studentRepository.registerStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
 
             when(_iterator.hasNext()).thenReturn(true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
@@ -117,7 +126,7 @@ class StudentRepositoryTest {
 
             // Act & Assert
             Exception exception = assertThrows(Exception.class, () -> {
-                studentRepository.registerStudent(_studentID1, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+                studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
             });
             assertEquals("Duplicate ID or NIF detected. Student cannot be added.", exception.getMessage());
         }
@@ -126,16 +135,16 @@ class StudentRepositoryTest {
         void shouldReturnTrueWhenValidStudentsAreRegistered() throws Exception {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID2, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble2.isEquals(_studentDouble1) && _studentDouble2.sameAs(_studentDouble1)).thenReturn(false);
 
-            studentRepository.registerStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
 
             // Act
-            boolean result = studentRepository.registerStudent(_studentID2, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+            boolean result = studentRepository.registerStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
 
             // Assert
             assertTrue(result);
@@ -147,17 +156,17 @@ class StudentRepositoryTest {
 //            StudentID studentIDToBeFound = mock(StudentID.class);
 //            StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
 //
-//            when(_studentFactoryImplDouble.newStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-//            when(_studentFactoryImplDouble.newStudent(studentIDToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+//            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, "123456789", _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
+//            when(_studentFactoryImplDouble.newStudent(studentIDToBeFound, _name, "132489912", _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
 //            when(_iterator.hasNext()).thenReturn(false, true, false);
 //            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 //
-//            studentRepository.registerStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+//            studentRepository.registerStudent(_studentID1, _name, "123456789", _phone, _email, _addressDouble, _academicEmail);
 //
 //            when(_studentDouble1.isEquals(_studentDouble2)).thenReturn(false);
 //            when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(true);
 //
-//            studentRepository.registerStudent(studentIDToBeFound, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+//            studentRepository.registerStudent(studentIDToBeFound, _name, "132489912", _phone, _email, _addressDouble);
 //
 //            when(_iterator.hasNext()).thenReturn(true, true);
 //            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
@@ -180,18 +189,18 @@ class StudentRepositoryTest {
             // Arrange
             StudentID studentIDToBeFound = mock(StudentID.class);
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID2, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
 
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
-            studentRepository.registerStudent(_studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _addressDouble);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
 
             when(_studentDouble1.equals(_studentDouble2)).thenReturn(false);
             when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(false);
 
-            studentRepository.registerStudent(_studentID2, "Miguel", "132489912", "912345678", "miguel@gmail.com", _addressDouble);
+            studentRepository.registerStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
 
             when(_iterator.hasNext()).thenReturn(true, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
@@ -243,12 +252,18 @@ class StudentRepositoryTest {
             StudentID studentID1 = new StudentID(1234567);
             StudentID studentID2 = new StudentID(1789023);
 
+            Name name = mock(Name.class);
+            NIF nif = mock(NIF.class);
+            PhoneNumber phone = mock(PhoneNumber.class);
+            Email email = mock(Email.class);
+            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
+
             // Act
-            repository.registerStudent(studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
+            repository.registerStudent(studentID1, name, nif, phone, email, _address1, academicEmail);
 
             // Assert
             assertThrows(Exception.class, () -> {
-                repository.registerStudent(studentID2, "Miguel", "123456789", "912345678", "miguel@gmail.com", _address2);
+                repository.registerStudent(studentID2, name, nif, phone, email, _address2, academicEmail);
             });
         }
 
@@ -258,13 +273,18 @@ class StudentRepositoryTest {
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
             StudentID studentID1 = new StudentID(1234567);
+            Name name = mock(Name.class);
+            NIF nif = mock(NIF.class);
+            PhoneNumber phone = mock(PhoneNumber.class);
+            Email email = mock(Email.class);
+            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
             // Act
-            repository.registerStudent(studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
+            repository.registerStudent(studentID1, name, nif, phone, email, _address1, academicEmail);
 
             // Assert
             assertThrows(Exception.class, () -> {
-                repository.registerStudent(studentID1, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
+                repository.registerStudent(studentID1, name, nif, phone, email, _address2, academicEmail);
             });
         }
 
@@ -273,14 +293,23 @@ class StudentRepositoryTest {
             // Arrange
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
+            Name name = mock(Name.class);
+            PhoneNumber phone = mock(PhoneNumber.class);
+            Email email = mock(Email.class);
+            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
+
             StudentID studentID1 = new StudentID(1234567);
             StudentID studentID2 = new StudentID(1789023);
             StudentID studentID3 = new StudentID(1122332);
 
+            NIF nif1 = mock(NIF.class);
+            NIF nif2 = mock(NIF.class);
+            NIF nif3 = mock(NIF.class);
+
             // Act
-            boolean result1 = repository.registerStudent(studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
-            boolean result2 = repository.registerStudent(studentID2, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
-            boolean result3 = repository.registerStudent(studentID3, "Paula", "456789123", "910000000", "paula@gmail.com", _address1);
+            boolean result1 = repository.registerStudent(studentID1, name, nif1, phone, email, _address1, academicEmail);
+            boolean result2 = repository.registerStudent(studentID2, name, nif2, phone, email, _address2, academicEmail);
+            boolean result3 = repository.registerStudent(studentID3, name, nif3, phone, email, _address1, academicEmail);
 
             // Assert
             assertTrue(result1 && result2 && result3);
@@ -291,11 +320,19 @@ class StudentRepositoryTest {
             // Arrange
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
+            Name name = mock(Name.class);
+            PhoneNumber phone = mock(PhoneNumber.class);
+            Email email = mock(Email.class);
+            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
+
             StudentID studentID1 = new StudentID(1234567);
             StudentID studentID2 = new StudentID(1789023);
 
-            repository.registerStudent(studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
-            repository.registerStudent(studentID2, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
+            NIF nif1 = mock(NIF.class);
+            NIF nif2 = mock(NIF.class);
+
+            repository.registerStudent(studentID1, name, nif1, phone, email, _address1, academicEmail);
+            repository.registerStudent(studentID2, name, nif2, phone, email, _address2, academicEmail);
 
             // Act
             Optional<Student> studentFromList = repository.getStudentByID(studentID2);
@@ -309,11 +346,18 @@ class StudentRepositoryTest {
             // Arrange
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
+            Name name = mock(Name.class);
+            NIF nif = mock(NIF.class);
+            NIF nif2 = mock(NIF.class);
+            PhoneNumber phone = mock(PhoneNumber.class);
+            Email email = mock(Email.class);
+            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
+
             StudentID studentID1 = new StudentID(1234567);
             StudentID studentID2 = new StudentID(1789023);
 
-            repository.registerStudent(studentID1, "Daniela", "123456789", "911855911", "danijose@gmail.com", _address1);
-            repository.registerStudent(studentID2, "Miguel", "987654321", "912345678", "miguel@gmail.com", _address2);
+            repository.registerStudent(studentID1, name, nif, phone, email, _address1, academicEmail);
+            repository.registerStudent(studentID2, name, nif2, phone, email, _address2, academicEmail);
 
             // Act
             Optional<Student> studentFromList = repository.getStudentByID(new StudentID(1555555));
@@ -334,10 +378,11 @@ class StudentRepositoryTest {
         StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
 
         StudentID studentID1 = new StudentID(1234567);
-        String name = "Daniela";
-        String nif = "123456789";
-        String phone = "911855911";
-        String email = "danijose@gmail.com";
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
         Address address = mock(Address.class);
 
 
@@ -347,10 +392,10 @@ class StudentRepositoryTest {
         when(student.sameAs(any())).thenReturn(false);
 
 
-        when(studentFactory.newStudent(studentID1, name, nif, phone, email, address)).thenReturn(student);
+        when(studentFactory.newStudent(studentID1, name, nif, phone, email, address, academicEmail)).thenReturn(student);
 
         // Act
-        repository.registerStudent(studentID1, name, nif, phone, email, address);
+        repository.registerStudent(studentID1, name, nif, phone, email, address, academicEmail);
         Optional<StudentID> result = repository.findIdByStudent(student);
 
         // Assert
@@ -369,12 +414,6 @@ class StudentRepositoryTest {
         StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
 
         StudentID studentID1 = new StudentID(1234567);
-        String name = "Daniela";
-        String nif = "123456789";
-        String phone = "911855911";
-        String email = "danijose@gmail.com";
-        Address address = mock(Address.class);
-
 
         Student student = mock(Student.class);
         when(student.identity()).thenReturn(studentID1);

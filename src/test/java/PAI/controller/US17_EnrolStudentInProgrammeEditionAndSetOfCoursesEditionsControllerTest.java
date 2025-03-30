@@ -632,8 +632,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         amr.registerAccessMethod("Over 23");
         AccessMethodID amID = new AccessMethodID();
         StudentID studentID = new StudentID(1500000);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Development1", "DEV1", 5, 1);
@@ -712,9 +718,16 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
         IAddressFactory addressFactory = new AddressFactoryImpl();
+
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         StudentID studentID = new StudentID(1000001);
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
                 "Portugal", addressFactory,date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
@@ -806,8 +819,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
@@ -884,8 +902,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());
@@ -968,8 +991,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethod am1 = new AccessMethod("Over 23");
         amr.registerAccessMethod("Over 23");
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
                 new ProgrammeCourseListFactoryImpl (), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
                 new CourseFactoryImpl());

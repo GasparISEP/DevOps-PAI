@@ -685,8 +685,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -734,8 +739,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -781,8 +791,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -831,8 +846,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -882,10 +902,23 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID1 = new StudentID(1000001);
-        StudentID studentID2 = new StudentID(1000002);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
 
-        Student student1 = new Student(studentID1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        Student student2 = new Student(studentID2, "João Santos", "998194999", "221234467", "joao456@gmail.com", add1);
+        Student student1 = new Student(studentID1, name, nif, phone, email, add1, academicEmail);
+
+        StudentID studentID2 = new StudentID(1000002);
+        Name name2 = new Name("João Santos");
+        NIF nif2 = new NIF("998194999");
+        PhoneNumber phone2 = new PhoneNumber("+351","221234467");
+        Email email2 = new Email("joao456@gmail.com");
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+
+
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -936,8 +969,15 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student1 = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
+
+        Student student1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Algebra", "ALG", 5, 2);

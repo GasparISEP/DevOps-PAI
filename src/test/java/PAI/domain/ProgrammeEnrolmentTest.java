@@ -16,6 +16,11 @@ class ProgrammeEnrolmentTest {
     private class AttributesForTestsWithoutIsolation {
         Address _address;
         StudentID _studentID;
+        Name _name;
+        NIF _nif;
+        PhoneNumber _phone;
+        Email _email;
+        StudentAcademicEmail _academicEmail;
         Student _student;
         AccessMethod _accessMethod;
         AccessMethodID _accessMethodID;
@@ -41,7 +46,12 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
             _studentID = new StudentID(1234567);
-            _student = new Student(_studentID, "Rita", "123456789", "963741258", "rita@gmail.com", _address);
+            _name = new Name("Rita");
+            _nif = new NIF("123456789");
+            _phone = new PhoneNumber("+351", "963741258");
+            _email = new Email("rita@gmail.com");
+            _academicEmail = new StudentAcademicEmail(_studentID);
+            _student = new Student(_studentID, _name, _nif, _phone, _email, _address, _academicEmail);
             _accessMethod = new AccessMethod("M1");
             _accessMethodID = new AccessMethodID();
             _degreeType = new DegreeType("Master", 240);
@@ -181,7 +191,7 @@ class ProgrammeEnrolmentTest {
         //arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
-        Student student2 = new Student(attributes._studentID, "Rita", "123456789", "963741258", "rita@gmail.com", attributes._address);
+        Student student2 = new Student(attributes._studentID, attributes._name, attributes._nif, attributes._phone, attributes._email, attributes._address, attributes._academicEmail);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(student2.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
 
@@ -217,7 +227,13 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         StudentID studentID = new StudentID(1234568);
-        Student student2 = new Student(studentID, "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
+        Name name = new Name("Pedro");
+        NIF nif = new NIF("159753824");
+        PhoneNumber phone = new PhoneNumber("+351", "963996987");
+        Email email = new Email("pedro@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student2 = new Student(studentID, name, nif, phone, email, attributes._address, academicEmail);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
 
@@ -286,9 +302,14 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         StudentID studentID = new StudentID(1345678);
+        Name name = new Name("Pedro");
+        NIF nif = new NIF("159753824");
+        PhoneNumber phone = new PhoneNumber("+351", "963996987");
+        Email email = new Email("pedro@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student2 = new Student(studentID, "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
-        Student student1 = new Student(attributes._studentID, "Rita", "123456789", "963741258", "rita@gmail.com", attributes._address);
+        Student student2 = new Student(studentID, name, nif, phone, email, attributes._address, academicEmail);
+        Student student1 = new Student(attributes._studentID, attributes._name, attributes._nif, attributes._phone, attributes._email, attributes._address, attributes._academicEmail);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(student1.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
         ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(student2.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
@@ -370,9 +391,14 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         StudentID studentID = new StudentID(1345678);
+        Name name = new Name("Pedro");
+        NIF nif = new NIF("159753824");
+        PhoneNumber phone = new PhoneNumber("+351", "963996987");
+        Email email = new Email("pedro@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
         TeacherID teacherIDDouble =  attributes._teacherID;
 
-        Student student2 = new Student(studentID, "Pedro", "159753824", "963996987", "pedro@gmail.com", attributes._address);
+        Student student2 = new Student(studentID, name, nif, phone, email, attributes._address, academicEmail);
 
         Programme_2 programme2 = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                 new QuantEcts(20), new QuantSemesters(6), new DegreeType_ID("asd"), new Department("ACM", "Maths"), teacherIDDouble);
