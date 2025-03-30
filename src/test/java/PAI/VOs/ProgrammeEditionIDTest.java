@@ -96,4 +96,16 @@ class ProgrammeEditionIDTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnExpectedStringRepresentation() {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+
+        // Act
+        String result = programmeEditionID.toString();
+
+        // Assert
+        assertEquals("this is a toString Test", result);
+    }
 }
