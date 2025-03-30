@@ -1,12 +1,14 @@
 package PAI.repository;
 
+import PAI.VOs.Date;
+import PAI.VOs.Grade;
+import PAI.VOs.StudentGradeID;
 import PAI.VOs.StudentID;
 import PAI.domain.Address;
+import PAI.domain.CourseEdition;
 import PAI.domain.Student;
-import PAI.factory.IStudentFactory;
-import PAI.factory.StudentFactoryImpl;
-import PAI.factory.IStudentListFactory;
-import PAI.factory.StudentListFactoryImpl;
+import PAI.domain.StudentGrade;
+import PAI.factory.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Nested;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -319,4 +322,71 @@ class StudentRepositoryTest {
             assertTrue(studentFromList.isEmpty());
         }
     }
+
+    @Test
+    void shouldReturnIdWhenStudentExistsInList() throws Exception {
+        // Arrange
+        IStudentFactory studentFactory = mock(IStudentFactory.class);
+        IStudentListFactory studentListFactory = mock(IStudentListFactory.class);
+        List<Student> studentList = new ArrayList<>();
+        when(studentListFactory.newArrayList()).thenReturn(studentList);
+
+        StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
+
+        StudentID studentID1 = new StudentID(1234567);
+        String name = "Daniela";
+        String nif = "123456789";
+        String phone = "911855911";
+        String email = "danijose@gmail.com";
+        Address address = mock(Address.class);
+
+
+        Student student = mock(Student.class);
+        when(student.identity()).thenReturn(studentID1);
+        when(student.isEquals(any())).thenReturn(false);
+        when(student.sameAs(any())).thenReturn(false);
+
+
+        when(studentFactory.newStudent(studentID1, name, nif, phone, email, address)).thenReturn(student);
+
+        // Act
+        repository.registerStudent(studentID1, name, nif, phone, email, address);
+        Optional<StudentID> result = repository.findIdByStudent(student);
+
+        // Assert
+        assertTrue(result.isPresent());
+    }
+
+
+    @Test
+    void shouldReturnEmptyWhenStudentDoesNotExistsInList() throws Exception {
+        // Arrange
+        IStudentFactory studentFactory = mock(IStudentFactory.class);
+        IStudentListFactory studentListFactory = mock(IStudentListFactory.class);
+        List<Student> studentList = new ArrayList<>();
+        when(studentListFactory.newArrayList()).thenReturn(studentList);
+
+        StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
+
+        StudentID studentID1 = new StudentID(1234567);
+        String name = "Daniela";
+        String nif = "123456789";
+        String phone = "911855911";
+        String email = "danijose@gmail.com";
+        Address address = mock(Address.class);
+
+
+        Student student = mock(Student.class);
+        when(student.identity()).thenReturn(studentID1);
+        when(student.isEquals(any())).thenReturn(false);
+        when(student.sameAs(any())).thenReturn(false);
+
+        // Act
+        Optional<StudentID> result = repository.findIdByStudent(student);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+
 }

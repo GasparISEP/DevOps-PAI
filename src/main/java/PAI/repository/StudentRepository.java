@@ -1,8 +1,10 @@
 package PAI.repository;
 
+import PAI.VOs.StudentGradeID;
 import PAI.VOs.StudentID;
 import PAI.domain.Address;
 import PAI.domain.Student;
+import PAI.domain.StudentGrade;
 import PAI.factory.IStudentFactory;
 import PAI.factory.IStudentListFactory;
 
@@ -48,6 +50,15 @@ public class StudentRepository {
         for ( Student existingStudent : _students) {
             if ( existingStudent.identity().equals(studentID)){
                 return Optional.of(existingStudent);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<StudentID> findIdByStudent (Student student){
+        for(Student existingStudent : _students){
+            if(existingStudent.equals(student)){
+                return Optional.of(student.identity()) ;
             }
         }
         return Optional.empty();
