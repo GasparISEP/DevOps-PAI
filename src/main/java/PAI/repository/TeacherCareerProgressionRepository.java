@@ -33,20 +33,9 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
 
         TeacherCareerProgression tcp = _ITeacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
 
-        if (isTeacherCareerProgressionDuplicate(tcp)) {
-            throw new Exception("Teacher Career Progression already exists.");
-        }
-
         save(tcp);
 
         return true;
-    }
-
-    private boolean isTeacherCareerProgressionDuplicate(TeacherCareerProgression newTCP) {
-        if(this._teacherCareerProgressions.stream().anyMatch(existing -> existing.sameAs(newTCP))){
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -77,5 +66,18 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
             return false;
         }
         return true;
+    }
+
+    public Optional<TeacherCareerProgression> findLastTCPFromTeacherID(TeacherID teacherID) {
+        TeacherCareerProgression latestTCP = null;
+
+        for (TeacherCareerProgression tcp : _teacherCareerProgressions) {
+            if (tcp.getTeacherID().equals(teacherID)) {
+                if (latestTCP == null || tcp.getDate().getLocalDate().isAfter(latestTCP.getDate().getLocalDate())) {
+                    latestTCP = tcp;
+                }
+            }
+        }
+        return Optional.ofNullable(latestTCP);
     }
 }
