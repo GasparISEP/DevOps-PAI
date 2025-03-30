@@ -12,7 +12,7 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
     private ProgrammeEditionID _programmeEditionID;
 
     public CourseEdition_2 (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) throws Exception {
-        if (programmeEditionID == null || courseInStudyPlanID == null) {
+        if (programmeEditionID == null) {
             throw new IllegalArgumentException ("ProgrammeEdition must be valid");
         }
 
