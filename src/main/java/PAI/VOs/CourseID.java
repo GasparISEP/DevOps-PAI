@@ -2,6 +2,7 @@ package PAI.VOs;
 
 import PAI.ddd.DomainId;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class CourseID implements DomainId {
@@ -19,5 +20,19 @@ public class CourseID implements DomainId {
             return false;
         CourseID courseIDTest = (CourseID) object;
         return _courseId.equals(courseIDTest._courseId);
+    }
+
+    @Override
+    public String toString() {
+        return _courseId.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_courseId);
+    }
+
+    public UUID getCourseId() {
+        return _courseId;
     }
 }

@@ -38,7 +38,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         _teacherID = teacherID;
     }
 
-    public TeacherCategoryID getCategory () {
+    public TeacherCategoryID getTeacherCategoryID () {
 
         return _category;
     }
@@ -48,9 +48,17 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         return _workingPercentage;
     }
 
+    public Date getDate() {
+
+        return _date;
+    }
+
     public boolean isDateAfter(Date date) {
 
-        return _date.getLocalDate().isAfter(date.getLocalDate());
+        if (_date.getLocalDate().isAfter(date.getLocalDate()))
+            return false;
+
+        return true;
     }
 
     @Override
