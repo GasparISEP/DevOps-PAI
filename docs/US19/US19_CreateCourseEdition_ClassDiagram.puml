@@ -92,23 +92,27 @@ class ProgrammeEditionID <<Value Object>>{}
 }
 package CourseEditionAggregate{
 entity CourseEdition <<root>> {
-    -_courseEditionID: CourseEditionID
-    -_programmeEditionID: ProgrammeEditionID
-    -_courseInStudyPlanID: CourseInStudyPlanID
-    -_rucID: TeacherID
-    +CourseEdition(programmeEditionID: ProgrammeEditionID, courseInStudyPlanID: CourseInStudyPlanID)
-    +Equals(objectToCompare: Object)
-    +setRuc(Teacher: ruc)
-    +whatProgrammeEditionBelongsThisCourseEdition ()
+  + CourseEdition_2(CourseInStudyPlanID, ProgrammeEditionID)
+  + CourseEdition_2(CourseEditionID, CourseInStudyPlanID, ProgrammeEditionID)
+  - _courseEditionID: CourseEditionID
+  - _courseInStudyPlanID: CourseInStudyPlanID
+  - _programmeEditionID: ProgrammeEditionID
+  + sameAs(Object): boolean
+  + getCourseInStudyPlanID(): CourseInStudyPlanID
+  + getProgrammeEditionID(): ProgrammeEditionID
+  + equals(Object): boolean
+  + identity(): CourseEditionID
 }
 class CourseEditionID <<Value Object>>{}
 
 interface ICourseEditionFactory <<interface>> {
-    +createCourseEdition(programmeEditionID: ProgrammeEditionID, courseInStudyPlanID: CourseInStudyPlanID)
+    +newCourseEdition(CourseInStudyPlanID, ProgrammeEditionID)
+    +newCourseEdition(CourseEditionID, CourseInStudyPlanID, ProgrammeEditionID)
 }
 
 class CourseEditionFactoryImpl {
-    +createCourseEdition(programmeEdition: ProgrammeEdition, course: Course)
+    +newCourseEdition(CourseInStudyPlanID, ProgrammeEditionID)
+    +newCourseEdition(CourseEditionID, CourseInStudyPlanID, ProgrammeEditionID)
 }
 }
 }
