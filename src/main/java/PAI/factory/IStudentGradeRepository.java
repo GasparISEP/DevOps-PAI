@@ -9,7 +9,7 @@ import PAI.repository.StudentGradeRepository;
 
 public interface IStudentGradeRepository extends IRepository<StudentGradeID, StudentGrade> {
     boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception;
-    Double KnowAverageGrade(CourseEditionID courseEditionID);
+    Double getAverageGrade(CourseEditionID courseEditionID);
     double knowApprovalRate(CourseEditionID courseEditionID);
 }
 

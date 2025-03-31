@@ -54,7 +54,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         when(list.addGradeToStudent(grade1, dateDouble, student1, courseEditionID1Double)).thenReturn(true);
         when(list.addGradeToStudent(grade2, dateDouble, student2, courseEditionID1Double)).thenReturn(true);
-        when(list.KnowAverageGrade(courseEditionID1Double)).thenReturn(14.0);
+        when(list.getAverageGrade(courseEditionID1Double)).thenReturn(14.0);
 
         // Act
         double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEditionID1Double);

@@ -7,24 +7,24 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
     private Grade _grade;
     private Date _date;
-    private StudentID _student;
+    private StudentID _studentID;
     private CourseEditionID _courseEditionID;
     private final StudentGradeID _studentGrade_id;
 
-    public StudentGrade(Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
+    public StudentGrade(Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
         if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
         _grade = grade;
 
         if (date == null) throw new IllegalArgumentException("Date cannot be null");
         _date = date;
 
-        if (student == null) throw new IllegalArgumentException("Student cannot be null");
-        _student = student;
+        if (studentID == null) throw new IllegalArgumentException("Student cannot be null");
+        _studentID = studentID;
 
         if (courseEditionID == null) throw new IllegalArgumentException("Course Edition cannot be null");
         _courseEditionID = courseEditionID;
 
-        this._studentGrade_id = new StudentGradeID();
+        this._studentGrade_id = new StudentGradeID(studentID,courseEditionID);
     }
 
     public Grade get_grade() {
@@ -36,7 +36,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
     }
 
     public boolean hasThisStudentID(StudentID student) {
-        return _student.equals(student);
+        return _studentID.equals(student);
     }
 
     public CourseEditionID KnowCourseEditionID() {
@@ -53,7 +53,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
     }
 
     public StudentID get_studentID() {
-        return _student;
+        return _studentID;
     }
 
     public CourseEditionID get_courseEditionID() {
@@ -78,7 +78,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         if (object instanceof StudentGrade) {
             StudentGrade studentGrade = (StudentGrade) object;
 
-            if( this._student.equals(studentGrade._student) && (this._courseEditionID.equals(studentGrade._courseEditionID)) )
+            if( this._studentID.equals(studentGrade._studentID) && (this._courseEditionID.equals(studentGrade._courseEditionID)) )
                 return true;
         }
         return false;

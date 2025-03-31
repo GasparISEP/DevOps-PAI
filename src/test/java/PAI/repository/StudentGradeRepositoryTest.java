@@ -194,7 +194,7 @@ class StudentGradeRepositoryTest {
         list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
+        Double averageGrade = list.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(15, averageGrade, 0.01);
@@ -238,7 +238,7 @@ class StudentGradeRepositoryTest {
         list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
+        Double averageGrade = list.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(0, averageGrade, 0.01);
@@ -260,7 +260,7 @@ class StudentGradeRepositoryTest {
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
+        Double averageGrade = list.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertNull(averageGrade);
@@ -313,6 +313,8 @@ class StudentGradeRepositoryTest {
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
 
         when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double))
                 .thenReturn(studentGrade1);
@@ -320,7 +322,7 @@ class StudentGradeRepositoryTest {
         when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
                 .thenReturn(studentGrade2);
 
-        StudentGradeID studentGradeId = new StudentGradeID();
+        StudentGradeID studentGradeId = new StudentGradeID(studentIDDouble,courseEditionIDDouble);
         when(studentGrade1.identity()).thenReturn(studentGradeId);
 
         boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
