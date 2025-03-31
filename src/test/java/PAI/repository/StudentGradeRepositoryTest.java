@@ -435,6 +435,32 @@ class StudentGradeRepositoryTest {
         assertThrows(IllegalStateException.class, repository::findAll);
     }
 
+    @Test
+    void shouldReturnStudentGradeWhenIdExists() {
+        // Arrange
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
+
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
+
+        StudentGradeID gradeID = mock(StudentGradeID.class);
+        StudentGrade studentGrade = mock(StudentGrade.class);
+        when(studentGrade.identity()).thenReturn(gradeID);
+
+        repository.save(studentGrade);
+
+        // Act
+        Optional<StudentGrade> result = repository.ofIdentity(gradeID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(studentGrade, result.get());
+    }
+
+
 }
 
 

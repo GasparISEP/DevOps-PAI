@@ -114,7 +114,9 @@ public class StudentGradeRepository implements IStudentGradeRepository {
 
     @Override
     public Optional<StudentGrade> ofIdentity(StudentGradeID id) {
-        return Optional.empty();
+        return _StudentGradeList.stream()
+                .filter(stl -> stl.identity().equals(id))
+                .findAny();
     }
 
     @Override
