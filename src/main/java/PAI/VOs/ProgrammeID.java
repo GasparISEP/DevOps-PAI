@@ -7,13 +7,13 @@ import java.util.UUID;
 
 public class ProgrammeID implements DomainId {
 
-    private final String _progID;
+    private final UUID _progID;
 
     public ProgrammeID() {
-        _progID = UUID.randomUUID().toString();
+        _progID = UUID.randomUUID();
     }
 
-    public String getProgID() {
+    public UUID getProgID() {
         return _progID;
     }
 
