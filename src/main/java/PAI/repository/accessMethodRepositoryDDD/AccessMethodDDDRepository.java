@@ -7,8 +7,8 @@ import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 import java.util.List;
 
 public class AccessMethodDDDRepository {
-    private IAccessMethodDDDFactory _accessMethodFactory;
-    private List<AccessMethodDDD> _accessMethods;
+    private final IAccessMethodDDDFactory _accessMethodFactory;
+    private final List<AccessMethodDDD> _accessMethods;
 
     public AccessMethodDDDRepository (IAccessMethodDDDFactory accessMethodFactory, IAccessMethodDDDListFactory accessMethodListFactory){
         _accessMethodFactory = accessMethodFactory;
@@ -19,7 +19,7 @@ public class AccessMethodDDDRepository {
         try {
             AccessMethodDDD accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
 
-            if (_accessMethods.contains(accessMethod)) return false;
+            if (isAccessMethodRegistered(accessMethod)) return false;
 
             _accessMethods.add(accessMethod);
             return true;
@@ -27,5 +27,9 @@ public class AccessMethodDDDRepository {
         }catch (Exception e){
             return false;
         }
+    }
+
+    private boolean isAccessMethodRegistered (AccessMethodDDD accessMethod){
+        return _accessMethods.contains(accessMethod);
     }
 }
