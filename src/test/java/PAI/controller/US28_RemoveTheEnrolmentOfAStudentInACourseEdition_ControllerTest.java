@@ -182,7 +182,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1765342);
         Name name = new Name("John");
-        NIF nif = new NIF("223445667");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
         PhoneNumber phone = new PhoneNumber("+351","222333444");
         Email email = new Email("123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -232,7 +234,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1765342);
         Name name = new Name("John");
-        NIF nif = new NIF("223445667");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
         PhoneNumber phone = new PhoneNumber("+351","222333444");
         Email email = new Email("123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -280,7 +284,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1765342);
         Name name = new Name("John");
-        NIF nif = new NIF("223445667");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
         PhoneNumber phone = new PhoneNumber("+351","222333444");
         Email email = new Email("123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -331,7 +337,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1765342);
         Name name = new Name("John");
-        NIF nif = new NIF("223445667");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
         PhoneNumber phone = new PhoneNumber("+351","222333444");
         Email email = new Email("123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -382,7 +390,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID1 = new StudentID(1765342);
         Name name = new Name("John");
-        NIF nif = new NIF("223445667");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
         PhoneNumber phone = new PhoneNumber("+351","222333444");
         Email email = new Email("123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
@@ -440,7 +450,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1765342);
         Name name = new Name("John");
-        NIF nif = new NIF("223445667");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
         PhoneNumber phone = new PhoneNumber("+351","222333444");
         Email email = new Email("123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);

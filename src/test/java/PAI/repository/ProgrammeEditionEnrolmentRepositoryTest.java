@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
@@ -7,7 +8,7 @@ import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.factory.ProgrammeEditionEnrolmentListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -455,4 +456,97 @@ class ProgrammeEditionEnrolmentRepositoryTest {
         assertFalse(result);
     }
 
+
+    @Test
+    void save_ShouldAddProgrammeEditionEnrolment() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
+        ProgrammeEditionEnrolmentRepository repository = new ProgrammeEditionEnrolmentRepository(enrolmentFactory, listFactory);
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+
+        // Act
+        ProgrammeEditionEnrolment savedEnrolment = repository.save(enrolment);
+
+        // Assert
+        assertEquals(enrolment, savedEnrolment);
+        assertTrue(repository.findAll().iterator().hasNext());
+    }
+
+    @Test
+    void findAll_ShouldReturnAllSavedEnrolments() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+        Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>(Collections.singletonList(enrolment));
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
+        ProgrammeEditionEnrolmentRepository repository = new ProgrammeEditionEnrolmentRepository(enrolmentFactory, listFactory);
+
+        // Act
+        Iterable<ProgrammeEditionEnrolment> result = repository.findAll();
+
+        // Assert
+        assertTrue(result.iterator().hasNext());
+        assertEquals(enrolment, result.iterator().next());
+    }
+
+    @Test
+    void ofIdentity_ShouldReturnEnrolmentIfExists() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentID enrolmentID = mock(ProgrammeEditionEnrolmentID.class);
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+        when(enrolment.identity()).thenReturn(enrolmentID);
+        Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>(Collections.singletonList(enrolment));
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
+
+        ProgrammeEditionEnrolmentRepository repository = new ProgrammeEditionEnrolmentRepository(enrolmentFactory, listFactory);
+
+        // Act
+        Optional<ProgrammeEditionEnrolment> result = repository.ofIdentity(enrolmentID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(enrolment, result.get());
+    }
+
+    @Test
+    void containsOfIdentity_ShouldReturnTrueIfEnrolmentExists() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentID enrolmentID = mock(ProgrammeEditionEnrolmentID.class);
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+        when(enrolment.identity()).thenReturn(enrolmentID);
+        Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>(Collections.singletonList(enrolment));
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
+
+        ProgrammeEditionEnrolmentRepository repository = new ProgrammeEditionEnrolmentRepository(enrolmentFactory, listFactory);
+
+        // Act
+        boolean exists = repository.containsOfIdentity(enrolmentID);
+
+        // Assert
+        assertTrue(exists);
+    }
+
+    @Test
+    void containsOfIdentity_ShouldReturnFalseIfEnrolmentDoesNotExist() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentID enrolmentID = mock(ProgrammeEditionEnrolmentID.class);
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
+
+        ProgrammeEditionEnrolmentRepository repository = new ProgrammeEditionEnrolmentRepository(enrolmentFactory, listFactory);
+
+        // Act
+        boolean exists = repository.containsOfIdentity(enrolmentID);
+
+        // Assert
+        assertFalse(exists);
+    }
 }

@@ -336,6 +336,7 @@ class TeacherCareerProgressionRepositoryTest {
         assertEquals(Optional.empty(), result);
     }
 
+    //updateWorkingPercentage
     @Test
     void shouldReturnTrueWhenSuccessfullyUpdatesWorkingPercentageInTeacherCareerProgression() throws Exception {
         //arrange
@@ -374,7 +375,7 @@ class TeacherCareerProgressionRepositoryTest {
         when(date1Double.getLocalDate()).thenReturn(localDate2Double);
         when(localDate1Double.isAfter(localDate2Double)).thenReturn(false);
 
-        when(tcpDouble.isDateAfter(date2Double)).thenReturn(false);
+        when(tcpDouble.isLastDateEqualOrBeforeNewDate(date2Double)).thenReturn(true);
         when(tcpDouble.getWorkingPercentage()).thenReturn(wp1Double);
         when(tcpDouble.getTeacherCategoryID()).thenReturn(tcIDDouble);
 
@@ -423,7 +424,7 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenGivenDateIsMoreRecentThanLastTCPDate() throws Exception {
+    void shouldReturnFalseWhenGivenDateIsBeforeLastTCPDate() throws Exception {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
@@ -458,7 +459,7 @@ class TeacherCareerProgressionRepositoryTest {
         when(date1Double.getLocalDate()).thenReturn(localDate2Double);
         when(localDate1Double.isAfter(localDate2Double)).thenReturn(false);
 
-        when(tcpDouble.isDateAfter(date2Double)).thenReturn(true);
+        when(tcpDouble.isLastDateEqualOrBeforeNewDate(date2Double)).thenReturn(false);
 
         //act
         boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(date2Double, wp2Double, teacherIDDouble);
@@ -504,7 +505,7 @@ class TeacherCareerProgressionRepositoryTest {
         when(date1Double.getLocalDate()).thenReturn(localDate2Double);
         when(localDate1Double.isAfter(localDate2Double)).thenReturn(false);
 
-        when(tcpDouble.isDateAfter(date2Double)).thenReturn(false);
+        when(tcpDouble.isLastDateEqualOrBeforeNewDate(date2Double)).thenReturn(true);
         when(tcpDouble.getTeacherCategoryID()).thenReturn(tcIDDouble);
         when(tcpDouble.getWorkingPercentage()).thenReturn(wpDouble);
 

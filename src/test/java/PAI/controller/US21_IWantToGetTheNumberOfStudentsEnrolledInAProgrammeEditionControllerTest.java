@@ -193,7 +193,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
 
         StudentID studentID = new StudentID(1111111);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -296,7 +298,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
 
         StudentID studentID = new StudentID(1111111);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
