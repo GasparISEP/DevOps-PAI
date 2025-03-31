@@ -78,7 +78,7 @@ class CourseInStudyPlanDDDRepositoryTest {
     }
 
     @Test
-    void testFindByCourseInStudyPlanIDFound() throws Exception {
+    void testFindCourseInStudyPlanByIDFound() throws Exception {
         // Arrange
         ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
         ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
@@ -102,7 +102,7 @@ class CourseInStudyPlanDDDRepositoryTest {
         CourseInStudyPlanID courseInStudyPlanID = createdCourse.getCourseInStudyPlanID();
 
         // Act
-        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.findByCourseInStudyPlanID(courseInStudyPlanID);
+        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.findCourseInStudyPlanByID(courseInStudyPlanID);
 
         // Assert
         assertTrue(foundCourseOpt.isPresent());
@@ -110,7 +110,7 @@ class CourseInStudyPlanDDDRepositoryTest {
     }
 
     @Test
-    void testFindByCourseInStudyPlanIDNotFound() throws Exception {
+    void testFindCourseInStudyPlanByIDNotFound() throws Exception {
         // Arrange
         ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
         ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
@@ -121,7 +121,7 @@ class CourseInStudyPlanDDDRepositoryTest {
 
         // Act
         CourseInStudyPlanID nonExistentID = new CourseInStudyPlanID();
-        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.findByCourseInStudyPlanID(nonExistentID);
+        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.findCourseInStudyPlanByID(nonExistentID);
 
         // Assert
         assertFalse(foundCourseOpt.isPresent());
