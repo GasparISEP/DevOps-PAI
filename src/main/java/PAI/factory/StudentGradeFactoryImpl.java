@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
@@ -9,7 +10,7 @@ import PAI.domain.Student;
 
 public class StudentGradeFactoryImpl implements IStudentGradeFactory {
 
-    public StudentGrade newGradeStudent (Grade grade, Date date, StudentID student, CourseEdition courseEdition) throws Exception {
+    public StudentGrade newGradeStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
         if (grade == null){
             throw new IllegalArgumentException("Grade cannot be null.");
         }
@@ -19,10 +20,10 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
         if (student == null){
             throw  new IllegalArgumentException("Student cannot be null");
         }
-        if (courseEdition == null){
+        if (courseEditionID == null){
             throw  new IllegalArgumentException("Course Edition cannot be null");
         }
-        return new StudentGrade(grade, date, student, courseEdition);
+        return new StudentGrade(grade, date, student, courseEditionID);
     }
 
 

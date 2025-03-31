@@ -24,10 +24,10 @@ participant ":Programme" as Programme #LightBlue/White
 activate DepartmentDir
 DepartmentDir -> UI: I want to get number of students \n enrolled in programmes from my \n department in a given school year
 activate UI
-UI-->DepartmentDir: Choose Department
-DepartmentDir ->UI: Department selected
-UI --> DepartmentDir: Choose SchoolYear
-DepartmentDir ->UI: School Year selected
+UI-->DepartmentDir: Which Department?
+DepartmentDir ->UI: this Department.
+UI --> DepartmentDir: Which SchoolYear?
+DepartmentDir ->UI: this School Year.
 
 UI-> Controller: countStudentsInProgrammesFromDepartmentInSchoolYear(d1,sy1)
 activate Controller

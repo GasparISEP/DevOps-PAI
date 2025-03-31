@@ -1,7 +1,6 @@
 package PAI.repository.accessMethodRepositoryDDD;
-
+import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.AccessMethod;
 import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 
@@ -38,6 +37,15 @@ public class AccessMethodDDDRepository {
     public Optional<AccessMethodDDD> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
         for ( AccessMethodDDD accessMethod : _accessMethods) {
             if ( accessMethod.hasThisAccessMethodName(accessMethodNameToSearch)){
+                return Optional.of(accessMethod);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<AccessMethodDDD> getAccessMethodByID (AccessMethodID accessMethodID) {
+        for ( AccessMethodDDD accessMethod : _accessMethods) {
+            if ( accessMethod.hasThisAccessMethodID(accessMethodID)){
                 return Optional.of(accessMethod);
             }
         }

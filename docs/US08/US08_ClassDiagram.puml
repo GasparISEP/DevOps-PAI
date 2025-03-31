@@ -144,16 +144,26 @@ class List<Student> <<Interface>> {}
 
 interface IStudentRepository <<Interface>> {
     +registerStudent()
-    +isStudentRegistered()
     +getStudentByID()
+    + findIdByStudent(student : Student)
+    + save(student : Student)
+    + findAll()
+    + ofIdentity(studentID : StudentID)
+    + containsOfIdentity(studentID : StudentID)
 }
 
+interface IRepository <<Interface>> {
+    + save(object : Object)
+    + findAll()
+    + ofIdentity(object : Object)
+    + containsOfIdentity(object : Object)
+}
 
-US08_IWantToRegisterAStudentInTheSystemController "1" ---> "1 " StudentRepository
+US08_IWantToRegisterAStudentInTheSystemController "1" ...> "1 " IStudentRepository
 StudentRepository "1" ..> "1" IStudentFactory
 StudentRepository "1" ---> "_students\n*" Student
 StudentRepository "1" ..> "1" IStudentListFactory
-IStudentListFactory "1 " ..> "1  " List: <<create>>
+IStudentListFactory "1 " ..> "1  " List: <<creates>>
 Student "1" --> "1" Address
 StudentFactoryImpl "*" ..|> "1     " IStudentFactory
 StudentListFactoryImpl "*" ..|> "1     " IStudentListFactory
@@ -161,7 +171,8 @@ AddressFactoryImpl "*" ..|> "1  " IAddressFactory
 IAddressFactory "1" .l.> "1" Address: <<create>>
 IStudentFactory "1" ..> "1" Student: <<create>>
 IStudentFactory "1" ..> "1" IAddressFactory
-StudentRepository ..|> IStudentRepository
+StudentRepository ...|> IStudentRepository
+IStudentRepository ..|> IRepository
 Student "*" ----> "1" StudentID
 Student "*" ----> "1" Name
 Student "\n *" ----> "1  " Email
