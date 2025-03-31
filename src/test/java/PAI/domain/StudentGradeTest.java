@@ -433,10 +433,10 @@ class StudentGradeTest {
         Grade grade = mock(Grade.class);
         Date date = mock(Date.class);
         StudentID studentID = mock();
-        CourseEdition courseEdition = mock();
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         when(grade.knowGrade()).thenReturn(10.0);
-        StudentGrade s1 = new StudentGrade(grade, date, studentID, courseEdition);
+        StudentGrade s1 = new StudentGrade(grade, date, studentID, courseEditionID1Double);
 
         double res = s1.knowGrade();
 
