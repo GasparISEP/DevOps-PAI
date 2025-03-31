@@ -3,6 +3,7 @@ package PAI.factory;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
+import PAI.domain.programme.ProgrammeDDD;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -21,9 +22,11 @@ class ProgrammeEnrolmentFactoryImplTest {
     // Creation of actual attributes for tests without isolation
     private class AttributesForTestsWithoutIsolation {
         Address _address;
+        StudentID _studentID;
         Student _student;
-        AccessMethod _accessMethod;
+        AccessMethodID _accessMethod;
         DegreeType _degreeType;
+        DegreeType_ID _degreeTypeID;
         Department _department;
         TeacherCategoryID _teacherCategoryID;
         IAddressFactory _addressFactory;
@@ -31,7 +34,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         TeacherCareerProgressionListFactoryImpl _tcpLFactoryDouble;
         Teacher _teacher;
         ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl1;
-        Programme _programme;
+        ProgrammeDDD _programme;
         Date _date;
         WorkingPercentage _wp;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
@@ -58,10 +61,12 @@ class ProgrammeEnrolmentFactoryImplTest {
             _country = new Country("Portugal");
             _addressVO = new AddressVO(_street, _postalCode, _location, _country);
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-            _student = new Student(new StudentID(1234567), "Rita", "123456789", "963741258", "rita@gmail.com", _address);
-            _accessMethod = new AccessMethod("M1");
+            _studentID = new StudentID(1234567);
+            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789", new Country("Portugal")), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _address, new StudentAcademicEmail(_studentID));
+            _accessMethod = new AccessMethodID();
             _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);
+            _degreeTypeID = new DegreeType_ID("Master");
             _department = new Department("CSE", "Computer Science Engineer");
             _teacherCategoryID = new TeacherCategoryID();
             _addressFactory = new AddressFactoryImpl();
@@ -72,7 +77,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             _teacherAcronym = new TeacherAcronym("ABC");
             _name = new Name("Joe Doe");
             _email = new Email("abc@isep.ipp.pt");
-            _nif = new NIF("123456789");
+            _nif = new NIF("123456789", _country);
             _phoneNumber = new PhoneNumber("+351", "912 345 678");
             _academicBackground = new AcademicBackground("Doutoramento em Engenharia Informática, 2005, ISEP");
             _teacher = new Teacher(_teacherAcronym, _name, _email, _nif, _phoneNumber, _academicBackground, _addressVO, _department);
@@ -81,7 +86,9 @@ class ProgrammeEnrolmentFactoryImplTest {
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactoryImpl = new CourseFactoryImpl();
-            _programme = new Programme("Computer Engineering", "CE", 20, 6, _degreeType, _department, _teacher, _programmeCourseListFactoryImpl1, _courseInStudyPlanFactory, _studyPlanArrayListFactory, _studyPlanFactory, _courseFactoryImpl);
+            _programme = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+                    new QuantEcts(20), new QuantSemesters(6), _degreeTypeID,
+                    _department, _teacherID);
         }
     }
 
@@ -107,7 +114,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act
-        ProgrammeEnrolment programmeEnrolment = peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, attributes._date);
+        ProgrammeEnrolment programmeEnrolment = peFactory.createProgrammeEnrolment(attributes._student.identity(), attributes._accessMethod, attributes._programme.getProgrammeID(), attributes._date);
 
         //Assert
 
@@ -119,9 +126,9 @@ class ProgrammeEnrolmentFactoryImplTest {
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
-        Student studentDouble = (Student) doubles[0];
-        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
-        Programme programmeDouble = (Programme) doubles[2];
+        StudentID studentDouble = mock(StudentID.class);
+        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         Date dateDouble = (Date) doubles[3];
 
         try (
@@ -148,7 +155,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(null, attributes._accessMethod, attributes._programme, attributes._date));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(null, attributes._accessMethod, attributes._programme.getProgrammeID(), attributes._date));
     }
 
     @Test
@@ -157,8 +164,8 @@ class ProgrammeEnrolmentFactoryImplTest {
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
-        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
-        Programme programmeDouble = (Programme) doubles[2];
+        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         Date dateDouble = (Date) doubles[3];
 
         try (
@@ -186,7 +193,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, null, attributes._programme, attributes._date));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student.identity(), null, attributes._programme.getProgrammeID(), attributes._date));
     }
 
     @Test
@@ -195,8 +202,8 @@ class ProgrammeEnrolmentFactoryImplTest {
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
-        Student studentDouble = (Student) doubles[0];
-        Programme programmeDouble = (Programme) doubles[2];
+        StudentID studentDouble = mock(StudentID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         Date dateDouble = (Date) doubles[3];
 
         try (
@@ -224,7 +231,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, null, attributes._date));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student.identity(), attributes._accessMethod, null, attributes._date));
     }
 
     @Test
@@ -233,8 +240,9 @@ class ProgrammeEnrolmentFactoryImplTest {
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
-        Student studentDouble = (Student) doubles[0];
-        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
+        StudentID studentDouble = mock(StudentID.class);
+        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         Date dateDouble = (Date) doubles[3];
 
         try (
@@ -262,7 +270,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student, attributes._accessMethod, attributes._programme, null));
+        assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(attributes._student.identity(), attributes._accessMethod, attributes._programme.getProgrammeID(),null));
     }
 
     @Test
@@ -271,9 +279,9 @@ class ProgrammeEnrolmentFactoryImplTest {
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
-        Student studentDouble = (Student) doubles[0];
-        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
-        Programme programmeDouble = (Programme) doubles[2];
+        StudentID studentDouble = mock(StudentID.class);
+        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         Date dateDouble = (Date) doubles[3];
 
         try (
@@ -311,9 +319,9 @@ class ProgrammeEnrolmentFactoryImplTest {
         ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
 
         Object[] doubles = createDoublesForTestsWithIsolation();
-        Student studentDouble = (Student) doubles[0];
-        AccessMethod accessMethodDouble = (AccessMethod) doubles[1];
-        Programme programmeDouble = (Programme) doubles[2];
+        StudentID studentDouble = mock(StudentID.class);
+        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         Date dateDouble = (Date) doubles[3];
 
         try (

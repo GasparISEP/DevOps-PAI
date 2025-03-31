@@ -1,0 +1,48 @@
+@startuml
+autonumber
+
+title US11: As an ASC, I want to register a programme in the system.
+
+actor ASC as Admin
+
+participant ":UI" as UI #lightblue
+participant ":ControllerUS11" as C #lightblue
+participant ":ProgrammeRepository" as PR #lightblue
+participant ":List<Programme>" as PL
+participant "IProgrammeFactory" as PF #lightgreen
+
+
+
+
+Admin -> UI ++ #application : I want to register a Programme in the System,\n including a Study Plan.
+
+UI --> Admin -- : What are the attributes??
+
+Admin -> UI ++ #application : name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector
+
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, \ndegreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+
+C -> PR ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, \nprogrammeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+
+
+PR -> PF ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+create "P1:Programme" as P #lightblue
+PF -> P ++ #application : Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nStudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory)
+
+P -> P : Validations
+
+
+P --> PF -- : Programme P1
+PF --> PR -- : Programme P1
+PR -> PL : contains(P1)
+PL --> PR : False
+PR -> PL : add(P1)
+PL --> PR : True
+
+PR --> C -- : True
+C --> UI -- : True
+
+
+UI --> Admin -- : Done!
+
+@enduml

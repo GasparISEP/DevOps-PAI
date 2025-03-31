@@ -113,4 +113,32 @@ class StudentIDTest {
         //Assert
         assertEquals(1500000, result);
     }
+
+    @Test
+    void isEqualsMethodShouldReturnTrue () {
+
+        // Arrange
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1234567);
+
+        // Act
+        boolean result = studentID1.isEquals(studentID2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void isEqualsMethodShouldReturnFalse () {
+
+        // Arrange
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1326546);
+
+        // Act
+        boolean result = studentID1.isEquals(studentID2);
+
+        // Assert
+        assertFalse(result);
+    }
 }

@@ -104,6 +104,23 @@ class TeacherCareerProgressionTest {
     }
 
     @Test
+    void getTeacherIDReturnsTeacherID() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        //act
+        TeacherID result = TCP.getTeacherID();
+
+        //assert
+        assertEquals(result, tIDDouble);
+    }
+
+    @Test
     void shouldReturnTeacherCareerProgressionID() {
         //arrange
         Date dateDouble = mock(Date.class);

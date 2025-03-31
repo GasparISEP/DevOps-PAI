@@ -1,0 +1,13 @@
+@startuml
+actor ASC as Admin
+participant ":System" as System
+autonumber
+
+title US11: As an ASC, I want to register a programme in the system.
+
+Admin -> System  : I Want to register a Programme in the System.
+System --> Admin  : Name? Acronym? quantityOfEcts? quantityOfSemesters?  \nDegreeType? Department? Programme Director?
+Admin -> System  : Name! Acronym! quantityOfEcts! quantityOfSemesters!  \nDegreeType! Department! Programme Director!
+System --> Admin  : Done!
+
+@enduml

@@ -3,14 +3,16 @@ package PAI.VOs;
 import PAI.ddd.ValueObject;
 
 public class NIF implements ValueObject {
+    private final Country _country;
     private final String _NIF;
 
-    public NIF (String NIF){
+    public NIF (String NIF, Country country){
 
        if(NIF == null || NIF.isBlank()) throw new IllegalArgumentException("NIF cannot be empty.");
        if(!isNifValid(NIF)) throw new IllegalArgumentException("NIF is Invalid");
 
        this._NIF = NIF;
+       this._country = country;
     }
 
     public boolean equals (Object object){

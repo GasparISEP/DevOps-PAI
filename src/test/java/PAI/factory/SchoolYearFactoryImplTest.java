@@ -6,8 +6,6 @@ import PAI.domain.SchoolYear;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +32,7 @@ class SchoolYearFactoryImplTest {
             ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
 
             //act
-            SchoolYear schoolYear = schoolYearFactory.createSchoolYear( description, startDate, endDate);
+            SchoolYear schoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
             //assert
             List<SchoolYear> schoolYears = schoolYearDouble.constructed();
