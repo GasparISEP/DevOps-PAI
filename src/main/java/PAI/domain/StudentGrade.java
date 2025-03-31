@@ -87,7 +87,9 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return false;
     }
 
-
+    public double knowGrade () {
+        return _grade.knowGrade();
+    }
 }
 
 
