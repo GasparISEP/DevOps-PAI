@@ -23,7 +23,7 @@ class "<<Value Object>>\n TeacherIDVO" {
 package "TeacherCareerProgression Aggregate" {
     entity "<<Root>>\n <<Entity>>\nTeacherCareerProgression" {
         +TeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO)
-        +isDateAfter(dateVO: DateVO)
+        +iisLastDateEqualOrBeforeNewDate(dateVO: DateVO)
         +getTeacherCategoryID()
         +getWorkingPercentage()
     }

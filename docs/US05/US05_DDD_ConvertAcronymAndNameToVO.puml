@@ -1,0 +1,17 @@
+@startuml
+title US05_DDD_ConvertAcronymAndNameToVO
+
+autonumber
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+participant ":US05_DepartmentRegistryController" as controller #cyan/white
+
+activate controller
+
+controller -> "acronym1:DepartmentAcronym"** : create(acronym)
+
+controller ->"name1:Name" **: create(name)
+deactivate controller
+@enduml

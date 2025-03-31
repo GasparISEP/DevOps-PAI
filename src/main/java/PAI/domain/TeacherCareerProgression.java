@@ -58,12 +58,9 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         return _teacherID;
     }
 
-    public boolean isDateAfter(Date date) {
+    public boolean isLastDateEqualOrBeforeNewDate(Date newDate) {
 
-        if (_date.getLocalDate().isAfter(date.getLocalDate()))
-            return false;
-
-        return true;
+        return !_date.getLocalDate().isAfter(newDate.getLocalDate());
     }
 
     @Override

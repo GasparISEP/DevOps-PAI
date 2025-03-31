@@ -89,7 +89,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
 
         TeacherCareerProgression lastTCP = optionalTCP.get();
 
-        if(lastTCP.isDateAfter(date))
+        if (!lastTCP.isLastDateEqualOrBeforeNewDate(date))
             return false;
 
         TeacherCategoryID teacherCategoryID = lastTCP.getTeacherCategoryID();
