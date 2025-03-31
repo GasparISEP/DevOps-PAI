@@ -35,9 +35,12 @@ public class CourseInStudyPlanDDDRepository {
     }
 
 
-    public Optional<CourseInStudyPlanDDD> findByCourseInStudyPlanID(CourseInStudyPlanID courseInStudyPlanID) {
-        return _coursesInStudyPlanList_2.stream()
-                .filter(courseInStudyPlan_2 -> courseInStudyPlan_2.getCourseInStudyPlanID().equals(courseInStudyPlanID))
-                .findFirst();
+    public Optional<CourseInStudyPlanDDD> findCourseInStudyPlanByID(CourseInStudyPlanID courseInStudyPlanID) {
+        for (CourseInStudyPlanDDD courseInStudyPlanDDD : _coursesInStudyPlanList_2) {
+            if (courseInStudyPlanDDD.getCourseInStudyPlanID().equals(courseInStudyPlanID)) ;
+            return Optional.of(courseInStudyPlanDDD);
+        }
+
+        return Optional.empty();
     }
 }

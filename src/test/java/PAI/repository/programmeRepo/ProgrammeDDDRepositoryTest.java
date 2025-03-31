@@ -382,7 +382,7 @@ class ProgrammeDDDRepositoryTest {
         ProgrammeID programmeID = createdProgramme.getProgrammeID();
 
         // Act
-        Optional<ProgrammeDDD> result = repository.getProgrammeByID(programmeID);
+        Optional<ProgrammeDDD> result = repository.findProgrammeByID(programmeID);
 
         // Assert
         assertTrue(result.isPresent());
@@ -401,7 +401,7 @@ class ProgrammeDDDRepositoryTest {
 
         // Act
         ProgrammeID nonExistentID = new ProgrammeID();
-        Optional<ProgrammeDDD> foundPlan = repository.getProgrammeByID(nonExistentID);
+        Optional<ProgrammeDDD> foundPlan = repository.findProgrammeByID(nonExistentID);
 
         // Assert
         assertFalse(foundPlan.isPresent());

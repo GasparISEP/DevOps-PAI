@@ -120,7 +120,7 @@ public class StudyPlanDDDRepositoryTest {
         StudyPlanID studyPlanID = createdPlan.getStudyPlanID();
 
         // Act
-        Optional<StudyPlanDDD> foundPlanOpt = repository.findByStudyPlanID(studyPlanID);
+        Optional<StudyPlanDDD> foundPlanOpt = repository.findStudyPlanByID(studyPlanID);
 
         // Assert
         assertTrue(foundPlanOpt.isPresent());
@@ -139,7 +139,7 @@ public class StudyPlanDDDRepositoryTest {
 
         // Act
         StudyPlanID nonExistentID = new StudyPlanID();
-        Optional<StudyPlanDDD> foundPlanOpt = repository.findByStudyPlanID(nonExistentID);
+        Optional<StudyPlanDDD> foundPlanOpt = repository.findStudyPlanByID(nonExistentID);
 
         // Assert
         assertFalse(foundPlanOpt.isPresent());

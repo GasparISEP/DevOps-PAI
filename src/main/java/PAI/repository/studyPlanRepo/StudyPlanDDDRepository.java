@@ -34,10 +34,11 @@ public class StudyPlanDDDRepository {
         return this._studyPlanList_2;
     }
 
-    public Optional<StudyPlanDDD> findByStudyPlanID(StudyPlanID studyPlanID) {
-        return _studyPlanList_2.stream()
-                .filter(studyPlan_2 -> studyPlan_2.getStudyPlanID().equals(studyPlanID))
-                .findFirst();
+    public Optional<StudyPlanDDD> findStudyPlanByID(StudyPlanID studyPlanID) {
+        for (StudyPlanDDD studyPlanDDD : _studyPlanList_2) {
+            if (studyPlanDDD.getStudyPlanID().equals(studyPlanID));
+            return Optional.of(studyPlanDDD);
+        }
+        return Optional.empty();
     }
 }
-
