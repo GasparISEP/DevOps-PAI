@@ -57,7 +57,9 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         Address address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID = new StudentID(1234567);
         Name name = new Name("Rita");
-        NIF nif = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
         PhoneNumber phone = new PhoneNumber("+351","963741258");
         Email email = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -80,7 +82,9 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         Address addressDouble = mock(Address.class);
         StudentID studentID = new StudentID(1234567);
         Name name = new Name("Rita");
-        NIF nif = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789",country);
         PhoneNumber phone = new PhoneNumber("+351","963741258");
         Email email = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -99,9 +103,11 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     }
 
     public static Stream<Arguments> provideInvalidParametersWithoutIsolation() {
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         return Stream.of(
-                Arguments.of(new StudentID(1345678), new NIF("123456789")),
-                Arguments.of(new StudentID(1234567), new NIF("987654321"))
+                Arguments.of(new StudentID(1345678), new NIF("123456789", country)),
+                Arguments.of(new StudentID(1234567), new NIF("987654321", country))
         );
     }
 
@@ -112,7 +118,9 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         Address address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID2 = new StudentID(1234567);
         Name name = new Name("Rita");
-        NIF nif2 = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif2 = new NIF("123456789", country);
         PhoneNumber phone = new PhoneNumber("+351","963741258");
         Email email = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -136,9 +144,11 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     }
 
     public static Stream<Arguments> provideInvalidParametersWithIsolation() {
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         return Stream.of(
-                Arguments.of(1345678, "123456789"),
-                Arguments.of(1234567, "987654321")
+                Arguments.of(1345678, new NIF("123456789", country)),
+                Arguments.of(1234567, new NIF("987654321", country))
         );
     }
 
@@ -149,7 +159,9 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = new Name("Rita");
-        NIF nifDouble = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nifDouble = new NIF("123456789", country);
         PhoneNumber phoneDouble = new PhoneNumber("+351","963741258");
         Email emailDouble = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmailDouble = new StudentAcademicEmail(mockStudentID1);

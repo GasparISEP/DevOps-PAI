@@ -15,7 +15,7 @@ public class SchoolYear implements AggregateRoot<SchoolYearID> {
     private Date _endDate;
 
     // Constructor
-    public SchoolYear(SchoolYearID schoolYearID, Description description, Date startDate, Date endDate) {
+    public SchoolYear(Description description, Date startDate, Date endDate) {
 
         _schoolYearID = new SchoolYearID();
 
@@ -51,20 +51,15 @@ public class SchoolYear implements AggregateRoot<SchoolYearID> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        SchoolYear that = (SchoolYear) o;
-        return Objects.equals(_description, that._description) && Objects.equals(_startDate, that._startDate) &&
-                Objects.equals(_endDate, that._endDate);
-    }
-
-    @Override
     public SchoolYearID identity() {
         return _schoolYearID;
     }
 
     @Override
     public boolean sameAs(Object object) {
-        return false;
+        if (object == null || getClass() != object.getClass()) return false;
+        SchoolYear that = (SchoolYear) object;
+        return Objects.equals(_startDate, that._startDate) &&
+                Objects.equals(_endDate, that._endDate);
     }
 }

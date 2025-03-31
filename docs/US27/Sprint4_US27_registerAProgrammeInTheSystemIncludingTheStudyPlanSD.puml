@@ -1,0 +1,77 @@
+@startuml
+autonumber
+
+title US27: As an ASC, I want to register a programme in the system, including the study plan.
+
+actor ASC as Admin
+
+participant ":UI" as UI #lightblue
+participant ":ControllerUS27" as C #lightblue
+participant ":ProgrammeRepository" as PR #lightblue
+participant ":List<Programme>" as PL
+participant "IProgrammeFactory" as PF #lightgreen
+
+
+
+
+Admin -> UI ++ #application : I want to register a Programme in the System,\n including a Study Plan.
+
+UI --> Admin -- : What are the attributes??
+
+Admin -> UI ++ #application : name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \n department, programmeDirector
+
+UI -> C ++ #application : registerProgrammeInTheSystemIncludingStudyPlan(name, acronym, quantityOfEcts, quantityOfSemesters, \ndegreeType, department, programmeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+
+C -> PR ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, department, \nprogrammeDirector, programmeCourseListFactoryImpl1, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+
+
+PR -> PF ++ #application : registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nstudyPlanListFactory, studyPlanFactory, courseFactory)
+create "P1:Programme" as P #lightblue
+PF -> P ++ #application : Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeType, \ndepartment, programmeDirector, programmeCourseListFactoryImpl, courseInStudyPlanFactory, \nStudyPlanListFactory studyPlanListFactory, StudyPlanFactory studyPlanFactory, CourseFactory courseFactory)
+
+P -> P : Validations
+
+
+P --> PF -- : Programme P1
+PF --> PR -- : Programme P1
+PR -> PL : contains(P1)
+PL --> PR : False
+PR -> PL : add(P1)
+PL --> PR : True
+
+PR --> C -- : True
+C --> UI -- : True
+
+
+UI --> Admin -- : Do you also want to add a Study Plan?
+Participant ":StudyPlanRepository" as SPR #lightblue
+
+Admin -> UI ++ #application: Yes.
+UI -> C ++ #application: createStudyPlanDDD(ProgrammeID programmeID, Date implementationDate)
+C -> SPR ++ #application: createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears)
+Participant ":List<StudyPlan>" as SPL #lightblue
+Participant "IStudyPlanFactory" as SPF #lightgreen
+
+SPR -> SPF ++ #application: newStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears)
+create "SP1:Studyplan" as SP1 #lightblue
+SPF -> SP1 ++ #application: StudyPlan (ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears)
+SP1 -> SP1 : Validations
+
+SP1 --> SPF -- : StudyPlan SP1
+
+SPF --> SPR -- : StudyPlan SP1
+
+SPR -> SPL : contains()
+SPL --> SPR : False
+
+SPR -> SPL : add()
+SPL --> SPR : True
+
+SPR --> C -- : True
+C --> UI -- : True
+UI --> Admin -- : Done!
+
+loop Repeat User Story 03 Add a Course \nto Programme until Study Plan is Full.
+end loop
+
+@enduml

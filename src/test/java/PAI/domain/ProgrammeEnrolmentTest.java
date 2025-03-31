@@ -1,9 +1,13 @@
 package PAI.domain;
 
 import PAI.VOs.*;
+import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,6 +21,7 @@ class ProgrammeEnrolmentTest {
         Address _address;
         StudentID _studentID;
         Name _name;
+        Country _country;
         NIF _nif;
         PhoneNumber _phone;
         Email _email;
@@ -33,7 +38,7 @@ class ProgrammeEnrolmentTest {
         ITeacherCareerProgressionListFactory _tcpListFactory;
         Teacher _teacher;
         IProgrammeCourseListFactory _programmeCourseListFactory;
-        Programme_2 _programme;
+        ProgrammeDDD _programme;
         ICourseInStudyPlanFactory _I_courseInStudyPlanFactory;
         IStudyPlanListFactory _I_studyPlanListFactory;
         IStudyPlanFactory _I_studyPlanFactory;
@@ -43,11 +48,13 @@ class ProgrammeEnrolmentTest {
         WorkingPercentage _wp;
         TeacherID _teacherID;
 
+
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
             _studentID = new StudentID(1234567);
             _name = new Name("Rita");
-            _nif = new NIF("123456789");
+            _country = new Country("Portugal");
+            _nif = new NIF("123456789", _country);
             _phone = new PhoneNumber("+351", "963741258");
             _email = new Email("rita@gmail.com");
             _academicEmail = new StudentAcademicEmail(_studentID);
@@ -72,7 +79,7 @@ class ProgrammeEnrolmentTest {
             _I_studyPlanListFactory = new StudyPlanListFactoryImpl();
             _I_studyPlanFactory = new StudyPlanFactoryImpl();
             _I_courseFactory = new CourseFactoryImpl();
-            _programme = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+            _programme = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                     new QuantEcts(20), new QuantSemesters(6), _degreeTypeID, _department, _teacherID);}
     }
 
@@ -228,7 +235,9 @@ class ProgrammeEnrolmentTest {
 
         StudentID studentID = new StudentID(1234568);
         Name name = new Name("Pedro");
-        NIF nif = new NIF("159753824");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("159753824", country);
         PhoneNumber phone = new PhoneNumber("+351", "963996987");
         Email email = new Email("pedro@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -303,7 +312,9 @@ class ProgrammeEnrolmentTest {
 
         StudentID studentID = new StudentID(1345678);
         Name name = new Name("Pedro");
-        NIF nif = new NIF("159753824");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("159753824", country);
         PhoneNumber phone = new PhoneNumber("+351", "963996987");
         Email email = new Email("pedro@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -350,7 +361,7 @@ class ProgrammeEnrolmentTest {
 
         TeacherID teacherIDDouble =  attributes._teacherID;
 
-        Programme_2 programme2 = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+        ProgrammeDDD programme2 = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                 new QuantEcts(20), new QuantSemesters(6), new DegreeType_ID("asd"), new Department("ACM", "Maths"), teacherIDDouble);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
@@ -392,7 +403,9 @@ class ProgrammeEnrolmentTest {
 
         StudentID studentID = new StudentID(1345678);
         Name name = new Name("Pedro");
-        NIF nif = new NIF("159753824");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("159753824", country);
         PhoneNumber phone = new PhoneNumber("+351", "963996987");
         Email email = new Email("pedro@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -400,7 +413,7 @@ class ProgrammeEnrolmentTest {
 
         Student student2 = new Student(studentID, name, nif, phone, email, attributes._address, academicEmail);
 
-        Programme_2 programme2 = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+        ProgrammeDDD programme2 = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                 new QuantEcts(20), new QuantSemesters(6), new DegreeType_ID("asd"), new Department("ACM", "Maths"), teacherIDDouble);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
@@ -435,38 +448,38 @@ class ProgrammeEnrolmentTest {
 
     @Test
     void shouldReturnTrueIfProgrammesAreTheSameWithoutIsolation() throws Exception {
-        // arrange
+        //Arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
         TeacherID teacherIDDouble =  attributes._teacherID;
 
-        Programme_2 programme2 = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+        ProgrammeDDD programme2 = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                 new QuantEcts(20), new QuantSemesters(6), new DegreeType_ID("asd"), new Department("ACM", "Maths"), teacherIDDouble);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, programme2.getProgrammeID(), attributes._date);
 
-        // act
+        //Act
         boolean result = programmeEnrolment.hasSameProgramme2(programme2.getProgrammeID());
 
-        // assert
+        //Assert
         assertTrue(result);
     }
 
     @Test
     void shouldReturnTrueIfProgrammesAreTheSameWithIsolation() {
-        // arrange
+        //arrange
         StudentID studentDouble = mock(StudentID.class);
         AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        Programme_2 programmeDouble = mock(Programme_2.class);
+        ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
         Date dateDouble = mock(Date.class);
         ProgrammeID programmeDoubleID = mock(ProgrammeID.class);
         when(programmeDouble.getProgrammeID()).thenReturn(programmeDoubleID);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDoubleID, dateDouble);
 
-        // act
+        //act
         boolean result = programmeEnrolment.hasSameProgramme2(programmeDouble.getProgrammeID());
 
-        // assert
+        //assert
         assertTrue(result);
     }
 
@@ -512,5 +525,134 @@ class ProgrammeEnrolmentTest {
 
         //assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnStudentIDfromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getStudentID().equals(studentIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnAccessMethodIDfromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getAccessMethodID().equals(accessMethodIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnProgrammeIDfromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getProgrammeID().equals(programmeIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnDatefromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getDate().equals(dateDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnProgrammeEnrolmentID() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        ProgrammeEnrolmentID expectedPeID = pe1.identity();
+
+        //Act
+        ProgrammeEnrolmentID result = pe1.identity();
+
+        //Assert
+        assertEquals(expectedPeID, result);
+    }
+
+    @Test
+    void shouldReturnTrueForSameProgrammeEnrolment() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.sameAs(pe1);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseForDifferentProgrammeEnrolment() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.sameAs(pe2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnHashCodeProgrammeEnrolment() {
+        //Arrange
+        StudentID studentID = new StudentID(1241204);
+        AccessMethodID accessMethodID = new AccessMethodID();
+        ProgrammeID programmeID = new ProgrammeID();
+        Date dateDouble = new Date(LocalDate.now());
+
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
+
+        //Act + Assert
+        assertNotEquals(pe1.hashCode(), pe2.hashCode());
     }
 }

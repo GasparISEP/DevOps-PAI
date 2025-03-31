@@ -740,7 +740,9 @@ class CourseEditionEnrolmentRepositoryTest {
 
         StudentID studentID = new StudentID(1000001);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("999999999");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -755,11 +757,10 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -794,7 +795,9 @@ class CourseEditionEnrolmentRepositoryTest {
 
         StudentID studentID = new StudentID(1000001);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("999999999");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -809,11 +812,10 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate,endDate);
+        SchoolYear schoolYear = new SchoolYear(description, startDate,endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -846,7 +848,9 @@ class CourseEditionEnrolmentRepositoryTest {
 
         StudentID studentID = new StudentID(1000001);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("999999999");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -861,11 +865,10 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -901,7 +904,9 @@ class CourseEditionEnrolmentRepositoryTest {
 
         StudentID studentID = new StudentID(1000001);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("999999999");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -916,11 +921,10 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -957,7 +961,9 @@ class CourseEditionEnrolmentRepositoryTest {
 
         StudentID studentID1 = new StudentID(1000001);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("999999999");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
@@ -966,7 +972,7 @@ class CourseEditionEnrolmentRepositoryTest {
 
         StudentID studentID2 = new StudentID(1000002);
         Name name2 = new Name("João Santos");
-        NIF nif2 = new NIF("998194999");
+        NIF nif2 = new NIF("998194999", country);
         PhoneNumber phone2 = new PhoneNumber("+351","221234467");
         Email email2 = new Email("joao456@gmail.com");
         StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
@@ -982,11 +988,10 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -1024,7 +1029,9 @@ class CourseEditionEnrolmentRepositoryTest {
 
         StudentID studentID = new StudentID(1000001);
         Name name = new Name("João Silva");
-        NIF nif = new NIF("999999999");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
         PhoneNumber phone = new PhoneNumber("+351","221234567");
         Email email = new Email("joao123@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -1043,11 +1050,10 @@ class CourseEditionEnrolmentRepositoryTest {
         programme1.addCourseToAProgramme(c1);
         programme1.addCourseToAProgramme(c2);
 
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition1 = new CourseEdition(c1, pe);
         CourseEdition courseEdition2 = new CourseEdition(c2, pe);
