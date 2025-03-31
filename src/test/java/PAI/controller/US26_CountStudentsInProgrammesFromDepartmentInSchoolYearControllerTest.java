@@ -185,9 +185,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Name name2 = new Name("Rita Mendes");
         Name name3 = new Name("Ana Luisa");
 
-        NIF nif1 = new NIF("123456789");
-        NIF nif2 = new NIF("123455649");
-        NIF nif3 = new NIF("123456439");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
 
         PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
         PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
@@ -279,10 +282,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Name name1 = new Name("João Silva");
         Name name2 = new Name("Rita Mendes");
         Name name3 = new Name("Ana Luisa");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
 
-        NIF nif1 = new NIF("123456789");
-        NIF nif2 = new NIF("123455649");
-        NIF nif3 = new NIF("123456439");
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
 
         PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
         PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
@@ -377,9 +382,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Name name2 = new Name("Rita Mendes");
         Name name3 = new Name("Ana Luisa");
 
-        NIF nif1 = new NIF("123456789");
-        NIF nif2 = new NIF("123455649");
-        NIF nif3 = new NIF("123456439");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
 
         PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
         PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
@@ -478,9 +486,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Name name2 = new Name("Rita Mendes");
         Name name3 = new Name("Ana Luisa");
 
-        NIF nif1 = new NIF("123456789");
-        NIF nif2 = new NIF("123455649");
-        NIF nif3 = new NIF("123456439");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
 
         PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
         PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
@@ -576,9 +587,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Name name2 = new Name("Rita Mendes");
         Name name3 = new Name("Ana Luisa");
 
-        NIF nif1 = new NIF("123456789");
-        NIF nif2 = new NIF("123455649");
-        NIF nif3 = new NIF("123456439");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
 
         PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
         PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
