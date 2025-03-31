@@ -21,7 +21,7 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
             throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
         }
 
-        _courseEditionID = new CourseEditionID();
+        _courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
         _courseInStudyPlanID = courseInStudyPlanID;
         _programmeEditionID = programmeEditionID;
     }
