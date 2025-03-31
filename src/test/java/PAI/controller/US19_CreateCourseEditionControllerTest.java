@@ -354,11 +354,10 @@ class US19_CreateCourseEditionControllerTest {
                 IStudyPlanFactory,
                 ICourseFactory);
 
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date("23-11-2024");
         Date endDate = new Date ("09-12-2025");
-        schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
+        schoolYear = new SchoolYear(description, startDate, endDate);
 
         programmeEdition = new ProgrammeEdition(programme, schoolYear);
     }
