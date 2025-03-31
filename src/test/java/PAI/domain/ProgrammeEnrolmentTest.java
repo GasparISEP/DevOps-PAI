@@ -1,10 +1,13 @@
 package PAI.domain;
 
 import PAI.VOs.*;
+import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -445,7 +448,7 @@ class ProgrammeEnrolmentTest {
 
     @Test
     void shouldReturnTrueIfProgrammesAreTheSameWithoutIsolation() throws Exception {
-        // arrange
+        //Arrange
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
         TeacherID teacherIDDouble =  attributes._teacherID;
 
@@ -454,16 +457,16 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, programme2.getProgrammeID(), attributes._date);
 
-        // act
+        //Act
         boolean result = programmeEnrolment.hasSameProgramme2(programme2.getProgrammeID());
 
-        // assert
+        //Assert
         assertTrue(result);
     }
 
     @Test
     void shouldReturnTrueIfProgrammesAreTheSameWithIsolation() {
-        // arrange
+        //arrange
         StudentID studentDouble = mock(StudentID.class);
         AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
         ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
@@ -473,10 +476,10 @@ class ProgrammeEnrolmentTest {
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDoubleID, dateDouble);
 
-        // act
+        //act
         boolean result = programmeEnrolment.hasSameProgramme2(programmeDouble.getProgrammeID());
 
-        // assert
+        //assert
         assertTrue(result);
     }
 
@@ -522,5 +525,134 @@ class ProgrammeEnrolmentTest {
 
         //assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnStudentIDfromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getStudentID().equals(studentIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnAccessMethodIDfromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getAccessMethodID().equals(accessMethodIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnProgrammeIDfromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getProgrammeID().equals(programmeIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnDatefromGetter() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.getDate().equals(dateDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnProgrammeEnrolmentID() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        ProgrammeEnrolmentID expectedPeID = pe1.identity();
+
+        //Act
+        ProgrammeEnrolmentID result = pe1.identity();
+
+        //Assert
+        assertEquals(expectedPeID, result);
+    }
+
+    @Test
+    void shouldReturnTrueForSameProgrammeEnrolment() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.sameAs(pe1);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseForDifferentProgrammeEnrolment() {
+        //Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date dateDouble = mock(Date.class);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+
+        //Act
+        boolean result = pe1.sameAs(pe2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnHashCodeProgrammeEnrolment() {
+        //Arrange
+        StudentID studentID = new StudentID(1241204);
+        AccessMethodID accessMethodID = new AccessMethodID();
+        ProgrammeID programmeID = new ProgrammeID();
+        Date dateDouble = new Date(LocalDate.now());
+
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
+
+        //Act + Assert
+        assertNotEquals(pe1.hashCode(), pe2.hashCode());
     }
 }

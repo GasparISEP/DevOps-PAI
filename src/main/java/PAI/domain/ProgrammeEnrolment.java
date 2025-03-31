@@ -15,8 +15,6 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
 
     public ProgrammeEnrolment(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws IllegalArgumentException {
 
-        _peID = new ProgrammeEnrolmentID();
-
         if (studentID == null || accessMethodID == null || programmeID == null){
             throw new IllegalArgumentException ("Argument cannot be null.");
         }
@@ -28,6 +26,7 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
         _accessMethodID = accessMethodID;
         _programmeID = programmeID;
         _date = date;
+        _peID = new ProgrammeEnrolmentID();
     }
 
     public boolean isDateAfter(Date date) {
@@ -37,9 +36,15 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
 
     public boolean hasSameStudent(Student student){return this._studentID.equals(student.identity());}
 
+    public boolean hasSameStudent2(StudentID studentID){return this._studentID.equals(studentID);}
+
     public boolean hasSameEnrolment(ProgrammeEnrolment programmeEnrolment){
         return this._studentID.equals(programmeEnrolment._studentID) &&
                 this._programmeID.equals(programmeEnrolment._programmeID);
+    }
+
+    public boolean hasSameEnrolment2(ProgrammeEnrolmentID programmeEnrolmentID){
+        return this.identity().equals(programmeEnrolmentID);
     }
 
     public boolean hasSameProgramme(Programme programme) {return _programmeID.equals(programme);}
