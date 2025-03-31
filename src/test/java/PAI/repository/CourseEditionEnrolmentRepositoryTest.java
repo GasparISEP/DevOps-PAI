@@ -5,8 +5,10 @@ import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -127,47 +129,99 @@ class CourseEditionEnrolmentRepositoryTest {
     //test isStudentEnrolledInCourseEdition method
     @Test
     void shouldConfirmStudentIsEnrollInACourseEdition() throws Exception {
-        //arrange
+        // arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
-        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        ICourseEditionEnrolmentListFactory ceeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+
+        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
+        when(ceeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
+
+        CourseEditionEnrolmentRepository repository =
+                new CourseEditionEnrolmentRepository(doubleCeeFactory, ceeListFactory);
+
+        StudentID realStudentID = new StudentID(1_500_000);
+        Student studentReal = new Student(
+                realStudentID,
+                mock(Name.class),
+                mock(NIF.class),
+                mock(PhoneNumber.class),
+           mock(Email.class),
+                mock(Address.class),
+                mock(StudentAcademicEmail.class)
+        );
 
         CourseEdition ce1 = mock(CourseEdition.class);
-        Student student1 = mock(Student.class);
-        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrolment(student1, ce1)).thenReturn(cee1);
-        when(cee1.knowStudent()).thenReturn(student1);
+        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
+        when(doubleCeeFactory.createCourseEditionEnrolment(studentReal, ce1))
+                .thenReturn(cee1);
+        when(cee1.knowStudent()).thenReturn(studentReal);
         when(cee1.knowCourseEdition()).thenReturn(ce1);
         when(cee1.isEnrollmentActive()).thenReturn(true);
-        repository.enrolStudentInACourseEdition(student1, ce1);
 
-        //act & assert
-        assertTrue(repository.isStudentEnrolledInCourseEdition(student1, ce1));
+        // act
+        repository.enrolStudentInACourseEdition(studentReal, ce1);
+
+        // assert
+        assertTrue(repository.isStudentEnrolledInCourseEdition(studentReal.identity(), ce1));
     }
+
 
     @Test
-    void shouldConfirmStudentIsNotEnrollInACourseEdition() {
-        //arrange
+    void shouldConfirmStudentIsNotEnrollInACourseEdition() throws Exception {
+        // arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+
+        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
+        when(CeeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
+
+
+        CourseEditionEnrolmentRepository repository =
+                new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+
+        // Criamos um Student real com um StudentID válido
+        // Lembre que StudentID deve estar no range (1_000_001 a 1_999_999).
+        StudentID validID1 = new StudentID(1_500_000);
+        Student student1 = new Student(
+                validID1,
+                mock(Name.class),
+                mock(NIF.class),
+                mock(PhoneNumber.class),
+                mock(Email.class),
+                mock(Address.class),
+                mock(StudentAcademicEmail.class)
+        );
+
+
+        StudentID differentStudentID = new StudentID(1_600_000);
+
 
         CourseEdition ce1 = mock(CourseEdition.class);
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+
+
         CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
+
         when(doubleCeeFactory.createCourseEditionEnrolment(student1, ce1)).thenReturn(cee1);
+
+
         when(cee1.knowStudent()).thenReturn(student1);
         when(cee1.knowCourseEdition()).thenReturn(ce1);
         when(cee1.isEnrollmentActive()).thenReturn(true);
+
+
         repository.enrolStudentInACourseEdition(student1, ce1);
 
-        //act
-        //assert
-        assertFalse(repository.isStudentEnrolledInCourseEdition(student2, ce1));
+        // act
+
+        boolean result = repository.isStudentEnrolledInCourseEdition(differentStudentID, ce1);
+
+        // assert
+
+        assertFalse(result);
     }
+
 
     @Test
     void shouldReturnCourseEditionEnrollmentWhenStudentIsEnrolled() {
@@ -685,8 +739,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -696,10 +755,11 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -733,8 +793,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -744,10 +809,11 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate,endDate);
+        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate,endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -779,8 +845,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -790,10 +861,11 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -828,8 +900,13 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -839,10 +916,11 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -878,10 +956,23 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID1 = new StudentID(1000001);
-        StudentID studentID2 = new StudentID(1000002);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
 
-        Student student1 = new Student(studentID1, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        Student student2 = new Student(studentID2, "João Santos", "998194999", "221234467", "joao456@gmail.com", add1);
+        Student student1 = new Student(studentID1, name, nif, phone, email, add1, academicEmail);
+
+        StudentID studentID2 = new StudentID(1000002);
+        Name name2 = new Name("João Santos");
+        NIF nif2 = new NIF("998194999");
+        PhoneNumber phone2 = new PhoneNumber("+351","221234467");
+        Email email2 = new Email("joao456@gmail.com");
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+
+
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -891,10 +982,11 @@ class CourseEditionEnrolmentRepositoryTest {
 
         programme1.addCourseToAProgramme(c1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition = new CourseEdition(c1, pe);
 
@@ -931,8 +1023,15 @@ class CourseEditionEnrolmentRepositoryTest {
                 new TeacherCareerProgressionListFactoryImpl());
 
         StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        NIF nif = new NIF("999999999");
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student1 = new Student(studentID, "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
+
+        Student student1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Algebra", "ALG", 5, 2);
@@ -944,10 +1043,11 @@ class CourseEditionEnrolmentRepositoryTest {
         programme1.addCourseToAProgramme(c1);
         programme1.addCourseToAProgramme(c2);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
         CourseEdition courseEdition1 = new CourseEdition(c1, pe);
         CourseEdition courseEdition2 = new CourseEdition(c2, pe);

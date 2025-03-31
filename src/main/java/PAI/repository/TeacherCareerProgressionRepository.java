@@ -6,7 +6,6 @@ import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.factory.ITeacherCareerProgressionListFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
         }
 
         this._ITeacherCareerProgressionFactory = tcpFactory;
-        this._teacherCareerProgressions = new ArrayList<>();
+        this._teacherCareerProgressions = tcpListFactory.createTeacherCareerProgressionList();
     }
 
     public boolean createTeacherCareerProgression (Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception {
@@ -33,20 +32,9 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
 
         TeacherCareerProgression tcp = _ITeacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
 
-        if (isTeacherCareerProgressionDuplicate(tcp)) {
-            throw new Exception("Teacher Career Progression already exists.");
-        }
-
         save(tcp);
 
         return true;
-    }
-
-    private boolean isTeacherCareerProgressionDuplicate(TeacherCareerProgression newTCP) {
-        if(this._teacherCareerProgressions.stream().anyMatch(existing -> existing.sameAs(newTCP))){
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -77,5 +65,39 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
             return false;
         }
         return true;
+    }
+
+    public Optional<TeacherCareerProgression> findLastTCPFromTeacherID(TeacherID teacherID) {
+        TeacherCareerProgression latestTCP = null;
+
+        for (TeacherCareerProgression tcp : _teacherCareerProgressions) {
+            if (tcp.getTeacherID().sameAs(teacherID)) {
+                if (latestTCP == null || tcp.getDate().getLocalDate().isAfter(latestTCP.getDate().getLocalDate())) {
+                    latestTCP = tcp;
+                }
+            }
+        }
+        return Optional.ofNullable(latestTCP);
+    }
+
+    public boolean updateWorkingPercentageInTeacherCareerProgression(Date date, WorkingPercentage workingPercentage, TeacherID teacherID) throws Exception {
+
+        Optional<TeacherCareerProgression> optionalTCP = findLastTCPFromTeacherID(teacherID);
+
+        if (optionalTCP.isEmpty())
+            return false;
+
+        TeacherCareerProgression lastTCP = optionalTCP.get();
+
+        if(lastTCP.isDateAfter(date))
+            return false;
+
+        TeacherCategoryID teacherCategoryID = lastTCP.getTeacherCategoryID();
+
+        if(lastTCP.getWorkingPercentage() == workingPercentage)
+            return false;
+
+        return createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+
     }
 }

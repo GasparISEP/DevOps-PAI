@@ -1,12 +1,12 @@
 package PAI.factory;
 
+import PAI.VOs.AccessMethodID;
 import PAI.VOs.Date;
-import PAI.domain.AccessMethod;
-import PAI.domain.Programme;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEnrolment;
-import PAI.domain.Student;
 
 public interface IProgrammeEnrolmentFactory {
 
-    ProgrammeEnrolment createProgrammeEnrolment (Student student, AccessMethod accessMethod, Programme programme, Date date);
+    ProgrammeEnrolment createProgrammeEnrolment (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date);
 }

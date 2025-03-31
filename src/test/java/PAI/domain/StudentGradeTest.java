@@ -1,8 +1,6 @@
 package PAI.domain;
 
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentGradeID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -16,7 +14,7 @@ class StudentGradeTest {
     @Test
     void shouldCreateValidGradeStudent() throws Exception {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -31,7 +29,7 @@ class StudentGradeTest {
     @Test
     void shouldNotCreateValidGradeStudentWithGradeNull() {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Date dateDouble = mock(Date.class);
 
@@ -44,7 +42,7 @@ class StudentGradeTest {
     @Test
     void shouldNotCreateValidGradeStudentWithDateNull() {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
 
@@ -69,7 +67,7 @@ class StudentGradeTest {
     @Test
     void shouldNotCreateValidGradeStudentWithCourseEditionNull()  {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
@@ -82,7 +80,7 @@ class StudentGradeTest {
     @Test
     void shouldReturnCorrectGrade() throws Exception {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -98,7 +96,7 @@ class StudentGradeTest {
     @Test
     void shouldReturnCorrectCourseEdition() throws Exception {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -113,7 +111,7 @@ class StudentGradeTest {
     @Test
     void shouldHaveThisCourseEdition() throws Exception {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -132,7 +130,7 @@ class StudentGradeTest {
     @Test
     void shouldNotHaveThisCourseEdition() throws Exception {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
@@ -151,7 +149,7 @@ class StudentGradeTest {
     @Test
     void shouldReturnTrueIfHasThisCourseEdition() throws Exception {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -166,7 +164,7 @@ class StudentGradeTest {
     @Test
     void shouldReturnFalseIfDoesNotHaveThisCourseEdition() throws Exception {
         // Arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
@@ -185,7 +183,7 @@ class StudentGradeTest {
 
     void shouldReturnTrueWhenFromSameLoc() throws Exception{
         //arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -202,7 +200,7 @@ class StudentGradeTest {
 
     void shouldReturnFalseWhenFromDifferentInstances() throws Exception{
         //arrange
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Teacher teacher = mock(Teacher.class);
         Grade grade = mock(Grade.class);
@@ -219,8 +217,8 @@ class StudentGradeTest {
     @Test
     void shouldReturnFalseWhenDifferentStudent() throws Exception{
         //arrange
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -236,7 +234,7 @@ class StudentGradeTest {
 @Test
     void shouldReturnFalseWhenStudentIsNull() throws Exception {
     //arrange
-    Student student1 = mock(Student.class);
+    StudentID student1 = mock(StudentID.class);
     CourseEdition courseEdition1 = mock(CourseEdition.class);
     Grade grade = mock(Grade.class);
     Date dateDouble = mock(Date.class);
@@ -252,7 +250,7 @@ class StudentGradeTest {
 
     @Test
     void testGetDate() throws Exception {
-        Student student = mock(Student.class);
+        StudentID student = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -266,24 +264,24 @@ class StudentGradeTest {
 
     @Test
     void testGetStudent() throws Exception {
-        Student expectedStudent = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, expectedStudent, courseEdition);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEdition);
 
-        assertEquals(expectedStudent, studentGrade.get_student());
+        assertEquals(student1, studentGrade.get_student());
     }
 
     @Test
     void testGetCourseEdition() throws Exception {
-        Student student = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition expectedCourseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
-        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, expectedCourseEdition);
+        StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, expectedCourseEdition);
 
         assertEquals(expectedCourseEdition, studentGrade.get_courseEdition());
     }
@@ -292,13 +290,13 @@ class StudentGradeTest {
 
     void shouldReturnTrueIfHasThisStudent () throws Exception{
         //arrange
-        Student studentDouble = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble,courseEdition);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,student1,courseEdition);
         //act
-        boolean result = studentGradeDouble1.hasThisStudent(studentDouble);
+        boolean result = studentGradeDouble1.hasThisStudent(student1);
         //assert
         assertTrue(result);
     }
@@ -307,14 +305,14 @@ class StudentGradeTest {
 
     void shouldReturnFalseIfHasNotThisStudent () throws Exception{
         //arrange
-        Student studentDouble1 = mock(Student.class);
-        Student studentDouble2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,student1,courseEdition);
         //act
-        boolean result = studentGradeDouble1.hasThisStudent(studentDouble2);
+        boolean result = studentGradeDouble1.hasThisStudent(student2);
         //assert
         assertFalse(result);
     }
@@ -322,11 +320,11 @@ class StudentGradeTest {
     @Test
     void shouldReturnGrade() throws Exception{
         //arrange
-        Student studentDouble1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,student1,courseEdition);
         //act
         Grade result = studentGradeDouble1.get_grade();
         //assert
@@ -336,11 +334,11 @@ class StudentGradeTest {
     @Test
     void shouldReturnStudentGradeID() throws Exception{
         //arrange
-        Student studentDouble1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,studentDouble1,courseEdition);
+        StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,student1,courseEdition);
         //act
         StudentGradeID result = studentGradeDouble1.identity();
         //assert
@@ -349,12 +347,12 @@ class StudentGradeTest {
 
     @Test
     void shouldNotBeEqualWhenIdsAreDifferent() throws Exception {
-        Student studentDouble1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        StudentGrade grade1 = new StudentGrade(grade, dateDouble, studentDouble1, courseEdition);
-        StudentGrade grade2 = new StudentGrade(grade, dateDouble, studentDouble1, courseEdition);
+        StudentGrade grade1 = new StudentGrade(grade, dateDouble, student1, courseEdition);
+        StudentGrade grade2 = new StudentGrade(grade, dateDouble, student1, courseEdition);
 
         assertNotEquals(grade1, grade2);
     }
@@ -363,8 +361,8 @@ class StudentGradeTest {
     void shouldBeEqualWhenStudentGradeIdsAreEqual() throws Exception {
         //arrange
         Date dateDouble = mock(Date.class);
-        StudentGrade grade1 = new StudentGrade(mock(Grade.class), dateDouble, mock(Student.class), mock(CourseEdition.class));
-        StudentGrade grade2 = new StudentGrade(mock(Grade.class), dateDouble, mock(Student.class), mock(CourseEdition.class));
+        StudentGrade grade1 = new StudentGrade(mock(Grade.class), dateDouble, mock(StudentID.class), mock(CourseEdition.class));
+        StudentGrade grade2 = new StudentGrade(mock(Grade.class), dateDouble, mock(StudentID.class), mock(CourseEdition.class));
 
 
         Field idField = StudentGrade.class.getDeclaredField("_studentGrade_id");
@@ -385,7 +383,7 @@ class StudentGradeTest {
     void shouldReturnStudentGradeIDWithGetter() throws Exception {
         // Arrange
         Grade grade = mock(Grade.class);
-        Student student = mock(Student.class);
+        StudentID student = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Date dateDouble = mock(Date.class);
 
@@ -403,7 +401,7 @@ class StudentGradeTest {
     void shouldReturnFalseIfObjectsSameAreFromDifferentInstances() throws Exception{
         // Arrange
         Grade grade = mock(Grade.class);
-        Student student = mock(Student.class);
+        StudentID student = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Date dateDouble = mock(Date.class);
 
@@ -418,7 +416,7 @@ class StudentGradeTest {
     void shouldReturnTrueIfHaveSameContent() throws Exception{
         // Arrange
         Grade grade = mock(Grade.class);
-        Student student = mock(Student.class);
+        StudentID student = mock(StudentID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         Date dateDouble = mock(Date.class);
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEdition);
@@ -427,5 +425,21 @@ class StudentGradeTest {
         boolean result = studentGrade.sameAs(studentGrade1);
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldGetDoubleGrade() throws Exception {
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        StudentID studentID = mock();
+        CourseEdition courseEdition = mock();
+
+        when(grade.knowGrade()).thenReturn(10.0);
+        StudentGrade s1 = new StudentGrade(grade, date, studentID, courseEdition);
+
+        double res = s1.knowGrade();
+
+        assertEquals(res, 10.0);
+
     }
 }

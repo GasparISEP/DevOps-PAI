@@ -3,6 +3,7 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.repository.StudentGradeRepository;
 import org.junit.jupiter.api.Test;
@@ -34,8 +35,8 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         Grade grade1 = mock(Grade.class);
         Grade grade2 = mock(Grade.class);
         Date dateDouble = mock(Date.class);

@@ -57,7 +57,7 @@ This document specifies the requirements for User Story 19 (PAI project), includ
 1. ASC initiates creation
 2. System guides through selection process:
     - Degree type → Programme → Programme edition → Course In Study Plan
-3. System validates course-study plan compatibility
+3. System validates course in study plan compatibility
 4. System checks for existing registrations
 5. On validation success:
     - Creates course edition

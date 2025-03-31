@@ -223,7 +223,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID1 = new StudentID(1234567);
-        Student st1 = new Student(studentID1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Name name = new Name("Rita");
+        NIF nif = new NIF("123456789");
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
+
+        Student st1 = new Student(studentID1, name, nif, phone, email, address1, academicEmail);
 
         Date date = new Date("15-04-2005");
         TeacherCategoryID tcID = new TeacherCategoryID();
@@ -255,13 +261,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         );
 
         Description description = new Description("School Year 23/24");
+        SchoolYearID schoolYearID = new SchoolYearID();
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
-        SchoolYear schoolYear2 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear2 = new SchoolYear(schoolYearID, description, startDate, endDate);
         ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1, schoolYear2);
 
         peeRepository.enrolStudentInProgrammeEdition(st1,programmeEdition1);
@@ -321,10 +328,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 studyPlanListFactory, studyPlanFactory, courseFactoryImpl
         );
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 23/24");
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -364,11 +372,23 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
 
         StudentID studentID1 = new StudentID(1234567);
+
+        Name name = new Name("Rita");
+        NIF nif = new NIF("123456789");
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
+
+        Student st1 = new Student(studentID1, name, nif, phone, email, address1, academicEmail);
+
         StudentID studentID2 = new StudentID(1234367);
+        Name name2 = new Name("Rita");
+        NIF nif2 = new NIF("123456789");
+        PhoneNumber phone2 = new PhoneNumber("+351","963741258");
+        Email email2 = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID1);
 
-        Student st1 = new Student(studentID1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-
-        Student st2 = new Student(studentID2, "Joana", "123556789", "963741369", "joana@gmail.com", address1);
+        Student st2 = new Student(studentID2, name2, nif2, phone2, email2, address1, academicEmail2);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
@@ -403,10 +423,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         programme1.addCourseToAProgramme(course1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 23/24");
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 
@@ -441,7 +462,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID = new StudentID(1234567);
-        Student st1 = new Student(studentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Name name = new Name("Rita");
+        NIF nif = new NIF("123456789");
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        Student st1 = new Student(studentID, name, nif, phone, email, address1, academicEmail);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
@@ -476,10 +502,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         programme1.addCourseToAProgramme(course1);
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 23/24");
         Date startDate = new Date ("01-09-2023");
         Date endDate = new Date ("31-08-2024");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate, endDate);
 
         ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
 

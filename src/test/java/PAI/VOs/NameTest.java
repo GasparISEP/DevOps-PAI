@@ -38,6 +38,18 @@ class NameTest {
         assertEquals("John O'Brien", name.getName());
     }
 
+    @Test
+    void testGivenValidNameWithMinimumLength_whenCreatingName_thenSuccess() {
+        // Name with exactly 3 characters should be valid
+        assertDoesNotThrow(() -> new Name("Ana"));
+    }
+
+    @Test
+    void testGivenValidNameWithMaximumLength_whenCreatingName_thenSuccess() {
+        // Name with exactly 100 characters should be valid
+        assertDoesNotThrow(() -> new Name("A".repeat(100)));
+    }
+
 
     // Test invalid names
     @Test
@@ -57,13 +69,14 @@ class NameTest {
 
     @Test
     void testNameTooShort() {
+        // Name shorter than 3 characters should throw an exception
         assertThrows(IllegalArgumentException.class, () -> new Name("Jo"));
     }
 
     @Test
     void testNameTooLong() {
-        String longName = "A".repeat(101); // String with 101 characters
-        assertThrows(IllegalArgumentException.class, () -> new Name(longName));
+        // Name longer than 100 characters should throw an exception
+        assertThrows(IllegalArgumentException.class, () -> new Name("A".repeat(101)));
     }
 
     @Test

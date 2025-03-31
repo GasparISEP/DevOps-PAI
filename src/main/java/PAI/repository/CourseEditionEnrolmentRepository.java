@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.ICourseEditionEnrolmentFactory;
 import PAI.factory.ICourseEditionEnrolmentListFactory;
@@ -30,9 +31,10 @@ public class CourseEditionEnrolmentRepository {
         }
     }
 
-    public boolean isStudentEnrolledInCourseEdition(Student student, CourseEdition courseEdition) {
+    public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEdition courseEdition) {
         for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
-            if (enrollment.knowStudent().equals(student) && enrollment.knowCourseEdition().equals(courseEdition) &&
+            if (enrollment.knowStudent().identity().equals(student) &&
+                    enrollment.knowCourseEdition().equals(courseEdition) &&
                     enrollment.isEnrollmentActive()) {
                 return true;
             }

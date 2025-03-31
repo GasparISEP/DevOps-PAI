@@ -1,6 +1,6 @@
 package PAI.factory;
 
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.Address;
 import PAI.domain.Student;
 import org.apache.commons.lang3.stream.Streams;
@@ -23,6 +23,11 @@ class StudentFactoryImplTest {
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
         try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
 
@@ -30,7 +35,7 @@ class StudentFactoryImplTest {
                 when(mock.identity()).thenReturn(mockStudentID);
         })) {
             // Act
-            Student student = studentFactory.newStudent(mockStudentID, "Daniela", "123456789", "963741258", "rita@gmail.com", address);
+            Student student = studentFactory.newStudent(mockStudentID, name, nif, phone, email, address, academicEmail);
 
             // Assert
             assertEquals(1, studentDouble.constructed().size());
@@ -39,18 +44,22 @@ class StudentFactoryImplTest {
         }
     }
 
-    void shouldThrowExceptionWhenStudentIDIsInvalid(String uniqueNumber) {
+    void shouldThrowExceptionWhenStudentIDIsNull () {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
-        StudentID mockStudentID = mock(StudentID.class);
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's ID is invalid.");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent(mockStudentID, "Daniela", "123456789", "963741258", "rita@gmail.com", address);
+                studentFactory.newStudent(null, name, nif, phone, email, address, academicEmail);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's ID is invalid."));
@@ -58,27 +67,22 @@ class StudentFactoryImplTest {
         }
     }
 
-    static Stream<Arguments> testInputNameIsInvalid() {
-        return Streams.of(
-                Arguments.of(""),
-                Arguments.of(" "),
-                Arguments.of((Object) null)
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("testInputNameIsInvalid")
-    void shouldThrowExceptionWhenInputNameIsInvalid(String name) {
+    void shouldThrowExceptionWhenInputNameIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's name cannot be empty!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent(mockStudentID, name, "123456789", "963741258", "rita@gmail.com", address);
+                studentFactory.newStudent(mockStudentID, null, nif, phone, email, address, academicEmail);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's name cannot be empty!"));
@@ -86,29 +90,22 @@ class StudentFactoryImplTest {
         }
     }
 
-    static Stream<Arguments> testInputNIFIsInvalid() {
-        return Streams.of(
-                Arguments.of("1234567890123456"),
-                Arguments.of("1234!56789"),
-                Arguments.of("A1234 56789"),
-                Arguments.of("1234#56789"),
-                Arguments.of("1234SD6789")
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("testInputNIFIsInvalid")
-    void shouldThrowExceptionWhenInputNIFIsInvalid(String NIF) {
+    void shouldThrowExceptionWhenInputNIFIsNull () {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
+        Name name = mock(Name.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's NIF is invalid!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent(mockStudentID, "Daniela", NIF, "963741258", "rita@gmail.com", address);
+                studentFactory.newStudent(mockStudentID, name, null, phone, email, address, academicEmail);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's NIF is invalid!"));
@@ -116,33 +113,22 @@ class StudentFactoryImplTest {
         }
     }
 
-    static Stream<Arguments> testInputPhoneNumberIsInvalid() {
-        return Streams.of(
-                Arguments.of("12345"),
-                Arguments.of("+12345"),
-                Arguments.of("123-45-678"),
-                Arguments.of("+12 345 67 89"),
-                Arguments.of("+12 345 (456)-789"),
-                Arguments.of("12.34.56.78.90"),
-                Arguments.of("+1(2345)67890"),
-                Arguments.of("91234567(8)"),
-                Arguments.of("91234EC78")
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("testInputPhoneNumberIsInvalid")
-    void shouldThrowExceptionWhenInputPhoneNumberIsInvalid(String phone) {
+    void shouldThrowExceptionWhenInputPhoneNumberIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        Email email = mock(Email.class);
+        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's phone is invalid!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent(mockStudentID, "Daniela", "123456789", phone, "rita@gmail.com", address);
+                studentFactory.newStudent(mockStudentID, name, nif, null, email, address, academicEmail);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's phone is invalid!"));
@@ -150,36 +136,48 @@ class StudentFactoryImplTest {
         }
     }
 
-    static Stream<Arguments> testInputEmailIsInvalid() {
-        return Streams.of(
-                Arguments.of("12345"),
-                Arguments.of("+12345"),
-                Arguments.of("123-45-678"),
-                Arguments.of("+12 345 67 89"),
-                Arguments.of("+12 345 (456)-789"),
-                Arguments.of("12.34.56.78.90"),
-                Arguments.of("+1(2345)67890"),
-                Arguments.of("91234567(8)"),
-                Arguments.of("91234EC78")
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("testInputEmailIsInvalid")
-    void shouldThrowExceptionWhenInputEmailIsInvalid(String email) {
+    void shouldThrowExceptionWhenInputEmailIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
         Address address = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
         try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
             throw new IllegalArgumentException("Student's email is not valid!");
         })) {
             // Act & Assert
             try {
-                studentFactory.newStudent(mockStudentID, "Daniela", "123456789", "912345678", email, address);
+                studentFactory.newStudent(mockStudentID, name, nif, phone, null, address, academicEmail);
                 fail("Excepted exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Student's email is not valid!"));
+            }
+        }
+    }
+
+    void shouldThrowExceptionWhenAcademicEmailIsNull() {
+        //arrange
+        IStudentFactory studentFactory = new StudentFactoryImpl();
+        Address address = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        Email email = mock(Email.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+
+        try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
+            throw new IllegalArgumentException("Student's Academic Email is not valid!");
+        })) {
+            // Act & Assert
+            try {
+                studentFactory.newStudent(mockStudentID, name, nif, phone, email, address, null);
+                fail("Excepted exception not thrown");
+            } catch (Exception e) {
+                assertTrue(e.getCause().getMessage().contains("Student's Academic Email is not valid!"));
             }
         }
     }

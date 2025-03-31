@@ -2,20 +2,22 @@ package PAI.domain;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
+import PAI.ddd.AggregateRoot;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
-public class SchoolYear {
+public class SchoolYear implements AggregateRoot<SchoolYearID> {
 
+    private SchoolYearID _schoolYearID;
     private Description _description;
     private Date _startDate;
     private Date _endDate;
 
     // Constructor
-    public SchoolYear(Description description, Date startDate, Date endDate) {
+    public SchoolYear(SchoolYearID schoolYearID, Description description, Date startDate, Date endDate) {
+
+        _schoolYearID = new SchoolYearID();
 
         if (startDate.equals(endDate)) {
             throw new IllegalArgumentException("Start date and end date cannot be the same.");
@@ -54,5 +56,15 @@ public class SchoolYear {
         SchoolYear that = (SchoolYear) o;
         return Objects.equals(_description, that._description) && Objects.equals(_startDate, that._startDate) &&
                 Objects.equals(_endDate, that._endDate);
+    }
+
+    @Override
+    public SchoolYearID identity() {
+        return _schoolYearID;
+    }
+
+    @Override
+    public boolean sameAs(Object object) {
+        return false;
     }
 }

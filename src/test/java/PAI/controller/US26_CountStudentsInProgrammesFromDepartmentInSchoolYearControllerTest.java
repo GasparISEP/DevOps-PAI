@@ -154,14 +154,16 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactoryImpl);
 
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        SchoolYearID schoolYearID2 = new SchoolYearID();
         Description description1 = new Description("School Year 25/26");
         Description description2 = new Description("School Year 22/23");
         Date startDate1 = new Date ("01-09-2025");
         Date endDate1 = new Date ("31-07-2026");
         Date startDate2 = new Date ("01-09-2022");
         Date endDate2 = new Date ("31-07-2026");
-        SchoolYear schoolYear1 = new SchoolYear(description1,startDate1, endDate1);
-        SchoolYear schoolYear2 = new SchoolYear(description2,startDate2, endDate2);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID1, description1,startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(schoolYearID2, description2,startDate2, endDate2);
 
         DegreeType master = new DegreeType("Master", 240);
         Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher,  new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
@@ -176,12 +178,34 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        NIF nif1 = new NIF("123456789");
+        NIF nif2 = new NIF("123455649");
+        NIF nif3 = new NIF("123456439");
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
@@ -194,8 +218,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description1,startDate1, endDate1);
-        schoolYearRepository.addSchoolYear(description2,startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(schoolYearID1, description1,startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(schoolYearID2, description2,startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -215,14 +239,15 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     void shouldThrowExceptionWhenSchoolYearDoesntExist() throws Exception {
         // arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate1 = new Date ("01-09-2024");
         Date endDate1 = new Date ("31-07-2025");
         Date startDate2 = new Date ("01-09-2022");
         Date endDate2 = new Date ("31-07-2023");
 
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
-        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID, description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(schoolYearID, description, startDate2, endDate2);
 
         Date date = new Date("25-12-2024");
         TeacherCategoryID tcID = new TeacherCategoryID();
@@ -249,12 +274,34 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        NIF nif1 = new NIF("123456789");
+        NIF nif2 = new NIF("123455649");
+        NIF nif3 = new NIF("123456439");
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -268,7 +315,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description, startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(schoolYearID,description, startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -291,13 +338,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate1 = new Date ("01-09-2024");
         Date endDate1 = new Date ("31-07-2025");
         Date startDate2 = new Date ("01-09-2022");
         Date endDate2 = new Date ("31-07-2023");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
-        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID, description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(schoolYearID, description, startDate2, endDate2);
 
         Date date = new Date("25-12-2024");
         TeacherCategoryID tcID = new TeacherCategoryID();
@@ -324,12 +372,34 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        NIF nif1 = new NIF("123456789");
+        NIF nif2 = new NIF("123455649");
+        NIF nif3 = new NIF("123456439");
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -344,8 +414,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
 
-        schoolYearRepository.addSchoolYear(description,startDate1, endDate1);
-        schoolYearRepository.addSchoolYear(description,startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(schoolYearID, description,startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(schoolYearID, description,startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -370,13 +440,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate1 = new Date ("01-09-2024");
         Date endDate1 = new Date ("31-07-2025");
         Date startDate2 = new Date ("01-09-2022");
         Date endDate2 = new Date ("31-07-2023");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
-        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID, description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(schoolYearID, description, startDate2, endDate2);
 
         Date date = new Date("25-12-2024");
         TeacherCategoryID tcID = new TeacherCategoryID();
@@ -403,12 +474,34 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        NIF nif1 = new NIF("123456789");
+        NIF nif2 = new NIF("123455649");
+        NIF nif3 = new NIF("123456439");
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
@@ -421,8 +514,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description, startDate1, endDate1);
-        schoolYearRepository.addSchoolYear(description, startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(schoolYearID, description, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(schoolYearID, description, startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
@@ -445,13 +538,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
 
+        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate1 = new Date ("01-09-2024");
         Date endDate1 = new Date ("31-07-2025");
         Date startDate2 = new Date ("01-09-2022");
         Date endDate2 = new Date ("31-07-2023");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate1, endDate1);
-        SchoolYear schoolYear2 = new SchoolYear(description, startDate2, endDate2);
+        SchoolYear schoolYear1 = new SchoolYear(schoolYearID, description, startDate1, endDate1);
+        SchoolYear schoolYear2 = new SchoolYear(schoolYearID, description, startDate2, endDate2);
 
         Date date = new Date("25-12-2024");
         TeacherCategoryID tcID = new TeacherCategoryID();
@@ -479,12 +573,34 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        NIF nif1 = new NIF("123456789");
+        NIF nif2 = new NIF("123455649");
+        NIF nif3 = new NIF("123456439");
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
@@ -497,8 +613,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYearFactoryImpl schoolYearFactoryImpl= new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl= new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl,schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description, startDate1,endDate1);
-        schoolYearRepository.addSchoolYear(description, startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(schoolYearID, description, startDate1,endDate1);
+        schoolYearRepository.addSchoolYear(schoolYearID, description, startDate2, endDate2);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();

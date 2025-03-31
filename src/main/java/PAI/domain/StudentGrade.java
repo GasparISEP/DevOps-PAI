@@ -3,17 +3,18 @@ package PAI.domain;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
+import PAI.VOs.StudentID;
 import PAI.ddd.AggregateRoot;
 
 public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
     private Grade _grade;
     private Date _date;
-    private Student _student;
+    private StudentID _student;
     private CourseEdition _courseEdition;
     private final StudentGradeID _studentGrade_id;
 
-    public StudentGrade(Grade grade, Date date, Student student, CourseEdition courseEdition) throws Exception {
+    public StudentGrade(Grade grade, Date date, StudentID student, CourseEdition courseEdition) throws Exception {
         if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
         _grade = grade;
 
@@ -37,7 +38,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _courseEdition.equals(courseEdition);
     }
 
-    public boolean hasThisStudent(Student student) {
+    public boolean hasThisStudent(StudentID student) {
         return _student.equals(student);
     }
 
@@ -54,7 +55,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _date;
     }
 
-    public Student get_student() {
+    public StudentID get_student() {
         return _student;
     }
 
@@ -86,7 +87,9 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return false;
     }
 
-
+    public double knowGrade () {
+        return _grade.knowGrade();
+    }
 }
 
 
