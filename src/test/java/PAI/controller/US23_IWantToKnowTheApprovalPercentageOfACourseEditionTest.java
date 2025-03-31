@@ -3,6 +3,7 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.StudentGradeRepository;
@@ -24,7 +25,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-        Student student1 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         Grade grade = mock(Grade.class);
@@ -60,8 +61,10 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition controlador1 = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(list);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
+        Student student3 = mock(Student.class);
+        Student student4 = mock(Student.class);
         Grade grade1 = mock(Grade.class);
         Grade grade2 = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -83,8 +86,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
 
 
-        enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
-        enrollmentRepository.enrolStudentInACourseEdition(student2, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student3, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student4, courseEdition1);
 
         list.addGradeToStudent(grade1, dateDouble, student1, courseEdition1);
         list.addGradeToStudent(grade2, dateDouble, student2, courseEdition1);
@@ -99,10 +102,10 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     }
 
 }
-
-
-
-
-
-
-
+//
+//
+//
+//
+//
+//
+//

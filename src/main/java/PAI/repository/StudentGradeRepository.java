@@ -3,6 +3,7 @@ package PAI.repository;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
+import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
@@ -31,7 +32,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
-    public boolean addGradeToStudent (Grade grade, Date date, Student student, CourseEdition courseEdition) throws Exception{
+    public boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEdition courseEdition) throws Exception{
         if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)){
             StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
             _StudentGradeList.add(studentGrade);
@@ -40,7 +41,8 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         return false;
     }
 
-    private boolean hasStudentAlreadyGradeAtThisCourseEdition (Student student, CourseEdition courseEdition){
+
+    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEdition courseEdition){
         for ( StudentGrade existingGradeStudent : _StudentGradeList){
             if ( existingGradeStudent.hasThisStudent(student) && existingGradeStudent.hasThisCourseEdition(courseEdition)) return true;
             }
