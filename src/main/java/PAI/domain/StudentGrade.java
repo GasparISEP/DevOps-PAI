@@ -31,15 +31,15 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _grade;
     }
 
-    public boolean hasThisCourseEdition(CourseEditionID courseEditionID) {
+    public boolean hasThisCourseEditionID(CourseEditionID courseEditionID) {
         return _courseEditionID.equals(courseEditionID);
     }
 
-    public boolean hasThisStudent(StudentID student) {
+    public boolean hasThisStudentID(StudentID student) {
         return _student.equals(student);
     }
 
-    public CourseEditionID KnowCourseEdition() {
+    public CourseEditionID KnowCourseEditionID() {
         return _courseEditionID;
     }
 
@@ -52,7 +52,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _date;
     }
 
-    public StudentID get_student() {
+    public StudentID get_studentID() {
         return _student;
     }
 

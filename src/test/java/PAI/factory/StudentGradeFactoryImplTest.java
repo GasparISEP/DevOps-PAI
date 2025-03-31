@@ -35,7 +35,7 @@ class StudentGradeFactoryImplTest {
             when(gradeAtual.knowGrade()).thenReturn(11.0);
             when(mock.get_grade()).thenReturn(gradeAtual);
             when(mock.get_date()).thenReturn(dateDouble);
-            when(mock.get_student()).thenReturn(studentAtual);
+            when(mock.get_studentID()).thenReturn(studentAtual);
             when(mock.get_courseEditionID()).thenReturn(courseEditionIDAtual);
 
         } )) {
@@ -50,7 +50,7 @@ class StudentGradeFactoryImplTest {
 
             assertEquals(grade, createdStudent.get_grade());
             assertEquals(dateDouble, createdStudent.get_date());
-            assertEquals(student, createdStudent.get_student());
+            assertEquals(student, createdStudent.get_studentID());
             assertEquals(courseEditionID1Double, createdStudent.get_courseEditionID());
 
         }
@@ -75,7 +75,7 @@ class StudentGradeFactoryImplTest {
             when(gradeAtual.knowGrade()).thenReturn(11.0);
             when(mock.get_grade()).thenReturn(gradeAtual);
             when(mock.get_date()).thenReturn(dateAtual);
-            when(mock.get_student()).thenReturn(studentAtual);
+            when(mock.get_studentID()).thenReturn(studentAtual);
             when(mock.get_courseEditionID()).thenReturn(courseEditionAtualID);
 
         } )) {
@@ -90,7 +90,7 @@ class StudentGradeFactoryImplTest {
 
             assertEquals(grade, createdStudent.get_grade());
             assertEquals(dateDouble, createdStudent.get_date());
-            assertEquals(student, createdStudent.get_student());
+            assertEquals(student, createdStudent.get_studentID());
             assertEquals(courseEditionID1Double, createdStudent.get_courseEditionID());
 
         }
