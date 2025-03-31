@@ -1,5 +1,7 @@
 package PAI.VOs;
 
+import java.util.Objects;
+
 public class CourseQuantityCreditsEcts {
 
     private final double _quantityCreditsEcts;
@@ -30,5 +32,10 @@ public class CourseQuantityCreditsEcts {
             return false;
         CourseQuantityCreditsEcts quantityCreditsEctsTest = (CourseQuantityCreditsEcts) object;
         return Double.compare(_quantityCreditsEcts, quantityCreditsEctsTest._quantityCreditsEcts) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_quantityCreditsEcts);
     }
 }

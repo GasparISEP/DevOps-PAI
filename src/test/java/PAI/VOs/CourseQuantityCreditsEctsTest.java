@@ -92,4 +92,15 @@ class CourseQuantityCreditsEctsTest {
         assertNotEquals(courseQuantityCreditsEcts, courseQuantityCreditsEcts2);
     }
 
+    @Test
+    void shouldReturnEqualsHashCode() throws Exception {
+        //Arrange
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        //Act
+        int hash1 = courseQuantityCreditsEcts.hashCode();
+        int hash2 = courseQuantityCreditsEcts.hashCode();
+        //Assert
+        assertEquals(hash1,hash2);
+    }
+
 }
