@@ -21,10 +21,10 @@ class ProgrammeIDTest {
         ProgrammeID progID = new ProgrammeID();
 
         //act
-        String res = progID.getProgID();
+        String res = progID.getProgID().toString();
 
         //assert
-        assertEquals(res, progID.getProgID());
+        assertEquals(res, progID.getProgID().toString());
     }
 
     @Test
