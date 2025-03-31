@@ -1,11 +1,11 @@
-package PAI.domain;
+package PAI.domain.studyPlan;
 
 import PAI.VOs.Date;
 import PAI.VOs.DurationInYears;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.StudyPlanID;
 
-public class StudyPlan_2 {
+public class StudyPlanDDD {
 
     private Date _implementationDate;
     private Date _endDate;
@@ -13,7 +13,7 @@ public class StudyPlan_2 {
     private ProgrammeID _programmeID;
     private StudyPlanID _studyPlanID;
 
-    public StudyPlan_2 (ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears) {
+    public StudyPlanDDD(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears) {
 
         this._implementationDate = implementationDate;
         this._durationInYears = durationInYears;

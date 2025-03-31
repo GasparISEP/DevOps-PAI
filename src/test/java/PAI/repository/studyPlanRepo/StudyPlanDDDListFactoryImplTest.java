@@ -1,8 +1,6 @@
-package PAI.factory;
+package PAI.repository.studyPlanRepo;
 
-import PAI.domain.CourseInStudyPlan;
-import PAI.domain.CourseInStudyPlan_2;
-import PAI.domain.StudyPlan_2;
+import PAI.domain.studyPlan.StudyPlanDDD;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,19 +8,18 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StudyPlanListFactoryImpl_2Test {
+class StudyPlanDDDListFactoryImplTest {
 
     @Test
     void shouldCreateArrayListWhenConstructorIsCalled() {
         // Arrange
-        IStudyPlanListFactory_2 IStudyPlanListFactory_2 = new StudyPlanListFactoryImpl_2();
+        IStudyPlanDDDListFactory IStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
 
         // Act
-        List<StudyPlan_2> studyPlan = IStudyPlanListFactory_2.newArrayList();
+        List<StudyPlanDDD> studyPlan = IStudyPlanDDDListFactory.newArrayList();
 
         // Assert
         assertNotNull(studyPlan);
         assertInstanceOf(ArrayList.class, studyPlan);
     }
-
 }

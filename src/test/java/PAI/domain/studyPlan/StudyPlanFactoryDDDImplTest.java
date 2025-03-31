@@ -1,15 +1,14 @@
-package PAI.factory;
+package PAI.domain.studyPlan;
 
 import PAI.VOs.Date;
 import PAI.VOs.DurationInYears;
 import PAI.VOs.ProgrammeID;
-import PAI.domain.StudyPlan_2;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class StudyPlanFactoryImpl_2Test {
+class StudyPlanFactoryDDDImplTest {
 
     @Test
     void shouldCreateFactoryConstructor() throws Exception {
@@ -20,10 +19,10 @@ class StudyPlanFactoryImpl_2Test {
         DurationInYears durationInYears = mock(DurationInYears.class);
 
         //act
-        IStudyPlanFactory_2 studyPlanFactory_2 = new StudyPlanFactoryImpl_2();
-        StudyPlan_2 studyPlan_2 = studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears);
+        IStudyPlanDDDFactory studyPlanFactory_2 = new StudyPlanDDDFactoryImpl();
+        StudyPlanDDD studyPlan_DDD = studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears);
 
         //assert
-        assertNotNull(studyPlan_2);
+        assertNotNull(studyPlan_DDD);
     }
 }

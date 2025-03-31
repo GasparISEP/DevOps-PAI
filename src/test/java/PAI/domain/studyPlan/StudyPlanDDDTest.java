@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.domain.studyPlan;
 
 import PAI.VOs.Date;
 import PAI.VOs.DurationInYears;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class StudyPlan_2Test {
+class StudyPlanDDDTest {
 
     @Test
     void testStudyPlanCreation() {
@@ -19,7 +19,7 @@ class StudyPlan_2Test {
         DurationInYears durationInYears = mock(DurationInYears.class);
 
         // Act
-        StudyPlan_2 studyPlan = new StudyPlan_2(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
 
         // Assert
         assertNotNull(studyPlan);
@@ -33,7 +33,7 @@ class StudyPlan_2Test {
         DurationInYears durationInYears = mock(DurationInYears.class);
 
         // Act
-        StudyPlan_2 studyPlan = new StudyPlan_2(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
         StudyPlanID id = studyPlan.getStudyPlanID();
 
         // Assert
@@ -48,8 +48,8 @@ class StudyPlan_2Test {
         DurationInYears durationInYears = mock(DurationInYears.class);
 
         // Act
-        StudyPlan_2 studyPlan1 = new StudyPlan_2(programmeID, implementationDate, durationInYears);
-        StudyPlan_2 studyPlan2 = new StudyPlan_2(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
 
         // Assert
         assertNotEquals(studyPlan1.getStudyPlanID(), studyPlan2.getStudyPlanID());
