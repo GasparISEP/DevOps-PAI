@@ -70,4 +70,19 @@ class US02ConfigureAccessMethodControllerTest {
         //assert
         assertFalse(isConfigured);
     }
+
+    @Test
+    void shouldNotConfigureAnAccessMethodIfAccessMethodIsAlreadyRegistered(){
+        //arrange
+        IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
+        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
+        NameWithNumbersAndSpecialChars accessMethodName = new NameWithNumbersAndSpecialChars("Maiores 23");
+        ctrl1.configureAccessMethod(accessMethodName);
+        //act
+        boolean isConfigured = ctrl1.configureAccessMethod(accessMethodName);
+        //assert
+        assertFalse(isConfigured);
+    }
 }
