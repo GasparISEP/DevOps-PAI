@@ -175,4 +175,17 @@ class AccessMethodDDDTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnCorrectAccessMethodID() {
+        //arrange
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        AccessMethodID accessMethodIDToSearch = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        //act
+        boolean result = accessMethod.hasThisAccessMethodID(accessMethodIDToSearch);
+        //assert
+        assertFalse(result);
+    }
 }
