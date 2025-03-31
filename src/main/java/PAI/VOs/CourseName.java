@@ -8,13 +8,22 @@ public class CourseName implements ValueObject {
 
     public CourseName(String name) throws Exception{
 
-        if(areParameterInvalid(name)){
-            throw new IllegalArgumentException("Course Name cannot be empty");
+        if(isNameInvalid(name)){
+            throw new IllegalArgumentException("Course name cannot be null or blank");
         }
         this._name = name;
     }
 
-    public boolean areParameterInvalid(String parameter){
+    public boolean isNameInvalid(String parameter){
         return parameter == null || parameter.isBlank();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof CourseName))
+            return false;
+        CourseName courseNameTest = (CourseName) object;
+        return _name.equals(courseNameTest._name);
     }
 }
