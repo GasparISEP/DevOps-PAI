@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class CourseQuantityCreditsEctsTest {
 
@@ -80,7 +81,7 @@ class CourseQuantityCreditsEctsTest {
     void shouldReturnNotEqualsIfObjectsAreNotFromSameClass() throws Exception {
         //Arrange
         CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
-        CourseEditionID courseEditionID = new CourseEditionID();
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
         //Act+Assert
         assertNotEquals(courseQuantityCreditsEcts, courseEditionID);
     }
