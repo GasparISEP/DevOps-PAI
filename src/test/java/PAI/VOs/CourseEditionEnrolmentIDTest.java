@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionEnrolmentIDTest {
 
@@ -179,12 +180,15 @@ class CourseEditionEnrolmentIDTest {
         StudentID doubleStudentID = mock (StudentID.class);
         CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
 
+        when (doubleStudentID.toString()).thenReturn("1");
+        when (doubleCourseEditionID.toString()).thenReturn("2");
+
         CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
 
         //Act
         String ceeString = courseEditionEnrolmentID.toString();
 
         //Assert
-        assertEquals(courseEditionEnrolmentID.toString(), ceeString);
+        assertEquals("CourseEditionEnrolmentID =12", ceeString);
     }
 }
