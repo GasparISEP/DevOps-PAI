@@ -50,11 +50,11 @@ public class US01_ConfigureTeacherCategoryControllerV2Test {
 
     @Test
     public void testDuplicateCategoryThrowsException() throws Exception {
-        Name name = new Name("Física");
+        Name name = new Name("Física Fisica");
 
         when(repository.existsByName(any(Name.class))).thenReturn(true);
 
-        Exception ex = assertThrows(Exception.class, () -> controller.configureTeacherCategory("Física"));
+        Exception ex = assertThrows(Exception.class, () -> controller.configureTeacherCategory("Física fisica"));
         assertEquals("Category already exists.", ex.getMessage());
     }
 
