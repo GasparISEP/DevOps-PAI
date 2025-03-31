@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import PAI.ddd.ValueObject;
 
+import java.util.Objects;
+
 public class CourseName implements ValueObject {
 
     private final String _name;
@@ -25,5 +27,10 @@ public class CourseName implements ValueObject {
             return false;
         CourseName courseNameTest = (CourseName) object;
         return _name.equals(courseNameTest._name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_name);
     }
 }

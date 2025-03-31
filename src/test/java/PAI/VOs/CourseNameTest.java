@@ -64,4 +64,14 @@ class CourseNameTest {
         assertNotEquals(courseName, courseName2);
     }
 
+    @Test
+    void shouldReturnEqualsHashCode() throws Exception {
+        //Arrange
+        CourseName courseName = new CourseName("Mestrado em Engenharia Informática");
+        //Act
+        int hash1 = courseName.hashCode();
+        int hash2 = courseName.hashCode();
+        //Assert
+        assertEquals(hash1,hash2);
+    }
 }
