@@ -150,39 +150,41 @@ class StudentRepositoryTest {
             assertTrue(result);
         }
 
-//        @Test
-//        void shouldReturnOptionalWithStudentIfStudentWithSpecificNIFIsFound() throws Exception {
-//            // Arrange
-//            StudentID studentIDToBeFound = mock(StudentID.class);
-//            StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-//
-//            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, "123456789", _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
-//            when(_studentFactoryImplDouble.newStudent(studentIDToBeFound, _name, "132489912", _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
-//            when(_iterator.hasNext()).thenReturn(false, true, false);
-//            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
-//
-//            studentRepository.registerStudent(_studentID1, _name, "123456789", _phone, _email, _addressDouble, _academicEmail);
-//
-//            when(_studentDouble1.isEquals(_studentDouble2)).thenReturn(false);
-//            when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(true);
-//
-//            studentRepository.registerStudent(studentIDToBeFound, _name, "132489912", _phone, _email, _addressDouble);
-//
-//            when(_iterator.hasNext()).thenReturn(true, true);
-//            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
-//
-//            when(_studentDouble1.identity()).thenReturn(_studentID1);
-//            when(_studentDouble2.identity()).thenReturn(studentIDToBeFound);
-//
-//            when(_studentID1.isEquals(studentIDToBeFound)).thenReturn(false);
-//            when(studentIDToBeFound.isEquals(studentIDToBeFound)).thenReturn(true);
-//
-//            // Act
-//            Optional<Student> studentFound = studentRepository.getStudentByID(studentIDToBeFound);
-//
-//            // Assert
-//            assertEquals(_studentDouble2, studentFound.get());
-//        }
+        @Test
+        void shouldReturnOptionalWithStudentIfStudentWithSpecificNIFIsFound() throws Exception {
+            // Arrange
+            StudentID studentIDToBeFound = mock(StudentID.class);
+            StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
+            // Register Second Student
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(studentIDToBeFound, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
+            when(_iterator.hasNext()).thenReturn(false, true, false);
+            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
+
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+
+            NIF nifDouble = mock(NIF.class);
+
+            when(_studentDouble1.isEquals(_studentDouble2)).thenReturn(false);
+            when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(true);
+            // Register Second Student
+            studentRepository.registerStudent(studentIDToBeFound, _name, nifDouble, _phone, _email, _addressDouble, _academicEmail);
+
+            when(_iterator.hasNext()).thenReturn(true, true);
+            when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
+
+            when(_studentDouble1.identity()).thenReturn(_studentID1);
+            when(_studentDouble2.identity()).thenReturn(studentIDToBeFound);
+
+            when(_studentID1.isEquals(studentIDToBeFound)).thenReturn(false);
+            when(studentIDToBeFound.isEquals(studentIDToBeFound)).thenReturn(true);
+
+            // Act
+            Optional<Student> studentFound = studentRepository.getStudentByID(studentIDToBeFound);
+
+            // Assert
+            assertEquals(_studentDouble2, studentFound.get());
+        }
 
         @Test
         void shouldReturnOptionalWithoutStudentIfStudentWithSpecificNIFIsNotFound() throws Exception {
@@ -316,7 +318,7 @@ class StudentRepositoryTest {
         }
 
         @Test
-        void shouldReturnEmptyOptionalIfStudentIDDoesntExistInTheRepository() throws Exception {
+        void shouldReturnEmptyOptionalIfStudentIDExistsInTheRepository() throws Exception {
             // Arrange
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
@@ -342,7 +344,7 @@ class StudentRepositoryTest {
         }
 
         @Test
-        void shouldReturnStudentOptionalIfStudentIDExistsInTheRepository() throws Exception {
+        void shouldReturnEmptyOptionalIfStudentIDDoesNotExistInTheRepository() throws Exception {
             // Arrange
             StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
 
