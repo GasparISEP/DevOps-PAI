@@ -80,14 +80,14 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         return _courseEditionEnrolmentId.equals(cee._courseEditionEnrolmentId);
     }
 
-//    public boolean isEnrollmentActive() {
-//        if(_isActive){return true;}
-//        else{return false;
-//        }
-//    }
-//
-//    public void deactivateEnrollment() {
-//        this._isActive=false;
-//    }
+    // Method to check if the enrolment is active
+    public boolean isEnrolmentActive() {
+        return _isActive.isEnrolmentActive();  // Calling the VO method to check enrolment status
+    }
+
+    // Method to deactivate the enrolment
+    public void deactivateEnrolment() {
+        this._isActive = new EnrolmentStatus(false);  // Updating the status to inactive
+    }
 
 }
