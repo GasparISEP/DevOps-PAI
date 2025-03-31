@@ -2,7 +2,7 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.programme.ProgrammeDDD;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -33,7 +33,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         TeacherCareerProgressionListFactoryImpl _tcpLFactoryDouble;
         Teacher _teacher;
         ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl1;
-        Programme_2 _programme;
+        ProgrammeDDD _programme;
         Date _date;
         WorkingPercentage _wp;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
@@ -65,7 +65,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactoryImpl = new CourseFactoryImpl();
-            _programme = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+            _programme = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                     new QuantEcts(20), new QuantSemesters(6), _degreeTypeID,
                     _department, _teacherID);
         }
