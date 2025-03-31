@@ -47,7 +47,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         }
 
 
-    public Double KnowAverageGrade(CourseEditionID courseEditionID) {
+    public Double getAverageGrade(CourseEditionID courseEditionID) {
         int numOfStudent = 0;
         double sumGrade = 0;
 
