@@ -311,7 +311,7 @@ class CourseEdition_2Test {
     }
 
     @Test
-    void shouldReturnFalseForEqualsOfCourseEditionsWithSameParameters() {
+    void shouldReturnTrueForEqualsOfCourseEditionsWithSameParameters() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
@@ -323,8 +323,7 @@ class CourseEdition_2Test {
         boolean result = courseEdition.equals(courseEdition2);
 
         //Assert
-            //false because ids are different (ids are created when object is created)
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test

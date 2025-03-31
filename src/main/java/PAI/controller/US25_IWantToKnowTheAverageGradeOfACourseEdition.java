@@ -17,7 +17,7 @@ public class US25_IWantToKnowTheAverageGradeOfACourseEdition {
     }
 
     public double IWantToKnowTheAvgGrade (CourseEditionID courseEditionID) {
-        return _StudentGradeRepository.KnowAverageGrade(courseEditionID);
+        return _StudentGradeRepository.getAverageGrade(courseEditionID);
     }
 }
 

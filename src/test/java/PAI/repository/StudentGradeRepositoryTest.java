@@ -194,7 +194,7 @@ class StudentGradeRepositoryTest {
         list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
+        Double averageGrade = list.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(15, averageGrade, 0.01);
@@ -238,7 +238,7 @@ class StudentGradeRepositoryTest {
         list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
+        Double averageGrade = list.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(0, averageGrade, 0.01);
@@ -260,7 +260,7 @@ class StudentGradeRepositoryTest {
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
+        Double averageGrade = list.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertNull(averageGrade);
