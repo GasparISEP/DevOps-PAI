@@ -2,7 +2,6 @@ package PAI.factory;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
