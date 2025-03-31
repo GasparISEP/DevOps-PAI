@@ -51,4 +51,18 @@ class AccessMethodDDDRepositoryTest {
         assertTrue(result);
     }
 
+    @Test
+    void shouldReturnFalseIfAccessMethodNameIsInvalid(){
+        //arrange
+        AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
+        AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
+        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        NameWithNumbersAndSpecialChars doubleAccessMethodName = null;
+        when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenThrow(new IllegalArgumentException("Cannot create Access Method, because name is invalid."));
+        //act
+        boolean result = accessMethodRepository.registerAccessMethod(doubleAccessMethodName);
+        //assert
+        assertFalse(result);
+    }
+
 }
