@@ -1,7 +1,6 @@
 package PAI.VOs;
 
 import PAI.ddd.DomainId;
-import PAI.ddd.ValueObject;
 
 import java.util.UUID;
 
@@ -11,16 +10,17 @@ public class TeacherID implements DomainId {
 
     private TeacherID(UUID id) {
         if (id == null) {
-            throw new IllegalArgumentException("Student ID cannot be null");
+            throw new IllegalArgumentException("Teacher ID cannot be null");
         }
         this.id = id;
     }
 
-    public UUID identity() {
+    public UUID getIDValue() {
         return this.id;
     }
 
-    public boolean sameAs(Object other) {
+    @Override
+    public boolean equals(Object other) {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         TeacherID teacherID = (TeacherID) other;

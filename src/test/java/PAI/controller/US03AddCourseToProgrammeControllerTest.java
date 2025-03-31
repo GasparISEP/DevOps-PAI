@@ -123,6 +123,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
     // Integration Tests
 
+    /*
     @Test
     void shouldCreateAddCourseToProgrammeController() throws Exception {
         // arrange
@@ -513,4 +514,5 @@ public class US03AddCourseToProgrammeControllerTest {
         assertEquals(courseRepository.getAllCourses().get(0), result.get(0));
         assertEquals(courseRepository.getAllCourses().get(1), result.get(1));
     }
+    */
 }

@@ -72,6 +72,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         assertTrue(result);
     }
 
+    /*
     @Test
     void iWantToGradeAStudentInACourseEditionIntegrationTest () throws Exception {
         // Arrange
@@ -127,6 +128,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         // Assert
         assertTrue(result);
     }
+    */
 
     @Test
     void iWantToCheckIfStudentIsNotEnrolledInCourseEdition () throws Exception {

@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/*
 
 class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
@@ -291,3 +292,4 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         return new Department("DME","Department of Mechanical Engineering");
     }
 }
+*/

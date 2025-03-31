@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class TeacherCareerProgressionRepository implements IRepository<TeacherCareerProgressionID, TeacherCareerProgression > {
 
-    private ITeacherCareerProgressionFactory _ITeacherCareerProgressionFactory;
+    private ITeacherCareerProgressionFactory _teacherCareerProgressionFactory;
     private List<TeacherCareerProgression> _teacherCareerProgressions;
 
     public TeacherCareerProgressionRepository (ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionListFactory tcpListFactory){
@@ -21,7 +21,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
             throw new IllegalStateException("Factory cannot be null!");
         }
 
-        this._ITeacherCareerProgressionFactory = tcpFactory;
+        this._teacherCareerProgressionFactory = tcpFactory;
         this._teacherCareerProgressions = new ArrayList<>();
     }
 
@@ -31,7 +31,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
             throw new IllegalArgumentException("Argument cannot be null");
         }
 
-        TeacherCareerProgression tcp = _ITeacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
+        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
 
         if (isTeacherCareerProgressionDuplicate(tcp)) {
             throw new Exception("Teacher Career Progression already exists.");

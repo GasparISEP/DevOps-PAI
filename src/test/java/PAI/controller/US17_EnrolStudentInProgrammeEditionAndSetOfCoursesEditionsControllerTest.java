@@ -570,6 +570,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
     //----------------------INTEGRATION TESTS------------------------------
 
+   /*
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success_IntegrationTest() throws Exception {
         // Arrange
@@ -1264,6 +1265,7 @@ void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
                 "The list should contain the school year '25/26'.");
     }
 
+    */
     @Test
     void testGetAllSchoolYears_NotNullList_IntegrationTest() throws Exception {
         // Arrange

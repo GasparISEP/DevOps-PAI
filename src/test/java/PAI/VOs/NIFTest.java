@@ -390,5 +390,16 @@ class NIFTest {
         assertFalse(result);
     }
 
+    @Test
+    public void shouldReturnCorrectNIF() {
+        // Arrange
+        String stringNIF = "123456789";
+        NIF nif = new NIF(stringNIF);
 
+        // Act
+        String result = nif.getNIF();
+
+        // Assert
+        assertEquals(stringNIF, result);
+    }
 }

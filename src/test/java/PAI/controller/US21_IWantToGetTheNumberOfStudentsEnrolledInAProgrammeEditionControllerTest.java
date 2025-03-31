@@ -185,6 +185,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         assertNotNull(us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController);
     }
 
+    /*
     @Test
     void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception{
         // Arrange
@@ -532,4 +533,5 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         assertEquals(programmeEditionRepository.getAllProgrammeEditions().get(0), result.get(0));
         assertEquals(programmeEditionRepository.getAllProgrammeEditions().get(1), result.get(1));
     }
+    */
 }

@@ -27,4 +27,8 @@ public class NIF implements ValueObject {
     private boolean isNifValid(String NIF){
         return NIF.matches("^[A-Z]{0,2}?\\d{2,14}[A-Z0-9]{0,2}?$") || NIF.matches("^\\d{9}B\\d{2}$");
     }
+
+    public String getNIF(){
+        return _NIF;
+    }
 }

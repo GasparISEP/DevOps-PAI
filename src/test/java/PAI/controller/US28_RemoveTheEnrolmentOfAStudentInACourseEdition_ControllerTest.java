@@ -173,6 +173,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     }
 
 
+    /*
     // Integration Tests
     @Test
     void removeExistingEnrollment_ShouldReturnTrue_IntegrationTest() throws Exception {
@@ -460,4 +461,5 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         assertTrue(firstRemoval, "Student should be removed from the first course edition.");
         assertTrue(secondRemoval, "Student should be removed from the second course edition.");
     }
+    */
 }

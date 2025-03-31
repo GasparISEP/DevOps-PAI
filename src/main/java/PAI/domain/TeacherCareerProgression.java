@@ -73,7 +73,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
 
             TeacherCareerProgression tcp = (TeacherCareerProgression) object;
 
-            if (_teacherID.sameAs(tcp._teacherID) && _date.equals(tcp._date))
+            if (_teacherID.equals(tcp._teacherID) && _date.equals(tcp._date))
                 return true;
         }
 

@@ -24,7 +24,7 @@ class TeacherIDTest {
         TeacherID firstTeacherID = TeacherID.createNew();
 
         // Assert
-        assertNotNull(firstTeacherID.identity());
+        assertNotNull(firstTeacherID.getIDValue());
     }
 
     @Test
@@ -34,7 +34,7 @@ class TeacherIDTest {
         TeacherID secondTeacherID = TeacherID.createNew();
 
         // Assert
-        assertNotEquals(firstTeacherID.identity(), secondTeacherID.identity());
+        assertNotEquals(firstTeacherID.getIDValue(), secondTeacherID.getIDValue());
     }
 
     @Test
@@ -59,7 +59,7 @@ class TeacherIDTest {
         TeacherID teacherID = TeacherID.createNew();
 
         // Act
-        boolean result = teacherID.sameAs(teacherID);
+        boolean result = teacherID.equals(teacherID);
 
         // Assert
         assertTrue(result);
@@ -69,7 +69,7 @@ class TeacherIDTest {
     void shouldReturnTrueWhenUUIDIsTheSame() {
         // Arrange
         TeacherID teacherID = TeacherID.createNew();
-        UUID id = teacherID.identity();
+        UUID id = teacherID.getIDValue();
         TeacherID teacherID2;
 
         try {
@@ -81,7 +81,7 @@ class TeacherIDTest {
         }
 
         // Act
-        boolean result = teacherID.sameAs(teacherID2);
+        boolean result = teacherID.equals(teacherID2);
 
         // Assert
         assertTrue(result);
@@ -94,7 +94,7 @@ class TeacherIDTest {
         Object otherObject = new Object();
 
         // Act
-        boolean result = teacherID.sameAs(otherObject);
+        boolean result = teacherID.equals(otherObject);
 
         // Assert
         assertFalse(result);
@@ -107,7 +107,7 @@ class TeacherIDTest {
         TeacherID teacherID2 = TeacherID.createNew();
 
         // Act
-        boolean result = teacherID.sameAs(teacherID2);
+        boolean result = teacherID.equals(teacherID2);
 
         // Assert
         assertFalse(result);
@@ -120,7 +120,7 @@ class TeacherIDTest {
         TeacherID teacherID2 = null;
 
         // Act
-        boolean result = teacherID.sameAs(teacherID2);
+        boolean result = teacherID.equals(teacherID2);
 
         // Assert
         assertFalse(result);

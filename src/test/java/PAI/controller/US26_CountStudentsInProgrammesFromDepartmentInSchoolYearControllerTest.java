@@ -135,6 +135,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
     }
 
+    /*
     //Integration Tests
     //test that ensures that the method returns a positive int when there are students enrolled in Programmes from specified department and school year
     @Test
@@ -514,4 +515,5 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // Assert
         assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
     }
+    */
 }

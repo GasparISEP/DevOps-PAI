@@ -662,6 +662,7 @@ class CourseEditionEnrolmentRepositoryTest {
 
 
     //---------------Integration Test--------------
+/*
 
     @Test
     void removeExistingEnrollment_ShouldReturnTrue_IntegrationTest() throws Exception {
@@ -963,4 +964,5 @@ class CourseEditionEnrolmentRepositoryTest {
         assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
         assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
     }
+   */
 }

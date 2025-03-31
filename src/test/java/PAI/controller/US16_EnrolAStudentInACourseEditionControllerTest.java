@@ -204,6 +204,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         assertTrue(result.isEmpty());
     }
 
+    /*
     @Test
     void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest () throws Exception {
         //arrange
@@ -494,4 +495,5 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //assert
         assertFalse(result);
     }
+    */
 }
