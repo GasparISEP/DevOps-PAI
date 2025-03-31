@@ -41,7 +41,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
 
     private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID){
         for ( StudentGrade existingGradeStudent : _StudentGradeList){
-            if ( existingGradeStudent.hasThisStudent(student) && existingGradeStudent.hasThisCourseEdition(courseEditionID)) return true;
+            if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
             }
         return false;
         }
@@ -52,7 +52,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         double sumGrade = 0;
 
         for (StudentGrade studentGrade : _StudentGradeList) {
-            if (studentGrade.hasThisCourseEdition(courseEditionID)) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 Grade grade1 = studentGrade.get_grade();
                 double grade = grade1.knowGrade();
                 sumGrade += grade;
@@ -71,7 +71,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         int totalOfStudents = 0;
 
         for (StudentGrade studentGrade : _StudentGradeList) {
-            if (studentGrade.hasThisCourseEdition(courseEditionID)) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 totalOfStudents++;
                 Grade grade1 = studentGrade.get_grade();
                 if (grade1.knowGrade() >= 10) {

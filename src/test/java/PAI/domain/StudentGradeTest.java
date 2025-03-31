@@ -52,7 +52,7 @@ class StudentGradeTest {
     }
 
     @Test
-    void shouldNotCreateValidGradeStudentWithStudentNull() {
+    void shouldNotCreateValidGradeStudentWithStudentIDNull() {
         // Arrange
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
@@ -65,7 +65,7 @@ class StudentGradeTest {
     }
 
     @Test
-    void shouldNotCreateValidGradeStudentWithCourseEditionNull()  {
+    void shouldNotCreateValidGradeStudentWithCourseEditionIDNull()  {
         // Arrange
         StudentID student1 = mock(StudentID.class);
         Grade grade = mock(Grade.class);
@@ -94,7 +94,7 @@ class StudentGradeTest {
     }
 
     @Test
-    void shouldReturnCorrectCourseEdition() throws Exception {
+    void shouldReturnCorrectCourseEditionID() throws Exception {
         // Arrange
         StudentID student1 = mock(StudentID.class);
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
@@ -105,11 +105,11 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
 
         // Assert
-        assertEquals(courseEditionID1, studentGrade.KnowCourseEdition());
+        assertEquals(courseEditionID1, studentGrade.KnowCourseEditionID());
     }
 
     @Test
-    void shouldHaveThisCourseEdition() throws Exception {
+    void shouldHaveThisCourseEditionID() throws Exception {
         // Arrange
         StudentID student1 = mock(StudentID.class);
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
@@ -119,7 +119,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
 
         // Act
-        boolean result = studentGrade.hasThisCourseEdition(courseEditionID1);
+        boolean result = studentGrade.hasThisCourseEditionID(courseEditionID1);
 
         //Assert
         assertTrue(result);
@@ -139,7 +139,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
 
         // Act
-        boolean result = studentGrade.hasThisCourseEdition(courseEditionID2);
+        boolean result = studentGrade.hasThisCourseEditionID(courseEditionID2);
 
         //Assert
         assertFalse(result);
@@ -147,7 +147,7 @@ class StudentGradeTest {
 
 
     @Test
-    void shouldReturnTrueIfHasThisCourseEdition() throws Exception {
+    void shouldReturnTrueIfHasThisCourseEditionID() throws Exception {
         // Arrange
         StudentID student1 = mock(StudentID.class);
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
@@ -158,7 +158,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
 
         // Assert
-        assertTrue(studentGrade.hasThisCourseEdition(courseEditionID1));
+        assertTrue(studentGrade.hasThisCourseEditionID(courseEditionID1));
     }
 
     @Test
@@ -174,7 +174,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
 
         // Assert
-        assertFalse(studentGrade.hasThisCourseEdition(courseEditionID2));
+        assertFalse(studentGrade.hasThisCourseEditionID(courseEditionID2));
     }
 
     //equals
@@ -232,7 +232,7 @@ class StudentGradeTest {
         assertFalse(result);
     }
 @Test
-    void shouldReturnFalseWhenStudentIsNull() throws Exception {
+    void shouldReturnFalseWhenStudentIDIsNull() throws Exception {
     //arrange
     StudentID student1 = mock(StudentID.class);
     CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
@@ -271,7 +271,7 @@ class StudentGradeTest {
 
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
 
-        assertEquals(student1, studentGrade.get_student());
+        assertEquals(student1, studentGrade.get_studentID());
     }
 
     @Test
@@ -296,7 +296,7 @@ class StudentGradeTest {
         Date dateDouble = mock(Date.class);
         StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,student1,courseEditionID1);
         //act
-        boolean result = studentGradeDouble1.hasThisStudent(student1);
+        boolean result = studentGradeDouble1.hasThisStudentID(student1);
         //assert
         assertTrue(result);
     }
@@ -312,7 +312,7 @@ class StudentGradeTest {
         Date dateDouble = mock(Date.class);
         StudentGrade studentGradeDouble1 = new StudentGrade(grade,dateDouble,student1,courseEditionID1);
         //act
-        boolean result = studentGradeDouble1.hasThisStudent(student2);
+        boolean result = studentGradeDouble1.hasThisStudentID(student2);
         //assert
         assertFalse(result);
     }

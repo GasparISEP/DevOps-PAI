@@ -70,8 +70,8 @@ class StudentGradeRepositoryTest {
         Date dateDouble = mock(Date.class);
         when (IStudentGradeFactoryDouble.newGradeStudent(grade,dateDouble,studentDouble,courseEditionID1Double)).thenReturn(studentGradeDouble);
 
-        when(studentGradeDouble.hasThisStudent(studentDouble)).thenReturn(true);
-        when(studentGradeDouble.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        when(studentGradeDouble.hasThisStudentID(studentDouble)).thenReturn(true);
+        when(studentGradeDouble.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
 
         ArrayList<StudentGrade> listDouble = mock(ArrayList.class);
         Iterator<StudentGrade> iteratorDouble = mock(Iterator.class);
@@ -121,8 +121,8 @@ class StudentGradeRepositoryTest {
         when(studentGrade1.get_grade()).thenReturn(grade);
         when(studentGrade2.get_grade()).thenReturn(grade1);
 
-        when(studentGrade1.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
         list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
         list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
@@ -187,8 +187,8 @@ class StudentGradeRepositoryTest {
         when(studentGrade1.get_grade()).thenReturn(grade);
         when(studentGrade2.get_grade()).thenReturn(grade1);
 
-        when(studentGrade1.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
 
         list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
         list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
@@ -231,8 +231,8 @@ class StudentGradeRepositoryTest {
         when(studentGrade2.get_grade()).thenReturn(grade1);
 
 
-        when(studentGrade1.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
 
         list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
         list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);

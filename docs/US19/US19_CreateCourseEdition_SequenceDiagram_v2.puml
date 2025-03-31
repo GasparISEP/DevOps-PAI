@@ -73,7 +73,7 @@ CT -> CEF ++ #application : newCourseEdition(cSpID1,pEID1)
 create "cE1:CourseEdition" as CE #lightblue
 CEF --> CE : <create> (cSpID1,pEID1)
 create "cEID1:CourseEditionID" as CEID #lightblue
-CE --> CEID : <create> ()
+CE --> CEID : <create> (pEID1,cSpID1)
 CEF --> CT -- : cE1
 
 CT -> CER ++ #application : saveCourseEdition(cE1)
