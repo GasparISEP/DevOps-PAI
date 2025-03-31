@@ -14,4 +14,17 @@ class CourseNameTest {
         assertNotNull(courseName);
     }
 
+    @Test
+    void nullCourseNameThrowsException(){
+
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseName(null));
+    }
+
+    @Test
+    void emptyCourseNameThrowsException(){
+
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseName(""));
+    }
 }
