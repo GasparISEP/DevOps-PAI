@@ -1,0 +1,16 @@
+@startuml
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+
+autonumber
+
+activate ":US16_EnrolAStudentInACourseEditionController" #E1F5FE
+create "peID:programmeEditionID"
+":US16_EnrolAStudentInACourseEditionController" -> "peID:programmeEditionID": create (programmeEditionID)
+
+deactivate ":US16_EnrolAStudentInACourseEditionController"
+@enduml
