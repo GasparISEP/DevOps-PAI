@@ -143,8 +143,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepository , doublePeeRepository, doubleCourseEditionRepository);
 
-        Student doubleSt1 = mock (Student.class);
-        CourseEdition doubleCe1 = mock (CourseEdition.class);
+        StudentID doubleSt1 = mock (StudentID.class);
+        CourseEditionID doubleCe1 = mock (CourseEditionID.class);
 
         when (doubleCeeRepository .enrolStudentInACourseEdition(doubleSt1,doubleCe1)).thenReturn (true);
 
@@ -165,8 +165,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepository, doublePeeRepository, doubleCourseEditionRepository);
 
-        Student doubleStudent = mock (Student.class);
-        CourseEdition doubleCe = mock (CourseEdition.class);
+        StudentID doubleStudent = mock (StudentID.class);
+        CourseEditionID doubleCe = mock (CourseEditionID.class);
 
         when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudent,doubleCe)).thenReturn(false);
 

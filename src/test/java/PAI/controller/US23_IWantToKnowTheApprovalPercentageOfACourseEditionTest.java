@@ -64,13 +64,13 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        Student student3 = mock(Student.class);
-        Student student4 = mock(Student.class);
+        StudentID student3 = mock(StudentID.class);
+        StudentID student4 = mock(StudentID.class);
         Grade grade1 = mock(Grade.class);
         Grade grade2 = mock(Grade.class);
         Date dateDouble = mock(Date.class);
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionID courseEdition = mock(CourseEditionID.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 

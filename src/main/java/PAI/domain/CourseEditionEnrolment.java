@@ -1,36 +1,40 @@
 package PAI.domain;
 
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
+import PAI.ddd.AggregateRoot;
+import PAI.repository.CourseEditionEnrolmentRepository;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class CourseEditionEnrolment {
+public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolmentID> {
 
-    private Student _student;
-    private CourseEdition _courseEdition;
-    private LocalDate _enrolmentDate;
-    private boolean _isActive;
+    private CourseEditionEnrolmentID _courseEditionEnrolmentId;
+    private StudentID _studentID;
+    private CourseEditionID _courseEditionID;
+    private Date _enrolmentDate;
+    private EnrolmentStatus _isActive;
 
-    public CourseEditionEnrolment(Student student, CourseEdition courseEdition) throws IllegalArgumentException {
-        validateStudent(student);
-        validateCourseEdition(courseEdition);
-        this._enrolmentDate=LocalDate.now();
-        this._isActive=true;
+    public CourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID) throws IllegalArgumentException {
+        validateStudent(studentID);
+        validateCourseEdition(courseEditionID);
+        this._enrolmentDate= new Date(LocalDate.now());
+        this._courseEditionEnrolmentId = new CourseEditionEnrolmentID(studentID,courseEditionID);
+        this._isActive= new EnrolmentStatus(true);
     }
 
-    private void validateStudent(Student student) throws IllegalArgumentException {
-        if (student == null) {
+    private void validateStudent(StudentID studentID) throws IllegalArgumentException {
+        if (studentID == null) {
             throw new IllegalArgumentException("Student cannot be null!");
         }
-        this._student = student;
+        this._studentID = studentID;
     }
 
-    private void validateCourseEdition(CourseEdition courseEdition) throws IllegalArgumentException {
-        if (courseEdition == null) {
+    private void validateCourseEdition(CourseEditionID courseEditionID) throws IllegalArgumentException {
+        if (courseEditionID == null) {
             throw new IllegalArgumentException("Course edition cannot be null!");
         }
-        this._courseEdition = courseEdition;
+        this._courseEditionID = courseEditionID;
     }
 
 
@@ -38,39 +42,52 @@ public class CourseEditionEnrolment {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        CourseEditionEnrolment that = (CourseEditionEnrolment) obj;
-        return Objects.equals(_student, that._student) && Objects.equals(_courseEdition, that._courseEdition);
+        CourseEditionEnrolment cee = (CourseEditionEnrolment) obj;
+        return Objects.equals(_courseEditionEnrolmentId,cee._courseEditionEnrolmentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_student, _courseEdition);
+        return Objects.hash(_studentID, _courseEditionID);
     }
 
-    public boolean hasStudent(Student student) {
-        return _student.equals(student);
+    public boolean hasStudent(StudentID studentID) {
+        return _studentID.equals(studentID);
     }
 
-    public boolean hasCourseEdition(CourseEdition courseEdition) {
-        return _courseEdition.equals(courseEdition);
+    public boolean hasCourseEdition(CourseEditionID courseEditionID) {
+        return _courseEditionID.equals(courseEditionID);
     }
 
-    public Student knowStudent() {
-        return _student;
+    public StudentID knowStudent() {
+        return _studentID;
     }
 
-    public Object knowCourseEdition() {
-        return _courseEdition;
+    public CourseEditionID knowCourseEdition() {
+        return _courseEditionID;
     }
 
-    public boolean isEnrollmentActive() {
-        if(_isActive){return true;}
-        else{return false;
-        }
+    @Override
+    public CourseEditionEnrolmentID identity() {
+        return _courseEditionEnrolmentId;
     }
 
-    public void deactivateEnrollment() {
-        this._isActive=false;
+    @Override
+    public boolean sameAs(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        CourseEditionEnrolment cee = (CourseEditionEnrolment) object;
+        return _courseEditionEnrolmentId.equals(cee._courseEditionEnrolmentId);
     }
+
+//    public boolean isEnrollmentActive() {
+//        if(_isActive){return true;}
+//        else{return false;
+//        }
+//    }
+//
+//    public void deactivateEnrollment() {
+//        this._isActive=false;
+//    }
 
 }

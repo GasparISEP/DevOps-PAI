@@ -1,5 +1,7 @@
 package PAI.factory;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
 import PAI.domain.CourseEditionEnrolment;
 import PAI.domain.Student;
@@ -20,8 +22,8 @@ class CourseEditionEnrolmentFactoryImplTest {
         try (MockedConstruction<CourseEditionEnrolment> mockEnrollments = mockConstruction(CourseEditionEnrolment.class)) {
 
             CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
-            Student studentDouble = mock(Student.class);
-            CourseEdition courseEditionDouble = mock(CourseEdition.class);
+            StudentID studentDouble = mock(StudentID.class);
+            CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
 
             // act
             CourseEditionEnrolment courseEditionEnrolment = factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
@@ -36,8 +38,8 @@ class CourseEditionEnrolmentFactoryImplTest {
         try (MockedConstruction<CourseEditionEnrolment> mockEnrollments = mockConstruction(CourseEditionEnrolment.class)) {
             // arrange
             CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
-            Student studentDouble = mock(Student.class);
-            CourseEdition courseEditionDouble = mock(CourseEdition.class);
+            StudentID studentDouble = mock(StudentID.class);
+            CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
 
             // act
             factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
@@ -51,8 +53,8 @@ class CourseEditionEnrolmentFactoryImplTest {
         try (MockedConstruction<CourseEditionEnrolment> mockEnrollments = mockConstruction(CourseEditionEnrolment.class)) {
             // arrange
             CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
-            Student studentDouble = mock(Student.class);
-            CourseEdition courseEditionDouble = mock(CourseEdition.class);
+            StudentID studentDouble = mock(StudentID.class);
+            CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
 
             // act
             factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
@@ -66,7 +68,7 @@ class CourseEditionEnrolmentFactoryImplTest {
 
         //arrange
 
-        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
         CourseEditionEnrolmentFactoryImpl CEEFactory = new CourseEditionEnrolmentFactoryImpl();
 
         // act + assert
@@ -81,7 +83,7 @@ class CourseEditionEnrolmentFactoryImplTest {
     void should_throw_an_exception_if_courseEdition_is_null(){
 
         //arrange
-        Student studentDouble = mock(Student.class);
+        StudentID studentDouble = mock(StudentID.class);
         CourseEditionEnrolmentFactoryImpl CEEFactory = new CourseEditionEnrolmentFactoryImpl();
 
         //act + assert

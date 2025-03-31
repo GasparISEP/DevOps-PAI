@@ -16,9 +16,9 @@ public class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController {
         _courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
     }
 
-    public int IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) throws Exception {
-
-        return _courseEditionEnrolmentRepository.numberOfStudentsEnrolledInCourseEdition(courseEdition);
-
-    }
+//    public int IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) throws Exception {
+//
+//        return _courseEditionEnrolmentRepository.numberOfStudentsEnrolledInCourseEdition(courseEdition);
+//
+//    }
 }

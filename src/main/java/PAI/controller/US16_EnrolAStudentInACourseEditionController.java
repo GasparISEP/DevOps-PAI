@@ -1,5 +1,7 @@
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
 import PAI.repository.CourseEditionRepository;
@@ -43,8 +45,8 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //enrol a student in a course edition
-    public boolean enrolStudentInCourseEdition(Student student, CourseEdition courseEdition) {
-        return _ceeRepository.enrolStudentInACourseEdition(student, courseEdition);
+    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
+        return _ceeRepository.enrolStudentInACourseEdition(studentId, courseEditionId);
     }
 
     //Verify if the course edition enrollment repository is valid
