@@ -12,7 +12,7 @@ public class CourseEditionFactoryImpl_2 implements ICourseEditionFactory_2 {
 
     public CourseEdition_2 newCourseEdition_2(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
-        return new CourseEdition_2 (courseInStudyPlanID, programmeEditionID);
+        return new CourseEdition_2 (courseEditionID, courseInStudyPlanID, programmeEditionID);
     }
 
     @Override
