@@ -1,7 +1,5 @@
 package PAI.repository.accessMethodRepositoryDDD;
-
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.AccessMethod;
 import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 

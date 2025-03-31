@@ -1,9 +1,16 @@
 package PAI.controller;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.AccessMethod;
+import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
+import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 import PAI.factory.AccessMethodFactoryImpl;
 import PAI.factory.AccessMethodListFactoryImpl;
 import PAI.repository.AccessMethodRepository;
+import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDListFactoryImpl;
+import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
+import PAI.repository.accessMethodRepositoryDDD.IAccessMethodDDDListFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,56 +22,49 @@ class US02ConfigureAccessMethodControllerTest {
     @Test
     void shouldCreateThisController() {
         //arrange
-        AccessMethodRepository doubleAccessMethodRepository = mock(AccessMethodRepository.class);
+        IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
+        AccessMethodDDDRepository doubleAccessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
         //act
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(doubleAccessMethodRepository);
         //assert
         assertNotNull(ctrl1);
 
     }
-    @Test
-    void shouldNotCreateThisController() {
-        //arrange
-        //act
-        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(null);
-        //assert
-        assertNotNull(ctrl1);
-    }
 
     @Test
-    void shouldNotConfigureAccessMethodIfAccessMethodRepositoryIsNull() throws Exception {
+    void shouldNotConfigureAccessMethodIfAccessMethodRepositoryIsNull() {
         //arrange
-        AccessMethodFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodFactoryImpl.class);
-        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
-        when(doubleAccessMethodFactoryImpl.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        NameWithNumbersAndSpecialChars accessMethodName = new NameWithNumbersAndSpecialChars("Maiores 23");
         //act
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(null);
 
-        boolean isConfigured = ctrl1.configureAccessMethod("Maiores 23");
+        boolean isConfigured = ctrl1.configureAccessMethod(accessMethodName);
         //assert
         assertFalse(isConfigured);
     }
 
     @Test
-    void shouldConfigureAnAccessMethod() throws Exception {
+    void shouldConfigureAnAccessMethod() {
         //arrange
-        AccessMethodListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodListFactoryImpl.class);
-        AccessMethodFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodFactoryImpl.class);
-        AccessMethodRepository accessMethodRepository = new AccessMethodRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
-        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
-        when(doubleAccessMethodFactoryImpl.createAccessMethod("Maiores 23")).thenReturn(doubleAccessMethod);
+        IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
+        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        NameWithNumbersAndSpecialChars accessMethodName = new NameWithNumbersAndSpecialChars("Maiores 23");
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
         //act
-        boolean isConfigured = ctrl1.configureAccessMethod("Maiores 23");
+        boolean isConfigured = ctrl1.configureAccessMethod(accessMethodName);
         //assert
         assertTrue(isConfigured);
     }
 
     @Test
-    void shouldNotConfigureAnAccessMethodIfAccessMethodNameIsNull() throws Exception {
+    void shouldNotConfigureAnAccessMethodIfAccessMethodNameIsNull(){
         //arrange
-        AccessMethodRepository doubleAccessMethodRepository = mock(AccessMethodRepository.class);
-        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(doubleAccessMethodRepository);
+        IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
+        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
         //act
         boolean isConfigured = ctrl1.configureAccessMethod(null);
         //assert
