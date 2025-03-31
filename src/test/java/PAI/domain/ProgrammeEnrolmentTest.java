@@ -18,6 +18,7 @@ class ProgrammeEnrolmentTest {
         Address _address;
         StudentID _studentID;
         Name _name;
+        Country _country;
         NIF _nif;
         PhoneNumber _phone;
         Email _email;
@@ -44,11 +45,13 @@ class ProgrammeEnrolmentTest {
         WorkingPercentage _wp;
         TeacherID _teacherID;
 
+
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
             _studentID = new StudentID(1234567);
             _name = new Name("Rita");
-            _nif = new NIF("123456789");
+            _country = new Country("Portugal");
+            _nif = new NIF("123456789", _country);
             _phone = new PhoneNumber("+351", "963741258");
             _email = new Email("rita@gmail.com");
             _academicEmail = new StudentAcademicEmail(_studentID);
@@ -229,7 +232,9 @@ class ProgrammeEnrolmentTest {
 
         StudentID studentID = new StudentID(1234568);
         Name name = new Name("Pedro");
-        NIF nif = new NIF("159753824");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("159753824", country);
         PhoneNumber phone = new PhoneNumber("+351", "963996987");
         Email email = new Email("pedro@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -304,7 +309,9 @@ class ProgrammeEnrolmentTest {
 
         StudentID studentID = new StudentID(1345678);
         Name name = new Name("Pedro");
-        NIF nif = new NIF("159753824");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("159753824", country);
         PhoneNumber phone = new PhoneNumber("+351", "963996987");
         Email email = new Email("pedro@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
@@ -393,7 +400,9 @@ class ProgrammeEnrolmentTest {
 
         StudentID studentID = new StudentID(1345678);
         Name name = new Name("Pedro");
-        NIF nif = new NIF("159753824");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("159753824", country);
         PhoneNumber phone = new PhoneNumber("+351", "963996987");
         Email email = new Email("pedro@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);

@@ -224,7 +224,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID1 = new StudentID(1234567);
         Name name = new Name("Rita");
-        NIF nif = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
         PhoneNumber phone = new PhoneNumber("+351","963741258");
         Email email = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
@@ -372,7 +374,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID studentID1 = new StudentID(1234567);
 
         Name name = new Name("Rita");
-        NIF nif = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
         PhoneNumber phone = new PhoneNumber("+351","963741258");
         Email email = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
@@ -381,7 +385,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         StudentID studentID2 = new StudentID(1234367);
         Name name2 = new Name("Rita");
-        NIF nif2 = new NIF("123456789");
+        NIF nif2 = new NIF("123456789", country);
         PhoneNumber phone2 = new PhoneNumber("+351","963741258");
         Email email2 = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID1);
@@ -460,7 +464,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID = new StudentID(1234567);
         Name name = new Name("Rita");
-        NIF nif = new NIF("123456789");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
         PhoneNumber phone = new PhoneNumber("+351","963741258");
         Email email = new Email("rita@gmail.com");
         StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);

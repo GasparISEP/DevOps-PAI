@@ -9,8 +9,10 @@ class NIFTest {
     void validStringCreatesNIF(){
         //arrange
         String stringNIF = "123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif = new NIF(stringNIF);
+        NIF nif = new NIF(stringNIF, country);
         //assert
         assertNotNull(nif);
     }
@@ -18,33 +20,41 @@ class NIFTest {
     @Test
     void emptyStringThrowsException(){
         //arrange
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         String stringNIF = "";
         //act + assert
-        assertThrows(Exception.class, () -> new NIF(stringNIF));
+        assertThrows(Exception.class, () -> new NIF(stringNIF,country));
     }
 
     @Test
     void nullStringThrowsException(){
         //arrange
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         String stringNIF = null;
         //act + assert
-        assertThrows(Exception.class, () -> new NIF(stringNIF));
+        assertThrows(Exception.class, () -> new NIF(stringNIF, country));
     }
 
     @Test
     void invalidNIFThrowsException(){
         //arrange
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         String stringNIF = "ABCDEFG";
         //act + assert
-        assertThrows(Exception.class, () -> new NIF(stringNIF));
+        assertThrows(Exception.class, () -> new NIF(stringNIF, country));
     }
 
     @Test
     void austriaNIFCanBeCreated_AT(){
         //arrange
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         String stringNIF = "U12345678";
         //act
-        NIF nif = new NIF(stringNIF);
+        NIF nif = new NIF(stringNIF, country);
         //assert
         assertNotNull(nif);
     }
@@ -52,9 +62,11 @@ class NIFTest {
     @Test
     void belgiumNIFCanBeCreated_BE(){
         //arrange
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         String stringNIF = "1234567890";
         //act
-        NIF nif = new NIF(stringNIF);
+        NIF nif = new NIF(stringNIF, country);
         //assert
         assertNotNull(nif);
     }
@@ -64,9 +76,11 @@ class NIFTest {
         //arrange
         String stringNIF10digits = "1234567890";
         String stringNIF9digits = "123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF10digits);
-        NIF nif2 = new NIF(stringNIF9digits);
+        NIF nif1 = new NIF(stringNIF10digits, country);
+        NIF nif2 = new NIF(stringNIF9digits, country);
         //assert
         assertNotNull(nif1);
         assertNotNull(nif2);
@@ -75,9 +89,11 @@ class NIFTest {
     @Test
     void croatiaNIFCanBeCreated_HR(){
         //arrange
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         String stringNIF11digits = "12345678901";
         //act
-        NIF nif = new NIF(stringNIF11digits);
+        NIF nif = new NIF(stringNIF11digits, country);
         //assert
         assertNotNull(nif);
     }
@@ -85,9 +101,11 @@ class NIFTest {
     @Test
     void cyprusNIFCanBeCreated_CY(){
         //arrange
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         String stringNIF8digits1letter = "12345678C";
         //act
-        NIF nif1 = new NIF(stringNIF8digits1letter);
+        NIF nif1 = new NIF(stringNIF8digits1letter, country);
         //assert
         assertNotNull(nif1);
     }
@@ -98,10 +116,12 @@ class NIFTest {
         String stringNIF8digits = "12345678";
         String stringNIF9digits = "123456789";
         String stringNIF10digits= "1234567890";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF8digits);
-        NIF nif2 = new NIF(stringNIF9digits);
-        NIF nif3 = new NIF(stringNIF10digits);
+        NIF nif1 = new NIF(stringNIF8digits,country);
+        NIF nif2 = new NIF(stringNIF9digits, country);
+        NIF nif3 = new NIF(stringNIF10digits, country);
         //assert
         assertNotNull(nif1);
         assertNotNull(nif2);
@@ -112,8 +132,10 @@ class NIFTest {
     void denmarkNIFCanBeCreated_DK(){
         //arrange
         String stringNIF8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF8digits);
+        NIF nif1 = new NIF(stringNIF8digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -122,8 +144,10 @@ class NIFTest {
     void estoniaNIFCanBeCreated_EE(){
         //arrange
         String stringNIF9digits = "123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF9digits);
+        NIF nif1 = new NIF(stringNIF9digits, country );
         //assert
         assertNotNull(nif1);
     }
@@ -132,8 +156,10 @@ class NIFTest {
     void finlandNIFCanBeCreated_FI(){
         //arrange
         String stringNIF8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF8digits);
+        NIF nif1 = new NIF(stringNIF8digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -143,9 +169,11 @@ class NIFTest {
         //arrange
         String stringNIF2letters9digits = "AB123456789";
         String stringNIF2digits9digits = "12123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF2letters9digits);
-        NIF nif2 = new NIF(stringNIF2digits9digits);
+        NIF nif1 = new NIF(stringNIF2letters9digits, country);
+        NIF nif2 = new NIF(stringNIF2digits9digits, country);
         //assert
         assertNotNull(nif1);
         assertNotNull(nif2);
@@ -155,8 +183,10 @@ class NIFTest {
     void germanyNIFCanBeCreated_DE(){
         //arrange
         String stringNIF9digits = "123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF9digits);
+        NIF nif1 = new NIF(stringNIF9digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -165,8 +195,10 @@ class NIFTest {
     void greeceNIFCanBeCreated_EL(){
         //arrange
         String stringNIF9digits = "123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF9digits);
+        NIF nif1 = new NIF(stringNIF9digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -175,8 +207,10 @@ class NIFTest {
     void hungaryNIFCanBeCreated_HU(){
         //arrange
         String stringNIF8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF8digits);
+        NIF nif1 = new NIF(stringNIF8digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -186,9 +220,11 @@ class NIFTest {
         //arrange
         String stringNIF7digits1letter = "1234567A";
         String stringNIF7digits2letters = "1234567AB";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF7digits1letter);
-        NIF nif2 = new NIF(stringNIF7digits2letters);
+        NIF nif1 = new NIF(stringNIF7digits1letter, country);
+        NIF nif2 = new NIF(stringNIF7digits2letters, country);
         //assert
         assertNotNull(nif1);
         assertNotNull(nif2);
@@ -198,8 +234,10 @@ class NIFTest {
     void italyNIFCanBeCreated_IT(){
         //arrange
         String stringNIF11digits = "12345678901";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF11digits);
+        NIF nif1 = new NIF(stringNIF11digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -208,8 +246,10 @@ class NIFTest {
     void latviaNIFCanBeCreated_LV(){
         //arrange
         String stringNIF11digits = "12345678901";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF11digits);
+        NIF nif1 = new NIF(stringNIF11digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -219,9 +259,11 @@ class NIFTest {
         //arrange
         String stringNIF9digits = "123456789";
         String stringNIF12digits = "123456789012";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF9digits);
-        NIF nif2 = new NIF(stringNIF12digits);
+        NIF nif1 = new NIF(stringNIF9digits, country);
+        NIF nif2 = new NIF(stringNIF12digits, country);
         //assert
         assertNotNull(nif1);
         assertNotNull(nif2);
@@ -231,8 +273,10 @@ class NIFTest {
     void luxembourgNIFCanBeCreated_LU(){
         //arrange
         String stringNIF8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF8digits);
+        NIF nif1 = new NIF(stringNIF8digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -241,8 +285,10 @@ class NIFTest {
     void maltaNIFCanBeCreated_MT(){
         //arrange
         String stringNIF8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF8digits);
+        NIF nif1 = new NIF(stringNIF8digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -251,8 +297,10 @@ class NIFTest {
     void netherlandsNIFCanBeCreated_NL(){
         //arrange
         String stringNIF9digitsB2digits = "123456789B12";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF9digitsB2digits);
+        NIF nif1 = new NIF(stringNIF9digitsB2digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -261,8 +309,10 @@ class NIFTest {
     void polandNIFCanBeCreated_PL(){
         //arrange
         String stringNIF10digits = "1234567890";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF10digits);
+        NIF nif1 = new NIF(stringNIF10digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -271,8 +321,10 @@ class NIFTest {
     void portugalNIFCanBeCreated_PT(){
         //arrange
         String stringNIF9digits = "123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF9digits);
+        NIF nif1 = new NIF(stringNIF9digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -289,16 +341,18 @@ class NIFTest {
         String stringNIF8digits = "12345678";
         String stringNIF9digits = "123456789";
         String stringNIF10digits = "1234567890";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(stringNIF2digits);
-        NIF nif2 = new NIF(stringNIF3digits);
-        NIF nif3 = new NIF(stringNIF4digits);
-        NIF nif4 = new NIF(stringNIF5digits);
-        NIF nif5 = new NIF(stringNIF6digits);
-        NIF nif6 = new NIF(stringNIF7digits);
-        NIF nif7 = new NIF(stringNIF8digits);
-        NIF nif8 = new NIF(stringNIF9digits);
-        NIF nif9 = new NIF(stringNIF10digits);
+        NIF nif1 = new NIF(stringNIF2digits, country);
+        NIF nif2 = new NIF(stringNIF3digits, country);
+        NIF nif3 = new NIF(stringNIF4digits, country);
+        NIF nif4 = new NIF(stringNIF5digits, country);
+        NIF nif5 = new NIF(stringNIF6digits, country);
+        NIF nif6 = new NIF(stringNIF7digits, country);
+        NIF nif7 = new NIF(stringNIF8digits, country);
+        NIF nif8 = new NIF(stringNIF9digits, country);
+        NIF nif9 = new NIF(stringNIF10digits, country);
         //assert
         assertNotNull(nif1);
         assertNotNull(nif2);
@@ -315,8 +369,10 @@ class NIFTest {
     void slovakiaNIFCanBeCreated_SK(){
         //arrange
         String string10digits = "1234567890";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(string10digits);
+        NIF nif1 = new NIF(string10digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -325,8 +381,10 @@ class NIFTest {
     void sloveniaNIFCanBeCreated_SI(){
         //arrange
         String string8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(string8digits);
+        NIF nif1 = new NIF(string8digits, country);
         //assert
         assertNotNull(nif1);
     }
@@ -336,9 +394,11 @@ class NIFTest {
         //arrange
         String string1letter7digits1letter = "A1234567A";
         String string1letter8digits = "A12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(string1letter7digits1letter);
-        NIF nif2 = new NIF(string1letter8digits);
+        NIF nif1 = new NIF(string1letter7digits1letter, country);
+        NIF nif2 = new NIF(string1letter8digits, country);
         //assert
         assertNotNull(nif1);
         assertNotNull(nif2);
@@ -347,9 +407,10 @@ class NIFTest {
     @Test
     void swedenNIFCanBeCreated_SE(){
         //arrange
-        String string12digits01 = "12345678901201";
+        String string12digits01 = "12345678901201";String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif1 = new NIF(string12digits01);
+        NIF nif1 = new NIF(string12digits01, country);
         //assert
         assertNotNull(nif1);
     }
@@ -358,8 +419,10 @@ class NIFTest {
     void shouldReturnTrueIfSameNIF(){
         //arrange
         String string8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif = new NIF(string8digits);
+        NIF nif = new NIF(string8digits,country);
         boolean result = nif.equals(nif);
         //assert
         assertTrue(result);
@@ -369,9 +432,11 @@ class NIFTest {
     void shouldReturnTrueIfSameNIFContent(){
         //arrange
         String string8digits = "12345678";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif = new NIF(string8digits);
-        NIF nif2 = new NIF(string8digits);
+        NIF nif = new NIF(string8digits, country);
+        NIF nif2 = new NIF(string8digits, country);
         boolean result = nif.equals(nif2);
         //assert
         assertTrue(result);
@@ -382,9 +447,11 @@ class NIFTest {
         //arrange
         String string8digits = "12345678";
         String string9digits = "123456789";
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
         //act
-        NIF nif = new NIF(string8digits);
-        NIF nif2 = new NIF(string9digits);
+        NIF nif = new NIF(string8digits, country);
+        NIF nif2 = new NIF(string9digits, country);
         boolean result = nif.equals(nif2);
         //assert
         assertFalse(result);
