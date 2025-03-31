@@ -1,8 +1,11 @@
 package PAI.VOs;
 
+import PAI.ddd.DomainId;
+import PAI.ddd.ValueObject;
+
 import java.util.Objects;
 
-public class StudentAcademicEmail {
+public class StudentAcademicEmail implements ValueObject {
 
     private static final String emailDomain = "isep.ipp.pt";
     private final String _studentEmail;
