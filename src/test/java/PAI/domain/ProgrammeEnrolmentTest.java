@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import PAI.VOs.*;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,7 +34,7 @@ class ProgrammeEnrolmentTest {
         ITeacherCareerProgressionListFactory _tcpListFactory;
         Teacher _teacher;
         IProgrammeCourseListFactory _programmeCourseListFactory;
-        Programme_2 _programme;
+        ProgrammeDDD _programme;
         ICourseInStudyPlanFactory _I_courseInStudyPlanFactory;
         IStudyPlanListFactory _I_studyPlanListFactory;
         IStudyPlanFactory _I_studyPlanFactory;
@@ -72,7 +73,7 @@ class ProgrammeEnrolmentTest {
             _I_studyPlanListFactory = new StudyPlanListFactoryImpl();
             _I_studyPlanFactory = new StudyPlanFactoryImpl();
             _I_courseFactory = new CourseFactoryImpl();
-            _programme = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+            _programme = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                     new QuantEcts(20), new QuantSemesters(6), _degreeTypeID, _department, _teacherID);}
     }
 
@@ -350,7 +351,7 @@ class ProgrammeEnrolmentTest {
 
         TeacherID teacherIDDouble =  attributes._teacherID;
 
-        Programme_2 programme2 = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+        ProgrammeDDD programme2 = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                 new QuantEcts(20), new QuantSemesters(6), new DegreeType_ID("asd"), new Department("ACM", "Maths"), teacherIDDouble);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
@@ -400,7 +401,7 @@ class ProgrammeEnrolmentTest {
 
         Student student2 = new Student(studentID, name, nif, phone, email, attributes._address, academicEmail);
 
-        Programme_2 programme2 = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+        ProgrammeDDD programme2 = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                 new QuantEcts(20), new QuantSemesters(6), new DegreeType_ID("asd"), new Department("ACM", "Maths"), teacherIDDouble);
 
         ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, attributes._programme.getProgrammeID(), attributes._date);
@@ -439,7 +440,7 @@ class ProgrammeEnrolmentTest {
         AttributesForTestsWithoutIsolation attributes = createActualAttributesForTestsWithoutIsolation();
         TeacherID teacherIDDouble =  attributes._teacherID;
 
-        Programme_2 programme2 = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+        ProgrammeDDD programme2 = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                 new QuantEcts(20), new QuantSemesters(6), new DegreeType_ID("asd"), new Department("ACM", "Maths"), teacherIDDouble);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(attributes._student.identity(), attributes._accessMethodID, programme2.getProgrammeID(), attributes._date);
@@ -456,7 +457,7 @@ class ProgrammeEnrolmentTest {
         // arrange
         StudentID studentDouble = mock(StudentID.class);
         AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        Programme_2 programmeDouble = mock(Programme_2.class);
+        ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
         Date dateDouble = mock(Date.class);
         ProgrammeID programmeDoubleID = mock(ProgrammeID.class);
         when(programmeDouble.getProgrammeID()).thenReturn(programmeDoubleID);
