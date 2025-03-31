@@ -16,39 +16,32 @@ participant ":IDepartmentFactory" as DepartmentFactory #LightBlue/white
 participant "d1:Department" as Department #LightBlue/white
 participant "d[i]:Department" as Departmenti #LightBlue/white
 
+
 Administrator -> UI: I want to register a department in the system.
 activate UI
 UI --> Administrator: Please provide the acronym.
-deactivate UI
 Administrator -> UI: Enter acronym.
-activate UI
 UI --> Administrator: Please provide the name.
-deactivate UI
 Administrator -> UI: Enter name.
-activate UI
 UI --> Administrator: Sure?
-deactivate UI
 Administrator -> UI: Yes!
-activate UI
 
 UI -> Controller: registerDepartment(acronym, name)
 activate Controller
 
 ref over Controller
-    Convert name and acronym to VO
+    Convert acronym and name to VO
 end ref
 
 Controller -> DepartmentRepository: registerDepartment(acronymVO, nameVO)
 activate DepartmentRepository
-DepartmentRepository -> DepartmentFactory: newDepartment (acronymVO, nameVO)
+DepartmentRepository -> DepartmentFactory: createDepartment (acronymVO, nameVO)
 activate DepartmentFactory
-DepartmentFactory -> Department **: newDepartment (acronymVO, nameVO)
-activate Department
-Department --> DepartmentFactory: d1
-deactivate Department
-DepartmentFactory --> DepartmentRepository: d1
+DepartmentFactory -> Department **: createDepartment (acronymVO, nameVO)
+
+
 deactivate DepartmentFactory
-DepartmentRepository -> Departmenti: add (d1:Department)
+DepartmentRepository -> Departmenti: add (d1)
 activate Departmenti
 Departmenti --> DepartmentRepository: True
 deactivate Departmenti
