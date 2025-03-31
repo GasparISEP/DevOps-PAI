@@ -76,10 +76,25 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherID tIDDouble = (TeacherID) doubles[4];
         WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
+        TeacherCareerProgression tcpDouble2 = (TeacherCareerProgression) doubles[7];
+
+        when(tcpFactoryDouble.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble)).thenReturn(tcpDouble);
+
+        //List
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
         TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
 
-        when(tcpFactoryDouble.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble)).thenReturn(tcpDouble);
+        //Iterator
+        Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
+        when(listDouble.iterator()).thenReturn(itDouble);
+
+        when(itDouble.hasNext()).thenReturn(true, false);
+
+        when(itDouble.next()).thenReturn(tcpDouble);
+
+        when(tcpDouble.sameAs(tcpDouble2)).thenReturn(false);
 
         //Act
         boolean result = tcpRepository.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
@@ -153,7 +168,42 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
-    public void shouldSaveTCPIfNotDuplicate() {
+    public void shouldNotCreateTCPIfDuplicate() {
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date dateDouble = (Date) doubles[2];
+        TeacherCategoryID tcIDDouble = (TeacherCategoryID) doubles[3];
+        TeacherID tIDDouble = (TeacherID) doubles[4];
+        WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
+        TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
+        TeacherCareerProgression tcpDouble2 = (TeacherCareerProgression) doubles[7];
+
+        //List
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        when(tcpFactoryDouble.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble)).thenReturn(tcpDouble2);
+
+        //Iterator
+        Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
+        when(listDouble.iterator()).thenReturn(itDouble);
+
+        when(itDouble.hasNext()).thenReturn(true);
+
+        when(itDouble.next()).thenReturn(tcpDouble);
+
+        when(tcpDouble.sameAs(tcpDouble2)).thenReturn(true);
+
+        // Act + Assert
+        assertThrows(Exception.class, () -> tcpRepository.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble));
+    }
+
+    @Test
+    public void shouldSaveTCP() {
         // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
@@ -168,6 +218,7 @@ class TeacherCareerProgressionRepositoryTest {
         // Assert
         assertEquals(tcpDouble, result);
     }
+
 
     @Test
     void shouldReturnListOfTeacherCareerProgressionsWhenNotEmpty() {
@@ -407,11 +458,7 @@ class TeacherCareerProgressionRepositoryTest {
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
         when(listDouble.iterator()).thenReturn(itDouble);
 
-        when(itDouble.hasNext()).thenReturn(true, false);
-
-        when(itDouble.next()).thenReturn(tcpDouble);
-
-        when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
+        when(itDouble.hasNext()).thenReturn(false);
 
         //act
         boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(date2Double, wp2Double, teacherIDDouble);
