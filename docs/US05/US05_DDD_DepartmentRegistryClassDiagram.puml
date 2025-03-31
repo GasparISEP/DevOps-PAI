@@ -39,8 +39,12 @@ package "Department Aggregate" {
 
 class Department <<root>> {
     +Department(departmentAcronym: String, departmentName: String)
-    +getName(): String
-    +getAcronym(): String
+    +hashCode(): int
+    +identity(): DepartmentAcronym
+    +equals(obj: Object): boolean
+    +sameAs(obj: Object): boolean
+    +getName(): Name
+    +getAcronym(): DepartmentAcronym
 }
 }
 
@@ -50,7 +54,7 @@ class Name <<Value Object >> {
     + getName(): String
 }
 
-class Acronym <<Value Object>> {
+class DepartmentAcronym <<Value Object>> {
     -_acronym: String
     + Acronym(acronym: String)
     + getAcronym(): String
@@ -68,5 +72,5 @@ IDepartmentRepository <|.. DepartmentRepository
 Department "1" <.. "1" IDepartmentFactory
 IDepartmentFactory "_departmentFactory1" <.. "1"  DepartmentRepository
 Name "_departmentName 1" <-- "1" Department
-Acronym "_departmentAcronym 1" <-- "1" Department
+DepartmentAcronym "_departmentAcronym 1" <-- "1" Department
 @enduml
