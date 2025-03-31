@@ -7,13 +7,19 @@ public class CourseQuantityCreditsEcts {
     public CourseQuantityCreditsEcts(double quantityCreditsEcts) throws Exception{
 
         if(!isValidQuantityCreditsEcts(quantityCreditsEcts)){
-            throw new IllegalArgumentException("quantityCreditsEcts can only have a value between 1 and 60");}
+            throw new IllegalArgumentException("quantityCreditsEcts can only have 1 decimal place");}
         this._quantityCreditsEcts = quantityCreditsEcts;
     }
 
     private boolean isValidQuantityCreditsEcts(double quantityCreditsEcts) throws Exception {
+        if (hasMoreThanOneDecimalPlace(quantityCreditsEcts))
+            return false;
         if (quantityCreditsEcts > 0 && quantityCreditsEcts <= 60)
             return true;
-        return false;
+        throw new IllegalArgumentException("quantityCreditsEcts can only have a value between 1 and 60");
+    }
+
+    private  boolean hasMoreThanOneDecimalPlace(double value) {
+        return (value * 10) % 1 != 0;
     }
 }
