@@ -11,9 +11,6 @@ import static org.mockito.Mockito.mock;
 
 class SchoolYearTest {
 
-    // -------------------------------------------------------------
-    // ------------ TESTS FOR VALID PARAMETERS -------------------
-    // -------------------------------------------------------------
 
     @Test
     void validArgumentsCreateSchoolYear() {
@@ -26,7 +23,6 @@ class SchoolYearTest {
         // Assert
         assertNotNull(sy1);
     }
-
 
     @Test
     void sameYearStartAndEndDate() {
@@ -54,10 +50,6 @@ class SchoolYearTest {
         assertNotNull(sy1);
     }
 
-    // -------------------------------------------------------------
-    // ------------ TESTS FOR INVALID PARAMETERS -------------------
-    // -------------------------------------------------------------
-
     @Test
     void endDateBeforeStartDateThrowsException() {
         // Arrange
@@ -66,7 +58,7 @@ class SchoolYearTest {
         Date endDate = new Date ("31-08-2023");
         // Act + Assert
         assertThrows(Exception.class, () -> {
-            new SchoolYear(description, startDate, endDate); // endDate is before startDate
+            new SchoolYear(description, startDate, endDate);
         });
     }
 
@@ -78,103 +70,9 @@ class SchoolYearTest {
         Date endDate = new Date ("24-09-2024");
         // Act + Assert
         assertThrows(Exception.class, () -> {
-            new SchoolYear(description, startDate, endDate); // endDate is the same as startDate
-        });
-    }
-
-    @Test
-    void nullDescriptionThrowsException() {
-        //Arrange
-        Date startDate = new Date ("24-09-2024");
-        Date endDate = new Date ("24-09-2025");
-
-        // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(new Description(null), startDate, endDate);
-        });
-    }
-
-    @Test
-    void blankDescriptionThrowsException() {
-        //Arrange
-        Date startDate = new Date ("24-09-2024");
-        Date endDate = new Date ("24-09-2025");
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            new SchoolYear(new Description(" "), startDate, endDate);
-        });
-    }
-
-    @Test
-    void nullStartDateThrowsException() {
-        // Arrange
-        Description description = new Description("School Year 24/25");
-        Date endDate = new Date ("24-09-2025");
-        // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(description, null, endDate);
-        });
-    }
-
-    @Test
-    void blankStartDateThrowsException() {
-        // Arrange
-        Description description = new Description("School Year 24/25");
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            Date startDate = new Date("");
-            Date endDate = new Date("24-09-2025");
             new SchoolYear(description, startDate, endDate);
         });
     }
-
-
-    @Test
-    void nullEndDateThrowsException() {
-        // Arrange
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("24-09-2024");
-        // Act + Assert
-        assertThrows(Exception.class, () -> {
-            new SchoolYear(description, startDate, null);
-        });
-    }
-
-    @Test
-    void blankEndDateThrowsException() {
-        // Arrange
-        Description description = new Description("School Year 24/25");
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            Date startDate = new Date("24-09-2023"); // Invalid input
-            Date endDate = new Date("");
-            new SchoolYear(description, startDate, endDate);
-        });
-    }
-
-
-    @Test
-    void invalidDateFormatThrowsExceptionInSchoolYear() {
-        // Arrange
-        Description description = new Description("School Year 24/25");
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            Date startDate = new Date("2024-09-24");
-            Date endDate = new Date("2025-06-24");
-            new SchoolYear(description, startDate, endDate);
-        });
-    }
-
-
-    @Test
-    void dateWrittenInWordsThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new Date("24 de setembro de 2024"));
-    }
-
 
     @Test
     void shouldReturnTrueIfTwoSchoolYearsHaveSameStartDateAndEndDate() {

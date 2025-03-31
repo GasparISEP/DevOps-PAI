@@ -24,37 +24,39 @@ participant ":Programme" as Programme #LightBlue/White
 activate DepartmentDir
 DepartmentDir -> UI: I want to get number of students \n enrolled in programmes from my \n department in a given school year
 activate UI
-UI-->DepartmentDir: Choose Department
-DepartmentDir ->UI: Department selected
-UI --> DepartmentDir: Choose SchoolYear
-DepartmentDir ->UI: School Year selected
+UI-->DepartmentDir: Which Department?
+DepartmentDir ->UI: this Department
+UI --> DepartmentDir: Which SchoolYear?
+DepartmentDir ->UI: this School Year
 
-UI-> Controller: countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID,schoolYearID)
+UI-> Controller: countStudentsInProgrammesFromDepartmentInSchoolYear(departmentAcronym, schoolYearID)
 activate Controller
-
+ref over Controller
+Convert Strings departmentAcronym and schoolYearID to VOs
+end ref
 Controller -> ISchoolYearRepo: schoolYearExists(schoolYearID)
 activate ISchoolYearRepo
 ISchoolYearRepo --> Controller: true
 deactivate ISchoolYearRepo
-Controller -> IDepartmentRepo: departmentExists(departmentID)
+Controller -> IDepartmentRepo: departmentExists(departmentAcronym)
 activate IDepartmentRepo
 IDepartmentRepo-->Controller: true
 deactivate IDepartmentRepo
-Controller -> IProgrammeEditionEnrolRepo: countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID,schoolYearID)
+Controller -> IProgrammeEditionEnrolRepo: countStudentsInProgrammesFromDepartmentInSchoolYear(departmentAcronym,schoolYearID)
 activate IProgrammeEditionEnrolRepo
 
 IProgrammeEditionEnrolRepo -> StudentIDs: new HashSet<>()
 activate StudentIDs
 loop for each ProgrammeEditionEnrolment[i] in IProgrammeEditionEnrolRepo
-IProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentID,schoolYearID)
+IProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentAcronym,schoolYearID)
 activate ProgrammeEditionEnrolment
-ProgrammeEditionEnrolment -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(departmentID,schoolYearID)
+ProgrammeEditionEnrolment -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(departmentAcronym,schoolYearID)
 activate ProgrammeEdition
 ProgrammeEdition->SchoolYear: isSameSchoolYear(schoolYearID)
 activate SchoolYear
 SchoolYear -->ProgrammeEdition: true
 deactivate SchoolYear
-ProgrammeEdition->Programme: isInDepartment(departmentID)
+ProgrammeEdition->Programme: isInDepartment(departmentAcronym)
 activate Programme
 Programme-->ProgrammeEdition:true
 deactivate Programme
