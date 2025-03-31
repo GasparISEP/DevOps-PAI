@@ -1,5 +1,6 @@
 @startuml
-!pragma layout smetana
+
+skinparam linetype ortho
 
 class US27_RegisterAProgrammeInTheSystemIncludingStudyPlan {
     -_programmeRepository: ProgrammeRepository
@@ -16,23 +17,35 @@ class "List<StudyPlan>" {}
 class DepartmentID <<ValueObject>> {}
 class Acronym <<ValueObject>> {
     -Acronym: String
+    +Acronym(String acronym)
+    +isAcronymInvalid(String acronym)
 }
-class Name <<ValueObject>> {
-    -Name: String
+class NameWithNumbersAndSpecialChars <<ValueObject>> {
+    -NameWithNumbersAndSpecialChars: String
+    +NameWithNumbersAndSpecialChars(String nameWithNumbersAndSpecialChars)
+    +isNameInvalid (String name): boolean
+    +equals(Object o): boolean
+    +getnameWithNumbersAndSpecialChars(): String
 }
 
-class ProgrammeID <<ValueObject>> {}
+class ProgrammeID <<ValueObject>> {
+    -_progID: String
+    +ProgrammeID()
+    +getProgrID(): String
+    +equals(Object o): boolean
+}
 
-class quantityOfEcts <<ValueObject>> {
+class quantEcts <<ValueObject>> {
     -quantityOfEcts: int
-    +isQuantityOfEctsInvalid(int quantityOfEcts)
-    +getquantityOfEcts()
+    +QuantEcts(int quantityOfEcts)
+    +isQuantEctsInvalid(int quantityOfEcts)
+    +getQuantEcts()
 }
 
-class QuantityOfSemesters <<ValueObject>> {
-    -quantityOfSemesters: int
-    + isQuantityOfSemestersInvalid(int quantityOfSemesters)
-    +getQuantityOfSemester()
+class QuantSemesters <<ValueObject>> {
+    -_quantSemesters: int
+    +isQuantityOfSemestersValid(int quantityOfSemesters)
+    +getQuantityOfSemesters()
 }
 
 class DurationInYears <<ValueObject>> {
@@ -45,11 +58,20 @@ class DurationInYears <<ValueObject>> {
 
 package "Programme Aggregate" {
     class "<<root>>\nProgramme" {
-         + equals(o: Object): boolean
-         + isEquals(programme: Programme): boolean
-         + isInDepartment(department: Department): boolean
-         + calculateNumberOfYears(quantityOfSemesters: int): int
-         + hasThisProgrammeName(name: String): boolean
+         + Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, DepartmentID departmentID, \nTeacherID programmeDirectorID)
+         + equals(Object o): boolean
+         + isEquals (ProgrammeID programmeID): boolean
+         + newProgrammeDirector(TeacherID teacherDirectorID)
+         + isInDepartment(departmentID: DepartmentID): boolean
+         + getProgrammeID(): ProgrammeID
+         + getQuantEcts(): QuantEcts
+         + getQuantSemesters(): QuantSemesters
+         + hasThisProgrammeName(NameWithNumbersAndSpecialChars name): boolean
+         + getAcronym(): Acronym
+         + getProgrammeName(): NameWithNumbersAndSpecialChars
+         + getDegreeTypeID(): DegreeType_ID
+         + getDepartmentID(): DepartmentID
+         + getProgrammeDirectorID(): TeacherID
     }
 
 
@@ -64,28 +86,56 @@ class ProgrammeRepository {
 }
 
 interface IProgrammeRepository {
+    +registerProgramme(): boolean
+    +changeProgrammeDirector(): boolean
+    +getAllProgrammes(): List<Programme>
+    +getProgrammeByName(NameWithNumbersAndSpecialChars name): Optional<Programme>
+    +getProgrammeByAcronym(Acronym acronym): Programme
+    +getAllProgrammeNames(): List<NameWithNumbersAndSpecialChars>
 }
 
-class DegreeTypeID <<ValueObject>> {}
+class DegreeType_ID <<ValueObject>> {}
 
 class TeacherID <<ValueObject>> {}
 
 class CourseID <<ValueObject>> {}
 
-class StudyPlanID <<ValueObject>> {}
+class StudyPlanID <<ValueObject>> {
+    -_studyPlanID: UUID
+    +getStudyPlanId(): UUID
+    +equals(Object o): boolean
+    +hashCode(): int
+    +toString(): String
+}
 
 package "StudyPlan Aggregate" {
     class "<<root>>\nStudyPlan" {
-        -_initialDate: String
-        -_endDate: String
-        + addEndDate(String EndDate)
+        +StudyPlan(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears)
+        +addEndDate(String EndDate)
+
     }
+}
+
+class Date <<ValueObject>> {
+        -localDate: LocalDate
+        +Date(String date)
+        +Date(LocalDate localDate)
+        +getLocalDate(): LocalDate
+        +now(): Date
+        +isBefore(Date other): boolean
+        +isAfter(Date other): boolean
+        +equals(Object o): boolean
+        +hashCode(): int
+
 }
 
 class Semester <<ValueObject>> {
     -_semester: int
+    +Semester(int semester)
     +isSemesterValid(int semester): boolean
-    +getSemester()
+    +getSemester(): int
+    +equals(Object o): boolean
+    +hashCode(): int
 }
 
 class CurricularYear <<ValueObject>> {
@@ -95,7 +145,14 @@ class CurricularYear <<ValueObject>> {
         +getCurricularYear(): int
 }
 
-class CourseInStudyPlanID <<ValueObject>> {}
+class CourseInStudyPlanID <<ValueObject>> {
+    -_courseInStudyPlanID: UUID
+    +CourseInStudyPlanID()
+    +getCourseInStudyPlanId(): UUID
+    +equals(Object o): boolean
+    +hashCode(): int
+    +toString(): String
+}
 
 package "CourseInStudyPlan Aggregate" {
     class "<<root>>\nCourseInStudyPlan" {
@@ -110,31 +167,45 @@ package "CourseInStudyPlan Aggregate" {
 
 }
 interface ICourseInStudyPlanRepository {
+    +newArrayList(): List<CourseInStudyPlan>
 }
 
 class CourseInStudyPlanRepository {
+    -_courseInStudyPlanFactory: ICourseInStudyPlanFactory
+    -_coursesInStudyPlanList: List<CourseInStudyPlan>
+    +CourseInStudyPlanRepository(ICourseInStudyPlanFactory iCourseInStudyPlanFactory, ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory)
+    +createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID): boolean
+    +getAllCourseInStudyPlanList(): List<CourseInStudyPlan>
+    +findByCourseInStudyPlanID(CourseInStudyPlanID courseInStudyPlanID): Optional<CourseInStudyPlan>
 }
 
 interface ICourseInStudyPlanFactory{
-    +newCourseInStudyPlan(int semester, int curricularYear, \nCourse course, StudyPlan studyPlan): CourseInStudyPlan
+    +newCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, \nCourseID courseID, StudyPlanID studyPlanID): CourseInStudyPlan
 }
 
 class CourseInStudyPlanFactoryImpl{
-    +newCourseInStudyPlan(int semester, int curricularYear, \nCourse course, StudyPlan studyPlan): CourseInStudyPlan
+    +newCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, \nCourseID courseID, StudyPlanID studyPlanID): CourseInStudyPlan
     }
 
 interface IStudyPlanRepository {
+    +newArrayList(): List<StudyPlan>
 }
 
 class StudyPlanRepository {
+    -_studyPlanFactory: IStudyPlanFactory
+    -_studyplanList: List<StudyPlan>
+    +StudyPlanRepository_2(IStudyPlanFactory_2 iStudyPlanFactory_2, IStudyPlanListFactory_2 iStudyPlanListFactory_2)
+    +createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears)
+    +getAllStudyPlans(): List<StudyPlan>
+    +findByStudyPlanID(StudyPlanID studyPlanID): Optional<StudyPlan>
 }
 
-interface IStudyPlanRepositoryListFactory {
+interface IStudyPlanListFactory {
     +newList(): List<CourseInStudyPlan>
 }
 
-class StudyPlanRepositoryListFactoryImpl {
-    +newList(): List<CourseInStudyPlan>
+class StudyPlanListFactoryImpl {
+    +newArrayList(): List<StudyPlan>
 }
 
 class StudyPlanFactoryImpl {
@@ -146,35 +217,40 @@ interface IStudyPlanFactory {
 }
 
 interface IProgrammeRepositoryListFactory {
+    +copyProgrammeArrayList(List<Programme> list): List<Programme>
     +newProgrammeArrayList(): ArrayList<Programme>
-    +copyProgrammeArrayList(): List<Programme>
 }
 
 class ProgrammeRepositoryListFactoryImpl {
-    +newProgrammeArrayList: ArrayList<Programme>
+    +copyProgrammeArrayList(List<Programme> list): List<Programme>
+    +newProgrammeArrayList(): ArrayList<Programme>
 }
 
 interface IProgrammeFactory {
-    +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType, department: Department, programmeDirector: Teacher)
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID)
 }
 
 class ProgrammeFactoryImpl {
-    +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType, department: Department, programmeDirector: Teacher)
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID)
 }
 
-class CourseInStudyPlanRepositoryListFactoryImpl {}
+class CourseInStudyPlanListFactoryImpl {
+    +newArrayList(): List<CourseInStudyPlan>
+}
 
-interface ICourseInStudyPlanRepositoryListFactory {}
+interface ICourseInStudyPlanRepositoryListFactory {
+    +newArrayList(): List<CourseInStudyPlan>
+}
 
 
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> IProgrammeRepository
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> ICourseInStudyPlanRepository
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> IStudyPlanRepository
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan "1" ..> "1" IProgrammeRepository
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan "1" ..> "1" ICourseInStudyPlanRepository
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan "1" ..> "1" IStudyPlanRepository
 
 IStudyPlanRepository <|.. StudyPlanRepository
-IStudyPlanRepository ..> IStudyPlanRepositoryListFactory
-IStudyPlanRepositoryListFactory <|.. StudyPlanRepositoryListFactoryImpl
-IStudyPlanRepositoryListFactory ..> "List<StudyPlan>" : "<<creates>>"
+IStudyPlanRepository ..> IStudyPlanListFactory
+IStudyPlanListFactory <|.. StudyPlanListFactoryImpl
+IStudyPlanListFactory ..> "List<StudyPlan>" : "<<creates>>"
 IStudyPlanRepository --> "List<StudyPlan>"
 IStudyPlanRepository ..> IStudyPlanFactory
 IStudyPlanFactory <|.. StudyPlanFactoryImpl
@@ -184,7 +260,7 @@ IStudyPlanFactory ..> "<<root>>\nStudyPlan" : "<<creates>>"
 
 ICourseInStudyPlanRepository <|.. CourseInStudyPlanRepository
 ICourseInStudyPlanRepository ..> ICourseInStudyPlanRepositoryListFactory
-ICourseInStudyPlanRepositoryListFactory <|.. CourseInStudyPlanRepositoryListFactoryImpl
+ICourseInStudyPlanRepositoryListFactory <|.. CourseInStudyPlanListFactoryImpl
 ICourseInStudyPlanRepositoryListFactory ..> "List<CourseInStudyPlan>" : "<<creates>>"
 ICourseInStudyPlanRepository --> "List<CourseInStudyPlan>"
 ICourseInStudyPlanRepository ..> ICourseInStudyPlanFactory
@@ -193,7 +269,7 @@ ICourseInStudyPlanFactory ..> "<<root>>\nCourseInStudyPlan" : "<<creates>>"
 "List<CourseInStudyPlan>" --> "<<root>>\nCourseInStudyPlan"
 "<<root>>\nCourseInStudyPlan" --> CourseID: refers to
 "<<root>>\nCourseInStudyPlan" --> StudyPlanID: refers to
-"<<root>>\nCourseInStudyPlan" <-- CourseInStudyPlanID: has
+"<<root>>\nCourseInStudyPlan" --> CourseInStudyPlanID: has
 
 
 IProgrammeRepository <|.. ProgrammeRepository
@@ -207,18 +283,19 @@ IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "List<Programme>" --> "<<root>>\nProgramme"
 "<<root>>\nProgramme" "*" --> "1" TeacherID : "is directed"
 "<<root>>\nProgramme" "*" --> "1" DepartmentID : "belongs to"
-"<<root>>\nProgramme" "*" --> "1" DegreeTypeID : "has"
-"<<root>>\nProgramme" "*" --> "1" quantityOfSemesters : "has"
-"<<root>>\nProgramme" "*" --> "1" quantityOfEcts : "has"
+"<<root>>\nProgramme" "*" --> "1" DegreeType_ID : "has"
+"<<root>>\nProgramme" "*" --> "1" QuantSemesters : "has"
+"<<root>>\nProgramme" "*" --> "1" quantEcts : "has"
 "<<root>>\nProgramme" "*" --> "1" Acronym : "has"
-"<<root>>\nProgramme" "*" --> "1" Name : "has"
-"<<root>>\nProgramme" "*" <-- "1" ProgrammeID : "has"
+"<<root>>\nProgramme" "*" --> "1" NameWithNumbersAndSpecialChars : "has"
+"<<root>>\nProgramme" "*" --> "1" ProgrammeID : "has"
 
 "<<root>>\nCourseInStudyPlan" "*" --> "1" Semester : "has"
 "<<root>>\nCourseInStudyPlan" "*" --> "1" CurricularYear : "has"
 
-"<<root>>\nStudyPlan" "*" <-- "1" StudyPlanID: "has"
-"<<root>>\nStudyPlan" "*" <-- "1" DurationInYears: "has"
+"<<root>>\nStudyPlan" "*" --> "1" StudyPlanID: "has"
+"<<root>>\nStudyPlan" "*" --> "1" DurationInYears: "has"
 
-
+"<<root>>\nStudyPlan" "*" --> "1" Date: "Is Implemented at"
+"<<root>>\nStudyPlan" "*" --> "0.1" Date: "Ends at"
 @enduml
