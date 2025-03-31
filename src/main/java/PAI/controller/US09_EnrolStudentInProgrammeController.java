@@ -1,8 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.Date;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
 import PAI.repository.ProgrammeEnrolmentRepository;
@@ -51,13 +49,13 @@ public class US09_EnrolStudentInProgrammeController {
         return _programmeList.getProgrammeByName(programmeName);
     }
 
-    public boolean enrolStudent(Student s1, AccessMethod am1, Programme p1, Date date) throws Exception {
+    public boolean enrolStudent(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {
         validateEnrolmentParameters(s1, am1, p1, date);
         _programmeEnrolmentRepository.enrolStudents(s1, am1, p1, date);
         return true;
     }
 
-    private void validateEnrolmentParameters(Student s1, AccessMethod am1, Programme p1, Date date) throws Exception {
+    private void validateEnrolmentParameters(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {
         if (s1 == null) {
             throw new Exception("Student cannot be null");
         }

@@ -8,7 +8,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
 
     private TeacherCareerProgressionID _tcpID;
     private Date _date;
-    private TeacherCategoryID _category;
+    private TeacherCategoryID _teacherCategoryID;
     private WorkingPercentage _workingPercentage;
     private TeacherID _teacherID;
 
@@ -25,7 +25,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         if(teacherCategoryID == null)
             throw new IllegalArgumentException("Teacher Category cannot be null!");
 
-        _category = teacherCategoryID;
+        this._teacherCategoryID = teacherCategoryID;
 
         if(workingPercentage == null)
             throw new IllegalArgumentException("Working Percentage cannot be null!");
@@ -38,9 +38,9 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         _teacherID = teacherID;
     }
 
-    public TeacherCategoryID getCategory () {
+    public TeacherCategoryID getTeacherCategoryID () {
 
-        return _category;
+        return _teacherCategoryID;
     }
 
     public WorkingPercentage getWorkingPercentage () {
@@ -48,9 +48,22 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         return _workingPercentage;
     }
 
+    public Date getDate() {
+
+        return _date;
+    }
+
+    public TeacherID getTeacherID() {
+
+        return _teacherID;
+    }
+
     public boolean isDateAfter(Date date) {
 
-        return _date.getLocalDate().isAfter(date.getLocalDate());
+        if (_date.getLocalDate().isAfter(date.getLocalDate()))
+            return false;
+
+        return true;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.Address;
 import PAI.repository.StudentRepository;
 
@@ -17,9 +17,9 @@ public class US08_IWantToRegisterAStudentInTheSystemController {
 
     }
 
-    public boolean registerStudent (StudentID studentID, String name, String NIF, String phone, String email, Address address) throws Exception {
+    public boolean registerStudent (StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) throws Exception {
 
-        _studentRepository.registerStudent(studentID, name, NIF, phone, email, address);
+        _studentRepository.registerStudent(studentID, name, NIF, phone, email, address, academicEmail);
 
         return true;
 

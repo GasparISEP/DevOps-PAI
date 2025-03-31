@@ -1,11 +1,11 @@
 package PAI.factory;
 
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.Address;
 import PAI.domain.Student;
 
 public interface IStudentFactory {
 
-    Student newStudent(StudentID studentID, String name, String NIF, String phone, String email, Address address);
+    Student newStudent(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail);
 
 }

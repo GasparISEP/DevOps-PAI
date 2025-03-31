@@ -63,7 +63,7 @@ class TeacherCareerProgressionTest {
         TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
 
         //act
-        TeacherCategoryID result = TCP.getCategory();
+        TeacherCategoryID result = TCP.getTeacherCategoryID();
 
         //assert
         assertEquals(tcIDDouble, result);
@@ -71,7 +71,6 @@ class TeacherCareerProgressionTest {
 
     @Test
     void getWorkingPercentageReturnsWorkingPercentage() {
-
         //arrange
         Date dateDouble = mock(Date.class);
         TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
@@ -85,6 +84,40 @@ class TeacherCareerProgressionTest {
 
         //assert
         assertEquals(wpDouble, result);
+    }
+
+    @Test
+    void getDateReturnsDate() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        //act
+        Date result = TCP.getDate();
+
+        //assert
+        assertEquals(result, dateDouble);
+    }
+
+    @Test
+    void getTeacherIDReturnsTeacherID() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        //act
+        TeacherID result = TCP.getTeacherID();
+
+        //assert
+        assertEquals(result, tIDDouble);
     }
 
     @Test
@@ -106,7 +139,7 @@ class TeacherCareerProgressionTest {
 
     //isDateAfter
     @Test
-    void shouldReturnTrueIfGivenDateIsAfterLastDate() {
+    void shouldReturnFalseIfGivenDateIsAfterLastDate() {
         //arrange
         Date dateDouble1 = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
@@ -126,11 +159,11 @@ class TeacherCareerProgressionTest {
         boolean result = TCP.isDateAfter(dateDouble2);
 
         //assert
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseIfGivenDateIsAfterLastDate() {
+    void shouldReturnTrueIfGivenDateIsAfterLastDate() {
         //arrange
         Date dateDouble1 = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
@@ -150,7 +183,7 @@ class TeacherCareerProgressionTest {
         boolean result = TCP.isDateAfter(dateDouble2);
 
         //assert
-        assertFalse(result);
+        assertTrue(result);
     }
 
     //sameAs

@@ -176,12 +176,37 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
@@ -249,12 +274,36 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -324,12 +373,37 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -403,12 +477,37 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();
@@ -479,12 +578,37 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
         Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
         Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
         StudentID studentID3 = new StudentID(1456789);
-        Student student1 = new Student(studentID1, "João Silva", "123456789", "221234567", "joao123@gmail.com", address1);
-        Student student2 = new Student(studentID2, "Rita Mendes", "123455649", "221234567", "rita123@gmail.com", address2);
-        Student student3 = new Student(studentID3, "Ana Luisa", "123456439", "221234569", "ana123@gmail.com", address3);
+
+        Name name1 = new Name("João Silva");
+        Name name2 = new Name("Rita Mendes");
+        Name name3 = new Name("Ana Luisa");
+
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+
+        NIF nif1 = new NIF("123456789", country);
+        NIF nif2 = new NIF("123455649", country);
+        NIF nif3 = new NIF("123456439", country);
+
+        PhoneNumber phone1 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone2 = new PhoneNumber("+351", "221234567");
+        PhoneNumber phone3 = new PhoneNumber("+351", "221234569");
+
+        Email email1 = new Email("joao123@gmail.com");
+        Email email2 = new Email("rita123@gmail.com");
+        Email email3 = new Email("ana123@gmail.com");
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
+        Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory= new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory= new ProgrammeEditionEnrolmentFactoryImpl();

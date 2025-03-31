@@ -73,11 +73,11 @@ class DepartmentRepository {
 
 interface IProgrammeEditionEnrolmentRepo {
      +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
-     +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear): int
+     +countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
 }
 class ProgrammeEditionEnrolmentRepo {
     +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
-    +countStudentsInProgrammesFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear): int
+    +countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
 }
 
 
@@ -97,7 +97,7 @@ class SchoolYearRepository {
  package "ProgrammeEdition Aggregate" #Lightblue{
      class ProgrammeEdition <<Root>> {
          +ProgrammeEdition(programmeEditionID: ProgrammeEditionID, programmeID: ProgrammeID, schoolYearID: SchoolYearID)
-         +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear): boolean
+         +isEditionAssociatedToDepartmentAndSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): boolean
      }
  }
 
@@ -162,11 +162,11 @@ class "<<Value Object>>\n PostalCode" {
 }
 
 class "<<Value Object>>\n Location" {
-     +PostalCode()
+     +Location()
 }
 
 class "<<Value Object>>\n Country" {
-     +PostalCode()
+     +Country()
 }
 class "<<Value Object>>\n Date" {
      +Date (date : String)

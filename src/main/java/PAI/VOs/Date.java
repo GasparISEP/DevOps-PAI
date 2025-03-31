@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Date implements ValueObject {
 
     private final LocalDate localDate;
-
     public Date(String date) {
         if (date == null || date.isBlank()) {
             throw new IllegalArgumentException("Date cannot be empty!");
@@ -22,12 +21,8 @@ public class Date implements ValueObject {
             throw new IllegalArgumentException("Invalid date format. Please use dd-MM-yyyy.");
         }
     }
-
     public Date(LocalDate localDate) {
-        if (localDate == null) {
-            throw new IllegalArgumentException("Date cannot be null!");
-        }
-        this.localDate = localDate;
+        this.localDate = Objects.requireNonNull(localDate, "Date cannot be null!");
     }
 
     public LocalDate getLocalDate() {
@@ -39,10 +34,12 @@ public class Date implements ValueObject {
     }
 
     public boolean isBefore(Date other) {
+
         return this.localDate.isBefore(other.localDate);
     }
 
     public boolean isAfter(Date other) {
+
         return this.localDate.isAfter(other.localDate);
     }
 
@@ -54,8 +51,4 @@ public class Date implements ValueObject {
         return Objects.equals(localDate, date.localDate);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(localDate);
-    }
 }

@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.StudentID;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -53,7 +55,7 @@ public class CourseEditionEnrolment {
         return _courseEdition.equals(courseEdition);
     }
 
-    public Object knowStudent() {
+    public Student knowStudent() {
         return _student;
     }
 

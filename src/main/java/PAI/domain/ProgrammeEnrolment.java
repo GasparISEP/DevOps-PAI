@@ -1,60 +1,79 @@
 package PAI.domain;
 
-import PAI.VOs.Date;
+import PAI.VOs.*;
+import PAI.ddd.AggregateRoot;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
-public class ProgrammeEnrolment {
+public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
 
-    private Student _student;
-    private AccessMethod _accessMethod;
-    private Programme _programme;
+    private ProgrammeEnrolmentID _peID;
+    private StudentID _studentID;
+    private AccessMethodID _accessMethodID;
+    private ProgrammeID _programmeID;
     private Date _date;
 
-    public ProgrammeEnrolment(Student student, AccessMethod accessMethod, Programme programme, Date date) throws IllegalArgumentException {
+    public ProgrammeEnrolment(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws IllegalArgumentException {
 
-        if (student == null || accessMethod == null || programme == null){
-            throw new IllegalArgumentException ("Argument cannot be null");
+        if (studentID == null || accessMethodID == null || programmeID == null){
+            throw new IllegalArgumentException ("Argument cannot be null.");
         }
-
-        _student = student;
-        _accessMethod = accessMethod;
-        _programme = programme;
 
         if(date == null)
             throw new IllegalArgumentException("Date cannot be null!");
+
+        _studentID = studentID;
+        _accessMethodID = accessMethodID;
+        _programmeID = programmeID;
         _date = date;
+        _peID = new ProgrammeEnrolmentID();
     }
 
-    private LocalDate validateAndFormatDate(String date) throws IllegalArgumentException {
+    public boolean isDateAfter(Date date) {
 
-        if (date == null || date.isBlank())
-            throw new IllegalArgumentException("Date cannot be empty!");
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate formattedDate;
-        try {
-            formattedDate = LocalDate.parse(date, formatter);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.");
-        }
-        return formattedDate;
+        return _date.getLocalDate().isAfter(date.getLocalDate());
     }
 
-    public boolean hasSameStudent(Student student){
+    public boolean hasSameStudent(Student student){return this._studentID.equals(student.identity());}
 
-        return _student.equals(student);
-    }
+    public boolean hasSameStudent2(StudentID studentID){return this._studentID.equals(studentID);}
 
     public boolean hasSameEnrolment(ProgrammeEnrolment programmeEnrolment){
-        return this._student.equals(programmeEnrolment._student) &&
-                this._programme.isEquals(programmeEnrolment._programme);
+        return this._studentID.equals(programmeEnrolment._studentID) &&
+                this._programmeID.equals(programmeEnrolment._programmeID);
     }
 
-    public boolean hasSameProgramme(Programme programme) {
-        return _programme.isEquals(programme);
+    public boolean hasSameEnrolment2(ProgrammeEnrolmentID programmeEnrolmentID){
+        return this.identity().equals(programmeEnrolmentID);
+    }
+
+    public boolean hasSameProgramme(Programme programme) {return _programmeID.equals(programme);}
+
+    public boolean hasSameProgramme2(ProgrammeID programmeID){return programmeID.equals(_programmeID);}
+
+    public StudentID getStudentID() {return _studentID;}
+
+    public AccessMethodID getAccessMethodID() {return _accessMethodID;}
+
+    public ProgrammeID getProgrammeID() {return _programmeID;}
+
+    public Date getDate() {return _date;}
+
+    @Override
+    public ProgrammeEnrolmentID identity() {return _peID;}
+
+    @Override
+    public boolean sameAs(Object other) {
+        if (this == other) return true;
+
+        if (!(other instanceof ProgrammeEnrolment)) return false;
+
+        return _peID.equals(((ProgrammeEnrolment) other)._peID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_peID);
     }
 }
 

@@ -223,7 +223,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID1 = new StudentID(1234567);
-        Student st1 = new Student(studentID1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Name name = new Name("Rita");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
+
+        Student st1 = new Student(studentID1, name, nif, phone, email, address1, academicEmail);
 
         Date date = new Date("15-04-2005");
         TeacherCategoryID tcID = new TeacherCategoryID();
@@ -364,11 +372,25 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
 
         StudentID studentID1 = new StudentID(1234567);
+
+        Name name = new Name("Rita");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
+
+        Student st1 = new Student(studentID1, name, nif, phone, email, address1, academicEmail);
+
         StudentID studentID2 = new StudentID(1234367);
+        Name name2 = new Name("Rita");
+        NIF nif2 = new NIF("123456789", country);
+        PhoneNumber phone2 = new PhoneNumber("+351","963741258");
+        Email email2 = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID1);
 
-        Student st1 = new Student(studentID1, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
-
-        Student st2 = new Student(studentID2, "Joana", "123556789", "963741369", "joana@gmail.com", address1);
+        Student st2 = new Student(studentID2, name2, nif2, phone2, email2, address1, academicEmail2);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
@@ -441,7 +463,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
         StudentID studentID = new StudentID(1234567);
-        Student st1 = new Student(studentID, "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        Name name = new Name("Rita");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        Student st1 = new Student(studentID, name, nif, phone, email, address1, academicEmail);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 

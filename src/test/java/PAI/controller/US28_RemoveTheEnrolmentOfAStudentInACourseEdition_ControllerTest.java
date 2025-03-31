@@ -181,9 +181,16 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
 
         StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -226,9 +233,16 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
 
         StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -269,9 +283,16 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
 
         StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -315,9 +336,16 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
 
         StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -361,14 +389,22 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
 
         StudentID studentID1 = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
 
-        Student student1 = new Student(studentID1, "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Student student1 = new Student(studentID1, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
 
         StudentID studentID2 = new StudentID(1762242);
 
-        Student student2 = new Student(studentID2, "John", "223445667", "222553444", "567@gmail.com",
-        new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+
+        Student student2 = new Student(studentID2, name, nif, new PhoneNumber("+351", "222553444"), new Email("567@gmail.com"),
+        new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
@@ -413,9 +449,16 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
 
         StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
 
-        Student student = new Student(studentID, "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();

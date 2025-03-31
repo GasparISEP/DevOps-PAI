@@ -1,132 +1,222 @@
 @startuml
 skinparam ranksep 100
 skinparam nodesep 100
+skinparam packageBorderColor #F0B0B0
+skinparam arrowThickness 1.2
+skinparam linetype ortho
+top to bottom direction
 
-class US19_CreateCourseEditionController {
-    -_programmeEditionRepository: ProgrammeEditionRepository
-    -_courseEditionRepository: CourseEditionRepository
-    -_programmeRepository: ProgrammeRepository
-    +US19_CreateCourseEditionController(programmeEditionRepository: ProgrammeEditionRepository,
-    courseEditionRepository: CourseEditionRepository, programmeList: ProgrammeList)
-    +getAllProgrammeEditions()
-    +getCourseList(programmeEdition: ProgrammeEdition)
+together {
+package controller{
+    class US19_CreateCourseEditionController <<controller>> {
+        -_degreeTypeRepository: DegreeTypeRepository
+        -_programmeRepository: ProgrammeRepository
+        -_studyPlanRepository: StudyPlanRepository
+        -_courseInStudyPlanRepository: CourseInStudyPlanRepository
+        -_programmeEditionRepository: ProgrammeEditionRepository
+        -_courseEditionRepository: CourseEditionRepository
+        +US19_CreateCourseEditionController(degreeTypeRepository: DegreeTypeRepository,
+        programmeRepository: ProgrammeRepository, studyPlanRepository: StudyPlanRepository,
+        courseInStudyPlanRepository: CourseInStudyPlanRepository, programmeEditionRepository: ProgrammeEditionRepository,
+        courseEditionRepository: CourseEditionRepository,)
+    }
 }
 
-class ProgrammeRepository {
-     +registerProgramme(String : name, String : acronym, int : quantityOfEcts,
-     int quantityOfSemesters, int degreeType: DegreeType; Department : department, Teacher programmeDirector)
-     +changeProgrammeDirector(Programme programme, Teacher newDirector)
-     +getAllProgrammes()
-     +getCourseList(programme: Programme)
+package repository{
+
+    package CourseEditionRepository{
+
+        interface ICourseEditionRepository <<interface>> {}
+
+        class CourseEditionRepositoryImpl <<repository>> {
+        + CourseEditionRepositoryImpl (ICourseEditionFactory, ICourseEditionListFactory):
+        - _courseEditions: List<CourseEdition>
+        - _I_courseEditionFactory: ICourseEditionFactory
+        + createAndSaveCourseEdition(Course, ProgrammeEdition): boolean
+        + isCourseEditionAlreadyInRepository(CourseEdition): boolean
+        + findCourseEditionsByProgrammeEdition(ProgrammeEdition): List<CourseEdition>
+        + getCourseEditions(): List<CourseEdition>
+        + setRucInACourseEdition(CourseEdition, Teacher): boolean
+        + findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition): ProgrammeEdition
+        }
+
+        interface ICourseEditionListFactory <<interface>> {
+            + ICourseEditionListFactory():
+            + newList()
+        }
+
+        class CourseEditionArrayListFactoryImpl {
+            + CourseEditionArrayListFactoryImpl():
+            + newList(): List<CourseEdition>
+        }
+    }
+
+    package CourseInStudyPlanRepository {
+
+        interface ICourseInStudyPlanRepository <<interface>> {}
+
+        class CourseInStudyPlanRepositoryImpl <<repository>> {
+            + CourseInStudyPlanRepository_2(ICourseInStudyPlanFactory_2, ICourseInStudyPlanListFactory_2):
+            - _courseInStudyPlanFactory_2: ICourseInStudyPlanFactory_2
+            - _coursesInStudyPlanList_2: List<CourseInStudyPlan_2>
+            + createCourseInStudyPlan_2(Semester, CurricularYear, CourseID, StudyPlanID): boolean
+            + findByCourseInStudyPlanID(CourseInStudyPlanID): Optional<CourseInStudyPlan_2>
+            + getAllCourseInStudyPlanList_2(): List<CourseInStudyPlan_2>
+        }
+
+        interface ICourseInStudyPlanListFactory <<interface>> {
+            + ICourseInStudyPlanListFactory():
+            + newList()
+        }
+
+        class CourseInStudyPlanArrayListFactoryImpl {
+            + CourseInStudyPlanArrayListFactoryImpl():
+            + newList(): List<CourseInStudyPlan>
+        }
+    }
+
+    package ProgrammeEditionRepository {
+
+        interface IProgrammeEditionRepository <<interface>> {}
+
+        class ProgrammeEditionRepositoryImpl <<repository>>{
+            +ProgrammeEditionRepositoryImpl()
+            +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
+            +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
+            +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
+            +getAllProgrammeEditions()
+        }
+
+        interface IProgrammeEditionListFactory <<interface>> {
+          + IProgrammeEditionListFactory():
+          + newList()
+        }
+
+        class ProgrammeEditionArrayListFactoryImpl {
+          + ProgrammeEditionArrayListFactoryImpl():
+          + newList(): List<ProgrammeEdition>
+        }
+    }
 }
 
-class Programme {
-     - name: string
-     - acronym: string
-     - quantityOfEcts: int
-     - quantityOfSemesters: int
-     - degreeType: DegreeType
-     - department: Department
-     - programmeDirector: Teacher
-     -StudyPlan: _studyPlan
+package domain {
 
-     + equals()
-     + addCourseToProgramme (course: Course)
-     + newProgrammeDirector(): boolean
-     +enrolStudentInProgramme(Student: student, accessMethod: AccessMethod, amr: AccessMethodRepository)
-     +isStudentEnrolled(student: Student)
-     +isInDepartment(department: Department)
-     +getCourseList()
-     +getQuantityOfSemester()
-     +getQuantityOfEcts()
+    package CourseEditionAggregate{
+        class CourseEdition <<root>> {
+          + CourseEdition_2(CourseInStudyPlanID, ProgrammeEditionID)
+          + CourseEdition_2(CourseEditionID, CourseInStudyPlanID, ProgrammeEditionID)
+          - _courseEditionID: CourseEditionID
+          - _courseInStudyPlanID: CourseInStudyPlanID
+          - _programmeEditionID: ProgrammeEditionID
+          + sameAs(Object): boolean
+          + getCourseInStudyPlanID(): CourseInStudyPlanID
+          + getProgrammeEditionID(): ProgrammeEditionID
+          + equals(Object): boolean
+          + identity(): CourseEditionID
+        }
+        class CourseEditionID <<Value Object>>{}
+
+        interface ICourseEditionFactory <<interface>> {
+            +newCourseEdition(CourseInStudyPlanID, ProgrammeEditionID)
+            +newCourseEdition(CourseEditionID, CourseInStudyPlanID, ProgrammeEditionID)
+        }
+
+        class CourseEditionFactoryImpl {
+            +newCourseEdition(CourseInStudyPlanID, ProgrammeEditionID)
+            +newCourseEdition(CourseEditionID, CourseInStudyPlanID, ProgrammeEditionID)
+        }
+    }
+
+    package CourseInStudyPlanAggregate{
+        class CourseInStudyPlan <<root>>{
+          + CourseInStudyPlan_2(Semester, CurricularYear, CourseID, StudyPlanID):
+          - _semester: Semester
+          - _courseID: CourseID
+          - _curricularYear: CurricularYear
+          - _studyPlanID: StudyPlanID
+          - _courseInStudyPlanID: CourseInStudyPlanID
+          + getCurricularYear(): CurricularYear
+          + getSemester(): Semester
+          + getStudyplanID(): StudyPlanID
+          + getCourseID(): CourseID
+          + getCourseInStudyPlanID(): CourseInStudyPlanID
+          + equals(Object): boolean
+        }
+
+        class CourseInStudyPlanID <<Value Object>>{}
+
+        interface ICourseInStudyPlanFactory <<interface>> {
+            +newCourseInStudyPlan(Semester, CurricularYear, CourseID, StudyPlanID)
+            +newCourseInStudyPlan(CourseInStudyPlanID, Semester, CurricularYear, CourseID, StudyPlanID)
+        }
+
+        class CourseInStudyPlanFactoryImpl {
+            +newCourseInStudyPlan(Semester, CurricularYear, CourseID, StudyPlanID)
+            +newCourseInStudyPlan(CourseInStudyPlanID, Semester, CurricularYear, CourseID, StudyPlanID)
+        }
+    }
+
+    package ProgrammeEditionAggregate{
+
+        class ProgrammeEdition <<root>>{
+          + ProgrammeEdition(Programme, SchoolYear):
+          - _programme: Programme
+          - _schoolYear: SchoolYear
+          + findSchoolYearInProgrammeEdition(): SchoolYear
+          + isCourseInProgrammeCourseListByProgrammeEdition(ProgrammeEdition, Course): boolean
+          + equals(Object): boolean
+          + isEditionAssociatedToDepartmentAndSchoolYear(Department, SchoolYear): boolean
+          + findProgrammeInProgrammeEdition(): Programme
+        }
+
+        class ProgrammeEditionID <<Value Object>>{}
+
+        interface IProgrammeEditionFactory <<interface>> {
+            +newProgrammeEdition(ProgrammeID, SchoolYearID)
+            +newProgrammeEdition(ProgrammeEditionID, ProgrammeID, SchoolYearID)
+        }
+
+        class ProgrammeEditionFactoryImpl {
+            +newProgrammeEdition(ProgrammeID, SchoolYearID)
+            +newProgrammeEdition(ProgrammeEditionID, ProgrammeID, SchoolYearID)
+        }
+    }
+}
 }
 
-class ProgrammeEditionRepository {
-    +ProgrammeEditionRepository()
-    +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
-    +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
-    +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
-    +getAllProgrammeEditions()
-}
 
-class ProgrammeEdition {
-    -_programme: Programme
-    -_schoolYear: SchoolYear
-    +programmeEdition(programme: Programme,schoolYear: SchoolYear)
-    +equals(object: Object)
-    +findProgrammeInProgrammeEdition()
-    +findSchoolYearInProgrammeEdition()
-    +isEditionAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear)
-}
+US19_CreateCourseEditionController "1" ..> "1" ICourseEditionRepository
+US19_CreateCourseEditionController "1" ..> "1" ICourseInStudyPlanRepository
+US19_CreateCourseEditionController "1" ..> "1" IProgrammeEditionRepository
 
-class Course {
-    -_name: String
-    -_acronym: String
-    -_quantityCreditsEcts: double
-    -_durationCourseInSemester: int
-    +Course(name: String, acronym: String, quantityCreditsECTS: double, durationCourseInSemester: int)
-    +getQuantityCreditsEcts()
-    +getDurationInSemester()
-    +getName()
-    +getAcronym()
-}
+CourseEditionFactoryImpl "1" .|> "1" ICourseEditionFactory
+CourseEditionArrayListFactoryImpl "1" .|> "1" ICourseEditionListFactory
+ICourseEditionListFactory "1" <.. "1" CourseEditionRepositoryImpl
+ICourseEditionRepository "1" --down--> "1" ICourseEditionFactory
+ICourseEditionRepository "1" <|.. "0..*" CourseEditionRepositoryImpl
+ICourseEditionRepository "1" --> "_courseEditions" CourseEdition
 
-class CourseEditionRepository {
-    +CourseEditionRepository()
-    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
-    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
-    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
-    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
-    +getCourseEditions(): List<CourseEdition>
-    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition)
-}
+CourseInStudyPlanFactoryImpl "1" .|> "1" ICourseInStudyPlanFactory
+CourseInStudyPlanArrayListFactoryImpl "1" .|> "1" ICourseInStudyPlanListFactory
+ICourseInStudyPlanListFactory "1" <.. "1" CourseInStudyPlanRepositoryImpl
+ICourseInStudyPlanRepository "1" --down--> "1" ICourseInStudyPlanFactory
+ICourseInStudyPlanRepository "1" <|.. "0..*" CourseInStudyPlanRepositoryImpl
+ICourseInStudyPlanRepository "1" --> "_coursesInStudyPlan" CourseInStudyPlan
 
-class CourseEdition {
-    -_programmeEdition: ProgrammeEdition
-    -_course: Course
-    -_ruc: Teacher
-    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-    +Equals(objectToCompare: Object)
-    +setRuc(Teacher: ruc)
-    +whatProgrammeEditionBelongsThisCourseEdition ()
-}
+ProgrammeEditionFactoryImpl "1" .|> "1" IProgrammeEditionFactory
+ProgrammeEditionArrayListFactoryImpl "1" .|> "1" IProgrammeEditionListFactory
+IProgrammeEditionListFactory "1" <.. "1" ProgrammeEditionRepositoryImpl
+IProgrammeEditionRepository "1" --down--> "1" IProgrammeEditionFactory
+IProgrammeEditionRepository "1" <|.. "0..*" ProgrammeEditionRepositoryImpl
+IProgrammeEditionRepository "1" --> "_programmeEditions" ProgrammeEdition
 
-interface CourseEditionFactory {
-    +createCourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-}
+CourseEdition "0..*" ..> "1" ICourseEditionFactory
+CourseEdition "*" --> "1" CourseEditionID
 
-class CourseEditionFactoryImpl {
-    +createCourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-}
+CourseEdition "0..*" --> "1" CourseInStudyPlanID
+CourseInStudyPlanID "1" <-- "1" CourseInStudyPlan
 
-interface CourseEditionListFactory {
-    +newList()
-}
-
-class CourseEditionArrayListFactoryImpl {
-    +newList()
-}
-
-
-
-
-
-US19_CreateCourseEditionController "1" ..> "1" ProgrammeEditionRepository
-US19_CreateCourseEditionController "1" ..> "1" CourseEditionRepository
-US19_CreateCourseEditionController "1" ..> "1" CourseInStudyPlanRepository
-CourseEditionRepository "1" ..> "1" CourseEditionFactory
-CourseEditionRepository "1" --> "_courseEditions" CourseEdition
-ProgrammeEditionRepository "1" --> "_programmeEditions" ProgrammeEdition
-ProgrammeRepository "1" --> "_programmes" Programme
-Programme "1" --> "_courses" Course
-CourseEdition "*" --> "1" ProgrammeEdition
-CourseEdition "1..*" --> "1..*" Course
-CourseEdition "0..*" ..> "1" CourseEditionFactory
-CourseEditionFactoryImpl "1" ..|> "1" CourseEditionFactory
-CourseEditionListFactory "1" <.. "1" CourseEditionRepository
-CourseEditionArrayListFactoryImpl "1" ..|> "1" CourseEditionListFactory
-
-
-
+CourseEdition "*" --> "1" ProgrammeEditionID
+ProgrammeEditionID "1" <-- "1" ProgrammeEdition
 
 @enduml
