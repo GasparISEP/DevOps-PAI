@@ -87,7 +87,7 @@ class AccessMethodDDDRepositoryTest {
     }
 
     @Test
-    void shouldNotGetAccessMethodByNameIfNotInRepository(){
+    void shouldNotGetAccessMethodByNameIfRepositoryIsEmpty(){
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
         AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
@@ -97,5 +97,22 @@ class AccessMethodDDDRepositoryTest {
         //assert
         assertEquals(Optional.empty(),optionalAccessMethod);
     }
+
+    @Test
+    void shouldNotGetAccessMethodByNameIfNameNotFound(){
+        AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
+        AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
+        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
+        NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
+        accessMethodRepository.registerAccessMethod(doubleAccessMethodName);
+        when(doubleAccessMethod.hasThisAccessMethodName(doubleAccessMethodName)).thenReturn(false);
+        //act
+        Optional<AccessMethodDDD> optionalAccessMethod = accessMethodRepository.getAccessMethodByName(doubleAccessMethodName);
+        //assert
+        assertEquals(Optional.empty(), optionalAccessMethod);
+    }
+
 
 }
