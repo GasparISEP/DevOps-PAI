@@ -41,11 +41,11 @@ class CourseEditionRepositoryImpl {
 }
 
 interface ICourseEditionListFactory_2 {
-    + List<CourseEdition_2> newArrayList()
+    + List<CourseEdition_2> newList()
 }
 
-class CourseEditionListFactoryImpl {
-    + List<CourseEdition> newArrayList()
+class CourseEditionListFactoryImpl_2 {
+    + List<CourseEdition_2> newList()
 }
 
 
@@ -123,7 +123,7 @@ TeacherRepositoryImpl "1" -up-> "1" ITeacherListFactory : uses
 TeacherListFactoryImpl ..|> ITeacherListFactory
 
 CourseEditionRepositoryImpl "1" -up-> "1" ICourseEditionListFactory_2 : uses
-CourseEditionListFactoryImpl ..|> ICourseEditionListFactory_2
+CourseEditionListFactoryImpl_2 ..|> ICourseEditionListFactory_2
 
 @enduml
 
