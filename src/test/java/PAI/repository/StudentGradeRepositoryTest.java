@@ -313,6 +313,8 @@ class StudentGradeRepositoryTest {
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
 
         when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double))
                 .thenReturn(studentGrade1);
@@ -320,7 +322,7 @@ class StudentGradeRepositoryTest {
         when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
                 .thenReturn(studentGrade2);
 
-        StudentGradeID studentGradeId = new StudentGradeID();
+        StudentGradeID studentGradeId = new StudentGradeID(studentIDDouble,courseEditionIDDouble);
         when(studentGrade1.identity()).thenReturn(studentGradeId);
 
         boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);

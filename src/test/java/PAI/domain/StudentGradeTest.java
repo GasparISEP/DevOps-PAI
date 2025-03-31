@@ -347,12 +347,13 @@ class StudentGradeTest {
 
     @Test
     void shouldNotBeEqualWhenIdsAreDifferent() throws Exception {
-        StudentID student1 = mock(StudentID.class);
+        StudentID studentID1 = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        StudentGrade grade1 = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
-        StudentGrade grade2 = new StudentGrade(grade, dateDouble, student1, courseEditionID1);
+        StudentGrade grade1 = new StudentGrade(grade, dateDouble, studentID1, courseEditionID1);
+        StudentGrade grade2 = new StudentGrade(grade, dateDouble, studentID2, courseEditionID1);
 
         assertNotEquals(grade1, grade2);
     }
@@ -364,11 +365,13 @@ class StudentGradeTest {
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
         StudentGrade grade1 = new StudentGrade(mock(Grade.class), dateDouble, mock(StudentID.class), courseEditionID1);
         StudentGrade grade2 = new StudentGrade(mock(Grade.class), dateDouble, mock(StudentID.class), courseEditionID1);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
 
 
         Field idField = StudentGrade.class.getDeclaredField("_studentGrade_id");
         idField.setAccessible(true);
-        StudentGradeID sharedId = new StudentGradeID();
+        StudentGradeID sharedId = new StudentGradeID(studentIDDouble,courseEditionIDDouble);
 
         idField.set(grade1, sharedId);
         idField.set(grade2, sharedId);
