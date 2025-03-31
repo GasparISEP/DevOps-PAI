@@ -1,10 +1,11 @@
-package PAI.domain;
+package PAI.domain.programme;
 
 import PAI.VOs.*;
+import PAI.domain.Department;
 
 import java.util.Objects;
 
-public class Programme_2 {
+public class ProgrammeDDD {
 
     private NameWithNumbersAndSpecialChars _name;
     private QuantSemesters _quantSemesters;
@@ -15,7 +16,7 @@ public class Programme_2 {
     private TeacherID _programmeDirectorID;
     private ProgrammeID _programmeID;
 
-    public Programme_2(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID) throws IllegalArgumentException {
+    public ProgrammeDDD(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID) throws IllegalArgumentException {
         if(name==null) {
             throw new IllegalArgumentException("Programme name cannot be null");
         }
@@ -57,7 +58,7 @@ public class Programme_2 {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Programme_2 programme = (Programme_2) o;
+        ProgrammeDDD programme = (ProgrammeDDD) o;
         return _quantEcts == programme._quantEcts && _quantSemesters == programme._quantSemesters &&
                 Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
     }

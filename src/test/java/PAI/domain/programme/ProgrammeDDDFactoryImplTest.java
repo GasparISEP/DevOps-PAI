@@ -1,4 +1,4 @@
-package PAI.factory;
+package PAI.domain.programme;
 
 import PAI.VOs.*;
 import PAI.domain.*;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeFactoryImpl_2Test {
+class ProgrammeDDDFactoryImplTest {
     @Test
 
     void shouldCreatNewProgramme() throws Exception {
@@ -21,8 +21,8 @@ class ProgrammeFactoryImpl_2Test {
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
         //act
-        ProgrammeFactoryImpl_2 factory = new ProgrammeFactoryImpl_2();
-        Programme_2 programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
+        ProgrammeDDDFactoryImpl factory = new ProgrammeDDDFactoryImpl();
+        ProgrammeDDD programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
 
         //assert
         assertNotNull(programme);

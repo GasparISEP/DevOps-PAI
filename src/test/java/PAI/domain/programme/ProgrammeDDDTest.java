@@ -1,12 +1,13 @@
-package PAI.domain;
+package PAI.domain.programme;
 
 import PAI.VOs.*;
+import PAI.domain.Department;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 
-class Programme_2Test {
+class ProgrammeDDDTest {
 
     @Test
     void createAProgramme () throws IllegalArgumentException {
@@ -19,7 +20,7 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
-        Programme_2 programme = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD programme = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //assert
         assertNotNull(programme);
     }
@@ -35,7 +36,7 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 programme = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD programme = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         // act
         boolean result = programme.isInDepartment(department2);
         // assert
@@ -52,7 +53,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 programme = new Programme_2(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
+        ProgrammeDDD programme = new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
         // act
         boolean result = programme.isInDepartment(department1);
         // assert
@@ -69,7 +70,7 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new Programme_2(null, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(null, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);});
         //assert
         assertEquals("Programme name cannot be null", exception.getMessage());
     }
@@ -84,7 +85,7 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new Programme_2(name, null, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, null, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);});
         //assert
         assertEquals("Acronym must not be null", exception.getMessage());
     }
@@ -99,7 +100,7 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new Programme_2(name, acronym, null, qtySemesters, degreeTypeID, department1, programmeDirectorID);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, acronym, null, qtySemesters, degreeTypeID, department1, programmeDirectorID);});
         //assert
         assertEquals("Number of ECTS must not be null", exception.getMessage());
     }
@@ -114,7 +115,7 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new Programme_2(name, acronym, qtyEcts, null, degreeTypeID, department1, programmeDirectorID);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, acronym, qtyEcts, null, degreeTypeID, department1, programmeDirectorID);});
         //assert
         assertEquals("Quantity of Semesters must not be null", exception.getMessage());
     }
@@ -129,7 +130,7 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new Programme_2(name, acronym, qtyEcts, qtySemesters, null, department1, programmeDirectorID);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, null, department1, programmeDirectorID);});
         //assert
         assertEquals("DegreeTypeID must not be null", exception.getMessage());
     }
@@ -144,7 +145,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new Programme_2(name, acronym, qtyEcts, qtySemesters, degreeTypeID, null, programmeDirectorID);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, null, programmeDirectorID);});
         //assert
         assertEquals("Department must not be null", exception.getMessage());
     }
@@ -159,7 +160,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new Programme_2(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, null);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, null);});
         //assert
         assertEquals("Insert a valid Programme Director", exception.getMessage());
     }
@@ -176,8 +177,8 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        Programme_2 CEE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.equals(CEE);
         //assert
@@ -200,8 +201,8 @@ class Programme_2Test {
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name1, acronym1, qtyEcts1,qtySemesters1,degreeTypeID1,department1, programmeDirectorID);
-        Programme_2 CEE = new Programme_2(name2, acronym2, qtyEcts2,qtySemesters2,degreeTypeID2,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name1, acronym1, qtyEcts1,qtySemesters1,degreeTypeID1,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name2, acronym2, qtyEcts2,qtySemesters2,degreeTypeID2,department1, programmeDirectorID);
         //act
         boolean result = CE.equals(CEE);
         //assert
@@ -218,7 +219,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.isEquals(CE.getProgrammeID());
         //assert
@@ -235,8 +236,8 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        Programme_2 CEE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.isEquals(CEE.getProgrammeID());
         //assert
@@ -253,7 +254,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         TeacherID teacher1 = mock(TeacherID.class);
         //act
         boolean result = CE.newProgrammeDirector(teacher1);
@@ -271,7 +272,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         TeacherID teacher1 = null;
         //act
         boolean result = CE.newProgrammeDirector(teacher1);
@@ -289,7 +290,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         TeacherID teacher1 = mock(TeacherID.class);
         //act
         QuantEcts result = CE.getQuantEcts();
@@ -307,7 +308,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         TeacherID teacher1 = mock(TeacherID.class);
         //act
         QuantSemesters result = CE.getQuantSemesters();
@@ -325,8 +326,8 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        Programme_2 CEE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.hasThisProgrammeName(CEE.getProgrammeName());
         //assert
@@ -343,8 +344,8 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name1, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        Programme_2 CEE = new Programme_2(name2, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name1, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name2, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.hasThisProgrammeName(CEE.getProgrammeName());
         //assert
@@ -361,7 +362,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         Acronym result = CE.getAcronym();
         //assert
@@ -378,7 +379,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         DegreeType_ID result = CE.getDegreeTypeID();
         //assert
@@ -394,7 +395,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         Department result = CE.getDepartment();
         //assert
@@ -411,7 +412,7 @@ class Programme_2Test {
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme_2 CE = new Programme_2(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         TeacherID result = CE.getProgrammeDirectorID();
         //assert
