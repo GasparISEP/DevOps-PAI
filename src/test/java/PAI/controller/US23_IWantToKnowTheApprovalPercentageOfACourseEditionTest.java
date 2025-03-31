@@ -84,8 +84,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student1, courseEditionID1)).thenReturn(studentGrade1);
         when(IStudentGradeFactory.newGradeStudent(grade2, dateDouble, student2, courseEditionID1)).thenReturn(studentGrade2);
 
-        when(studentGrade1.hasThisCourseEdition(courseEditionID1)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEditionID1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID1)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID1)).thenReturn(true);
 
 
         enrollmentRepository.enrolStudentInACourseEdition(student3, courseEdition);

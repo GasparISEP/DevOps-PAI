@@ -2,6 +2,7 @@
 actor ProgrammeDirector
 participant ":UI" as UI
 participant ":IWantToKnowTheAverageGradeInACourseEditionCtr" as KA
+participant ":CourseEditionRepository" as CER
 participant ":GradeStudentRepository" as GR
 participant ":GradeStudent" as GradeStudent
 autonumber
@@ -11,10 +12,10 @@ ProgrammeDirector -> UI ++ #application: I want to know average grade of Course 
 UI --> ProgrammeDirector -- : Course Edition?
 ProgrammeDirector -> UI ++ #application: Course Edition1!
 UI -> KA ++ #application : IWantToKnowTheAvg(courseEdition1)
-KA -> GR ++ #application : findCourseEditionID (courseEdition1)
-GR -> GR : findIdByCourseEdition (CourseEdition1)
-GR -> KA :  :ceIdVO1
-deactivate GR
+KA -> CER ++ #application : findCourseEditionID (courseEdition1)
+CER -> CER : findIdByCourseEdition (CourseEdition1)
+CER -> KA :  :ceIdVO1
+deactivate CER
 KA -> GR ++ #application : knowApprovalRate(:ceIdVO1)
 
 

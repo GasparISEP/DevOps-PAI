@@ -2,7 +2,6 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.VOs.SchoolYearID;
 import PAI.factory.ISchoolYearFactory;
 import PAI.factory.SchoolYearFactoryImpl;
 import PAI.repository.SchoolYearRepository;

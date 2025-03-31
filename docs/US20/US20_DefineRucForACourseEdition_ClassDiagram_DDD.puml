@@ -40,8 +40,8 @@ class CourseEditionRepositoryImpl {
     +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
 }
 
-interface ICourseEditionListFactory {
-    + List<CourseEdition> newArrayList()
+interface ICourseEditionListFactory_2 {
+    + List<CourseEdition_2> newArrayList()
 }
 
 class CourseEditionListFactoryImpl {
@@ -122,8 +122,8 @@ ICourseEditionRepository "1" -down-> "*" "<<Root>>\n<<Entity>>\nCourseEdition" :
 TeacherRepositoryImpl "1" -up-> "1" ITeacherListFactory : uses
 TeacherListFactoryImpl ..|> ITeacherListFactory
 
-CourseEditionRepositoryImpl "1" -up-> "1" ICourseEditionListFactory : uses
-CourseEditionListFactoryImpl ..|> ICourseEditionListFactory
+CourseEditionRepositoryImpl "1" -up-> "1" ICourseEditionListFactory_2 : uses
+CourseEditionListFactoryImpl ..|> ICourseEditionListFactory_2
 
 @enduml
 
