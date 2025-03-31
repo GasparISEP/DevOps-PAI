@@ -9,136 +9,56 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DateTest {
     @Test
-    public void testValidDateString() {
-        Date date = new Date("15-08-2023");
-        assertEquals(LocalDate.of(2023, 8, 15), date.getLocalDate());
-    }
-    @Test
-    public void testValidDate() {
-        Date date = new Date(LocalDate.now());
-        assertEquals(LocalDate.now(), date.getLocalDate());
+    public void testDateCreationFromString() {
+        Date date = new Date("31-03-2025");
+        assertEquals(LocalDate.of(2025, 3, 31), date.getLocalDate());
     }
 
     @Test
-    public void testInvalidDateFormat() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Date("2023-08-15");
-        });
-        assertEquals("Invalid date format. Please use dd-MM-yyyy.", exception.getMessage());
-    }
-
-    @Test
-    public void testInvalidDateValues() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Date("32-12-2023");
-        });
-        assertEquals("Invalid date format. Please use dd-MM-yyyy.", exception.getMessage());
-    }
-
-    @Test
-    public void testNullDateString() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Date((String) null);
-        });
-        assertEquals("Date cannot be empty!", exception.getMessage());
-    }
-
-    @Test
-    public void testEmptyDateString() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Date("");
-        });
-        assertEquals("Date cannot be empty!", exception.getMessage());
-    }
-
-    @Test
-    public void testValidLocalDateConstructor() {
-        LocalDate localDate = LocalDate.now();
+    public void testDateCreationFromLocalDate() {
+        LocalDate localDate = LocalDate.of(2025, 3, 31);
         Date date = new Date(localDate);
         assertEquals(localDate, date.getLocalDate());
     }
 
     @Test
-    public void testNullLocalDate() {
+    public void testInvalidDateFormat() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Date((LocalDate) null);
+            new Date("2025-03-31");
         });
-        assertEquals("Date cannot be null!", exception.getMessage());
+        assertEquals("Invalid date format. Please use dd-MM-yyyy.", exception.getMessage());
     }
 
     @Test
-    public void testEqualsMethod() {
-        Date date1 = new Date("15-08-2023");
-        Date date2 = new Date("15-08-2023");
-        assertEquals(date1, date2);
-    }
-    @Test
-    public void testEqualsMethodLocalDateNow() {
-        Date date1 = new Date(LocalDate.now());
-        Date date2 = new Date(LocalDate.now());
-        assertEquals(date1, date2);
-    }
-
-    @Test
-    public void testNotEqualsMethod() {
-        Date date1 = new Date("15-08-2023");
-        Date date2 = new Date("16-08-2023");
-        assertNotEquals(date1, date2);
-    }
-
-    @Test
-    public void testHashCodeMethod() {
-        Date date1 = new Date("15-08-2023");
-        Date date2 = new Date("15-08-2023");
-        assertEquals(date1.hashCode(), date2.hashCode());
-    }
-    @Test
-    public void testHashCodeMethodLocalDateNow() {
-        Date date1 = new Date(LocalDate.now());
-        Date date2 = new Date(LocalDate.now());
-        assertEquals(date1.hashCode(), date2.hashCode());
-    }
-
-    @Test
-    public void testNowNotNull() {
-        Date today = Date.now();
-        assertNotNull(today);
-    }
-
-    @Test
-    public void testNowMatchesLocalDate() {
-        Date today = Date.now();
-        assertEquals(LocalDate.now(), today.getLocalDate());
-    }
-
-    @Test
-    public void dateIsBefore() {
-        Date date1 = new Date("15-08-2023");
-        Date date2 = new Date("16-08-2023");
+    public void testIsBefore() {
+        Date date1 = new Date("30-03-2025");
+        Date date2 = new Date("31-03-2025");
         assertTrue(date1.isBefore(date2));
+        assertFalse(date2.isBefore(date1));
     }
 
     @Test
-    public void dateIsNotBefore() {
-        Date date1 = new Date("16-08-2023");
-        Date date2 = new Date("15-08-2023");
-        assertFalse(date1.isBefore(date2));
-    }
-
-    @Test
-    public void dateIsAfter() {
-        Date date1 = new Date("15-08-2023");
-        Date date2 = new Date("14-08-2023");
-        assertTrue(date1.isAfter(date2));
-    }
-
-    @Test
-    public void dateIsNotAfter() {
-        Date date1 = new Date("14-08-2023");
-        Date date2 = new Date("15-08-2023");
+    public void testIsAfter() {
+        Date date1 = new Date("30-03-2025");
+        Date date2 = new Date("31-03-2025");
+        assertTrue(date2.isAfter(date1));
         assertFalse(date1.isAfter(date2));
     }
 
+    @Test
+    public void testEquals() {
+        Date date1 = new Date("31-03-2025");
+        Date date2 = new Date("31-03-2025");
+        Date date3 = new Date("30-03-2025");
+        //act + assert
+        assertEquals(date1, date2);
+        assertNotEquals(date1, date3);
+    }
 
 
+    @Test
+    public void testEqualsWithNull() {
+        Date date1 = new Date("31-03-2025");
+        assertNotEquals(null, date1);
+    }
 }

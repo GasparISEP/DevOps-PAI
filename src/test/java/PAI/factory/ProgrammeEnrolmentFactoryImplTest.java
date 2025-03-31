@@ -2,7 +2,7 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.programme.ProgrammeDDD;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -33,7 +33,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         TeacherCareerProgressionListFactoryImpl _tcpLFactoryDouble;
         Teacher _teacher;
         ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl1;
-        Programme_2 _programme;
+        ProgrammeDDD _programme;
         Date _date;
         WorkingPercentage _wp;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
@@ -45,7 +45,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         AttributesForTestsWithoutIsolation() throws Exception {
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
             _studentID = new StudentID(1234567);
-            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789"), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _address, new StudentAcademicEmail(_studentID));
+            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789", new Country("Portugal")), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _address, new StudentAcademicEmail(_studentID));
             _accessMethod = new AccessMethodID();
             _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);
@@ -65,7 +65,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactoryImpl = new CourseFactoryImpl();
-            _programme = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+            _programme = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                     new QuantEcts(20), new QuantSemesters(6), _degreeTypeID,
                     _department, _teacherID);
         }
