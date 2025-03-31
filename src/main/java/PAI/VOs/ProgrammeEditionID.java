@@ -1,9 +1,7 @@
 package PAI.VOs;
 
 import PAI.ddd.DomainId;
-import PAI.domain.ProgrammeEdition;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class ProgrammeEditionID implements DomainId {

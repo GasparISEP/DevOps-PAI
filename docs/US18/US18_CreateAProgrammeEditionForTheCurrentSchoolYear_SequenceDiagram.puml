@@ -5,29 +5,31 @@ Actor ASC
 
 participant ":UI" as UI
 participant ":CreateAProgrammeEditionForTheCurrentSchoolYearController" as CPEC
-participant ":ProgrammeList" as PL
+participant ":ProgrammeRepository" as PR
 participant ":SchoolYearRepository" as SYR
-participant ":ProgrammeEditionRepository-" as PER
+participant ":ProgrammeEditionRepository" as PER
 participant ":ProgrammeEditionFactory" as PEF
 
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
 UI -> CPEC ++ #application : getAllProgrammeNames()
-CPEC -> PL ++ #application : getAllProgrammeNames()
-PL --> CPEC -- : programmeNamesList
+CPEC -> PR ++ #application : getAllProgrammeNames()
+PR --> CPEC -- : programmeNamesList
 CPEC --> UI -- : programmeNamesList
 UI -> ASC --  : Which Programme?
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
 UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(Licenciatura Engenharia Informática)
 
-CPEC -> PL ++ #application : getProgrammeByName(Licenciatura Engenharia Informática)
-PL --> CPEC -- : programme
+CPEC -> PR ++ #application : getProgrammeByIDByName(Licenciatura Engenharia Informática)
+PR --> CPEC -- : programmeID
 CPEC -> SYR ++ #application : getCurrentSchoolYear()
-SYR --> CPEC : currentSchoolYear
+SYR --> CPEC : schoolYearID
 SYR --
-CPEC -> PER ++ #application : createProgrammeEdition(programme, currentSchoolYear)
-PER -> PEF ++ #application : createProgrammeEdition(programme, currentSchoolYear)
+CPEC -> PER ++ #application : createProgrammeEdition(programmeID, schoolYearID)
+PER -> PEF ++ #application : createProgrammeEdition(programmeID, schoolYearID)
 create "programmeEdition:ProgrammeEdition" as PE
-PEF -> PE : <create> (programme, currentSchoolYear)
+PEF -> PE : <create> (programmeID, schoolYearID)
+create "programmeEditionID:ProgrammeEditionID" as PEID
+PE -> PEID : <create> ()
 PEF --> PER : programmeEdition
 PEF--
 PER -> PER : isProgrammeEditionAlreadyRegistered (programmeEdition)
@@ -38,6 +40,6 @@ CPEC --> UI : true
 CPEC --
 UI --> ASC -- : Programme Edition created for the current school year!
 participant "programmeNameList:List<String>"
-participant "programme:Programme"
-participant "currentSchoolYear:SchoolYear"
+participant "programmeID:ProgrammeID"
+participant "schoolYearID"
 @enduml
