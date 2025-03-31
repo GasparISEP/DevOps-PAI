@@ -98,4 +98,25 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
+    @Override
+    public StudentGrade save(StudentGrade entity) {
+        _StudentGradeList.add(entity);
+        return entity;
+    }
+
+    @Override
+    public Iterable<StudentGrade> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<StudentGrade> ofIdentity(StudentGradeID id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean containsOfIdentity(StudentGradeID id) {
+        return false;
+    }
+
 }

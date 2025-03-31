@@ -353,6 +353,41 @@ class StudentGradeRepositoryTest {
         // Assert
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void shouldSaveStudentGrade() throws Exception {
+        // Arrange
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
+
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
+
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
+
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
+        Grade grade = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
+
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double))
+                .thenReturn(studentGrade1);
+
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
+                .thenReturn(studentGrade2);
+
+        // Act
+        StudentGrade result1 = list.save(studentGrade1);
+
+        // Assert
+        assertEquals(studentGrade1 , result1);
+
+    }
 }
 
 
