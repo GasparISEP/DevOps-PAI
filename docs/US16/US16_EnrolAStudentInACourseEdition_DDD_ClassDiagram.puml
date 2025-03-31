@@ -73,9 +73,9 @@ class "<<Value Object>>\n EnrolmentStatus" {
 }
 
 class "<<Value Object>>\n CourseEditionEnrolmentID" {
-     -_courseEditionEnrolmentId: UUID
-     +CourseEditionEnrolmentID()
-     +findCeeId (): UUID
+     -_courseEditionId: CourseEditionID
+     -_studentId: StudentID
+     +CourseEditionEnrolmentID(studentId: StudentID, courseEditionId: CourseEditionID))
      +equals (obj: Object) : boolean
      +hashCode(): int
      +toString(): String
