@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>PAI</groupId>
@@ -11,63 +13,66 @@
     <properties>
         <!-- Java Version Configuration -->
         <java.version>21</java.version>
-
-        <!-- Maven Version Configuration -->
+        <!-- Maven Compiler Plugin version -->
         <maven-compiler-plugin>3.9.1</maven-compiler-plugin>
-
-
-        <!-- Project Encoding Configuration -->
+        <!-- Project Encoding -->
         <project.sourceEncoding>UTF-8</project.sourceEncoding>
         <project.build.sourceEncoding>${project.sourceEncoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.sourceEncoding}</project.reporting.outputEncoding>
-
-        <!-- Junit Version Configuration -->
-        <junit-jupiter>5.10.2</junit-jupiter>
-
-        <!-- Coverage configuration -->
+        <!-- Define a consistent JUnit Jupiter version -->
+        <junit-jupiter.version>5.10.2</junit-jupiter.version>
+        <!-- Other properties -->
         <jacoco-maven-plugin>0.8.11</jacoco-maven-plugin>
-
-        <!-- Pitest Version Configuration-->
         <pitest-maven>1.15.8</pitest-maven>
         <pitest-junit5-plugin>1.1.2</pitest-junit5-plugin>
-
-        <!-- Surefire Version Configuration -->
         <maven-surefire-plugin>3.2.5</maven-surefire-plugin>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-
     </properties>
 
+    <!-- Use the JUnit BOM to align all JUnit 5 dependencies -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit-jupiter}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit-jupiter}</version>
-            <scope>test</scope>
-        </dependency>
-
+        <!-- JUnit Jupiter aggregator for new tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
 
+        <!-- JUnit Vintage Engine to run legacy JUnit 4 tests -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Update JUnit 4 dependency to a specific version -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Other dependencies -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-configuration2</artifactId>
@@ -78,17 +83,11 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Required for running unit tests -->
+            <!-- Maven Surefire Plugin for running tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -102,13 +101,10 @@
                         <include>**/*TestCase.java</include>
                         <include>**/*IT.java</include>
                     </includes>
-                    <!--                    <excludes>-->
-                    <!--                        <exclude>*Main*</exclude>-->
-                    <!--                    </excludes>-->
                 </configuration>
             </plugin>
 
-            <!-- Required for generating coverage report -->
+            <!-- Jacoco Plugin for code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -134,28 +130,27 @@
                 </executions>
             </plugin>
 
-            <!-- Required for generating PIT Mutation reports -->
+            <!-- PIT Mutation Testing Plugin -->
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>1.17.0</version>
                 <dependencies>
-                    <dependency> <!-- Only required because PITest does not work with JUnit5 without it -->
+                    <dependency>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-junit5-plugin</artifactId>
                         <version>1.2.1</version>
                     </dependency>
                 </dependencies>
                 <configuration>
-
                     <outputFormats>
                         <outputFormat>XML</outputFormat>
                         <outputFormat>HTML</outputFormat>
                     </outputFormats>
-                    <!--<verbose>true</verbose>-->
                 </configuration>
-
             </plugin>
+
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -165,7 +160,6 @@
                     <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 

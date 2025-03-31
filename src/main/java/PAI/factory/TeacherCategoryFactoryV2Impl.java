@@ -4,9 +4,6 @@ import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.TeacherCategoryV2;
 
-/**
- * Implementation of the TeacherCategoryV2 factory.
- */
 public class TeacherCategoryFactoryV2Impl implements ITeacherCategoryFactoryV2 {
 
     @Override
