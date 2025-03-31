@@ -121,7 +121,10 @@ public class StudentGradeRepository implements IStudentGradeRepository {
 
     @Override
     public boolean containsOfIdentity(StudentGradeID id) {
-        return false;
+        if (!ofIdentity(id).isPresent()){
+            return false;
+        }
+        return true;
     }
 
 }

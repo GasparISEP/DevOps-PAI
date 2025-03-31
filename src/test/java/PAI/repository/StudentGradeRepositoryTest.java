@@ -460,6 +460,57 @@ class StudentGradeRepositoryTest {
         assertEquals(studentGrade, result.get());
     }
 
+    @Test
+    void shouldReturnTrueWhenIdExists() {
+        // Arrange
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
+
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
+
+        StudentGradeID gradeID = mock(StudentGradeID.class);
+        StudentGrade studentGrade = mock(StudentGrade.class);
+        when(studentGrade.identity()).thenReturn(gradeID);
+
+        repository.save(studentGrade);
+
+        // Act
+        boolean result = repository.containsOfIdentity(gradeID);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenIdDoesNotExist() {
+        // Arrange
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
+
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
+
+        StudentGradeID existingID = mock(StudentGradeID.class);
+        StudentGradeID otherID = mock(StudentGradeID.class);
+        StudentGrade studentGrade = mock(StudentGrade.class);
+        when(studentGrade.identity()).thenReturn(existingID);
+
+        repository.save(studentGrade);
+
+        // Act
+        boolean result = repository.containsOfIdentity(otherID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+
+
 
 }
 
