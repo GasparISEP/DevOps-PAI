@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class CourseInStudyPlan_2Test {
+class CourseInStudyPlanDDDTest {
 
     @Test
     void ShouldConstructACourseInStudyPlan_2() throws Exception {
@@ -18,10 +18,10 @@ class CourseInStudyPlan_2Test {
         CurricularYear curricularYear = mock(CurricularYear.class);
 
         //Act
-        CourseInStudyPlan_2 CourseInStudyPlan_2 = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD CourseInStudyPlanDDD = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
 
         //Assert
-        assertNotNull(CourseInStudyPlan_2);
+        assertNotNull(CourseInStudyPlanDDD);
     }
 
     @Test
@@ -32,8 +32,8 @@ class CourseInStudyPlan_2Test {
         Semester semester = mock(Semester.class);
         CurricularYear curricularYear = mock(CurricularYear.class);
 
-        CourseInStudyPlan_2 course1 = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
-        CourseInStudyPlan_2 course2 = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD course1 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD course2 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
         assertEquals(course1, course2);
@@ -48,8 +48,8 @@ class CourseInStudyPlan_2Test {
         Semester semester = mock(Semester.class);
         CurricularYear curricularYear = mock(CurricularYear.class);
 
-        CourseInStudyPlan_2 course1 = new CourseInStudyPlan_2(semester, curricularYear, courseID1, studyPlanID);
-        CourseInStudyPlan_2 course2 = new CourseInStudyPlan_2(semester, curricularYear, courseID2, studyPlanID);
+        CourseInStudyPlanDDD course1 = new CourseInStudyPlanDDD(semester, curricularYear, courseID1, studyPlanID);
+        CourseInStudyPlanDDD course2 = new CourseInStudyPlanDDD(semester, curricularYear, courseID2, studyPlanID);
 
         // Assert
         assertNotEquals(course1, course2);
@@ -63,7 +63,7 @@ class CourseInStudyPlan_2Test {
         Semester semester = mock(Semester.class);
         CurricularYear curricularYear = mock(CurricularYear.class);
 
-        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
         assertNotEquals(course, null);
@@ -77,7 +77,7 @@ class CourseInStudyPlan_2Test {
         Semester semester = mock(Semester.class);
         CurricularYear curricularYear = mock(CurricularYear.class);
 
-        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
         assertEquals(course, course);
@@ -92,7 +92,7 @@ class CourseInStudyPlan_2Test {
         CurricularYear curricularYear = mock(CurricularYear.class);
 
         // Act
-        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
 
         // Assert
         assertEquals(courseID, course.getCourseID());
@@ -110,7 +110,7 @@ class CourseInStudyPlan_2Test {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         // Act
-        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
         CourseInStudyPlanID id = course.getCourseInStudyPlanID();
 
         // Assert
@@ -125,7 +125,7 @@ class CourseInStudyPlan_2Test {
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
-        CourseInStudyPlan_2 course = new CourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
 
         // Act: obter o identificador em duas chamadas consecutivas
         CourseInStudyPlanID id1 = course.getCourseInStudyPlanID();

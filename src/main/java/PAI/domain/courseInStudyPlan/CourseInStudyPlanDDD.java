@@ -1,8 +1,8 @@
-package PAI.domain;
+package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
 
-public class CourseInStudyPlan_2 {
+public class CourseInStudyPlanDDD {
 
     private CourseID _courseID;
     private Semester _semester;
@@ -10,7 +10,7 @@ public class CourseInStudyPlan_2 {
     private StudyPlanID _studyPlanID;
     private CourseInStudyPlanID _courseInStudyPlanID;
 
-    public CourseInStudyPlan_2 (Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID) {
+    public CourseInStudyPlanDDD(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID) {
 
         this._courseID = courseID;
         this._semester = semester;
@@ -28,17 +28,16 @@ public class CourseInStudyPlan_2 {
         }
 
         // Verifica se o objeto não é uma instância de CourseInStudyPlan
-        if (!(ObjectToCompare instanceof CourseInStudyPlan_2)) {
+        if (!(ObjectToCompare instanceof CourseInStudyPlanDDD)) {
             return false;
         }
 
         // Faz o cast do objeto para CourseInStudyPlan
-        CourseInStudyPlan_2 courseToBeCompared = (CourseInStudyPlan_2) ObjectToCompare;
+        CourseInStudyPlanDDD courseToBeCompared = (CourseInStudyPlanDDD) ObjectToCompare;
 
         // Compara os atributos relevantes
         return this._courseID.equals(courseToBeCompared._courseID);
     }
-
 
     public CourseID getCourseID() {
         return this._courseID;
@@ -51,7 +50,6 @@ public class CourseInStudyPlan_2 {
     public CurricularYear getCurricularYear() {
         return this._curricularYear;
     }
-
 
     public StudyPlanID getStudyplanID() {
         return this._studyPlanID;

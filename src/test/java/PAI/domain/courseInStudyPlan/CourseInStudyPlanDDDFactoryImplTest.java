@@ -1,16 +1,15 @@
-package PAI.factory;
+package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.CourseID;
 import PAI.VOs.CurricularYear;
 import PAI.VOs.Semester;
 import PAI.VOs.StudyPlanID;
-import PAI.domain.CourseInStudyPlan_2;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
-class CourseInStudyPlanFactoryImpl_2Test {
+class CourseInStudyPlanDDDFactoryImplTest {
 
     @Test
     void shouldCreateFactoryConstrutor() throws Exception {
@@ -22,10 +21,10 @@ class CourseInStudyPlanFactoryImpl_2Test {
         StudyPlanID studyplanID = mock(StudyPlanID.class);
 
         //act
-        ICourseInStudyPlanFactory_2 courseInStudyPlanFactory_2 = new CourseInStudyPlanFactoryImpl_2();
-        CourseInStudyPlan_2 courseInStudyPlan_2 = courseInStudyPlanFactory_2.newCourseInStudyPlan_2(semester, curricularYear, courseID, studyplanID);
+        ICourseInStudyPlanDDDFactory courseInStudyPlanFactory_2 = new CourseInStudyPlanDDDDDDFactoryImpl();
+        CourseInStudyPlanDDD courseInStudyPlan_DDD = courseInStudyPlanFactory_2.newCourseInStudyPlan_2(semester, curricularYear, courseID, studyplanID);
 
         //assert
-        assertNotNull(courseInStudyPlan_2);
+        assertNotNull(courseInStudyPlan_DDD);
     }
 }
