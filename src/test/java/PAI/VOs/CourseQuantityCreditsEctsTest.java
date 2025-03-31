@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseQuantityCreditsEctsTest {
@@ -103,4 +105,13 @@ class CourseQuantityCreditsEctsTest {
         assertEquals(hash1,hash2);
     }
 
+    @Test
+    void shouldReturnQuantityCreditsEcts() throws Exception {
+        //Arrange
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        //Act
+        double quantityCreditsEcts = courseQuantityCreditsEcts.getCourseQuantityCreditsEcts();
+        //Assert
+        assertNotNull(quantityCreditsEcts);
+    }
 }
