@@ -22,4 +22,13 @@ public class CourseQuantityCreditsEcts {
     private  boolean hasMoreThanOneDecimalPlace(double value) {
         return (value * 10) % 1 != 0;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof CourseQuantityCreditsEcts))
+            return false;
+        CourseQuantityCreditsEcts quantityCreditsEctsTest = (CourseQuantityCreditsEcts) object;
+        return Double.compare(_quantityCreditsEcts, quantityCreditsEctsTest._quantityCreditsEcts) == 0;
+    }
 }

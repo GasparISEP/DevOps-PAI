@@ -56,4 +56,40 @@ class CourseQuantityCreditsEctsTest {
         assertNotNull(courseQuantityCreditsEcts);
     }
 
+    @Test
+    void shouldReturnsEqualsIfObjectsAreEqual() throws Exception{
+        //Arrange
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        CourseQuantityCreditsEcts courseID2 = courseQuantityCreditsEcts;
+        //Act+Assert
+        assertEquals(courseQuantityCreditsEcts, courseID2);
+    }
+
+    @Test
+    void shouldReturnNotEqualsIfComparingWithNull() throws Exception {
+        //Arrange
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        CourseQuantityCreditsEcts courseID2 = null;
+        //Act+Assert
+        assertNotEquals(courseQuantityCreditsEcts, courseID2);
+    }
+
+    @Test
+    void shouldReturnNotEqualsIfObjectsAreNotFromSameClass() throws Exception {
+        //Arrange
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        CourseEditionID courseEditionID = new CourseEditionID();
+        //Act+Assert
+        assertNotEquals(courseQuantityCreditsEcts, courseEditionID);
+    }
+
+    @Test
+    void shouldReturnNotEqualsIfCourseQuantityCreditsEctsHaveDifferentQuantityCreditsEcts() throws Exception {
+        //Arrange
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts2 = new CourseQuantityCreditsEcts(6);
+        //Act+Assert
+        assertNotEquals(courseQuantityCreditsEcts, courseQuantityCreditsEcts2);
+    }
+
 }
