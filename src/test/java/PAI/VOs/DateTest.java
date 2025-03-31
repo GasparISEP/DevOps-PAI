@@ -100,29 +100,45 @@ class DateTest {
     }
 
     @Test
-    public void testNow() {
+    public void testNowNotNull() {
         Date today = Date.now();
         assertNotNull(today);
+    }
+
+    @Test
+    public void testNowMatchesLocalDate() {
+        Date today = Date.now();
         assertEquals(LocalDate.now(), today.getLocalDate());
     }
 
     @Test
-    public void testIsBefore() {
+    public void dateIsBefore() {
         Date date1 = new Date("15-08-2023");
         Date date2 = new Date("16-08-2023");
-
         assertTrue(date1.isBefore(date2));
-        assertFalse(date2.isBefore(date1));
     }
-
 
     @Test
-    public void testIsAfter() {
+    public void dateIsNotBefore() {
+        Date date1 = new Date("16-08-2023");
+        Date date2 = new Date("15-08-2023");
+        assertFalse(date1.isBefore(date2));
+    }
+
+    @Test
+    public void dateIsAfter() {
         Date date1 = new Date("15-08-2023");
         Date date2 = new Date("14-08-2023");
-
         assertTrue(date1.isAfter(date2));
-        assertFalse(date2.isAfter(date1));
     }
+
+    @Test
+    public void dateIsNotAfter() {
+        Date date1 = new Date("14-08-2023");
+        Date date2 = new Date("15-08-2023");
+        assertFalse(date1.isAfter(date2));
+    }
+
+
 
 }
