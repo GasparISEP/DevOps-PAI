@@ -1,10 +1,7 @@
 
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentGradeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
@@ -36,22 +33,22 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEdition1))
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double))
                 .thenReturn(studentGrade1);
 
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEdition1))
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
                 .thenReturn(studentGrade2);
 
         // Act
-        boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEdition1);
-        boolean result2 = list.addGradeToStudent(grade, dateDouble, student2, courseEdition1);
+        boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
+        boolean result2 = list.addGradeToStudent(grade, dateDouble, student2, courseEditionID1Double);
 
         // Assert
         assertTrue(result1);
@@ -67,14 +64,14 @@ class StudentGradeRepositoryTest {
         StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactoryDouble,IStudentGradeListFactoryDouble);
 
         StudentID studentDouble = mock(StudentID.class);
-        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        when (IStudentGradeFactoryDouble.newGradeStudent(grade,dateDouble,studentDouble,courseEditionDouble)).thenReturn(studentGradeDouble);
+        when (IStudentGradeFactoryDouble.newGradeStudent(grade,dateDouble,studentDouble,courseEditionID1Double)).thenReturn(studentGradeDouble);
 
         when(studentGradeDouble.hasThisStudent(studentDouble)).thenReturn(true);
-        when(studentGradeDouble.hasThisCourseEdition(courseEditionDouble)).thenReturn(true);
+        when(studentGradeDouble.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
 
         ArrayList<StudentGrade> listDouble = mock(ArrayList.class);
         Iterator<StudentGrade> iteratorDouble = mock(Iterator.class);
@@ -84,11 +81,11 @@ class StudentGradeRepositoryTest {
         when(iteratorDouble.next()).thenReturn(studentGradeDouble);
 
         //Act I
-        boolean firstResult = studentGradeRepository.addGradeToStudent(grade,dateDouble,studentDouble,courseEditionDouble);
+        boolean firstResult = studentGradeRepository.addGradeToStudent(grade,dateDouble,studentDouble,courseEditionID1Double);
         //assert I
         assertTrue(firstResult);
         //act II
-        boolean result = studentGradeRepository.addGradeToStudent(grade,dateDouble,studentDouble,courseEditionDouble);
+        boolean result = studentGradeRepository.addGradeToStudent(grade,dateDouble,studentDouble,courseEditionID1Double);
         //assert II
         assertFalse(result);
     }
@@ -108,7 +105,7 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
@@ -118,19 +115,19 @@ class StudentGradeRepositoryTest {
         when(grade.knowGrade()).thenReturn(10.0);
         when(grade1.knowGrade()).thenReturn(20.0);
 
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
-        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student2, courseEdition1)).thenReturn(studentGrade2);
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student2, courseEditionID1Double)).thenReturn(studentGrade2);
 
         when(studentGrade1.get_grade()).thenReturn(grade);
         when(studentGrade2.get_grade()).thenReturn(grade1);
 
-        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        list.addGradeToStudent(grade, dateDouble, student1, courseEdition1);
-        list.addGradeToStudent(grade1, dateDouble, student2, courseEdition1);
+        when(studentGrade1.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
+        list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
         // act
-        double approvalRate = list.knowApprovalRate(courseEdition1);
+        double approvalRate = list.knowApprovalRate(courseEditionID1Double);
 
         // Assert
         assertEquals(100.0, approvalRate, 0.01);
@@ -150,10 +147,10 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
 
-        CourseEdition courseEdition3 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         // act
-        double approvalRate = list.knowApprovalRate(courseEdition3);
+        double approvalRate = list.knowApprovalRate(courseEditionID1Double);
 
         // Assert
         assertEquals(0.0, approvalRate, 0.01);
@@ -174,7 +171,7 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
@@ -184,20 +181,20 @@ class StudentGradeRepositoryTest {
         when(grade.knowGrade()).thenReturn(10.0);
         when(grade1.knowGrade()).thenReturn(20.0);
 
-        when(studentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
-        when(studentGradeFactory.newGradeStudent(grade1, dateDouble, student2, courseEdition1)).thenReturn(studentGrade2);
+        when(studentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double)).thenReturn(studentGrade1);
+        when(studentGradeFactory.newGradeStudent(grade1, dateDouble, student2, courseEditionID1Double)).thenReturn(studentGrade2);
 
         when(studentGrade1.get_grade()).thenReturn(grade);
         when(studentGrade2.get_grade()).thenReturn(grade1);
 
-        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
 
-        list.addGradeToStudent(grade, dateDouble, student1, courseEdition1);
-        list.addGradeToStudent(grade1, dateDouble, student2, courseEdition1);
+        list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
+        list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEdition1);
+        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(15, averageGrade, 0.01);
@@ -217,7 +214,7 @@ class StudentGradeRepositoryTest {
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
         Grade grade1 = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -227,21 +224,21 @@ class StudentGradeRepositoryTest {
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(studentGradeFactory.newGradeStudent(grade ,dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
-        when(studentGradeFactory.newGradeStudent(grade1, dateDouble, student2, courseEdition1)).thenReturn(studentGrade2);
+        when(studentGradeFactory.newGradeStudent(grade ,dateDouble, student1, courseEditionID1Double)).thenReturn(studentGrade1);
+        when(studentGradeFactory.newGradeStudent(grade1, dateDouble, student2, courseEditionID1Double)).thenReturn(studentGrade2);
 
         when(studentGrade1.get_grade()).thenReturn(grade);
         when(studentGrade2.get_grade()).thenReturn(grade1);
 
 
-        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEdition(courseEditionID1Double)).thenReturn(true);
 
-        list.addGradeToStudent(grade, dateDouble, student1, courseEdition1);
-        list.addGradeToStudent(grade1, dateDouble, student2, courseEdition1);
+        list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
+        list.addGradeToStudent(grade1, dateDouble, student2, courseEditionID1Double);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEdition1);
+        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(0, averageGrade, 0.01);
@@ -260,10 +257,10 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         // Act
-        Double averageGrade = list.KnowAverageGrade(courseEdition1);
+        Double averageGrade = list.KnowAverageGrade(courseEditionID1Double);
 
         // Assert
         assertNull(averageGrade);
@@ -310,24 +307,24 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEdition1))
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double))
                 .thenReturn(studentGrade1);
 
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEdition1))
+        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
                 .thenReturn(studentGrade2);
 
         StudentGradeID studentGradeId = new StudentGradeID();
         when(studentGrade1.identity()).thenReturn(studentGradeId);
 
-        boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEdition1);
-        boolean result2 = list.addGradeToStudent(grade, dateDouble, student2, courseEdition1);
+        boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
+        boolean result2 = list.addGradeToStudent(grade, dateDouble, student2, courseEditionID1Double);
 
         // Act
         Optional<StudentGradeID> result = list.findIdByStudent(studentGrade1);

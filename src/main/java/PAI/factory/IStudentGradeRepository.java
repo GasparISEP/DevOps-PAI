@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
@@ -8,8 +9,8 @@ import PAI.domain.Student;
 import PAI.repository.StudentGradeRepository;
 
 public interface IStudentGradeRepository {
-    boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEdition courseEdition) throws Exception;
-    Double KnowAverageGrade(CourseEdition courseEdition);
-    double knowApprovalRate(CourseEdition courseEdition);
+    boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception;
+    Double KnowAverageGrade(CourseEditionID courseEditionID);
+    double knowApprovalRate(CourseEditionID courseEditionID);
 }
 
