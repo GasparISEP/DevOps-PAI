@@ -1,10 +1,12 @@
 package PAI.repository.accessMethodRepositoryDDD;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.domain.AccessMethod;
 import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AccessMethodDDDRepository {
     private final IAccessMethodDDDFactory _accessMethodFactory;
@@ -31,5 +33,14 @@ public class AccessMethodDDDRepository {
 
     private boolean isAccessMethodRegistered (AccessMethodDDD accessMethod){
         return _accessMethods.contains(accessMethod);
+    }
+
+    public Optional<AccessMethodDDD> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
+        for ( AccessMethodDDD accessMethod : _accessMethods) {
+            if ( accessMethod.hasThisAccessMethodName(accessMethodNameToSearch)){
+                return Optional.of(accessMethod);
+            }
+        }
+        return Optional.empty();
     }
 }
