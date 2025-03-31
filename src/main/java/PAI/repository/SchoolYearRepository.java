@@ -8,9 +8,10 @@ import PAI.factory.ISchoolYearFactory;
 import PAI.factory.ISchoolYearListFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 
-public class SchoolYearRepository {
+public class SchoolYearRepository implements ISchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
     private ISchoolYearFactory _schoolYearFactory;
@@ -71,5 +72,25 @@ public class SchoolYearRepository {
 
     public List<SchoolYear> getAllSchoolYears() {
         return _schoolYearListFactory.copySchoolYearArrayList(_schoolYearList);
+    }
+
+    @Override
+    public SchoolYear save(SchoolYear entity) {
+        return null;
+    }
+
+    @Override
+    public Iterable<SchoolYear> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<SchoolYear> ofIdentity(SchoolYearID id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean containsOfIdentity(SchoolYearID id) {
+        return false;
     }
 }

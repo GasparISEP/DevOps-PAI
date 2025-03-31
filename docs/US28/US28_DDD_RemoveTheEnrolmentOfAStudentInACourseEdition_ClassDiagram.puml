@@ -29,31 +29,27 @@ class Date <<Value Object >> {
 class EnrolmentStatus <<Value Object>>{
     -_isActive: boolean
     + EnrolmentStatus(isActive: boolean)
+    + isEnrolmentActive(): boolean
     }
 
 
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository(factory: ICourseEditionEnrolmentFactory,
      listFactory: ICourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (studenIDt: StudentID, courseEditionID: CourseEditionID): boolean
     +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
 }
 
 interface ICourseEditionEnrolmentRepository {
-    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
+    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
 }
 
 package "Student Aggregate" #LightYellow{
 class Student <<Root>> <<Entity>>{
-    -_name:Name
-    -_NIF:NIF
-    -_phone:Phone
-    -_email:Email
-    -_address:Address
-    -_institutionalEmail:InstitutionalEmail
-    +Student(uniqueNumber: StudentID, name: Name,
-     NIF: NIF, phone: Phone, email: Email, address: Address)
+    + Student(uniqueNumber: StudentID, name: Name, \n NIF: NIF, phone: PhoneNumber, email: Email, \n address: AddressVO, studentAcademicEmail: StudentAcademicEmail)
+
 }
 }
 
@@ -61,6 +57,57 @@ class StudentID <<Value Object>> {
     -_uniqueNumber : int
     + StudentID(uniqueNumber : int)
     + isUniqueNumberValid(uniqueNumber: int): boolean
+}
+
+class Name <<Value Object>> {
+    -_name : String
+}
+
+class NIF <<Value Object>> {
+    -_NIF : String
+}
+
+class PhoneNumber <<Value Object>> {
+    -_countryCode : String
+    -_number : String
+}
+
+class Email <<Value Object>> {
+    -_email : String
+}
+
+class AddressVO <<Value Object>> {
+    + AddressVO (street : Street, postalCode : PostalCode,
+    location : Location, country : Country)
+}
+
+class StudentAcademicEmail <<Value Object>> {
+    -emailDomain : String
+    -_studentEmail : String
+}
+
+class Street <<Value Object>> {
+    -_street : String
+}
+
+class PostalCode <<Value Object>> {
+    -_postalCode : String
+}
+
+class Location <<Value Object>> {
+    -_locationName : String
+}
+
+class Country <<Value Object>> {
+    -_country : String
+}
+
+class ProgrammeID <<Value Object>> {
+    -_progID : UUID
+}
+
+class SchoolYearID <<Value Object>> {
+    -_schoolYearID : UUID
 }
 
 
@@ -75,15 +122,25 @@ class CourseEdition <<Root>> <<Entity>>{
 }
 
 class CourseEditionID <<Value Object>> {
-    -_courseEditionID : int
-    + CourseEditionID(courseEditionID : int)
+    -_courseEditionID : UUID
+    + CourseEditionID()
+    + toString() : String
+    + equals (object : Object) : boolean
 }
 
 class CourseEditionEnrolmentID <<Value Object>> {
-    -_id : int
     + CourseEditionEnrolmentID\n(id : int)
     + equals(object: Object) : boolean
     }
+
+class CourseInStudyPlanID <<Value Object>> {
+    -_courseInStudyPlanID : int
+    + CourseInStudyPlanID(courseInStudyPlanID : int)
+}
+
+class ProgrammeEditionID <<Value Object>> {
+    + ProgrammeEditionID(programmeEditionID : int)
+}
 
 class CourseEditionEnrolmentFactoryImpl {
     +createCourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
@@ -113,9 +170,26 @@ US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller "1" ..> "_enrolment
 Date "_enrolmentDate 1" <-- "1" CourseEditionEnrolment
 EnrolmentStatus "_isActive 1" <-- "1" CourseEditionEnrolment
 StudentID "_studentID 1" <-- "1" Student
+AddressVO "_addressVO 1" <-- "1" Student
+Street "_street 1" <-- "1" AddressVO
+PostalCode "_postalCode 1" <-- "1" AddressVO
+Location "_location 1" <-- "1" AddressVO
+Country "_country 1" <-- "1" AddressVO
+Name "_name 1" <-- "1" Student
+NIF "_NIF 1" <-- "1" Student
+PhoneNumber "_phone 1" <-- "1" Student
+Email "_email 1" <-- "1" Student
+StudentAcademicEmail "_studentAcademicEmail 1" <-- "1" Student
 CourseEditionEnrolmentRepository "1"..> "_courseEditionEnrolments *    " CourseEditionEnrolment
 CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
 CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
+StudentID "_studentID 1" <--  CourseEditionEnrolmentID
+CourseEditionID "_courseEditionID 1" <--  CourseEditionEnrolmentID
+CourseInStudyPlanID "_courseInStudylanID 1" <--  CourseEditionID
+ProgrammeEditionID "_programmeEditionID 1" <--  CourseEditionID
+ProgrammeID "_programmeID 1" <--  ProgrammeEditionID
+SchoolYearID "_schoolYearID 1" <--  ProgrammeEditionID
+
 
 
 

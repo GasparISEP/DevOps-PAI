@@ -61,7 +61,7 @@ class SchoolYearRepositoryTest {
         SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
-        Description description = new Description("School Year 23/24");
+        Description description = mock(Description.class);
         Date startDateDouble = mock(Date.class);
         Date endDateDouble = mock(Date.class);
         when(schoolYearFactoryImplDouble.createSchoolYear(description, startDateDouble, endDateDouble))
@@ -86,10 +86,10 @@ class SchoolYearRepositoryTest {
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description1 = new Description("School Year 23/24");
+        Description description1 = mock(Description.class);
         Date startDateDouble1 = mock(Date.class);
         Date endDateDouble1 = mock(Date.class);
-        Description description2 = new Description("School Year 24/25");
+        Description description2 = mock(Description.class);
         Date startDateDouble2 = mock(Date.class);
         Date endDateDouble2 = mock(Date.class);
         when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDateDouble1, endDateDouble1))
@@ -120,7 +120,7 @@ class SchoolYearRepositoryTest {
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description = new Description("School Year 23/24");
+        Description description = mock(Description.class);
         Date startDateDouble = mock(Date.class);
         Date endDateDouble = mock(Date.class);
 
@@ -146,8 +146,8 @@ class SchoolYearRepositoryTest {
         SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description1 = new Description("School Year 23/24");
-        Description description2 = new Description("School Year 24/25");
+        Description description1 = mock(Description.class);
+        Description description2 = mock(Description.class);
         Date startDateDouble1 = new Date("01-09-2023");
         Date endDateDouble1 = new Date("31-08-2024");
         Date startDateDouble2 = new Date("01-09-2024");
@@ -238,7 +238,7 @@ class SchoolYearRepositoryTest {
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description = new Description("School Year 23/24");
+        Description description = mock(Description.class);
         Date startDateDouble = mock(Date.class);
         Date endDateDouble = mock(Date.class);
 
@@ -273,7 +273,7 @@ class SchoolYearRepositoryTest {
         SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description = new Description("School Year 23/24");
+        Description description = mock(Description.class);
         Date startDateDouble = mock(Date.class);
         Date endDateDouble = mock(Date.class);
 
@@ -353,10 +353,10 @@ class SchoolYearRepositoryTest {
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description1 = new Description("School Year 23/24");
+        Description description1 = mock(Description.class);
         Date startDateDouble1 = mock(Date.class);
         Date endDateDouble1 = mock(Date.class);
-        Description description2 = new Description("School Year 24/25");
+        Description description2 = mock(Description.class);
         Date startDateDouble2 = mock(Date.class);
         Date endDateDouble2 = mock(Date.class);
 

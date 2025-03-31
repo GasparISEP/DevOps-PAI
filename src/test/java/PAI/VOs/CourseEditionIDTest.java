@@ -1,80 +1,135 @@
 package PAI.VOs;
 
+
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionIDTest {
 
     @Test
     void shouldReturnCourseEditionIDNotNull() {
+        //Arrange
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+
         //Act
-        CourseEditionID courseEditionID = new CourseEditionID();
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
         //Assert
         assertNotNull(courseEditionID);
     }
 
     @Test
-    void shouldReturnCorrectUUIDString() {
+    void shouldThrowExceptionIfCourseInStudyPlanIDIsNull() {
         //Arrange
-        CourseEditionID courseEditionID = new CourseEditionID();
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
         //Act
-        UUID uuid = UUID.fromString(courseEditionID.toString());
         //Assert
-        assertEquals(courseEditionID.toString(), uuid.toString());
+        assertThrows(Exception.class, () -> {new CourseEditionID(programmeEditionIDDouble, null);});
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeEditionIDIsNull() {
+        //Arrange
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+
+        //Act
+        //Assert
+        assertThrows(Exception.class, () -> {new CourseEditionID(null, courseInStudyPlanIDDouble);});
+    }
+
+    @Test
+    void shouldThrowExceptionIfAttributesAreNull() {
+        //Arrange
+        //Act
+        //Assert
+        assertThrows(Exception.class, () -> {new CourseEditionID(null, null);});
+    }
+
+    @Test
+    void shouldReturnCorrectToString() {
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        when(programmeEditionID.toString()).thenReturn("ProgrammeEditionID{123}");
+        when(courseInStudyPlanID.toString()).thenReturn("CourseInStudyPlanID{456}");
+
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
+        String expected = "CourseEditionID{_programmeEditionID=ProgrammeEditionID{123}, _courseInStudyPlanID=CourseInStudyPlanID{456}}";
+
+        assertEquals(expected, courseEditionID.toString());
     }
 
     @Test
     void shouldReturnsEqualsIfObjectsAreEqual() {
-        CourseEditionID courseEditionID = new CourseEditionID();
+        //Arrange
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
         CourseEditionID courseEditionID2 = courseEditionID;
-
+        //Act + Assert
         assertEquals(courseEditionID, courseEditionID2);
     }
 
     @Test
-    void shouldReturnEqualsIfDifferentObjectsHaveSameUUID() {
+    void shouldReturnEqualsIfDifferentObjectsHaveSameAttributes() {
         //Arrange
-        UUID uuid = UUID.randomUUID();
-        CourseEditionID courseEditionID = new CourseEditionID();
-        CourseEditionID courseEditionID2 = new CourseEditionID();
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
+        CourseEditionID courseEditionID2 = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
 
         //Act
-        try {
-            var field = CourseEditionID.class.getDeclaredField("_courseEditionId");
-            field.setAccessible(true);
-            field.set(courseEditionID, uuid);
-            field.set(courseEditionID2, uuid);
-        } catch (Exception e) {
-            fail("Falha ao modificar UUID para teste");
-        }
+        boolean result = courseEditionID.equals(courseEditionID2);
         //Assert
-        assertEquals(courseEditionID, courseEditionID2);
+        assertTrue(result);
     }
 
     @Test
-    void shouldReturnNotEqualsIfCourseEditionIDsHaveDifferentUUIDs() {
+    void shouldReturnNotEqualsIfCourseEditionIDsHaveDifferentIDs() {
         //Arrange
-        CourseEditionID courseEditionID = new CourseEditionID();
-        CourseEditionID courseEditionID2 = new CourseEditionID();
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
+        CourseEditionID courseEditionID2 = new CourseEditionID(programmeEditionIDDouble1, courseInStudyPlanIDDouble1);
+        CourseEditionID courseEditionID3 = new CourseEditionID(programmeEditionIDDouble1, courseInStudyPlanIDDouble);
+        CourseEditionID courseEditionID4 = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble1);
         //Act+Assert
         assertNotEquals(courseEditionID, courseEditionID2);
+        assertNotEquals(courseEditionID, courseEditionID3);
+        assertNotEquals(courseEditionID, courseEditionID4);
+        assertNotEquals(courseEditionID2, courseEditionID3);
+        assertNotEquals(courseEditionID3, courseEditionID4);
     }
 
     @Test
     void shouldReturnNotEqualsIfComparingWithNull() {
         //Arrange
-        CourseEditionID courseEditionID = new CourseEditionID();
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
         CourseEditionID courseEditionID2 = null;
-        //Act+Assert
-        assertNotEquals(courseEditionID2, courseEditionID);
+        //Act
+        boolean result = courseEditionID.equals(courseEditionID2);
+        //Assert
+        assertFalse(result);
     }
 
     @Test
     void shouldReturnNotEqualsIfObjectsAreNotFromSameClass() {
-        CourseEditionID courseEditionID = new CourseEditionID();
+       //Arrange
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
         CourseID courseID = new CourseID();
-        assertNotEquals(courseEditionID, courseID);
+        //Act
+        boolean result = courseEditionID.equals(courseID);
+        //Assert
+        assertFalse(result);
     }
 
 }

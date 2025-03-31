@@ -63,7 +63,7 @@ activate TCPRepo
 
 TCPRepo -> TCPRepo : optionalTCP = findLastTCPFromTeacherID(teacherIdVO1)
 TCPRepo -> TCPRepo : lastTCP = optionalTCP.get()
-TCPRepo -> TCP : lastTCP.isDateAfter(dateVO1)
+TCPRepo -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate(dateVO1)
 activate TCP
 TCP --> TCPRepo: True
 TCPRepo -> TCP : lastTCP.getTeacherCategoryID()

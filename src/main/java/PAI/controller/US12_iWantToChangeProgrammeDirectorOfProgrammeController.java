@@ -8,7 +8,7 @@ public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
     ProgrammeRepository _programmeList;
 
     public US12_iWantToChangeProgrammeDirectorOfProgrammeController(ProgrammeRepository programmeList) throws Exception{
-        if (programmeList == null ) throw new Exception("List cannot ber null");
+        if (programmeList == null ) throw new Exception("List cannot be null");
         _programmeList = programmeList;
     }
 
