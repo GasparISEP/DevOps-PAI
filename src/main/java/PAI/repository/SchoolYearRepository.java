@@ -30,9 +30,9 @@ public class SchoolYearRepository {
         this._schoolYearListFactory = schoolYearListFactory;
     }
 
-    public boolean addSchoolYear(SchoolYearID schoolYearID, Description description, Date startDate, Date endDate) throws Exception {
+    public boolean addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
 
-        SchoolYear newSchoolYear = _schoolYearFactory.createSchoolYear(schoolYearID,description, startDate, endDate);
+        SchoolYear newSchoolYear = _schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
         // Check if the school year already exists in the list
         if(schoolYearExists(newSchoolYear)){

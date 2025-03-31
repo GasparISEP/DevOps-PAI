@@ -165,11 +165,10 @@ class DepartmentTest {
     void shouldReturnFalseWhenComparedWithDifferentClassObject() throws Exception {
         // Arrange
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        SchoolYearID schoolYearID = new SchoolYearID();
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("01-09-2024");
         Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear1 = new SchoolYear(schoolYearID,description, startDate,endDate);
+        SchoolYear schoolYear1 = new SchoolYear(description, startDate,endDate);
 
         // Act & Assert
         assertFalse(department1.equals(schoolYear1));

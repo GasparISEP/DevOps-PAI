@@ -19,9 +19,9 @@ public class US07_IWantToCreateASchoolYearController {
         _schoolYearRepo = schoolYearRepo;
     }
 
-    public boolean addSchoolYear (SchoolYearID schoolYearID,Description description, Date startDate, Date endDate) throws Exception {
+    public boolean addSchoolYear (Description description, Date startDate, Date endDate) throws Exception {
 
-        _schoolYearRepo.addSchoolYear(schoolYearID,description, startDate, endDate);
+        _schoolYearRepo.addSchoolYear(description, startDate, endDate);
 
         return true;
     }
