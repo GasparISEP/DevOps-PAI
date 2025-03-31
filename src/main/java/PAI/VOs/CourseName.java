@@ -17,4 +17,13 @@ public class CourseName implements ValueObject {
     public boolean isNameInvalid(String parameter){
         return parameter == null || parameter.isBlank();
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof CourseName))
+            return false;
+        CourseName courseNameTest = (CourseName) object;
+        return _name.equals(courseNameTest._name);
+    }
 }
