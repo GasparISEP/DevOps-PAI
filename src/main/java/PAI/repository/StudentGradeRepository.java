@@ -98,4 +98,33 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
+    @Override
+    public StudentGrade save(StudentGrade entity) {
+        _StudentGradeList.add(entity);
+        return entity;
+    }
+
+    @Override
+    public Iterable<StudentGrade> findAll() {
+        if (_StudentGradeList.isEmpty()){
+            throw new IllegalStateException("Student Grade List is empty.");
+        }
+        return _StudentGradeList;
+    }
+
+    @Override
+    public Optional<StudentGrade> ofIdentity(StudentGradeID id) {
+        return _StudentGradeList.stream()
+                .filter(stl -> stl.identity().equals(id))
+                .findAny();
+    }
+
+    @Override
+    public boolean containsOfIdentity(StudentGradeID id) {
+        if (!ofIdentity(id).isPresent()){
+            return false;
+        }
+        return true;
+    }
+
 }

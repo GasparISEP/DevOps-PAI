@@ -951,11 +951,10 @@
 //                "Portugal", addressFactory,date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
 //                new TeacherCareerProgressionListFactoryImpl());
 //
-//        SchoolYearID schoolYearID = new SchoolYearID();
 //        Description description = new Description("School Year 24/25");
 //        Date startDate = new Date ("23-11-2024");
 //        Date endDate = new Date ("09-12-2025");
-//        schoolYearRepository.addSchoolYear(schoolYearID, description, startDate,endDate);
+//        schoolYearRepository.addSchoolYear(description, startDate,endDate);
 //        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
 //
 //        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
