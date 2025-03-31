@@ -14,4 +14,16 @@ class CourseQuantityCreditsEctsTest {
         assertNotNull(courseQuantityCreditsEcts);
     }
 
+    @Test
+    void shouldThrowExceptionWhenCourseQuantityCreditsEctsIsLower() throws Exception{
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseQuantityCreditsEcts(0));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCourseQuantityCreditsEctsIsHigher() throws Exception{
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseQuantityCreditsEcts(61));
+    }
+
 }
