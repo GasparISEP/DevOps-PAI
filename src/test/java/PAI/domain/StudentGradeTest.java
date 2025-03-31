@@ -427,4 +427,20 @@ class StudentGradeTest {
         //assert
         assertTrue(result);
     }
+
+    @Test
+    void shouldGetDoubleGrade() throws Exception {
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        StudentID studentID = mock();
+        CourseEdition courseEdition = mock();
+
+        when(grade.knowGrade()).thenReturn(10.0);
+        StudentGrade s1 = new StudentGrade(grade, date, studentID, courseEdition);
+
+        double res = s1.knowGrade();
+
+        assertEquals(res, 10.0);
+
+    }
 }
