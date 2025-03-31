@@ -74,8 +74,9 @@ CER -> CEF ++ #application : createCourseEdition(cSpID1,pEID1)
 
 
 create "cE1:CourseEdition" as CE #lightblue
-CEF --> CE : <create> (cEID1, cSpID1,pEID1)
-CE -> CE : isCourseInStudyPlanValid (cSpID1,pEID1)
+CEF --> CE : <create> (cSpID1,pEID1)
+create "cEID1:CourseEditionID" as CEID #lightblue
+CE --> CEID : <create> (pEID1,cSpID1)
 CEF --> CER -- : cE1
 CER -> CER : isCourseEditionAlreadyInRepository (cE1)
 CER -> CER : addCourseEdition (cE1)
@@ -87,13 +88,18 @@ UI --> ASC --: true
 participant "dTL1\n:List<DegreeType>" as DTL
 participant "dTL1_DTO\n:List<DegreeTypeDTO>" as DTL_DTO
 participant "dT1_DTO\n:DegreeTypeDTO" as DT_DTO
-participant "dT1ID\n:DegreeTypeID" as DTID
+participant "dT1ID\n:DegreeTypeID" as DT_ID
 participant "pL1\n:List<Programme>" as PL
-participant "pL1_DTO\n:List<ProgrammeDTO>" as PLDTO
-participant "p1_DTO\n:Programme" as PGDTO
-participant "p1ID\n:ProgrammeID" as PGID
+participant "pL1_DTO\n:List<ProgrammeDTO>" as PL_DTO
+participant "p1_DTO\n:Programme" as PG_DTO
+participant "p1ID\n:ProgrammeID" as PG_ID
 participant "cSPL1\n:List<CourseInStudyPlan>" as CSPL
-participant "cSPL1\n:List<CourseInStudyPlan>" as CSPL
-
+participant "cSPL1_DTO\n:List<CourseInStudyPlanDTO>" as CSPL_DTO
+participant "cSP1_DTO\n:CourseInStudyPlanDTO" as CSP_DTO
+participant "cSP1_ID\n:CourseInStudyPlanID" as CSP_ID
+participant "pEL1\n:List<ProgrammeEdition>" as PEL
+participant "pEL1_DTO\n:List<ProgrammeEditionDTO>" as PEL_DTO
+participant "pE1_DTO\n:ProgrammeEditionDTO" as PE_DTO
+participant "pE1_ID\n:ProgrammeEditionID" as PE_ID
 
 @enduml

@@ -1,7 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.Date;
-import PAI.VOs.Description;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
@@ -180,16 +179,30 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+
+        StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
+
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
@@ -218,16 +231,29 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+
+        StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
@@ -255,16 +281,29 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+
+        StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
@@ -295,16 +334,29 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+
+        StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
@@ -335,18 +387,35 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student1 = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
-        Student student2 = new Student("1762242", "John", "223445667", "222553444", "567@gmail.com",
-        new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+
+        StudentID studentID1 = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
+
+        Student student1 = new Student(studentID1, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
+
+        StudentID studentID2 = new StudentID(1762242);
+
+
+        Student student2 = new Student(studentID2, name, nif, new PhoneNumber("+351", "222553444"), new Email("567@gmail.com"),
+        new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
@@ -378,16 +447,30 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Arrange
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(new CourseEditionEnrolmentFactoryImpl(), new CourseEditionEnrolmentListFactoryImpl());
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(repository);
-        Student student = new Student("1765342", "John", "223445667", "222333444", "123@gmail.com",
-                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"));
+
+        StudentID studentID = new StudentID(1765342);
+        Name name = new Name("John");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("223445667", country);
+        PhoneNumber phone = new PhoneNumber("+351","222333444");
+        Email email = new Email("123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email,
+                new Address("Rua do Caminho", "4554-565", "Porto", "Portugal"), academicEmail);
         Department department = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
+        Date date = new Date("25-12-2024");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, "25-12-2024", assistantProfessor, 100, department,
+                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
                 teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         DegreeType master = new DegreeType("Master", 240);
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,

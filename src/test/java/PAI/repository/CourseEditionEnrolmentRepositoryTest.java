@@ -1,13 +1,14 @@
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.VOs.Description;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -128,47 +129,99 @@ class CourseEditionEnrolmentRepositoryTest {
     //test isStudentEnrolledInCourseEdition method
     @Test
     void shouldConfirmStudentIsEnrollInACourseEdition() throws Exception {
-        //arrange
+        // arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
-        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        ICourseEditionEnrolmentListFactory ceeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+
+        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
+        when(ceeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
+
+        CourseEditionEnrolmentRepository repository =
+                new CourseEditionEnrolmentRepository(doubleCeeFactory, ceeListFactory);
+
+        StudentID realStudentID = new StudentID(1_500_000);
+        Student studentReal = new Student(
+                realStudentID,
+                mock(Name.class),
+                mock(NIF.class),
+                mock(PhoneNumber.class),
+           mock(Email.class),
+                mock(Address.class),
+                mock(StudentAcademicEmail.class)
+        );
 
         CourseEdition ce1 = mock(CourseEdition.class);
-        Student student1 = mock(Student.class);
-        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrolment(student1, ce1)).thenReturn(cee1);
-        when(cee1.knowStudent()).thenReturn(student1);
+        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
+        when(doubleCeeFactory.createCourseEditionEnrolment(studentReal, ce1))
+                .thenReturn(cee1);
+        when(cee1.knowStudent()).thenReturn(studentReal);
         when(cee1.knowCourseEdition()).thenReturn(ce1);
         when(cee1.isEnrollmentActive()).thenReturn(true);
-        repository.enrolStudentInACourseEdition(student1, ce1);
 
-        //act & assert
-        assertTrue(repository.isStudentEnrolledInCourseEdition(student1, ce1));
+        // act
+        repository.enrolStudentInACourseEdition(studentReal, ce1);
+
+        // assert
+        assertTrue(repository.isStudentEnrolledInCourseEdition(studentReal.identity(), ce1));
     }
+
 
     @Test
-    void shouldConfirmStudentIsNotEnrollInACourseEdition() {
-        //arrange
+    void shouldConfirmStudentIsNotEnrollInACourseEdition() throws Exception {
+        // arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+
+        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
+        when(CeeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
+
+
+        CourseEditionEnrolmentRepository repository =
+                new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+
+        // Criamos um Student real com um StudentID válido
+        // Lembre que StudentID deve estar no range (1_000_001 a 1_999_999).
+        StudentID validID1 = new StudentID(1_500_000);
+        Student student1 = new Student(
+                validID1,
+                mock(Name.class),
+                mock(NIF.class),
+                mock(PhoneNumber.class),
+                mock(Email.class),
+                mock(Address.class),
+                mock(StudentAcademicEmail.class)
+        );
+
+
+        StudentID differentStudentID = new StudentID(1_600_000);
+
 
         CourseEdition ce1 = mock(CourseEdition.class);
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+
+
         CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
 
+
         when(doubleCeeFactory.createCourseEditionEnrolment(student1, ce1)).thenReturn(cee1);
+
+
         when(cee1.knowStudent()).thenReturn(student1);
         when(cee1.knowCourseEdition()).thenReturn(ce1);
         when(cee1.isEnrollmentActive()).thenReturn(true);
+
+
         repository.enrolStudentInACourseEdition(student1, ce1);
 
-        //act
-        //assert
-        assertFalse(repository.isStudentEnrolledInCourseEdition(student2, ce1));
+        // act
+
+        boolean result = repository.isStudentEnrolledInCourseEdition(differentStudentID, ce1);
+
+        // assert
+
+        assertFalse(result);
     }
+
 
     @Test
     void shouldReturnCourseEditionEnrollmentWhenStudentIsEnrolled() {
@@ -673,15 +726,28 @@ class CourseEditionEnrolmentRepositoryTest {
 
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
+
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -714,17 +780,29 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID , wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -755,17 +833,29 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -799,17 +889,29 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -844,18 +946,39 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student1 = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
-        Student student2 = new Student("1000001", "João Santos", "998194999", "221234467", "joao456@gmail.com", add1);
+        StudentID studentID1 = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
+
+        Student student1 = new Student(studentID1, name, nif, phone, email, add1, academicEmail);
+
+        StudentID studentID2 = new StudentID(1000002);
+        Name name2 = new Name("João Santos");
+        NIF nif2 = new NIF("998194999", country);
+        PhoneNumber phone2 = new PhoneNumber("+351","221234467");
+        Email email2 = new Email("joao456@gmail.com");
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
+
+
+        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
 
@@ -891,17 +1014,31 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
 
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType master = new DegreeType("Master", 240);
         Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
         Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, "20-12-2010", assistantProfessor, 100, department1, new TeacherCareerProgressionFactoryImpl(),
+                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
                 new TeacherCareerProgressionListFactoryImpl());
 
-        Student student1 = new Student("1000000", "João Silva", "999999999", "221234567", "joao123@gmail.com", add1);
+        StudentID studentID = new StudentID(1000001);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("999999999", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
+
+        Student student1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
 
         Course c1 = new Course("Development", "DEV", 5, 1);
         Course c2 = new Course("Algebra", "ALG", 5, 2);

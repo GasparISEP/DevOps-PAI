@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.StudentID;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -34,8 +36,8 @@ public class ProgrammeEditionEnrolment {
         return _programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
     }
 
-    public String getStudentUniqueNumber() {
-        return _student.getUniqueNumber();
+    public StudentID getStudentID() {
+        return _student.identity();
     }
 
     public boolean hasSameStudent(Student student) {

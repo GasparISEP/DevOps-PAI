@@ -1,7 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.Date;
-import PAI.VOs.Description;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.ProgrammeEditionEnrolmentRepository;
@@ -191,20 +190,33 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student("1111111", "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+
+        StudentID studentID = new StudentID(1111111);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student st1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("20-01-2024");
         Date endDate = new Date ("23-02-2024");
         SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -242,13 +254,16 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -280,7 +295,17 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // Arrange
         IAddressFactory addressFactory = new AddressFactoryImpl();
         Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Student st1 = new Student("1111111", "João Silva", "123456789", "221234567", "joao123@gmail.com", add1);
+
+        StudentID studentID = new StudentID(1111111);
+        Name name = new Name("João Silva");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","221234567");
+        Email email = new Email("joao123@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+
+        Student st1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("20-01-2024");
         Date endDate = new Date ("23-02-2024");
@@ -290,10 +315,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -376,16 +405,20 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         Description description = new Description("School Year 24/25");
         Date startDate = new Date ("20-01-2024");
         Date endDate = new Date ("23-02-2024");
-        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
+        SchoolYear sy1 = new SchoolYear( description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
         TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -423,13 +456,16 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -469,13 +505,16 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
         DegreeType master = new DegreeType("Master", 240);
         Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        Date date = new Date("20-12-2010");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(100);
+        TeacherID teacherID = TeacherID.createNew();
         Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, "20-12-2010", assistantProfessor,
-                100, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
         ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();

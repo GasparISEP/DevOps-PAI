@@ -1,5 +1,9 @@
 package PAI.repository;
 
+import PAI.VOs.AccessMethodID;
+import PAI.VOs.Date;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.factory.IProgrammeEnrolmentListFactory;
@@ -20,9 +24,9 @@ public class ProgrammeEnrolmentRepository {
         _programmeEnrolmentFactory = programmeEnrolmentFactory;
     }
 
-    public boolean enrolStudents(Student student, AccessMethod accessMethod, Programme programme, String enrolmentDate) throws Exception {
+    public boolean enrolStudents(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date enrolmentDate) throws Exception {
 
-        ProgrammeEnrolment newProgrammeEnrolment = _programmeEnrolmentFactory.createProgrammeEnrolment (student, accessMethod, programme, enrolmentDate);
+        ProgrammeEnrolment newProgrammeEnrolment = _programmeEnrolmentFactory.createProgrammeEnrolment(studentID, accessMethodID, programmeID, enrolmentDate);
 
         //Checks if Enrolment is repeated
         if(!isEnrolmentRepeated(newProgrammeEnrolment)) {

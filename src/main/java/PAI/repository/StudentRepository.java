@@ -1,7 +1,9 @@
 package PAI.repository;
 
+import PAI.VOs.*;
 import PAI.domain.Address;
 import PAI.domain.Student;
+import PAI.domain.StudentGrade;
 import PAI.factory.IStudentFactory;
 import PAI.factory.IStudentListFactory;
 
@@ -22,12 +24,12 @@ public class StudentRepository {
         _students = studentListFactory.newArrayList();
     }
 
-    public boolean registerStudent(String uniqueNumber, String name, String NIF, String phone, String email, Address address) throws Exception {
+    public boolean registerStudent(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) throws Exception {
 
-        Student newStudent = _studentFactory.newStudent(uniqueNumber, name, NIF, phone, email, address);
+        Student newStudent = _studentFactory.newStudent(studentID, name, NIF, phone, email, address, academicEmail);
 
         if (isStudentRepeated(newStudent)) {
-            throw new Exception("Duplicate unique number or NIF detected. Student cannot be added.");
+            throw new Exception("Duplicate ID or NIF detected. Student cannot be added.");
         } else {
             _students.add(newStudent); //add the student to the list
             return true;
@@ -36,17 +38,26 @@ public class StudentRepository {
 
     private boolean isStudentRepeated(Student student) {
         for (Student existingStudent : _students) {
-            if (existingStudent.hasSameUniqueNumber(student) || existingStudent.hasSameNIF(student)) {
+            if (existingStudent.isEquals(student) || existingStudent.sameAs(student)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Optional<Student> getStudentByUniqueNumber(String uniqueNumber) {
-        for ( Student student : _students) {
-            if ( student.hasThisUniqueNumber(uniqueNumber)){
-                return Optional.of(student);
+    public Optional<Student> getStudentByID(StudentID studentID) {
+        for ( Student existingStudent : _students) {
+            if ( existingStudent.identity().equals(studentID)){
+                return Optional.of(existingStudent);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<StudentID> findIdByStudent (Student student){
+        for(Student existingStudent : _students){
+            if(existingStudent.equals(student)){
+                return Optional.of(student.identity()) ;
             }
         }
         return Optional.empty();

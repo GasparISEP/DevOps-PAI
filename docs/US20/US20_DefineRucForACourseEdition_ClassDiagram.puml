@@ -16,34 +16,38 @@ note right of US20_DefineRucForCourseEditionController::defineRucForCourseEditio
 end note
 
 class Teacher {
-     -_acronym:String
-     -_name:String
-     -_email:String
-     -_nif:String
-     -_phoneNumber:String
-     -_academicBackground:String
-     -_address:Address
-     -_department:Department
-     -_teacherCareerProgression:List<TeacherCareerProgression>
-     +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String,
-     academicBackground: String, street: String, postalCode: String, location: String, country: String,
-     date: String, category: TeacherCategory, workingPercentage: int, department: Department)
-     +hasSameAcronym(teacher: Teacher)
-     +hasSameNif(teacher: Teacher)
-     +isInDepartment(department: Department)
-     +hasThisNIF(NIF: String)
-     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int)
-     +updateTeacherCategoryInTeacherCarrerProgression(date: String, teacherCategory: TeacherCategory)
+    -_acronym: String
+    -_name: String
+    -_email: String
+    -_nif: String
+    -_phoneNumber: String
+    -_academicBackground: String
+    -_address: Address
+    -_addressFactory: IAddressFactory
+    -_department: Department
+    -_teacherCareerProgressionList: List<TeacherCareerProgression>
+    -_teacherCareerProgressionFactory: ITeacherCareerProgressionFactory
+    +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+             street: String, postalCode: String, location: String, country: String, addressFactory: IAddressFactory,
+             date: Date, category: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID,
+             department: Department, teacherCareerProgressionFactory: ITeacherCareerProgressionFactory,
+             teacherCareerProgressionListFactory: ITeacherCareerProgressionListFactory)
+    +hasSameAcronym(teacher: Teacher): boolean
+    +hasSameNif(teacher: Teacher): boolean
+    +isInDepartment(department: Department): boolean
+    +hasThisNIF(NIF: String): boolean
 }
 
 class TeacherRepository {
     -_teachers: List<Teacher>
-    +TeacherRepository()
-    +registerTeacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String,
-                          address: Address, teacherCategory: TeacherCategory, department: Department)
-    +getTeacherByNIF(NIF: String)
-    +updateTeacherCategory(date: String, teacher: Teacher, teacherCategory: TeacherCategory)
-    +getAllTeachers()
+    -_teacherFactory: ITeacherFactory
+    +TeacherRepository(teacherFactory: ITeacherFactory, teacherListFactoryImpl: TeacherListFactoryImpl)
+    +registerTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+                     street: String, postalCode: String, location: String, country: String, addressFactory: IAddressFactory,
+                     date: Date, category: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID,
+                     department: Department): boolean
+    +getAllTeachers(): List<Teacher>
+    +getTeacherByNIF(NIF: String): Optional<Teacher>
 }
 
 note right of TeacherRepository::getAllTeachers
@@ -51,29 +55,33 @@ note right of TeacherRepository::getAllTeachers
 end note
 
 class CourseEdition {
-    -_programmeEdition: ProgrammeEdition
     -_course: Course
+    -_programmeEdition: ProgrammeEdition
     -_ruc: Teacher
-    +CourseEdition(programmeEdition: ProgrammeEdition, course: Course)
-    +Equals(objectToCompare: Object)
-    +setRuc(Teacher: ruc)
-    +whatProgrammeEditionBelongsThisCourseEdition ()
+    +CourseEdition(course: Course, programmeEdition: ProgrammeEdition)
+    +equals(objectToCompare: Object): boolean
+    +setRuc(ruc: Teacher): boolean
+    +whatProgrammeEditionBelongsThisCourseEdition(): ProgrammeEdition
+    +getCourse(): Course
 }
+
 
 note left of CourseEdition::setRuc
   This method assigns a teacher RUC to a Course Edition.
 end note
 
 class CourseEditionRepository {
-    -_courseEditionRepository: ArrayList<CourseEdition>
-    +CourseEditionRepository()
-    +createCourseEdition(course: Course, programmeEdition: ProgrammeEdition)
-    +isCourseEditionAlreadyInRepository (courseEdition: CourseEdition)
-    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition)
-    +setRucInACourseEdition(CourseEdition: courseEdition,Teacher: ruc)
+    -_courseEditions: List<CourseEdition>
+    -_I_courseEditionFactory: ICourseEditionFactory
+    +CourseEditionRepository(ICourseEditionFactory ICourseEditionFactory, ICourseEditionListFactory ICourseEditionListFactory)
+    +createAndSaveCourseEdition(course: Course, programmeEdition: ProgrammeEdition): boolean
+    +isCourseEditionAlreadyInRepository(courseEdition: CourseEdition): boolean
     +getCourseEditions(): List<CourseEdition>
-    +findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition)
+    +setRucInACourseEdition(courseEdition: CourseEdition, ruc: Teacher): boolean
+    +findWhichProgrammeEditionBelongsToACourseEdition(courseEdition: CourseEdition): ProgrammeEdition
+    +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition): List<CourseEdition>
 }
+
 note left of CourseEditionRepository::setRucInACourseEdition
   This method returns all course editions in the repository.
 end note

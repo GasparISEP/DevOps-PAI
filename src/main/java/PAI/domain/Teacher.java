@@ -1,5 +1,9 @@
 package PAI.domain;
 
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.factory.*;
 
 import java.util.List;
@@ -31,7 +35,7 @@ public class Teacher {
     //constructor
     public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
                    String street, String postalCode, String location, String country, IAddressFactory addressFactory,
-                   String date, TeacherCategory category, int workingPercentage, Department department,
+                   Date date, TeacherCategoryID category, WorkingPercentage workingPercentage, TeacherID teacherID, Department department,
                    ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
                    ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory) throws IllegalArgumentException {
 
@@ -49,7 +53,7 @@ public class Teacher {
 
         this._teacherCareerProgressionFactory = teacherCareerProgressionFactory;
 
-        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, category, workingPercentage);
+        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, category, workingPercentage, teacherID);
 
         this._teacherCareerProgressionList.add(tcp);
 
@@ -149,51 +153,4 @@ public class Teacher {
         return _nif.equals(NIF);
     }
 
-    public boolean updateWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage) throws IllegalArgumentException {
-
-        TeacherCareerProgression lastCareerProgression = getLastTeacherCareerProgression();
-
-        TeacherCategory lastCategory = lastCareerProgression.getCategory();
-
-        if (lastCareerProgression.getWorkingPercentage() == workingPercentage)
-            throw new IllegalArgumentException("Working percentage must be different than the last working percentage!");
-
-        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, lastCategory, workingPercentage);
-
-        if(!tcp.isDateAfter(lastCareerProgression))
-            throw new IllegalArgumentException("Date must be greater than the last date registered!");
-
-        _teacherCareerProgressionList.add(tcp);
-
-        return true;
-    }
-
-    public boolean updateTeacherCategoryInTeacherCareer(String date, TeacherCategory teacherCategory) throws IllegalArgumentException {
-
-        if (teacherCategory == null) {
-            throw new IllegalArgumentException("Teacher category cannot be null.");
-        }
-
-        TeacherCareerProgression lastTeacherCareerProgression = getLastTeacherCareerProgression();
-
-        int lastWorkingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
-
-        if(teacherCategory == lastTeacherCareerProgression.getCategory())
-            throw new IllegalArgumentException("The Teacher Category provided is already active.");
-
-        TeacherCareerProgression updatedTeacherCareerProgression = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategory, lastWorkingPercentage);
-
-        if(!updatedTeacherCareerProgression.isDateAfter(lastTeacherCareerProgression))
-            throw new IllegalArgumentException("The date must be greater than the last date registered!");
-        else {
-            _teacherCareerProgressionList.add(updatedTeacherCareerProgression);
-            return true;
-        }
-    }
-
-    private TeacherCareerProgression getLastTeacherCareerProgression() {
-
-        return _teacherCareerProgressionList.getLast();
-
-    }
 }

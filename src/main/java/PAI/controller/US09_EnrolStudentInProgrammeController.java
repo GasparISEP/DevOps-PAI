@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.repository.AccessMethodRepository;
 import PAI.repository.ProgrammeEnrolmentRepository;
@@ -37,8 +37,8 @@ public class US09_EnrolStudentInProgrammeController {
         this._programmeEnrolmentRepository = programmeEnrolmentRepository;
     }
 
-    public Optional<Student> getStudentByUniqueNumber(String uniqueNumber) {
-        return _studentRepository.getStudentByUniqueNumber(uniqueNumber);
+    public Optional<Student> getStudentByUniqueNumber(StudentID studentID) {
+        return _studentRepository.getStudentByID(studentID);
     }
 
     public Optional<AccessMethod> getAccessMethodByName(String accessMethod) {
@@ -49,13 +49,13 @@ public class US09_EnrolStudentInProgrammeController {
         return _programmeList.getProgrammeByName(programmeName);
     }
 
-    public boolean enrolStudent(Student s1, AccessMethod am1, Programme p1, String date) throws Exception {
+    public boolean enrolStudent(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {
         validateEnrolmentParameters(s1, am1, p1, date);
         _programmeEnrolmentRepository.enrolStudents(s1, am1, p1, date);
         return true;
     }
 
-    private void validateEnrolmentParameters(Student s1, AccessMethod am1, Programme p1, String date) throws Exception {
+    private void validateEnrolmentParameters(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {
         if (s1 == null) {
             throw new Exception("Student cannot be null");
         }
@@ -65,7 +65,7 @@ public class US09_EnrolStudentInProgrammeController {
         if (p1 == null) {
             throw new Exception("Programme cannot be null");
         }
-        if (date == null || date.isEmpty()) {
+        if (date == null) {
             throw new Exception("Date cannot be null or empty");
         }
     }

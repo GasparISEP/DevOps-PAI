@@ -1,80 +1,88 @@
 package PAI.domain;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
+import PAI.VOs.*;
+import PAI.ddd.AggregateRoot;
 
-public class TeacherCareerProgression {
 
-    private LocalDate _date;
-    private TeacherCategory _category;
-    private int _workingPercentage;
+public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProgressionID> {
+
+    private TeacherCareerProgressionID _tcpID;
+    private Date _date;
+    private TeacherCategoryID _teacherCategoryID;
+    private WorkingPercentage _workingPercentage;
+    private TeacherID _teacherID;
 
     //constructor
-    public TeacherCareerProgression (String date, TeacherCategory category, int workingPercentage) throws IllegalArgumentException {
+    public TeacherCareerProgression (Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID) throws IllegalArgumentException {
 
-        //validate date
-        LocalDate formattedDate = validateAndFormatDate(date);
+        _tcpID = new TeacherCareerProgressionID();
 
-        _date = formattedDate;
+        if(date == null)
+            throw new IllegalArgumentException("Date cannot be null!");
 
-        if (isTeacherCategoryInvalid(category))
-            throw new IllegalArgumentException("Teacher Category cannot be null");
+        _date = date;
 
-        _category = category;
+        if(teacherCategoryID == null)
+            throw new IllegalArgumentException("Teacher Category cannot be null!");
 
-        //validate working percentage
-        if (isWorkingPercentageInvalid(workingPercentage))
-            throw new IllegalArgumentException("Working Percentage must be a value between 0 and 100.");
+        this._teacherCategoryID = teacherCategoryID;
+
+        if(workingPercentage == null)
+            throw new IllegalArgumentException("Working Percentage cannot be null!");
 
         _workingPercentage = workingPercentage;
+
+        if(teacherID == null)
+            throw new IllegalArgumentException("Teacher ID cannot be null!");
+
+        _teacherID = teacherID;
     }
 
-    private boolean isTeacherCategoryInvalid (TeacherCategory category) {
+    public TeacherCategoryID getTeacherCategoryID () {
 
-        return category == null;
+        return _teacherCategoryID;
     }
 
-    private boolean isWorkingPercentageInvalid (int workingPercentage) {
-
-        return workingPercentage < 0 || workingPercentage > 100;
-    }
-
-    private LocalDate validateAndFormatDate(String date) throws IllegalArgumentException {
-
-        if (date == null || date.isBlank())
-            throw new IllegalArgumentException("Date cannot be empty!");
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        try {
-            return LocalDate.parse(date, formatter);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.");
-        }
-    }
-
-    public TeacherCategory getCategory () {
-
-        return _category;
-    }
-
-    public int getWorkingPercentage () {
+    public WorkingPercentage getWorkingPercentage () {
 
         return _workingPercentage;
     }
 
-    public LocalDate getDate () {
+    public Date getDate() {
 
         return _date;
     }
 
-    public boolean isDateAfter(TeacherCareerProgression tcp) {
+    public TeacherID getTeacherID() {
 
-        if(_date.isAfter(tcp._date))
-            return true;
+        return _teacherID;
+    }
+
+    public boolean isDateAfter(Date date) {
+
+        if (_date.getLocalDate().isAfter(date.getLocalDate()))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public TeacherCareerProgressionID identity() {
+        return _tcpID;
+    }
+
+    @Override
+    public boolean sameAs(Object object) {
+
+        if(object instanceof TeacherCareerProgression) {
+
+            TeacherCareerProgression tcp = (TeacherCareerProgression) object;
+
+            if (_teacherID.sameAs(tcp._teacherID) && _date.equals(tcp._date))
+                return true;
+        }
 
         return false;
     }
+
 }

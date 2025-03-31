@@ -4,7 +4,7 @@ title US26_getNumberOfStudentsInProgrammesFromSpecifiedDepartmentInGivenSchoolYe
 /'left to right direction'/
 
 class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
-    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( ProgrammeEditionEnrolmentRepo PEERepo,SchoolYearRepository schoolYearRepository,DepartmentRepository departmentRepository
+    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( ProgrammeEditionEnrolmentRepo PEERepo,SchoolYearRepository schoolYearRepository,DepartmentRepository departmentRepository)
     +countStudentsInProgrammeFromDepartmentInSchoolYear(department: Department, schoolYear: SchoolYear): int
 }
 

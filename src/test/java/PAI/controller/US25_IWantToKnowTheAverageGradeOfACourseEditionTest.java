@@ -1,8 +1,10 @@
 
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.repository.StudentGradeRepository;
 import org.junit.jupiter.api.Test;
@@ -32,10 +34,10 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         Grade grade1 = mock(Grade.class);
         Grade grade2 = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -50,12 +52,12 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
 
 
-        when(list.addGradeToStudent(grade1, dateDouble, student1, courseEdition1)).thenReturn(true);
-        when(list.addGradeToStudent(grade2, dateDouble, student2, courseEdition1)).thenReturn(true);
-        when(list.KnowAverageGrade(courseEdition1)).thenReturn(14.0);
+        when(list.addGradeToStudent(grade1, dateDouble, student1, courseEditionID1Double)).thenReturn(true);
+        when(list.addGradeToStudent(grade2, dateDouble, student2, courseEditionID1Double)).thenReturn(true);
+        when(list.KnowAverageGrade(courseEditionID1Double)).thenReturn(14.0);
 
         // Act
-        double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);
+        double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEditionID1Double);
 
         //assert
         assertEquals(14,optC1,0.01);

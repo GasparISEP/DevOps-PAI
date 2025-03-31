@@ -11,6 +11,10 @@ class StudentRepository {
     - _students : List<Student>
     + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : Phone, email : Email, address : Address) : boolean
     + getStudentByID(studentID : StudentID) : Optional<Student>
+    + save(student : Student) : Student
+    + findAll() : Iterable<Student>
+    + ofIdentity(studentID : StudentID) : Optional<Student>
+    + containsOfIdentity(studentID : StudentID) : boolean
 }
 
 package "Student Aggregate" {
@@ -22,10 +26,10 @@ package "Student Aggregate" {
         - _email : Email
         - _address : Address
         - _institutionalEmail : InstitutionalEmail
-        + hasSameUniqueNumber(student : Student) : boolean
-        + hasSameNIF(student : Student) : boolean
-        + getUniqueNumber() : String
-        + hasThisUniqueNumber(uniqueNumber : String) : boolean
+        + identity() : StudentID
+        + sameAs (object : Object) : boolean
+        + equals(object : Object) : boolean
+        + isEquals(student : Student) : boolean
     }
 }
 
@@ -47,59 +51,69 @@ class StudentID <<Value Object>> {
     + StudentID(uniqueNumber : int)
     + isUniqueNumberValid(uniqueNumber)
     + getUniqueNumber()
+    + equals() : boolean
+    + getUniqueNumber() : int
+    + isEquals(studentID : StudentID) : boolean
 }
 
 class Name <<Value Object>> {
     -_name : String
     + Name(name : String)
     + isNameValid(name)
+    + getName()
 }
 
 class NIF <<Value Object>> {
     -_NIF : String
     + NIF(NIF : String)
+    + equals(nif : String)
     + isNIFInvalid(NIF)
 }
 
 class Phone <<Value Object>> {
-    -_phone : String
+    -_countryCode : String
+    -_number : String
     + Phone(phone : String)
-    + isPhoneNumberValid
+    + areParametersInvalid(parameter : String)
+    + isCountryCodeInvalid(countryCode : String)
 }
 
 class Email <<Value Object>> {
     -_email : String
     + Email(email : String)
+    + isEmailInvalid(email : String)
 }
 
 class InstitutionalEmail <<Value Object>> {
-    -_institutionalEmail : String
+    -_emailDomain : String
+    -_studentEmail : String
     + InstitutionalEmail(institutionalEmail : String)
-    + generateInstitutionalEmail(uniqueNumber)
+    + getStudentEmail()
+    + equals(o : object)
+    + hashCode
+    + toString()
 }
 
 class Street <<Value Object>> {
     -_street : String
     + Street(street : String)
-    + validStreet
 }
 
 class PostalCode <<Value Object>> {
     -_postalCode : String
     + PostalCode(postalCode : String)
-    + validPostalCode
 }
 
 class Location <<Value Object>> {
     -_location : String
     + Location(location : String)
-    + validLocation()
+    + getLocation()
 }
 
 class Country <<Value Object>> {
     -_country : String
     + Country(country : String)
-    + validCountry()
+    + isCountryInvalid(country : String)
 }
 
 interface IStudentFactory <<Interface>> {
@@ -129,9 +143,9 @@ class AddressFactoryImpl {
 class List<Student> <<Interface>> {}
 
 interface IStudentRepository <<Interface>> {
-    +registerStudent
-    +isStudentRegistered
-    +getStudentByID
+    +registerStudent()
+    +isStudentRegistered()
+    +getStudentByID()
 }
 
 

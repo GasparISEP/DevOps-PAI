@@ -1,14 +1,15 @@
 package PAI.factory;
 
-import PAI.domain.AccessMethod;
-import PAI.domain.Programme;
+import PAI.VOs.AccessMethodID;
+import PAI.VOs.Date;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEnrolment;
-import PAI.domain.Student;
 
 public class ProgrammeEnrolmentFactoryImpl implements IProgrammeEnrolmentFactory {
 
-    public ProgrammeEnrolment createProgrammeEnrolment (Student student, AccessMethod accessMethod, Programme programme, String date) throws IllegalArgumentException {
+    public ProgrammeEnrolment createProgrammeEnrolment (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws IllegalArgumentException {
 
-        return new ProgrammeEnrolment(student, accessMethod, programme, date);
+        return new ProgrammeEnrolment(studentID, accessMethodID, programmeID, date);
     }
 }

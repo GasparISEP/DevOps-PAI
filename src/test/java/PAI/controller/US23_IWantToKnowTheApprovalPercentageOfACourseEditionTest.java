@@ -1,8 +1,10 @@
 
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.StudentGradeRepository;
@@ -24,8 +26,8 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
 
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-        Student student1 = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        StudentID student1 = mock(StudentID.class);
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -33,11 +35,11 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(IStudentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
-        when(list.addGradeToStudent(grade, dateDouble, student1, courseEdition1)).thenReturn(true);
+        when(list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1)).thenReturn(true);
 
         //act
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = mock(US23_IWantToKnowTheApprovalPercentageOfACourseEdition.class);
-        when(approval1.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition1)).thenReturn(100.0);
+        when(approval1.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEditionID1)).thenReturn(100.0);
 
         //assert
         assertNotNull(approval1);
@@ -60,12 +62,15 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition controlador1 = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(list);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
+        Student student3 = mock(Student.class);
+        Student student4 = mock(Student.class);
         Grade grade1 = mock(Grade.class);
         Grade grade2 = mock(Grade.class);
         Date dateDouble = mock(Date.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
 
@@ -76,33 +81,33 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(studentGrade2.get_grade()).thenReturn(grade2);
 
 
-        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student1, courseEdition1)).thenReturn(studentGrade1);
-        when(IStudentGradeFactory.newGradeStudent(grade2, dateDouble, student2, courseEdition1)).thenReturn(studentGrade2);
+        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student1, courseEditionID1)).thenReturn(studentGrade1);
+        when(IStudentGradeFactory.newGradeStudent(grade2, dateDouble, student2, courseEditionID1)).thenReturn(studentGrade2);
 
-        when(studentGrade1.hasThisCourseEdition(courseEdition1)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEdition(courseEdition1)).thenReturn(true);
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID1)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID1)).thenReturn(true);
 
 
-        enrollmentRepository.enrolStudentInACourseEdition(student1, courseEdition1);
-        enrollmentRepository.enrolStudentInACourseEdition(student2, courseEdition1);
+        enrollmentRepository.enrolStudentInACourseEdition(student3, courseEdition);
+        enrollmentRepository.enrolStudentInACourseEdition(student4, courseEdition);
 
-        list.addGradeToStudent(grade1, dateDouble, student1, courseEdition1);
-        list.addGradeToStudent(grade2, dateDouble, student2, courseEdition1);
-        when(list.knowApprovalRate(courseEdition1)).thenReturn(50.0);
+        list.addGradeToStudent(grade1, dateDouble, student1, courseEditionID1);
+        list.addGradeToStudent(grade2, dateDouble, student2, courseEditionID1);
+        when(list.knowApprovalRate(courseEditionID1)).thenReturn(50.0);
 
 
         //act
-        double optC1 = controlador1.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition1);
+        double optC1 = controlador1.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEditionID1);
 
         //assert
         assertEquals(50.0,optC1,0.01);
     }
 
 }
-
-
-
-
-
-
-
+//
+//
+//
+//
+//
+//
+//

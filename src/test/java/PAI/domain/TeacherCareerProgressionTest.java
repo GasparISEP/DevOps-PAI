@@ -1,162 +1,270 @@
 package PAI.domain;
 
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class TeacherCareerProgressionTest {
 
-    public static Stream<Arguments> provideValidAttributes() {
+    @Test
+    void shouldCreateObjectWithValidAttributes() {
+        //arrange
+        Date date = mock(Date.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherCategoryID tcDouble = mock(TeacherCategoryID.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        //act
+        TeacherCareerProgression tcp = new TeacherCareerProgression(date, tcDouble, wpDouble, tIDDouble);
+
+        //assert
+        assertNotNull(tcp);
+    }
+
+    public static Stream<Arguments> provideNullAttributes() {
         return Stream.of(
-                arguments("10-12-2024", 100),
-                arguments("10-12-2024", 0)
+                arguments(null, mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class), "Date cannot be null!"),
+                arguments(mock(Date.class), null, mock(WorkingPercentage.class), mock(TeacherID.class), "Teacher Category cannot be null!"),
+                arguments(mock(Date.class), mock(TeacherCategoryID.class), null, mock(TeacherID.class), "Working Percentage cannot be null!"),
+                arguments(mock(Date.class), mock(TeacherCategoryID.class), mock(WorkingPercentage.class), null, "Teacher ID cannot be null!")
         );
     }
 
     @ParameterizedTest
-    @MethodSource("provideValidAttributes")
-    void createsObjectWithValidAttributes(String date, int workingPercentage) throws IllegalArgumentException {
-        // Arrange
-        TeacherCategory tc1Double = mock(TeacherCategory.class);
+    @MethodSource("provideNullAttributes")
+    void shouldThrowExceptionIfAttributesAreNull(Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID, String expectedMessage) {
+        //arrange
 
-        //act + assert
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression(date, tc1Double, workingPercentage);
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID));
+
+        //assert
+        assertEquals(exception.getMessage(), expectedMessage);
+    }
+
+
+    @Test
+    void getCategoryReturnsCorrectCategory() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        //act
+        TeacherCategoryID result = TCP.getTeacherCategoryID();
+
+        //assert
+        assertEquals(tcIDDouble, result);
     }
 
     @Test
-    void nullTeacherCategoryDoesNotCreateObject() {
-        // Arrange
-
-        // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression("10-12-2024", null, 50));
-
-        // Assert
-        assertEquals("Teacher Category cannot be null", exception.getMessage());
-    }
-
-    public static Stream<Arguments> provideInvalidAttributes() {
-        return Stream.of(
-                arguments("10-12-2024", -1, "Working Percentage must be a value between 0 and 100."),
-                arguments("10-12-2024", 101, "Working Percentage must be a value between 0 and 100."),
-                arguments("", 50, "Date cannot be empty!"),
-                arguments(" ", 50, "Date cannot be empty!"),
-                arguments(null, 50, "Date cannot be empty!"),
-                arguments("2024-12-10", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
-                arguments("10/12/2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
-                arguments("10 de dezembro de 2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct."),
-                arguments("32-01-2024", 50, "Invalid date. Please check whether the day, month, year or date format (dd-MM-yyyy) are correct.")
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideInvalidAttributes")
-    void invalidAttributesDoNotCreateObject(String date, int workingPercentage, String expectedMessage) throws IllegalArgumentException {
+    void getWorkingPercentageReturnsWorkingPercentage() {
         //arrange
-        TeacherCategory tc1Double = mock(TeacherCategory.class);
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression(date, tc1Double, workingPercentage));
+        WorkingPercentage result = TCP.getWorkingPercentage();
 
         //assert
-        assertEquals(expectedMessage, exception.getMessage());
+        assertEquals(wpDouble, result);
     }
 
-    public static Stream<Arguments> provideValidCategories() {
-        return Stream.of(
-                arguments("10-12-2024", 0),
-                arguments("20-05-2022", 100)
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideValidCategories")
-    void getCategoryReturnsCorrectCategory(String date, int workingPercentage) throws IllegalArgumentException {
+    @Test
+    void getDateReturnsDate() {
         //arrange
-        TeacherCategory tcDouble = mock(TeacherCategory.class);
-        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tcDouble, workingPercentage);
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
 
         //act
-        TeacherCategory result = TCP.getCategory();
+        Date result = TCP.getDate();
 
         //assert
-        assertEquals(tcDouble, result);
+        assertEquals(result, dateDouble);
     }
 
-    public static Stream<Arguments> provideValidWorkingPercentages() {
-        return Stream.of(
-                arguments("02-02-2024", 0, 0),
-                arguments("20-05-2022", 100, 100)
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideValidWorkingPercentages")
-    void getWorkingPercentageReturnsWorkingPercentage(String date, int workingPercentage, int expectedWorkingPercentage) throws IllegalArgumentException {
-
+    @Test
+    void getTeacherIDReturnsTeacherID() {
         //arrange
-        TeacherCategory tcDouble = mock(TeacherCategory.class);
-        TeacherCareerProgression TCP = new TeacherCareerProgression(date, tcDouble, workingPercentage);
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
 
         //act
-        int result = TCP.getWorkingPercentage();
+        TeacherID result = TCP.getTeacherID();
 
         //assert
-        assertEquals(expectedWorkingPercentage, result);
+        assertEquals(result, tIDDouble);
     }
 
+    @Test
+    void shouldReturnTeacherCareerProgressionID() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
 
-    public static Stream<Arguments> provideValidDate () {
-        return Stream.of(
-                arguments("01-01-2010", "01-01-2010"),
-                arguments("31-12-2010", "31-12-2010")
-        );
+        TeacherCareerProgression tcp = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        //act
+        TeacherCareerProgressionID result = tcp.identity();
+
+        //assert
+        assertNotNull(result);
     }
 
-    @ParameterizedTest
-    @MethodSource("provideValidDate")
-    void getDateReturnsDate (String date, String expectedDate) {
-        //Arrange
-        TeacherCategory tcDouble = mock(TeacherCategory.class);
-        TeacherCareerProgression tcp = new TeacherCareerProgression(date,tcDouble,100);
+    //isDateAfter
+    @Test
+    void shouldReturnFalseIfGivenDateIsAfterLastDate() {
+        //arrange
+        Date dateDouble1 = mock(Date.class);
+        Date dateDouble2 = mock(Date.class);
+        LocalDate localDateDouble1 = mock(LocalDate.class);
+        LocalDate localDateDouble2 = mock(LocalDate.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble1, tcIDDouble, wpDouble, tIDDouble);
 
-        // Act
-        LocalDate result = tcp.getDate();
+        when(dateDouble1.getLocalDate()).thenReturn(localDateDouble1);
+        when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
+        when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(true);
 
-        // Assert
-        assertEquals(LocalDate.parse(expectedDate, formatter), result);
+        //act
+        boolean result = TCP.isDateAfter(dateDouble2);
+
+        //assert
+        assertFalse(result);
     }
 
-    public static Stream<Arguments> provideDates() {
-        return Stream.of(
-                arguments("16-04-2024", "17-04-2024", true),
-                arguments("15-04-2024", "15-04-2024", false),
-                arguments("15-04-2024", "14-04-2024", false)
-        );
+    @Test
+    void shouldReturnTrueIfGivenDateIsAfterLastDate() {
+        //arrange
+        Date dateDouble1 = mock(Date.class);
+        Date dateDouble2 = mock(Date.class);
+        LocalDate localDateDouble1 = mock(LocalDate.class);
+        LocalDate localDateDouble2 = mock(LocalDate.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble1, tcIDDouble, wpDouble, tIDDouble);
+
+        when(dateDouble1.getLocalDate()).thenReturn(localDateDouble1);
+        when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
+        when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(false);
+
+        //act
+        boolean result = TCP.isDateAfter(dateDouble2);
+
+        //assert
+        assertTrue(result);
     }
 
-    @ParameterizedTest
-    @MethodSource("provideDates")
-    void shouldReturnTrueIfGivenDateIsAfterLastDate(String date1, String date2, boolean expectedResult) throws IllegalArgumentException {
-        // Arrange
-        TeacherCategory tc1Double = mock(TeacherCategory.class);
+    //sameAs
+    @Test
+    void shouldReturnFalseIfObjectsAreNotOfTheSameInstance() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+        Object object = mock(Object.class);
 
-        TeacherCareerProgression TCP1 = new TeacherCareerProgression(date1, tc1Double, 50);
-        TeacherCareerProgression TCP2 = new TeacherCareerProgression(date2, tc1Double, 60);
+        TeacherCareerProgression tcp = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
 
-        // Act
-        boolean result = TCP2.isDateAfter(TCP1);
+        //act
+        boolean result = tcp.sameAs(object);
 
-        // Assert
-        assertEquals(expectedResult, result);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTeacherCareerProgressionObjectsAreTheSame() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        when(tIDDouble.sameAs(tIDDouble)).thenReturn(true);
+
+        //act
+        boolean result = tcp1.sameAs(tcp1);
+
+        //assert
+        assertTrue(result);
+
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveTheSameTeacherIDButDifferentDate() {
+        //arrange
+        Date date1Double = mock(Date.class);
+        Date date2Double = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression tcp1 = new TeacherCareerProgression(date1Double, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(date2Double, tcIDDouble, wpDouble, tIDDouble);
+
+        when(tIDDouble.sameAs(tIDDouble)).thenReturn(true);
+
+        //act
+        boolean result = tcp1.sameAs(tcp2);
+
+        //arrange
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveTheSameDateButDifferentTeacherID() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tID1Double = mock(TeacherID.class);
+        TeacherID tID2Double = mock(TeacherID.class);
+
+        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tID1Double);
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tID2Double);
+
+        when(tID1Double.sameAs(tID2Double)).thenReturn(false);
+
+
+        //act
+        boolean result = tcp1.sameAs(tcp2);
+
+        //arrange
+        assertFalse(result);
     }
 }

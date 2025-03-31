@@ -11,7 +11,7 @@ participant "teacherRepo:TeacherRepository" as TRepo #lightpink
 participant "categoryRepo:TeacherCategoryRepository" as TCRepo #lightpink
 participant "teacherIdVO1:TeacherIdVO" as teacherIdVO1 #lightblue
 participant "dateVO1:DateVO" as dateVO1 #lightblue
-participant "teacherCareerVO1:TeacherCareerVO" as tcVO1 #lightblue
+participant "teacherCategoryIDVO1:TeacherCategoryIDVO" as tcVO1 #lightblue
 participant "tcpRepo: TeacherCareerProgressionRepository" as TCPRepo #lightpink
 participant "lastTCP:TeacherCareerProgression" as TCP #lightyellow
 participant "tcpF:TCPfactory" as TCPf #burlywood
@@ -20,9 +20,9 @@ participant "tcp1:TeacherCareerProgression" as TCP1 #lightyellow
 HRC -> UI : I want to update the Teacher's Category
 activate HRC
 activate UI
-UI -> Controller : getAllTeachers()
+UI -> Controller : findAll()
 activate Controller
-Controller -> TRepo : getAllTeachers()
+Controller -> TRepo : findAll()
 activate TRepo
 TRepo --> Controller : teachersList
 deactivate TRepo
@@ -32,17 +32,15 @@ UI --> HRC : Which Teacher?
 deactivate UI
 HRC -> UI : Teacher's acronym
 activate UI
-UI --> HRC : Which Category?
-HRC -> UI : Show me
-UI -> Controller : getTeacherCategoryList()
+UI -> Controller : findAll()
 activate Controller
-Controller -> TCRepo : getTeacherCategoryList()
+Controller -> TCRepo : findAll()
 activate TCRepo
 TCRepo --> Controller : categoryList
 deactivate TCRepo
 Controller --> UI : categoryList
 deactivate Controller
-UI --> HRC : Which Category
+UI --> HRC : Which Category?
 deactivate UI
 HRC -> UI : Teacher Category
 activate UI
@@ -65,35 +63,36 @@ dateVO1 -> dateVO1 : isDateValid()
 dateVO1 --> Controller : dateVO1
 deactivate dateVO1
 
-Controller -> tcVO1** : createTeacherCategoryVO(teacherCategory)
+Controller -> tcVO1** : createTeacherCategoryIDVO(teacherCategory)
 activate tcVO1
 tcVO1 -> tcVO1 : isTeacherCategoryValid()
-tcVO1 --> Controller : teacherCategoryVO1
+tcVO1 --> Controller : teacherCategoryIDVO1
 deactivate tcVO1
 
-Controller -> TCPRepo : updateTeacherCategoryInTeacherCareerProgression \n(teacherIDVO1, dateVO1, teacherCategoryVO1)
+Controller -> TCPRepo : updateTeacherCategoryInTeacherCareerProgression \n(teacherIDVO1, dateVO1, teacherCategoryIDVO1)
 activate TCPRepo
 
 TCPRepo -> TCPRepo : lastTCP = findLastTCPFromTeacherID(teacherIdVO1)
 TCPRepo -> TCP : lastTCP.isDateAfter(dateVO1)
 activate TCP
 TCP --> TCPRepo: True
-TCPRepo -> TCP : lastTCP.getCategory()
-TCP --> TCPRepo : teacherCategoryIdVO1
+TCPRepo -> TCP : lastTCP.getTeacherCategoryID()
+TCP --> TCPRepo : lastTeacherCategoryIDVO
 TCPRepo -> TCP : lastTCP.getWorkingPercentage()
-TCP --> TCPRepo : lastWorkingPercentage
+TCP --> TCPRepo : workingPercentageVO1
 deactivate TCP
-TCPRepo -> TCPRepo : validate if lastTeacherCategory \nis different than lastTeacherCategoryVO1
+TCPRepo -> TCPRepo : validate if lastTeacherCategoryIDVO \nis different than teacherCategoryIDVO1
 
-TCPRepo -> TCPf : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherCategoryIdVO1, teacherIdVO1)
+TCPRepo -> TCPf : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherCategoryIDVO1, teacherIDVO1)
 activate TCPf
-TCPf -> TCP1** : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherCategoryIdVO1, teacherIdVO1)
+TCPf -> TCP1** : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherCategoryIDVO1, teacherIDVO1)
 activate TCP1
 TCP1 --> TCPf : tcp1
 deactivate TCP1
 TCPf --> TCPRepo : tcp1
 deactivate TCPf
-TCPRepo -> TCPRepo: add(tcp1)
+TCPRepo -> TCPRepo :isTeacherCareerProgressionDuplicated(tcp1)
+TCPRepo -> TCPRepo: save(tcp1)
 TCPRepo --> Controller : True
 deactivate TCPRepo
 

@@ -1,7 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.Date;
-import PAI.VOs.Description;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
@@ -223,12 +222,24 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID studentID1 = new StudentID(1234567);
+        Name name = new Name("Rita");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
 
+        Student st1 = new Student(studentID1, name, nif, phone, email, address1, academicEmail);
+
+        Date date = new Date("15-04-2005");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(70);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
@@ -236,7 +247,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
-                addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
+                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
         );
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
@@ -289,10 +300,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
+        Date date = new Date("15-04-2005");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(70);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
@@ -300,7 +314,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
-                addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
+                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
         );
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
@@ -356,16 +370,37 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
 
-        Student st2 = new Student("1234367", "Joana", "123556789", "963741369", "joana@gmail.com", address1);
+        StudentID studentID1 = new StudentID(1234567);
+
+        Name name = new Name("Rita");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
+
+        Student st1 = new Student(studentID1, name, nif, phone, email, address1, academicEmail);
+
+        StudentID studentID2 = new StudentID(1234367);
+        Name name2 = new Name("Rita");
+        NIF nif2 = new NIF("123456789", country);
+        PhoneNumber phone2 = new PhoneNumber("+351","963741258");
+        Email email2 = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID1);
+
+        Student st2 = new Student(studentID2, name2, nif2, phone2, email2, address1, academicEmail2);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
+        Date date = new Date("15-04-2005");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(70);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
@@ -373,7 +408,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
-                addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
+                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
         );
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
@@ -427,14 +462,25 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-        Student st1 = new Student("1234567", "Rita", "123456789", "963741258", "rita@gmail.com", address1);
+        StudentID studentID = new StudentID(1234567);
+        Name name = new Name("Rita");
+        String countryName = "Portugal";
+        Country country = new Country(countryName);
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phone = new PhoneNumber("+351","963741258");
+        Email email = new Email("rita@gmail.com");
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        Student st1 = new Student(studentID, name, nif, phone, email, address1, academicEmail);
 
         Course course1 = new Course ("Informatics", "INF", 6, 1);
 
+        Date date = new Date("15-04-2005");
+        TeacherCategoryID tcID = new TeacherCategoryID();
+        WorkingPercentage wp = new WorkingPercentage(70);
+        TeacherID teacherID = TeacherID.createNew();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
         Department dpt1 = new Department("DEI", "Department1");
         IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory tc = new TeacherCategory("Assistant Teacher");
         TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
         TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
 
@@ -442,7 +488,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
                 "Doutoramento em Engenharia Informatica, 2005, ISEP",
                 "Rua das Flores", "4444-098", "Porto", "Portugal",
-                addressFactory, "15-04-2005", tc, 70, dpt1, tcpFactory, tcpLF
+                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
         );
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();

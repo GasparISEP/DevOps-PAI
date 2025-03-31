@@ -1,39 +1,45 @@
 @startuml
 title US16: Enrol a student in a course edition
 autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
 
 actor ASC
 participant ":UI" as UI
-ASC -> UI: I want to enrol a student in a course edition!
-activate UI #ddfada
+ASC -> UI: I want to enrol a student in a \n course edition!
+activate UI #E1F5FE
 UI --> ASC: What Student?
 deactivate UI
 
 ASC -> UI: Enter the student!
-activate UI #ddfada
+activate UI #E1F5FE
 participant ":US16_EnrolAStudentInACourseEditionController" as Controller
-UI -> Controller: findProgrammeEditionsThatStudentIsEnrolled (studentID)
-activate Controller #ddfada
+UI -> Controller: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
+activate Controller #E1F5FE
 participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
-Controller -> ProgrammeEditionEnrolmentRepository: findProgrammeEditionsThatStudentIsEnrolled (studentID)
-activate ProgrammeEditionEnrolmentRepository #ddfada
+Controller -> ProgrammeEditionEnrolmentRepository: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
+activate ProgrammeEditionEnrolmentRepository #E1F5FE
 create ":ProgrammeEditionIdList"
 ProgrammeEditionEnrolmentRepository -> ":ProgrammeEditionIdList": newArrayList()
-activate ":ProgrammeEditionIdList" #ddfada
+activate ":ProgrammeEditionIdList" #E1F5FE
 ":ProgrammeEditionIdList" --> ProgrammeEditionEnrolmentRepository: EmptyList<ProgrammeEditionId>
 deactivate ":ProgrammeEditionIdList"
-loop for each "pee[i]:ProgrammeEditionEnrolment" in ProgrammeEditionEnrolmentRepo
+loop for each "pee[i]:ProgrammeEditionEnrolment" in ProgrammeEditionEnrolmentRepository
 participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
-ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment : findStudentInProgrammeEdition (studentID)
-activate ProgrammeEditionEnrolment #ddfada
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment : findStudentInProgrammeEdition \n (studentID)
+activate ProgrammeEditionEnrolment #E1F5FE
 ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository : pee1
 deactivate ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment :  findProgrammeEditionInEnrolment()
-activate ProgrammeEditionEnrolment #ddfada
+activate ProgrammeEditionEnrolment #E1F5FE
 ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository : pe1ID
 deactivate ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepository -> ":ProgrammeEditionIdList":  add (pe1ID)
-activate ":ProgrammeEditionIdList" #ddfada
+activate ":ProgrammeEditionIdList" #E1F5FE
 ":ProgrammeEditionIdList" --> ProgrammeEditionEnrolmentRepository: True
 deactivate ":ProgrammeEditionIdList"
 end
@@ -41,62 +47,71 @@ ProgrammeEditionEnrolmentRepository --> Controller: List<ProgrammeEditionId>
 deactivate ProgrammeEditionEnrolmentRepository
 Controller --> UI: Optional<List<ProgrammeEditionId>>
 deactivate Controller
-UI --> ASC: Here is a list of programme editions \n         the student is enrolled in. \n        What Programme Edition?
+UI --> ASC: Here is a list of programme editions \n the student is enrolled in. \n What Programme Edition?
 deactivate UI
 
 ASC -> UI:Enter the programme edition!
-activate UI #ddfada
-UI -> Controller: findCourseEditionsByProgrammeEdition (programmeEditionId)
-activate Controller #ddfada
-deactivate ProgrammeEditionRepository
+activate UI #E1F5FE
+UI -> Controller: findCourseEditionsByProgrammeEdition \n (programmeEditionId)
+activate Controller #E1F5FE
 participant ":ICourseEditionRepository" as CourseEditionRepository
 Controller -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEditionId)
-activate CourseEditionRepository #ddfada
+activate CourseEditionRepository #E1F5FE
 create ":CourseEditionList"
 CourseEditionRepository -> ":CourseEditionList": newArrayList ()
-activate ":CourseEditionList" #ddfada
+activate ":CourseEditionList" #E1F5FE
 ":CourseEditionList" --> CourseEditionRepository: EmptyList<CourseEdition>
 deactivate ":CourseEditionList"
 loop for each "ce[i]:CourseEdition" in CourseEditionRepository
 participant ":CourseEdition" as CourseEdition
 CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
-activate CourseEdition #ddfada
+activate CourseEdition #E1F5FE
 CourseEdition --> CourseEditionRepository : ce1
 deactivate CourseEdition
 CourseEditionRepository -> ":CourseEditionList" :  add (ce1)
-activate ":CourseEditionList" #ddfada
-":CourseEditionIdList" --> CourseEditionRepository: True
+activate ":CourseEditionList" #E1F5FE
+":CourseEditionList" --> CourseEditionRepository: True
 deactivate ":CourseEditionList"
 end
 CourseEditionRepository --> Controller: List<CourseEdition>
 deactivate CourseEditionRepository
 Controller --> UI: List<CourseEdition>
 deactivate Controller
-UI --> ASC: Here is a list of Course Editions!\n         What Course Edition?
+UI --> ASC: Here is a list of Course Editions!\n What Course Edition?
 deactivate UI
 
 ASC -> UI: Enter the course edition!
-activate UI #ddfada
+activate UI #E1F5FE
 UI --> ASC: Sure?
 deactivate UI
 ASC -> UI: Yes!
-activate UI #ddfada
+activate UI #E1F5FE
 
-UI -> Controller: enrolStudentInACourseEdition (studentID, courseEditionID)
-activate Controller #ddfada
+UI -> Controller: enrolStudentInACourseEdition \n (studentID, courseEditionID)
+activate Controller #E1F5FE
 deactivate CourseEditionRepository
 participant ":ICourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
 Controller -> CourseEditionEnrolmentRepository: enrolStudentInACourseEdition (studentID, courseEditionID)
-activate CourseEditionEnrolmentRepository #ddfada
+activate CourseEditionEnrolmentRepository #E1F5FE
 participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactoryInterface
-CourseEditionEnrolmentRepository -> CourseEditionEnrolmentFactoryInterface: createCourseEditionEnrolment (studentID, courseEditionID)
-activate CourseEditionEnrolmentFactoryInterface #ddfada
+CourseEditionEnrolmentRepository -> CourseEditionEnrolmentFactoryInterface: createCourseEditionEnrolment \n (studentID, courseEditionID)
+activate CourseEditionEnrolmentFactoryInterface #E1F5FE
 create "cee1:CourseEditionEnrolment"
-CourseEditionEnrolmentFactoryInterface -> "cee1:CourseEditionEnrolment" : createCourseEditionEnrolment (studentID, courseEditionID)
-activate "cee1:CourseEditionEnrolment" #ddfada
+CourseEditionEnrolmentFactoryInterface -> "cee1:CourseEditionEnrolment" : createCourseEditionEnrolment \n (studentID, courseEditionID)
+activate "cee1:CourseEditionEnrolment" #E1F5FE
+create "date: Date"
+"cee1:CourseEditionEnrolment" -> "date: Date" : newDate (Date.now())
+activate "date: Date" #E1F5FE
+"date: Date" --> "cee1:CourseEditionEnrolment": date
+deactivate "date: Date"
+create "status: EnrolmentStatus"
+"cee1:CourseEditionEnrolment" -> "status: EnrolmentStatus" : newEnrolmentStatus (true)
+activate "status: EnrolmentStatus" #E1F5FE
+"status: EnrolmentStatus" -> "cee1:CourseEditionEnrolment" : status
+deactivate "status: EnrolmentStatus"
 create "cee1ID:CourseEditionEnrolmentID"
 "cee1:CourseEditionEnrolment" -> "cee1ID:CourseEditionEnrolmentID": newCourseEditionEnrolmentID ()
-activate "cee1ID:CourseEditionEnrolmentID" #ddfada
+activate "cee1ID:CourseEditionEnrolmentID" #E1F5FE
 "cee1ID:CourseEditionEnrolmentID" --> "cee1:CourseEditionEnrolment": cee1ID
 deactivate "cee1ID:CourseEditionEnrolmentID"
 "cee1:CourseEditionEnrolment" --> CourseEditionEnrolmentFactoryInterface: cee1
@@ -105,7 +120,7 @@ CourseEditionEnrolmentFactoryInterface --> CourseEditionEnrolmentRepository: cee
 deactivate CourseEditionEnrolmentFactoryInterface
 participant ":CourseEditionEnrolmentSet" as CourseEditionEnrolmentSet
 CourseEditionEnrolmentRepository --> CourseEditionEnrolmentSet: add (cee1)
-activate CourseEditionEnrolmentSet #ddfada
+activate CourseEditionEnrolmentSet #E1F5FE
 CourseEditionEnrolmentSet -> CourseEditionEnrolmentRepository: True
 deactivate CourseEditionEnrolmentSet
 CourseEditionEnrolmentRepository --> Controller: True

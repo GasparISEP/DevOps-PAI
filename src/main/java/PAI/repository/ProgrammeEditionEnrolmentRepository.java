@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
@@ -44,15 +45,15 @@ public class ProgrammeEditionEnrolmentRepository {
 
 
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
-        Set<String> studentUniqueNumbers = new HashSet<>();
+        Set<StudentID> studentIDs = new HashSet<>();
 
         for (ProgrammeEditionEnrolment enrollment : _programmeEditionEnrolments) {
             if (enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
-                String studentUniqueNumber = enrollment.getStudentUniqueNumber();
-                studentUniqueNumbers.add(studentUniqueNumber);
+                StudentID studentID = enrollment.getStudentID();
+                studentIDs.add(studentID);
                 }
         }
-        return studentUniqueNumbers.size();
+        return studentIDs.size();
     }
 
     //US21 - Get The Number Of Students Enrolled In A Programme Edition

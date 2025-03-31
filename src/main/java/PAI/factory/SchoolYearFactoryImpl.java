@@ -2,6 +2,7 @@ package PAI.factory;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 
 public class SchoolYearFactoryImpl implements ISchoolYearFactory {

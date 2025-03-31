@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.repository.SchoolYearRepository;
 
 public class US07_IWantToCreateASchoolYearController {

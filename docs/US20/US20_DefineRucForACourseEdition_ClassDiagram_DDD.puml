@@ -1,0 +1,142 @@
+@startuml
+
+title US20_DefineRucForACourseEditionClassDiagram.puml
+
+class US20_DefineRucForCourseEditionController {
+    -_courseEditionRepository: CourseEditionRepository
+    -_teacherRepository: TeacherRepository
+    +US20_DefineRucForCourseEditionController(courseEditionRepository: CourseEditionRepository, teacherRepository: TeacherRepository)
+    +getCourseEdition()
+    +getTeachers()
+    +defineRucForCourseEdition(courseEdition: CourseEdition, teacher: Teacher)
+}
+
+interface ITeacherRepository{
++registerTeacher(teacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
+                          country: Country, teacherCategory: TeacherCategory, departmentID: DepartmentID) : boolean
+}
+
+class TeacherRepositoryImpl {
++TeacherRepositoryImpl (ITeacherListFactory iTeacherListFactory)
++registerTeacher(teacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
+                           country: Country, teacherCategory: TeacherCategory, departmentID: DepartmentID) : boolean
+}
+
+interface ITeacherListFactory {
+    + ArrayList<Teacher> newArrayList()
+}
+
+class TeacherListFactoryImpl {
+    + ArrayList<Teacher> newArrayList()
+}
+
+interface ICourseEditionRepository {
+    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
+}
+
+class CourseEditionRepositoryImpl {
+    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
+}
+
+interface ICourseEditionListFactory_2 {
+    + List<CourseEdition_2> newList()
+}
+
+class CourseEditionListFactoryImpl_2 {
+    + List<CourseEdition_2> newList()
+}
+
+
+package "Teacher Agreggate" {
+    entity "<<Root>>\n<<Entity>>\nTeacher" {
+            -_acronym: String
+            -_name: String
+            -_email: String
+            -_nif: String
+            -_phoneNumber: String
+            -_academicBackground: String
+            -_address: Address
+            -_addressFactory: IAddressFactory
+            -_department: Department
+            -_teacherCareerProgressionList: List<TeacherCareerProgression>
+            -_teacherCareerProgressionFactory: ITeacherCareerProgressionFactory
+            +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+                     street: String, postalCode: String, location: String, country: String, addressFactory: IAddressFactory,
+                     date: Date, category: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID,
+                     department: Department, teacherCareerProgressionFactory: ITeacherCareerProgressionFactory,
+                     teacherCareerProgressionListFactory: ITeacherCareerProgressionListFactory)
+            +hasSameAcronym(teacher: Teacher): boolean
+            +hasSameNif(teacher: Teacher): boolean
+            +isInDepartment(department: Department): boolean
+            +hasThisNIF(NIF: String): boolean
+    }
+
+    class "<<Value Object>>\nTeacherID" {
+            - final UUID id
+            + TeacherID(UUID id)
+            + UUID identity()
+            + boolean sameAs(Object other)
+            + static TeacherID createNew()
+    }
+}
+
+package "CourseEdition Aggregate" {
+    entity "<<Root>>\n<<Entity>>\nCourseEdition" {
+            -_course: Course
+            -_programmeEdition: ProgrammeEdition
+            -_ruc: Teacher
+            +CourseEdition(course: Course, programmeEdition: ProgrammeEdition)
+            +equals(objectToCompare: Object): boolean
+            +setRuc(ruc: Teacher): boolean
+            +whatProgrammeEditionBelongsThisCourseEdition(): ProgrammeEdition
+            +getCourse(): Course
+    }
+
+    class "<<Value Object>>\nCourseEditionID" {
+            - final UUID _courseEditionId
+            + CourseEditionID()
+            + String toString()
+            + boolean equals(Object object)
+    }
+}
+
+interface IRepository {}
+
+ITeacherRepository -up-|> IRepository : extends
+ICourseEditionRepository -up-|> IRepository : extends
+
+"<<Root>>\n<<Entity>>\nTeacher" "1" *-- "1" "<<Value Object>>\nTeacherID" : contains
+"<<Root>>\n<<Entity>>\nCourseEdition" "1" *-- "1" "<<Value Object>>\nCourseEditionID" : contains
+
+ITeacherRepository <|..... TeacherRepositoryImpl
+US20_DefineRucForCourseEditionController "1" ....> "*" ITeacherRepository : uses
+
+ICourseEditionRepository <|..... CourseEditionRepositoryImpl
+US20_DefineRucForCourseEditionController "1" ....> "*" ICourseEditionRepository : uses
+
+ITeacherRepository "1" -down-> "*" "<<Root>>\n<<Entity>>\nTeacher" : contains
+ICourseEditionRepository "1" -down-> "*" "<<Root>>\n<<Entity>>\nCourseEdition" : contains
+
+TeacherRepositoryImpl "1" -up-> "1" ITeacherListFactory : uses
+TeacherListFactoryImpl ..|> ITeacherListFactory
+
+CourseEditionRepositoryImpl "1" -up-> "1" ICourseEditionListFactory_2 : uses
+CourseEditionListFactoryImpl_2 ..|> ICourseEditionListFactory_2
+
+@enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
