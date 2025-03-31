@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseNameTest {
@@ -73,5 +75,15 @@ class CourseNameTest {
         int hash2 = courseName.hashCode();
         //Assert
         assertEquals(hash1,hash2);
+    }
+
+    @Test
+    void shouldReturnCorrectNameString() throws Exception {
+        //Arrange
+        CourseName courseName = new CourseName("Mestrado em Engenharia Informática");
+        //Act
+        String name = courseName.toString();
+        // Assert
+        assertEquals("Mestrado em Engenharia Informática", name);
     }
 }

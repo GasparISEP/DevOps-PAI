@@ -33,4 +33,9 @@ public class CourseName implements ValueObject {
     public int hashCode() {
         return Objects.hash(_name);
     }
+
+    @Override
+    public String toString() {
+        return _name.toString();
+    }
 }
