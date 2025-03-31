@@ -67,7 +67,7 @@ public class ProgrammeDDDRepository {
         return list;
     }
 
-    public Optional<ProgrammeDDD> getProgrammeByID(ProgrammeID programmeID) {
+    public Optional<ProgrammeDDD> findProgrammeByID(ProgrammeID programmeID) {
         for (ProgrammeDDD programmeDDD : _programmeRepo) {
             if (programmeDDD.getProgrammeID().equals(programmeID)) {
                 return Optional.of(programmeDDD);
