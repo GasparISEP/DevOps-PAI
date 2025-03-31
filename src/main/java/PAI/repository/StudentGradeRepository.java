@@ -106,7 +106,10 @@ public class StudentGradeRepository implements IStudentGradeRepository {
 
     @Override
     public Iterable<StudentGrade> findAll() {
-        return null;
+        if (_StudentGradeList.isEmpty()){
+            throw new IllegalStateException("Student Grade List is empty.");
+        }
+        return _StudentGradeList;
     }
 
     @Override

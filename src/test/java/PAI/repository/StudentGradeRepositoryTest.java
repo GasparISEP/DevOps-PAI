@@ -388,6 +388,53 @@ class StudentGradeRepositoryTest {
         assertEquals(studentGrade1 , result1);
 
     }
+
+    @Test
+    void shouldReturnAllStudentGrades() throws Exception {
+        // Arrange
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
+
+        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
+
+        StudentID student1 = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+
+        StudentGrade studentGrade = mock(StudentGrade.class);
+        when(IStudentGradeFactory.newGradeStudent(grade, date, student1, courseEditionID))
+                .thenReturn(studentGrade);
+
+        // Act
+        repository.save(studentGrade);
+        Iterable<StudentGrade> result = repository.findAll();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        assertEquals(studentGrade, result.iterator().next());
+    }
+
+
+    @Test
+    void shouldThrowExceptionWhenListIsEmpty() {
+        // Arrange
+        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
+
+        List<StudentGrade> mockGradeList = new ArrayList<>();
+        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
+
+        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
+
+        // Act & Assert
+        assertThrows(IllegalStateException.class, repository::findAll);
+    }
+
 }
 
 
