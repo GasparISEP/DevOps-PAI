@@ -128,10 +128,10 @@ class TeacherTest {
         Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
 
-        // Act: Call sameAs with null
+        // Act
         boolean result = teacher.sameAs(null);
 
-        // Assert: Should return false
+        // Assert
         assertFalse(result);
     }
 

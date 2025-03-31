@@ -71,7 +71,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
         TeacherCareerProgression latestTCP = null;
 
         for (TeacherCareerProgression tcp : _teacherCareerProgressions) {
-            if (tcp.getTeacherID().sameAs(teacherID)) {
+            if (tcp.getTeacherID().equals(teacherID)) {
                 if (latestTCP == null || tcp.getDate().getLocalDate().isAfter(latestTCP.getDate().getLocalDate())) {
                     latestTCP = tcp;
                 }

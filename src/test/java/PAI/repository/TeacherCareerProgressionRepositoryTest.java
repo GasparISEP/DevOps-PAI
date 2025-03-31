@@ -307,7 +307,6 @@ class TeacherCareerProgressionRepositoryTest {
 
         when(tcpDouble.getTeacherID()).thenReturn(tIDDouble);
         when(tcpDouble2.getTeacherID()).thenReturn(tIDDouble);
-        when(tIDDouble.sameAs(tIDDouble)).thenReturn(true);
 
         repo.save(tcpDouble);
         repo.save(tcpDouble2);
@@ -368,7 +367,6 @@ class TeacherCareerProgressionRepositoryTest {
         when(itDouble.next()).thenReturn(tcpDouble);
 
         when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
-        when(teacherIDDouble.sameAs(teacherIDDouble)).thenReturn(true);
         when(tcpDouble.getDate()).thenReturn(date1Double);
         when(date1Double.getLocalDate()).thenReturn(localDate1Double);
         when(tcpDouble.getDate()).thenReturn(date2Double);
@@ -414,7 +412,6 @@ class TeacherCareerProgressionRepositoryTest {
         when(itDouble.next()).thenReturn(tcpDouble);
 
         when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
-        when(teacherIDDouble.sameAs(teacherIDDouble)).thenReturn(false);
 
         //act
         boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(date2Double, wp2Double, teacherIDDouble);
@@ -452,7 +449,6 @@ class TeacherCareerProgressionRepositoryTest {
         when(itDouble.next()).thenReturn(tcpDouble);
 
         when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
-        when(teacherIDDouble.sameAs(teacherIDDouble)).thenReturn(true);
         when(tcpDouble.getDate()).thenReturn(date1Double);
         when(date1Double.getLocalDate()).thenReturn(localDate1Double);
         when(tcpDouble.getDate()).thenReturn(date2Double);
@@ -498,7 +494,6 @@ class TeacherCareerProgressionRepositoryTest {
         when(itDouble.next()).thenReturn(tcpDouble);
 
         when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
-        when(teacherIDDouble.sameAs(teacherIDDouble)).thenReturn(true);
         when(tcpDouble.getDate()).thenReturn(date1Double);
         when(date1Double.getLocalDate()).thenReturn(localDate1Double);
         when(tcpDouble.getDate()).thenReturn(date2Double);
