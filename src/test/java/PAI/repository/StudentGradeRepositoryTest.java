@@ -4,6 +4,7 @@ package PAI.repository;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
+import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
@@ -33,8 +34,8 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -65,7 +66,7 @@ class StudentGradeRepositoryTest {
         IStudentGradeListFactory IStudentGradeListFactoryDouble = mock(IStudentGradeListFactory.class);
         StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactoryDouble,IStudentGradeListFactoryDouble);
 
-        Student studentDouble = mock(Student.class);
+        StudentID studentDouble = mock(StudentID.class);
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
         Grade grade = mock(Grade.class);
@@ -105,8 +106,8 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
@@ -171,8 +172,8 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
@@ -214,8 +215,8 @@ class StudentGradeRepositoryTest {
         when(studentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Grade grade1 = mock(Grade.class);
@@ -307,8 +308,8 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
 
-        Student student1 = mock(Student.class);
-        Student student2 = mock(Student.class);
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
