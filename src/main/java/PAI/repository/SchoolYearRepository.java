@@ -84,7 +84,7 @@ public class SchoolYearRepository implements ISchoolYearRepository {
     public Iterable<SchoolYear> findAll() {
 
         if (_schoolYearList.isEmpty()){
-            throw new IllegalStateException("Student Grade List is empty.");
+            throw new IllegalStateException("SchoolYear List is empty.");
         }
         return _schoolYearList;
     }
