@@ -46,10 +46,12 @@ public class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
         }
 
         int quantSemester = programmeDDD.getQuantSemesters().getQuantityOfSemesters();
-
         DurationInYears durationInYears = new DurationInYears(quantSemester);
 
-        _studyPlanDDDRepo.createStudyPlan_2(programmeID, implementationDate, durationInYears);
+        int quantityOfEcts = programmeDDD.getQuantEcts().getQuantEcts();
+        QuantEcts quantityOfEctsFromProgramme = new QuantEcts(quantityOfEcts);
+
+        _studyPlanDDDRepo.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEctsFromProgramme);
         return true;
     }
 }

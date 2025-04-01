@@ -1,6 +1,7 @@
 package PAI.repository;
 
 import PAI.VOs.*;
+import PAI.VOs.Date;
 import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
@@ -785,7 +786,10 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        Date implementationDate = new Date("21-03-2022");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+        CourseID courseID = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
@@ -812,7 +816,10 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        Date implementationDate = new Date("21-03-2022");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+        CourseID courseID = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
@@ -820,8 +827,11 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeID programme2ID = new ProgrammeID(nameWithNumbersAndSpecialChars2, acronym2);
         SchoolYearID schoolYear2ID = new SchoolYearID();
         ProgrammeEditionID programmeEdition2ID = new ProgrammeEditionID(programme2ID,schoolYear2ID);
-        CourseInStudyPlanID courseInStudyPlan2ID = new CourseInStudyPlanID();
-        CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID,courseInStudyPlan2ID);
+        Date implementationDate2 = new Date("21-03-2022");
+        StudyPlanID studyPlanID2 = new StudyPlanID(programme2ID, implementationDate2);
+        CourseID courseID2 = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseID2, studyPlanID2);
+        CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID,courseInStudyPlanID2);
 
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEdition2ID);
@@ -850,7 +860,10 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        Date implementationDate = new Date("21-03-2022");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+        CourseID courseID = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
@@ -883,8 +896,10 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
-        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        Date implementationDate = new Date("21-03-2022");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+        CourseID courseID = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
         // Act
         boolean result = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
@@ -907,8 +922,10 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
-        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        Date implementationDate = new Date("21-03-2022");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+        CourseID courseID = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
 
@@ -935,8 +952,10 @@ class CourseEditionEnrolmentRepositoryTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
-        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        Date implementationDate = new Date("21-03-2022");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+        CourseID courseID = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
 
