@@ -16,7 +16,7 @@ class ProgrammeDDDFactoryImplTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts quantityOfEcts = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
 

@@ -136,7 +136,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
