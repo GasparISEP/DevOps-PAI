@@ -4,31 +4,28 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
-import PAI.repository.CourseEditionEnrolmentRepository;
-import PAI.repository.CourseEditionRepository;
-import PAI.repository.IProgrammeEditionEnrolmentRepository;
-import PAI.repository.ProgrammeEditionEnrolmentRepository;
+import PAI.repository.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 public class US16_EnrolAStudentInACourseEditionController {
 
-    private final CourseEditionEnrolmentRepository _ceeRepository;
-    private final IProgrammeEditionEnrolmentRepository _peeRepository;
+    private final ICourseEditionEnrolmentRepository _ceeRepositoryInterface;
+    private final IProgrammeEditionEnrolmentRepository _peeRepositoryInterface;
     private final CourseEditionRepository _courseEditionRepository;
 
 
     public US16_EnrolAStudentInACourseEditionController(
-            CourseEditionEnrolmentRepository ceeRepository, IProgrammeEditionEnrolmentRepository peeRepository, CourseEditionRepository courseEditionRepository) {
+            ICourseEditionEnrolmentRepository _ceeRepositoryInterface, IProgrammeEditionEnrolmentRepository peeRepositoryInterface, CourseEditionRepository courseEditionRepository) {
 
-        validateCourseEditionEnrolmentRepository (ceeRepository);
-        validateProgrammeEditionEnrolmentRepository (peeRepository);
+        validateCourseEditionEnrolmentRepository (_ceeRepositoryInterface);
+        validateProgrammeEditionEnrolmentRepository (peeRepositoryInterface);
         validateCourseEditionRepository (courseEditionRepository);
 
-        this._ceeRepository = ceeRepository;
-        this._peeRepository = peeRepository;
+        this._ceeRepositoryInterface = _ceeRepositoryInterface;
+        this._peeRepositoryInterface = peeRepositoryInterface;
         this._courseEditionRepository = courseEditionRepository;
     }
 
@@ -39,7 +36,7 @@ public class US16_EnrolAStudentInACourseEditionController {
             return Collections.emptyList();
         }
 
-        return _peeRepository.findProgrammeEditionsThatStudentIsEnrolled (studentId);
+        return _peeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled (studentId);
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
@@ -49,19 +46,19 @@ public class US16_EnrolAStudentInACourseEditionController {
 
     //enrol a student in a course edition
     public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
-        return _ceeRepository.enrolStudentInACourseEdition(studentId, courseEditionId);
+        return _ceeRepositoryInterface.enrolStudentInACourseEdition(studentId, courseEditionId);
     }
 
     //Verify if the course edition enrollment repository is valid
-    private void validateCourseEditionEnrolmentRepository (CourseEditionEnrolmentRepository ceeRepository) throws IllegalArgumentException {
-        if (ceeRepository == null) {
-            throw new IllegalArgumentException("Course edition enrolment repository cannot be null!");
+    private void validateCourseEditionEnrolmentRepository (ICourseEditionEnrolmentRepository ceeRepositoryInterface) throws IllegalArgumentException {
+        if (ceeRepositoryInterface == null) {
+            throw new IllegalArgumentException("Course edition enrolment repository interface cannot be null!");
         }
     }
 
-    //Verify if the programme edition enrollment repo is valid
-    private void validateProgrammeEditionEnrolmentRepository (IProgrammeEditionEnrolmentRepository peeRepository) throws IllegalArgumentException {
-        if (peeRepository == null) {
+    //Verify if the programme edition enrollment repository is valid
+    private void validateProgrammeEditionEnrolmentRepository (IProgrammeEditionEnrolmentRepository peeRepositoryInterface) throws IllegalArgumentException {
+        if (peeRepositoryInterface == null) {
             throw new IllegalArgumentException("Programme edition enrolment repository interface cannot be null!");
         }
     }
