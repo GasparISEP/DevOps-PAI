@@ -70,9 +70,9 @@ class CourseRepositoryDDDImplTest {
         // arrange
         CourseID courseID = mock(CourseID.class);
         CourseDDD courseDDD = mock(CourseDDD.class);
-        List<CourseDDD> courseList = mock(List.class);
-        Stream<CourseDDD> stream = mock(Stream.class);
-        Stream<CourseDDD> filteredStream = mock(Stream.class);
+        List courseList = mock(List.class);
+        Stream stream = mock(Stream.class);
+        Stream filteredStream = mock(Stream.class);
 
         ICourseRepositoryListFactoryDDD factory = mock(CourseRepositoryListFactoryImpl.class);
         when(factory.createCourseRepositoryList()).thenReturn(courseList);
