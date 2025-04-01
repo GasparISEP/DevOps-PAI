@@ -52,9 +52,9 @@ ref over CourseEditionRepository
 end ref
 
 
-CourseEditionRepository --> Controller: List<CourseEdition>
+CourseEditionRepository --> Controller: List<CourseEditionID>
 deactivate CourseEditionRepository
-Controller --> UI: List<CourseEdition>
+Controller --> UI: List<CourseEditionID>
 deactivate Controller
 UI --> ASC: Here is a list of Course Editions!\n What Course Edition?
 deactivate UI
@@ -95,10 +95,17 @@ create "status: EnrolmentStatus"
 create "cee1ID:CourseEditionEnrolmentID"
 "cee1:CourseEditionEnrolment" -> "cee1ID:CourseEditionEnrolmentID": create (studentID, courseEditionID)
 deactivate "cee1:CourseEditionEnrolment"
-participant ":CourseEditionEnrolmentSet" as CourseEditionEnrolmentSet
-CourseEditionEnrolmentRepository --> CourseEditionEnrolmentSet: add (cee1)
+participant ":Set" as CourseEditionEnrolmentSet
+loop for each cee[i]:CourseEditionEnrolment in CourseEditionEnrolmentRepository
+    CourseEditionEnrolmentRepository -> "cee1:CourseEditionEnrolment" : sameAs(cee1)
+    activate "cee1:CourseEditionEnrolment" #E1F5FE
+    "cee1:CourseEditionEnrolment" --> CourseEditionEnrolmentRepository : False
+    deactivate "cee1:CourseEditionEnrolment"
+end
+
+CourseEditionEnrolmentRepository -> CourseEditionEnrolmentSet: add (cee1)
 activate CourseEditionEnrolmentSet #E1F5FE
-CourseEditionEnrolmentSet -> CourseEditionEnrolmentRepository: True
+CourseEditionEnrolmentSet --> CourseEditionEnrolmentRepository: True
 deactivate CourseEditionEnrolmentSet
 CourseEditionEnrolmentRepository --> Controller: True
 deactivate CourseEditionEnrolmentRepository
