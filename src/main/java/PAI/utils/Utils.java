@@ -11,14 +11,16 @@ public class Utils {
     private static final Map<String, String> NIF_RULE_MAP = new HashMap<>();
 
     static {
-        //U + 8 digits
+        //AT U + 8 digits
         NIF_RULE_MAP.put(normalize("Austria"), "^U\\d{8}$");
-        //11 digits
+        //BE 11 digits
         NIF_RULE_MAP.put(normalize("Belgium"), "^\\d{11}$");
-        //9 or 10 digits
+        //BG 9 or 10 digits
         NIF_RULE_MAP.put(normalize("Bulgaria"), "^\\d{9,10}$");
-        //11 digits
+        //HR 11 digits
         NIF_RULE_MAP.put(normalize("Croatia"), "^\\d{11}$");
+        //CY 8 digits + 1 letter
+        NIF_RULE_MAP.put(normalize("Cyprus"), "^\\d{8}[A-Z]$");
     }
 
     public static boolean NIFValidator (Country country, String NIF){
