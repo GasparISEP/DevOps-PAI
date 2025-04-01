@@ -15,7 +15,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class StudyPlanDDDRepositoryTest {
+public class
+StudyPlanDDDRepositoryTest {
 
     @Test
     void testCreateStudyPlanNewPlan() throws Exception {
@@ -143,5 +144,52 @@ public class StudyPlanDDDRepositoryTest {
 
         // Assert
         assertFalse(foundPlanOpt.isPresent());
+    }
+
+    @Test
+    void shouldGetAllStudyPlansByProgrammeID() throws Exception {
+        // arrange
+        StudyPlanDDD studyPlanDDD1 = mock(StudyPlanDDD.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(studyPlanDDD1.getProgrammeID()).thenReturn(programmeID);
+
+        IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
+        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        List<StudyPlanDDD> studyPlanList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(studyPlanList);
+        studyPlanList.add(studyPlanDDD1);
+
+        StudyPlanDDDRepository repository = new StudyPlanDDDRepository(factory, listFactory);
+
+        // act
+        List<StudyPlanDDD> listStudyPlansByProgrammeID = repository.getAllStudyPlansByProgrammeId(programmeID);
+
+        // assert
+        assertEquals(studyPlanDDD1, listStudyPlansByProgrammeID.get(0));
+        assertEquals(listStudyPlansByProgrammeID.size(), 1);
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenProgrammeIDNotMatchAnyProgrammeIDinStudyPlan(){
+        // arrange
+        StudyPlanDDD studyPlanDDD1 = mock(StudyPlanDDD.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        when(studyPlanDDD1.getProgrammeID()).thenReturn(programmeID);
+
+
+        IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
+        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        List<StudyPlanDDD> studyPlanList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(studyPlanList);
+        studyPlanList.add(studyPlanDDD1);
+
+        StudyPlanDDDRepository repository = new StudyPlanDDDRepository(factory, listFactory);
+
+        // act
+        List<StudyPlanDDD> listStudyPlansByProgrammeID = repository.getAllStudyPlansByProgrammeId(programmeID2);
+
+        // assert
+        assertEquals(listStudyPlansByProgrammeID.size(), 0);
     }
 }

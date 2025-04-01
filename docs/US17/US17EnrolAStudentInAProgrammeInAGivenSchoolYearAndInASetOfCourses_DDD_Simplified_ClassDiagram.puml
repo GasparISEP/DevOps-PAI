@@ -238,85 +238,6 @@ class StudentID <<Value Object>> {
     + isUniqueNumberValid()
 }
 
-class Name <<Value Object>> {
-    -_name : String
-    + Name(name : String)
-    + isNameValid
-}
-
-class NIF <<Value Object>> {
-    -_NIF : String
-    + NIF(NIF : String)
-    + isNIFInvalid()
-}
-
-class Phone <<Value Object>> {
-    -_phone : String
-    + Phone(phone : String)
-    + isPhoneNumberValid
-}
-
-class Acronym <<Value Object>> {
-     -_acronym : String
-     + Acronym(acronym : String)
-     + isAcronymInvalid(acronym : String)
-}
-
-class QuantEcts <<ValueObject>> {
-    -_quantEcts: int
-    + QuantEcts(quantityOfEcts : int)
-    + isQuantEctsValid(quantityOfEcts : int)
-}
-
-class QuantityOfSemesters <<ValueObject>> {
-    -_quantityOfSemesters: int
-    + QuantSemesters(quantityOfSemesters: int)
-    + isQuantityOfSemestersValid(quantityOfSemesters: int)
-}
-
-class Email <<Value Object>> {
-    -_email : String
-    + Email(email : String)
-}
-
-class InstitutionalEmail <<Value Object>> {
-    -_institutionalEmail : String
-    + InstitutionalEmail(institutionalEmail : String)
-    + generateInstitutionalEmail(uniqueNumber)
-}
-class Address <<Value Object>> {
-        +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
-        + getStreet() : Street
-        + getPostalCode() : PostalCode
-        + getLocation() : Location
-        + getCountry() : Country
-    }
-
-class Street <<Value Object>> {
-    -_street : String
-    + Street(street : String)
-    + validStreet
-}
-
-class PostalCode <<Value Object>> {
-    -_postalCode : String
-    + PostalCode(postalCode : String)
-    + validPostalCode
-}
-
-class Location <<Value Object>> {
-    -_location : String
-    + Location(location : String)
-    + validLocation()
-}
-
-class Country <<Value Object>> {
-    -_country : String
-    + Country(country : String)
-    + validCountry()
-
-}
-
 class ProgrammeEnrolmentID <<Value Object>>{
     -_id : long
     + SchoolYearId (id: long)
@@ -393,8 +314,6 @@ US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1"
 US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEnrolmentRepository
 
 ' Other connections
-StudentID "1" --> "1 _address" Address
-CourseEditionRepository "1" -u-> "_listOfCE" CourseEdition
 CourseEditionRepository "1" --> "1" CourseEditionListFactoryImpl
 CourseEditionRepository "1" --> "1" CourseEdition
 CourseEditionEnrolment " " ..> " " ICourseEditionEnrolmentRepository
@@ -403,13 +322,11 @@ CourseEditionEnrolmentRepositoryImpl "1" --> "1" CourseEditionEnrolmentListFacto
 ProgrammeEditionEnrolment"1" --> "1" StudentID
 ProgrammeEditionEnrolmentRepository "1" --> "1" ProgrammeEditionEnrolment
 IProgrammeEditionEnrolmentFactory <.. ProgrammeEditionEnrolmentRepository
-ProgrammeEditionEnrolmentRepository "1" ..> "1" ProgrammeEditionEnrolmentListFactoryImpl
 ProgrammeEditionEnrolmentRepository ..> IProgrammeEditionEnrolmentListFactory
 IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
 IProgrammeEditionEnrolmentListFactory <|.. ProgrammeEditionEnrolmentListFactoryImpl
 ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrolment
 ProgrammeRepository ..> IProgrammeRepositoryListFactory
-ProgrammeRepository ..> Programme
 ProgrammeRepository "1" --> "1" Programme
 
 ProgrammeRepositoryListFactoryImpl ..|> IProgrammeRepositoryListFactory
@@ -419,7 +336,6 @@ SchoolYearRepository "1" --> "1" SchoolYear
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionID
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionEnrolmentID
 ProgrammeEdition "1" --> "1" ProgrammeEditionID
-CourseEditionID "1" -->"1" CourseEditionID
 ProgrammeEdition "1" --> "1" SchoolYearID
 SchoolYearID "1" --> "1" SchoolYear
 CourseEditionEnrolment "1" --> "1" StudentID
@@ -427,20 +343,9 @@ CourseEditionEnrolment "1" --> "1" CourseEditionID
 CourseEditionEnrolment "1" --> "1" CourseEditionEnrolmentID
 ProgrammeEnrolment "1" --> "1" ProgrammeID
 Programme "1" --> "1" ProgrammeID
-Programme "1" --> "1" Name
-Programme "1" --> "1" Acronym
-Programme "1" --> "1" QuantEcts
-Programme "1" --> "1" QuantityOfSemesters
 ProgrammeEnrolment "1" --> "1" StudentID
 ProgrammeEnrolment "1" --> "1" ProgrammeEnrolmentID
 Student "1" --> "1" StudentID
-Student "*" --> "1" Name
-Student "\n *" --> "1  " Email
-Student "\n *" --> "1   " InstitutionalEmail
-Student "\n *" --> "1 " Phone
-Student "\n *" --> "1 " NIF
-Address "  *" ---> "1" Street
-Address "*                " ---> "1" PostalCode
-Address " *" ---> "1" Location
-Address " *" ---> "1" Country
+
+
 @enduml

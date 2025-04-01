@@ -3,15 +3,15 @@ package PAI.VOs;
 import PAI.ddd.ValueObject;
 
 public class NIF implements ValueObject {
-    private final Country _country;
     private final String _NIF;
+    private final Country _country;
 
     public NIF (String NIF, Country country){
 
        if(NIF == null || NIF.isBlank()) throw new IllegalArgumentException("NIF cannot be empty.");
        if(!isNifValid(NIF)) throw new IllegalArgumentException("NIF is Invalid");
 
-       this._NIF = NIF;
+       this._NIF = NIF.toUpperCase();
        this._country = country;
     }
 

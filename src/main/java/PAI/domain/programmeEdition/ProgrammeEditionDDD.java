@@ -4,7 +4,6 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.ddd.AggregateRoot;
-import PAI.domain.ProgrammeEdition;
 
 public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
@@ -28,11 +27,24 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
     @Override
     public ProgrammeEditionID identity() {
-        return null;
+        return _programmeEditionID;
     }
 
     @Override
     public boolean sameAs(Object object) {
+        if (this == object)
+            return true;
+        if (!(object instanceof ProgrammeEditionDDD))
+            return false;
+
+        ProgrammeEditionDDD that = (ProgrammeEditionDDD) object;
+        if (this._schoolYear.equals(that._schoolYear) &&  this._programmeID.equals(that._programmeID))
+            return true;
         return false;
     }
+
+    public ProgrammeID findProgrammeIDInProgrammeEdition() {
+        return _programmeID;
+    }
+
 }
