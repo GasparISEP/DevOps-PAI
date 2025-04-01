@@ -169,13 +169,11 @@ class ProgrammeEditionIDTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
         UUID schoolYearInternalID = mock(UUID.class);
-        UUID programmeInternalID = mock(UUID.class);
 
         when(schoolYearID.getSchoolYearID()).thenReturn(schoolYearInternalID);
-        when(programmeID.getProgID()).thenReturn(programmeInternalID);
 
         when(schoolYearInternalID.toString()).thenReturn("sy1");
-        when(programmeInternalID.toString()).thenReturn("prog1");
+        when(programmeID.toString()).thenReturn("prog1");
 
         // Act
         String result = programmeEditionID.toString();
@@ -196,15 +194,13 @@ class ProgrammeEditionIDTest {
 
         UUID schoolYearInternalID1 = mock(UUID.class);
         UUID schoolYearInternalID2 = mock(UUID.class);
-        UUID programmeInternalID = mock(UUID.class);
 
         when(schoolYearID1.getSchoolYearID()).thenReturn(schoolYearInternalID1);
         when(schoolYearID2.getSchoolYearID()).thenReturn(schoolYearInternalID2);
-        when(programmeID.getProgID()).thenReturn(programmeInternalID);
 
         when(schoolYearInternalID1.toString()).thenReturn("sy1");
         when(schoolYearInternalID2.toString()).thenReturn("sy2");
-        when(programmeInternalID.toString()).thenReturn("prog1");
+        when(programmeID.toString()).thenReturn("prog1");
 
         String pEID1 = programmeEditionID1.toString();
 
