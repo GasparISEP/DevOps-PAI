@@ -10,7 +10,7 @@ public class ProgrammeEditionID implements DomainId {
 
     private final UUID _programmeEditionID;
 
-    ProgrammeEditionID() {
+    public ProgrammeEditionID() {
         _programmeEditionID = UUID.randomUUID();
     }
 

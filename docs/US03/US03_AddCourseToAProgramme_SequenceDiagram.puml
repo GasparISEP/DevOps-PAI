@@ -30,7 +30,7 @@ ASC -> UI: studyPlan1!
 
 UI -> ":AddCourseToAProgrammeController"  #application: getAllCourses()
 
-":AddCourseToAProgrammeController" -> CourseRepository ++ #application: getAllCourses()
+":AddCourseToAProgrammeController" -> CourseRepository ++ #application: findAll()
 
 CourseRepository --> ":AddCourseToAProgrammeController" -- #application: courseList
 

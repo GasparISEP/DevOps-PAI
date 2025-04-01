@@ -24,4 +24,8 @@ public class StudyPlanDDD {
     public StudyPlanID getStudyPlanID() {
         return this._studyPlanID;
     }
+
+    public ProgrammeID getProgrammeID() {
+        return this._programmeID;
+    }
 }

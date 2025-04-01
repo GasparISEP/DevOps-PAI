@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.CourseEdition;
+import PAI.domain.CourseEdition_2;
 import PAI.repository.CourseEditionRepository;
 import PAI.domain.Teacher;
 import PAI.repository.TeacherRepository;
@@ -18,7 +19,7 @@ public class US20_DefineRucForCourseEditionController {
     }
 
     // Method to get all Course Editions
-    public List<CourseEdition> getCourseEditions() {
+    public List<CourseEdition_2> getCourseEditions() {
         return _courseEditionRepository.getCourseEditions();
     }
 

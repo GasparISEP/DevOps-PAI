@@ -42,7 +42,7 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
-    public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
+    public List<CourseEdition_2> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
         return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
     }
 
