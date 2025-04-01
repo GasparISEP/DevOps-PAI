@@ -231,13 +231,14 @@ class ProgrammeDDDTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
+        Acronym acronym1 = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym1, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.isEquals(CEE.getProgrammeID());
         //assert

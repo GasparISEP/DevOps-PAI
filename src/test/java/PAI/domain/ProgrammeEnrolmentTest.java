@@ -661,7 +661,9 @@ class ProgrammeEnrolmentTest {
         //Arrange
         StudentID studentID = new StudentID(1241204);
         AccessMethodID accessMethodID = new AccessMethodID();
-        ProgrammeID programmeID = new ProgrammeID();
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("ola");
+        Acronym acronym = new Acronym("HI");
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
         Date dateDouble = new Date(LocalDate.now());
 
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
