@@ -1,6 +1,8 @@
 package PAI.repository;
 
+import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.StudentID;
+import PAI.ddd.AggregateRoot;
 import PAI.domain.*;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
@@ -9,9 +11,10 @@ import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 
 import java.util.*;
 
-public class ProgrammeEditionEnrolmentRepository {
+public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnrolmentRepository {
 
-    private Set<ProgrammeEditionEnrolment> _programmeEditionEnrolments;
+
+    private final Set<ProgrammeEditionEnrolment> _programmeEditionEnrolments;
     private final IProgrammeEditionEnrolmentFactory _iProgrammeEditionEnrolmentFactory;
 
     public ProgrammeEditionEnrolmentRepository(IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory,
@@ -20,7 +23,7 @@ public class ProgrammeEditionEnrolmentRepository {
         _iProgrammeEditionEnrolmentFactory = iProgrammeEditionEnrolmentFactory;
         _programmeEditionEnrolments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment();
     }
-
+    @Override
     public boolean enrolStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
             if (programmeEdition == null || student == null) {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
@@ -30,7 +33,7 @@ public class ProgrammeEditionEnrolmentRepository {
 
             return _programmeEditionEnrolments.add(programmeEditionEnrol);
     }
-
+    @Override
     public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
         if(student == null || programmeEdition == null) {
             return false;
@@ -43,7 +46,7 @@ public class ProgrammeEditionEnrolmentRepository {
         return false;
     }
 
-
+    @Override
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
         Set<StudentID> studentIDs = new HashSet<>();
 
@@ -57,6 +60,7 @@ public class ProgrammeEditionEnrolmentRepository {
     }
 
     //US21 - Get The Number Of Students Enrolled In A Programme Edition
+    @Override
     public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
         int numberOfStudents = 0;
 
@@ -68,6 +72,7 @@ public class ProgrammeEditionEnrolmentRepository {
         return numberOfStudents;
     }
 
+    @Override
     public List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled(Student student){
         List<ProgrammeEdition> list = new ArrayList<>();
 
@@ -78,5 +83,30 @@ public class ProgrammeEditionEnrolmentRepository {
             }
         }
         return list;
+    }
+
+
+    @Override
+    public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment entity) {
+        _programmeEditionEnrolments.add(entity);
+        return entity;
+    }
+
+    @Override
+    public Iterable<ProgrammeEditionEnrolment> findAll() {
+        return new ArrayList<>(_programmeEditionEnrolments);
+    }
+
+    @Override
+    public Optional<ProgrammeEditionEnrolment> ofIdentity(ProgrammeEditionEnrolmentID id) {
+        return _programmeEditionEnrolments.stream()
+                .filter(enrolment -> enrolment.identity().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public boolean containsOfIdentity(ProgrammeEditionEnrolmentID id) {
+        return _programmeEditionEnrolments.stream()
+                .anyMatch(enrolment -> enrolment.identity().equals(id));
     }
 }

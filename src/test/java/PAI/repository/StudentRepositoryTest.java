@@ -1,10 +1,7 @@
 package PAI.repository;
 
 import PAI.VOs.*;
-import PAI.domain.Address;
-import PAI.domain.CourseEdition;
-import PAI.domain.Student;
-import PAI.domain.StudentGrade;
+import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +13,7 @@ import java.util.Iterator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -429,5 +427,122 @@ class StudentRepositoryTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void saveMethodShouldSaveInTheStudentList () {
+        // Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+        StudentRepository studentRepository = new StudentRepository(iStudentFactory, iStudentListFactory);
 
+        Student studentDouble = mock(Student.class);
+
+        // Act
+        Student result = studentRepository.save(studentDouble);
+
+        // Assert
+        assertEquals(studentDouble, result);
+    }
+
+    @Test
+    void shouldReturnListOfStudentsWhenItIsNotEmpty () {
+        // Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+        StudentRepository studentRepository = new StudentRepository(iStudentFactory, iStudentListFactory);
+
+        Student studentDouble = mock(Student.class);
+        studentRepository.save(studentDouble);
+
+        // Act
+        Iterable<Student> result = studentRepository.findAll();
+
+        // Assert
+        assertIterableEquals(List.of(studentDouble), result);
+    }
+
+    @Test
+    void shouldReturnEmptyListOfStudentsWhenItIsEmpty () {
+        //Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+        StudentRepository studentRepository = new StudentRepository(iStudentFactory, iStudentListFactory);
+
+        //Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> studentRepository.findAll());
+    }
+
+    @Test
+    public void shouldReturnOptionalPresentWhenTCPExists() {
+        //Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+
+        StudentRepository studentRepository = new StudentRepository(iStudentFactory, iStudentListFactory);
+
+        Student studentDouble = mock(Student.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+
+
+        //Act
+        Optional<Student> result = studentRepository.ofIdentity(studentIDDouble);
+
+        //Assert
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void shouldReturnOptionalEmptyWhenTCPExists() {
+        //Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+
+        StudentRepository studentRepository = new StudentRepository(iStudentFactory, iStudentListFactory);
+
+        StudentID studentIDDouble = mock(StudentID.class);
+
+        //Act
+        Optional<Student> result = studentRepository.ofIdentity(studentIDDouble);
+
+        //Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnTrueIfContainsIdentity () {
+        // Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+
+
+        Student studentDouble = mock(Student.class);
+        StudentID studentID = mock(StudentID.class);
+
+        StudentRepository studentRepository = new StudentRepository(iStudentFactory, iStudentListFactory);
+        studentRepository.save(studentDouble);
+
+        when(studentDouble.identity()).thenReturn(studentID);
+
+        // Act
+        boolean result = studentRepository.containsOfIdentity(studentID);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfContainsIdentity () {
+        // Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+
+        StudentID studentID = mock(StudentID.class);
+
+        StudentRepository studentRepository = new StudentRepository(iStudentFactory, iStudentListFactory);
+
+        // Act
+        boolean result = studentRepository.containsOfIdentity(studentID);
+
+        // Assert
+        assertFalse(result);
+    }
 }

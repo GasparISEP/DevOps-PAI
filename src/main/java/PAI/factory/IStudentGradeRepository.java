@@ -1,16 +1,15 @@
 package PAI.factory;
 
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
+import PAI.ddd.IRepository;
 import PAI.domain.CourseEdition;
-import PAI.domain.CourseEdition_2;
 import PAI.domain.Student;
+import PAI.domain.StudentGrade;
 import PAI.repository.StudentGradeRepository;
 
-public interface IStudentGradeRepository {
-    boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEdition_2 courseEdition) throws Exception;
-    Double KnowAverageGrade(CourseEdition_2 courseEdition);
-    double knowApprovalRate(CourseEdition_2 courseEdition);
+public interface IStudentGradeRepository extends IRepository<StudentGradeID, StudentGrade> {
+    boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception;
+    Double getAverageGrade(CourseEditionID courseEditionID);
+    double knowApprovalRate(CourseEditionID courseEditionID);
 }
 

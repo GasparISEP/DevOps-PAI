@@ -44,36 +44,36 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
     }
 
     // Enroll a student in a ProgrammeEdition.
-    public boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(
-            Student student, Programme programme, SchoolYear schoolYear ) {
-
-        if (!_programmeEnrolmentRepository.isStudentEnrolled(student, programme)) {
-            return false;
-        }
-
-        // Find ProgrammeEdition
-        Optional<ProgrammeEdition> optionalProgrammeEdition =
-                _programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear);
-
-        if (optionalProgrammeEdition.isEmpty()) {
-            return false;
-        }
-
-        ProgrammeEdition programmeEdition = optionalProgrammeEdition.get();
-
-        // Check if student is already enrolled
-        if (_programmeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
-            return false;
-        }
-
-        // Enroll student in programmeEdition
-        _programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(student, programmeEdition);
-
-        List<CourseEdition_2> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
-
-        _courseEditionEnrolmentRepository.enrolStudentInProgrammeCourseEditions(student, courseEditions);
-        return true;
-    }
+//    public boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(
+//            Student student, Programme programme, SchoolYear schoolYear ) {
+//
+//        if (!_programmeEnrolmentRepository.isStudentEnrolled(student, programme)) {
+//            return false;
+//        }
+//
+//        // Find ProgrammeEdition
+//        Optional<ProgrammeEdition> optionalProgrammeEdition =
+//                _programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear);
+//
+//        if (optionalProgrammeEdition.isEmpty()) {
+//            return false;
+//        }
+//
+//        ProgrammeEdition programmeEdition = optionalProgrammeEdition.get();
+//
+//        // Check if student is already enrolled
+//        if (_programmeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
+//            return false;
+//        }
+//
+//        // Enroll student in programmeEdition
+//        _programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(student, programmeEdition);
+//
+//        List<CourseEdition> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+//
+//        _courseEditionEnrolmentRepository.enrolStudentInProgrammeCourseEditions(student, courseEditions);
+//        return true;
+//    }
 
     private <T> T validateRepository(T repository, String name) {
         if (repository == null) {

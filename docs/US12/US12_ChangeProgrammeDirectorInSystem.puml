@@ -2,7 +2,8 @@
 actor ASC
 participant ":UI" as UI
 participant ":US12_ChangeProgrammeDirectorInSystem" as US12
-participant ":ProgrammeList" as PL #lightgreen
+participant ":TeacherRepository" as TR
+participant ":ProgrammeRepository" as PL #lightgreen
 participant ":Programme" as PG #yellow
 autonumber
 
@@ -11,25 +12,36 @@ activate UI #application
 UI --> ASC : Programme? Teacher?
 deactivate UI
 
-ASC -> UI : Programme! Teacher!
+ASC -> UI : Programme1! Teacher1!
 activate UI #application
-UI -> US12 : changeProgrammeDirector(Programme, Teacher)
+UI -> US12 : changeProgrammeDirector(Programme1, Teacher1)
 activate US12 #application
 
-US12 -> PL : changeProgrammeDirector(Programme, Teacher)
+US12 -> TR : findTeacherId(Teacher1)
+activate TR #application
+TR -> TR : findTeacherById(:tIdVO1)
+TR -> US12 : :tIdVO1
+deactivate TR
+US12 -> PL : findProgrammeId(Programme1)
 activate PL #application
-
-
-PL -> PL : validates if teacher is not Null
-PL -> PG : newProgrammeDirector(Teacher)
-activate PG #application
-
-PG --> PL : Programme Director Changed
-deactivate PG
-
-PL --> US12 : true
+PL -> US12 : :pIDVO1
 deactivate PL
 
+US12 -> PL : getProgrammeById(:pIdVO1)
+activate PL #application
+PL -> US12 : :programme
+deactivate PL
+US12 -> PL :changeProgrammeDirector(:programme, :tIdVO1)
+activate PL #application
+
+PL -> PG : newProgrammeDirector(:tIdVO1)
+activate PG #application
+PG -> PG : validates if teacher is not Null
+
+PG --> PL : true
+deactivate PG
+PL->US12 : true
+deactivate PL
 US12 --> UI : true
 deactivate US12
 

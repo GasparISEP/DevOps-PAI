@@ -1,5 +1,8 @@
 package PAI.factory;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.StudentID;
+import PAI.domain.CourseEdition;
 import PAI.domain.CourseEditionEnrolment;
 import PAI.domain.CourseEdition_2;
 import PAI.domain.Student;
@@ -7,7 +10,7 @@ import PAI.domain.Student;
 
 public class CourseEditionEnrolmentFactoryImpl implements ICourseEditionEnrolmentFactory {
 
-    public CourseEditionEnrolment createCourseEditionEnrolment(Student student, CourseEdition_2 courseEdition) {
-        return new CourseEditionEnrolment(student, courseEdition);
+    public CourseEditionEnrolment createCourseEditionEnrolment(StudentID studentId, CourseEditionID courseEditionId) {
+        return new CourseEditionEnrolment(studentId, courseEditionId);
     }
 }

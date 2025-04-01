@@ -1,7 +1,7 @@
 package PAI.domain;
 
-import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import PAI.ddd.AggregateRoot;
 
 import java.util.Objects;
@@ -52,11 +52,19 @@ public class TeacherCategoryV2 implements AggregateRoot<TeacherCategoryID> {
 
     @Override
     public boolean equals(Object o) {
-        return sameAs(o);
+        if (this == o) return true;
+        if (!(o instanceof TeacherCategoryV2 other)) return false;
+        return Objects.equals(id, other.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "TeacherCategoryV2{id=" + id + ", name=" + name + "}";
+    }
+
 }

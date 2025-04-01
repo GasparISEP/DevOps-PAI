@@ -12,6 +12,7 @@ import PAI.repository.TeacherRepository;
 
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
+   /*
     private final TeacherRepository _teacherRepository;
     private final TeacherCategoryRepository _teacherCategoryRepository;
     private final DepartmentRepository _departmentRepository;
@@ -71,4 +72,5 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             throw new IllegalStateException("DepartmentRepository is null.");
         }
     }
+    */
 }

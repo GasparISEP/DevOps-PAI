@@ -1,5 +1,4 @@
 package PAI.domain;
-
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
@@ -21,13 +20,12 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
             throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
         }
 
-        _courseEditionID = new CourseEditionID();
+        _courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
         _courseInStudyPlanID = courseInStudyPlanID;
         _programmeEditionID = programmeEditionID;
     }
 
 
-    //Auxiliary constructor for tests, in order to define a specific CourseEditionID
     public CourseEdition_2(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         if (courseEditionID == null) {
             throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
@@ -45,7 +43,8 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
 
     @Override
     public CourseEditionID identity() {
-        return _courseEditionID;}
+        return _courseEditionID;
+    }
 
     @Override
     public boolean sameAs(Object objectToCompare) {

@@ -139,31 +139,7 @@ class TeacherCareerProgressionTest {
 
     //isDateAfter
     @Test
-    void shouldReturnFalseIfGivenDateIsAfterLastDate() {
-        //arrange
-        Date dateDouble1 = mock(Date.class);
-        Date dateDouble2 = mock(Date.class);
-        LocalDate localDateDouble1 = mock(LocalDate.class);
-        LocalDate localDateDouble2 = mock(LocalDate.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
-
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble1, tcIDDouble, wpDouble, tIDDouble);
-
-        when(dateDouble1.getLocalDate()).thenReturn(localDateDouble1);
-        when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
-        when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(true);
-
-        //act
-        boolean result = TCP.isDateAfter(dateDouble2);
-
-        //assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnTrueIfGivenDateIsAfterLastDate() {
+    void shouldReturnTrueIfGivenDateIsEqualOrAfterLastDate() {
         //arrange
         Date dateDouble1 = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
@@ -180,10 +156,34 @@ class TeacherCareerProgressionTest {
         when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(false);
 
         //act
-        boolean result = TCP.isDateAfter(dateDouble2);
+        boolean result = TCP.isLastDateEqualOrBeforeNewDate(dateDouble2);
 
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfGivenDateIsBeforeLastDate() {
+        //arrange
+        Date dateDouble1 = mock(Date.class);
+        Date dateDouble2 = mock(Date.class);
+        LocalDate localDateDouble1 = mock(LocalDate.class);
+        LocalDate localDateDouble2 = mock(LocalDate.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble1, tcIDDouble, wpDouble, tIDDouble);
+
+        when(dateDouble1.getLocalDate()).thenReturn(localDateDouble1);
+        when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
+        when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(true);
+
+        //act
+        boolean result = TCP.isLastDateEqualOrBeforeNewDate(dateDouble2);
+
+        //assert
+        assertFalse(result);
     }
 
     //sameAs
@@ -214,11 +214,10 @@ class TeacherCareerProgressionTest {
         TeacherID tIDDouble = mock(TeacherID.class);
 
         TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
-
-        when(tIDDouble.sameAs(tIDDouble)).thenReturn(true);
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
 
         //act
-        boolean result = tcp1.sameAs(tcp1);
+        boolean result = tcp1.sameAs(tcp2);
 
         //assert
         assertTrue(result);
@@ -226,7 +225,7 @@ class TeacherCareerProgressionTest {
     }
 
     @Test
-    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveTheSameTeacherIDButDifferentDate() {
+    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentDate() {
         //arrange
         Date date1Double = mock(Date.class);
         Date date2Double = mock(Date.class);
@@ -237,8 +236,6 @@ class TeacherCareerProgressionTest {
         TeacherCareerProgression tcp1 = new TeacherCareerProgression(date1Double, tcIDDouble, wpDouble, tIDDouble);
         TeacherCareerProgression tcp2 = new TeacherCareerProgression(date2Double, tcIDDouble, wpDouble, tIDDouble);
 
-        when(tIDDouble.sameAs(tIDDouble)).thenReturn(true);
-
         //act
         boolean result = tcp1.sameAs(tcp2);
 
@@ -247,7 +244,7 @@ class TeacherCareerProgressionTest {
     }
 
     @Test
-    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveTheSameDateButDifferentTeacherID() {
+    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentTeacherID() {
         //arrange
         Date dateDouble = mock(Date.class);
         TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
@@ -258,8 +255,47 @@ class TeacherCareerProgressionTest {
         TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tID1Double);
         TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tID2Double);
 
-        when(tID1Double.sameAs(tID2Double)).thenReturn(false);
 
+
+        //act
+        boolean result = tcp1.sameAs(tcp2);
+
+        //arrange
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentWorkingPercentage() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wp1Double = mock(WorkingPercentage.class);
+        WorkingPercentage wp2Double = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wp1Double, tIDDouble);
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcIDDouble, wp2Double, tIDDouble);
+
+
+
+        //act
+        boolean result = tcp1.sameAs(tcp2);
+
+        //arrange
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentTeacherCategory() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcID1Double = mock(TeacherCategoryID.class);
+        TeacherCategoryID tcID2Double = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+
+        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcID1Double, wpDouble, tIDDouble);
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcID2Double, wpDouble, tIDDouble);
 
         //act
         boolean result = tcp1.sameAs(tcp2);

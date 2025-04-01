@@ -20,13 +20,16 @@ class CourseEditionFactoryImpl_2Test {
         //SUT = CourseEditionFactory
         //Arrange
             //Doubles' instantiation
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
         //instructions
         try (MockedConstruction<CourseEdition_2> courseEditionDouble = mockConstruction(CourseEdition_2.class, (courseEditionMock, context) -> {
-            CourseInStudyPlanID actualCourseInStudyPlanID = (CourseInStudyPlanID) context.arguments().get(0);
-            ProgrammeEditionID actualProgrammeEditionID = (ProgrammeEditionID) context.arguments().get(1);
+            CourseEditionID actualCourseEditionID = (CourseEditionID) context.arguments().get(0);
+            CourseInStudyPlanID actualCourseInStudyPlanID = (CourseInStudyPlanID) context.arguments().get(1);
+            ProgrammeEditionID actualProgrammeEditionID = (ProgrammeEditionID) context.arguments().get(2);
+            when(courseEditionMock.identity()).thenReturn(actualCourseEditionID);
             when(courseEditionMock.getCourseInStudyPlanID()).thenReturn(actualCourseInStudyPlanID);
             when(courseEditionMock.getProgrammeEditionID()).thenReturn(actualProgrammeEditionID);
         })) {
@@ -35,10 +38,11 @@ class CourseEditionFactoryImpl_2Test {
             ICourseEditionFactory_2 ICourseEditionFactory = new CourseEditionFactoryImpl_2();
 
             // Act
-            CourseEdition_2 courseEdition = ICourseEditionFactory.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+            CourseEdition_2 courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
             // Asserts
             assertNotNull(courseEdition);
+            assertEquals(courseEditionIDDouble, courseEdition.identity());
             assertEquals(courseInStudyPlanIDDouble, courseEdition.getCourseInStudyPlanID());
             assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
 

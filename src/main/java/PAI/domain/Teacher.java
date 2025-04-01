@@ -1,156 +1,74 @@
 package PAI.domain;
 
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
-import PAI.factory.*;
+import PAI.VOs.*;
+import PAI.ddd.AggregateRoot;
+import PAI.ddd.DomainEntity;
 
-import java.util.List;
+public class Teacher implements AggregateRoot<TeacherID>, DomainEntity<TeacherID> {
 
-public class Teacher {
+    private TeacherID _teacherID;
 
-    private String _acronym;
+    private TeacherAcronym _acronym;
 
-    private String _name;
+    private Name _name;
 
-    private String _email;
+    private Email _email;
 
-    private String _nif;
+    private NIF _nif;
 
-    private String _phoneNumber;
+    private PhoneNumber _phoneNumber;
 
-    private String _academicBackground;
+    private AcademicBackground _academicBackground;
 
-    private Address _address;
-
-    private IAddressFactory _addressFactory;
+    private AddressVO _address;
 
     private Department _department;
 
-    private List<TeacherCareerProgression> _teacherCareerProgressionList;
-
-    private ITeacherCareerProgressionFactory _teacherCareerProgressionFactory;
-
     //constructor
-    public Teacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground,
-                   String street, String postalCode, String location, String country, IAddressFactory addressFactory,
-                   Date date, TeacherCategoryID category, WorkingPercentage workingPercentage, TeacherID teacherID, Department department,
-                   ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
-                   ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory) throws IllegalArgumentException {
+    public Teacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
+                   AddressVO address, Department department) {
 
-        validateAcronym(acronym);
-        validateName(name);
-        validateEmail(email);
-        validateNif(nif);
-        validatePhoneNumber(phoneNumber);
-        validateAcademicBackground(academicBackground);
-        validateFactories(teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+        isObjectNull(acronym, acronym, name, email, nif, phoneNumber, academicBackground, address, department);
 
-        this._address = addressFactory.createAddress(street, postalCode, location, country);
-
-        _teacherCareerProgressionList = teacherCareerProgressionListFactory.createTeacherCareerProgressionList();
-
-        this._teacherCareerProgressionFactory = teacherCareerProgressionFactory;
-
-        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, category, workingPercentage, teacherID);
-
-        this._teacherCareerProgressionList.add(tcp);
-
+        this._acronym = acronym;
+        this._name = name;
+        this._email = email;
+        this._nif = nif;
+        this._phoneNumber = phoneNumber;
+        this._academicBackground = academicBackground;
+        this._address = address;
         this._department = department;
+
+        this._teacherID = TeacherID.createNew();
     }
 
-
-    private void validateAcronym(String teacherAcronym) throws IllegalArgumentException {
-        if (teacherAcronym == null || teacherAcronym.isBlank()) {
-            throw new IllegalArgumentException("Teacher´s acronym must be a 3 capital letter non-empty String.");
-        }
-        if (!teacherAcronym.matches("^[A-Z]{3}$")) {
-            throw new IllegalArgumentException("Teacher´s acronym must contain only three capital letters.");
-        }
-        this._acronym = teacherAcronym;
-    }
-
-    private void validateName(String name) throws IllegalArgumentException {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Teacher´s name must be a non-empty String.");
-        }
-        if (name.length() < 2 || name.length() > 100) {
-            throw new IllegalArgumentException("Teacher´s name must be between 2 and 100 characters.");
-        }
-        for (int i = 0; i < name.length(); i++) {
-            char c = name.charAt(i);
-            if (!Character.isLetter(c) && !Character.isSpaceChar(c) && c != '-') {
-                throw new IllegalArgumentException("Teacher´s name must contain only letters and spaces.");
+    private void isObjectNull(Object... objects){
+        for (Object object : objects) {
+            if (object == null) {
+                throw new IllegalArgumentException("Parameters should not be null.");
             }
         }
-        if (!name.matches("^[A-Z].*")) {
-            throw new IllegalArgumentException("Teacher´s name should start with a capital letter.");
-        }
-        this._name = name;
     }
 
-    private void validateEmail(String email) throws IllegalArgumentException {
-
-        if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("Teacher´s email must be a non-empty String.");
-        }
-        if (!email.toLowerCase().matches(_acronym.toLowerCase() + "@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
-            throw new IllegalArgumentException("Invalid email format.");
-        }
-        this._email = email;
+    @Override
+    public TeacherID identity() {
+        return _teacherID;
     }
 
-    private void validateNif(String nif) throws IllegalArgumentException {
-        if (nif == null || nif.isBlank())
-            throw new IllegalArgumentException("Teacher´s NIF must be a non-empty String.");
-
-        if (!nif.matches("^[0-9]{9}$"))
-            throw new IllegalArgumentException("Teacher´s NIF must contain only 9 characters.");
-        this._nif = nif;
-    }
-
-    private void validatePhoneNumber(String phoneNumber) throws IllegalArgumentException {
-        if (phoneNumber == null || phoneNumber.isBlank() || !phoneNumber.matches("^\\+?\\d{1,4}?[ -.]?\\(?\\d{1,4}?\\)?[ -.]?\\d{3,4}[ -.]?\\d{3,4}$")) {
-            throw new IllegalArgumentException("Teacher's phone number is invalid!");
-        }
-
-        this._phoneNumber = phoneNumber;
-    }
-
-
-    private void validateAcademicBackground(String academicBackground) throws IllegalArgumentException {
-        if (academicBackground == null || academicBackground.isBlank())
-            throw new IllegalArgumentException("Teacher's academic background must be a non-empty String.");
-
-        this._academicBackground = academicBackground;
-    }
-
-    private void validateFactories (ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionListFactory tcpListFactory) {
-
-        if (tcpFactory == null)
-            throw new IllegalArgumentException("Teacher Career Progression Factory must not be null.");
-
-        if (tcpListFactory == null) {
-            throw new IllegalArgumentException("Teacher Career Progression List Factory must not be null.");
-        }
-    }
-
-    public boolean hasSameAcronym(Teacher teacher) {
-        return this._acronym.equals(teacher._acronym);
-    }
-
-    public boolean hasSameNif(Teacher teacher) {
-        return this._nif.equals(teacher._nif);
+    @Override
+    public boolean sameAs(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Teacher teacher = (Teacher) other;
+        return  this._teacherID.equals(teacher._teacherID) ||
+                this._nif.equals(teacher._nif);
     }
 
     public boolean isInDepartment(Department department) {
         return _department == department;
     }
 
-    public boolean hasThisNIF(String NIF) {
-
-        return _nif.equals(NIF);
+    public boolean hasThisNIF(NIF nif) {
+        return _nif.getNIF().equals(nif.getNIF());
     }
-
 }

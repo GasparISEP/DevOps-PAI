@@ -32,12 +32,25 @@ class TeacherCareerProgressionIDTest {
     }
 
     @Test
-    void shouldReturnTrueIfObjectsAreTheSame() {
+    void shouldReturnTrueIfTeacherCareerProgressionObjectsHaveTheSameID() {
         //arrange
-        TeacherCareerProgressionID tcpID = new TeacherCareerProgressionID();
+        TeacherCareerProgressionID teacherCareerProgressionID1 = new TeacherCareerProgressionID();
+        String id = teacherCareerProgressionID1.getIDValue();
+        TeacherCareerProgressionID teacherCareerProgressionID2;
+
+        try {
+            var constructor = TeacherCareerProgressionID.class.getDeclaredConstructor();
+            teacherCareerProgressionID2 = constructor.newInstance();
+
+            var field = TeacherCareerProgressionID.class.getDeclaredField("_ID");
+            field.setAccessible(true);
+            field.set(teacherCareerProgressionID2, id);
+        } catch (Exception e) {
+            teacherCareerProgressionID2 = null;
+        }
 
         //act
-        boolean result = tcpID.equals(tcpID);
+        boolean result = teacherCareerProgressionID1.equals(teacherCareerProgressionID2);
 
         //assert
         assertTrue(result);
@@ -54,6 +67,31 @@ class TeacherCareerProgressionIDTest {
 
         //assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTeacherCareerProgressionIDIsTheSameObject() {
+        //arrange
+        TeacherCareerProgressionID tcp1 = new TeacherCareerProgressionID();
+
+        //act
+        boolean result = tcp1.equals(tcp1);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void getIDValueShouldReturnIDValue() {
+        //arrange
+        TeacherCareerProgressionID tcpID = new TeacherCareerProgressionID();
+
+        //act
+        String id = tcpID.getIDValue();
+
+        //assert
+        assertNotNull(id);
+
     }
 
 }

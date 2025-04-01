@@ -1,0 +1,90 @@
+@startuml
+
+title US26: Get number of students enrolled in programmes from specified department in a given school year
+autonumber
+skinparam sequence {
+   LifelineBorderColor Black
+   LifelineBackgroundColor LightBlue
+ }
+
+actor "Department Director" as DepartmentDir #White
+participant ":UI" as UI #LightBlue/White
+participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+participant ":ISchoolYearRepo" as ISchoolYearRepo #LightBlue/White
+participant ":IDepartmentRepo" as IDepartmentRepo #LightBlue/White
+participant ":IProgrammeEditionEnrolmentRepo" as IProgrammeEditionEnrolRepo #LightBlue/White
+participant "pee[i]:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment #LightBlue/White
+participant ":Student" as Student #LightBlue/White
+participant ":studentIDs" as StudentIDs #LightBlue/White
+participant ":ProgrammeEdition" as ProgrammeEdition #LightBlue/White
+participant ":SchoolYear" as SchoolYear #LightBlue/White
+participant ":Programme" as Programme #LightBlue/White
+
+
+activate DepartmentDir
+DepartmentDir -> UI: I want to get number of students \n enrolled in programmes from my \n department in a given school year
+activate UI
+UI-->DepartmentDir: Which Department?
+DepartmentDir ->UI: this Department
+UI --> DepartmentDir: Which SchoolYear?
+DepartmentDir ->UI: this School Year
+
+UI-> Controller: countStudentsInProgrammesFromDepartmentInSchoolYear(departmentAcronym, schoolYearID)
+activate Controller
+ref over Controller
+Convert Strings departmentAcronym and schoolYearID to VOs
+end ref
+Controller -> ISchoolYearRepo: schoolYearExists(schoolYearID)
+activate ISchoolYearRepo
+ISchoolYearRepo --> Controller: true
+deactivate ISchoolYearRepo
+Controller -> IDepartmentRepo: departmentExists(departmentAcronym)
+activate IDepartmentRepo
+IDepartmentRepo-->Controller: true
+deactivate IDepartmentRepo
+Controller -> IProgrammeEditionEnrolRepo: countStudentsInProgrammesFromDepartmentInSchoolYear(departmentAcronym,schoolYearID)
+activate IProgrammeEditionEnrolRepo
+
+IProgrammeEditionEnrolRepo -> StudentIDs: new HashSet<>()
+activate StudentIDs
+loop for each ProgrammeEditionEnrolment[i] in IProgrammeEditionEnrolRepo
+IProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentAcronym,schoolYearID)
+activate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment -> ProgrammeEdition: isEditionAssociatedToDepartmentAndSchoolYear(departmentAcronym,schoolYearID)
+activate ProgrammeEdition
+ProgrammeEdition->SchoolYear: isSameSchoolYear(schoolYearID)
+activate SchoolYear
+SchoolYear -->ProgrammeEdition: true
+deactivate SchoolYear
+ProgrammeEdition->Programme: isInDepartment(departmentAcronym)
+activate Programme
+Programme-->ProgrammeEdition:true
+deactivate Programme
+ProgrammeEdition-->ProgrammeEditionEnrolment: true
+deactivate ProgrammeEdition
+ProgrammeEditionEnrolment-->IProgrammeEditionEnrolRepo: true
+deactivate ProgrammeEditionEnrolment
+alt isEnrolmentAssociatedToDepartmentAndSchoolYear
+IProgrammeEditionEnrolRepo -> ProgrammeEditionEnrolment: getStudentID ()
+activate ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment -> Student:getStudentIDs
+activate Student
+Student -->ProgrammeEditionEnrolment: studentID
+deactivate Student
+ProgrammeEditionEnrolment --> IProgrammeEditionEnrolRepo:studentID
+deactivate ProgrammeEditionEnrolment
+IProgrammeEditionEnrolRepo -> StudentIDs: add(studentID)
+end
+end
+StudentIDs --> IProgrammeEditionEnrolRepo: studentIDs.size()
+deactivate StudentIDs
+IProgrammeEditionEnrolRepo-->Controller: studentIDs.size()
+deactivate IProgrammeEditionEnrolRepo
+Controller --> UI:  studentIDs.size()
+deactivate Controller
+UI-->DepartmentDir: studentIDs.size()
+deactivate DepartmentDir
+deactivate UI
+
+
+@enduml

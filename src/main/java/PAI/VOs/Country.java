@@ -17,4 +17,17 @@ public class Country {
         else
             return false;
     }
+
+    public boolean equals (Object object){
+
+        if (this == object) return true;
+
+        if (object instanceof Country country){
+            return this._country.equals(country._country);
+        }
+
+        return false;
+    }
+
+
 }

@@ -1,22 +1,26 @@
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
 import PAI.repository.CourseEditionRepository;
+import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import PAI.repository.ProgrammeEditionEnrolmentRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 public class US16_EnrolAStudentInACourseEditionController {
 
     private final CourseEditionEnrolmentRepository _ceeRepository;
-    private final ProgrammeEditionEnrolmentRepository _peeRepository;
+    private final IProgrammeEditionEnrolmentRepository _peeRepository;
     private final CourseEditionRepository _courseEditionRepository;
 
 
     public US16_EnrolAStudentInACourseEditionController(
-            CourseEditionEnrolmentRepository ceeRepository, ProgrammeEditionEnrolmentRepository peeRepository, CourseEditionRepository courseEditionRepository) {
+            CourseEditionEnrolmentRepository ceeRepository, IProgrammeEditionEnrolmentRepository peeRepository, CourseEditionRepository courseEditionRepository) {
 
         validateCourseEditionEnrolmentRepository (ceeRepository);
         validateProgrammeEditionEnrolmentRepository (peeRepository);
@@ -28,13 +32,13 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //show a list of programme editions that student is enrolled
-    public Optional<List<ProgrammeEdition>> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
+    public List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
 
         if (student == null) {
-            return Optional.empty();
+            return Collections.emptyList();
         }
 
-        return Optional.of(_peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student));
+        return _peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student);
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
@@ -43,8 +47,8 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //enrol a student in a course edition
-    public boolean enrolStudentInCourseEdition(Student student, CourseEdition_2 courseEdition) {
-        return _ceeRepository.enrolStudentInACourseEdition(student, courseEdition);
+    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
+        return _ceeRepository.enrolStudentInACourseEdition(studentId, courseEditionId);
     }
 
     //Verify if the course edition enrollment repository is valid
@@ -55,9 +59,9 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //Verify if the programme edition enrollment repo is valid
-    private void validateProgrammeEditionEnrolmentRepository (ProgrammeEditionEnrolmentRepository peeRepository) throws IllegalArgumentException {
+    private void validateProgrammeEditionEnrolmentRepository (IProgrammeEditionEnrolmentRepository peeRepository) throws IllegalArgumentException {
         if (peeRepository == null) {
-            throw new IllegalArgumentException("Programme edition enrolment repository cannot be null!");
+            throw new IllegalArgumentException("Programme edition enrolment repository interface cannot be null!");
         }
     }
 

@@ -14,8 +14,6 @@ class US16_EnrolAStudentInACourseEditionController {
 }
 
 interface ICourseEditionEnrolmentRepository {
-    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
-    courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
     +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
 }
 
@@ -26,8 +24,7 @@ class CourseEditionEnrolmentRepositoryImpl {
 }
 
 interface IProgrammeEditionEnrolmentRepository {
-    +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
-    +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+     +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
 }
 
 class ProgrammeEditionEnrolmentRepositoryImpl {
@@ -36,12 +33,11 @@ class ProgrammeEditionEnrolmentRepositoryImpl {
 }
 
 interface ICourseEditionRepository {
-    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
-    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
+     +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
 }
 
 class CourseEditionRepositoryImpl {
-    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
+    +CourseEditionRepository(courseEditionFactory: ICourseEditionFactory)
     +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
 }
 
@@ -66,19 +62,20 @@ package "CourseEditionEnrolment Aggregate" #LightBlue {
              +CourseEditionEnrolment(studentId:StudentID,
               courseEdition: CourseEditionID)
              +equals (obj: Object): boolean
+             +hashCode(): int
     }
 }
 
-class "<<Value Object>>\n EnrollmentStatus" {
+class "<<Value Object>>\n EnrolmentStatus" {
      -_isActive: boolean
      +EnrollmentStatus(isActive) : boolean
      isEnrolmentStatus () :  boolean
 }
 
 class "<<Value Object>>\n CourseEditionEnrolmentID" {
-     -_courseEditionEnrolmentId: UUID
-     +CourseEditionEnrolmentID()
-     +findCeeId (): UUID
+     -_courseEditionId: CourseEditionID
+     -_studentId: StudentID
+     +CourseEditionEnrolmentID(studentId: StudentID, courseEditionId: CourseEditionID))
      +equals (obj: Object) : boolean
      +hashCode(): int
      +toString(): String
@@ -158,11 +155,7 @@ class "<<Value Object>>\n Country" {
 }
 class "<<Value Object>>\n Date" {
      -localDate: LocalDate
-     +Date (date : String)
      +Date (localDate : LocalDate)
-     +getLocalDate () : LocalDate
-     +equals (o: Obj) : boolean
-     +hashcode () : int
 }
 
 package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
@@ -174,9 +167,10 @@ package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
 }
 
 class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
-     -_id: Long
+     -_programmeEditionEnrolmentId: UUID
      +ProgrammeEditionEnrolmentID()
      +equals (obj: Object) : boolean
+     +toString (): String
 }
 
 interface CourseEditionEnrolmentSet {
@@ -220,13 +214,13 @@ ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
 ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " CourseEditionEnrolmentSet
 ICourseEditionEnrolmentRepository"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
 ICourseEditionEnrolmentRepository "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
-ICourseEditionEnrolmentRepository "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentRepositoryImpl "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
 ICourseEditionEnrolmentFactory "1  " ..> "1  " "CourseEditionEnrolment Aggregate"
 ICourseEditionEnrolmentListFactory "1  " .u.> "1  " CourseEditionEnrolmentSet
 
 
 "CourseEditionEnrolment Aggregate" "1" --> "1 _ceeID""<<Value Object>>\n CourseEditionEnrolmentID"
-"CourseEditionEnrolment Aggregate" "1" --> "                                1 _status      ""<<Value Object>>\n EnrollmentStatus"
+"CourseEditionEnrolment Aggregate" "1" --> "                                1 _status      ""<<Value Object>>\n EnrolmentStatus"
 "CourseEditionEnrolment Aggregate" "1" --> "_date 1    ""<<Value Object>>\n Date"
 "CourseEditionEnrolment Aggregate" "1" -u-> "1 _studentID" "<<Value Object>>\n StudentID"
 "CourseEditionEnrolment Aggregate" "1" --> "_ceID 1    " "<<Value Object>>\n CourseEditionID"

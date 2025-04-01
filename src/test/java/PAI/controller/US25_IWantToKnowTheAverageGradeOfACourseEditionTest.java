@@ -1,6 +1,7 @@
 
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
@@ -33,7 +34,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
-        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
@@ -50,12 +51,12 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
 
 
-        when(list.addGradeToStudent(grade1, dateDouble, student1, courseEdition1)).thenReturn(true);
-        when(list.addGradeToStudent(grade2, dateDouble, student2, courseEdition1)).thenReturn(true);
-        when(list.KnowAverageGrade(courseEdition1)).thenReturn(14.0);
+        when(list.addGradeToStudent(grade1, dateDouble, student1, courseEditionID1Double)).thenReturn(true);
+        when(list.addGradeToStudent(grade2, dateDouble, student2, courseEditionID1Double)).thenReturn(true);
+        when(list.getAverageGrade(courseEditionID1Double)).thenReturn(14.0);
 
         // Act
-        double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEdition1);
+        double optC1 = controlador1.IWantToKnowTheAvgGrade(courseEditionID1Double);
 
         //assert
         assertEquals(14,optC1,0.01);

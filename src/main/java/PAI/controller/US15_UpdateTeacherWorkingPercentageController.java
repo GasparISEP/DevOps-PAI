@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.NIF;
 import PAI.domain.Teacher;
 import PAI.repository.TeacherRepository;
 
@@ -20,7 +21,7 @@ public class US15_UpdateTeacherWorkingPercentageController {
         _teacherRepository = teacherRepository;
     }
 
-    public Optional<Teacher> getTeacherByNIF (String NIF) {
+    public Optional<Teacher> getTeacherByNIF (NIF NIF) {
 
         Optional<Teacher> optT1 = _teacherRepository.getTeacherByNIF(NIF);
 

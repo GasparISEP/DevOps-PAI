@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.NIF;
 import PAI.domain.*;
 import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
@@ -26,11 +27,11 @@ public class US14_UpdateTeachersCategoryController {
         _teacherCategoryRepository = teacherCategoryRepository;
     }
 
-    public boolean updateTeacherCategory(String date, String teacherNIF, String teacherCategoryName) {
+    public boolean updateTeacherCategory(String date, NIF teacherNIF, String teacherCategoryName) {
         if (date == null || date.isBlank()) {
             throw new IllegalArgumentException("Date is invalid");
         }
-        else if (teacherNIF == null || teacherNIF.isBlank()) {
+        else if (teacherNIF == null) {
             throw new IllegalArgumentException("Teacher NIF is invalid");
         }
         else if (teacherCategoryName == null || teacherCategoryName.isBlank()) {

@@ -8,7 +8,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
 
     private TeacherCareerProgressionID _tcpID;
     private Date _date;
-    private TeacherCategoryID _category;
+    private TeacherCategoryID _teacherCategoryID;
     private WorkingPercentage _workingPercentage;
     private TeacherID _teacherID;
 
@@ -25,7 +25,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         if(teacherCategoryID == null)
             throw new IllegalArgumentException("Teacher Category cannot be null!");
 
-        _category = teacherCategoryID;
+        this._teacherCategoryID = teacherCategoryID;
 
         if(workingPercentage == null)
             throw new IllegalArgumentException("Working Percentage cannot be null!");
@@ -40,7 +40,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
 
     public TeacherCategoryID getTeacherCategoryID () {
 
-        return _category;
+        return _teacherCategoryID;
     }
 
     public WorkingPercentage getWorkingPercentage () {
@@ -58,12 +58,9 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         return _teacherID;
     }
 
-    public boolean isDateAfter(Date date) {
+    public boolean isLastDateEqualOrBeforeNewDate(Date newDate) {
 
-        if (_date.getLocalDate().isAfter(date.getLocalDate()))
-            return false;
-
-        return true;
+        return !_date.getLocalDate().isAfter(newDate.getLocalDate());
     }
 
     @Override
@@ -78,7 +75,8 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
 
             TeacherCareerProgression tcp = (TeacherCareerProgression) object;
 
-            if (_teacherID.sameAs(tcp._teacherID) && _date.equals(tcp._date))
+            if (_teacherID.equals(tcp._teacherID) && _date.equals(tcp._date)
+                    && _workingPercentage.equals(tcp._workingPercentage) && _teacherCategoryID.equals(tcp._teacherCategoryID))
                 return true;
         }
 

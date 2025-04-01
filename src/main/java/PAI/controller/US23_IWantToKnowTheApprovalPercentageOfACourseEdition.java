@@ -1,7 +1,7 @@
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
 import PAI.domain.CourseEdition;
-import PAI.domain.CourseEdition_2;
 import PAI.repository.StudentGradeRepository;
 
 public class US23_IWantToKnowTheApprovalPercentageOfACourseEdition {
@@ -12,7 +12,7 @@ public class US23_IWantToKnowTheApprovalPercentageOfACourseEdition {
         _StudentGradeRepository = studentGradeRepository;
     }
 
-    public double IWantToKnowTheApprovalPercentageOfACourseEdition(CourseEdition_2 courseEdition){
-        return _StudentGradeRepository.knowApprovalRate(courseEdition);
+    public double IWantToKnowTheApprovalPercentageOfACourseEdition(CourseEditionID courseEditionID){
+        return _StudentGradeRepository.knowApprovalRate(courseEditionID);
     }
 }

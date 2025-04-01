@@ -1,8 +1,8 @@
 package PAI.VOs;
 
-import PAI.ddd.DomainId;
+import PAI.ddd.ValueObject;
 
-public class EnrolmentStatus implements DomainId {
+public class EnrolmentStatus implements ValueObject {
 
     private boolean _isActive;
 

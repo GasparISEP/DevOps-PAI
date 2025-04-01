@@ -1,14 +1,9 @@
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentGradeID;
-import PAI.VOs.StudentID;
-import PAI.domain.CourseEdition;
+import PAI.VOs.*;
 import PAI.domain.CourseEdition_2;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
-import PAI.domain.Student;
 import PAI.factory.IStudentGradeListFactory;
 import PAI.factory.IStudentGradeRepository;
 
@@ -33,9 +28,9 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
-    public boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEdition_2 courseEdition) throws Exception{
-        if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)){
-            StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
+    public boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception{
+        if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEditionID)){
+            StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEditionID);
             _StudentGradeList.add(studentGrade);
             return true;
         }
@@ -43,20 +38,20 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
-    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEdition_2 courseEdition){
+    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID){
         for ( StudentGrade existingGradeStudent : _StudentGradeList){
-            if ( existingGradeStudent.hasThisStudent(student) && existingGradeStudent.hasThisCourseEdition(courseEdition)) return true;
-            }
-        return false;
+            if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
         }
+        return false;
+    }
 
 
-    public Double KnowAverageGrade(CourseEdition_2 courseEdition) {
+    public Double getAverageGrade(CourseEditionID courseEditionID) {
         int numOfStudent = 0;
         double sumGrade = 0;
 
         for (StudentGrade studentGrade : _StudentGradeList) {
-            if (studentGrade.hasThisCourseEdition(courseEdition)) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 Grade grade1 = studentGrade.get_grade();
                 double grade = grade1.knowGrade();
                 sumGrade += grade;
@@ -70,12 +65,12 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
-    public double knowApprovalRate(CourseEdition_2 courseEdition) {
+    public double knowApprovalRate(CourseEditionID courseEditionID) {
         int totalApprovalStudents = 0;
         int totalOfStudents = 0;
 
         for (StudentGrade studentGrade : _StudentGradeList) {
-            if (studentGrade.hasThisCourseEdition(courseEdition)) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 totalOfStudents++;
                 Grade grade1 = studentGrade.get_grade();
                 if (grade1.knowGrade() >= 10) {
@@ -102,4 +97,32 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
+    @Override
+    public StudentGrade save(StudentGrade entity) {
+        _StudentGradeList.add(entity);
+        return entity;
+    }
+
+    @Override
+    public Iterable<StudentGrade> findAll() {
+        if (_StudentGradeList.isEmpty()){
+            throw new IllegalStateException("Student Grade List is empty.");
+        }
+        return _StudentGradeList;
+    }
+
+    @Override
+    public Optional<StudentGrade> ofIdentity(StudentGradeID id) {
+        return _StudentGradeList.stream()
+                .filter(stl -> stl.identity().equals(id))
+                .findAny();
+    }
+
+    @Override
+    public boolean containsOfIdentity(StudentGradeID id) {
+        if (!ofIdentity(id).isPresent()){
+            return false;
+        }
+        return true;
+    }
 }

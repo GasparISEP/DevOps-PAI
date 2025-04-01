@@ -1,0 +1,37 @@
+@startuml
+title: US19_CREATE COURSE EDITION_SEQUENCE DIAGRAM
+autonumber
+
+actor ASC
+participant ":UI" as UI
+participant ":CreateCourseEditionController" as CT
+participant ":ICourseEditionRepository" as CER
+participant ":ICourseEditionFactory" as CEF
+
+
+ASC -> UI ++ #application :  I want to create a Course Edition
+UI --> ASC -- : which CourseInStudyPlanID and ProgrammeEditionID??
+
+
+ASC -> UI ++ #application : courseInStudyPlanID1 and programmeEditionID1!
+UI -> CT ++ #application : createCourseEdition(cSpID1,pEID1)
+CT -> CER ++ #application : createAndSaveCourseEdition(cSpID1,pEID1)
+CER -> CEF ++ #application : createCourseEdition(cSpID1,pEID1)
+
+create "cEID1:CourseEditionID" as CEID #lightblue
+CEF --> CEID : <create> (pEID1,cSpID1)
+create "cE1:CourseEdition" as CE #lightblue
+CEF --> CE : <create> (cEID1,cSpID1,pEID1)
+CEF --> CER -- : cE1
+CER -> CER : isCourseEditionAlreadyInRepository (cE1)
+CER -> CER : addCourseEdition (cE1)
+
+CER --> CT --: true
+CT --> UI --: true
+UI --> ASC --: true
+
+
+participant "cSP1_ID\n:CourseInStudyPlanID" as CSP_ID
+participant "pE1_ID\n:ProgrammeEditionID" as PE_ID
+
+@enduml

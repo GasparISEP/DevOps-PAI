@@ -1,8 +1,9 @@
 package PAI.factory;
 
 import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.programme.ProgrammeDDD;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -33,7 +34,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         TeacherCareerProgressionListFactoryImpl _tcpLFactoryDouble;
         Teacher _teacher;
         ProgrammeCourseListFactoryImpl _programmeCourseListFactoryImpl1;
-        Programme_2 _programme;
+        ProgrammeDDD _programme;
         Date _date;
         WorkingPercentage _wp;
         CourseInStudyPlanFactoryImpl _courseInStudyPlanFactory;
@@ -41,11 +42,27 @@ class ProgrammeEnrolmentFactoryImplTest {
         StudyPlanFactoryImpl _studyPlanFactory;
         CourseFactoryImpl _courseFactoryImpl;
         TeacherID _teacherID;
+        AddressVO _addressVO;
+        Street _street;
+        PostalCode _postalCode;
+        Location _location;
+        Country _country;
+        TeacherAcronym _teacherAcronym;
+        Name _name;
+        Email _email;
+        NIF _nif;
+        PhoneNumber _phoneNumber;
+        AcademicBackground _academicBackground;
 
         AttributesForTestsWithoutIsolation() throws Exception {
+            _street = new Street("Praceta do Sol, nº19");
+            _postalCode = new PostalCode("3745-144");
+            _location = new Location("Tomar");
+            _country = new Country("Portugal");
+            _addressVO = new AddressVO(_street, _postalCode, _location, _country);
             _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
             _studentID = new StudentID(1234567);
-            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789"), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _address, new StudentAcademicEmail(_studentID));
+            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789", new Country("Portugal")), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _address, new StudentAcademicEmail(_studentID));
             _accessMethod = new AccessMethodID();
             _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);
@@ -57,15 +74,19 @@ class ProgrammeEnrolmentFactoryImplTest {
             _tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
             _teacherID = TeacherID.createNew();
             _wp = new WorkingPercentage(100);
-            _teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                    "Doutoramento em Engenharia Informática, 2005, ISEP", "Rua São Tomé Porto",
-                    "4249-015", "Porto", "Portugal", _addressFactory, _date, _teacherCategoryID, _wp, _teacherID, _department, _tcpFactory, _tcpLFactoryDouble);
+            _teacherAcronym = new TeacherAcronym("ABC");
+            _name = new Name("Joe Doe");
+            _email = new Email("abc@isep.ipp.pt");
+            _nif = new NIF("123456789", _country);
+            _phoneNumber = new PhoneNumber("+351", "912 345 678");
+            _academicBackground = new AcademicBackground("Doutoramento em Engenharia Informática, 2005, ISEP");
+            _teacher = new Teacher(_teacherAcronym, _name, _email, _nif, _phoneNumber, _academicBackground, _addressVO, _department);
             _programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
             _studyPlanFactory = new StudyPlanFactoryImpl();
             _courseFactoryImpl = new CourseFactoryImpl();
-            _programme = new Programme_2(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
+            _programme = new ProgrammeDDD(new NameWithNumbersAndSpecialChars("Computer Engineering"), new Acronym("CE"),
                     new QuantEcts(20), new QuantSemesters(6), _degreeTypeID,
                     _department, _teacherID);
         }

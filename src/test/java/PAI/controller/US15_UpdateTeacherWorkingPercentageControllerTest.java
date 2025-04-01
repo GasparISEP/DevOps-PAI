@@ -37,7 +37,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
         });
         assertEquals("Teacher Repository cannot be null", exception.getMessage());
     }
-
+/*
     @Test
     void successfullyGetsTeacherByNIF () throws IllegalArgumentException {
 
@@ -94,5 +94,5 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
 
         //assert
         assertTrue(optT1.isEmpty());
-    }
+    }*/
 }

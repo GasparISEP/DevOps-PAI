@@ -1,49 +1,46 @@
 package PAI.domain;
 
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentGradeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
 
 public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
     private Grade _grade;
     private Date _date;
-    private StudentID _student;
-    private CourseEdition_2 _courseEdition;
+    private StudentID _studentID;
+    private CourseEditionID _courseEditionID;
     private final StudentGradeID _studentGrade_id;
 
-    public StudentGrade(Grade grade, Date date, StudentID student, CourseEdition_2 courseEdition) throws Exception {
+    public StudentGrade(Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
         if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
         _grade = grade;
 
         if (date == null) throw new IllegalArgumentException("Date cannot be null");
         _date = date;
 
-        if (student == null) throw new IllegalArgumentException("Student cannot be null");
-        _student = student;
+        if (studentID == null) throw new IllegalArgumentException("Student cannot be null");
+        _studentID = studentID;
 
-        if (courseEdition == null) throw new IllegalArgumentException("Course Edition cannot be null");
-        _courseEdition = courseEdition;
+        if (courseEditionID == null) throw new IllegalArgumentException("Course Edition cannot be null");
+        _courseEditionID = courseEditionID;
 
-        this._studentGrade_id = new StudentGradeID();
+        this._studentGrade_id = new StudentGradeID(studentID,courseEditionID);
     }
 
     public Grade get_grade() {
         return _grade;
     }
 
-    public boolean hasThisCourseEdition(CourseEdition_2 courseEdition) {
-        return _courseEdition.equals(courseEdition);
+    public boolean hasThisCourseEditionID(CourseEditionID courseEditionID) {
+        return _courseEditionID.equals(courseEditionID);
     }
 
-    public boolean hasThisStudent(StudentID student) {
-        return _student.equals(student);
+    public boolean hasThisStudentID(StudentID student) {
+        return _studentID.equals(student);
     }
 
-    public CourseEdition_2 KnowCourseEdition() {
-        return _courseEdition;
+    public CourseEditionID KnowCourseEditionID() {
+        return _courseEditionID;
     }
 
     @Override
@@ -55,12 +52,12 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _date;
     }
 
-    public StudentID get_student() {
-        return _student;
+    public StudentID get_studentID() {
+        return _studentID;
     }
 
-    public CourseEdition_2 get_courseEdition() {
-        return _courseEdition;
+    public CourseEditionID get_courseEditionID() {
+        return _courseEditionID;
     }
 
     @Override
@@ -81,13 +78,15 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         if (object instanceof StudentGrade) {
             StudentGrade studentGrade = (StudentGrade) object;
 
-            if( this._student.equals(studentGrade._student) && (this._courseEdition.equals(studentGrade._courseEdition)) )
+            if( this._studentID.equals(studentGrade._studentID) && (this._courseEditionID.equals(studentGrade._courseEditionID)) )
                 return true;
         }
         return false;
     }
 
-
+    public double knowGrade () {
+        return _grade.knowGrade();
+    }
 }
 
 

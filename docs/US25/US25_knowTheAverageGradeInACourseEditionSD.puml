@@ -2,40 +2,37 @@
 actor ProgrammeDirector
 participant ":UI" as UI
 participant ":IWantToKnowTheAverageGradeInACourseEditionCtr" as KA
-participant "ce1:CourseEdition <<Value Object>>" as CE
-participant ":GradeStudentRepository" as GR
-participant ":GradeStudent" as GradeStudent
+participant ":CourseEditionRepository" as CER
+participant ":StudentGradeRepository" as SG
+participant ":StudentGrade" as StudentGrade
 autonumber
 
 
 ProgrammeDirector -> UI ++ #application: I want to know average grade of Course Edition
 UI --> ProgrammeDirector -- : Course Edition?
-ProgrammeDirector -> UI ++ #application: Course Edition!
+ProgrammeDirector -> UI ++ #application: Course Edition1!
 UI -> KA ++ #application : IWantToKnowTheAvg(courseEdition1)
-create CE
-KA -> CE ++ #application : (courseEdition1)
-CE -> KA : (ce1Id)
-deactivate CE
+KA -> CER ++ #application : identity (courseEdition1)
+CER -> KA :  :ceIdVO1
+deactivate CER
+KA -> SG ++ #application : getApprovalRate(:ceIdVO1)
 
+loop for each StudentGrade in SG
+    SG -> SG : Average = 0
+    SG -> StudentGrade : hasThisCourseEdition(:ceIdVO1)
+    activate StudentGrade
+    StudentGrade --> SG : True!
+    deactivate StudentGrade
 
-KA -> GR ++ #application : knowTheAverageGrade(ce1Id)
-
-
-
-loop for each GradeStudent in GR
-    GR -> GradeStudent : hasThisCourseEdition(ce1Id)
-    activate GradeStudent
-    GradeStudent --> GR : True!
-    deactivate GradeStudent
-
-    GR -> GradeStudent : knowGrade()
-    activate GradeStudent
-    GradeStudent --> GR : grade
-    deactivate GradeStudent
+    SG -> StudentGrade : knowGrade()
+    activate StudentGrade
+    StudentGrade --> SG : (double) grade
+    deactivate StudentGrade
+    SG -> SG : Calculate Average Grade
 end
 
 
-GR --> KA --: Average Grade of courseEdition1
+SG --> KA --: Average Grade of courseEdition1
 KA --> UI --: Average Grade of courseEdition1
 UI --> ProgrammeDirector --: Average Grade of courseEdition1
 

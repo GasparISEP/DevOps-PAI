@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import PAI.ddd.ValueObject;
 
+import java.util.Objects;
+
 public class Name implements ValueObject {
     private final String _name;
 
@@ -28,6 +30,18 @@ public class Name implements ValueObject {
 
     public String getName() {
         return _name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Name other)) return false;
+        return _name.equals(other._name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_name);
     }
 }
 

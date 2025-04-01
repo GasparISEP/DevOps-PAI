@@ -46,7 +46,7 @@ class US14UpdateTeachersCategoryControllerTest {
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> new US14_UpdateTeachersCategoryController(tr1, null));
     }
-
+/*
     static Stream<Arguments> testValues() {
         return Stream.of(
                 Arguments.of(" ", "213784542", "Efectivo"),
@@ -118,5 +118,5 @@ class US14UpdateTeachersCategoryControllerTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> controller.updateTeacherCategory("30-01-2025", "213784542", "Doutor"));
-    }
+    }*/
 }

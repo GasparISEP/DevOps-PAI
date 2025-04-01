@@ -1,0 +1,137 @@
+@startuml
+
+title US26_getNumberOfStudentsInProgrammesFromSpecifiedDepartmentInGivenSchoolYear.puml
+top to bottom direction
+skinparam ranksep 100
+skinparam nodesep 100
+
+
+class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
+    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( IProgrammeEditionEnrolmentRepo PEERepo,ISchoolYearRepository schoolYearRepository,IDepartmentRepository departmentRepository
+    +countStudentsInProgrammeFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
+}
+
+package "Programme Aggregate" #LightBlue{
+    entity "<<Root>>\n Programme" {
+      -programmeID: ProgrammeID
+      -NameWithNumbersAndSpecialChars: NameWithNumbersAndSpecialChars
+      -acronym: Acronym
+      -quantEcts: QuantEcts
+      -quantSemesters: quantSemesters
+      -degreeTypeID: DegreeTypeID
+      -departmentID: DepartmentID
+      -teacherID: TeacherID
+    +Programme( programmeID: ProgrammeID, NameWithNumbersAndSpecialChars: NameWithNumbersAndSpecialChars, acronym: Acronym, quantEcts: QuantEcts, quantSemesters: quantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID, teacherID: TeacherID)
+    +isInDepartment ( departmentID: DepartmentID): boolean
+    }
+}
+
+package "Department Aggregate" #LightBlue {
+    entity "<<Root>>\n Department" {
+    -departmentAcronym: DepartmentAcronym
+    -name: Name
+     +Department(departmentAcronym: DepartmentAcronym, name: Name)
+     +equals(obj: Object): boolean
+    }
+}
+
+interface IDepartmentRepository {
+    +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
+    +DepartmentExists(Department department) :boolean
+}
+
+class DepartmentRepository {
+    +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
+    +DepartmentExists(Department department) :boolean
+}
+
+interface IProgrammeEditionEnrolmentRepo {
+     +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
+     +countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
+}
+class ProgrammeEditionEnrolmentRepo {
+    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
+    +countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
+}
+
+
+
+interface ISchoolYearRepository {
+    +SchoolYearRepository(schoolYearFactory: SchoolYearFactory)
+    +schoolYearExists(schoolYear: SchoolYear): boolean
+}
+
+class SchoolYearRepository {
+    +SchoolYearRepository(schoolYearFactory: SchoolYearFactory)
+    +schoolYearExists(schoolYear: SchoolYear): boolean
+}
+
+
+
+package "ProgrammeEdition Aggregate" #Lightblue{
+     class ProgrammeEdition <<Root>> {
+        - programmeEditionID: ProgrammeEditionID
+        - programmeID: ProgrammeID
+        - schoolYearID: SchoolYearID
+         +ProgrammeEdition(programmeEditionID: ProgrammeEditionID, programmeID: ProgrammeID, schoolYearID: SchoolYearID)
+         +isEditionAssociatedToDepartmentAndSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): boolean
+     }
+ }
+
+package "SchoolYear Aggregate" #LightBlue{
+    entity "<<Root>>\n SchoolYear" {
+    -schoolYearID: SchoolYearID
+    -description: Description
+    -startDate: Date
+    -endDate: Date
+    +SchoolYear(schoolYearID: SchoolYearID, description: Description, startDate: Date, endDate: Date)
+    +isSameSchoolYear(newSchoolYear: SchoolYear): boolean
+    }
+}
+
+
+package "Student Aggregate" #LightBlue{
+    entity "<<Root>>\n Student" {
+    -studentID: StudentID
+    -name: Name
+    -NIF: NIF
+    -phone: PhoneNumber
+    -email: Email
+    -address: Address
+    +Student(uniqueNumber: StudentID, name: Name,
+    NIF: NIF, phone: PhoneNumber, email: Email, address: Address)
+    +getUniqueNumber(): String
+    }
+
+}
+
+package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
+    entity "<<Root>>\n ProgrammeEditionEnrolment" {
+     -programmeEditionEnrolmentID: ProgrammeEditionEnrolmentID
+     -studentID: StudentID
+     -programmeEditionID: ProgrammeEditionID
+     -date: Date
+     +ProgrammeEditionEnrolment(studentID: StudentID, programmeEditionID: ProgrammeEditionID, date: Date)
+        +isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): boolean
+        +getStudentUniqueNumber(studentID): int
+    }
+}
+
+"ProgrammeEdition Aggregate" "1..*" --> "1" "SchoolYear Aggregate"
+"ProgrammeEdition Aggregate" "1..*" --> "1 _programme" "Programme Aggregate"
+"Programme Aggregate" "1" --> "1" "Department Aggregate"
+"ProgrammeEditionEnrolment Aggregate" "*" --> "1" "Student Aggregate"
+"ProgrammeEditionEnrolment Aggregate" "*" <-u- "1" "ProgrammeEditionEnrolmentRepo"
+"Department Aggregate" "* _departmentsList" <-- "1" DepartmentRepository
+IDepartmentRepository <|.. DepartmentRepository
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _departmentRepository" "IDepartmentRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _schoolYearRepository"  "ISchoolYearRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _peeRepo" "IProgrammeEditionEnrolmentRepo"
+IProgrammeEditionEnrolmentRepo <|.. ProgrammeEditionEnrolmentRepo
+ISchoolYearRepository <|.. SchoolYearRepository
+SchoolYearRepository "1" --> "* _schoolYearList" "SchoolYear Aggregate"
+
+
+
+
+@enduml
