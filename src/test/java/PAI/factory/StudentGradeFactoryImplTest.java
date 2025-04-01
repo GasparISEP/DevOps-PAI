@@ -5,6 +5,7 @@ import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
+import PAI.domain.CourseEdition_2;
 import PAI.domain.StudentGrade;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
@@ -21,15 +22,14 @@ class StudentGradeFactoryImplTest {
     void creatingConstrutor () throws Exception {
         // Arrange
         StudentID student = mock(StudentID.class);
-        CourseEdition courseEdition =  mock(CourseEdition.class);
+        CourseEdition_2 courseEdition =  mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
         try(MockedConstruction<StudentGrade> mockConstruction =  mockConstruction(StudentGrade.class,(mock, context) -> {
             Grade gradeAtual = (Grade) context.arguments().get(0);
-            Date dateAtual = (Date) context.arguments().get(1);
             StudentID studentAtual = (StudentID) context.arguments().get(2);
-            CourseEdition courseEditionAtual = (CourseEdition) context.arguments().get(3);
+            CourseEdition_2 courseEditionAtual = (CourseEdition_2) context.arguments().get(3);
 
             when(gradeAtual.knowGrade()).thenReturn(11.0);
             when(mock.get_grade()).thenReturn(gradeAtual);
@@ -63,13 +63,13 @@ class StudentGradeFactoryImplTest {
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
         StudentID student = mock(StudentID.class);
-        CourseEdition courseEdition =  mock(CourseEdition.class);
+        CourseEdition_2 courseEdition =  mock(CourseEdition_2.class);
 
         try(MockedConstruction<StudentGrade> mockConstruction =  mockConstruction(StudentGrade.class,(mock, context) -> {
             Grade gradeAtual = (Grade) context.arguments().get(0);
             Date dateAtual = (Date) context.arguments().get(1);
             StudentID studentAtual = (StudentID) context.arguments().get(2);
-            CourseEdition courseEditionAtual = (CourseEdition) context.arguments().get(3);
+            CourseEdition_2 courseEditionAtual = (CourseEdition_2) context.arguments().get(3);
 
             when(gradeAtual.knowGrade()).thenReturn(11.0);
             when(mock.get_grade()).thenReturn(gradeAtual);
@@ -100,7 +100,7 @@ class StudentGradeFactoryImplTest {
         // Arrange
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         StudentID student = mock(StudentID.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition = mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
@@ -117,7 +117,7 @@ class StudentGradeFactoryImplTest {
         // Arrange
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
         StudentID student = mock(StudentID.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition = mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
 
         when(grade.knowGrade()).thenReturn(10.0);
@@ -132,7 +132,7 @@ class StudentGradeFactoryImplTest {
     void shouldThrowExceptionWhenStudentIsNull() {
         // Arrange
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition = mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 

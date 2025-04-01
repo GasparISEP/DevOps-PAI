@@ -38,12 +38,12 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
-    public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
+    public List<CourseEdition_2> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
         return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
     }
 
     //enrol a student in a course edition
-    public boolean enrolStudentInCourseEdition(Student student, CourseEdition courseEdition) {
+    public boolean enrolStudentInCourseEdition(Student student, CourseEdition_2 courseEdition) {
         return _ceeRepository.enrolStudentInACourseEdition(student, courseEdition);
     }
 

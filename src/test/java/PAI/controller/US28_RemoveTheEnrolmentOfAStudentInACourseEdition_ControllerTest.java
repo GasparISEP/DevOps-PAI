@@ -21,7 +21,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
 
             Student mockStudent = mock(Student.class);
-            CourseEdition mockCourseEdition = mock(CourseEdition.class);
+            CourseEdition_2 mockCourseEdition = mock(CourseEdition_2.class);
 
             when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition)).thenReturn(true);
 
@@ -41,7 +41,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
 
             Student mockStudent = mock (Student.class);
-            CourseEdition mockCourseEdition = mock (CourseEdition.class);
+            CourseEdition_2 mockCourseEdition = mock (CourseEdition_2.class);
 
             // Act
             boolean result = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
@@ -59,7 +59,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
 
             Student mockStudent = mock (Student.class);
-            CourseEdition mockCourseEdition = mock (CourseEdition.class);
+            CourseEdition_2 mockCourseEdition = mock (CourseEdition_2.class);
 
             // Act and assert
         // test for the case where Student is null.
@@ -80,7 +80,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
 
         Student mockStudent = mock(Student.class);
-        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        CourseEdition_2 mockCourseEdition = mock(CourseEdition_2.class);
 
         when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition)).thenReturn(true)
                 .thenReturn(false);
@@ -106,7 +106,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
 
         Student mockStudent = mock(Student.class);
-        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        CourseEdition_2 mockCourseEdition = mock(CourseEdition_2.class);
         CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
 
         when(mockRepository.findByStudentAndEdition(mockStudent, mockCourseEdition))
@@ -129,7 +129,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
 
-        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        CourseEdition_2 mockCourseEdition = mock(CourseEdition_2.class);
         Student mockStudent1 = mock(Student.class);
         Student mockStudent2 = mock(Student.class);
 
@@ -154,8 +154,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
 
-        CourseEdition mockCourseEdition1 = mock(CourseEdition.class);
-        CourseEdition mockCourseEdition2 = mock(CourseEdition.class);
+        CourseEdition_2 mockCourseEdition1 = mock(CourseEdition_2.class);
+        CourseEdition_2 mockCourseEdition2 = mock(CourseEdition_2.class);
         Student mockStudent = mock(Student.class);
 
         when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition1)).thenReturn(true);
@@ -206,15 +206,11 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYearID schoolYearID = new SchoolYearID();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2025");
-        Date endDate = new Date ("31-07-2026");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID,description,startDate, endDate);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
-        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
 
         repository.enrolStudentInACourseEdition(student, courseEdition);
 
@@ -256,16 +252,13 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYearID schoolYearID = new SchoolYearID();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2025");
-        Date endDate = new Date ("31-07-2026");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
 
-        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
 
         // Act
         boolean result = controller.removeStudentEnrolment(student, courseEdition);
@@ -305,15 +298,13 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYearID schoolYearID = new SchoolYearID();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2025");
-        Date endDate = new Date ("31-07-2026");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
-        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
 
         // Act and assert
 
@@ -357,15 +348,13 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYearID schoolYearID = new SchoolYearID();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2025");
-        Date endDate = new Date ("31-07-2026");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID,description,startDate, endDate);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
-        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
 
         repository.enrolStudentInACourseEdition(student, courseEdition);
 
@@ -415,15 +404,13 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Programme programme = new Programme("Computer Engineering", "CE", 20, 6, master, department, teacher,
                 new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        SchoolYearID schoolYearID = new SchoolYearID();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2025");
-        Date endDate = new Date ("31-07-2026");
-        SchoolYear schoolYear = new SchoolYear(schoolYearID, description, startDate, endDate);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
+
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
-        CourseEdition courseEdition = new CourseEdition(course, programmeEdition);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+
+        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
 
         repository.enrolStudentInACourseEdition(student1, courseEdition);
         repository.enrolStudentInACourseEdition(student2, courseEdition);
@@ -474,17 +461,20 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         Date startDate = new Date ("01-09-2025");
         Date endDate = new Date ("31-07-2026");
         SchoolYear schoolYear = new SchoolYear(schoolYearID, description,startDate, endDate);
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(programme, schoolYear);
         Course course = new Course("Programming 101", "P101", 6.0, 1);
         programme.addCourseToAProgramme(course);
-        CourseEdition courseEdition1 = new CourseEdition(course, programmeEdition);
         Programme programme2 = new Programme("Civil Engineering", "CE", 20, 6, master, department, teacher,
         new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
                 new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme2, schoolYear);
         Course course2 = new Course("Programming 102", "P102", 6.0, 1);
         programme2.addCourseToAProgramme(course2);
-        CourseEdition courseEdition2 = new CourseEdition(course2, programmeEdition2);
+        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID();
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID();
+        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID();
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID();
+
+        CourseEdition_2 courseEdition1 = new CourseEdition_2(courseInStudyPlanID1, programmeEditionID1);
+        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanID2, programmeEditionID2);
 
         repository.enrolStudentInACourseEdition(student, courseEdition1);
         repository.enrolStudentInACourseEdition(student, courseEdition2);

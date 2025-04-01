@@ -8,11 +8,11 @@ import java.util.Objects;
 public class CourseEditionEnrolment {
 
     private Student _student;
-    private CourseEdition _courseEdition;
+    private CourseEdition_2 _courseEdition;
     private LocalDate _enrolmentDate;
     private boolean _isActive;
 
-    public CourseEditionEnrolment(Student student, CourseEdition courseEdition) throws IllegalArgumentException {
+    public CourseEditionEnrolment(Student student, CourseEdition_2 courseEdition) throws IllegalArgumentException {
         validateStudent(student);
         validateCourseEdition(courseEdition);
         this._enrolmentDate=LocalDate.now();
@@ -26,7 +26,7 @@ public class CourseEditionEnrolment {
         this._student = student;
     }
 
-    private void validateCourseEdition(CourseEdition courseEdition) throws IllegalArgumentException {
+    private void validateCourseEdition(CourseEdition_2 courseEdition) throws IllegalArgumentException {
         if (courseEdition == null) {
             throw new IllegalArgumentException("Course edition cannot be null!");
         }
@@ -51,7 +51,7 @@ public class CourseEditionEnrolment {
         return _student.equals(student);
     }
 
-    public boolean hasCourseEdition(CourseEdition courseEdition) {
+    public boolean hasCourseEdition(CourseEdition_2 courseEdition) {
         return _courseEdition.equals(courseEdition);
     }
 
@@ -60,7 +60,7 @@ public class CourseEditionEnrolment {
     }
 
     public Object knowCourseEdition() {
-        return _courseEdition;
+        return _courseEdition.identity();
     }
 
     public boolean isEnrollmentActive() {

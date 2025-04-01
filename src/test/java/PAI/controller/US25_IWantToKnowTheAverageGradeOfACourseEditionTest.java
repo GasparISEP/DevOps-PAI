@@ -33,7 +33,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(list);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
@@ -41,7 +41,6 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
         Grade grade2 = mock(Grade.class);
         Date dateDouble = mock(Date.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
-        StudentGrade studentGrade2 = mock(StudentGrade.class);
 
         when(grade1.knowGrade()).thenReturn(8.0);
         when(grade2.knowGrade()).thenReturn(20.0);

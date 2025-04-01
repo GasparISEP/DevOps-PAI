@@ -48,7 +48,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
 
         StudentID student1 = mock(StudentID.class);
         Student student = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -92,7 +92,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
         Student student = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
 
         CourseEditionEnrolment enrollment1 = mock(CourseEditionEnrolment.class);
 
@@ -149,7 +149,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
         Student student = mock(Student.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
 
         CourseEditionEnrolment enrollment1 = mock(CourseEditionEnrolment.class);
 
@@ -228,8 +228,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(studentGradeRepositoryDouble, courseEditionEnrolmentRepositoryDouble);
 
         StudentID studentDouble = mock(StudentID.class);
-        CourseEdition courseEditionDouble = mock(CourseEdition.class);
-        StudentGrade studentGradeDouble = mock(StudentGrade.class);
+        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
         when(courseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentDouble,courseEditionDouble)).thenReturn(true);

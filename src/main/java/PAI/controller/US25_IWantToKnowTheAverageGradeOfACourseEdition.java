@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.CourseEdition;
+import PAI.domain.CourseEdition_2;
 import PAI.repository.StudentGradeRepository;
 
 public class US25_IWantToKnowTheAverageGradeOfACourseEdition {
@@ -15,7 +16,7 @@ public class US25_IWantToKnowTheAverageGradeOfACourseEdition {
         _StudentGradeRepository = gradeStudentList;
     }
 
-    public double IWantToKnowTheAvgGrade (CourseEdition courseEdition) {
+    public double IWantToKnowTheAvgGrade (CourseEdition_2 courseEdition) {
         return _StudentGradeRepository.KnowAverageGrade(courseEdition);
     }
 }

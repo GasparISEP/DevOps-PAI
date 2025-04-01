@@ -45,9 +45,9 @@ public class ProgrammeEnrolmentRepository {
         return false; // Return false if no repeated enrolment is found
     }
 
-    public boolean isStudentEnrolled (Student studentID, Programme programmeID) {
+    public boolean isStudentEnrolled (Student student, Programme programmeID) {
         for (ProgrammeEnrolment existingEnrolment : _enrolmentList) {
-            if (existingEnrolment.hasSameStudent(studentID) && existingEnrolment.hasSameProgramme(programmeID)) {
+            if (existingEnrolment.hasSameStudent(student) && existingEnrolment.hasSameProgramme(programmeID)) {
                 return true;
             }
         }

@@ -2,6 +2,7 @@ package PAI.factory;
 
 import PAI.domain.CourseEdition;
 import PAI.domain.CourseEditionEnrolment;
+import PAI.domain.CourseEdition_2;
 import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -21,7 +22,7 @@ class CourseEditionEnrolmentFactoryImplTest {
 
             CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
             Student studentDouble = mock(Student.class);
-            CourseEdition courseEditionDouble = mock(CourseEdition.class);
+            CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
 
             // act
             CourseEditionEnrolment courseEditionEnrolment = factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
@@ -37,7 +38,7 @@ class CourseEditionEnrolmentFactoryImplTest {
             // arrange
             CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
             Student studentDouble = mock(Student.class);
-            CourseEdition courseEditionDouble = mock(CourseEdition.class);
+            CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
 
             // act
             factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
@@ -52,7 +53,7 @@ class CourseEditionEnrolmentFactoryImplTest {
             // arrange
             CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
             Student studentDouble = mock(Student.class);
-            CourseEdition courseEditionDouble = mock(CourseEdition.class);
+            CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
 
             // act
             factory.createCourseEditionEnrolment(studentDouble, courseEditionDouble);
@@ -66,7 +67,7 @@ class CourseEditionEnrolmentFactoryImplTest {
 
         //arrange
 
-        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
         CourseEditionEnrolmentFactoryImpl CEEFactory = new CourseEditionEnrolmentFactoryImpl();
 
         // act + assert

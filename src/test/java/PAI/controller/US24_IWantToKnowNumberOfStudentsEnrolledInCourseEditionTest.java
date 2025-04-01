@@ -40,7 +40,7 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         CourseEditionEnrolmentRepository repoDouble = mock(CourseEditionEnrolmentRepository.class);
         US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(1);
 
         // Act
@@ -56,7 +56,7 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         CourseEditionEnrolmentRepository repoDouble = mock(CourseEditionEnrolmentRepository.class);
         US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(2);
 
         // Act
@@ -72,7 +72,7 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         CourseEditionEnrolmentRepository repoDouble = mock(CourseEditionEnrolmentRepository.class);
         US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(1);
 
         //Act
@@ -88,8 +88,8 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         CourseEditionEnrolmentRepository repoDouble = mock(CourseEditionEnrolmentRepository.class);
         US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
-        CourseEdition courseEdition2 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
+        CourseEdition_2 courseEdition2 = mock(CourseEdition_2.class);
         when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(0);
         when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition2)).thenReturn(2);
 
@@ -106,7 +106,7 @@ class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionTest {
         CourseEditionEnrolmentRepository repoDouble = mock(CourseEditionEnrolmentRepository.class);
         US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController controller = new US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(repoDouble);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         when(repoDouble.numberOfStudentsEnrolledInCourseEdition(courseEdition1)).thenReturn(0);
 
         //Act

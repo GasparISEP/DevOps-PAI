@@ -5,6 +5,7 @@ import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
 import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
+import PAI.domain.CourseEdition_2;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
 import PAI.domain.Student;
@@ -32,7 +33,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
-    public boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEdition courseEdition) throws Exception{
+    public boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEdition_2 courseEdition) throws Exception{
         if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEdition)){
             StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEdition);
             _StudentGradeList.add(studentGrade);
@@ -42,7 +43,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
-    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEdition courseEdition){
+    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEdition_2 courseEdition){
         for ( StudentGrade existingGradeStudent : _StudentGradeList){
             if ( existingGradeStudent.hasThisStudent(student) && existingGradeStudent.hasThisCourseEdition(courseEdition)) return true;
             }
@@ -50,7 +51,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         }
 
 
-    public Double KnowAverageGrade(CourseEdition courseEdition) {
+    public Double KnowAverageGrade(CourseEdition_2 courseEdition) {
         int numOfStudent = 0;
         double sumGrade = 0;
 
@@ -69,7 +70,7 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     }
 
 
-    public double knowApprovalRate(CourseEdition courseEdition) {
+    public double knowApprovalRate(CourseEdition_2 courseEdition) {
         int totalApprovalStudents = 0;
         int totalOfStudents = 0;
 

@@ -11,10 +11,10 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
     private Grade _grade;
     private Date _date;
     private StudentID _student;
-    private CourseEdition _courseEdition;
+    private CourseEdition_2 _courseEdition;
     private final StudentGradeID _studentGrade_id;
 
-    public StudentGrade(Grade grade, Date date, StudentID student, CourseEdition courseEdition) throws Exception {
+    public StudentGrade(Grade grade, Date date, StudentID student, CourseEdition_2 courseEdition) throws Exception {
         if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
         _grade = grade;
 
@@ -34,7 +34,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _grade;
     }
 
-    public boolean hasThisCourseEdition(CourseEdition courseEdition) {
+    public boolean hasThisCourseEdition(CourseEdition_2 courseEdition) {
         return _courseEdition.equals(courseEdition);
     }
 
@@ -42,7 +42,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _student.equals(student);
     }
 
-    public CourseEdition KnowCourseEdition() {
+    public CourseEdition_2 KnowCourseEdition() {
         return _courseEdition;
     }
 
@@ -59,7 +59,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _student;
     }
 
-    public CourseEdition get_courseEdition() {
+    public CourseEdition_2 get_courseEdition() {
         return _courseEdition;
     }
 

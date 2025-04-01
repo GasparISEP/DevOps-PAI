@@ -6,6 +6,7 @@ import PAI.VOs.Grade;
 import PAI.VOs.StudentGradeID;
 import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
+import PAI.domain.CourseEdition_2;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeListFactory;
@@ -36,7 +37,7 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
@@ -67,7 +68,7 @@ class StudentGradeRepositoryTest {
         StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactoryDouble,IStudentGradeListFactoryDouble);
 
         StudentID studentDouble = mock(StudentID.class);
-        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -108,7 +109,7 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
@@ -150,7 +151,7 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
 
-        CourseEdition courseEdition3 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition3 = mock(CourseEdition_2.class);
 
         // act
         double approvalRate = list.knowApprovalRate(courseEdition3);
@@ -174,7 +175,7 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
 
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         StudentGrade studentGrade2 = mock(StudentGrade.class);
@@ -217,7 +218,7 @@ class StudentGradeRepositoryTest {
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
         Grade grade1 = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -260,7 +261,7 @@ class StudentGradeRepositoryTest {
 
         StudentGradeRepository list = new StudentGradeRepository(studentGradeFactory, studentGradeListFactory);
 
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
 
         // Act
         Double averageGrade = list.KnowAverageGrade(courseEdition1);
@@ -310,7 +311,7 @@ class StudentGradeRepositoryTest {
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
-        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition_2 courseEdition1 = mock(CourseEdition_2.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
