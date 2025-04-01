@@ -23,7 +23,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     // Test Removing an Existing Enrolment
     // System should allow the successful removal of a student enrolled in a course edition
     @Test
-        void removeExistingEnrollment_ShouldReturnTrue() {
+        void removeExistingEnrolment_ShouldReturnTrue() {
             // Arrange
             ICourseEditionEnrolmentRepository mockRepository = mock(ICourseEditionEnrolmentRepository.class);
             US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
@@ -37,7 +37,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             boolean result = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
 
             // Assert
-            assertTrue(result, "Enrollment should be removed successfully.");
+            assertTrue(result, "Enrolment should be removed successfully.");
             verify(mockRepository).removeEnrolment(mockStudentID, mockCourseEditionID);
         }
 
@@ -87,8 +87,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         boolean secondRemoval = controller.removeStudentEnrolment(mockStudentID2, mockCourseEditionID);
 
         // Assert
-        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
-        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
+        assertTrue(firstRemoval, "First student's enrolment should be removed successfully.");
+        assertTrue(secondRemoval, "Second student's enrolment should be removed successfully.");
         verify(mockRepository).removeEnrolment(mockStudentID1, mockCourseEditionID);
         verify(mockRepository).removeEnrolment(mockStudentID2, mockCourseEditionID);
     }
@@ -99,9 +99,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 // ==============================
 
     // Test Removing a Non-Existing Enrolment
-    // Ensures that the system does not allow the removal of a non-existent enrollment
+    // Ensures that the system does not allow the removal of a non-existent enrolment
     @Test
-        void removeNonExistingEnrollment_ShouldReturnFalse() {
+        void removeNonExistingEnrolment_ShouldReturnFalse() {
             // Arrange
             ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
             US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
@@ -113,14 +113,14 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             boolean result = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
 
             // Assert
-            assertFalse(result, "Removing a non existing enrollment should return false.");
-            verify(mockRepository).removeEnrolment(mockStudentID, mockCourseEditionID); // Ensure no enrollment creation occurs
+            assertFalse(result, "Removing a non existing enrolment should return false.");
+            verify(mockRepository).removeEnrolment(mockStudentID, mockCourseEditionID); // Ensure no enrolment creation occurs
         }
 
     // Remove Already Inactive Enrolment
-    // Ensures that the system does not allow the removal of an enrollment that has already been deactivated
+    // Ensures that the system does not allow the removal of an enrolment that has already been deactivated
     @Test
-    void removeAlreadyInactiveEnrollment_ShouldReturnFalse() {
+    void removeAlreadyInactiveEnrolment_ShouldReturnFalse() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
@@ -130,22 +130,22 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
 
         when(mockRepository.findByStudentAndEdition(mockStudentID, mockCourseEditionID))
-                .thenReturn(Optional.of(mockCee)); // Simulates that the repository found the enrollment
+                .thenReturn(Optional.of(mockCee)); // Simulates that the repository found the enrolment
 
-        when(mockCee.isEnrolmentActive()).thenReturn(false); // Enrollment is already inactive
+        when(mockCee.isEnrolmentActive()).thenReturn(false); // Enrolment is already inactive
 
-        // Act: Try removing an already inactive enrollment
+        // Act: Try removing an already inactive enrolment
         boolean result = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
 
         // Assert
-        assertFalse(result, "Removing an already inactive enrollment should return false.");
-        verify(mockCee, never()).deactivateEnrolment(); // Ensure deactivateEnrollment is not called
+        assertFalse(result, "Removing an already inactive enrolment should return false.");
+        verify(mockCee, never()).deactivateEnrolment(); // Ensure deactivateEnrolment is not called
     }
 
     // Multiple Removal Attempts of Same Enrolment
-    // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
+    // Confirms that removing the same enrolment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
     @Test
-    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
+    void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
@@ -159,7 +159,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         boolean firstRemoval = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
 
         // Assert first removal is successful
-        assertTrue(firstRemoval, "Enrollment should be removed successfully.");
+        assertTrue(firstRemoval, "Enrolment should be removed successfully.");
 
         // Act again: Try removing a second time
         boolean secondRemoval = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
@@ -172,7 +172,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     // Null Information
     // If the student or course edition information is missing (null), the system should reject the operation.
     @Test
-    void removeEnrollment_WithNullCourseEditionOrStudent_ShouldReturnFalse() {
+    void removeEnrolment_WithNullCourseEditionOrStudent_ShouldReturnFalse() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
         US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
@@ -183,11 +183,11 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Act and assert
         // test for the case where Student is null.
         boolean result1 = controller.removeStudentEnrolment(null, mockCourseEditionID);
-        assertFalse(result1, "Removing a non existing enrollment should return false.");
+        assertFalse(result1, "Removing a non existing enrolment should return false.");
 
         // test for the case where CourseEdition is null
         boolean result2 = controller.removeStudentEnrolment(mockStudentID, null);
-        assertFalse(result2, "Removing a non existing enrollment should return false.");
+        assertFalse(result2, "Removing a non existing enrolment should return false.");
     }
 
 
@@ -313,7 +313,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
     // Test Removing a Non-Existing Enrolment
     @Test
-    void removeNonExistingEnrollment_ShouldReturnFalse_IntegrationTest() throws Exception {
+    void removeNonExistingEnrolment_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -336,7 +336,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         boolean result = controller.removeStudentEnrolment(studentID, courseEditionID);
 
         // Assert
-        assertFalse(result, "Removing a non existing enrollment should return false.");
+        assertFalse(result, "Removing a non existing enrolment should return false.");
     }
 
     // Multiple Removal Attempts of Same Enrolment
@@ -367,7 +367,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         boolean secondRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
 
         // Assert
-        assertTrue(firstRemoval, "Enrollment should be removed successfully.");
+        assertTrue(firstRemoval, "Enrolment should be removed successfully.");
         assertFalse(secondRemoval, "The second removal should not succeed.");
     }
 
@@ -397,10 +397,10 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         // Act and assert
         // test for the case where Student is null
         boolean result1 = controller.removeStudentEnrolment(null, courseEditionID);
-        assertFalse(result1, "Removing a non existing enrollment should return false.");
+        assertFalse(result1, "Removing a non existing enrolment should return false.");
 
         // test for the case where CourseEdition is null.
         boolean result2 = controller.removeStudentEnrolment(studentID, null);
-        assertFalse(result2, "Removing a non existing enrollment should return false.");
+        assertFalse(result2, "Removing a non existing enrolment should return false.");
     }
 }

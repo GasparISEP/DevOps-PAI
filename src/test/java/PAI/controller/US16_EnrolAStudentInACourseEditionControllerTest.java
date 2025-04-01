@@ -3,10 +3,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.CourseEditionEnrolmentRepository;
-import PAI.repository.CourseEditionRepository;
-import PAI.repository.IProgrammeEditionEnrolmentRepository;
-import PAI.repository.ProgrammeEditionEnrolmentRepository;
+import PAI.repository.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -21,12 +18,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryInterfaceIsNull (){
         //arrange
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock (CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock (ICourseEditionEnrolmentRepository.class);
         CourseEditionRepository doubleCourseEditionRepository = mock (CourseEditionRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US16_EnrolAStudentInACourseEditionController(doubleCeeRepository, null, doubleCourseEditionRepository);
+            new US16_EnrolAStudentInACourseEditionController(doubleCeeRepositoryInterface, null, doubleCourseEditionRepository);
         });
 
         //assert
@@ -36,12 +33,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
         //arrange
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock (CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock (CourseEditionEnrolmentRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US16_EnrolAStudentInACourseEditionController(doubleCeeRepository, doublePeeRepositoryInterface, null);
+            new US16_EnrolAStudentInACourseEditionController(doubleCeeRepositoryInterface, doublePeeRepositoryInterface, null);
         });
 
         //assert
@@ -60,7 +57,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         });
 
         //assert
-        assertEquals("Course edition enrolment repository cannot be null!", exception.getMessage());
+        assertEquals("Course edition enrolment repository interface cannot be null!", exception.getMessage());
     }
 
     //testing find Programme Editions that Student is Enrolled Method
@@ -69,10 +66,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         //act
         List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
@@ -86,10 +83,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doublePee1Id = mock (ProgrammeEditionID.class);
@@ -112,10 +109,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         StudentID doubleStudentId = mock(StudentID.class);
 
@@ -137,10 +134,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         ProgrammeEdition doubleProgrammeEdition = mock (ProgrammeEdition.class);
         CourseEdition_2 doubleCourseEdition1 = mock (CourseEdition_2.class);
@@ -161,15 +158,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository , doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         StudentID doubleStudentID = mock (StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn (true);
+        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn (true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
@@ -183,19 +180,19 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository , doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         StudentID doubleStudentID1 = mock (StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
         StudentID doubleStudentID2 = mock (StudentID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn (true);
+        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn (true);
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID);
 
-        when(doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID)).thenReturn (true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID);
@@ -209,23 +206,49 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository , doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         StudentID doubleStudentID1 = mock (StudentID.class);
         CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
         StudentID doubleStudentID2 = mock (StudentID.class);
         CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn (true);
+        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn (true);
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID1);
 
-        when(doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID2)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID2)).thenReturn (true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID2);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions () {
+        //arrange
+        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+
+        StudentID doubleStID1 = mock (StudentID.class);
+        CourseEditionID doubleCeID1 = mock (CourseEditionID.class);
+        CourseEditionID doubleCeID2 = mock (CourseEditionID.class);
+
+        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn (true);
+        controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
+
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1,doubleCeID2)).thenReturn (true);
+
+        //act
+        boolean result = controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID2);
 
         //assert
         assertTrue(result);
@@ -236,15 +259,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
-        CourseEditionEnrolmentRepository doubleCeeRepository = mock(CourseEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         StudentID doubleStudentID = mock (StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
+        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);

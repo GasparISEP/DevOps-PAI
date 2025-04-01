@@ -6,5 +6,5 @@ import PAI.VOs.SchoolYearID;
 
 public interface IProgrammeEditionDDDFactory {
 
-    ProgrammeEditionDDD createProgrammeEdition(ProgrammeEditionID programmeEditionID, ProgrammeID programmeID,  SchoolYearID schoolYearID);
+    ProgrammeEditionDDD createProgrammeEdition(ProgrammeID programmeID,  SchoolYearID schoolYearID) throws Exception;
 }
