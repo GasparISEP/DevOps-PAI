@@ -122,7 +122,7 @@ class UtilsTest {
         //arrange
         String countryName = "Cyprus";
         Country country = new Country(countryName);
-        String stringNIF = "12345678u";
+        String stringNIF = "12345678U";
         String stringNIF2 = "12345678A";
         //act
         boolean result = Utils.NIFValidator(country, stringNIF);
@@ -138,7 +138,7 @@ class UtilsTest {
         String countryName = "Cyprus";
         Country country = new Country(countryName);
         String stringNIF = "1234567u";
-        String stringNIF2 = "123456789";
+        String stringNIF2 = "12345678u";
         //act
         boolean result = Utils.NIFValidator(country, stringNIF);
         boolean result2 = Utils.NIFValidator(country, stringNIF2);
@@ -181,6 +181,30 @@ class UtilsTest {
         assertFalse(result1);
         assertFalse(result2);
         assertFalse(result3);
+    }
+
+    @Test
+    void denmark_DK_isCorrect(){
+        //arrange
+        String countryName = "Denmark";
+        Country country = new Country(countryName);
+        String stringNIF1 = "1234567890";
+        //act
+        boolean result1 = Utils.NIFValidator(country, stringNIF1);
+        //assert
+        assertTrue(result1);
+    }
+
+    @Test
+    void denmark_DK_isIncorrect(){
+        //arrange
+        String countryName = "Denmark";
+        Country country = new Country(countryName);
+        String stringNIF1 = "123456789";
+        //act
+        boolean result1 = Utils.NIFValidator(country, stringNIF1);
+        //assert
+        assertFalse(result1);
     }
 
 }
