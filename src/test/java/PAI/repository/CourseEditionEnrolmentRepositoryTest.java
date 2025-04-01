@@ -706,360 +706,188 @@ class CourseEditionEnrolmentRepositoryTest {
 //    }
 
 
-    //---------------Integration Test--------------
-/*
+    //---------------Integration Tests--------------
 
+// ==============================
+// Enrolment Removal Success Cases
+// ==============================
+
+    // Test Removing an Existing Enrolment
     @Test
-    void removeExistingEnrollment_ShouldReturnTrue_IntegrationTest() throws Exception {
+    void removeExistingEnrolment_ShouldReturnTrue_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
-                new TeacherCareerProgressionListFactoryImpl());
+        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
+        ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("999999999", country);
-        PhoneNumber phone = new PhoneNumber("+351","221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
+        Acronym acronym = new Acronym("SWD");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
-        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
+        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
 
-        Course c1 = new Course("Development", "DEV", 5, 1);
-
-        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
-                new CourseFactoryImpl());
-
-        programme1.addCourseToAProgramme(c1);
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2024");
-        Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
-        ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
-        CourseEdition courseEdition = new CourseEdition(c1, pe);
-
-        courseEditionEnrolmentRepository.enrolStudentInACourseEdition(student, courseEdition);
-
-        //Act
-        boolean result = courseEditionEnrolmentRepository.removeEnrolment(student, courseEdition);
+        // Act
+        boolean result = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
 
         // Assert
-        assertTrue(result, "Enrollment should be removed successfully.");
+        assertTrue(result, "Enrolment should be removed successfully.");
     }
 
+    // Multiple Course Edition Removals
+    @Test
+    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
+        ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+
+        StudentID studentID = new StudentID(1000001);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
+        Acronym acronym = new Acronym("SWD");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
+        Acronym acronym2 = new Acronym("CVE");
+        ProgrammeID programme2ID = new ProgrammeID(nameWithNumbersAndSpecialChars2, acronym2);
+        SchoolYearID schoolYear2ID = new SchoolYearID();
+        ProgrammeEditionID programmeEdition2ID = new ProgrammeEditionID(programme2ID,schoolYear2ID);
+        CourseInStudyPlanID courseInStudyPlan2ID = new CourseInStudyPlanID();
+        CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID,courseInStudyPlan2ID);
+
+        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEdition2ID);
+
+        // Act
+        boolean firstRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
+        boolean secondRemoval = enrolmentRepository.removeEnrolment(studentID, courseEdition2ID);
+
+        // Assert
+        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
+        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
+    }
+
+    // Batch Removal of Multiple Students
+    @Test
+    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
+        ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+
+        StudentID studentID = new StudentID(1000001);
+        StudentID student2ID = new StudentID(1000002);
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
+        Acronym acronym = new Acronym("SWD");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+
+        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(student2ID, courseEditionID);
+
+        // Act
+        boolean firstRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
+        boolean secondRemoval = enrolmentRepository.removeEnrolment(student2ID, courseEditionID);
+
+        // Assert
+        assertTrue(firstRemoval, "First student's enrolment should be removed successfully.");
+        assertTrue(secondRemoval, "Second student's enrolment should be removed successfully.");
+    }
+
+// ==============================
+// Enrolment Removal Failure Handling
+// ==============================
+
+    // Test Removing a Non-Existing Enrolment
     @Test
     void removeNonExistingEnrollment_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, date, tcID , wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
-                new TeacherCareerProgressionListFactoryImpl());
+        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
+        ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("999999999", country);
-        PhoneNumber phone = new PhoneNumber("+351","221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
+        Acronym acronym = new Acronym("SWD");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
-        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
-
-        Course c1 = new Course("Development", "DEV", 5, 1);
-
-        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
-                new CourseFactoryImpl());
-
-        programme1.addCourseToAProgramme(c1);
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2024");
-        Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate,endDate);
-        ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
-        CourseEdition courseEdition = new CourseEdition(c1, pe);
-
-        //Act
-        boolean result = courseEditionEnrolmentRepository.removeEnrolment(student, courseEdition);
+        // Act
+        boolean result = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
 
         // Assert
         assertFalse(result, "Removing a non existing enrollment should return false.");
     }
 
-    @Test
-    void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse_IntegrationTest() throws Exception {
-        // Arrange
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
-                new TeacherCareerProgressionListFactoryImpl());
-
-        StudentID studentID = new StudentID(1000001);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("999999999", country);
-        PhoneNumber phone = new PhoneNumber("+351","221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
-
-        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
-
-        Course c1 = new Course("Development", "DEV", 5, 1);
-
-        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
-                new CourseFactoryImpl());
-
-        programme1.addCourseToAProgramme(c1);
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2024");
-        Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
-        ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
-        CourseEdition courseEdition = new CourseEdition(c1, pe);
-
-        // Act and assert
-        // test for the case where Student is null
-        boolean result1 = repository.removeEnrolment(null, courseEdition);
-        assertFalse(result1, "Removing a non existing enrollment should return false.");
-
-        // test for the case where CourseEdition is null.
-        boolean result2 = repository.removeEnrolment(student, null);
-        assertFalse(result2, "Removing a non existing enrollment should return false.");
-    }
-
+    // Multiple Removal Attempts of Same Enrolment
     @Test
     void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
-                new TeacherCareerProgressionListFactoryImpl());
+        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
+        ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("999999999", country);
-        PhoneNumber phone = new PhoneNumber("+351","221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
+        Acronym acronym = new Acronym("SWD");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
-        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
-
-        Course c1 = new Course("Development", "DEV", 5, 1);
-
-        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
-                new CourseFactoryImpl());
-
-        programme1.addCourseToAProgramme(c1);
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2024");
-        Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
-        ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
-        CourseEdition courseEdition = new CourseEdition(c1, pe);
-
-        repository.enrolStudentInACourseEdition(student, courseEdition);
+        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
 
         // Act
-        boolean firstRemoval = repository.removeEnrolment(student, courseEdition);
-        boolean secondRemoval = repository.removeEnrolment(student, courseEdition);
+        boolean firstRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
+        boolean secondRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
 
         // Assert
         assertTrue(firstRemoval, "Enrollment should be removed successfully.");
         assertFalse(secondRemoval, "The second removal should not succeed.");
     }
 
+    // Null Information
     @Test
-    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
+    void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
-                new TeacherCareerProgressionListFactoryImpl());
-
-        StudentID studentID1 = new StudentID(1000001);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("999999999", country);
-        PhoneNumber phone = new PhoneNumber("+351","221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
-
-        Student student1 = new Student(studentID1, name, nif, phone, email, add1, academicEmail);
-
-        StudentID studentID2 = new StudentID(1000002);
-        Name name2 = new Name("João Santos");
-        NIF nif2 = new NIF("998194999", country);
-        PhoneNumber phone2 = new PhoneNumber("+351","221234467");
-        Email email2 = new Email("joao456@gmail.com");
-        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
-
-
-        Student student2 = new Student(studentID2, name2, nif2, phone2, email2, add1, academicEmail);
-
-        Course c1 = new Course("Development", "DEV", 5, 1);
-
-        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
-                new CourseFactoryImpl());
-
-        programme1.addCourseToAProgramme(c1);
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2024");
-        Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
-        ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
-        CourseEdition courseEdition = new CourseEdition(c1, pe);
-
-        repository.enrolStudentInACourseEdition(student1, courseEdition);
-        repository.enrolStudentInACourseEdition(student2, courseEdition);
-
-        //Act
-        boolean firstRemoval = repository.removeEnrolment(student1, courseEdition);
-        boolean secondRemoval = repository.removeEnrolment(student2, courseEdition);
-
-        // Assert
-        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
-        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
-    }
-
-    @Test
-    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
-        // Arrange
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        DegreeType master = new DegreeType("Master", 240);
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua São Tomé Porto", "4249-015", "Porto", "Portugal");
-        Teacher teacher1 = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123666789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015", "Porto",
-                "Portugal", addressFactory, date, tcID, wp, teacherID, department1, new TeacherCareerProgressionFactoryImpl(),
-                new TeacherCareerProgressionListFactoryImpl());
+        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
+        ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("999999999", country);
-        PhoneNumber phone = new PhoneNumber("+351","221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
+        Acronym acronym = new Acronym("SWD");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID();
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
-        Student student = new Student(studentID, name, nif, phone, email, add1, academicEmail);
+        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
 
-        Student student1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
+        // Act and assert
+        // test for the case where Student is null
+        boolean result1 = enrolmentRepository.removeEnrolment(null, courseEditionID);
+        assertFalse(result1, "Removing a non existing enrollment should return false.");
 
-        Course c1 = new Course("Development", "DEV", 5, 1);
-        Course c2 = new Course("Algebra", "ALG", 5, 2);
-
-        Programme programme1 = new Programme("Computer Engineering", "CSE", 25, 6, master, department1, teacher1,
-                new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(), new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(),
-                new CourseFactoryImpl());
-
-        programme1.addCourseToAProgramme(c1);
-        programme1.addCourseToAProgramme(c2);
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2024");
-        Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
-        ProgrammeEdition pe = new ProgrammeEdition(programme1, schoolYear);
-        CourseEdition courseEdition1 = new CourseEdition(c1, pe);
-        CourseEdition courseEdition2 = new CourseEdition(c2, pe);
-
-        repository.enrolStudentInACourseEdition(student1, courseEdition1);
-        repository.enrolStudentInACourseEdition(student1, courseEdition2);
-
-        //Act
-        boolean firstRemoval = repository.removeEnrolment(student1, courseEdition1);
-        boolean secondRemoval = repository.removeEnrolment(student1, courseEdition2);
-
-        // Assert
-        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
-        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
+        // test for the case where CourseEdition is null.
+        boolean result2 = enrolmentRepository.removeEnrolment(studentID, null);
+        assertFalse(result2, "Removing a non existing enrollment should return false.");
     }
-   */
 }
