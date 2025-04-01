@@ -20,9 +20,9 @@ public class StudyPlanDDDRepository {
 
     }
 
-    public boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears)  throws Exception {
+    public boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts)  throws Exception {
 
-        StudyPlanDDD studyPlan_DDD = _studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan_DDD = _studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         if (_studyPlanList_2.contains(studyPlan_DDD))
             return false;

@@ -1,9 +1,6 @@
 package PAI.domain.studyPlan;
 
-import PAI.VOs.Date;
-import PAI.VOs.DurationInYears;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 
 public class StudyPlanDDD {
 
@@ -12,17 +9,23 @@ public class StudyPlanDDD {
     private DurationInYears _durationInYears;
     private ProgrammeID _programmeID;
     private StudyPlanID _studyPlanID;
+    private QuantEcts _quantityOfEcts;
 
-    public StudyPlanDDD(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears) {
+    public StudyPlanDDD(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts) {
 
         this._implementationDate = implementationDate;
         this._durationInYears = durationInYears;
         this._programmeID = programmeID;
-        this._studyPlanID = new StudyPlanID();
+        this._quantityOfEcts = quantityOfEcts;
+        this._studyPlanID = new StudyPlanID(programmeID, implementationDate);
     }
 
     public StudyPlanID getStudyPlanID() {
         return this._studyPlanID;
+    }
+
+    public QuantEcts getQuantityOfEcts() {
+        return this._quantityOfEcts;
     }
 
     public ProgrammeID getProgrammeID() {

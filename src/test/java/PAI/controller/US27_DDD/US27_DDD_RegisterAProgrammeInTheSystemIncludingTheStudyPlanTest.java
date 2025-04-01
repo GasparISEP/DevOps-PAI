@@ -83,12 +83,14 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
 
         ProgrammeDDD programmeDDD = mock(ProgrammeDDD.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        QuantEcts quantEcts = mock(QuantEcts.class);
+        when(programmeDDD.getQuantEcts()).thenReturn(quantEcts);
+        when(quantEcts.getQuantEcts()).thenReturn(30);
         when(programmeDDD.getQuantSemesters()).thenReturn(quantSemesters);
         when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);
 
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
         Date implementationDate = new Date("21-03-2000");
-
         when(programmeRepo.findProgrammeByID(programmeID)).thenReturn(Optional.of(programmeDDD));
 
         // Act
