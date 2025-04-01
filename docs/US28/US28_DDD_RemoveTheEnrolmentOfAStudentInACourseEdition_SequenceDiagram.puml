@@ -10,6 +10,7 @@ actor ASC #Orange/White
 participant ":UI" as UI
 participant ":US28_Controller" as Controller
 participant ":ICourseEditionEnrolmentRepository" as IRepo
+participant ":CourseEditionEnrolmentRepositoryImpl" as RepoImpl
 participant "cee:CourseEditionEnrolment" as Enrolment
 autonumber
 
@@ -27,22 +28,33 @@ activate UI
 UI -> Controller : removeStudentEnrolment\n(studentID, courseEditionID)
 activate Controller
 
+note right of Controller
+ICourseEditionEnrolmentRepository is injected into the controller.
+The interface delegates operations to CourseEditionEnrolmentRepositoryImpl,
+which handles the actual data persistence. This is why both are
+represented in this sequence diagram.
+end note
+
 Controller -> IRepo : removeEnrolment\n(studentID, courseEditionID)
 activate IRepo
 
+IRepo -> RepoImpl : removeEnrolment\n(studentID, courseEditionID)
+activate RepoImpl
 
-IRepo -> IRepo : cee:findByStudentAndEdition\n(studentID, courseEditionID)
+RepoImpl -> RepoImpl : cee:findByStudentAndEdition\n(studentID, courseEditionID)
 
-IRepo -> Enrolment : isEnrolmentActive()
+RepoImpl -> Enrolment : isEnrolmentActive()
 activate Enrolment
-Enrolment --> IRepo : true
+Enrolment --> RepoImpl : true
 deactivate Enrolment
 
-IRepo -> Enrolment : deactivateEnrolment()
+RepoImpl -> Enrolment : deactivateEnrolment()
 activate Enrolment
-Enrolment --> IRepo : Enrolment status set to inactive
+Enrolment --> RepoImpl : Enrolment status set to inactive
 deactivate Enrolment
 
+RepoImpl --> IRepo : true
+deactivate RepoImpl
 
 IRepo --> Controller : true
 deactivate IRepo

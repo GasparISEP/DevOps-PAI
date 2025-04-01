@@ -6,16 +6,17 @@ import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
+import PAI.factory.IStudentGradeRepository;
 import PAI.repository.StudentGradeRepository;
 import PAI.repository.CourseEditionEnrolmentRepository;
 
 import java.util.Optional;
 
 public class US22_IWantToGradeAStudentInACourseEdition {
-    StudentGradeRepository _StudentGradeRepository;
+    IStudentGradeRepository _StudentGradeRepository;
     CourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
 
-    public US22_IWantToGradeAStudentInACourseEdition(StudentGradeRepository studentGradeRepository, CourseEditionEnrolmentRepository courseEditionEnrolmentRepository){
+    public US22_IWantToGradeAStudentInACourseEdition(IStudentGradeRepository studentGradeRepository, CourseEditionEnrolmentRepository courseEditionEnrolmentRepository){
         if (studentGradeRepository == null || courseEditionEnrolmentRepository == null){
             throw new IllegalArgumentException("Repository cannot be null");
         }

@@ -20,7 +20,7 @@ class ProgrammeDDDRepositoryTest {
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
         Acronym acronym = mock(Acronym.class);
-        DegreeType_ID master = mock(DegreeType_ID.class);
+        DegreeTypeID master = mock(DegreeTypeID.class);
         Department CSE = mock(Department.class);
         TeacherID teacher = mock(TeacherID.class);
         ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
@@ -40,7 +40,7 @@ class ProgrammeDDDRepositoryTest {
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
-        DegreeType_ID master = mock(DegreeType_ID.class);
+        DegreeTypeID master = mock(DegreeTypeID.class);
         Department CSE = mock(Department.class);
         TeacherID teacher = mock(TeacherID.class);
         ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
@@ -66,7 +66,7 @@ class ProgrammeDDDRepositoryTest {
         Acronym acronym = new Acronym("MEI");
         QuantEcts qtyEcts = new QuantEcts(6);
         QuantSemesters qtySemesters = new QuantSemesters(6);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = new Department("ABC","Abc");
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
@@ -121,7 +121,7 @@ class ProgrammeDDDRepositoryTest {
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
-        DegreeType_ID master = mock(DegreeType_ID.class);
+        DegreeTypeID master = mock(DegreeTypeID.class);
 
         Department departmentDouble = mock(Department.class);
         TeacherID teacher = mock(TeacherID.class);
@@ -150,7 +150,7 @@ class ProgrammeDDDRepositoryTest {
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
-        DegreeType_ID master = mock(DegreeType_ID.class);
+        DegreeTypeID master = mock(DegreeTypeID.class);
         Department cse = mock(Department.class);
         TeacherID teacher = mock(TeacherID.class);
         ProgrammeDDD programme = mock(ProgrammeDDD.class);
@@ -186,7 +186,7 @@ class ProgrammeDDDRepositoryTest {
         Acronym acronym1 = mock(Acronym.class);
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
-        DegreeType_ID master1 = mock(DegreeType_ID.class);
+        DegreeTypeID master1 = mock(DegreeTypeID.class);
         Department cse1 = mock(Department.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
@@ -194,7 +194,7 @@ class ProgrammeDDDRepositoryTest {
         Acronym acronym2= mock(Acronym.class);
         QuantEcts quantityOfEcts2 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters2 = mock(QuantSemesters.class);
-        DegreeType_ID master2 = mock(DegreeType_ID.class);
+        DegreeTypeID master2 = mock(DegreeTypeID.class);
         Department cse2 = mock(Department.class);
         TeacherID teacher2 = mock(TeacherID.class);
 
@@ -243,7 +243,7 @@ class ProgrammeDDDRepositoryTest {
         Acronym acronym1 = mock(Acronym.class);
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
-        DegreeType_ID master1 = mock(DegreeType_ID.class);
+        DegreeTypeID master1 = mock(DegreeTypeID.class);
         Department cse1 = mock(Department.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
@@ -275,7 +275,7 @@ class ProgrammeDDDRepositoryTest {
         Acronym acronym2 = mock(Acronym.class);
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
-        DegreeType_ID master1 = mock(DegreeType_ID.class);
+        DegreeTypeID master1 = mock(DegreeTypeID.class);
         Department cse1 = mock(Department.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
@@ -307,7 +307,7 @@ class ProgrammeDDDRepositoryTest {
         Acronym acronym1 = mock(Acronym.class);
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
-        DegreeType_ID master1 = mock(DegreeType_ID.class);
+        DegreeTypeID master1 = mock(DegreeTypeID.class);
         Department cse1 = mock(Department.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
@@ -364,7 +364,7 @@ class ProgrammeDDDRepositoryTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts quantityOfEcts = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
-        DegreeType_ID master = mock(DegreeType_ID.class);
+        DegreeTypeID master = mock(DegreeTypeID.class);
         Department cse = mock(Department.class);
         TeacherID teacher = mock(TeacherID.class);
 

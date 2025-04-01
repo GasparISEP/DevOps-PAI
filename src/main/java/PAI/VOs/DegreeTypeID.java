@@ -2,16 +2,16 @@ package PAI.VOs;
 
 import PAI.ddd.ValueObject;
 
-public class DegreeType_ID implements ValueObject {
+public class DegreeTypeID implements ValueObject {
 
     private final String _dtID;
 
-    public DegreeType_ID(String dtID) throws Exception {
-        if (!isDegreeType_IDValid(dtID)) throw new  Exception("Id cannot be null or empty");
+    public DegreeTypeID(String dtID) throws Exception {
+        if (!isDegreeTypeIDValid(dtID)) throw new  Exception("Id cannot be null or empty");
         this._dtID = dtID;
     }
 
-    private boolean isDegreeType_IDValid(String id) {
+    private boolean isDegreeTypeIDValid(String id) {
         if (id == null || id.isBlank()) return false;
         return true;
     }
@@ -20,7 +20,7 @@ public class DegreeType_ID implements ValueObject {
         return _dtID;
     }
 
-    public boolean sameAs(DegreeType_ID other) {
+    public boolean sameAs(DegreeTypeID other) {
         if (other == null) return false;
         return this._dtID.equals(other._dtID);
     }
