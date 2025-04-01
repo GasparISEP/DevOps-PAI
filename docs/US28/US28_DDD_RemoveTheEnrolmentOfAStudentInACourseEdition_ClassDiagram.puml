@@ -113,17 +113,13 @@ class SchoolYearID <<Value Object>> {
 
 package "CourseEdition Aggregate" #LightYellow{
 class CourseEdition <<Root>> <<Entity>>{
-    -_courseInStudyPlan: CourseInStudyPlan
-    -_programmeEdition: ProgrammeEdition
-    -_ruc: Teacher
-    +CourseEdition(id: CourseEditionID, programmeEdition:
-    ProgrammeEdition, courseInStudyPlan: CourseInStudyPlan)
+    +CourseEdition(programmeEditionID: \n ProgrammeEditionID, courseInStudyPlanID: CourseInStudyPlanID)
+    +CourseEdition(courseEditionID: CourseEditionID, programmeEditionID: \n ProgrammeEditionID, courseInStudyPlanID: CourseInStudyPlanID)
 }
 }
 
 class CourseEditionID <<Value Object>> {
-    -_courseEditionID : UUID
-    + CourseEditionID()
+    + CourseEditionID(programmeEdition: ProgrammeEdition, \n courseInStudyPlanID: CourseInStudyPlanID)
     + toString() : String
     + equals (object : Object) : boolean
 }
@@ -182,6 +178,8 @@ Email "_email 1" <-- "1" Student
 StudentAcademicEmail "_studentAcademicEmail 1" <-- "1" Student
 CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *    " CourseEditionEnrolment
 CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
+CourseInStudyPlanID "_courseInStudyPlanID 1" <-- "1" CourseEdition
+ProgrammeEditionID "_programmeEditionID 1" <-- "1" CourseEdition
 CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
 StudentID "_studentID 1" <--  CourseEditionEnrolmentID
 CourseEditionID "_courseEditionID 1" <--  CourseEditionEnrolmentID
