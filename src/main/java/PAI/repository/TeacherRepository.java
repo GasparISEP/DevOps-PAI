@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TeacherRepository implements IRepository<TeacherID, Teacher> {
+public class TeacherRepository implements ITeacherRepository {
     private List<Teacher> _teachers;
     private ITeacherFactory _teacherFactory;
 
