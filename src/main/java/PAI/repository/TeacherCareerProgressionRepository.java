@@ -112,6 +112,27 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
             return false;
 
         return createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+    }
 
+    public boolean updateTeacherCategoryInTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, TeacherID teacherID) throws Exception {
+
+        Optional<TeacherCareerProgression> optionalTCP = findLastTCPFromTeacherID(teacherID);
+
+        if (optionalTCP.isEmpty())
+            return false;
+
+        TeacherCareerProgression lastTCP = optionalTCP.get();
+
+        if(lastTCP.isLastDateEqualOrBeforeNewDate(date))
+            return false;
+
+        WorkingPercentage workingPercentage = lastTCP.getWorkingPercentage();
+
+        if(lastTCP.getTeacherCategoryID().equals(teacherCategoryID))
+            return false;
+
+        createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+
+        return true;
     }
 }

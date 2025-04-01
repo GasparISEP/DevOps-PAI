@@ -2,29 +2,31 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.*;
-import PAI.repository.AccessMethodRepository;
+import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
-import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
+import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepository;
 
 import java.util.Optional;
 
 public class US09_EnrolStudentInProgrammeController {
     private final StudentRepository _studentRepository;
-    private final AccessMethodRepository _accessMethodRepository;
-    private final ProgrammeRepository _programmeList;
+    private final AccessMethodDDDRepository _accessMethodRepository;
+    private final ProgrammeDDDRepository _programmeRepository;
     private final ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     //Constructor
-    public US09_EnrolStudentInProgrammeController(StudentRepository studentRepository, AccessMethodRepository accessMethodRepository,
-                                                  ProgrammeRepository programmeList, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
+    public US09_EnrolStudentInProgrammeController(StudentRepository studentRepository, AccessMethodDDDRepository accessMethodRepository,
+                                                  ProgrammeDDDRepository programmeRepository, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
         if (studentRepository == null) {
             throw new IllegalArgumentException("studentRepository cannot be null.");
         }
         if (accessMethodRepository == null) {
             throw new IllegalArgumentException("accessMethodRepository cannot be null.");
         }
-        if (programmeList == null) {
+        if (programmeRepository == null) {
             throw new IllegalArgumentException("programmeList cannot be null.");
         }
         if (programmeEnrolmentRepository == null) {
@@ -33,7 +35,7 @@ public class US09_EnrolStudentInProgrammeController {
 
         this._studentRepository = studentRepository;
         this._accessMethodRepository = accessMethodRepository;
-        this._programmeList = programmeList;
+        this._programmeRepository = programmeRepository;
         this._programmeEnrolmentRepository = programmeEnrolmentRepository;
     }
 
@@ -41,15 +43,23 @@ public class US09_EnrolStudentInProgrammeController {
         return _studentRepository.getStudentByID(studentID);
     }
 
-    public Optional<AccessMethod> getAccessMethodByName(String accessMethod) {
+    public Optional<AccessMethodDDD> getAccessMethodByName(NameWithNumbersAndSpecialChars accessMethod) {
         return _accessMethodRepository.getAccessMethodByName(accessMethod);
     }
 
-    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars programmeName) {
-        return _programmeList.getProgrammeByName(programmeName);
+    public Optional<AccessMethodDDD> getAccessMethodByID(AccessMethodID accessMethodID) {
+        return _accessMethodRepository.getAccessMethodByID(accessMethodID);
     }
 
-    public boolean enrolStudent(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {
+    public Optional<ProgrammeDDD> getProgrammeByName(NameWithNumbersAndSpecialChars programmeName) {
+        return _programmeRepository.getProgrammeByName(programmeName);
+    }
+
+    public Optional<ProgrammeDDD> getProgrammeByID(ProgrammeID programmeID) {
+        return _programmeRepository.findProgrammeByID(programmeID);
+    }
+
+    public boolean enrolStudentInProgramme(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {
         validateEnrolmentParameters(s1, am1, p1, date);
         _programmeEnrolmentRepository.enrolStudents(s1, am1, p1, date);
         return true;

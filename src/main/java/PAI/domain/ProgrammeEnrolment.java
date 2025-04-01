@@ -30,7 +30,6 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
     }
 
     public boolean isDateAfter(Date date) {
-
         return _date.getLocalDate().isAfter(date.getLocalDate());
     }
 
@@ -41,10 +40,6 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
     public boolean hasSameEnrolment(ProgrammeEnrolment programmeEnrolment){
         return this._studentID.equals(programmeEnrolment._studentID) &&
                 this._programmeID.equals(programmeEnrolment._programmeID);
-    }
-
-    public boolean hasSameEnrolment2(ProgrammeEnrolmentID programmeEnrolmentID){
-        return this.identity().equals(programmeEnrolmentID);
     }
 
     public boolean hasSameProgramme(Programme programme) {return _programmeID.equals(programme);}

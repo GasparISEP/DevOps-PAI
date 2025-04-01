@@ -442,7 +442,7 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenThereIsNoLastTCP() throws Exception {
+    void shouldReturnFalseWhenThereIsNoLastTCPToUpdateWorkingPercentage() throws Exception {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
@@ -471,18 +471,18 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenGivenDateIsBeforeLastTCPDate() throws Exception {
+    void shouldReturnFalseWhenGivenDateIsBeforeLastTCPDateToUpdateWorkingPercentage() throws Exception {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
         Date date1Double = (Date) doubles[2];
+        Date date2Double = (Date) doubles[2];
         TeacherID teacherIDDouble = (TeacherID) doubles[4];
+        WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
-        LocalDate localDate1Double = mock(LocalDate.class);
-        LocalDate localDate2Double = mock(LocalDate.class);
-        WorkingPercentage wp2Double = mock(WorkingPercentage.class);
-        Date date2Double = mock(Date.class);
+        LocalDate localDate1Double = (LocalDate) doubles[8];
+        LocalDate localDate2Double = (LocalDate) doubles[8];
 
         //List
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
@@ -509,7 +509,7 @@ class TeacherCareerProgressionRepositoryTest {
         when(tcpDouble.isLastDateEqualOrBeforeNewDate(date2Double)).thenReturn(false);
 
         //act
-        boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(date2Double, wp2Double, teacherIDDouble);
+        boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(date2Double, wpDouble, teacherIDDouble);
 
         //assert
         assertFalse(result);
@@ -522,13 +522,13 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
         Date date1Double = (Date) doubles[2];
+        Date date2Double = (Date) doubles[2];
         TeacherCategoryID tcIDDouble = (TeacherCategoryID) doubles[3];
         TeacherID teacherIDDouble = (TeacherID) doubles[4];
         WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
-        LocalDate localDate1Double = mock(LocalDate.class);
-        LocalDate localDate2Double = mock(LocalDate.class);
-        Date date2Double = mock(Date.class);
+        LocalDate localDate1Double = (LocalDate) doubles[8];
+        LocalDate localDate2Double = (LocalDate) doubles[8];
 
         //List
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
@@ -565,5 +565,183 @@ class TeacherCareerProgressionRepositoryTest {
         assertFalse(result);
     }
 
+    //updateTeacherCategory
+    @Test
+    void shouldReturnTrueWhenSuccessfullyUpdatesTeacherCategoryInTeacherCareerProgression() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date date1Double = (Date) doubles[2];
+        TeacherCategoryID tcIDDouble = (TeacherCategoryID) doubles[3];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+        WorkingPercentage wp1Double = (WorkingPercentage) doubles[6];
+        TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
+        TeacherCareerProgression tcpDouble2 = mock(TeacherCareerProgression.class);
+        LocalDate localDate1Double = mock(LocalDate.class);
+        LocalDate localDate2Double = mock(LocalDate.class);
+        Date date2Double = mock(Date.class);
+        TeacherCategoryID tcIDDouble2 = mock(TeacherCategoryID.class);
 
+        //List
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //Iterator
+        Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
+        when(listDouble.iterator()).thenReturn(itDouble);
+
+        when(itDouble.hasNext()).thenReturn(true, false, true, false);
+
+        when(itDouble.next()).thenReturn(tcpDouble);
+
+        //findLastTCPFromTeacherID
+        when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
+        when(tcpDouble.getDate()).thenReturn(date1Double);
+        when(date1Double.getLocalDate()).thenReturn(localDate1Double);
+        when(tcpDouble.getDate()).thenReturn(date2Double);
+        when(date1Double.getLocalDate()).thenReturn(localDate2Double);
+        when(localDate1Double.isAfter(localDate2Double)).thenReturn(false);
+
+        when(tcpDouble.isLastDateEqualOrBeforeNewDate(date2Double)).thenReturn(false);
+        when(tcpDouble.getWorkingPercentage()).thenReturn(wp1Double);
+        when(tcpDouble.getTeacherCategoryID()).thenReturn(tcIDDouble);
+
+        when(tcpFactoryDouble.createTeacherCareerProgression(date2Double, tcIDDouble2, wp1Double, teacherIDDouble)).thenReturn(tcpDouble);
+
+        when(tcpDouble2.sameAs(tcpDouble)).thenReturn(false);
+
+        //act
+        boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(date2Double, tcIDDouble2, teacherIDDouble);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenThereIsNoLastTCPToUpdateTeacherCategory() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date date2Double = (Date) doubles[2];
+        TeacherCategoryID tcIDDouble =(TeacherCategoryID) doubles [3];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+
+        //List
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //Iterator
+        Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
+        when(listDouble.iterator()).thenReturn(itDouble);
+
+        when(itDouble.hasNext()).thenReturn(false);
+
+        //act
+        boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(date2Double, tcIDDouble, teacherIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenGivenDateIsBeforeLastTCPDateToUpdateTeacherCategory() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date date1Double = (Date) doubles[2];
+        Date date2Double = (Date) doubles[2];
+        TeacherCategoryID tcIDDouble =(TeacherCategoryID) doubles [3];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+        TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
+        LocalDate localDate1Double = (LocalDate) doubles[8];
+        LocalDate localDate2Double = (LocalDate) doubles[8];
+
+        //List
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //Iterator
+        Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
+        when(listDouble.iterator()).thenReturn(itDouble);
+
+        when(itDouble.hasNext()).thenReturn(true, false);
+
+        when(itDouble.next()).thenReturn(tcpDouble);
+
+        when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
+        when(tcpDouble.getDate()).thenReturn(date1Double);
+        when(date1Double.getLocalDate()).thenReturn(localDate1Double);
+        when(tcpDouble.getDate()).thenReturn(date2Double);
+        when(date1Double.getLocalDate()).thenReturn(localDate2Double);
+        when(localDate1Double.isAfter(localDate2Double)).thenReturn(false);
+
+        when(tcpDouble.isLastDateEqualOrBeforeNewDate(date2Double)).thenReturn(false);
+
+        when(tcpDouble.getTeacherCategoryID()).thenReturn(tcIDDouble);
+
+        //act
+        boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(date2Double, tcIDDouble, teacherIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenGivenWorkingPercentageIsTheSameAsLastTCPTeacherCategory() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date date1Double = (Date) doubles[2];
+        Date date2Double = (Date) doubles[2];
+        TeacherCategoryID tcIDDouble = (TeacherCategoryID) doubles[3];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+        WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
+        TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
+        LocalDate localDate1Double = (LocalDate) doubles[8];
+        LocalDate localDate2Double = (LocalDate) doubles[8];
+
+
+        //List
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //Iterator
+        Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
+        when(listDouble.iterator()).thenReturn(itDouble);
+
+        when(itDouble.hasNext()).thenReturn(true, false);
+
+        when(itDouble.next()).thenReturn(tcpDouble);
+
+        when(tcpDouble.getTeacherID()).thenReturn(teacherIDDouble);
+        when(tcpDouble.getDate()).thenReturn(date1Double);
+        when(date1Double.getLocalDate()).thenReturn(localDate1Double);
+        when(tcpDouble.getDate()).thenReturn(date2Double);
+        when(date1Double.getLocalDate()).thenReturn(localDate2Double);
+        when(localDate1Double.isAfter(localDate2Double)).thenReturn(false);
+
+        when(tcpDouble.isLastDateEqualOrBeforeNewDate(date2Double)).thenReturn(true);
+        when(tcpDouble.getTeacherCategoryID()).thenReturn(tcIDDouble);
+        when(tcpDouble.getWorkingPercentage()).thenReturn(wpDouble);
+
+        when(tcpFactoryDouble.createTeacherCareerProgression(date2Double, tcIDDouble, wpDouble, teacherIDDouble)).thenReturn(tcpDouble);
+
+        //act
+        boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(date2Double, tcIDDouble, teacherIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
 }
