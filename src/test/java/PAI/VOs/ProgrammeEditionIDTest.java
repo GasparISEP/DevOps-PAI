@@ -2,125 +2,212 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class ProgrammeEditionIDTest {
 
+    // constructor Tests
     @Test
-    void shouldCreateProgrammeEditionID() {
+    void shouldCreateProgrammeEditionID() throws Exception {
         // Arrange
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         // Act
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
         // Assert
         assertNotNull(programmeEditionID);
     }
 
     @Test
-    void shouldReturnProgrammeEditionID() {
+    void shouldNotCreateProgrammeEditionIDIfSchoolYearIsNull() throws Exception {
         // Arrange
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
+        SchoolYearID schoolYearID = null;
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         // Act
-        UUID id = programmeEditionID.getProgrammeEditionID();
+        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionID(programmeID, schoolYearID));
 
         // Assert
-        assertNotNull(id);
-        assertEquals(id, programmeEditionID.getProgrammeEditionID());
+        assertEquals("schoolYearID cannot be null", exception.getMessage());
     }
 
     @Test
-    void shouldReturnTrueIfUUIDIsComparedToItSelf() {
+    void shouldNotCreateProgrammeEditionIDIfProgrammeIDIsNull() throws Exception {
         // Arrange
-        UUID id = UUID.randomUUID();
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = null;
 
         // Act
-        boolean result = id.equals(id);
+        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionID(programmeID, schoolYearID));
 
         // Assert
-        assertTrue(result);
+        assertEquals("programmeID cannot be null", exception.getMessage());
     }
 
+    // equals Test
     @Test
-    void shouldReturnFalseIfUUIDIsComparedToANullUUID() {
+    void shouldReturnTrueIfProgrammeEditionIDIsComparedToItSelf() throws Exception {
         // Arrange
-        UUID id1 = UUID.randomUUID();
-        UUID id2 = null;
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
         // Act
-        boolean result = id1.equals(id2);
-
-        // Assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfUUIDIsComparedToAnObjectThatIsNotAInstanceOfUUID() {
-        // Arrange
-        UUID id1 = UUID.randomUUID();
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
-
-        // Act
-        boolean result = id1.equals(programmeEditionID);
-
-        // Assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnTrueIfTwoUUIDsAreTheSame() {
-        // Arrange
-        UUID id1 = UUID.randomUUID();
-        UUID id2 = id1;
-
-        // Act
-        boolean result = id1.equals(id2);
+        boolean result = programmeEditionID.equals(programmeEditionID);
 
         // Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfTwoUUIDsAreNotTheSame() {
+    void shouldReturnFalseIfProgrammeEditionIDIsComparedToANull() throws Exception {
         // Arrange
-        UUID id1 = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
         // Act
-        boolean result = id1.equals(id2);
+        boolean result = programmeEditionID.equals(null);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnExpectedStringRepresentation() {
+    void shouldReturnFalseIfProgrammeEditionIDIsComparedToADifferentInstanceOfObject() throws Exception {
         // Arrange
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID();
-        String idString = programmeEditionID.getProgrammeEditionID().toString();
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+
+        // Act
+        boolean result = programmeEditionID.equals(schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTwoProgrammeEditionIDHaveTheSameValue() throws Exception {
+        // Arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = spy(SchoolYearID.class);
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID);
+
+        // Act
+        boolean result = programmeEditionID1.equals(programmeEditionID2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionIDHaveTheSameSchoolYearIDButDifferentProgrammeID() throws Exception {
+        // Arrange
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID2, schoolYearID);
+
+        // Act
+        boolean result = programmeEditionID1.equals(programmeEditionID2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionIDHaveTheSameProgrammeIDButDifferentSchoolYearID() throws Exception {
+        // Arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        SchoolYearID schoolYearID2 = mock(SchoolYearID.class);
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
+
+        // Act
+        boolean result = programmeEditionID1.equals(programmeEditionID2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionIDHaveDifferentProgrammeIDAndSchoolYearID() throws Exception {
+        // Arrange
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        SchoolYearID schoolYearID2 = mock(SchoolYearID.class);
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID2, schoolYearID2);
+
+        // Act
+        boolean result = programmeEditionID1.equals(programmeEditionID2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    // toString Tests
+    @Test
+    void shouldReturnExpectedStringRepresentation() throws Exception {
+        // Arrange
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+
+        UUID schoolYearInternalID = mock(UUID.class);
+
+        when(schoolYearID.getSchoolYearID()).thenReturn(schoolYearInternalID);
+
+        when(schoolYearInternalID.toString()).thenReturn("sy1");
+        when(programmeID.toString()).thenReturn("prog1");
 
         // Act
         String result = programmeEditionID.toString();
 
         // Assert
-        assertEquals(idString, result);
+        assertEquals("prog1-sy1", result);
     }
 
     @Test
-    void shouldReturnDifferentStringsForDifferentInstances() {
+    void shouldReturnDifferentStringsForDifferentInstances() throws Exception {
         // Arrange
-        ProgrammeEditionID id1 = new ProgrammeEditionID();
-        ProgrammeEditionID id2 = new ProgrammeEditionID();
-        String id1String1 = id1.toString();
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        SchoolYearID schoolYearID2 = mock(SchoolYearID.class);
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
+
+        UUID schoolYearInternalID1 = mock(UUID.class);
+        UUID schoolYearInternalID2 = mock(UUID.class);
+
+        when(schoolYearID1.getSchoolYearID()).thenReturn(schoolYearInternalID1);
+        when(schoolYearID2.getSchoolYearID()).thenReturn(schoolYearInternalID2);
+
+        when(schoolYearInternalID1.toString()).thenReturn("sy1");
+        when(schoolYearInternalID2.toString()).thenReturn("sy2");
+        when(programmeID.toString()).thenReturn("prog1");
+
+        String pEID1 = programmeEditionID1.toString();
 
         // Act
-        String result = id2.toString();
+        String pEID2 = programmeEditionID2.toString();
 
         // Assert
-        assertNotEquals(id1String1, result);
+        assertNotEquals(pEID1, pEID2);
     }
 }

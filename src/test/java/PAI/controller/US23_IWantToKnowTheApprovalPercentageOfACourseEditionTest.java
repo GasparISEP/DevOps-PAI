@@ -28,7 +28,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         StudentID student1 = mock(StudentID.class);
         CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
-        StudentGrade studentGrade1 = mock(StudentGrade.class);
+
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 

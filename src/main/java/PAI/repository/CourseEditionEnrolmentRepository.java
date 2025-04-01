@@ -32,16 +32,16 @@ public class CourseEditionEnrolmentRepository {
         }
     }
 
-//    public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
-//        for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
-//            if (enrollment.knowStudent().identity().equals(student) &&
-//                    enrollment.knowCourseEdition().equals(courseEdition) &&
-//                    enrollment.isEnrollmentActive()) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
+        for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
+            if (enrollment.knowStudent().equals(student) &&
+                    enrollment.knowCourseEdition().equals(courseEdition) &&
+                    enrollment.isEnrolmentActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID student, CourseEditionID courseEdition) {
         if (student == null || courseEdition == null) {
@@ -67,17 +67,18 @@ public class CourseEditionEnrolmentRepository {
     }
 
     // Method to remove (deactivate) an enrollment
-//    public boolean removeEnrolment(StudentID student, CourseEditionID courseEdition) {
-//        Optional<CourseEditionEnrolment> enrollment = findByStudentAndEdition(student, courseEdition);
-//        if (enrollment.isPresent()) {
-//            CourseEditionEnrolment cee = enrollment.get();
-//            if (cee.isEnrollmentActive()) {  // Only deactivates if the enrollment is currently active
-//                cee.deactivateEnrollment();
-//                return true; // Returns true indicating that the enrollment was deactivated
-//            }
-//        }
-//        return false; // Returns false if the enrollment was already inactive or did not exist
-//    }
+    public boolean removeEnrolment(StudentID studentID, CourseEditionID courseEditionID) {
+        Optional<CourseEditionEnrolment> enrollment = findByStudentAndEdition(studentID, courseEditionID);
+        if (enrollment.isPresent()) {
+            CourseEditionEnrolment cee = enrollment.get();
+            // Deactivate the enrolment if it's active
+            if (cee.isEnrolmentActive()) {  // Only deactivates if the enrollment is currently active
+                cee.deactivateEnrolment();
+                return true; // Returns true indicating that the enrollment was deactivated
+            }
+        }
+        return false; // Returns false if the enrollment was already inactive or did not exist
+    }
 
 
     public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions){

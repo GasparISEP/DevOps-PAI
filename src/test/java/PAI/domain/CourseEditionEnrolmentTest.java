@@ -14,11 +14,11 @@ class CourseEditionEnrolmentTest {
     @Test
     void should_create_valid_course_edition_enrollment_instance() {
         // arrange
-        StudentID studentDouble = mock(StudentID.class);
-        CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
         // act
-        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentDouble, courseEditionDouble);
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
 
         // assert
         assertNotNull(enrollment);
@@ -27,23 +27,23 @@ class CourseEditionEnrolmentTest {
     @Test
     void should_contain_the_correct_student() {
         // arrange
-        StudentID studentDouble = mock(StudentID.class);
-        CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
-        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentDouble, courseEditionDouble);
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
 
         // act + assert
-        assertTrue(enrollment.hasStudent(studentDouble));
+        assertTrue(enrollment.hasStudent(studentIDDouble));
     }
 
     @Test
     void should_return_true_if_enrollment_contains_correct_course_edition() {
         // arrange
-        StudentID studentDouble = mock(StudentID.class);
-        CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
-        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentDouble, courseEditionDouble);
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
 
         // act + assert
-        assertTrue(enrollment.hasCourseEdition(courseEditionDouble));
+        assertTrue(enrollment.hasCourseEdition(courseEditionIDDouble));
     }
 
 
@@ -225,30 +225,45 @@ class CourseEditionEnrolmentTest {
         assertNotEquals(enrollment.hashCode(), enrollment1.hashCode());
     }
 
-//    @Test
-//    void newEnrollment_ShouldBeActive() {
-//        // Arrange
-//        Student studentMock = mock(Student.class);
-//        CourseEditionID courseEditionMock = mock(CourseEdition.class);
-//
-//        // Act
-//        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentMock, courseEditionMock);
-//
-//        // Assert
-//        assertTrue(enrollment.isEnrollmentActive());
-//    }
-//
-//    @Test
-//    void deactivateEnrollment_ShouldSetEnrollmentToInactive() {
-//        // Arrange
-//        Student studentMock = mock(Student.class);
-//        CourseEdition courseEditionMock = mock(CourseEdition.class);
-//        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentMock, courseEditionMock);
-//
-//        // Act
-//        enrollment.deactivateEnrollment();
-//
-//        // Assert
-//        assertFalse(enrollment.isEnrollmentActive());
-//    }
+    @Test
+    void newEnrollment_ShouldBeActiveByDefault() {
+        // Arrange
+        StudentID studentIDMock = mock(StudentID.class);
+        CourseEditionID courseEditionIDMock = mock(CourseEditionID.class);
+
+        // Act
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentIDMock, courseEditionIDMock);
+
+        // Assert
+        assertTrue(enrollment.isEnrolmentActive(), "New enrolment should be active by default");
+    }
+
+    @Test
+    void deactivateEnrollment_ShouldSetEnrollmentToInactive() {
+        // Arrange
+        StudentID studentIDMock = mock(StudentID.class);
+        CourseEditionID courseEditionIDMock = mock(CourseEditionID.class);
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentIDMock, courseEditionIDMock);
+
+        // Act
+        enrollment.deactivateEnrolment();
+
+        // Assert
+        assertFalse(enrollment.isEnrolmentActive());
+    }
+
+    @Test
+    void deactivateEnrollment_ShouldRemainInactiveAfterMultipleDeactivations() {
+        // Arrange
+        StudentID studentIDMock = mock(StudentID.class);
+        CourseEditionID courseEditionIDMock = mock(CourseEditionID.class);
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(studentIDMock, courseEditionIDMock);
+
+        // Act
+        enrollment.deactivateEnrolment();
+        enrollment.deactivateEnrolment(); // Calling again to ensure no state change
+
+        // Assert
+        assertFalse(enrollment.isEnrolmentActive(), "Enrolment should remain inactive after multiple deactivations");
+    }
 }

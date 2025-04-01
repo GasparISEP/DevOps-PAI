@@ -4,6 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
 import PAI.domain.CourseEditionEnrolment;
+import PAI.domain.CourseEdition_2;
 import PAI.domain.Student;
 
 

@@ -1,9 +1,8 @@
 package PAI.repository;
 
-import PAI.domain.Course;
-import PAI.domain.CourseEdition;
-import PAI.domain.ProgrammeEdition;
-import PAI.domain.Teacher;
+import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.domain.*;
 import PAI.factory.ICourseEditionFactory;
 import PAI.factory.ICourseEditionListFactory;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class CourseEditionRepository {
 
-    private List<CourseEdition> _courseEditions;
+    private List<CourseEdition_2> _courseEditions;
     private final ICourseEditionFactory _I_courseEditionFactory;
 
     public CourseEditionRepository(ICourseEditionFactory ICourseEditionFactory, ICourseEditionListFactory ICourseEditionListFactory) {
@@ -21,10 +20,10 @@ public class CourseEditionRepository {
 
     }
 
-    public boolean createAndSaveCourseEdition(Course course, ProgrammeEdition programmeEdition) {
+    public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
 
         try {
-            CourseEdition courseEdition = _I_courseEditionFactory.newCourseEdition(course, programmeEdition);
+            CourseEdition_2 courseEdition = _I_courseEditionFactory.newCourseEdition(courseInStudyPlanID, programmeEditionID);
             if (isCourseEditionAlreadyInRepository(courseEdition))
                 return false;
 
@@ -36,12 +35,12 @@ public class CourseEditionRepository {
         }
     }
 
-    public boolean isCourseEditionAlreadyInRepository(CourseEdition courseEdition) {
+    public boolean isCourseEditionAlreadyInRepository(CourseEdition_2 courseEdition) {
         return _courseEditions.contains(courseEdition);
     }
 
     // US20 - returns a list of all course editions stored in the repository
-    public List<CourseEdition> getCourseEditions() {
+    public List<CourseEdition_2> getCourseEditions() {
         return new ArrayList<>(_courseEditions); // Retorna uma cópia da lista
     }
 
@@ -53,19 +52,19 @@ public class CourseEditionRepository {
         return ce1.setRuc(t1);
     }
 
-    public ProgrammeEdition findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition courseEdition) throws Exception {
-        for (CourseEdition courseEdition1 : _courseEditions)
+    public ProgrammeEditionID findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition_2 courseEdition) throws Exception {
+        for (CourseEdition_2 courseEdition1 : _courseEditions)
             if (courseEdition1.equals(courseEdition)) {
-                return courseEdition1.whatProgrammeEditionBelongsThisCourseEdition();
+                return courseEdition1.getProgrammeEditionID();
             }
 
         throw new Exception("The course edition does not belong to the course Edition Repository.");
     }
 
-    public List<CourseEdition> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        List<CourseEdition> result = new ArrayList<>();
-        for (CourseEdition courseEdition : _courseEditions) {
-            if (courseEdition.whatProgrammeEditionBelongsThisCourseEdition().equals(programmeEdition)) {
+    public List<CourseEdition_2> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
+        List<CourseEdition_2> result = new ArrayList<>();
+        for (CourseEdition_2 courseEdition : _courseEditions) {
+            if (courseEdition.getProgrammeEditionID().equals(programmeEdition)) {
                 result.add(courseEdition);
             }
         }
