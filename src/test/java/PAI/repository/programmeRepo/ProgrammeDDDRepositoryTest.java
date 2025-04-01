@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
+import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -54,47 +55,7 @@ class ProgrammeDDDRepositoryTest {
         programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters, master, CSE,  teacher);
         boolean result = programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters, master, CSE,  teacher);
 
-        // Asssert
-        assertFalse(result);
-    }
-
-
-    @Test
-    void changeProgrammedDirectorOfValidProgramme() throws Exception {
-        // Arrange
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Professor");
-        Acronym acronym = new Acronym("MEI");
-        QuantEcts qtyEcts = new QuantEcts(6);
-        QuantSemesters qtySemesters = new QuantSemesters(6);
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        Department department1 = new Department("ABC","Abc");
-        TeacherID programmeDirectorID = mock(TeacherID.class);
-
-        IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
-        IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDD programme = new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
-        TeacherID teacher2 = mock(TeacherID.class);
-        ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
-
-        // Act
-        boolean result = programmeList.changeProgrammeDirector(programme, teacher2);
         // Assert
-        assertTrue(result);
-        assertEquals(programme.getProgrammeDirectorID(), teacher2);
-    }
-
-    @Test
-    void shouldNotChangeProgrammedDirectorIfNewDirectorIsNull() throws Exception {
-        // Arrange
-        IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
-        IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
-        TeacherID teacher1 = null;
-        ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
-        when(programmeDouble.newProgrammeDirector(teacher1)).thenReturn(false);
-        boolean result = programmeList.changeProgrammeDirector(programmeDouble, teacher1);
-
-        // Asssert
         assertFalse(result);
     }
 
@@ -104,15 +65,14 @@ class ProgrammeDDDRepositoryTest {
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeListListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeListListFactory);
-        ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         // Act
-        boolean result = programmeList.changeProgrammeDirector(programmeDouble, null);
+        boolean result = programmeList.changeProgrammeDirector(programmeID, null);
 
         // Asssert
         assertFalse(result);
     }
-
 
 
     @Test

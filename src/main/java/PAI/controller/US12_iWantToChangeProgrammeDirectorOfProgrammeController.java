@@ -16,8 +16,8 @@ public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
         _programmeRepo = programmeList;
     }
 
-    public boolean changeProgrammeDirector (ProgrammeDDD programmeDDD, TeacherID teacherID) throws Exception{
-        _programmeRepo.changeProgrammeDirector(programmeDDD, teacherID);
+    public boolean changeProgrammeDirector (ProgrammeID programmeID, TeacherID teacherID) throws Exception{
+        _programmeRepo.changeProgrammeDirector(programmeID, teacherID);
         return true;
     }
 }

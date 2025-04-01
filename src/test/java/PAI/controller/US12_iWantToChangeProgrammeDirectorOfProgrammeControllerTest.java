@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.ProgrammeID;
 import PAI.VOs.TeacherID;
 import PAI.domain.Programme;
 import PAI.domain.programme.ProgrammeDDD;
@@ -33,7 +34,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         ProgrammeDDDRepository programmeList = mock(ProgrammeDDDRepository.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList);
         TeacherID teacher = mock(TeacherID.class);
-        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        ProgrammeID programme = mock(ProgrammeID.class);
         //act
         boolean result = controller.changeProgrammeDirector(programme,teacher);
         //assert
