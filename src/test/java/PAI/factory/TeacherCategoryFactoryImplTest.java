@@ -1,14 +1,14 @@
 package PAI.factory;
 
 import PAI.VOs.Name;
-import PAI.domain.TeacherCategoryV2;
+import PAI.domain.TeacherCategory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TeacherCategoryFactoryV2ImplTest {
+class TeacherCategoryFactoryImplTest {
 
-    private final TeacherCategoryFactoryV2Impl factory = new TeacherCategoryFactoryV2Impl();
+    private final TeacherCategoryFactoryImpl factory = new TeacherCategoryFactoryImpl();
 
     @Test
     void shouldCreateValidTeacherCategory() {
@@ -16,7 +16,7 @@ class TeacherCategoryFactoryV2ImplTest {
         Name name = new Name("Professor Associado");
 
         // Act
-        TeacherCategoryV2 category = factory.createTeacherCategory(name);
+        TeacherCategory category = factory.createTeacherCategory(name);
 
         // Assert
         assertNotNull(category);
@@ -27,7 +27,7 @@ class TeacherCategoryFactoryV2ImplTest {
     @Test
     void shouldThrowExceptionIfNameIsNull() {
         // Even though the factory accepts a Name object,
-        // if we pass null, the TeacherCategoryV2 constructor will throw.
+        // if we pass null, the TeacherCategory constructor will throw.
         assertThrows(IllegalArgumentException.class, () -> factory.createTeacherCategory(null));
     }
 }

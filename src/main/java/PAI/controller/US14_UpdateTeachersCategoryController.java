@@ -1,8 +1,10 @@
 package PAI.controller;
 
 import PAI.VOs.NIF;
-import PAI.domain.*;
-import PAI.repository.TeacherCategoryRepository;
+import PAI.VOs.Name;
+import PAI.domain.Teacher;
+import PAI.domain.TeacherCategory;
+import PAI.repository.TeacherCategoryRepositoryImpl;
 import PAI.repository.TeacherRepository;
 
 import java.util.Optional;
@@ -10,9 +12,9 @@ import java.util.Optional;
 public class US14_UpdateTeachersCategoryController {
 
     private TeacherRepository _teacherRepository;
-    private TeacherCategoryRepository _teacherCategoryRepository;
+    private TeacherCategoryRepositoryImpl _teacherCategoryRepository;
 
-    public US14_UpdateTeachersCategoryController(TeacherRepository teacherRepository, TeacherCategoryRepository teacherCategoryRepository) {
+    public US14_UpdateTeachersCategoryController(TeacherRepository teacherRepository, TeacherCategoryRepositoryImpl teacherCategoryRepository) {
 
         if (teacherRepository == null) {
             throw new IllegalArgumentException("Teacher Repository cannot be null");
@@ -41,7 +43,8 @@ public class US14_UpdateTeachersCategoryController {
             Optional<Teacher> optionalTeacher = _teacherRepository.getTeacherByNIF(teacherNIF);
             Teacher teacher = optionalTeacher.orElseThrow(() ->
                     new IllegalArgumentException("Teacher with NIF " + teacherNIF + " not found"));
-            Optional<TeacherCategory> optionalTeacherCategory = _teacherCategoryRepository.getTeacherCategoryByName(teacherCategoryName);
+            Name nameVO = new Name(teacherCategoryName);
+            Optional<TeacherCategory> optionalTeacherCategory = _teacherCategoryRepository.findByName(nameVO);
             TeacherCategory teacherCategory = optionalTeacherCategory.orElseThrow(() ->
                     new IllegalArgumentException("Teacher Category with name " + teacherCategoryName + " not found"));
 

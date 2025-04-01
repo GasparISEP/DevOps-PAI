@@ -6,22 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of the {@link ITeacherCategoryListFactory} interface.
- * This class is responsible for providing a list of {@link TeacherCategory} instances.
+ * Implementation of ITeacherCategoryListFactory that returns an empty list.
+ * Useful for initializations or test environments where no data is preloaded.
  */
-public class TeacherCategoryListFactoryImpl implements ITeacherCategoryListFactory {
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Retrieves an empty list of {@link TeacherCategory} objects.
-     * This implementation simply returns a new empty {@link ArrayList}.
-     * </p>
-     *
-     * @return an empty {@link List} of {@link TeacherCategory} objects.
-     */
+public class TeacherCategoryListFactoryImpl implements ITeacherCategoryListFactory {
     @Override
-    public List <TeacherCategory> getTeacherCategoryList()  {
+    public List<TeacherCategory> getTeacherCategoryList() {
         return new ArrayList<>();
     }
 }

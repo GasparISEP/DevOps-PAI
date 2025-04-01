@@ -1,15 +1,5 @@
 package PAI.controller;
 
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
-import PAI.domain.*;
-import PAI.factory.IAddressFactory;
-import PAI.repository.DepartmentRepository;
-import PAI.repository.TeacherCategoryRepository;
-import PAI.repository.TeacherRepository;
-
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
    /*

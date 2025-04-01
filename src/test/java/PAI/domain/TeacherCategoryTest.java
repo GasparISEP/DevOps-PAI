@@ -1,74 +1,77 @@
 package PAI.domain;
 
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TeacherCategoryTest {
+public class TeacherCategoryTest {
 
     @Test
-    void shouldCreateTeacherCategory() throws Exception {
-        //arrange
-        //act
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        //assert
-        assertNotNull(tc1);
-    }
+    void shouldCreateTeacherCategorySuccessfully() {
+        // Arrange
+        TeacherCategoryID id = new TeacherCategoryID();
+        Name name = new Name("Professor Adjunto");
 
-    @Test 
-    void nullNameGeneratesExeception(){
-        assertThrows(Exception.class, () -> new TeacherCategory(null));
-    }
+        // Act
+        TeacherCategory category = new TeacherCategory(id, name);
 
-    @Test 
-    void emptyNameGeneratesException(){
-        assertThrows(Exception.class, () -> new TeacherCategory(""));
-    }
-
-
-    @Test
-    void shouldReturnTrueIfTeacherCategoryEqualsObject()throws Exception {
-        //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        Object tc2 = tc1;
-        //act
-        boolean result = tc1.equals(tc2);
-        //assert
-        assertTrue(result);
+        // Assert
+        assertNotNull(category);
+        assertEquals(id, category.getId());
+        assertEquals(name, category.getName());
+        assertEquals("Professor Adjunto", category.getNameValue());
     }
 
     @Test
-    void shouldReturnFalseIfObjectIsNotTeacherCategory() throws Exception{
-        //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        AccessMethod am1 = new AccessMethod("M23");
-        //act
-        boolean result = tc1.equals(am1);
-        //assert
-        assertFalse(result);
+    void shouldThrowExceptionWhenIdIsNull() {
+        Name name = new Name("Professor Associado");
+        assertThrows(IllegalArgumentException.class, () -> new TeacherCategory(null, name));
     }
 
     @Test
-    void shouldReturnTrueIfNameOfBothObjectsAreEqual() throws Exception{
-        //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Adjunto");
-
-        //act
-        boolean result = tc1.equals(tc2);
-        //assert
-        assertTrue(result);
+    void shouldThrowExceptionWhenNameIsNull() {
+        TeacherCategoryID id = new TeacherCategoryID();
+        assertThrows(IllegalArgumentException.class, () -> new TeacherCategory(id, null));
     }
 
     @Test
-    void shouldReturnFalseIfNameOfBothObjectsAreNotEqual() throws Exception{
-        //arrange
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
-        TeacherCategory tc2 = new TeacherCategory("Professor Coordenador");
+    void shouldBeEqualToItself() {
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), new Name("Professor Adjunto"));
+        assertEquals(category, category);
+    }
 
-        //act
-        boolean result = tc1.equals(tc2);
-        //assert
-        assertFalse(result);
+    @Test
+    void shouldNotBeEqualToDifferentType() {
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), new Name("Professor Adjunto"));
+        Object other = new Object();
+        assertNotEquals(category, other);
+    }
+
+    @Test
+    void shouldBeEqualIfIdsAreEqual() {
+        TeacherCategoryID sharedId = new TeacherCategoryID();
+        TeacherCategory c1 = new TeacherCategory(sharedId, new Name("Professor A"));
+        TeacherCategory c2 = new TeacherCategory(sharedId, new Name("Professor B")); // different name
+
+        assertEquals(c1, c2); // Equals by ID only
+    }
+
+    @Test
+    void shouldNotBeEqualIfIdsAreDifferent() {
+        TeacherCategory c1 = new TeacherCategory(new TeacherCategoryID(), new Name("Professor A"));
+        TeacherCategory c2 = new TeacherCategory(new TeacherCategoryID(), new Name("Professor A"));
+
+        assertNotEquals(c1, c2); // Different IDs
+    }
+
+    @Test
+    void shouldHaveSameHashCodeIfSameId() {
+        TeacherCategoryID id = new TeacherCategoryID();
+        TeacherCategory c1 = new TeacherCategory(id, new Name("Amador"));
+        TeacherCategory c2 = new TeacherCategory(id, new Name("Meio Amador"));
+
+        assertEquals(c1.hashCode(), c2.hashCode());
     }
 }

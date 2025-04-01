@@ -1,11 +1,11 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.VOs.Location;
-import PAI.domain.*;
+import PAI.domain.Department;
+import PAI.domain.TeacherCategory;
 import PAI.repository.DepartmentRepository;
 import PAI.repository.TeacherCareerProgressionRepository;
-import PAI.repository.TeacherCategoryRepository;
+import PAI.repository.TeacherCategoryRepositoryImpl;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 class US13_RegisterTeacherAndRelevantDataControllerTest {
     // Arrange
-    private TeacherCategoryRepository _teacherCategoryRepoDouble;
+    private TeacherCategoryRepositoryImpl _teacherCategoryRepoDouble;
     private DepartmentRepository _departmentRepoDouble;
     private TeacherRepository _teacherRepoDouble;
     private TeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
@@ -43,7 +43,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     @BeforeEach
     void factoryDoublesSetup(){
-        _teacherCategoryRepoDouble = mock(TeacherCategoryRepository.class);
+        _teacherCategoryRepoDouble = mock(TeacherCategoryRepositoryImpl.class);
         _departmentRepoDouble = mock(DepartmentRepository.class);
         _teacherRepoDouble = mock(TeacherRepository.class);
         _teacherCareerProgressionRepoDouble = mock(TeacherCareerProgressionRepository.class);
