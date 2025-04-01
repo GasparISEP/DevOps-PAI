@@ -20,12 +20,12 @@ KA -> SG ++ #application : getApprovalRate(:ceIdVO1)
 loop for each StudentGrade in SG
     SG -> SG : Average = 0
     SG -> StudentGrade : hasThisCourseEdition(:ceIdVO1)
-    activate StudentGrade
+    activate StudentGrade #application
     StudentGrade --> SG : True!
     deactivate StudentGrade
 
     SG -> StudentGrade : knowGrade()
-    activate StudentGrade
+    activate StudentGrade #application
     StudentGrade --> SG : (double) grade
     deactivate StudentGrade
     SG -> SG : Calculate Average Grade
