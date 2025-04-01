@@ -23,11 +23,10 @@ public class Utils {
 
     public static boolean NIFValidator (Country country, String NIF){
 
-        String countryName = normalize(country.getCountryName());
-        String rule = NIF_RULE_MAP.get(normalize(countryName));
+        String rule = NIF_RULE_MAP.get(normalize(country.getCountryName()));
 
         if(rule != null){
-            return NIF.matches(rule);
+            return NIF.toUpperCase().matches(rule);
         }
         return false;
     }
