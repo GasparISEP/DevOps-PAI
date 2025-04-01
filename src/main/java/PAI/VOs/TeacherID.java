@@ -6,11 +6,11 @@ public class TeacherID implements DomainId {
 
     private final TeacherAcronym _acronym;
 
-    public TeacherID(TeacherAcronym acronym) {
-        if (acronym == null) {
+    public TeacherID(TeacherAcronym teacherAcronym) {
+        if (teacherAcronym == null) {
             throw new IllegalArgumentException("Teacher acronym can not be null");
         }
-        this._acronym = acronym;
+        this._acronym = teacherAcronym;
     }
 
     public TeacherAcronym getTeacherAcronym() {
