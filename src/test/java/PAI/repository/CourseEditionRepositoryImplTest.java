@@ -396,12 +396,13 @@ class CourseEditionRepositoryImplTest {
         when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
         when(doubleCourseEdition2.identity()).thenReturn(doubleCourseEditionId2);
+
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEdition_2> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
 
         // Assert
         assertEquals(2, result.size());
@@ -430,16 +431,17 @@ class CourseEditionRepositoryImplTest {
         when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
         when(doubleCourseEdition2.identity()).thenReturn(doubleCourseEditionId2);
+
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEdition_2> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
 
         // Assert
-        assertTrue(result.contains(doubleCourseEdition1));
-        assertTrue(result.contains(doubleCourseEdition2));
+        assertTrue(result.contains(doubleCourseEditionId1));
+        assertTrue(result.contains(doubleCourseEditionId2));
 
     }
 

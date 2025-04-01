@@ -79,11 +79,11 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
         return false;
     }
 
-    public List<CourseEdition_2> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId) {
-        List<CourseEdition_2> result = new ArrayList<>();
+    public List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId) {
+        List<CourseEditionID> result = new ArrayList<>();
         for (CourseEdition_2 courseEdition : _courseEditions) {
             if (courseEdition.getProgrammeEditionID().equals(programmeEditionId)) {
-                result.add(courseEdition);
+                result.add(courseEdition.identity());
             }
         }
 

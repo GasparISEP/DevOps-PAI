@@ -12,6 +12,6 @@ public interface ICourseEditionRepository extends IRepository <CourseEditionID, 
 
      boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 
-     List<CourseEdition_2> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId);
+     List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId);
 
 }
