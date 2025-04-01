@@ -6,9 +6,9 @@ import PAI.ddd.AggregateRoot;
 
 public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
 
-    private CourseEditionID _courseEditionID;
-    private CourseInStudyPlanID _courseInStudyPlanID;
-    private ProgrammeEditionID _programmeEditionID;
+    private final CourseEditionID _courseEditionID;
+    private final CourseInStudyPlanID _courseInStudyPlanID;
+    private final ProgrammeEditionID _programmeEditionID;
 
     public CourseEdition_2 (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
 

@@ -51,7 +51,7 @@ public class ProgrammeDDD {
             throw new IllegalArgumentException("Insert a valid Programme Director");
         }
         _programmeDirectorID = programmeDirectorID;
-        _programmeID = new ProgrammeID();
+        _programmeID = new ProgrammeID(name,acronym);
     }
 
 

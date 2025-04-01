@@ -74,6 +74,8 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         // Arrange
         ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
         StudyPlanDDDRepository studyPlanRepo = mock(StudyPlanDDDRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
 
         US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller =
                 new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo, studyPlanRepo);
@@ -84,7 +86,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         when(programmeDDD.getQuantSemesters()).thenReturn(quantSemesters);
         when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);
 
-        ProgrammeID programmeID = new ProgrammeID();
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
         Date implementationDate = new Date("21-03-2000");
 
         when(programmeRepo.findProgrammeByID(programmeID)).thenReturn(Optional.of(programmeDDD));
@@ -101,12 +103,14 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         // Arrange
         ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
         StudyPlanDDDRepository studyPlanRepo = mock(StudyPlanDDDRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
 
         US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller =
                 new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo, studyPlanRepo);
         controller._studyPlanDDDRepo = studyPlanRepo;
 
-        ProgrammeID programmeID = new ProgrammeID();
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
         Date implementationDate = new Date("21-03-2000");
 
         when(programmeRepo.findProgrammeByID(programmeID)).thenReturn(Optional.empty());
