@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TeacherCareerProgressionRepository implements IRepository<TeacherCareerProgressionID, TeacherCareerProgression > {
+public class TeacherCareerProgressionRepository implements ITeacherCareerProgressionRepository {
 
     private ITeacherCareerProgressionFactory _teacherCareerProgressionFactory;
     private List<TeacherCareerProgression> _teacherCareerProgressions;
