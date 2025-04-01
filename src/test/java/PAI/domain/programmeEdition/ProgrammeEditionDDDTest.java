@@ -201,6 +201,7 @@ class ProgrammeEditionDDDTest {
         assertFalse(result);
     }
 
+
     // findProgrammeIDInProgrammeEdition Test
     @Test
     void shouldReturnProgrammeID() throws Exception {
@@ -217,6 +218,8 @@ class ProgrammeEditionDDDTest {
         assertEquals(pID, pIDCheck);
     }
 
+
+    // findSchoolYearIDInProgrammeEdition Test
     @Test
     void shouldReturnSchoolYearID() throws Exception {
         // Arrange
@@ -231,4 +234,86 @@ class ProgrammeEditionDDDTest {
         // Assert
         assertEquals(sYID, sYIDCheck);
     }
+
+
+    // equals Tests
+    @Test
+    void shouldReturnTrueIfCompareProgrammeEditionToItSelf() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        // Act
+        boolean result = pE.equals(pE);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCompareProgrammeEditionToANull() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        // Act
+        boolean result = pE.equals(null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCompareProgrammeEditionToADifferentTypeOfObject() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        // Act
+        boolean result = pE.equals(pID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCompareProgrammeEditionWithDifferentProgrammeEditionID() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID pEID2 = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE1 = new ProgrammeEditionDDD(pEID1, pID, sYID);
+        ProgrammeEditionDDD pE2 = new ProgrammeEditionDDD(pEID2, pID, sYID);
+
+        // Act
+        boolean result = pE1.equals(pE2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfCompareProgrammeEditionWithSameProgrammeEditionID() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID1 = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE1 = new ProgrammeEditionDDD(pEID1, pID, sYID);
+        ProgrammeEditionDDD pE2 = new ProgrammeEditionDDD(pEID1, pID, sYID);
+
+        // Act
+        boolean result = pE1.equals(pE2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+
 }

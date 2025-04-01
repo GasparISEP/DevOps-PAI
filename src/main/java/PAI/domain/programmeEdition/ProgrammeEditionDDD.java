@@ -50,4 +50,16 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
     public SchoolYearID findSchoolYearIDInProgrammeEdition() {
         return _schoolYearID;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (!(object instanceof ProgrammeEditionDDD))
+            return false;
+        ProgrammeEditionDDD that = (ProgrammeEditionDDD) object;
+        if (_programmeEditionID.equals(that._programmeEditionID))
+            return true;
+        return false;
+    }
 }
