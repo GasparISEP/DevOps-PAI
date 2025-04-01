@@ -2,7 +2,6 @@ package PAI.domain;
 
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
-import PAI.repository.CourseEditionEnrolmentRepository;
 
 import java.time.LocalDate;
 import java.util.Objects;
