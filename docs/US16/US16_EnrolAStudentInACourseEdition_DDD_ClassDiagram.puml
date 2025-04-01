@@ -15,6 +15,11 @@ class US16_EnrolAStudentInACourseEditionController {
 
 interface ICourseEditionEnrolmentRepository {
     +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition): boolean
+    +findByStudentAndEdition(StudentID student, CourseEditionID courseEdition): Optional<CourseEditionEnrolment>
+    +numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId): int
+    +removeEnrolment(StudentID studentID, CourseEditionID courseEditionID): boolean
+    +enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions)
 }
 
 class CourseEditionEnrolmentRepositoryImpl {
