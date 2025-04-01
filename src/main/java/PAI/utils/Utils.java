@@ -11,23 +11,26 @@ public class Utils {
     private static final Map<String, String> NIF_RULE_MAP = new HashMap<>();
 
     static {
-        //U + 8 digits
+        //AT U + 8 digits
         NIF_RULE_MAP.put(normalize("Austria"), "^U\\d{8}$");
-        //11 digits
+        //BE 11 digits
         NIF_RULE_MAP.put(normalize("Belgium"), "^\\d{11}$");
-        //9 or 10 digits
+        //BG 9 or 10 digits
         NIF_RULE_MAP.put(normalize("Bulgaria"), "^\\d{9,10}$");
-        //11 digits
+        //HR 11 digits
         NIF_RULE_MAP.put(normalize("Croatia"), "^\\d{11}$");
+        //CY 8 digits + 1 letter
+        NIF_RULE_MAP.put(normalize("Cyprus"), "^\\d{8}[A-Z]$");
+        //CZ between 8, 10 digits
+        NIF_RULE_MAP.put(normalize("Czech Republic"), "^\\d{8,10}$");
     }
 
     public static boolean NIFValidator (Country country, String NIF){
 
-        String countryName = normalize(country.getCountryName());
-        String rule = NIF_RULE_MAP.get(normalize(countryName));
+        String rule = NIF_RULE_MAP.get(normalize(country.getCountryName()));
 
         if(rule != null){
-            return NIF.matches(rule);
+            return NIF.toUpperCase().matches(rule);
         }
         return false;
     }
