@@ -12,34 +12,36 @@ public class Utils {
 
     static {
         //AT U + 8 digits
-        NIF_RULE_MAP.put(normalize("Austria"), "^U\\d{8}$");
+        NIF_RULE_MAP.put("AUSTRIA", "^U\\d{8}$");
         //BE 11 digits
-        NIF_RULE_MAP.put(normalize("Belgium"), "^\\d{11}$");
+        NIF_RULE_MAP.put("BELGIUM", "^\\d{11}$");
         //BG 9 or 10 digits
-        NIF_RULE_MAP.put(normalize("Bulgaria"), "^\\d{9,10}$");
+        NIF_RULE_MAP.put("BULGARIA", "^\\d{9,10}$");
         //HR 11 digits
-        NIF_RULE_MAP.put(normalize("Croatia"), "^\\d{11}$");
+        NIF_RULE_MAP.put("CROATIA", "^\\d{11}$");
         //CY 8 digits + 1 letter
-        NIF_RULE_MAP.put(normalize("Cyprus"), "^\\d{8}[A-Z]$");
+        NIF_RULE_MAP.put("CYPRUS", "^\\d{8}[A-Z]$");
         //CZ between 8, 10 digits
-        NIF_RULE_MAP.put(normalize("Czech Republic"), "^\\d{8,10}$");
+        NIF_RULE_MAP.put("CZECH REPUBLIC", "^\\d{8,10}$");
+        //DK 10 digits
+        NIF_RULE_MAP.put("DENMARK", "^\\d{10}$");
     }
 
     public static boolean NIFValidator (Country country, String NIF){
 
-        String rule = NIF_RULE_MAP.get(normalize(country.getCountryName()));
+        String rule = NIF_RULE_MAP.get(normalizeCountryNIF(country.getCountryName()));
 
         if(rule != null){
-            return NIF.toUpperCase().matches(rule);
+            return NIF.matches(rule);
         }
         return false;
     }
 
-    private static String normalize (String input) {
+    private static String normalizeCountryNIF (String input) {
         return Normalizer.normalize(input, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "")   // remove acentos
                 .replaceAll("[^\\p{ASCII}]", "") // remove chars especiais
-                .toLowerCase()
+                .toUpperCase()
                 .trim();
     }
 }
