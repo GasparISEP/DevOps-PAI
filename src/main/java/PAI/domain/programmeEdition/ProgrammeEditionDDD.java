@@ -33,6 +33,14 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
     @Override
     public boolean sameAs(Object object) {
+        if (this == object)
+            return true;
+        if (!(object instanceof ProgrammeEditionDDD))
+            return false;
+
+        ProgrammeEditionDDD that = (ProgrammeEditionDDD) object;
+        if (this._schoolYear.equals(that._schoolYear) &&  this._programmeID.equals(that._programmeID))
+            return true;
         return false;
     }
 }

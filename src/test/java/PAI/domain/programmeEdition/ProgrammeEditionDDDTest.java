@@ -69,7 +69,7 @@ class ProgrammeEditionDDDTest {
 
     // identity Test
     @Test
-    void shouldReturnNullWhenIdentityMethodUsed() throws Exception {
+    void shouldReturnProgrammeEditionIDWhenIdentityMethodUsed() throws Exception {
         // Arrange
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
         ProgrammeID pID = mock(ProgrammeID.class);
@@ -84,8 +84,7 @@ class ProgrammeEditionDDDTest {
     }
 
     @Test
-    void shouldReturnFalseWhenSameAsMethodUsed() throws Exception {
-
+    void shouldReturnTrueIfProgrammeEditionIsComparedToItSelf() throws Exception {
         // Arrange
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
         ProgrammeID pID = mock(ProgrammeID.class);
@@ -94,6 +93,105 @@ class ProgrammeEditionDDDTest {
 
         // Act
         boolean result = PEDDD.sameAs(PEDDD);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIsComparedToANull() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD PEDDD = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        // Act
+        boolean result = PEDDD.sameAs(null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIsComparedToADifferentInstanceOfObject() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD PEDDD = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        // Act
+        boolean result = PEDDD.sameAs(sYID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTwoProgrammeEditionHaveTheSameValue() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID pEID2 = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD PEDDD1 = new ProgrammeEditionDDD(pEID1, pID, sYID);
+        ProgrammeEditionDDD PEDDD2 = new ProgrammeEditionDDD(pEID2, pID, sYID);
+
+        // Act
+        boolean result = PEDDD1.sameAs(PEDDD2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionHaveTheSameSchoolYearIDButDifferentProgrammeID() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID1 = mock(ProgrammeID.class);
+        ProgrammeID pID2 = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD PEDDD1 = new ProgrammeEditionDDD(pEID, pID1, sYID);
+        ProgrammeEditionDDD PEDDD2 = new ProgrammeEditionDDD(pEID, pID2, sYID);
+
+        // Act
+        boolean result = PEDDD1.sameAs(PEDDD2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionHaveTheSameProgrammeIDButDifferentSchoolYearID() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID1 = mock(SchoolYearID.class);
+        SchoolYearID sYID2 = mock(SchoolYearID.class);
+        ProgrammeEditionDDD PEDDD1 = new ProgrammeEditionDDD(pEID, pID, sYID1);
+        ProgrammeEditionDDD PEDDD2 = new ProgrammeEditionDDD(pEID, pID, sYID2);
+
+        // Act
+        boolean result = PEDDD1.sameAs(PEDDD2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTwoProgrammeEditionIDHaveDifferentProgrammeIDAndSchoolYearID() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID1 = mock(ProgrammeID.class);
+        ProgrammeID pID2 = mock(ProgrammeID.class);
+        SchoolYearID sYID1 = mock(SchoolYearID.class);
+        SchoolYearID sYID2 = mock(SchoolYearID.class);
+        ProgrammeEditionDDD PEDDD1 = new ProgrammeEditionDDD(pEID, pID1, sYID1);
+        ProgrammeEditionDDD PEDDD2 = new ProgrammeEditionDDD(pEID, pID2, sYID2);
+
+        // Act
+        boolean result = PEDDD1.sameAs(PEDDD2);
 
         // Assert
         assertFalse(result);
