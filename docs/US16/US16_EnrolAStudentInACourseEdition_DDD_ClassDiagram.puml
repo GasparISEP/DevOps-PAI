@@ -68,6 +68,7 @@ package "CourseEditionEnrolment Aggregate" #LightBlue {
               courseEdition: CourseEditionID)
              +equals (obj: Object): boolean
              +hashCode(): int
+             +sameAs(obj: Object): boolean
     }
 }
 
