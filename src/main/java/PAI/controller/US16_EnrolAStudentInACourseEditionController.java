@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
@@ -32,13 +33,13 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //show a list of programme editions that student is enrolled
-    public List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled (Student student) {
+    public List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled (StudentID studentId) {
 
-        if (student == null) {
+        if (studentId == null) {
             return Collections.emptyList();
         }
 
-        return _peeRepository.findProgrammeEditionsThatStudentIsEnrolled (student);
+        return _peeRepository.findProgrammeEditionsThatStudentIsEnrolled (studentId);
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition

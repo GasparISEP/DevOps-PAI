@@ -16,8 +16,7 @@ public class CourseInStudyPlanDDD {
         this._semester = semester;
         this._curricularYear = curricularYear;
         this._studyPlanID = studyplanID;
-        this._courseInStudyPlanID = new CourseInStudyPlanID();
-
+        this._courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyplanID);
     }
 
     @Override
@@ -26,12 +25,10 @@ public class CourseInStudyPlanDDD {
         if (this == ObjectToCompare) {
             return true;
         }
-
         // Verifica se o objeto não é uma instância de CourseInStudyPlan
         if (!(ObjectToCompare instanceof CourseInStudyPlanDDD)) {
             return false;
         }
-
         // Faz o cast do objeto para CourseInStudyPlan
         CourseInStudyPlanDDD courseToBeCompared = (CourseInStudyPlanDDD) ObjectToCompare;
 
@@ -56,6 +53,6 @@ public class CourseInStudyPlanDDD {
     }
 
     public CourseInStudyPlanID getCourseInStudyPlanID() {
-        return _courseInStudyPlanID;
+        return this._courseInStudyPlanID;
     }
 }

@@ -1,9 +1,6 @@
 package PAI.domain.studyPlan;
 
-import PAI.VOs.Date;
-import PAI.VOs.DurationInYears;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,9 +14,10 @@ class StudyPlanDDDTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
 
         // Act
-        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         // Assert
         assertNotNull(studyPlan);
@@ -31,9 +29,11 @@ class StudyPlanDDDTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
 
         // Act
-        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
         StudyPlanID id = studyPlan.getStudyPlanID();
 
         // Assert
@@ -41,15 +41,40 @@ class StudyPlanDDDTest {
     }
 
     @Test
-    void testUniqueStudyPlanIDsForDifferentInstances() {
+    void testUniqueStudyPlanIDForDifferentInstancesOfProgrammeID() {
         // Arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+
 
         // Act
-        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
-        StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID1, implementationDate, durationInYears, quantityOfEcts);
+
+        // Assert
+        assertNotEquals(studyPlan1.getStudyPlanID(), studyPlan2.getStudyPlanID());
+    }
+
+    @Test
+    void testUniqueStudyPlanIDForDifferentInstancesOfDate() {
+        // Arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        Date implementationDate1 = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+
+
+
+        // Act
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID, implementationDate1, durationInYears, quantityOfEcts);
 
         // Assert
         assertNotEquals(studyPlan1.getStudyPlanID(), studyPlan2.getStudyPlanID());
@@ -61,10 +86,27 @@ class StudyPlanDDDTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
         // act
         ProgrammeID result = studyPlan1.getProgrammeID();
         // assert
         assertEquals(programmeID, result);
+    }
+
+    @Test
+    void shouldReturnQuantityOfEcts() {
+        // arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        // act
+        QuantEcts result = studyPlan1.getQuantityOfEcts();
+        // assert
+        assertEquals(quantityOfEcts, result);
     }
 }

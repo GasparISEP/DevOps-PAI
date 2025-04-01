@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.SchoolYearID;
+
 public class ProgrammeEdition {
 
     private Programme _programme;

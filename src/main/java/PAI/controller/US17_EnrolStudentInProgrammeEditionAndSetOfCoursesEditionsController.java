@@ -53,7 +53,8 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
 //
 //        // Find ProgrammeEdition
 //        Optional<ProgrammeEdition> optionalProgrammeEdition =
-//                _programmeEditionRepository.findProgrammeEditionBySchoolYearAndProgramme(programme, schoolYear);
+//                _programmeEditionRepository.findProgrammeEdition
+//                BySchoolYearAndProgramme(programme, schoolYear);
 //
 //        if (optionalProgrammeEdition.isEmpty()) {
 //            return false;

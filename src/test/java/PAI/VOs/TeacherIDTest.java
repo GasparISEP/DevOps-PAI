@@ -6,57 +6,48 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class TeacherIDTest {
 
     @Test
-    void shouldCreateNewTeacherIDWithValidUUID() {
+    void shouldCreateNewTeacherIDWithValidAcronym() {
+        //Arrange
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+
         // Act
-        TeacherID teacherID = TeacherID.createNew();
+        TeacherID teacherID = new TeacherID(teacherAcronym);
 
         // Assert
         assertNotNull(teacherID);
     }
 
     @Test
-    void shouldReturnA_UUID_WhenCallingIdentity() {
+    void shouldReturnATeacherAcronymWhenCallingIdentity() {
+        //Arrange
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        TeacherID firstTeacherID = new TeacherID(teacherAcronym);
+
         // Act
-        TeacherID firstTeacherID = TeacherID.createNew();
+        TeacherAcronym result = firstTeacherID.getTeacherAcronym();
 
         // Assert
-        assertNotNull(firstTeacherID.getIDValue());
+        assertEquals(result, teacherAcronym);
     }
 
     @Test
-    void shouldGenerateUniqueTeacherIDsOnEachCall() {
-        // Act
-        TeacherID firstTeacherID = TeacherID.createNew();
-        TeacherID secondTeacherID = TeacherID.createNew();
-
-        // Assert
-        assertNotEquals(firstTeacherID.getIDValue(), secondTeacherID.getIDValue());
-    }
-
-    @Test
-    void shouldThrowIllegalArgumentExceptionWhenIdIsNull() {
-
+    void shouldThrowIllegalArgumentExceptionWhenTeacherAcronymIsNull() {
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            try {
-                // Access private constructor
-                var constructor = TeacherID.class.getDeclaredConstructor(UUID.class);
-                constructor.setAccessible(true);
-                constructor.newInstance((Object) null); // Try to instance the constructor with a null value as input
-            } catch (InvocationTargetException e) {
-                throw e.getCause(); // Re-throw the original IllegalArgumentException
-            }
+            new TeacherID(null);
         });
     }
 
     @Test
     void shouldReturnTrueWhenObjectsAreTheSame(){
         // Arrange
-        TeacherID teacherID = TeacherID.createNew();
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        TeacherID teacherID = new TeacherID(teacherAcronym);
 
         // Act
         boolean result = teacherID.equals(teacherID);
@@ -66,19 +57,11 @@ class TeacherIDTest {
     }
 
     @Test
-    void shouldReturnTrueWhenUUIDIsTheSame() {
+    void shouldReturnTrueWhenTeacherAcronymIsTheSame() {
         // Arrange
-        TeacherID teacherID = TeacherID.createNew();
-        UUID id = teacherID.getIDValue();
-        TeacherID teacherID2;
-
-        try {
-            var constructor = TeacherID.class.getDeclaredConstructor(UUID.class);
-            constructor.setAccessible(true);
-            teacherID2 = constructor.newInstance(id);
-        } catch (Exception e) {
-            teacherID2 = null;
-        }
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+        TeacherID teacherID2 = new TeacherID(teacherAcronym);
 
         // Act
         boolean result = teacherID.equals(teacherID2);
@@ -88,9 +71,10 @@ class TeacherIDTest {
     }
 
     @Test
-    void shouldReturnFalseWhenObjectAndTeacherIDAreNotTheSame(){
+    void shouldReturnFalseWhenOtherObjectAndTeacherIDAreNotTheSame(){
         // Arrange
-        TeacherID teacherID = TeacherID.createNew();
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        TeacherID teacherID = new TeacherID(teacherAcronym);
         Object otherObject = new Object();
 
         // Act
@@ -101,22 +85,25 @@ class TeacherIDTest {
     }
 
     @Test
-    void shouldReturnFalseWhenUUIDsAreNotTheSame() {
+    void shouldReturnFalseWhenTeacherAcronymsAreNotTheSame() {
         // Arrange
-        TeacherID teacherID = TeacherID.createNew();
-        TeacherID teacherID2 = TeacherID.createNew();
+        TeacherAcronym teacherAcronym1 = mock(TeacherAcronym.class);
+        TeacherAcronym teacherAcronym2 = mock(TeacherAcronym.class);
+        TeacherID teacherID1 = new TeacherID(teacherAcronym1);
+        TeacherID teacherID2 = new TeacherID(teacherAcronym2);
 
         // Act
-        boolean result = teacherID.equals(teacherID2);
+        boolean result = teacherID1.equals(teacherID2);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnFalseWhenTeacherIDIsComparedWithNullObject() {
+    void shouldReturnFalseWhenTeacherIDIsComparedWithNull() {
         // Arrange
-        TeacherID teacherID = TeacherID.createNew();
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        TeacherID teacherID = new TeacherID(teacherAcronym);
         TeacherID teacherID2 = null;
 
         // Act

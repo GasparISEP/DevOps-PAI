@@ -75,7 +75,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         //act
-        List<ProgrammeEdition> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
 
         //assert
         assertTrue(result.isEmpty());
@@ -91,17 +91,17 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
-        Student doubleStudent = mock(Student.class);
-        ProgrammeEdition doublePee1 = mock (ProgrammeEdition.class);
-        ProgrammeEdition doublePee2 = mock (ProgrammeEdition.class);
-        ProgrammeEdition doublePee3 = mock (ProgrammeEdition.class);
+        StudentID doubleStudentId = mock(StudentID.class);
+        ProgrammeEditionID doublePee1Id = mock (ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee2Id = mock (ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee3Id = mock (ProgrammeEditionID.class);
 
 
-        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudent)).
-                thenReturn(List.of(doublePee1,doublePee2,doublePee3));
+        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
+                thenReturn(List.of(doublePee1Id,doublePee2Id,doublePee3Id));
 
         //act
-        List<ProgrammeEdition> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudent);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
 
         //assert
         assertEquals(3, result.size());
@@ -117,14 +117,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
-        Student doubleStudent = mock(Student.class);
+        StudentID doubleStudentId = mock(StudentID.class);
 
 
-        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudent)).
+        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
                 thenReturn(List.of());
 
         //act
-        List<ProgrammeEdition> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudent);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
 
         //assert
         assertEquals(0, result.size());
@@ -274,7 +274,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         //act
-        List<ProgrammeEdition> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
 
         //assert
         assertTrue(result.isEmpty());

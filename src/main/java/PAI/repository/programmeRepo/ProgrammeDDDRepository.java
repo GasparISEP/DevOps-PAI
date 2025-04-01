@@ -33,8 +33,12 @@ public class ProgrammeDDDRepository {
     }
 
     // Change ProgrammeDirector
-    public boolean changeProgrammeDirector(ProgrammeDDD programme, TeacherID newDirectorID) throws Exception {
-        return programme.newProgrammeDirector(newDirectorID);
+    public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
+        Optional<ProgrammeDDD> programmeDDD = findProgrammeByID(programmeID);
+        if (programmeDDD.isPresent()) {
+            return programmeDDD.get().newProgrammeDirector(newDirectorID);
+        }
+        return false;
     }
 
     public List<ProgrammeDDD> getAllProgrammes() {

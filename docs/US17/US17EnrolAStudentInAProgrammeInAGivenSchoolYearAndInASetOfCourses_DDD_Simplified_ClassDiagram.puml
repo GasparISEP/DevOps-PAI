@@ -1,5 +1,5 @@
 @startuml
-!pragma layout smetana
+'!pragma layout smetana
 'left to right direction
 
 skinparam ranksep 30
@@ -70,20 +70,20 @@ interface IProgrammeEditionEnrolmentListFactory{
 }
 
 'Repositories
-class ProgrammeEditionEnrolmentRepository {
-    +ProgrammeEditionEnrolmentRepository(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory,
+class ProgrammeEditionEnrolmentRepositoryImpl {
+    +ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory,
           programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
     +enrolStudentInProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
     +isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
 }
 
-class ProgrammeEditionRepository {
-    +ProgrammeEditionRepository(programmeEditionFactory: ProgrammeEditionFactory)
+class ProgrammeEditionRepositoryImpl {
+    +ProgrammeEditionRepositoryImpl(programmeEditionFactory: ProgrammeEditionFactory)
     +findProgrammeEditionBySchoolYearAndProgramme(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
 }
 
-class ProgrammeRepository {
-    +ProgrammeRepository(programmeFactory: ProgrammeFactory)
+class ProgrammeRepositoryImpl {
+    +ProgrammeRepositoryImpl(programmeFactory: ProgrammeFactory)
     +getAllProgrammes() : List<ProgrammeId>
 }
 
@@ -94,34 +94,34 @@ class CourseEditionEnrolmentRepositoryImpl {
     +enrolStudentInProgrammeEditionCoursesEditions(studentId: StudentID, courseEditions: List<CourseEditionID>) : void
 }
 
-class CourseEditionRepository {
-    +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
+class CourseEditionRepositoryImpl {
+    +CourseEditionRepositoryImpl(courseEditionFactory: CourseEditionFactory)
     +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<CourseEditionID>
 }
 
-class SchoolYearRepository {
-    +SchoolYearRepository(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
+class SchoolYearRepositoryImpl {
+    +SchoolYearRepositoryImpl(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
     +getAllSchoolYears() : List<SchoolYearID>
 }
 
-class ProgrammeEnrolmentRepository {
-    +ProgrammeEnrolmentRepository()
+class ProgrammeEnrolmentRepositoryImpl {
+    +ProgrammeEnrolmentRepositoryImpl()
     +isStudentEnrolled(studentId: ProgrammeEnrolmentRepositoryStudentID, programmeId: ProgrammeID) : boolean
 }
 
-class ProgrammeEditionRepository {
-    +ProgrammeEditionRepository(programmeEditionFactory: ProgrammeEditionFactory)
+class ProgrammeEditionRepositoryImpl {
+    +ProgrammeEditionRepositoryImpl(programmeEditionFactory: ProgrammeEditionFactory)
     +findProgrammeEditionBySchoolYearAndProgramme(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
 }
 
 'Repository -> interface
-IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepository
-IProgrammeEditionRepository <|.. ProgrammeEditionRepository
-IProgrammeRepository <|.. ProgrammeRepository
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositoryImpl
+IProgrammeEditionRepository <|.. ProgrammeEditionRepositoryImpl
+IProgrammeRepository <|.. ProgrammeRepositoryImpl
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
-ICourseEditionRepository <|.. CourseEditionRepository
-ISchoolYearRepository <|.. SchoolYearRepository
-IProgrammeEnrolmentRepository <|.. ProgrammeEnrolmentRepository
+ICourseEditionRepository <|.. CourseEditionRepositoryImpl
+ISchoolYearRepository <|.. SchoolYearRepositoryImpl
+IProgrammeEnrolmentRepository <|.. ProgrammeEnrolmentRepositoryImpl
 
 'Aggregates
 package "CourseEditionEnrolment Aggregate" #Lightblue {
@@ -314,25 +314,25 @@ US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1"
 US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEnrolmentRepository
 
 ' Other connections
-CourseEditionRepository "1" --> "1" CourseEditionListFactoryImpl
-CourseEditionRepository "1" --> "1" CourseEdition
+CourseEditionRepositoryImpl "1" --> "1" CourseEditionListFactoryImpl
+CourseEditionRepositoryImpl "1" --> "1" CourseEdition
 CourseEditionEnrolment " " ..> " " ICourseEditionEnrolmentRepository
 CourseEditionEnrolmentRepositoryImpl "1" --> "1" CourseEditionEnrolmentListFactoryImpl
 
 ProgrammeEditionEnrolment"1" --> "1" StudentID
-ProgrammeEditionEnrolmentRepository "1" --> "1" ProgrammeEditionEnrolment
-IProgrammeEditionEnrolmentFactory <.. ProgrammeEditionEnrolmentRepository
-ProgrammeEditionEnrolmentRepository ..> IProgrammeEditionEnrolmentListFactory
+ProgrammeEditionEnrolmentRepositoryImpl "1" --> "1" ProgrammeEditionEnrolment
+IProgrammeEditionEnrolmentFactory <.. ProgrammeEditionEnrolmentRepositoryImpl
+ProgrammeEditionEnrolmentRepositoryImpl ..> IProgrammeEditionEnrolmentListFactory
 IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
 IProgrammeEditionEnrolmentListFactory <|.. ProgrammeEditionEnrolmentListFactoryImpl
-ProgrammeEnrolmentRepository "1" --> "*" ProgrammeEnrolment
-ProgrammeRepository ..> IProgrammeRepositoryListFactory
-ProgrammeRepository "1" --> "1" Programme
+ProgrammeEnrolmentRepositoryImpl "1" --> "*" ProgrammeEnrolment
+ProgrammeRepositoryImpl ..> IProgrammeRepositoryListFactory
+ProgrammeRepositoryImpl "1" --> "1" Programme
 
 ProgrammeRepositoryListFactoryImpl ..|> IProgrammeRepositoryListFactory
-SchoolYearRepository ..> ISchoolYearListFactory
+SchoolYearRepositoryImpl ..> ISchoolYearListFactory
 SchoolYearListFactoryImpl ..|> ISchoolYearListFactory
-SchoolYearRepository "1" --> "1" SchoolYear
+SchoolYearRepositoryImpl "1" --> "1" SchoolYear
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionID
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionEnrolmentID
 ProgrammeEdition "1" --> "1" ProgrammeEditionID

@@ -14,11 +14,11 @@ create ":ArrayList"
 CourseEditionRepository -> ":ArrayList": create ()
 loop for each "ce[i]:CourseEdition" in CourseEditionRepository
 participant ":CourseEdition" as CourseEdition
-CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
+CourseEditionRepository -> CourseEdition :  getProgrammeEditionID()
 activate CourseEdition #E1F5FE
-CourseEdition --> CourseEditionRepository : ce1
+CourseEdition --> CourseEditionRepository : ceID1
 deactivate CourseEdition
-CourseEditionRepository -> ":ArrayList" :  add (ce1)
+CourseEditionRepository -> ":ArrayList" :  add (ceID1)
 activate ":ArrayList" #E1F5FE
 ":ArrayList" --> CourseEditionRepository: True
 deactivate ":ArrayList"
