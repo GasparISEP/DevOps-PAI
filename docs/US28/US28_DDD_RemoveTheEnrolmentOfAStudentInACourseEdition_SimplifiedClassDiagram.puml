@@ -78,16 +78,14 @@ class StudentID <<Value Object>> {
 
 package "CourseEdition Aggregate" #LightYellow{
 class CourseEdition <<Root>> <<Entity>>{
-    -_courseInStudyPlan: CourseInStudyPlan
-    -_programmeEdition: ProgrammeEdition
-    -_ruc: Teacher
-    +CourseEdition(id: CourseEditionID, programmeEdition:
-    ProgrammeEdition, courseInStudyPlan: CourseInStudyPlan)
+    -_courseInStudyPlanID: CourseInStudyPlanID
+    -_programmeEditionID: ProgrammeEditionID
 }
 }
 
 class CourseEditionID <<Value Object>> {
-    -_courseEditionID : UUID
+    -_courseInStudyPlanID: CourseInStudyPlanID
+    -_programmeEditionID: ProgrammeEditionID
     + CourseEditionID()
     + toString() : String
     + equals (object : Object) : boolean
