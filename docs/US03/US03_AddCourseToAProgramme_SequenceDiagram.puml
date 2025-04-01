@@ -28,7 +28,7 @@ UI --> ASC: Which Study Plan?
 
 ASC -> UI: studyPlan1!
 
-UI -> ":AddCourseToAProgrammeController" ++ #application: getStudyPlanID()
+UI -> ":AddCourseToAProgrammeController" ++ #application: studyPlan1
 ":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController": getStudyPlanID()
 
 
@@ -44,7 +44,7 @@ UI --> ASC : Which Course?
 
 ASC -> UI #application: course1!
 
-UI -> ":AddCourseToAProgrammeController" #application: getCourseID()
+UI -> ":AddCourseToAProgrammeController" #application: course1
 ":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController": getCourseID()
 
 UI --> ASC : Which Curricular Year?

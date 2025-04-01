@@ -17,17 +17,16 @@ activate UI #application
 UI -> US12 : changeProgrammeDirector(Programme1, Teacher1)
 activate US12 #application
 
-US12 -> TR : findTeacherId(Teacher1)
+US12 -> TR : getTeacherId(Teacher1)
 activate TR #application
-TR -> TR : findTeacherById(:tIdVO1)
 TR -> US12 : :tIdVO1
 deactivate TR
-US12 -> PL : findProgrammeId(Programme1)
+US12 -> PL : getProgrammeId(Programme1)
 activate PL #application
 PL -> US12 : :pIDVO1
 deactivate PL
 
-US12 -> PL : getProgrammeById(:pIdVO1)
+US12 -> PL : getProgrammeByProgrammeId(:pIdVO1)
 activate PL #application
 PL -> US12 : :programme
 deactivate PL

@@ -4,13 +4,12 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.ddd.AggregateRoot;
-import PAI.domain.ProgrammeEdition;
 
 public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
     private final ProgrammeEditionID _programmeEditionID;
     private final ProgrammeID _programmeID;
-    private final SchoolYearID _schoolYear;
+    private final SchoolYearID _schoolYearID;
 
     public ProgrammeEditionDDD(ProgrammeEditionID pEID, ProgrammeID pID, SchoolYearID sYID) throws Exception{
 
@@ -23,16 +22,32 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
         _programmeEditionID = pEID;
         _programmeID = pID;
-        _schoolYear = sYID;
+        _schoolYearID = sYID;
     }
 
     @Override
     public ProgrammeEditionID identity() {
-        return null;
+        return _programmeEditionID;
     }
 
     @Override
     public boolean sameAs(Object object) {
+        if (this == object)
+            return true;
+        if (!(object instanceof ProgrammeEditionDDD))
+            return false;
+
+        ProgrammeEditionDDD that = (ProgrammeEditionDDD) object;
+        if (this._schoolYearID.equals(that._schoolYearID) &&  this._programmeID.equals(that._programmeID))
+            return true;
         return false;
+    }
+
+    public ProgrammeID findProgrammeIDInProgrammeEdition() {
+        return _programmeID;
+    }
+
+    public SchoolYearID findSchoolYearIDInProgrammeEdition() {
+        return _schoolYearID;
     }
 }
