@@ -86,7 +86,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <argLine>-XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
+                    <argLine>--enable-preview</argLine>
                     <includes>
                         <include>*/Test.java</include>
                         <include>/*Test.java</include>
