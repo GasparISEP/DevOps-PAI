@@ -9,7 +9,7 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
     private final ProgrammeEditionID _programmeEditionID;
     private final ProgrammeID _programmeID;
-    private final SchoolYearID _schoolYear;
+    private final SchoolYearID _schoolYearID;
 
     public ProgrammeEditionDDD(ProgrammeEditionID pEID, ProgrammeID pID, SchoolYearID sYID) throws Exception{
 
@@ -22,7 +22,7 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
         _programmeEditionID = pEID;
         _programmeID = pID;
-        _schoolYear = sYID;
+        _schoolYearID = sYID;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
             return false;
 
         ProgrammeEditionDDD that = (ProgrammeEditionDDD) object;
-        if (this._schoolYear.equals(that._schoolYear) &&  this._programmeID.equals(that._programmeID))
+        if (this._schoolYearID.equals(that._schoolYearID) &&  this._programmeID.equals(that._programmeID))
             return true;
         return false;
     }
@@ -47,4 +47,7 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
         return _programmeID;
     }
 
+    public SchoolYearID findSchoolYearIDInProgrammeEdition() {
+        return _schoolYearID;
+    }
 }

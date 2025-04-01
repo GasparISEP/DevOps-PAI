@@ -216,4 +216,19 @@ class ProgrammeEditionDDDTest {
         // Assert
         assertEquals(pID, pIDCheck);
     }
+
+    @Test
+    void shouldReturnSchoolYearID() throws Exception {
+        // Arrange
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        // Act
+        SchoolYearID sYIDCheck = pE.findSchoolYearIDInProgrammeEdition();
+
+        // Assert
+        assertEquals(sYID, sYIDCheck);
+    }
 }
