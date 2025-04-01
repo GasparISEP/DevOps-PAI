@@ -90,7 +90,7 @@ class "<<Value Object>>\n CourseEditionEnrolmentID" {
 package "CourseEdition Aggregate" #LightBlue{
     entity "<<Root>>\n CourseEdition" {
     +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID)
-    +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEditionID
+    +getProgrammeEditionID() : ProgrammeEditionID
     }
 }
 

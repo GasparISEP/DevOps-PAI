@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.CourseEditionEnrolmentRepository;
+import PAI.repository.ICourseEditionEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -13,164 +14,179 @@ import static org.mockito.Mockito.*;
 
 class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
+// ==============================
+// Enrolment Removal Success Cases
+// ==============================
+
+    // Test Removing an Existing Enrolment
     // System should allow the successful removal of a student enrolled in a course edition
-//    @Test
-//        void removeExistingEnrollment_ShouldReturnTrue() {
-//            // Arrange
-//            CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
-//            US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
-//
-//            Student mockStudent = mock(Student.class);
-//            CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//
-//            when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition)).thenReturn(true);
-//
-//            // Act
-//            boolean result = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
-//
-//            // Assert
-//            assertTrue(result, "Enrollment should be removed successfully.");
-//            verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition);
-//        }
-//
-//    // Ensures that the system does not allow the removal of a non-existent enrollment
-//    @Test
-//        void removeNonExistingEnrollment_ShouldReturnFalse() {
-//            // Arrange
-//            CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
-//            US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
-//
-//            Student mockStudent = mock (Student.class);
-//            CourseEdition mockCourseEdition = mock (CourseEdition.class);
-//
-//            // Act
-//            boolean result = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
-//
-//            // Assert
-//            assertFalse(result, "Removing a non existing enrollment should return false.");
-//            verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition); // Ensure no enrollment creation occurs
-//        }
-//
-//    // If the student or course edition information is missing (null), the system should reject the operation.
-//    @Test
-//        void removeEnrollment_WithNullCourseEditionOrStudent_ShouldReturnFalse(){
-//            // Arrange
-//            CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
-//            US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
-//
-//            Student mockStudent = mock (Student.class);
-//            CourseEdition mockCourseEdition = mock (CourseEdition.class);
-//
-//            // Act and assert
-//        // test for the case where Student is null.
-//        boolean result1 = controller.removeStudentEnrolment(null, mockCourseEdition);
-//        assertFalse(result1, "Removing a non existing enrollment should return false.");
-//
-//        // test for the case where CourseEdition is null
-//        boolean result2 = controller.removeStudentEnrolment(mockStudent, null);
-//        assertFalse(result2, "Removing a non existing enrollment should return false.");
-//
-//        }
-//
-//    // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
-//    @Test
-//    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
-//        // Arrange
-//        CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
-//        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//
-//        when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition)).thenReturn(true)
-//                .thenReturn(false);
-//        // Act
-//        boolean firstRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert first removal is successful
-//        assertTrue(firstRemoval, "Enrollment should be removed successfully.");
-//
-//        // Act again: Try removing a second time
-//        boolean secondRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert second removal fails
-//        assertFalse(secondRemoval, "The second removal should not succeed.");
-//        verify(mockRepository, times(2)).removeEnrolment(mockStudent, mockCourseEdition);
-//    }
-//
-//    // Ensures that the system does not allow the removal of an enrollment that has already been deactivated
-//    @Test
-//    void removeAlreadyInactiveEnrollment_ShouldReturnFalse() {
-//        // Arrange
-//        CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
-//        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
-//
-//        when(mockRepository.findByStudentAndEdition(mockStudent, mockCourseEdition))
-//                .thenReturn(Optional.of(mockCee)); // Simulates that the repository found the enrollment
-//
-//        when(mockCee.isEnrollmentActive()).thenReturn(false); // Enrollment is already inactive
-//
-//        // Act: Try removing an already inactive enrollment
-//        boolean result = controller.removeStudentEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert
-//        assertFalse(result, "Removing an already inactive enrollment should return false.");
-//        verify(mockCee, never()).deactivateEnrollment(); // Ensure deactivateEnrollment is not called
-//    }
-//
-//    // Ensures that different students enrolled in the same course edition can be removed without issues
-//    @Test
-//    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
-//        // Arrange
-//        CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
-//        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
-//
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//        Student mockStudent1 = mock(Student.class);
-//        Student mockStudent2 = mock(Student.class);
-//
-//        when(mockRepository.removeEnrolment(mockStudent1, mockCourseEdition)).thenReturn(true);
-//        when(mockRepository.removeEnrolment(mockStudent2, mockCourseEdition)).thenReturn(true);
-//
-//        // Act
-//        boolean firstRemoval = controller.removeStudentEnrolment(mockStudent1, mockCourseEdition);
-//        boolean secondRemoval = controller.removeStudentEnrolment(mockStudent2, mockCourseEdition);
-//
-//        // Assert
-//        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
-//        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
-//        verify(mockRepository).removeEnrolment(mockStudent1, mockCourseEdition);
-//        verify(mockRepository).removeEnrolment(mockStudent2, mockCourseEdition);
-//    }
-//
-//    // Ensures that a student can be removed from multiple course editions correctly
-//    @Test
-//    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
-//        // Arrange
-//        CourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
-//        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
-//
-//        CourseEdition mockCourseEdition1 = mock(CourseEdition.class);
-//        CourseEdition mockCourseEdition2 = mock(CourseEdition.class);
-//        Student mockStudent = mock(Student.class);
-//
-//        when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition1)).thenReturn(true);
-//        when(mockRepository.removeEnrolment(mockStudent, mockCourseEdition2)).thenReturn(true);
-//
-//        // Act
-//        boolean firstRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition1);
-//        boolean secondRemoval = controller.removeStudentEnrolment(mockStudent, mockCourseEdition2);
-//
-//        // Assert
-//        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
-//        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
-//        verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition1);
-//        verify(mockRepository).removeEnrolment(mockStudent, mockCourseEdition2);
-//    }
+    @Test
+        void removeExistingEnrollment_ShouldReturnTrue() {
+            // Arrange
+            ICourseEditionEnrolmentRepository mockRepository = mock(ICourseEditionEnrolmentRepository.class);
+            US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+            StudentID mockStudentID = mock(StudentID.class);
+            CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+
+            when(mockRepository.removeEnrolment(mockStudentID, mockCourseEditionID)).thenReturn(true);
+
+            // Act
+            boolean result = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
+
+            // Assert
+            assertTrue(result, "Enrollment should be removed successfully.");
+            verify(mockRepository).removeEnrolment(mockStudentID, mockCourseEditionID);
+        }
+
+    // Multiple Course Edition Removals
+    // Ensures that a student can be removed from multiple course editions correctly
+    @Test
+    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
+        // Arrange
+        ICourseEditionEnrolmentRepository mockRepository = mock(ICourseEditionEnrolmentRepository.class);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        CourseEditionID mockCourseEditionID1 = mock(CourseEditionID.class);
+        CourseEditionID mockCourseEditionID2 = mock(CourseEditionID.class);
+        StudentID mockStudentID = mock(StudentID.class);
+
+        when(mockRepository.removeEnrolment(mockStudentID, mockCourseEditionID1)).thenReturn(true);
+        when(mockRepository.removeEnrolment(mockStudentID, mockCourseEditionID2)).thenReturn(true);
+
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID1);
+        boolean secondRemoval = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID2);
+
+        // Assert
+        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
+        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
+        verify(mockRepository).removeEnrolment(mockStudentID, mockCourseEditionID1);
+        verify(mockRepository).removeEnrolment(mockStudentID, mockCourseEditionID2);
+    }
+
+    // Batch Removal of Multiple Students
+    // Ensures that different students enrolled in the same course edition can be removed without issues
+    @Test
+    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
+        // Arrange
+        ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentID mockStudentID1 = mock(StudentID.class);
+        StudentID mockStudentID2 = mock(StudentID.class);
+
+        when(mockRepository.removeEnrolment(mockStudentID1, mockCourseEditionID)).thenReturn(true);
+        when(mockRepository.removeEnrolment(mockStudentID2, mockCourseEditionID)).thenReturn(true);
+
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrolment(mockStudentID1, mockCourseEditionID);
+        boolean secondRemoval = controller.removeStudentEnrolment(mockStudentID2, mockCourseEditionID);
+
+        // Assert
+        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
+        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
+        verify(mockRepository).removeEnrolment(mockStudentID1, mockCourseEditionID);
+        verify(mockRepository).removeEnrolment(mockStudentID2, mockCourseEditionID);
+    }
+
+
+// ==============================
+// Enrolment Removal Failure Handling
+// ==============================
+
+    // Test Removing a Non-Existing Enrolment
+    // Ensures that the system does not allow the removal of a non-existent enrollment
+    @Test
+        void removeNonExistingEnrollment_ShouldReturnFalse() {
+            // Arrange
+            ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
+            US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+            StudentID mockStudentID = mock (StudentID.class);
+            CourseEditionID mockCourseEditionID = mock (CourseEditionID.class);
+
+            // Act
+            boolean result = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
+
+            // Assert
+            assertFalse(result, "Removing a non existing enrollment should return false.");
+            verify(mockRepository).removeEnrolment(mockStudentID, mockCourseEditionID); // Ensure no enrollment creation occurs
+        }
+
+    // Remove Already Inactive Enrolment
+    // Ensures that the system does not allow the removal of an enrollment that has already been deactivated
+    @Test
+    void removeAlreadyInactiveEnrollment_ShouldReturnFalse() {
+        // Arrange
+        ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
+
+        when(mockRepository.findByStudentAndEdition(mockStudentID, mockCourseEditionID))
+                .thenReturn(Optional.of(mockCee)); // Simulates that the repository found the enrollment
+
+        when(mockCee.isEnrolmentActive()).thenReturn(false); // Enrollment is already inactive
+
+        // Act: Try removing an already inactive enrollment
+        boolean result = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
+
+        // Assert
+        assertFalse(result, "Removing an already inactive enrollment should return false.");
+        verify(mockCee, never()).deactivateEnrolment(); // Ensure deactivateEnrollment is not called
+    }
+
+    // Multiple Removal Attempts of Same Enrolment
+    // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
+    @Test
+    void removeEnrollmentTwice_ShouldReturnFalseOnSecondAttempt() {
+        // Arrange
+        ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+
+        when(mockRepository.removeEnrolment(mockStudentID, mockCourseEditionID)).thenReturn(true)
+                .thenReturn(false);
+        // Act
+        boolean firstRemoval = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
+
+        // Assert first removal is successful
+        assertTrue(firstRemoval, "Enrollment should be removed successfully.");
+
+        // Act again: Try removing a second time
+        boolean secondRemoval = controller.removeStudentEnrolment(mockStudentID, mockCourseEditionID);
+
+        // Assert second removal fails
+        assertFalse(secondRemoval, "The second removal should not succeed.");
+        verify(mockRepository, times(2)).removeEnrolment(mockStudentID, mockCourseEditionID);
+    }
+
+    // Null Information
+    // If the student or course edition information is missing (null), the system should reject the operation.
+    @Test
+    void removeEnrollment_WithNullCourseEditionOrStudent_ShouldReturnFalse() {
+        // Arrange
+        ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepository.class);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+
+        // Act and assert
+        // test for the case where Student is null.
+        boolean result1 = controller.removeStudentEnrolment(null, mockCourseEditionID);
+        assertFalse(result1, "Removing a non existing enrollment should return false.");
+
+        // test for the case where CourseEdition is null
+        boolean result2 = controller.removeStudentEnrolment(mockStudentID, null);
+        assertFalse(result2, "Removing a non existing enrollment should return false.");
+    }
 
 
     /*
