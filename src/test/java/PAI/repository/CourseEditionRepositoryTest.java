@@ -325,99 +325,99 @@ class CourseEditionRepositoryTest {
 
     }
 
-/*
-    @Test
-    void shouldReturnCorrectNumberOfCourseEditionsInProgrammeEdition() throws Exception {
-        // Arrange
-        CourseEditionFactoryImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
-        CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactoryImpl, courseEditionListFactoryImplDouble);
-
-        CourseEdition_2 doubleCourseEdition1 = mock(CourseEdition_2.class);
-        CourseEdition_2 doubleCourseEdition2 = mock(CourseEdition_2.class);
-        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
-        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
-
-
-       when(doubleCourseEditionFactoryImpl.newCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
-       when(doubleCourseEditionFactoryImpl.newCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
-       when(doubleCourseEdition1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
-       when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
-
-        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
-        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
-
-        // Act
-        List<CourseEdition_2> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition1);
-
-        // Assert
-        assertEquals(2, result.size());
-
-    }
-*/
-    /*
-    @Test
-    void shouldReturnCorrectCourseEditionsInList() throws Exception {
-        // Arrange
-        CourseEditionFactoryImpl doubleCourseEditionFactory = mock(CourseEditionFactoryImpl.class);
-        CourseEditionListFactoryImpl courseEditionListFactoryDouble = mock(CourseEditionListFactoryImpl.class);
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactory, courseEditionListFactoryDouble);
-
-        CourseEdition_2 doubleCourseEdition1 = mock(CourseEdition_2.class);
-        CourseEdition_2 doubleCourseEdition2 = mock(CourseEdition_2.class);
-        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
-        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
-
-
-        when(doubleCourseEditionFactory.newCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
-        when(doubleCourseEditionFactory.newCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
-        when(doubleCourseEdition1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
-        when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
-
-        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
-        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
-
-        // Act
-        List<CourseEdition_2> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition1);
-
-        // Assert
-        assertTrue(result.contains(doubleCourseEdition1));
-        assertTrue(result.contains(doubleCourseEdition2));
-    }
-*/
-/*
-    @Test
-    void shouldReturnProgrammeEditionWhenCourseEditionExists() throws Exception {
-        // Arrange
-
-        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
-        CourseEdition_2 doubleCourseEdition = mock(CourseEdition_2.class);
-        CourseEditionFactoryImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
-        CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
-
-        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
-
-
-        CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactoryImpl, courseEditionListFactoryImplDouble);
-
-        when(doubleCourseEditionFactoryImpl.newCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition);
-
-        repository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
-
-        when(repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition)).thenReturn(programmeEditionIDDouble1);
-
-        // Act
-        ProgrammeEdition result = repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition);
-
-        // Assert
-        assertEquals(doubleProgrammeEdition, result);
-    }
-*/
+//
+//    @Test
+//    void shouldReturnCorrectNumberOfCourseEditionsInProgrammeEdition() throws Exception {
+//        // Arrange
+//        CourseEditionFactoryImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
+//        CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
+//        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactoryImpl, courseEditionListFactoryImplDouble);
+//
+//        CourseEdition_2 doubleCourseEdition1 = mock(CourseEdition_2.class);
+//        CourseEdition_2 doubleCourseEdition2 = mock(CourseEdition_2.class);
+//        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
+//        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
+//        CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
+//        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
+//
+//
+//       when(doubleCourseEditionFactoryImpl.newCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
+//       when(doubleCourseEditionFactoryImpl.newCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
+//       when(doubleCourseEdition1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
+//       when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
+//
+//        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
+//        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
+//
+//        // Act
+//        List<CourseEdition_2> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition1);
+//
+//        // Assert
+//        assertEquals(2, result.size());
+//
+//    }
+//
+//
+//    @Test
+//    void shouldReturnCorrectCourseEditionsInList() throws Exception {
+//        // Arrange
+//        CourseEditionFactoryImpl doubleCourseEditionFactory = mock(CourseEditionFactoryImpl.class);
+//        CourseEditionListFactoryImpl courseEditionListFactoryDouble = mock(CourseEditionListFactoryImpl.class);
+//        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(doubleCourseEditionFactory, courseEditionListFactoryDouble);
+//
+//        CourseEdition_2 doubleCourseEdition1 = mock(CourseEdition_2.class);
+//        CourseEdition_2 doubleCourseEdition2 = mock(CourseEdition_2.class);
+//        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
+//        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
+//        CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
+//        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
+//
+//
+//        when(doubleCourseEditionFactory.newCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
+//        when(doubleCourseEditionFactory.newCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
+//        when(doubleCourseEdition1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
+//        when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
+//
+//        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
+//        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
+//
+//        // Act
+//        List<CourseEdition_2> result = courseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition1);
+//
+//        // Assert
+//        assertTrue(result.contains(doubleCourseEdition1));
+//        assertTrue(result.contains(doubleCourseEdition2));
+//    }
+//
+//
+//    @Test
+//    void shouldReturnProgrammeEditionWhenCourseEditionExists() throws Exception {
+//        // Arrange
+//
+//        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
+//        CourseEdition_2 doubleCourseEdition = mock(CourseEdition_2.class);
+//        CourseEditionFactoryImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
+//        CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
+//        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
+//
+//        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
+//
+//
+//        CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactoryImpl, courseEditionListFactoryImplDouble);
+//
+//        when(doubleCourseEditionFactoryImpl.newCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition);
+//
+//        repository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
+//
+//        when(repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition)).thenReturn(programmeEditionIDDouble1);
+//
+//        // Act
+//        ProgrammeEditionID result = repository.findWhichProgrammeEditionBelongsToACourseEdition(doubleCourseEdition);
+//
+//        // Assert
+//        assertEquals(doubleProgrammeEdition, result);
+//    }
+//
 
     @Test
     void shouldReturnExceptionBecauseCourseEditionDoesNotExist_ListEmpty() {

@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.ProgrammeEditionID;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

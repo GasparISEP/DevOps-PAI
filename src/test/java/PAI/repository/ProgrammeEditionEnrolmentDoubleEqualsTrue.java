@@ -1,13 +1,16 @@
 package PAI.repository;
 
+import PAI.VOs.ProgrammeEditionEnrolmentID;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEdition;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.Student;
 
 public class ProgrammeEditionEnrolmentDoubleEqualsTrue extends ProgrammeEditionEnrolment {
 
-    public ProgrammeEditionEnrolmentDoubleEqualsTrue(Student student, ProgrammeEdition programmeEdition) {
-        super(student, programmeEdition);
+    public ProgrammeEditionEnrolmentDoubleEqualsTrue(StudentID studentId, ProgrammeEditionID programmeEditionId) {
+        super(studentId, programmeEditionId);
     }
 
     @Override

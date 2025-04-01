@@ -1,6 +1,6 @@
 package PAI.repository;
 
-import PAI.VOs.ProgrammeEditionEnrolmentID;
+import PAI.VOs.*;
 import PAI.ddd.IRepository;
 import PAI.domain.*;
 
@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface IProgrammeEditionEnrolmentRepository  extends IRepository <ProgrammeEditionEnrolmentID, ProgrammeEditionEnrolment>{
 
-    boolean enrolStudentInProgrammeEdition (Student student, ProgrammeEdition programmeEdition);
+    boolean enrolStudentInProgrammeEdition (StudentID studentId, ProgrammeEditionID programmeEditionID);
 
-    boolean isStudentEnrolledInThisProgrammeEdition (Student student, ProgrammeEdition programmeEdition);
+    boolean isStudentEnrolledInThisProgrammeEdition (StudentID studentId, ProgrammeEditionID programmeEditionId);
 
     int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear);
 
-    int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition);
+    int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionId);
 
-    List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled(Student student);
+    List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId);
 
 
 }

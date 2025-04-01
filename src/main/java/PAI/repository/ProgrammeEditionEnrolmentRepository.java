@@ -1,8 +1,6 @@
 package PAI.repository;
 
-import PAI.VOs.ProgrammeEditionEnrolmentID;
-import PAI.VOs.StudentID;
-import PAI.ddd.AggregateRoot;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
@@ -24,22 +22,22 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
         _programmeEditionEnrolments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment();
     }
     @Override
-    public boolean enrolStudentInProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
-            if (programmeEdition == null || student == null) {
+    public boolean enrolStudentInProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
+            if (programmeEditionId == null || studentId == null) {
                 throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
             }
 
-            ProgrammeEditionEnrolment programmeEditionEnrol = _iProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrolment(student, programmeEdition);
+            ProgrammeEditionEnrolment programmeEditionEnrol = _iProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrolment(studentId, programmeEditionId);
 
             return _programmeEditionEnrolments.add(programmeEditionEnrol);
     }
     @Override
-    public boolean isStudentEnrolledInThisProgrammeEdition(Student student, ProgrammeEdition programmeEdition) {
-        if(student == null || programmeEdition == null) {
+    public boolean isStudentEnrolledInThisProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
+        if(studentId == null || programmeEditionId == null) {
             return false;
         }
         for (ProgrammeEditionEnrolment enrollment : _programmeEditionEnrolments) {
-            if (enrollment.hasSameStudent(student) && enrollment.hasSameProgrammeEdition(programmeEdition)) {
+            if (enrollment.hasSameStudent(studentId) && enrollment.hasSameProgrammeEdition(programmeEditionId)) {
                 return true;
             }
         }
@@ -61,11 +59,11 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
 
     //US21 - Get The Number Of Students Enrolled In A Programme Edition
     @Override
-    public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
+    public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionId){
         int numberOfStudents = 0;
 
         for(ProgrammeEditionEnrolment programmeEditionEnrolment : _programmeEditionEnrolments)
-            if(programmeEditionEnrolment.findProgrammeEditionInEnrolment().equals(programmeEdition)){
+            if(programmeEditionEnrolment.findProgrammeEditionInEnrolment().equals(programmeEditionId)){
                 numberOfStudents++;
             }
 
@@ -73,13 +71,13 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
     }
 
     @Override
-    public List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled(Student student){
-        List<ProgrammeEdition> list = new ArrayList<>();
+    public List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId){
+        List<ProgrammeEditionID> list = new ArrayList<>();
 
         for(ProgrammeEditionEnrolment programmeEditionEnrolment : _programmeEditionEnrolments){
-            if(programmeEditionEnrolment.findStudentInProgrammeEdition().equals(student)){
-                ProgrammeEdition programmeEdition = programmeEditionEnrolment.findProgrammeEditionInEnrolment();
-                list.add(programmeEdition);
+            if(programmeEditionEnrolment.findStudentInProgrammeEdition().equals(studentId)){
+                ProgrammeEditionID programmeEditionId = programmeEditionEnrolment.findProgrammeEditionInEnrolment();
+                list.add(programmeEditionId);
             }
         }
         return list;

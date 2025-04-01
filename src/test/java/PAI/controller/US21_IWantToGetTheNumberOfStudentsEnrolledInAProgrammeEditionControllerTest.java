@@ -134,7 +134,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
             //Doubles' instantiation
         ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        ProgrammeEditionID programmeEditionDouble = mock(ProgrammeEditionID.class);
 
             //SUT
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
