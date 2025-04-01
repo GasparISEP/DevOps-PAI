@@ -23,7 +23,7 @@ public class ProgrammeEditionID implements DomainId {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || (!(o instanceof UUID)))
+        if (o == null || (!(o instanceof ProgrammeEditionID)))
             return false;
         ProgrammeEditionID that = (ProgrammeEditionID) o;
         if (_programmeID.equals(that._programmeID) && _schoolYearID.equals(that._schoolYearID))
