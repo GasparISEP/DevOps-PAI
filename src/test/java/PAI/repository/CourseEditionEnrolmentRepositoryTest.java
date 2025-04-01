@@ -423,217 +423,232 @@ class CourseEditionEnrolmentRepositoryTest {
         assertEquals(0, studentsEnrolled);
     }
 
+
+// ==============================
+// Enrolment Removal Success Cases
+// ==============================
+
+    // Test Removing an Existing Enrolment
     // System should allow the successful removal of a student enrolled in a course edition
-//    @Test
-//    void removeExistingEnrollment_ShouldReturnTrue() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepository enrollmentRepository = new CourseEditionEnrolmentRepository(enrollmentFactoryMock, CeeListFactory);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
-//
-//        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition))
-//                .thenReturn(mockCee);
-//
-//        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
-//        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
-//        when(mockCee.isEnrollmentActive()).thenReturn(true);
-//
-//        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition);
-//
-//        // Act
-//        boolean result = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert
-//        assertTrue(result, "Enrollment should be removed successfully.");
-//        verify(mockCee).deactivateEnrollment(); // Verify that deactivateEnrollment() was called
-//    }
+    @Test
+    void removeExistingEnrolment_ShouldReturnTrue() {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
 
-    // Ensures that the system does not allow the removal of a non-existent enrollment
-//    @Test
-//    void removeNonExistingEnrollment_ShouldReturnFalse() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(enrollmentFactoryMock, CeeListFactory);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//
-//        // Act
-//        boolean result = repository.removeEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert
-//        assertFalse(result, "Removing a non existing enrollment should return false.");
-//        verify(enrollmentFactoryMock, never()).createCourseEditionEnrolment(any(), any()); // Ensure no enrollment creation occurs
-//    }
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
 
-    // If the student or course edition information is missing (null), the system should reject the operation
-//    @Test
-//    void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(enrollmentFactoryMock, CeeListFactory);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//
-//        // Act & Assert for null Student
-//        boolean result1 = repository.removeEnrolment(null, mockCourseEdition);
-//        assertFalse(result1);
-//        verify(enrollmentFactoryMock, never()).createCourseEditionEnrolment(any(), any());
-//
-//        // Act & Assert for null CourseEdition
-//        boolean result2 = repository.removeEnrolment(mockStudent, null);
-//        assertFalse(result2);
-//        verify(enrollmentFactoryMock, never()).createCourseEditionEnrolment(any(), any());
-//    }
+        when(enrolmentFactoryMock.createCourseEditionEnrolment(mockStudentID, mockCourseEditionID))
+                .thenReturn(mockCee);
 
-    // Confirms that removing the same enrollment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
-//    @Test
-//    void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepository enrollmentRepository = new CourseEditionEnrolmentRepository(enrollmentFactoryMock, CeeListFactory);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
-//
-//        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition))
-//                .thenReturn(mockCee);
-//
-//        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
-//        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
-//
-//        // Simulate first call: Enrollment starts as active, then becomes inactive
-//        when(mockCee.isEnrollmentActive()).thenReturn(true).thenReturn(false);
-//
-//        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition);
-//
-//        // Act
-//        boolean firstRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert first removal is successful
-//        assertTrue(firstRemoval, "Enrollment should be removed successfully.");
-//        verify(mockCee).deactivateEnrollment(); // Ensure deactivation was called
-//
-//        // Act again: Try removing a second time
-//        boolean secondRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert second removal fails
-//        assertFalse(secondRemoval, "The second removal should not succeed.");
-//        verify(mockCee, times(1)).deactivateEnrollment(); // Ensure deactivation was called exactly once
-//    }
+        when(mockCee.hasStudent(mockStudentID)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEditionID)).thenReturn(true);
+        when(mockCee.isEnrolmentActive()).thenReturn(true);
 
-    // Ensures that the system does not allow the removal of an enrollment that has already been deactivated
-//    @Test
-//    void removeAlreadyInactiveEnrollment_ShouldReturnFalse() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepository enrollmentRepository = new CourseEditionEnrolmentRepository(enrollmentFactoryMock, CeeListFactory);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
-//
-//        when(mockCee.hasStudent(mockStudent)).thenReturn(true);
-//        when(mockCee.hasCourseEdition(mockCourseEdition)).thenReturn(true);
-//        when(mockCee.isEnrollmentActive()).thenReturn(false); // Enrollment is already inactive
-//
-//        // Act: Try removing an already inactive enrollment
-//        boolean result = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition);
-//
-//        // Assert
-//        assertFalse(result, "Removing an already inactive enrollment should return false.");
-//        verify(mockCee, never()).deactivateEnrollment(); // Ensure deactivateEnrollment is not called
-//    }
+        enrolmentRepository.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID);
 
-    // Ensures that different students enrolled in the same course edition can be removed without issues
-//    @Test
-//    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepository enrollmentRepository = new CourseEditionEnrolmentRepository(enrollmentFactoryMock, CeeListFactory);
-//
-//        CourseEdition mockCourseEdition = mock(CourseEdition.class);
-//        Student mockStudent1 = mock(Student.class);
-//        Student mockStudent2 = mock(Student.class);
-//        CourseEditionEnrolment mockCee1 = mock(CourseEditionEnrolment.class);
-//        CourseEditionEnrolment mockCee2 = mock(CourseEditionEnrolment.class);
-//
-//        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent1, mockCourseEdition))
-//                .thenReturn(mockCee1);
-//        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent2, mockCourseEdition))
-//                .thenReturn(mockCee2);
-//
-//        when(mockCee1.hasStudent(mockStudent1)).thenReturn(true);
-//        when(mockCee1.hasCourseEdition(mockCourseEdition)).thenReturn(true);
-//        when(mockCee1.isEnrollmentActive()).thenReturn(true);
-//
-//        when(mockCee2.hasStudent(mockStudent2)).thenReturn(true);
-//        when(mockCee2.hasCourseEdition(mockCourseEdition)).thenReturn(true);
-//        when(mockCee2.isEnrollmentActive()).thenReturn(true);
-//
-//        enrollmentRepository.enrolStudentInACourseEdition(mockStudent1, mockCourseEdition);
-//        enrollmentRepository.enrolStudentInACourseEdition(mockStudent2, mockCourseEdition);
-//
-//        // Act
-//        boolean firstRemoval = enrollmentRepository.removeEnrolment(mockStudent1, mockCourseEdition);
-//        boolean secondRemoval = enrollmentRepository.removeEnrolment(mockStudent2, mockCourseEdition);
-//
-//        // Assert
-//        assertTrue(firstRemoval, "First student's enrollment should be removed successfully.");
-//        assertTrue(secondRemoval, "Second student's enrollment should be removed successfully.");
-//        verify(mockCee1).deactivateEnrollment();
-//        verify(mockCee2).deactivateEnrollment();
-//    }
+        // Act
+        boolean result = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID);
 
+        // Assert
+        assertTrue(result, "Enrolment should be removed successfully.");
+        verify(mockCee).deactivateEnrolment(); // Verify that deactivateEnrolment() was called
+    }
+
+    // Multiple Course Edition Removals
     // Ensures that a student can be removed from multiple course editions correctly
-//    @Test
-//    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory enrollmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepository enrollmentRepository = new CourseEditionEnrolmentRepository(enrollmentFactoryMock, CeeListFactory);
-//
-//        Student mockStudent = mock(Student.class);
-//        CourseEdition mockCourseEdition1 = mock(CourseEdition.class);
-//        CourseEdition mockCourseEdition2 = mock(CourseEdition.class);
-//        CourseEditionEnrolment mockCee1 = mock(CourseEditionEnrolment.class);
-//        CourseEditionEnrolment mockCee2 = mock(CourseEditionEnrolment.class);
-//
-//        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition1)).thenReturn(mockCee1);
-//        when(enrollmentFactoryMock.createCourseEditionEnrolment(mockStudent, mockCourseEdition2)).thenReturn(mockCee2);
-//
-//        when(mockCee1.hasStudent(mockStudent)).thenReturn(true);
-//        when(mockCee1.hasCourseEdition(mockCourseEdition1)).thenReturn(true);
-//        when(mockCee1.isEnrollmentActive()).thenReturn(true);
-//
-//        when(mockCee2.hasStudent(mockStudent)).thenReturn(true);
-//        when(mockCee2.hasCourseEdition(mockCourseEdition2)).thenReturn(true);
-//        when(mockCee2.isEnrollmentActive()).thenReturn(true);
-//
-//        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition1);
-//        enrollmentRepository.enrolStudentInACourseEdition(mockStudent, mockCourseEdition2);
-//
-//        // Act
-//        boolean firstRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition1);
-//        boolean secondRemoval = enrollmentRepository.removeEnrolment(mockStudent, mockCourseEdition2);
-//
-//        // Assert
-//        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
-//        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
-//        verify(mockCee1).deactivateEnrollment();
-//        verify(mockCee2).deactivateEnrollment();
-//    }
+    @Test
+    void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID1 = mock(CourseEditionID.class);
+        CourseEditionID mockCourseEditionID2 = mock(CourseEditionID.class);
+        CourseEditionEnrolment mockCee1 = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolment mockCee2 = mock(CourseEditionEnrolment.class);
+
+        when(enrolmentFactoryMock.createCourseEditionEnrolment(mockStudentID, mockCourseEditionID1)).thenReturn(mockCee1);
+        when(enrolmentFactoryMock.createCourseEditionEnrolment(mockStudentID, mockCourseEditionID2)).thenReturn(mockCee2);
+
+        when(mockCee1.hasStudent(mockStudentID)).thenReturn(true);
+        when(mockCee1.hasCourseEdition(mockCourseEditionID1)).thenReturn(true);
+        when(mockCee1.isEnrolmentActive()).thenReturn(true);
+
+        when(mockCee2.hasStudent(mockStudentID)).thenReturn(true);
+        when(mockCee2.hasCourseEdition(mockCourseEditionID2)).thenReturn(true);
+        when(mockCee2.isEnrolmentActive()).thenReturn(true);
+
+        enrolmentRepository.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID1);
+        enrolmentRepository.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID2);
+
+        // Act
+        boolean firstRemoval = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID1);
+        boolean secondRemoval = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID2);
+
+        // Assert
+        assertTrue(firstRemoval, "Student should be removed from the first course edition.");
+        assertTrue(secondRemoval, "Student should be removed from the second course edition.");
+        verify(mockCee1).deactivateEnrolment();
+        verify(mockCee2).deactivateEnrolment();
+    }
+
+    // Batch Removal of Multiple Students
+    // Ensures that different students enrolled in the same course edition can be removed without issues
+    @Test
+    void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentID mockStudentID1 = mock(StudentID.class);
+        StudentID mockStudentID2 = mock(StudentID.class);
+        CourseEditionEnrolment mockCee1 = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolment mockCee2 = mock(CourseEditionEnrolment.class);
+
+        when(enrolmentFactoryMock.createCourseEditionEnrolment(mockStudentID1, mockCourseEditionID))
+                .thenReturn(mockCee1);
+        when(enrolmentFactoryMock.createCourseEditionEnrolment(mockStudentID2, mockCourseEditionID))
+                .thenReturn(mockCee2);
+
+        when(mockCee1.hasStudent(mockStudentID1)).thenReturn(true);
+        when(mockCee1.hasCourseEdition(mockCourseEditionID)).thenReturn(true);
+        when(mockCee1.isEnrolmentActive()).thenReturn(true);
+
+        when(mockCee2.hasStudent(mockStudentID2)).thenReturn(true);
+        when(mockCee2.hasCourseEdition(mockCourseEditionID)).thenReturn(true);
+        when(mockCee2.isEnrolmentActive()).thenReturn(true);
+
+        enrolmentRepository.enrolStudentInACourseEdition(mockStudentID1, mockCourseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(mockStudentID2, mockCourseEditionID);
+
+        // Act
+        boolean firstRemoval = enrolmentRepository.removeEnrolment(mockStudentID1, mockCourseEditionID);
+        boolean secondRemoval = enrolmentRepository.removeEnrolment(mockStudentID2, mockCourseEditionID);
+
+        // Assert
+        assertTrue(firstRemoval, "First student's enrolment should be removed successfully.");
+        assertTrue(secondRemoval, "Second student's enrolment should be removed successfully.");
+        verify(mockCee1).deactivateEnrolment();
+        verify(mockCee2).deactivateEnrolment();
+    }
+
+// ==============================
+// Enrolment Removal Failure Handling
+// ==============================
+
+    // Test Removing a Non-Existing Enrolment
+    // Ensures that the system does not allow the removal of a non-existent enrolment
+    @Test
+    void removeNonExistingEnrolment_ShouldReturnFalse() {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+
+        // Act
+        boolean result = repository.removeEnrolment(mockStudentID, mockCourseEditionID);
+
+        // Assert
+        assertFalse(result, "Removing a non existing enrolment should return false.");
+        verify(enrolmentFactoryMock, never()).createCourseEditionEnrolment(any(), any()); // Ensure no enrolment creation occurs
+    }
+
+    // Remove Already Inactive Enrolment
+    // Ensures that the system does not allow the removal of an enrolment that has already been deactivated
+    @Test
+    void removeAlreadyInactiveEnrolment_ShouldReturnFalse() {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
+
+        when(mockCee.hasStudent(mockStudentID)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEditionID)).thenReturn(true);
+        when(mockCee.isEnrolmentActive()).thenReturn(false); // Enrolment is already inactive
+
+        // Act: Try removing an already inactive enrolment
+        boolean result = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID);
+
+        // Assert
+        assertFalse(result, "Removing an already inactive enrolment should return false.");
+        verify(mockCee, never()).deactivateEnrolment(); // Ensure deactivateEnrolment is not called
+    }
+
+    // Multiple Removal Attempts of Same Enrolment
+    // Confirms that removing the same enrolment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
+    @Test
+    void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt() {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        CourseEditionEnrolment mockCee = mock(CourseEditionEnrolment.class);
+
+        when(enrolmentFactoryMock.createCourseEditionEnrolment(mockStudentID, mockCourseEditionID))
+                .thenReturn(mockCee);
+
+        when(mockCee.hasStudent(mockStudentID)).thenReturn(true);
+        when(mockCee.hasCourseEdition(mockCourseEditionID)).thenReturn(true);
+
+        // Simulate first call: Enrolment starts as active, then becomes inactive
+        when(mockCee.isEnrolmentActive()).thenReturn(true).thenReturn(false);
+
+        enrolmentRepository.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID);
+
+        // Act
+        boolean firstRemoval = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID);
+
+        // Assert first removal is successful
+        assertTrue(firstRemoval, "Enrolment should be removed successfully.");
+        verify(mockCee).deactivateEnrolment(); // Ensure deactivation was called
+
+        // Act again: Try removing a second time
+        boolean secondRemoval = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID);
+
+        // Assert second removal fails
+        assertFalse(secondRemoval, "The second removal should not succeed.");
+        verify(mockCee, times(1)).deactivateEnrolment(); // Ensure deactivation was called exactly once
+    }
+
+    // Null Information
+    // If the student or course edition information is missing (null), the system should reject the operation
+    @Test
+    void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse() {
+        // Arrange
+        ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+
+        // Act & Assert for null Student
+        boolean result1 = repository.removeEnrolment(null, mockCourseEditionID);
+        assertFalse(result1);
+
+        // Act & Assert for null CourseEdition
+        boolean result2 = repository.removeEnrolment(mockStudentID, null);
+        assertFalse(result2);
+    }
+
 
 //    @Test
 //    void shouldEnrollStudentWhenStudentNotEnrolled() {
