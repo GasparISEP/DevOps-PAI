@@ -22,6 +22,9 @@ public class CourseRepositoryDDDImpl implements ICourseRepositoryDDD {
         if(entity == null){
             throw new IllegalArgumentException("entity cannot be null");
         }
+        if (containsOfIdentity(entity.identity())) {
+            return null;
+        }
         courseList.add(entity);
         return entity;
     }

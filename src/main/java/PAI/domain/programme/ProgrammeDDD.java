@@ -11,12 +11,12 @@ public class ProgrammeDDD {
     private QuantSemesters _quantSemesters;
     private QuantEcts _quantEcts;
     private Acronym _acronym;
-    private DegreeType_ID _degreeTypeID;
+    private DegreeTypeID _degreeTypeID;
     private Department _department;
     private TeacherID _programmeDirectorID;
     private ProgrammeID _programmeID;
 
-    public ProgrammeDDD(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID) throws IllegalArgumentException {
+    public ProgrammeDDD(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, Department department, TeacherID programmeDirectorID) throws IllegalArgumentException {
         if(name==null) {
             throw new IllegalArgumentException("Programme name cannot be null");
         }
@@ -51,7 +51,7 @@ public class ProgrammeDDD {
             throw new IllegalArgumentException("Insert a valid Programme Director");
         }
         _programmeDirectorID = programmeDirectorID;
-        _programmeID = new ProgrammeID();
+        _programmeID = new ProgrammeID(name,acronym);
     }
 
 
@@ -100,7 +100,7 @@ public class ProgrammeDDD {
         return _name;
 
     }
-    public DegreeType_ID getDegreeTypeID() {
+    public DegreeTypeID getDegreeTypeID() {
         return _degreeTypeID;
     }
 

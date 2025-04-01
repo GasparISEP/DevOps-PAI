@@ -143,13 +143,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         ProgrammeEdition doubleProgrammeEdition = mock (ProgrammeEdition.class);
-        CourseEdition doubleCourseEdition1 = mock (CourseEdition.class);
-        CourseEdition doubleCourseEdition2 = mock (CourseEdition.class);
+        CourseEdition_2 doubleCourseEdition1 = mock (CourseEdition_2.class);
+        CourseEdition_2 doubleCourseEdition2 = mock (CourseEdition_2.class);
 
         when (doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
 
         //act
-        List<CourseEdition> result = controller.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition);
+        List<CourseEdition_2> result = controller.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition);
 
         //assert
         assertEquals (2, result.size());
@@ -166,13 +166,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepository , doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
-        StudentID doubleStID1 = mock (StudentID.class);
-        CourseEditionID doubleCeID1 = mock (CourseEditionID.class);
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn (true);
+        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn (true);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
+        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
 
         //assert
         assertTrue(result);
@@ -188,17 +188,17 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepository , doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
-        StudentID doubleStID1 = mock (StudentID.class);
-        StudentID doubleStID2 = mock (StudentID.class);
-        CourseEditionID doubleCeID1 = mock (CourseEditionID.class);
+        StudentID doubleStudentID1 = mock (StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        StudentID doubleStudentID2 = mock (StudentID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn (true);
-        controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
+        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn (true);
+        controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID);
 
-        when(doubleCeeRepository.enrolStudentInACourseEdition(doubleStID2,doubleCeID1)).thenReturn (true);
+        when(doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID)).thenReturn (true);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStID2, doubleCeID1);
+        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID);
 
         //assert
         assertTrue(result);
@@ -214,18 +214,18 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepository , doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
-        StudentID doubleStID1 = mock (StudentID.class);
-        StudentID doubleStID2 = mock (StudentID.class);
-        CourseEditionID doubleCeID1 = mock (CourseEditionID.class);
-        CourseEditionID doubleCeID2 = mock (CourseEditionID.class);
+        StudentID doubleStudentID1 = mock (StudentID.class);
+        CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
+        StudentID doubleStudentID2 = mock (StudentID.class);
+        CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn (true);
-        controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
+        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn (true);
+        controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID1);
 
-        when(doubleCeeRepository.enrolStudentInACourseEdition(doubleStID2,doubleCeID2)).thenReturn (true);
+        when(doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID2)).thenReturn (true);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStID2, doubleCeID2);
+        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID2);
 
         //assert
         assertTrue(result);
@@ -242,12 +242,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 doubleCeeRepository, doublePeeRepositoryInterface, doubleCourseEditionRepository);
 
         StudentID doubleStudentID = mock (StudentID.class);
-        CourseEditionID doubleCeID = mock (CourseEditionID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID, doubleCeID)).thenReturn(false);
+        when (doubleCeeRepository.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCeID);
+        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
 
         //assert
         assertFalse(result);

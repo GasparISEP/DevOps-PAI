@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.domain.CourseEdition;
+import PAI.domain.CourseEdition_2;
 import PAI.domain.Teacher;
 import PAI.factory.CourseEditionFactoryImpl;
 import PAI.factory.CourseEditionListFactoryImpl;
@@ -138,14 +139,14 @@ class US20_DefineRucForCourseEditionControllerTest {
         TeacherRepository repo2 = mock(TeacherRepository.class);
         US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
 
-        CourseEdition cE1 = mock(CourseEdition.class);
-        CourseEdition cE2 = mock(CourseEdition.class);
-        List<CourseEdition> courseEditions = List.of(cE1, cE2);
+        CourseEdition_2 cE1 = mock(CourseEdition_2.class);
+        CourseEdition_2 cE2 = mock(CourseEdition_2.class);
+        List<CourseEdition_2> courseEditions = List.of(cE1, cE2);
 
         when(repo1.getCourseEditions()).thenReturn(courseEditions);
 
         // Act
-        List<CourseEdition> result = ctrl1.getCourseEditions();
+        List<CourseEdition_2> result = ctrl1.getCourseEditions();
 
         // Assert
         assertEquals(2, result.size(), "Should return exactly two course editions");

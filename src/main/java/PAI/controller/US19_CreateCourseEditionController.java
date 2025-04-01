@@ -1,5 +1,7 @@
 package PAI.controller;
 
+import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.*;
 import PAI.repository.CourseEditionRepository;
 import PAI.repository.ProgrammeEditionRepository;
@@ -28,10 +30,10 @@ public class US19_CreateCourseEditionController {
         return _programmeList.getCourseList(programme);
     }
 
-    public boolean createCourseEdition (Course course, ProgrammeEdition programmeEdition) {
-            if(!_courseEditionRepository.createAndSaveCourseEdition(course, programmeEdition))
+    public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+            if(!_courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID))
                 return false;
-        _courseEditionRepository.createAndSaveCourseEdition(course, programmeEdition);
+        _courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
             return true;
     }
 }

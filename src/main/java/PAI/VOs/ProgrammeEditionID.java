@@ -1,36 +1,36 @@
 package PAI.VOs;
 
 import PAI.ddd.DomainId;
-import PAI.domain.ProgrammeEdition;
-
-import java.util.Objects;
-import java.util.UUID;
 
 public class ProgrammeEditionID implements DomainId {
 
-    private final UUID _programmeEditionID;
+    private final ProgrammeID _programmeID;
+    private final SchoolYearID _schoolYearID;
 
-    ProgrammeEditionID() {
-        _programmeEditionID = UUID.randomUUID();
-    }
+    public ProgrammeEditionID(ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
+        if (programmeID == null)
+            throw new Exception("programmeID cannot be null");
+        if (schoolYearID == null)
+            throw new Exception("schoolYearID cannot be null");
 
-    public UUID getProgrammeEditionID() {
-        return _programmeEditionID;
+        _programmeID = programmeID;
+        _schoolYearID = schoolYearID;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || (!(o instanceof UUID)))
+        if (o == null || (!(o instanceof ProgrammeEditionID)))
             return false;
-        if (_programmeEditionID.equals(o))
+        ProgrammeEditionID that = (ProgrammeEditionID) o;
+        if (_programmeID.equals(that._programmeID) && _schoolYearID.equals(that._schoolYearID))
             return true;
         return false;
     }
 
     @Override
     public String toString() {
-        return _programmeEditionID.toString();
+        return _programmeID.toString()+"-"+_schoolYearID.getSchoolYearID().toString();
     }
 }

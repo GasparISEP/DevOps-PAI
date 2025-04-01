@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.studyPlan.StudyPlanDDD;
 import PAI.domain.studyPlan.IStudyPlanDDDFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +41,16 @@ public class StudyPlanDDDRepository {
             return Optional.of(studyPlanDDD);
         }
         return Optional.empty();
+    }
+
+    public List<StudyPlanDDD> getAllStudyPlansByProgrammeId(ProgrammeID programmeID) {
+        List<StudyPlanDDD> studyPlanDDDList = new ArrayList<>();
+        for (StudyPlanDDD studyPlanDDD : _studyPlanList_2) {
+            ProgrammeID programmeIDInStudyPlan = studyPlanDDD.getProgrammeID();
+            if(programmeIDInStudyPlan.equals(programmeID)) {
+                studyPlanDDDList.add(studyPlanDDD);
+            }
+        }
+        return studyPlanDDDList;
     }
 }

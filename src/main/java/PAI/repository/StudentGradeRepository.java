@@ -1,10 +1,9 @@
 package PAI.repository;
 
 import PAI.VOs.*;
-import PAI.domain.CourseEdition;
+import PAI.domain.CourseEdition_2;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
-import PAI.domain.Student;
 import PAI.factory.IStudentGradeListFactory;
 import PAI.factory.IStudentGradeRepository;
 
@@ -42,9 +41,9 @@ public class StudentGradeRepository implements IStudentGradeRepository {
     private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID){
         for ( StudentGrade existingGradeStudent : _StudentGradeList){
             if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
-            }
-        return false;
         }
+        return false;
+    }
 
 
     public Double getAverageGrade(CourseEditionID courseEditionID) {
@@ -126,5 +125,4 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         }
         return true;
     }
-
 }

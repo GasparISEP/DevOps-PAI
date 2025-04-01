@@ -2,25 +2,31 @@ package PAI.VOs;
 
 import PAI.ddd.DomainId;
 
-import java.util.Objects;
-import java.util.UUID;
-
 public class ProgrammeID implements DomainId {
 
-    private final UUID _progID;
+    private final NameWithNumbersAndSpecialChars _name;
+    private final Acronym _acronym;
 
-    public ProgrammeID() {
-        _progID = UUID.randomUUID();
-    }
+    public ProgrammeID(NameWithNumbersAndSpecialChars name, Acronym acronym) {
+        if (name == null) {
+            throw new IllegalArgumentException("Programme name must be valid");
+        }
+        _name = name;
 
-    public UUID getProgID() {
-        return _progID;
+        if (acronym == null) {
+            throw new IllegalArgumentException("Programme acronym must be valid");
+        }
+        _acronym = acronym;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ProgrammeID that)) return false;
-        return Objects.equals(_progID, that._progID);
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        ProgrammeID programmeID = (ProgrammeID) object;
+        return _name.equals(programmeID._name)
+                && _acronym.equals(programmeID._acronym);
     }
 }

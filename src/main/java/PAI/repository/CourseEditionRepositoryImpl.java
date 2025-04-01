@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
-    private List<CourseEdition_2> _courseEditions;
+    private final List<CourseEdition_2> _courseEditions;
     private final ICourseEditionFactory_2 _courseEditionFactory;
 
     public CourseEditionRepositoryImpl(ICourseEditionFactory_2 courseEditionFactory, ICourseEditionListFactory_2 courseEditionListFactory) {
@@ -38,7 +38,12 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
     @Override
     public CourseEdition_2 save(CourseEdition_2 courseEdition) {
-
+        if (courseEdition == null){
+            throw new IllegalArgumentException("Course edition cannot be null");
+        }
+        if (courseEdition.identity() == null){
+            throw new IllegalArgumentException("Course edition ID cannot be null");
+        }
         _courseEditions.add(courseEdition);
 
         return courseEdition;
@@ -51,6 +56,12 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
     @Override
     public Optional<CourseEdition_2> ofIdentity(CourseEditionID courseEditionID) {
+        if (courseEditionID == null){
+            throw new IllegalArgumentException("Course edition ID cannot be null");
+        }
+        if (!containsOfIdentity(courseEditionID)){
+            return Optional.empty();
+        }
         return _courseEditions.stream()
                 .filter(courseEdition -> courseEdition.identity().equals(courseEditionID))
                 .findAny();
@@ -58,9 +69,10 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
     @Override
     public boolean containsOfIdentity(CourseEditionID courseEditionID) {
-        if (ofIdentity(courseEditionID).isEmpty()) {
-            return false;
-        }
-        return true;
+            for (CourseEdition_2 courseEdition : _courseEditions) {
+                if (courseEdition.identity().equals(courseEditionID))
+                    return true;
+            }
+        return false;
     }
 }

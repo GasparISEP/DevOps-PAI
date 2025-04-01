@@ -26,7 +26,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         Student _student;
         AccessMethodID _accessMethod;
         DegreeType _degreeType;
-        DegreeType_ID _degreeTypeID;
+        DegreeTypeID _degreeTypeID;
         Department _department;
         TeacherCategoryID _teacherCategoryID;
         IAddressFactory _addressFactory;
@@ -66,7 +66,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             _accessMethod = new AccessMethodID();
             _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);
-            _degreeTypeID = new DegreeType_ID("Master");
+            _degreeTypeID = new DegreeTypeID("Master");
             _department = new Department("CSE", "Computer Science Engineer");
             _teacherCategoryID = new TeacherCategoryID();
             _addressFactory = new AddressFactoryImpl();

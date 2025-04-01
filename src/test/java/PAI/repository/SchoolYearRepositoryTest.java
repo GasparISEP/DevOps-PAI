@@ -1,17 +1,14 @@
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.VOs.Description;
-import PAI.VOs.SchoolYearID;
+import PAI.VOs.*;
 import PAI.domain.SchoolYear;
-import PAI.factory.SchoolYearFactoryImpl;
-import PAI.factory.SchoolYearListFactoryImpl;
-import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import PAI.factory.*;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -396,5 +393,174 @@ class SchoolYearRepositoryTest {
 
         // Assert
         assertEquals(schoolYearListMock, schoolYearList, "The returned list should match the copied list");
+    }
+
+    @Test
+    void shouldSaveSchoolYear() throws Exception {
+        // Arrange
+        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearListFactory ISchoolYearListFactory= mock(ISchoolYearListFactory.class);
+
+        List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
+        when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
+
+        SchoolYearRepository list = new SchoolYearRepository(ISchoolYearFactory, ISchoolYearListFactory);
+
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+
+        Description description2 = mock(Description.class);
+        Date startDate2 = mock(Date.class);
+        Date endDate2 = mock(Date.class);
+
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+
+        when(ISchoolYearFactory.createSchoolYear(description1, startDate1, endDate1))
+                .thenReturn(schoolYear1);
+
+        when(ISchoolYearFactory.createSchoolYear(description2, startDate2, endDate2))
+                .thenReturn(schoolYear2);
+
+        // Act
+        SchoolYear result1 = list.save(schoolYear1);
+
+        // Assert
+        assertEquals(schoolYear1 , result1);
+
+    }
+
+    @Test
+    void shouldReturnAllSchoolYears() throws Exception {
+        // Arrange
+        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearListFactory ISchoolYearListFactory= mock(ISchoolYearListFactory.class);
+
+        List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
+        when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
+
+        SchoolYearRepository repository = new SchoolYearRepository(ISchoolYearFactory, ISchoolYearListFactory);
+
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        when(ISchoolYearFactory.createSchoolYear(description1, startDate1, endDate1))
+                .thenReturn(schoolYear1);
+
+        // Act
+        repository.save(schoolYear1);
+        Iterable<SchoolYear> result = repository.findAll();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        assertEquals(schoolYear1, result.iterator().next());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenListIsEmpty() {
+        // Arrange
+        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearListFactory ISchoolYearListFactory= mock(ISchoolYearListFactory.class);
+
+        List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
+        when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
+
+        SchoolYearRepository repository = new SchoolYearRepository(ISchoolYearFactory, ISchoolYearListFactory);
+
+        // Act & Assert
+        assertThrows(IllegalStateException.class, repository::findAll);
+    }
+
+    @Test
+    void shouldReturnSchoolYearWhenIdExists() {
+        // Arrange
+        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearListFactory ISchoolYearListFactory = mock(ISchoolYearListFactory.class);
+
+        List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
+        when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
+
+        SchoolYearRepository repository = new SchoolYearRepository(ISchoolYearFactory, ISchoolYearListFactory);
+
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+
+        when(ISchoolYearFactory.createSchoolYear(description1, startDate1, endDate1))
+                .thenReturn(schoolYear1);
+
+        when(schoolYear1.identity()).thenReturn(schoolYearID);
+
+        repository.save(schoolYear1);
+
+        // Act
+        Optional<SchoolYear> result = repository.ofIdentity(schoolYearID);
+
+        // Assert
+        assertTrue(result.isPresent(), "SchoolYear should be found when ID exists");
+        assertEquals(schoolYear1, result.get(), "The SchoolYear returned should be the one that was saved");
+    }
+
+    @Test
+    void shouldReturnTrueWhenIdExists() {
+        // Arrange
+        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearListFactory ISchoolYearListFactory = mock(ISchoolYearListFactory.class);
+
+        List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
+        when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
+
+        SchoolYearRepository repository = new SchoolYearRepository(ISchoolYearFactory, ISchoolYearListFactory);
+
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+
+        when(ISchoolYearFactory.createSchoolYear(description1, startDate1, endDate1))
+                .thenReturn(schoolYear1);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(schoolYear1.identity()).thenReturn(schoolYearID);
+
+        repository.save(schoolYear1);
+
+        // Act
+        boolean result = repository.containsOfIdentity(schoolYearID);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenIdDoesNotExist() {
+        // Arrange
+        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearListFactory ISchoolYearListFactory = mock(ISchoolYearListFactory.class);
+
+        List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
+        when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
+
+        SchoolYearRepository repository = new SchoolYearRepository(ISchoolYearFactory, ISchoolYearListFactory);
+
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearID otherID = mock(SchoolYearID.class);
+        when(schoolYear1.identity()).thenReturn(schoolYearID);
+
+        repository.save(schoolYear1);
+
+        // Act
+        boolean result = repository.containsOfIdentity(otherID);
+
+        // Assert
+        assertFalse(result);
     }
 }

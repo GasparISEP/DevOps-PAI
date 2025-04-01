@@ -10,45 +10,52 @@ UI -> ":AddCourseToAProgrammeController" ++ #application: getAllProgrammes()
 
 ProgrammeRepository --> ":AddCourseToAProgrammeController" -- #application: programmeList
 
-":AddCourseToAProgrammeController" --> UI :  programmeList
+":AddCourseToAProgrammeController" --> UI --:  programmeList
 
-UI --> ASC -- : Which Programme?
+UI --> ASC : Which Programme?
 
-ASC -> UI ++ #application: programme1!
+ASC -> UI  #application: programme1!
 
-UI -> ":AddCourseToAProgrammeController"  #application:  getAllStudyPlansByProgrammeID(programme1ID)
+UI -> ":AddCourseToAProgrammeController" ++  #application:  getAllStudyPlansByProgrammeID(programme1ID)
 
 ":AddCourseToAProgrammeController" -> StudyPlanRepository ++ #application: getAllStudyPlansByProgrammeID(programme1ID)
 
 StudyPlanRepository --> ":AddCourseToAProgrammeController" -- #application: studyPlanList
 
-":AddCourseToAProgrammeController" --> UI: studyPlanList
+":AddCourseToAProgrammeController" --> UI -- : studyPlanList
 
 UI --> ASC: Which Study Plan?
 
 ASC -> UI: studyPlan1!
 
-UI -> ":AddCourseToAProgrammeController"  #application: getAllCourses()
+UI -> ":AddCourseToAProgrammeController" ++ #application: studyPlan1
+":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController": getStudyPlanID()
 
-":AddCourseToAProgrammeController" -> CourseRepository ++ #application: getAllCourses()
+
+UI -> ":AddCourseToAProgrammeController" #application: getAllCourses()
+
+":AddCourseToAProgrammeController" -> CourseRepository ++ #application: findAll()
 
 CourseRepository --> ":AddCourseToAProgrammeController" -- #application: courseList
 
-":AddCourseToAProgrammeController" --> UI : courseList
+":AddCourseToAProgrammeController" --> UI  : courseList
 
-UI --> ASC -- : Which Course?
+UI --> ASC : Which Course?
 
-ASC -> UI ++ #application: course1!
+ASC -> UI #application: course1!
 
-UI --> ASC -- : Which Curricular Year?
+UI -> ":AddCourseToAProgrammeController" #application: course1
+":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController": getCourseID()
 
-ASC -> UI ++ #application: 2nd!
+UI --> ASC : Which Curricular Year?
 
-UI --> ASC -- : Which Semester?
+ASC -> UI #application: 2nd!
 
-ASC -> UI ++ #application: 1st!
+UI --> ASC : Which Semester?
 
-UI -> ":AddCourseToAProgrammeController" #application : addCourseToProgramme (course1ID, studyPlan1ID, CurricularYear, Semester)
+ASC -> UI #application: 1st!
+
+UI -> ":AddCourseToAProgrammeController"  #application : addCourseToProgramme (course1ID, studyPlan1ID, CurricularYear, Semester)
 
 ":AddCourseToAProgrammeController" -> ":CourseInStudyPlanRepository" ++ #application : registerCourseInStudyPlan(course1ID, studyPlan1ID, CurricularYear, Semester)
 
@@ -58,7 +65,7 @@ create "cisp1:CourseInStudyPlan" as CISP #lightblue
 ":CourseInStudyPlanRepository" -> ":CourseInStudyPlanRepository": addCourseInStudyPlan(cisp1)
 ":CourseInStudyPlanRepository" --> ":AddCourseToAProgrammeController" --: true
 
-":AddCourseToAProgrammeController" --> UI  : true
+":AddCourseToAProgrammeController" --> UI -- : true
 
 UI --> ASC: true
 

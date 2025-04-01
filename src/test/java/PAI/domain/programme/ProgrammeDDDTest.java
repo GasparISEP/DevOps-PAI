@@ -16,7 +16,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
@@ -32,7 +32,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
@@ -50,7 +50,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD programme = new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
@@ -66,7 +66,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
@@ -81,7 +81,7 @@ class ProgrammeDDDTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
@@ -96,7 +96,7 @@ class ProgrammeDDDTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
@@ -111,7 +111,7 @@ class ProgrammeDDDTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
@@ -142,7 +142,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, null, programmeDirectorID);});
@@ -157,7 +157,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, null);});
@@ -174,7 +174,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -196,8 +196,8 @@ class ProgrammeDDDTest {
         QuantEcts qtyEcts2 = mock(QuantEcts.class);
         QuantSemesters qtySemesters1 = mock(QuantSemesters.class);
         QuantSemesters qtySemesters2 = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID1 = mock(DegreeType_ID.class);
-        DegreeType_ID degreeTypeID2 = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
+        DegreeTypeID degreeTypeID2 = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
@@ -216,7 +216,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -231,13 +231,14 @@ class ProgrammeDDDTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
+        Acronym acronym1 = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym1, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.isEquals(CEE.getProgrammeID());
         //assert
@@ -251,7 +252,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -269,7 +270,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -287,7 +288,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = new QuantEcts(6);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -305,7 +306,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = new QuantSemesters(6);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -323,7 +324,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -341,7 +342,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name1, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -359,7 +360,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -376,12 +377,12 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
-        DegreeType_ID result = CE.getDegreeTypeID();
+        DegreeTypeID result = CE.getDegreeTypeID();
         //assert
         assertEquals(degreeTypeID, result);
     }
@@ -392,7 +393,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
@@ -409,7 +410,7 @@ class ProgrammeDDDTest {
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeType_ID degreeTypeID = mock(DegreeType_ID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);

@@ -208,7 +208,7 @@ class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
 "Programme Aggregate" "1" --> "1 _nameWithNumbersAndSpecialChars" "<<Value Object>>\n NameWithNumbersAndSpecialChars"
 "Programme Aggregate" "1" --> "1 _quantityOfEcts" "<<Value Object>>\n QuantEcts"
 "Programme Aggregate" "1" --> "1 _quantityOfSemesters" "<<Value Object>>\n QuantSemesters"
-"Programme Aggregate" "1" --> "1 _departmentID" "<<Value Object>>\n DepartmentID"
+"Programme Aggregate" "1..*" --> "1 _departmentID" "<<Value Object>>\n DepartmentID"
 "Programme Aggregate" "1" --> "1 _teacherID" "<<Value Object>>\n TeacherID"
 "Programme Aggregate" "1" --> "1 _degreeTypeID" "<<Value Object>>\n DegreeTypeID"
 
@@ -226,23 +226,20 @@ class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
 "<<Value Object>>\n Address" "1" --> "1 _country" "<<Value Object>>\n Country"
 
 
-"ProgrammeEditionEnrolment Aggregate" "      *  " -u-> "_studentID 1    ""<<Value Object>>\n StudentID"
-"ProgrammeEditionEnrolment Aggregate" " *    " <-- "1   "ProgrammeEditionEnrolmentRepo
-"ProgrammeEditionEnrolment Aggregate" " 1    " -- "1  _date " "<<Value Object>>\n Date"
-"ProgrammeEditionEnrolment Aggregate" " 1    " -- "1  _peeID " "<<Value Object>>\n ProgrammeEditionEnrolmentID"
+"ProgrammeEditionEnrolment Aggregate" "1..*" -u-> "_studentID 1    ""<<Value Object>>\n StudentID"
+"ProgrammeEditionEnrolment Aggregate" "_programmeEditionEnrolmentList *" <-- "1" ProgrammeEditionEnrolmentRepo
+"ProgrammeEditionEnrolment Aggregate" "1" --> "1  _date " "<<Value Object>>\n Date"
+"ProgrammeEditionEnrolment Aggregate" "1" --> "1  _peeID " "<<Value Object>>\n ProgrammeEditionEnrolmentID"
 
-
-
-"Department Aggregate" "*\n _departmentsList " <-- " 1  " DepartmentRepository
+"Department Aggregate" "_departmentsList *" <-- "1" DepartmentRepository
 IDepartmentRepository <|.. DepartmentRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "        1\n_departmentRepository " IDepartmentRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "                      _schoolYearRepository 1  " ISchoolYearRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1"   ..> "      1\n_peeRepo"  IProgrammeEditionEnrolmentRepo
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _departmentRepository" IDepartmentRepository
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _schoolYearRepository" ISchoolYearRepository
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1"   ..> "1 _peeRepo"  IProgrammeEditionEnrolmentRepo
 
 IProgrammeEditionEnrolmentRepo <|.. ProgrammeEditionEnrolmentRepo
 ISchoolYearRepository <|.. SchoolYearRepository
-SchoolYearRepository "1" --> "_schoolYearList\n *" "SchoolYear Aggregate"
-
+SchoolYearRepository "1" --> "_schoolYearList *" "SchoolYear Aggregate"
 
 
 
