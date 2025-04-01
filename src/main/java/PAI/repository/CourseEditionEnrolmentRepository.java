@@ -32,16 +32,16 @@ public class CourseEditionEnrolmentRepository {
         }
     }
 
-//    public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
-//        for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
-//            if (enrollment.knowStudent().identity().equals(student) &&
-//                    enrollment.knowCourseEdition().equals(courseEdition) &&
-//                    enrollment.isEnrollmentActive()) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
+        for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
+            if (enrollment.knowStudent().equals(student) &&
+                    enrollment.knowCourseEdition().equals(courseEdition) &&
+                    enrollment.isEnrolmentActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID student, CourseEditionID courseEdition) {
         if (student == null || courseEdition == null) {

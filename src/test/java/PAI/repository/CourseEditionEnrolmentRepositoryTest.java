@@ -127,100 +127,76 @@ class CourseEditionEnrolmentRepositoryTest {
     }
 
     //test isStudentEnrolledInCourseEdition method
-//    @Test
-//    void shouldConfirmStudentIsEnrollInACourseEdition() throws Exception {
-//        // arrange
-//        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory ceeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//
-//        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
-//        when(ceeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
-//
-//        CourseEditionEnrolmentRepository repository =
-//                new CourseEditionEnrolmentRepository(doubleCeeFactory, ceeListFactory);
-//
-//        StudentID realStudentID = new StudentID(1_500_000);
-//        Student studentReal = new Student(
-//                realStudentID,
-//                mock(Name.class),
-//                mock(NIF.class),
-//                mock(PhoneNumber.class),
-//           mock(Email.class),
-//                mock(Address.class),
-//                mock(StudentAcademicEmail.class)
-//        );
-//
-//        CourseEdition ce1 = mock(CourseEdition.class);
-//
-//        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
-//        when(doubleCeeFactory.createCourseEditionEnrolment(studentReal, ce1))
-//                .thenReturn(cee1);
-//        when(cee1.knowStudent()).thenReturn(studentReal);
-//        when(cee1.knowCourseEdition()).thenReturn(ce1);
-//        when(cee1.isEnrollmentActive()).thenReturn(true);
-//
-//        // act
-//        repository.enrolStudentInACourseEdition(studentReal, ce1);
-//
-//        // assert
-//        assertTrue(repository.isStudentEnrolledInCourseEdition(studentReal.identity(), ce1));
-//    }
+    @Test
+    void shouldConfirmStudentIsEnrollInACourseEdition() throws Exception {
+        // arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory ceeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+
+        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
+        when(ceeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
+
+        CourseEditionEnrolmentRepository repository =
+                new CourseEditionEnrolmentRepository(doubleCeeFactory, ceeListFactory);
+
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID ce1 = mock(CourseEditionID.class);
+
+        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
+        when(doubleCeeFactory.createCourseEditionEnrolment(studentID , ce1))
+                .thenReturn(cee1);
+        when(cee1.knowStudent()).thenReturn(studentID);
+        when(cee1.knowCourseEdition()).thenReturn(ce1);
+        when(cee1.isEnrolmentActive()).thenReturn(true);
+
+        // act
+        repository.enrolStudentInACourseEdition(studentID, ce1);
+
+        // assert
+        assertTrue(repository.isStudentEnrolledInCourseEdition(studentID, ce1));
+    }
 
 
-//    @Test
-//    void shouldConfirmStudentIsNotEnrollInACourseEdition() throws Exception {
-//        // arrange
-//        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//
-//        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
-//        when(CeeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
-//
-//
-//        CourseEditionEnrolmentRepository repository =
-//                new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
-//
-//        // Criamos um Student real com um StudentID válido
-//        // Lembre que StudentID deve estar no range (1_000_001 a 1_999_999).
-//        StudentID validID1 = new StudentID(1_500_000);
-//        Student student1 = new Student(
-//                validID1,
-//                mock(Name.class),
-//                mock(NIF.class),
-//                mock(PhoneNumber.class),
-//                mock(Email.class),
-//                mock(Address.class),
-//                mock(StudentAcademicEmail.class)
-//        );
-//
-//
-//        StudentID differentStudentID = new StudentID(1_600_000);
-//
-//
-//        CourseEdition ce1 = mock(CourseEdition.class);
-//
-//
-//        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
-//
-//
-//        when(doubleCeeFactory.createCourseEditionEnrolment(student1, ce1)).thenReturn(cee1);
-//
-//
-//        when(cee1.knowStudent()).thenReturn(student1);
-//        when(cee1.knowCourseEdition()).thenReturn(ce1);
-//        when(cee1.isEnrollmentActive()).thenReturn(true);
-//
-//
-//        repository.enrolStudentInACourseEdition(student1, ce1);
-//
-//        // act
-//
-//        boolean result = repository.isStudentEnrolledInCourseEdition(differentStudentID, ce1);
-//
-//        // assert
-//
-//        assertFalse(result);
-//    }
+    @Test
+    void shouldConfirmStudentIsNotEnrollInACourseEdition() throws Exception {
+        // arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+
+        Set<CourseEditionEnrolment> mockSet = new HashSet<>();
+        when(CeeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
+
+
+        CourseEditionEnrolmentRepository repository =
+                new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID ce1 = mock(CourseEditionID.class);
+
+        StudentID student2 = mock(StudentID.class);
+
+
+        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
+
+
+        when(doubleCeeFactory.createCourseEditionEnrolment(studentID, ce1)).thenReturn(cee1);
+
+
+        when(cee1.knowStudent()).thenReturn(studentID);
+        when(cee1.knowCourseEdition()).thenReturn(ce1);
+        when(cee1.isEnrolmentActive()).thenReturn(true);
+
+
+        repository.enrolStudentInACourseEdition(studentID, ce1);
+
+        // act
+
+        boolean result = repository.isStudentEnrolledInCourseEdition(student2, ce1);
+
+        // assert
+
+        assertFalse(result);
+    }
 
 
 //    @Test
