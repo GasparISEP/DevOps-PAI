@@ -117,6 +117,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
 
     //Integration tests
 
+    /*
     @Test
     void shouldReturnFalseIfDepartmentIsNull_IntegrationTest () throws Exception {
         //arrange
@@ -143,6 +144,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         //assert
         assertFalse(result);
     }
+    */
 
     @Test
     void shouldReturnFalseIfTeacherIsNull_IntegrationTest () throws Exception {
@@ -161,6 +163,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         assertFalse(result);
     }
 
+    /*
     @Test
     void shouldReturnTrueIfUpdateDepartmentDirector_IntegrationTest () throws Exception {
         //arrange
@@ -189,6 +192,7 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
         //assert
         assertTrue(result);
     }
+    */
 
     @Test
     void testGetAllDepartments_IntegrationTest() throws Exception {

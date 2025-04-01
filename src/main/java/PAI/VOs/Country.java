@@ -29,5 +29,9 @@ public class Country {
         return false;
     }
 
+    public String getCountryName (){
+        return this._country;
+    }
+
 
 }

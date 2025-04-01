@@ -1,0 +1,15 @@
+@startuml
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+autonumber
+
+activate ":Controller" #E1F5FE
+create "stID:studentID"
+":Controller" -> "stID:studentID": create (studentID)
+
+deactivate ":Controller"
+@enduml

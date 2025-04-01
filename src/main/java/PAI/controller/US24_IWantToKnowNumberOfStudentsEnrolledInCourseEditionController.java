@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
 import PAI.domain.CourseEdition;
 import PAI.repository.CourseEditionEnrolmentRepository;
 
@@ -16,9 +17,9 @@ public class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController {
         _courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
     }
 
-    public int IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) throws Exception {
+   public int IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionID) throws Exception {
 
-        return _courseEditionEnrolmentRepository.numberOfStudentsEnrolledInCourseEdition(courseEdition);
+        return _courseEditionEnrolmentRepository.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
 
     }
 }

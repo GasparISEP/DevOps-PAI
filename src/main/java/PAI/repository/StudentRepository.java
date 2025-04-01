@@ -10,13 +10,13 @@ import PAI.factory.IStudentListFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class StudentRepository {
+public class StudentRepository implements IStudentRepository {
 
     private IStudentFactory _studentFactory;
     private List<Student> _students;
 
     public StudentRepository(IStudentFactory studentFactory, IStudentListFactory studentListFactory) {
-        if(studentFactory == null || studentListFactory == null){
+        if (studentFactory == null || studentListFactory == null) {
             throw new IllegalArgumentException("Invalid factory argument, null values are not allowed!");
         }
 
@@ -31,7 +31,7 @@ public class StudentRepository {
         if (isStudentRepeated(newStudent)) {
             throw new Exception("Duplicate ID or NIF detected. Student cannot be added.");
         } else {
-            _students.add(newStudent); //add the student to the list
+            save(newStudent); //add the student to the list
             return true;
         }
     }
@@ -46,20 +46,49 @@ public class StudentRepository {
     }
 
     public Optional<Student> getStudentByID(StudentID studentID) {
-        for ( Student existingStudent : _students) {
-            if ( existingStudent.identity().equals(studentID)){
+        for (Student existingStudent : _students) {
+            if (existingStudent.identity().equals(studentID)) {
                 return Optional.of(existingStudent);
             }
         }
         return Optional.empty();
     }
 
-    public Optional<StudentID> findIdByStudent (Student student){
-        for(Student existingStudent : _students){
-            if(existingStudent.equals(student)){
-                return Optional.of(student.identity()) ;
+    public Optional<StudentID> findIdByStudent(Student student) {
+        for (Student existingStudent : _students) {
+            if (existingStudent.equals(student)) {
+                return Optional.of(student.identity());
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Student save(Student student) {
+        _students.add(student);
+        return student;
+    }
+
+    @Override
+    public Iterable<Student> findAll() {
+        if (_students.isEmpty()){
+            throw new IllegalStateException("Student List is currently empty.");
+        }
+        return _students;
+    }
+
+    @Override
+    public Optional<Student> ofIdentity(StudentID studentID) {
+        return _students.stream()
+                .filter(student -> student.identity().equals(studentID))
+                .findAny();
+    }
+
+    @Override
+    public boolean containsOfIdentity(StudentID studentID) {
+        if (ofIdentity(studentID).isPresent())
+            return true;
+
+        return false;
     }
 }

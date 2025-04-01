@@ -10,12 +10,13 @@ import PAI.domain.ProgrammeEdition;
 
 public class CourseEditionFactoryImpl_2 implements ICourseEditionFactory_2 {
 
-    public CourseEdition_2 newCourseEdition_2(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) throws Exception {
-        return new CourseEdition_2 (courseInStudyPlanID, programmeEditionID);
+    public CourseEdition_2 newCourseEdition_2(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
+        return new CourseEdition_2 (courseEditionID, courseInStudyPlanID, programmeEditionID);
     }
 
-    //auxiliary constructor
-    public CourseEdition_2 newCourseEdition_2(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) throws Exception {
+    @Override
+    public CourseEdition_2 newCourseEdition_2(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         return new CourseEdition_2 (courseEditionID, courseInStudyPlanID, programmeEditionID);
     }
 

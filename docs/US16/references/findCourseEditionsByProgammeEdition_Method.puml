@@ -1,0 +1,26 @@
+@startuml
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+
+autonumber
+
+participant ":ICourseEditionRepository" as CourseEditionRepository
+activate CourseEditionRepository #E1F5FE
+create ":ArrayList"
+CourseEditionRepository -> ":ArrayList": create ()
+loop for each "ce[i]:CourseEdition" in CourseEditionRepository
+participant ":CourseEdition" as CourseEdition
+CourseEditionRepository -> CourseEdition :  whatProgrammeEditionBelongsThisCourseEdition()
+activate CourseEdition #E1F5FE
+CourseEdition --> CourseEditionRepository : ce1
+deactivate CourseEdition
+CourseEditionRepository -> ":ArrayList" :  add (ce1)
+activate ":ArrayList" #E1F5FE
+":ArrayList" --> CourseEditionRepository: True
+deactivate ":ArrayList"
+end
+@enduml

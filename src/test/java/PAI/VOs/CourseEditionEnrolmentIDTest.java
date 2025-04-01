@@ -2,38 +2,59 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionEnrolmentIDTest {
 
     @Test
     void shouldReturnAValidCourseEditionEnrolmentID() {
         //arrange
-        CourseEditionEnrolmentID ceeID = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
 
         //act & assert
-        assertNotNull(ceeID.findCeeId());
+        CourseEditionEnrolmentID ceeID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
     }
 
     @Test
-    void testGeneratedIdsAreUnique() {
+    void shouldReturnAnExceptionIfStudentIDIsNull() {
         //arrange
-        CourseEditionEnrolmentID ceeID1 = new CourseEditionEnrolmentID();
-        CourseEditionEnrolmentID ceeID2 = new CourseEditionEnrolmentID();
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
 
-        // act & assert
-        assertNotEquals(ceeID1.findCeeId(), ceeID2.findCeeId());
+        //act & assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CourseEditionEnrolmentID(null, doubleCourseEditionID);
+        });
+        assertEquals("StudentID and CourseEditionID cannot be null.", exception.getMessage());
     }
+
+    @Test
+    void shouldReturnAnExceptionIfCourseEditionIDIsNull() {
+        //arrange
+        StudentID doubleStudentID = mock (StudentID.class);
+
+        //act & assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CourseEditionEnrolmentID(doubleStudentID, null);
+        });
+        assertEquals("StudentID and CourseEditionID cannot be null.", exception.getMessage());
+    }
+
 
     //testing equals method
     @Test
-    void shouldReturnFalseWhenTwoIdAreDifferent() {
+    void shouldReturnFalseWhenTwoIDsAreDifferent() {
         //arrange
-        CourseEditionEnrolmentID ceeID1 = new CourseEditionEnrolmentID();
-        CourseEditionEnrolmentID ceeID2 = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        StudentID doubleStudentID1 = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID1 = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID ceeID1 = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
+        CourseEditionEnrolmentID ceeID2 = new CourseEditionEnrolmentID(doubleStudentID1, doubleCourseEditionID1);
 
         //act
         boolean result = ceeID1.equals(ceeID2);
@@ -45,7 +66,10 @@ class CourseEditionEnrolmentIDTest {
     @Test
     void shouldReturnFalseWhenIdIsNull() {
         //arrange
-        CourseEditionEnrolmentID ceeID1 = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID ceeID1 = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
 
         //act
         boolean result = ceeID1.equals(null);
@@ -57,49 +81,55 @@ class CourseEditionEnrolmentIDTest {
     @Test
     void shouldReturnFalseWhenIdAreNotFromSameClass() {
         //arrange
-        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID();
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
 
         //act
-        boolean result = courseEditionEnrolmentID.equals(courseEditionID);
+        boolean result = courseEditionEnrolmentID.equals(doubleCourseEditionID);
 
         //assert
         assertFalse (result);
     }
 
     @Test
-    void shouldReturnTrueWhenTwoIdHaveTheSameMemoryReference() {
-        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID();
+    void shouldReturnTrueWhenTwoIDsHaveTheSameMemoryReference() {
+        //arrange
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
         CourseEditionEnrolmentID courseEditionEnrolmentID2 = courseEditionEnrolmentID1;
 
-        assertEquals(courseEditionEnrolmentID1, courseEditionEnrolmentID2);
+        boolean result = courseEditionEnrolmentID1.equals(courseEditionEnrolmentID2);
+
+        assertTrue (result);
     }
 
     @Test
-    void shouldReturnTrueWhenTwoIdHaveTheSameUUID() {
+    void shouldReturnTrueWhenTwoIdHaveTheSameID() {
         //Arrange
-        UUID uuid = UUID.randomUUID();
-        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID();
-        CourseEditionEnrolmentID courseEditionEnrolmentID2 = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
 
-        //Act
-        try {
-            var field = CourseEditionEnrolmentID.class.getDeclaredField("_courseEditionEnrolmentId");
-            field.setAccessible(true);
-            field.set(courseEditionEnrolmentID, uuid);
-            field.set(courseEditionEnrolmentID2, uuid);
-        } catch (Exception e) {
-            fail("Failed to modify UUID for test");
-        }
+        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
+        CourseEditionEnrolmentID courseEditionEnrolmentID2 = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
+
+        //act
+        boolean result = courseEditionEnrolmentID.equals(courseEditionEnrolmentID2);
+
         //Assert
-        assertEquals(courseEditionEnrolmentID, courseEditionEnrolmentID2);
+        assertTrue (result);
     }
 
     //testing hashCode method
     @Test
     void shouldReturnAHashCodeForOneId() {
         //Arrange
-        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
 
         //Act
         int result = courseEditionEnrolmentID1.hashCode();
@@ -109,9 +139,12 @@ class CourseEditionEnrolmentIDTest {
     }
 
     @Test
-    void shouldReturnTheSameHashCodeForTwoId() {
+    void shouldReturnTheSameHashCodeForTwoIDs() {
         //Arrange
-        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
         int courseEditionEnrolmentID2 = courseEditionEnrolmentID1.hashCode();
 
         //Act
@@ -124,8 +157,14 @@ class CourseEditionEnrolmentIDTest {
     @Test
     void shouldReturnADifferentHashCodeForTwoIDs() {
         //Arrange
-        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID();
-        CourseEditionEnrolmentID courseEditionEnrolmentID2 = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID1 = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID1 = mock (CourseEditionID.class);
+
+        StudentID doubleStudentID2 = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID2 = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID courseEditionEnrolmentID1 = new CourseEditionEnrolmentID(doubleStudentID1,doubleCourseEditionID1);
+        CourseEditionEnrolmentID courseEditionEnrolmentID2 = new CourseEditionEnrolmentID(doubleStudentID2, doubleCourseEditionID2);
 
         //Act
         int result = courseEditionEnrolmentID1.hashCode();
@@ -136,14 +175,20 @@ class CourseEditionEnrolmentIDTest {
 
     //testing toString method
     @Test
-    void shouldReturnAStringWithTheUUID() {
+    void shouldReturnAStringWithTheID() {
         //Arrange
-        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID();
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        when (doubleStudentID.toString()).thenReturn("1");
+        when (doubleCourseEditionID.toString()).thenReturn("2");
+
+        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
 
         //Act
-        String uuidString = courseEditionEnrolmentID.toString();
+        String ceeString = courseEditionEnrolmentID.toString();
 
         //Assert
-        assertEquals(courseEditionEnrolmentID.findCeeId().toString(), uuidString);
+        assertEquals("CourseEditionEnrolmentID =12", ceeString);
     }
 }

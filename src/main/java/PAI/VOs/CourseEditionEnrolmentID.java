@@ -8,14 +8,16 @@ import java.util.UUID;
 
 public class CourseEditionEnrolmentID implements DomainId {
 
-    private final UUID _courseEditionEnrolmentId;
+    private final StudentID _studentID;
 
-    public CourseEditionEnrolmentID() {
-        _courseEditionEnrolmentId = UUID.randomUUID();
-    }
+    private final CourseEditionID _courseEditionID;
 
-    public UUID findCeeId() {
-        return _courseEditionEnrolmentId;
+    public CourseEditionEnrolmentID( StudentID studentID, CourseEditionID courseEditionID ) {
+        if (studentID == null || courseEditionID == null){
+            throw new IllegalArgumentException("StudentID and CourseEditionID cannot be null.");
+        }
+        _studentID = studentID;
+        _courseEditionID = courseEditionID;
     }
 
     @Override
@@ -23,16 +25,16 @@ public class CourseEditionEnrolmentID implements DomainId {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         CourseEditionEnrolmentID that = (CourseEditionEnrolmentID) obj;
-        return _courseEditionEnrolmentId.equals(that._courseEditionEnrolmentId);
+        return Objects.equals(_studentID, that._studentID) && Objects.equals(_courseEditionID, that._courseEditionID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(_courseEditionEnrolmentId);
+        return Objects.hash(_studentID, _courseEditionID);
     }
 
     @Override
     public String toString() {
-        return _courseEditionEnrolmentId.toString();
+        return STR."CourseEditionEnrolmentID =\{_studentID}\{_courseEditionID}";
     }
 }

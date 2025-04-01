@@ -6,12 +6,13 @@ import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.factory.ITeacherCareerProgressionListFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class TeacherCareerProgressionRepository implements IRepository<TeacherCareerProgressionID, TeacherCareerProgression > {
 
-    private ITeacherCareerProgressionFactory _ITeacherCareerProgressionFactory;
+    private ITeacherCareerProgressionFactory _teacherCareerProgressionFactory;
     private List<TeacherCareerProgression> _teacherCareerProgressions;
 
     public TeacherCareerProgressionRepository (ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionListFactory tcpListFactory){
@@ -20,7 +21,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
             throw new IllegalStateException("Factory cannot be null!");
         }
 
-        this._ITeacherCareerProgressionFactory = tcpFactory;
+        this._teacherCareerProgressionFactory = tcpFactory;
         this._teacherCareerProgressions = tcpListFactory.createTeacherCareerProgressionList();
     }
 
@@ -30,11 +31,24 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
             throw new IllegalArgumentException("Argument cannot be null");
         }
 
-        TeacherCareerProgression tcp = _ITeacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
+        TeacherCareerProgression tcp = _teacherCareerProgressionFactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
+
+        if (isTeacherCareerProgressionDuplicate(tcp)) {
+            throw new Exception("Teacher Career Progression already exists.");
+        }
 
         save(tcp);
 
         return true;
+    }
+
+    private boolean isTeacherCareerProgressionDuplicate(TeacherCareerProgression tcp) {
+        for (TeacherCareerProgression existingTCP : _teacherCareerProgressions){
+            if(existingTCP.sameAs(tcp)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -49,7 +63,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
         if (_teacherCareerProgressions.isEmpty()){
             throw new IllegalStateException("Teacher Career Progression List is empty.");
         }
-        return _teacherCareerProgressions;
+        return new ArrayList<>(_teacherCareerProgressions);
     }
 
     @Override
@@ -71,7 +85,7 @@ public class TeacherCareerProgressionRepository implements IRepository<TeacherCa
         TeacherCareerProgression latestTCP = null;
 
         for (TeacherCareerProgression tcp : _teacherCareerProgressions) {
-            if (tcp.getTeacherID().sameAs(teacherID)) {
+            if (tcp.getTeacherID().equals(teacherID)) {
                 if (latestTCP == null || tcp.getDate().getLocalDate().isAfter(latestTCP.getDate().getLocalDate())) {
                     latestTCP = tcp;
                 }

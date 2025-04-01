@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.ICourseEditionEnrolmentFactory;
@@ -20,9 +21,9 @@ public class CourseEditionEnrolmentRepository {
         _courseEditionEnrolmentFactory = courseEditionEnrolmentFactory;
     }
 
-    public boolean enrolStudentInACourseEdition(Student student, CourseEdition courseEdition) {
+    public boolean enrolStudentInACourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
         try {
-            CourseEditionEnrolment cee1 = _courseEditionEnrolmentFactory.createCourseEditionEnrolment(student, courseEdition);
+            CourseEditionEnrolment cee1 = _courseEditionEnrolmentFactory.createCourseEditionEnrolment(studentId, courseEditionId);
 
             return _courseEditionEnrolments.add(cee1);
 
@@ -31,18 +32,18 @@ public class CourseEditionEnrolmentRepository {
         }
     }
 
-    public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEdition courseEdition) {
+    public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
         for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
-            if (enrollment.knowStudent().identity().equals(student) &&
+            if (enrollment.knowStudent().equals(student) &&
                     enrollment.knowCourseEdition().equals(courseEdition) &&
-                    enrollment.isEnrollmentActive()) {
+                    enrollment.isEnrolmentActive()) {
                 return true;
             }
         }
         return false;
     }
 
-    public Optional<CourseEditionEnrolment> findByStudentAndEdition(Student student, CourseEdition courseEdition) {
+    public Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID student, CourseEditionID courseEdition) {
         if (student == null || courseEdition == null) {
             return Optional.empty();
         }
@@ -54,11 +55,11 @@ public class CourseEditionEnrolmentRepository {
     }
 
     //US24
-    public int numberOfStudentsEnrolledInCourseEdition(CourseEdition courseEdition) throws Exception {
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
 
         int count = 0;
         for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
-            if (enrollment.knowCourseEdition().equals(courseEdition)) {
+            if (enrollment.knowCourseEdition().equals(courseEditionId)) {
                 count++;
             }
         }
@@ -66,12 +67,13 @@ public class CourseEditionEnrolmentRepository {
     }
 
     // Method to remove (deactivate) an enrollment
-    public boolean removeEnrolment(Student student, CourseEdition courseEdition) {
-        Optional<CourseEditionEnrolment> enrollment = findByStudentAndEdition(student, courseEdition);
+    public boolean removeEnrolment(StudentID studentID, CourseEditionID courseEditionID) {
+        Optional<CourseEditionEnrolment> enrollment = findByStudentAndEdition(studentID, courseEditionID);
         if (enrollment.isPresent()) {
             CourseEditionEnrolment cee = enrollment.get();
-            if (cee.isEnrollmentActive()) {  // Only deactivates if the enrollment is currently active
-                cee.deactivateEnrollment();
+            // Deactivate the enrolment if it's active
+            if (cee.isEnrolmentActive()) {  // Only deactivates if the enrollment is currently active
+                cee.deactivateEnrolment();
                 return true; // Returns true indicating that the enrollment was deactivated
             }
         }
@@ -79,14 +81,14 @@ public class CourseEditionEnrolmentRepository {
     }
 
 
-    public void enrolStudentInProgrammeCourseEditions(Student student, List<CourseEdition> courseEditions){
+    public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions){
 
-        for (CourseEdition courseEdition : courseEditions) {
-            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(student, courseEdition);
+        for (CourseEditionID courseEditionId : courseEditions) {
+            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(studentId, courseEditionId);
             if (existingEnrollment.isPresent()) {
                 throw new IllegalStateException("This course edition enrolment is already in the list.");
             }
-            enrolStudentInACourseEdition(student, courseEdition);
+            enrolStudentInACourseEdition(studentId, courseEditionId);
         }
     }
 }

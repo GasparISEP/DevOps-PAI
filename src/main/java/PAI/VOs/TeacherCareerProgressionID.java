@@ -23,4 +23,9 @@ public class TeacherCareerProgressionID implements DomainId {
         TeacherCareerProgressionID other = (TeacherCareerProgressionID) obj;
         return _ID.equals(other._ID);
     }
+
+    public String getIDValue() {
+        return this._ID;
+    }
+
 }

@@ -46,7 +46,7 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
         return false;
     }
 
-
+    @Override
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
         Set<StudentID> studentIDs = new HashSet<>();
 
@@ -60,6 +60,7 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
     }
 
     //US21 - Get The Number Of Students Enrolled In A Programme Edition
+    @Override
     public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
         int numberOfStudents = 0;
 
@@ -71,6 +72,7 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
         return numberOfStudents;
     }
 
+    @Override
     public List<ProgrammeEdition> findProgrammeEditionsThatStudentIsEnrolled(Student student){
         List<ProgrammeEdition> list = new ArrayList<>();
 

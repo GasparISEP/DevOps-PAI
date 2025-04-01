@@ -1,26 +1,27 @@
 package PAI.controller;
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
+import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.factory.IAddressFactory;
 
-import PAI.repository.DepartmentRepository;
-import PAI.repository.TeacherCategoryRepository;
-import PAI.repository.TeacherRepository;
+import PAI.repository.*;
 
+import java.rmi.NoSuchObjectException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class US13_RegisterTeacherAndRelevantDataController {
 
-    private final TeacherCategoryRepository _teacherCategoryRepository;
-    private final DepartmentRepository _departmentRepository;
-    private final TeacherRepository _teacherRepository;
+    private TeacherCategoryRepository _teacherCategoryRepository;
+    private DepartmentRepository _departmentRepository;
+    private TeacherRepository _teacherRepository;
+    private TeacherCareerProgressionRepository _teacherCareerProgressionRepository;
 
     //Constructor
-    public US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepository teacherCategoryRepository, DepartmentRepository departmentRepository, TeacherRepository teacherRepository) {
+    public US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepository teacherCategoryRepository,
+        DepartmentRepository departmentRepository, TeacherRepository teacherRepository, TeacherCareerProgressionRepository teacherCareerProgressionRepository) {
+
         if (teacherCategoryRepository == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
         }
@@ -33,9 +34,14 @@ public class US13_RegisterTeacherAndRelevantDataController {
             throw new IllegalArgumentException("Teacher Repository cannot be null");
         }
 
+        if (teacherCareerProgressionRepository == null){
+            throw new IllegalArgumentException("Teacher Career Progression Repository cannot be null");
+        }
+
         this._teacherCategoryRepository = teacherCategoryRepository;
         this._departmentRepository = departmentRepository;
         this._teacherRepository = teacherRepository;
+        this._teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
 
     // Method to get all Teacher Categories
@@ -49,10 +55,24 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to register the Teacher object
-    public boolean registerTeacher(String acronym, String name, String email, String nif, String phoneNumber, String academicBackground, String street, String postalCode, String location, String country, IAddressFactory addressFactory, Date date, TeacherCategoryID category, WorkingPercentage workingPercentage, TeacherID teacherID,
-                                   Department department) throws IllegalArgumentException {
+    public boolean registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber,
+                                   AcademicBackground academicBackground, Street street, PostalCode postalCode,
+                                   Location location, Country country, Department department, Date date,
+                                   TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage) throws Exception {
 
-        _teacherRepository.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, addressFactory, date, category, workingPercentage, teacherID, department);
+
+        // register Teacher
+        Optional<TeacherID> optionalTeacherID = _teacherRepository.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
+            street, postalCode, location, country, department);
+
+        if (optionalTeacherID.isEmpty()) {
+            return false;
+        }
+
+        TeacherID teacherID = optionalTeacherID.get();
+
+        // If teacher was created and saved, then create and save first Teacher Career Progression
+        _teacherCareerProgressionRepository.createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
 
         return true;
     }

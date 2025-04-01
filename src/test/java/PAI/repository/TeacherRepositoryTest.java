@@ -1,9 +1,7 @@
 package PAI.repository;
 
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
+import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
@@ -19,505 +17,335 @@ import static org.mockito.Mockito.when;
 
 class TeacherRepositoryTest {
 
+    // Arrange
+    private ITeacherFactory _teacherFactory;
+    private ITeacherListFactory _teacherListFactory;
+
+    private List _teacherListDouble;
+    private Iterator _iterator;
+
+    private TeacherAcronym _teacherAcronymDouble;
+    private Name _nameDouble;
+    private Email _emailDouble;
+    private NIF _nifDouble;
+    private PhoneNumber _phoneNumberDouble;
+    private AcademicBackground _academicBackgroundDouble;
+    private Department _departmentDouble;
+    private Street _streetDouble;
+    private PostalCode _postalCodeDouble;
+    private Location _locationDouble;
+    private Country _countryDouble;
+    private Teacher _teacherDouble;
+    private TeacherID _teacherID;
+
+    private void createFactoriesDoubles(){
+        _teacherFactory = mock(ITeacherFactory.class);
+        _teacherListFactory = mock(ITeacherListFactory.class);
+    }
+
+    private void createListDouble(ITeacherListFactory teacherListDouble){
+        _teacherListDouble = mock(ArrayList.class);
+        when(teacherListDouble.newList()).thenReturn(_teacherListDouble);
+        when(_teacherListDouble.add(_teacherDouble)).thenReturn(true);
+        _iterator= mock(Iterator.class);
+        when(_teacherListDouble.iterator()).thenReturn(_iterator);
+    }
+
+    private void createTeacherAndArgumentsDouble (){
+        _teacherAcronymDouble = mock(TeacherAcronym.class);
+        _nameDouble = mock(Name.class);
+        _emailDouble = mock(Email.class);
+        _nifDouble = mock(NIF.class);
+        _phoneNumberDouble = mock(PhoneNumber.class);
+        _academicBackgroundDouble = mock(AcademicBackground.class);
+        _departmentDouble = mock(Department.class);
+        _streetDouble = mock(Street.class);
+        _postalCodeDouble = mock(PostalCode.class);
+        _locationDouble = mock(Location.class);
+        _countryDouble = mock(Country.class);
+        _teacherDouble = mock(Teacher.class);
+        _teacherID = mock(TeacherID.class);
+    }
+
+
+    // Tests Beginning
+
     @Test
-    void shouldCreateValidTeacher() {
+    void shouldCreateTeacherRepository() {
         // Arrange
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
-
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Address addressDouble = mock(Address.class);
-        Department departmentDouble = mock(Department.class);
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-
-
-        TeacherCareerProgressionFactoryImpl TCPfactoryDouble = mock(TeacherCareerProgressionFactoryImpl.class);
-        TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
-        TeacherCareerProgressionListFactoryImpl tcplFDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
-        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
-
-        when(TCPfactoryDouble.createTeacherCareerProgression(dateDouble, teacherCategoryIDDouble, wpDouble, teacherID)).thenReturn(tcpDouble);
-        when(tcplFDouble.createTeacherCareerProgressionList()).thenReturn(mockList);
-        when(addressFactoryDouble.createAddress("Street One", "1234-678", "Porto", "Portugal")).thenReturn(addressDouble);
+        createFactoriesDoubles();
 
         // Act
-        boolean result = repository.registerTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678",
-                "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble
-        );
+        new TeacherRepository(_teacherFactory, _teacherListFactory);
 
         // Assert
-        assertTrue(result, "The teacher should be registered successfully.");
+    }
+
+    @Test
+    void shouldReturnTeacherWhenSaveIsCalled(){
+        // Arrange
+        createFactoriesDoubles();
+        Teacher teacher = mock(Teacher.class);
+
+        TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+
+        // Act
+        Teacher teacher1 = teacherRepository.save(teacher);
+
+        // Assert
+        assertEquals(teacher, teacher1);
+    }
+
+    @Test
+    void shouldReturnAllTeachersWhenFindAllIsCalled() {
+        // Arrange
+        createFactoriesDoubles();
+        Teacher teacher1 = mock(Teacher.class);
+        Teacher teacher2 = mock(Teacher.class);
+        List<Teacher> listTeachersDouble = List.of(teacher1, teacher2);
+        _teacherListFactory = () -> listTeachersDouble;
+        TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+
+        // Act
+        Iterable<Teacher> result = teacherRepository.findAll();
+
+        // Assert
+        assertIterableEquals(listTeachersDouble, result);
+    }
+
+    @Test
+    void shouldReturnATeacherWhenOfIdentityIsCalledWithExistingID(){
+        // Arrange
+        createFactoriesDoubles();
+        TeacherID idDouble = mock(TeacherID.class);
+        Teacher teacher = mock(Teacher.class);
+        when(teacher.identity()).thenReturn(idDouble);
+
+        List<Teacher> teachers = List.of(teacher);
+        _teacherListFactory = () -> teachers;
+
+        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+
+        // Act
+        Optional<Teacher> result = repository.ofIdentity(idDouble);
+
+        // Assert
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void shouldNotReturnATeacherWhenOfIdentityIsCalledWithNoExistingID(){
+        // Arrange
+        createFactoriesDoubles();
+        TeacherID idDouble = mock(TeacherID.class);
+        TeacherID id2Double = mock(TeacherID.class);
+        Teacher teacher = mock(Teacher.class);
+        when(teacher.identity()).thenReturn(idDouble);
+
+        List<Teacher> teachers = List.of(teacher);
+        _teacherListFactory = () -> teachers;
+
+        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+
+        // Act
+        Optional<Teacher> result = repository.ofIdentity(id2Double);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnTrueWhenTeacherIsPresentAndContainsOfIdentityIsCalled(){
+        // Arrange
+        createFactoriesDoubles();
+        TeacherID idDouble = mock(TeacherID.class);
+        Teacher teacher = mock(Teacher.class);
+        when(teacher.identity()).thenReturn(idDouble);
+
+        List<Teacher> teachers = List.of(teacher);
+        _teacherListFactory = () -> teachers;
+
+        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+
+        // Act
+        boolean result = repository.containsOfIdentity(idDouble);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenTeacherIsNotPresentAndContainsOfIdentityIsCalled(){
+        // Arrange
+        createFactoriesDoubles();
+        TeacherID idDouble = mock(TeacherID.class);
+        TeacherID id2Double = mock(TeacherID.class);
+        Teacher teacher = mock(Teacher.class);
+        when(teacher.identity()).thenReturn(idDouble);
+
+        List<Teacher> teachers = List.of(teacher);
+        _teacherListFactory = () -> teachers;
+
+        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+
+        // Act
+        boolean result = repository.containsOfIdentity(id2Double);
+
+        // Assert
+        assertFalse(result);
+    }
+
+
+    @Test
+    void shouldReturnTeacherIDWhenValidTeacherIsRegistered() {
+        // Arrange
+        createFactoriesDoubles();
+        createTeacherAndArgumentsDouble();
+        createListDouble(_teacherListFactory);
+
+        TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+
+        when(_teacherFactory.createTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentDouble)).thenReturn(_teacherDouble);
+        when(_iterator.hasNext()).thenReturn(false);
+        when(_teacherDouble.identity()).thenReturn(_teacherID);
+
+        // Act
+        Optional<TeacherID> result = teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentDouble);
+
+        // Assert
+        assertTrue(result.isPresent());
     }
 
     //Test to register two valid teachers
     @Test
-    void testRegisterValidTeacher() throws IllegalArgumentException {
+    void shouldReturnTrueWhenASecondValidTeacherIsRegistered() {
         // Arrange
-        ArrayList<Teacher> listDouble = mock(ArrayList.class);
+        createFactoriesDoubles();
+        createTeacherAndArgumentsDouble();
+        createListDouble(_teacherListFactory);
+        Teacher teacherDouble2 = mock(Teacher.class);
+        TeacherID teacherID2 = mock(TeacherID.class);
 
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Address adressDouble1 = mock(Address.class);
-        Address adressDouble2 = mock(Address.class);
-        Department departmentDouble = mock(Department.class);
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
+        TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
 
-        TeacherCareerProgressionFactoryImpl TCPfactoryDouble = mock(TeacherCareerProgressionFactoryImpl.class);
-        TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
-        TeacherCareerProgressionListFactoryImpl tcplFDouble = mock(TeacherCareerProgressionListFactoryImpl.class);
-        List<TeacherCareerProgression> mockList = mock(ArrayList.class);
-
-        when(TCPfactoryDouble.createTeacherCareerProgression(dateDouble, teacherCategoryIDDouble, wpDouble, teacherID)).thenReturn(tcpDouble);
-        when(tcplFDouble.createTeacherCareerProgressionList()).thenReturn(mockList);
-        when(addressFactoryDouble.createAddress("Street One", "1234-678",
-                "Porto", "Portugal")).thenReturn(adressDouble1);
-        when(addressFactoryDouble.createAddress( "Street Two", "1234-678",
-                "Porto", "Portugal")).thenReturn(adressDouble2);
-
-        Teacher teacher1 = mock(Teacher.class);
-        Teacher teacher2 = mock(Teacher.class);
-
-        //create TeacherRepository
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl listFactoryDouble = mock(TeacherListFactoryImpl.class);
-
-        when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
-
-        TeacherRepository teacherRepository = new TeacherRepository(teacherFactoryDouble, listFactoryDouble);
+        when(_teacherFactory.createTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentDouble)).thenReturn(_teacherDouble, teacherDouble2);
 
         // Mock iterator behavior
-        Iterator<Teacher> it = mock(Iterator.class);
+        when(_iterator.hasNext()).thenReturn(false, true, false);
+        when(_teacherDouble.identity()).thenReturn(_teacherID);
+        when(_iterator.next()).thenReturn(_teacherDouble);
+        when(teacherDouble2.identity()).thenReturn(teacherID2);
 
-        when(listDouble.iterator()).thenReturn(it);
-
-        when(it.hasNext()).thenReturn(true, false);
-
-        when(it.next()).thenReturn(teacher1);
-
-        when(teacherFactoryDouble.createTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678",
-                "Porto", "Portugal", addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble)).thenReturn(teacher1);
-        when(teacherFactoryDouble.createTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street Two", "1234-678",
-                "Porto", "Portugal", addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble)).thenReturn(teacher2);
-
+        teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentDouble);
 
         // Act
-        boolean result1 = teacherRepository.registerTeacher("ABC", "John Doe", "ABC@isep.ipp.pt", "123456789", "A123",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-        boolean result2 = teacherRepository.registerTeacher("DEF", "Jane Doe", "DEF@isep.ipp.pt", "123458889", "A123",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Street Two", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
+        Optional<TeacherID> result = teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentDouble);
 
         // Assert
-        assertTrue(result1, "The first teacher should be registered successfully.");
-        assertTrue(result2, "The second teacher should be registered successfully.");
+        assertTrue(result.isPresent());
     }
 
-    //Testing when teacher has an existing acronym
     @Test
-    public void testRegisterTeacherWithDuplicateAcronym() {
+    public void shouldReturnFalseWhenAnInvalidTeacherIsRegistered() {
         // Arrange
-        ArrayList<Teacher> listDouble = mock(ArrayList.class);
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Address addressDouble1 = mock(Address.class);
-        Address addressDouble2 = mock(Address.class);
-        Department departmentDouble = mock(Department.class);
+        createFactoriesDoubles();
+        createTeacherAndArgumentsDouble();
+        createListDouble(_teacherListFactory);
+        Teacher teacherDouble2 = mock(Teacher.class);
+        TeacherID teacherID2 = mock(TeacherID.class);
 
-        when(addressFactoryDouble.createAddress("Street One", "1234-678", "Porto", "Portugal"))
-                .thenReturn(addressDouble1);
-        when(addressFactoryDouble.createAddress("Street Two", "2345-678", "Porto", "Portugal"))
-                .thenReturn(addressDouble2);
+        TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
 
-        Teacher teacher1 = mock(Teacher.class);
-        Teacher teacher2 = mock(Teacher.class);
-
-        when(teacherListFactoryImplDouble.newArrayList()).thenReturn(listDouble);
+        when(_teacherFactory.createTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentDouble)).thenReturn(_teacherDouble, teacherDouble2);
 
         // Mock iterator behavior
-        Iterator<Teacher> it = mock(Iterator.class);
-        when(listDouble.iterator()).thenReturn(it);
-        when(it.hasNext()).thenReturn(true, false);
-        when(it.next()).thenReturn(teacher1);
+        when(_iterator.hasNext()).thenReturn(false, true);
+        when(_teacherDouble.identity()).thenReturn(_teacherID);
+        when(_iterator.next()).thenReturn(_teacherDouble);
+        when(teacherDouble2.sameAs(_teacherDouble)).thenReturn(true);
+        when(teacherDouble2.identity()).thenReturn(teacherID2);
 
-        when(teacherFactoryDouble.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
-                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacher1);
-
-        when(teacherFactoryDouble.createTeacher("ABC", "Jane Doe", "abc@isep.ipp.pt", "987654321", "B123",
-                "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacher2);
-
-        when(teacher1.hasSameAcronym(teacher2)).thenReturn(true);
-        when(teacher2.hasSameAcronym(teacher1)).thenReturn(true);
+        teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentDouble);
 
         // Act
-        repository.registerTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
-                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            repository.registerTeacher("ABC", "Jane Doe", "abc@isep.ipp.pt", "987654321", "B123",
-                    "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                    addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-        });
+        Optional<TeacherID> result = teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentDouble);
 
         // Assert
-        assertEquals("A teacher with the same acronym already exists.", exception.getMessage());
+        assertTrue(result.isEmpty());
     }
 
 
-    //Testing when teacher has an existing nif
+    // Other Tests
+
     @Test
-    public void testRegisterTeacherWithDuplicateNif() {
+    void shouldReturnAListOfTeachersWhenGetAllTeachersMethodIsCalled() {
         // Arrange
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Address addressDouble1 = mock(Address.class);
-        Address addressDouble2 = mock(Address.class);
-        Department departmentDouble = mock(Department.class);
-
-        when(addressFactoryDouble.createAddress("Street One", "1234-678",
-                "Porto", "Portugal")).thenReturn(addressDouble1);
-        when(addressFactoryDouble.createAddress("Street Two", "2345-678",
-                "Porto", "Portugal")).thenReturn(addressDouble2);
-
-        TeacherCareerProgressionFactoryImpl TCPfactoryDouble = mock(TeacherCareerProgressionFactoryImpl.class);
-        TeacherCareerProgression TCPdouble = mock(TeacherCareerProgression.class);
-
-        when(TCPfactoryDouble.createTeacherCareerProgression(dateDouble, teacherCategoryIDDouble, wpDouble, teacherID)).thenReturn(TCPdouble);
-
+        createFactoriesDoubles();
         Teacher teacher1 = mock(Teacher.class);
         Teacher teacher2 = mock(Teacher.class);
-
-        when(teacherFactoryDouble.createTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
-                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble)).thenReturn(teacher1);
-
-        when(teacherFactoryDouble.createTeacher("DEF", "Jane Doe", "def@isep.ipp.pt", "123456789", "B123",
-                "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble)).thenReturn(teacher2);
-
-
-        when(teacher1.hasSameNif(teacher2)).thenReturn(true);
-        when(teacher2.hasSameNif(teacher1)).thenReturn(true);
-
-
-        ArrayList<Teacher> listDouble = mock(ArrayList.class);
-        Iterator<Teacher> iteratorMock = mock(Iterator.class);
-
-        when(listDouble.iterator()).thenReturn(iteratorMock);
-        when(iteratorMock.hasNext()).thenReturn(true, false);
-        when(iteratorMock.next()).thenReturn(teacher1);
-
-
-        when(teacherListFactoryImplDouble.newArrayList()).thenReturn(listDouble);
+        List<Teacher> listTeachersDouble = List.of(teacher1, teacher2);
+        _teacherListFactory = () -> listTeachersDouble;
+        TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
 
         // Act
-        repository.registerTeacher("ABC", "John Doe", "abc@isep.ipp.pt", "123456789", "A123",
-                "PhD in Engineering", "Street One", "1234-678", "Porto", "Portugal",
-                addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            repository.registerTeacher("DEF", "Jane Doe", "def@isep.ipp.pt", "123456789", "B123",
-                    "PhD in Engineering", "Street Two", "2345-678", "Porto", "Portugal",
-                    addressFactoryDouble,dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-        });
+        Iterable<Teacher> result = teacherRepository.getAllTeachers();
 
         // Assert
-        assertEquals("A teacher with the same NIF already exists.", exception.getMessage());
+        assertIterableEquals(listTeachersDouble, result);
     }
 
     @Test
-    void shouldReturnANewListOfTeachersWithSameSize() {
-        // ARRANGE
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
+    void shouldReturnATeacherWhenGetTeacherByNIFIsCalledWithExistingNIF() {
+        // Arrange
+        createFactoriesDoubles();
+        NIF nifDouble = mock(NIF.class);
+        Teacher teacher = mock(Teacher.class);
+        when(teacher.hasThisNIF(nifDouble)).thenReturn(true);
 
-        // Mock para lista de professores
-        ArrayList<Teacher> listDouble = new ArrayList<>();
-        when(teacherListFactoryImplDouble.newArrayList()).thenReturn(listDouble);
+        List<Teacher> teachers = List.of(teacher);
+        _teacherListFactory = () -> teachers;
 
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department departmentDouble = mock(Department.class);
+        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
 
-        Teacher teacher1 = mock(Teacher.class);
-        Teacher teacher2 = mock(Teacher.class);
+        // Act
+        Optional<Teacher> result = repository.getTeacherByNIF(nifDouble);
 
-        when(teacherFactoryDouble.createTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789", "A106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacher1);
-
-        when(teacherFactoryDouble.createTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacher2);
-
-        // Registrar professores
-        repository.registerTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789", "A106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        repository.registerTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto",
-                "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        // ACT
-        List<Teacher> result = repository.getAllTeachers();
-
-        // ASSERT
-        assertEquals(2, result.size(), "The list of teachers should contain 2 teachers.");
+        // Assert
+        assertTrue(result.isPresent());
     }
 
-
-
     @Test
-    void shouldReturnTeacherWhenNIFMatches() {
+    void shouldNotReturnATeacherWhenGetTeacherByNIFIsCalledWithNoExistingNIF(){
+        // Arrange
+        createFactoriesDoubles();
+        NIF nifDouble = mock(NIF.class);
+        Teacher teacher = mock(Teacher.class);
+        when(teacher.hasThisNIF(nifDouble)).thenReturn(false);
 
-        // ARRANGE
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
+        List<Teacher> teachers = List.of(teacher);
+        _teacherListFactory = () -> teachers;
 
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department departmentDouble = mock(Department.class);
-        Teacher teacherMock = mock(Teacher.class);
+        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
 
-        when(teacherFactoryDouble.createTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacherMock);
+        // Act
+        Optional<Teacher> result = repository.getTeacherByNIF(nifDouble);
 
-        repository.registerTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        when(teacherMock.hasThisNIF("123456789")).thenReturn(true);
-
-        // ACT
-        Optional<Teacher> result = repository.getTeacherByNIF("123456789");
-
-        // ASSERT
-        assertTrue(result.isPresent(), "Teacher should be returned when NIF matches.");
-    }
-
-
-    @Test
-    void shouldReturnEmptyOptionalWhenTeacherNotFoundByNIF() throws Exception {
-        // ARRANGE
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-
-
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department departmentDouble = mock(Department.class);
-        Teacher teacherDouble = mock(Teacher.class);
-
-        when(teacherFactoryDouble.createTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacherDouble);
-
-        // Mocking the list and iterator
-        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
-        Iterator<Teacher> iterator = mock(Iterator.class);
-
-        when(teacherListFactoryImplDouble.newArrayList()).thenReturn(teacherListDouble);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
-        when(teacherListDouble.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(false, true, false); // Only one teacher in the list
-        when(iterator.next()).thenReturn(teacherDouble);
-
-        repository.registerTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        when(teacherDouble.hasThisNIF("123456788")).thenReturn(false);
-
-        // ACT
-        Optional<Teacher> result = repository.getTeacherByNIF("123456788");
-
-        // ASSERT
-        assertFalse(result.isPresent());
-    }
-
-
-    @Test
-    void shouldReturnEmptyOptionalWhenNIFIsEmpty() {
-        // ARRANGE
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
-
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department departmentDouble = mock(Department.class);
-        Teacher teacherDouble = mock(Teacher.class);
-
-        when(teacherFactoryDouble.createTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacherDouble);
-
-        // Mocking the list and iterator
-        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
-        Iterator<Teacher> iterator = mock(Iterator.class);
-
-        when(teacherListFactoryImplDouble.newArrayList()).thenReturn(teacherListDouble);
-        when(teacherListDouble.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(true, false); // Only one teacher in the list
-        when(iterator.next()).thenReturn(teacherDouble);
-
-        repository.registerTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        // Simulating the behavior of hasThisNIF for empty NIF
-        when(teacherDouble.hasThisNIF("")).thenReturn(false);
-
-        // ACT
-        Optional<Teacher> result = repository.getTeacherByNIF("");
-
-        // ASSERT
-        assertFalse(result.isPresent(), "The Optional should be empty when the NIF is empty.");
-    }
-
-
-    @Test
-    void shouldReturnEmptyOptionalWhenNIFIsBlank() {
-        // ARRANGE
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
-
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department departmentDouble = mock(Department.class);
-        Teacher teacherDouble = mock(Teacher.class);
-
-        when(teacherFactoryDouble.createTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacherDouble);
-
-        // Mocking the list and iterator
-        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
-        Iterator<Teacher> iterator = mock(Iterator.class);
-
-        when(teacherListFactoryImplDouble.newArrayList()).thenReturn(teacherListDouble);
-        when(teacherListDouble.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(true, false); // Only one teacher in the list
-        when(iterator.next()).thenReturn(teacherDouble);
-
-        repository.registerTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-        // Simulating the behavior of hasThisNIF for blank NIF
-        when(teacherDouble.hasThisNIF(" ")).thenReturn(false);
-
-        // ACT
-        Optional<Teacher> result = repository.getTeacherByNIF(" ");
-
-        // ASSERT
-        assertFalse(result.isPresent(), "The Optional should be empty when the NIF is blank.");
-    }
-
-
-    @Test
-    void shouldReturnEmptyOptionalWhenNIFIsNull() {
-        // ARRANGE
-        TeacherFactoryImpl teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        TeacherListFactoryImpl teacherListFactoryImplDouble = mock(TeacherListFactoryImpl.class);
-        TeacherRepository repository = new TeacherRepository(teacherFactoryDouble, teacherListFactoryImplDouble);
-
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department departmentDouble = mock(Department.class);
-        Teacher teacherDouble = mock(Teacher.class);
-
-        when(teacherFactoryDouble.createTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble))
-                .thenReturn(teacherDouble);
-
-        // Mocking the list and iterator
-        ArrayList<Teacher> teacherListDouble = mock(ArrayList.class);
-        Iterator<Teacher> iterator = mock(Iterator.class);
-
-        when(teacherListFactoryImplDouble.newArrayList()).thenReturn(teacherListDouble);
-        when(teacherListDouble.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(true, false); // Only one teacher in the list
-        when(iterator.next()).thenReturn(teacherDouble);
-
-        repository.registerTeacher(
-                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "B106",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores",
-                "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, teacherCategoryIDDouble, wpDouble, teacherID, departmentDouble);
-
-
-        when(teacherDouble.hasThisNIF(null)).thenReturn(false);
-
-        // ACT
-        Optional<Teacher> result = repository.getTeacherByNIF(null);
-
-        // ASSERT
-        assertFalse(result.isPresent(), "The Optional should be empty when the NIF is null.");
+        // Assert
+        assertTrue(result.isEmpty());
     }
 }

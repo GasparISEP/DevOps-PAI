@@ -2,8 +2,8 @@ package PAI.factory;
 
 import PAI.domain.Teacher;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ITeacherListFactory {
-    ArrayList<Teacher> newArrayList();
+    List<Teacher> newList();
 }

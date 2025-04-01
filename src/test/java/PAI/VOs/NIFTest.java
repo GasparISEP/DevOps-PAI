@@ -2,6 +2,7 @@ package PAI.VOs;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class NIFTest {
 
@@ -457,5 +458,17 @@ class NIFTest {
         assertFalse(result);
     }
 
+    @Test
+    public void shouldReturnCorrectNIF() {
+        // Arrange
+        Country country = mock(Country.class);
+        String stringNIF = "123456789";
+        NIF nif = new NIF(stringNIF, country);
 
+        // Act
+        String result = nif.getNIF();
+
+        // Assert
+        assertEquals(stringNIF, result);
+    }
 }

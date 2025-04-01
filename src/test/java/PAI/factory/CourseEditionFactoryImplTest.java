@@ -1,8 +1,9 @@
 package PAI.factory;
 
-import PAI.domain.Course;
-import PAI.domain.CourseEdition;
-import PAI.domain.ProgrammeEdition;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.domain.CourseEdition_2;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -15,37 +16,33 @@ class CourseEditionFactoryImplTest {
 
     @Test
     void shouldCreateCourseEditionWhenConstructorIsCalled() throws Exception {
-        //SUT = CourseEditionFactory
-        //Arrange
-            //Doubles' instantiation
-        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
-        Course courseDouble = mock (Course.class);
+        // Arrange
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
-            //instructions
-        try (MockedConstruction<CourseEdition> courseEditionDouble = mockConstruction(CourseEdition.class, (courseEditionMock, context) -> {
-            Course actualCourse = (Course) context.arguments().get(0);
-            ProgrammeEdition actualProgrammeEdition = (ProgrammeEdition) context.arguments().get(1);
-            when(courseEditionMock.getCourse()).thenReturn(actualCourse);
-            when(courseEditionMock.whatProgrammeEditionBelongsThisCourseEdition()).thenReturn(actualProgrammeEdition);
+        try (MockedConstruction<CourseEdition_2> courseEditionDouble = mockConstruction(CourseEdition_2.class, (mock, context) -> {
+            when(mock.identity()).thenReturn(courseEditionIDDouble);
+            when(mock.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
         })) {
 
-                //SUT
+            // SUT
             ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
             // Act
-            CourseEdition courseEdition = ICourseEditionFactory.newCourseEdition(courseDouble, programmeEditionDouble);
+            CourseEdition_2 courseEdition = ICourseEditionFactory.newCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
-            // Asserts
+            // Assert
             assertNotNull(courseEdition);
-            assertEquals(courseDouble, courseEdition.getCourse());
-            assertEquals(programmeEditionDouble, courseEdition.whatProgrammeEditionBelongsThisCourseEdition());
+            assertEquals(courseEditionIDDouble, courseEdition.identity());
+            assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
 
-            List<CourseEdition> courseEditions = courseEditionDouble.constructed();
+            List<CourseEdition_2> courseEditions = courseEditionDouble.constructed();
             assertEquals(1, courseEditions.size());
-
-            assertEquals(courseEdition, courseEditions.get(0));
+            assertSame(courseEdition, courseEditions.get(0));
         }
     }
+
 }
 
 
