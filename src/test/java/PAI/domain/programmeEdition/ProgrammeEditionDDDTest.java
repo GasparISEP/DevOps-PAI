@@ -80,7 +80,7 @@ class ProgrammeEditionDDDTest {
         ProgrammeEditionID peIDCheck = PEDDD.identity();
 
         // Assert
-        assertNull(peIDCheck);
+        assertEquals(pEID, peIDCheck);
     }
 
     @Test

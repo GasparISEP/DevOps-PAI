@@ -28,7 +28,7 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
     @Override
     public ProgrammeEditionID identity() {
-        return null;
+        return _programmeEditionID;
     }
 
     @Override
