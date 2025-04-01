@@ -15,6 +15,7 @@ import static org.mockito.Mockito.*;
 class CourseEditionEnrolmentRepositoryTest {
 
     //test enroll a student in a course edition method
+
     @Test
     void shouldReturnTrueWithAValidCourseEditionEnrollment() {
         //arrange
@@ -22,41 +23,99 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
 
-        StudentID doubleSt1 = mock(StudentID.class);
-        CourseEditionID doubleCe1 = mock(CourseEditionID.class);
+        StudentID doubleStID1 = mock(StudentID.class);
+        CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
         CourseEditionEnrolment doubleCee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(doubleCee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee1);
+        when(doubleCee1.sameAs(doubleCee1)).thenReturn(false);
 
         //act
-        boolean result = repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
+        boolean result = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
         //assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnTrueWithTwoValidCourseEditionEnrollments() {
+    void shouldAllowEnrollmentOfDifferentStudentsInDifferentCourseEditions() {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
 
-        StudentID st1 = mock(StudentID.class);
-        CourseEditionID ce1 = mock(CourseEditionID.class);
-        CourseEditionEnrolment cee1 = mock(CourseEditionEnrolment.class);
+        StudentID doubleStID1 = mock(StudentID.class);
+        CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCee1 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrolment(st1, ce1)).thenReturn(cee1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee1);
 
-        StudentID st2 = mock(StudentID.class);
-        CourseEditionID ce2 = mock(CourseEditionID.class);
-        CourseEditionEnrolment cee2 = mock(CourseEditionEnrolment.class);
+        StudentID doubleStID2 = mock(StudentID.class);
+        CourseEditionID doubleCeID2 = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCee2 = mock(CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrolment(st2, ce1)).thenReturn(cee2);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID2, doubleCeID1)).thenReturn(doubleCee2);
+        when (doubleCee1.sameAs(doubleCee2)).thenReturn(false);
 
         //act
-        boolean result1 = repository.enrolStudentInACourseEdition(st1, ce1);
-        boolean result2 = repository.enrolStudentInACourseEdition(st2, ce2);
+        boolean result1 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
+        boolean result2 = repository.enrolStudentInACourseEdition(doubleStID2, doubleCeID2);
+
+        //assert
+        assertEquals(true, result1);
+        assertEquals(true, result2);
+    }
+
+    @Test
+    void shouldAllowEnrollmentOfDifferentStudentsInSameCourseEdition() {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+
+        StudentID doubleStID1 = mock(StudentID.class);
+        CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCee1 = mock(CourseEditionEnrolment.class);
+
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee1);
+
+        StudentID doubleStID2 = mock(StudentID.class);
+        CourseEditionEnrolment doubleCee2 = mock(CourseEditionEnrolment.class);
+
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID2, doubleCeID1)).thenReturn(doubleCee2);
+        when (doubleCee1.sameAs(doubleCee2)).thenReturn(false);
+
+        //act
+        boolean result1 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
+        boolean result2 = repository.enrolStudentInACourseEdition(doubleStID2, doubleCeID1);
+
+        //assert
+        assertEquals(true, result1);
+        assertEquals(true, result2);
+    }
+
+    @Test
+    void shouldAllowEnrollmentOfSameStudentInDifferentCourseEditions() {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+
+        StudentID doubleStID1 = mock(StudentID.class);
+        CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCee1 = mock(CourseEditionEnrolment.class);
+
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee1);
+
+        CourseEditionID doubleCeID2 = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCee2 = mock(CourseEditionEnrolment.class);
+
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID2)).thenReturn(doubleCee2);
+        when (doubleCee1.sameAs(doubleCee2)).thenReturn(false);
+
+        //act
+        boolean result1 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
+        boolean result2 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID2);
 
         //assert
         assertEquals(true, result1);
@@ -70,19 +129,20 @@ class CourseEditionEnrolmentRepositoryTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
 
-        StudentID doubleSt1 = mock(StudentID.class);
-        CourseEditionID doubleCe1 = mock(CourseEditionID.class);
+        StudentID doubleStID1 = mock(StudentID.class);
+        CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
 
-        CourseEditionEnrolment cee1 = new CourseEditionEnrolmentDoubleEqualsTrue(doubleSt1, doubleCe1);
-        CourseEditionEnrolment cee2 = new CourseEditionEnrolmentDoubleEqualsTrue(doubleSt1, doubleCe1);
+        CourseEditionEnrolment cee1 = mock (CourseEditionEnrolment.class);
+        CourseEditionEnrolment cee2 = mock (CourseEditionEnrolment.class);
 
-        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(cee1);
-        repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(cee1);
+        repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
-        when(doubleCeeFactory.createCourseEditionEnrolment(doubleSt1, doubleCe1)).thenReturn(cee2);
+        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(cee2);
+        when (cee1.sameAs(cee2)).thenReturn(true);
 
         //act
-        boolean result2 = repository.enrolStudentInACourseEdition(doubleSt1, doubleCe1);
+        boolean result2 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
         //assert
         assertFalse(result2);
@@ -123,6 +183,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //assert
         assertFalse(result);
     }
+
 
     //test isStudentEnrolledInCourseEdition method
     @Test
@@ -888,6 +949,7 @@ class CourseEditionEnrolmentRepositoryTest {
         boolean result2 = enrolmentRepository.removeEnrolment(studentID, null);
         assertFalse(result2, "Removing a non existing enrollment should return false.");
     }
+
 
     @Test
     void should_save_courseEditionEnrolment() {

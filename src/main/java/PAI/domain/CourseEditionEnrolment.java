@@ -77,7 +77,7 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         CourseEditionEnrolment cee = (CourseEditionEnrolment) object;
-        return _courseEditionEnrolmentId.equals(cee._courseEditionEnrolmentId);
+        return _studentID.equals(cee._studentID) &&  _courseEditionID.equals(cee._courseEditionID);
     }
 
     // Method to check if the enrolment is active
