@@ -6,29 +6,21 @@ import java.util.UUID;
 
 public class ProgrammeEditionID implements DomainId {
 
-    private final UUID _programmeEditionID;
+    private final ProgrammeID _programmeID;
+    private final SchoolYearID _schoolYearID;
 
-    ProgrammeEditionID() {
-        _programmeEditionID = UUID.randomUUID();
-    }
-
-    public UUID getProgrammeEditionID() {
-        return _programmeEditionID;
+    public ProgrammeEditionID(ProgrammeID programmeID, SchoolYearID schoolYearID) {
+        _programmeID = programmeID;
+        _schoolYearID = schoolYearID;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || (!(o instanceof UUID)))
-            return false;
-        if (_programmeEditionID.equals(o))
-            return true;
-        return false;
+        return true;
     }
 
     @Override
     public String toString() {
-        return _programmeEditionID.toString();
+        return "testing toString";
     }
 }
