@@ -8,8 +8,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 
@@ -106,5 +105,16 @@ class CountryTest {
         boolean result = country1.equals(country2);
         //assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnCountry(){
+        //arrange
+        String country = "Portugal";
+        Country portugal = new Country(country);
+        //act
+        String result = portugal.getCountryName();
+        //assert
+        assertEquals(country, result);
     }
 }

@@ -8,6 +8,6 @@ import PAI.domain.CourseEdition_2;
 
 public interface ICourseEditionRepository extends IRepository <CourseEditionID, CourseEdition_2> {
 
-    public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
+     boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 
 }
