@@ -14,19 +14,19 @@ public class US16_EnrolAStudentInACourseEditionController {
 
     private final ICourseEditionEnrolmentRepository _ceeRepositoryInterface;
     private final IProgrammeEditionEnrolmentRepository _peeRepositoryInterface;
-    private final CourseEditionRepository _courseEditionRepository;
+    private final ICourseEditionRepository _courseEditionRepositoryInterface;
 
 
     public US16_EnrolAStudentInACourseEditionController(
-            ICourseEditionEnrolmentRepository _ceeRepositoryInterface, IProgrammeEditionEnrolmentRepository peeRepositoryInterface, CourseEditionRepository courseEditionRepository) {
+            ICourseEditionEnrolmentRepository _ceeRepositoryInterface, IProgrammeEditionEnrolmentRepository peeRepositoryInterface, ICourseEditionRepository courseEditionRepositoryInterface) {
 
         validateCourseEditionEnrolmentRepository (_ceeRepositoryInterface);
         validateProgrammeEditionEnrolmentRepository (peeRepositoryInterface);
-        validateCourseEditionRepository (courseEditionRepository);
+        validateCourseEditionRepository (courseEditionRepositoryInterface);
 
         this._ceeRepositoryInterface = _ceeRepositoryInterface;
         this._peeRepositoryInterface = peeRepositoryInterface;
-        this._courseEditionRepository = courseEditionRepository;
+        this._courseEditionRepositoryInterface = courseEditionRepositoryInterface;
     }
 
     //show a list of programme editions that student is enrolled
@@ -40,8 +40,8 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
-    public List<CourseEdition_2> findCourseEditionsByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        return _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
+    public List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionID) {
+        return _courseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(programmeEditionID);
     }
 
     //enrol a student in a course edition
@@ -64,8 +64,8 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //verify if the course edition repository is valid
-    private void validateCourseEditionRepository (CourseEditionRepository courseEditionRepository) throws IllegalArgumentException {
-        if (courseEditionRepository == null) {
+    private void validateCourseEditionRepository (ICourseEditionRepository courseEditionRepositoryInterface) throws IllegalArgumentException {
+        if (courseEditionRepositoryInterface == null) {
             throw new IllegalArgumentException("Course edition repository cannot be null!");
         }
     }

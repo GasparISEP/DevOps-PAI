@@ -4,14 +4,13 @@ import PAI.domain.*;
 import PAI.repository.*;
 
 import java.util.List;
-import java.util.Optional;
 
 public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
 
     private ProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
     private ProgrammeEditionRepository _programmeEditionRepository;
     private ProgrammeRepository _programmeList;
-    private CourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
+    private CourseEditionEnrolmentRepositoryImpl _courseEditionEnrolmentRepositoryImpl;
     private CourseEditionRepository _courseEditionRepository;
     private SchoolYearRepository _schoolYearRepository;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
@@ -20,7 +19,7 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
             ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
             ProgrammeEditionRepository programmeEditionRepository,
             ProgrammeRepository programmeRepository,
-            CourseEditionEnrolmentRepository courseEditionEnrolmentRepository,
+            CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepositoryImpl,
             CourseEditionRepository courseEditionRepository,
             SchoolYearRepository schoolYearRepository,
             ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
@@ -28,7 +27,7 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         this._programmeEditionEnrolmentRepository= validateRepository(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
         this._programmeEditionRepository= validateRepository(programmeEditionRepository, "Programme edition repository");
         this._programmeList= validateRepository(programmeRepository, "Programme list");
-        this._courseEditionEnrolmentRepository= validateRepository(courseEditionEnrolmentRepository, "Course edition enrolment repository");
+        this._courseEditionEnrolmentRepositoryImpl = validateRepository(courseEditionEnrolmentRepositoryImpl, "Course edition enrolment repository");
         this._courseEditionRepository= validateRepository(courseEditionRepository, "Course edition repository");
         this._schoolYearRepository= validateRepository(schoolYearRepository, "School year repository");
         this._programmeEnrolmentRepository= validateRepository(programmeEnrolmentRepository, "Enrolment repository");

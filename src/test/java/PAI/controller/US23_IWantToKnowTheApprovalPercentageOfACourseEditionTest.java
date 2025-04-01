@@ -8,7 +8,7 @@ import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.StudentGradeRepository;
-import PAI.repository.CourseEditionEnrolmentRepository;
+import PAI.repository.CourseEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
         StudentGradeRepository list = mock(StudentGradeRepository.class);
 
-        CourseEditionEnrolmentRepository enrollmentRepository= mock(CourseEditionEnrolmentRepository.class);
+        CourseEditionEnrolmentRepositoryImpl enrollmentRepository= mock(CourseEditionEnrolmentRepositoryImpl.class);
 
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition controlador1 = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(list);
 
