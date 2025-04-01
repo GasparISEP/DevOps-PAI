@@ -7,6 +7,7 @@ import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.IStudentGradeRepository;
+import PAI.repository.ICourseEditionEnrolmentRepository;
 import PAI.repository.StudentGradeRepository;
 import PAI.repository.CourseEditionEnrolmentRepository;
 
@@ -14,9 +15,9 @@ import java.util.Optional;
 
 public class US22_IWantToGradeAStudentInACourseEdition {
     IStudentGradeRepository _StudentGradeRepository;
-    CourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
+    ICourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
 
-    public US22_IWantToGradeAStudentInACourseEdition(IStudentGradeRepository studentGradeRepository, CourseEditionEnrolmentRepository courseEditionEnrolmentRepository){
+    public US22_IWantToGradeAStudentInACourseEdition(IStudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository){
         if (studentGradeRepository == null || courseEditionEnrolmentRepository == null){
             throw new IllegalArgumentException("Repository cannot be null");
         }
