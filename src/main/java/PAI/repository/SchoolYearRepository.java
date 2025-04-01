@@ -75,22 +75,35 @@ public class SchoolYearRepository implements ISchoolYearRepository {
     }
 
     @Override
-    public SchoolYear save(SchoolYear entity) {
-        return null;
+    public SchoolYear save(SchoolYear schoolYear) {
+        _schoolYearList.add(schoolYear);
+        return schoolYear;
     }
 
     @Override
     public Iterable<SchoolYear> findAll() {
-        return null;
+
+        if (_schoolYearList.isEmpty()){
+            throw new IllegalStateException("Student Grade List is empty.");
+        }
+        return _schoolYearList;
     }
 
     @Override
     public Optional<SchoolYear> ofIdentity(SchoolYearID id) {
-        return Optional.empty();
+
+        return _schoolYearList.stream()
+                .filter(sy -> sy.identity().equals(id))
+                .findAny();
     }
 
     @Override
     public boolean containsOfIdentity(SchoolYearID id) {
-        return false;
+
+        if (!ofIdentity(id).isPresent()){
+            return false;
+        }
+        return true;
     }
-}
+
+    }
