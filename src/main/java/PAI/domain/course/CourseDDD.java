@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.domain.course;
 
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
@@ -11,7 +11,7 @@ public class CourseDDD implements AggregateRoot<CourseID> {
     private CourseQuantityCreditsEcts _quantityCreditsEcts;
     private DurationCourseInCurricularYear _duration;
 
-    public CourseDDD(CourseID id, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInSemester) throws Exception{
+    public CourseDDD(CourseID id, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear){
         if(id == null){
             throw new IllegalArgumentException("Course Id must be valid");
         }
@@ -24,7 +24,7 @@ public class CourseDDD implements AggregateRoot<CourseID> {
         if(quantityCreditsEcts == null){
             throw new IllegalArgumentException("Course quantity credits Ects must be valid");
         }
-        if(durationCourseInSemester == null){
+        if(durationCourseInCurricularYear == null){
             throw new IllegalArgumentException("Course duration must be valid");
         }
 
@@ -32,7 +32,7 @@ public class CourseDDD implements AggregateRoot<CourseID> {
         this._name = name;
         this._acronym = acronym;
         this._quantityCreditsEcts = quantityCreditsEcts;
-        this._duration = durationCourseInSemester;
+        this._duration = durationCourseInCurricularYear;
     }
 
     @Override

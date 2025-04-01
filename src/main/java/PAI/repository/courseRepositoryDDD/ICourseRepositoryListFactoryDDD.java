@@ -1,6 +1,6 @@
 package PAI.repository.courseRepositoryDDD;
 
-import PAI.domain.CourseDDD;
+import PAI.domain.course.CourseDDD;
 
 import java.util.List;
 
