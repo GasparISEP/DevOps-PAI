@@ -4,6 +4,7 @@ import PAI.VOs.CourseID;
 import PAI.domain.CourseDDD;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -54,6 +55,28 @@ class CourseRepositoryDDDImplTest {
         assertEquals(courseDDD, result);
     }
 
+    @Test
+    void shouldReturnNullIfCourseIDAlreadyExistsInRepository() {
+        // arrange
+        CourseID courseID = mock(CourseID.class);
+        CourseDDD courseDDD = mock(CourseDDD.class);
+        when(courseDDD.identity()).thenReturn(courseID);
+
+        List<CourseDDD> list = mock(ArrayList.class);
+        when(list.stream()).thenReturn(Stream.of(courseDDD));
+
+        ICourseRepositoryListFactoryDDD factory = mock(CourseRepositoryListFactoryImpl.class);
+        when(factory.createCourseRepositoryList()).thenReturn(list);
+
+        CourseRepositoryDDDImpl repository = new CourseRepositoryDDDImpl(factory);
+
+        // act
+        CourseDDD result = repository.save(courseDDD);
+
+        // assert
+        assertNull(result);
+        verify(list, never()).add(any());
+    }
     @Test
     void shouldThrowExceptionIfCourseDDDIfInputIsNull(){
         // arrange
