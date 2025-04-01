@@ -75,7 +75,7 @@ CER -> CEF ++ #application : createCourseEdition(cSpID1,pEID1)
 create "cEID1:CourseEditionID" as CEID #lightblue
 CEF --> CEID : <create> (pEID1,cSpID1)
 create "cE1:CourseEdition" as CE #lightblue
-CEF --> CE : <create> (cEcSpID1,pEID1)
+CEF --> CE : <create> (cEID1,cEcSpID1,pEID1)
 CEF --> CER -- : cE1
 CER -> CER : isCourseEditionAlreadyInRepository (cE1)
 CER -> CER : addCourseEdition (cE1)

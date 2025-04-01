@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -48,35 +49,37 @@ class US07_IWantToCreateASchoolYearControllerTest {
         //Arrange
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
         US07_IWantToCreateASchoolYearController US07_controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("24-09-2021");
-        Date endDate = new Date ("31-06-2022");
+        String descriptionInfo = "School Year 24/25";
+        String startDateInfo = "24-09-2024";
+        String endDateInfo = "31-06-2025";
+        Description description = new Description(descriptionInfo);
+        Date startDate = new Date (startDateInfo);
+        Date endDate = new Date (endDateInfo);
 
         when(schoolYearRepository.addSchoolYear(description, startDate, endDate)).thenReturn(true);
 
         //Act
-        boolean result = US07_controller.addSchoolYear(description, startDate, endDate);
+        boolean result = US07_controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
 
         //Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldThrowExceptionWhenYearCanNotBeAdded() throws Exception {
+    void shouldThrowExceptionWhenYearCannotBeAdded() throws Exception {
 
-        //Arrange
+        // Arrange
         SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
         US07_IWantToCreateASchoolYearController US07_controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("24-09-2021");
-        Date endDate = new Date ("20-06-2022");
+        String descriptionInfo = "School Year 24/25";
+        String startDateInfo = "24-09-2024";
+        String endDateInfo = "31-06-2025";
 
-        when(schoolYearRepository.addSchoolYear(description, startDate, endDate)).
-                thenThrow(new IllegalArgumentException("School year already exists."));
+        when(schoolYearRepository.addSchoolYear(any(Description.class), any(Date.class), any(Date.class)))
+                .thenThrow(new Exception("School year already exists."));
 
-        //Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> { US07_controller.addSchoolYear(description, startDate, endDate);
-        });
+        // Act & Assert
+        assertThrows(Exception.class, () -> US07_controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo));
     }
 
     @Test
@@ -87,11 +90,11 @@ class US07_IWantToCreateASchoolYearControllerTest {
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
         SchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearListFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearRepository);
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2023");
-        Date endDate = new Date ("31-08-2024");
+        String descriptionInfo = "School Year 24/25";
+        String startDateInfo = "24-09-2024";
+        String endDateInfo = "31-06-2025";
 
         // Act + Assert
-        assertTrue(controller.addSchoolYear(description, startDate, endDate));
+        assertTrue(controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo));
     }
 }
