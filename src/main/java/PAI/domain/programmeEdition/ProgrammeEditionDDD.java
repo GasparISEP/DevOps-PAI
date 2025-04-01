@@ -4,7 +4,6 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.ddd.AggregateRoot;
-import PAI.domain.ProgrammeEdition;
 
 public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
@@ -43,4 +42,9 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
             return true;
         return false;
     }
+
+    public ProgrammeID findProgrammeIDInProgrammeEdition() {
+        return _programmeID;
+    }
+
 }
