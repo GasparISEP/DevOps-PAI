@@ -1,9 +1,6 @@
 package PAI.repository.studyPlanRepo;
 
-import PAI.VOs.Date;
-import PAI.VOs.DurationInYears;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 import PAI.domain.studyPlan.StudyPlanDDD;
 import PAI.domain.studyPlan.IStudyPlanDDDFactory;
 import org.junit.jupiter.api.Test;
@@ -15,8 +12,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class
-StudyPlanDDDRepositoryTest {
+public class StudyPlanDDDRepositoryTest {
 
     @Test
     void testCreateStudyPlanNewPlan() throws Exception {
@@ -29,14 +25,16 @@ StudyPlanDDDRepositoryTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
 
-        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears))
-                .thenAnswer(invocation -> new StudyPlanDDD(programmeID, implementationDate, durationInYears));
+
+        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts));
 
         StudyPlanDDDRepository repository = new StudyPlanDDDRepository(factory, listFactory);
 
         // Act
-        boolean created = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears);
+        boolean created = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         // Assert
         assertTrue(created);
@@ -54,12 +52,13 @@ StudyPlanDDDRepositoryTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
 
         StudyPlanDDDRepository repository = new StudyPlanDDDRepository(factory, listFactory);
 
         // Act
-        boolean createdFirstStudyPlan = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears);
-        boolean createdSecondStudyPlan = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears);
+        boolean createdFirstStudyPlan = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        boolean createdSecondStudyPlan = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         // Assert
         assertTrue(createdFirstStudyPlan);
@@ -79,17 +78,18 @@ StudyPlanDDDRepositoryTest {
         ProgrammeID programmeID2 = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
 
-        when(factory.newStudyPlan_2(programmeID1, implementationDate, durationInYears))
-                .thenAnswer(invocation -> new StudyPlanDDD(programmeID1, implementationDate, durationInYears));
-        when(factory.newStudyPlan_2(programmeID2, implementationDate, durationInYears))
-                .thenAnswer(invocation -> new StudyPlanDDD(programmeID2, implementationDate, durationInYears));
+        when(factory.newStudyPlan_2(programmeID1, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlanDDD(programmeID1, implementationDate, durationInYears, quantityOfEcts));
+        when(factory.newStudyPlan_2(programmeID2, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlanDDD(programmeID2, implementationDate, durationInYears, quantityOfEcts));
 
         StudyPlanDDDRepository repository = new StudyPlanDDDRepository(factory, listFactory);
 
         // Act
-        boolean created1 = repository.createStudyPlan_2(programmeID1, implementationDate, durationInYears);
-        boolean created2 = repository.createStudyPlan_2(programmeID2, implementationDate, durationInYears);
+        boolean created1 = repository.createStudyPlan_2(programmeID1, implementationDate, durationInYears, quantityOfEcts);
+        boolean created2 = repository.createStudyPlan_2(programmeID2, implementationDate, durationInYears, quantityOfEcts);
         List<StudyPlanDDD> allPlans = repository.getAllStudyPlans_2();
 
         // Assert
@@ -109,23 +109,24 @@ StudyPlanDDDRepositoryTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
 
-        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears))
-                .thenAnswer(invocation -> new StudyPlanDDD(programmeID, implementationDate, durationInYears));
+        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts));
 
         StudyPlanDDDRepository repository = new StudyPlanDDDRepository(factory, listFactory);
 
         // Act
-        repository.createStudyPlan_2(programmeID, implementationDate, durationInYears);
+        repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
         StudyPlanDDD createdPlan = repository.getAllStudyPlans_2().get(0);
         StudyPlanID studyPlanID = createdPlan.getStudyPlanID();
 
         // Act
-        Optional<StudyPlanDDD> foundPlanOpt = repository.findStudyPlanByID(studyPlanID);
+        Optional<StudyPlanDDD> foundPlan = repository.findStudyPlanByID(studyPlanID);
 
         // Assert
-        assertTrue(foundPlanOpt.isPresent());
-        assertEquals(createdPlan, foundPlanOpt.get());
+        assertTrue(foundPlan.isPresent());
+        assertEquals(createdPlan, foundPlan.get());
     }
 
     @Test
@@ -136,10 +137,13 @@ StudyPlanDDDRepositoryTest {
         List<StudyPlanDDD> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+
         StudyPlanDDDRepository repository = new StudyPlanDDDRepository(factory, listFactory);
 
         // Act
-        StudyPlanID nonExistentID = new StudyPlanID();
+        StudyPlanID nonExistentID = new StudyPlanID(programmeID, implementationDate);
         Optional<StudyPlanDDD> foundPlanOpt = repository.findStudyPlanByID(nonExistentID);
 
         // Assert

@@ -7,30 +7,28 @@ import java.util.UUID;
 
 public class StudyPlanID implements DomainId {
 
-    private final UUID _studyPlanId;
+    private final ProgrammeID _programmeID;
+    private final Date _implementationDate;
 
-    public StudyPlanID() {
-        this._studyPlanId = UUID.randomUUID();
-    }
 
-    public UUID getStudyPlanId() {
-        return _studyPlanId;
+    public StudyPlanID(ProgrammeID programmeID, Date implementationDate) {
+
+        this._programmeID = programmeID;
+        this._implementationDate = implementationDate;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StudyPlanID that)) return false;
-        return Objects.equals(_studyPlanId, that._studyPlanId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(_studyPlanId);
+        return Objects.equals(_programmeID, that._programmeID) && Objects.equals(_implementationDate, that._implementationDate);
     }
 
     @Override
     public String toString() {
-        return _studyPlanId.toString();
+        return "StudyPlanID{" +
+                "_programmeID=" + _programmeID +
+                ", _implementationDate=" + _implementationDate +
+                '}';
     }
 }
