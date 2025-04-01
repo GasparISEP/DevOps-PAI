@@ -117,4 +117,34 @@ class UtilsTest {
         assertFalse(result);
     }
 
+    @Test
+    void cyprusNIF_CY_isCorrect(){
+        //arrange
+        String countryName = "Cyprus";
+        Country country = new Country(countryName);
+        String stringNIF = "12345678u";
+        String stringNIF2 = "12345678A";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        boolean result2 = Utils.NIFValidator(country, stringNIF2);
+        //assert
+        assertTrue(result);
+        assertTrue(result2);
+    }
+
+    @Test
+    void cyprusNIF_CY_isIncorrect(){
+        //arrange
+        String countryName = "Cyprus";
+        Country country = new Country(countryName);
+        String stringNIF = "1234567u";
+        String stringNIF2 = "123456789";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        boolean result2 = Utils.NIFValidator(country, stringNIF2);
+        //assert
+        assertFalse(result);
+        assertFalse(result2);
+    }
+
 }
