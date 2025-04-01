@@ -72,9 +72,9 @@ class ProgrammeEnrolmentFactoryImplTest {
             _addressFactory = new AddressFactoryImpl();
             _tcpFactory = new TeacherCareerProgressionFactoryImpl();
             _tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
-            _teacherID = TeacherID.createNew();
-            _wp = new WorkingPercentage(100);
             _teacherAcronym = new TeacherAcronym("ABC");
+            _teacherID = new TeacherID(_teacherAcronym);
+            _wp = new WorkingPercentage(100);
             _name = new Name("Joe Doe");
             _email = new Email("abc@isep.ipp.pt");
             _nif = new NIF("123456789", _country);

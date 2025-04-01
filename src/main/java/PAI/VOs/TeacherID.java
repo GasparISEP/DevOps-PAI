@@ -2,32 +2,25 @@ package PAI.VOs;
 
 import PAI.ddd.DomainId;
 
-import java.util.UUID;
-
 public class TeacherID implements DomainId {
 
-    private final UUID id;
+    private final TeacherAcronym _acronym;
 
-    private TeacherID(UUID id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Teacher ID cannot be null");
+    public TeacherID(TeacherAcronym acronym) {
+        if (acronym == null) {
+            throw new IllegalArgumentException("Teacher acronym can not be null");
         }
-        this.id = id;
+        this._acronym = acronym;
     }
 
-    public UUID getIDValue() {
-        return this.id;
+    public TeacherAcronym getTeacherAcronym() {
+        return _acronym;
     }
 
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
-        TeacherID teacherID = (TeacherID) other;
-        return this.id.equals(teacherID.id);
-    }
-
-    public static TeacherID createNew() {
-        return new TeacherID(UUID.randomUUID());
+        if (!(other instanceof TeacherID otherID)) return false;
+        return _acronym.equals(otherID._acronym);
     }
 }

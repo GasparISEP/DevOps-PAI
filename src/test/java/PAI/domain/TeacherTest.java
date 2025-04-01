@@ -1,19 +1,14 @@
 package PAI.domain;
 
 import PAI.VOs.*;
-import PAI.VOs.Location;
-import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.*;
 
 
@@ -91,20 +86,15 @@ class TeacherTest {
     public void shouldReturnTeacherIDWhenIdentityIsCalled() {
         // Arrange
         createDoubles();
-        TeacherID teacherIDDouble = mock(TeacherID.class);
 
-        try (var mockedStaticTeacherID = mockStatic(TeacherID.class)) {
-            mockedStaticTeacherID.when(TeacherID::createNew).thenReturn(teacherIDDouble);
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
 
-            Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                    _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+        // Act
+        TeacherID result = teacher.identity();
 
-            // Act
-            TeacherID result = teacher.identity();
-
-            // Assert
-            assertNotNull(result);
-        }
+        // Assert
+        assertEquals(result.getTeacherAcronym(), _teacherAcronymDouble);
     }
 
     @Test
@@ -155,23 +145,17 @@ class TeacherTest {
         // Arrange
         createDoubles();
 
-        TeacherID teacherIDDouble = mock(TeacherID.class);
+        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
 
-        try (var mockedStaticTeacherID = mockStatic(TeacherID.class)) {
-            mockedStaticTeacherID.when(TeacherID::createNew).thenReturn(teacherIDDouble, teacherIDDouble);
-
-            Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                    _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
-
-            Teacher teacher2 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                    _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+        Teacher teacher2 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
 
         // Act
         boolean result = teacher1.sameAs(teacher2);
 
         // Assert
         assertTrue(result);
-        }
     }
 
     @Test
