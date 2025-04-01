@@ -5,10 +5,8 @@ autonumber
 actor ASC
 participant SYSTEM
 ASC -> SYSTEM:  I want to get the number of students enrolled in a programme edition!
-SYSTEM --> ASC -- : which programme edition? List of Programme Editions
-ASC -> SYSTEM: programme edition1!
-SYSTEM --> ASC -- : programme edition1 sure?
-ASC -> SYSTEM: Sure!
+SYSTEM --> ASC -- : Which programme edition?
+ASC -> SYSTEM: This programme edition!
 SYSTEM --> ASC -- : Number of Students!
 
 @enduml

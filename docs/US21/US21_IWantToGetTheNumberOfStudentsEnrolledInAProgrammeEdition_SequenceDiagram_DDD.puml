@@ -7,64 +7,14 @@ skinparam RefBorderColor #application
 actor ASC
 participant UI
 participant ":IWantToKnowTheNumberOfStudents\nEnrolledInAProgrammeEditionController" as CTR
-participant "<<interface>>\nIDegreeTypeRepository"  as IDTR
-participant "<<interface>>\nIProgrammeRepository"  as IPR
-participant "<<interface>>\nProgrammeEditionRepository" as IPER
-participant "<<interface>>\nProgrammeEditionEnrolmentRepository"  as IPEER
-
-participant "degreeTypeList1:\nList<DegreeType>" #E6E6FA
-participant "programmeList1:\nList<Programme>"  #E6E6FA
-participant "programmeEditionList1:\nList<ProgrammeEdition>" #E6E6FA
+participant "<<interface>>\nIProgrammeEditionEnrolmentRepository"  as IPEER
 
 autonumber
+skinparam titleFontSize 18
+
+title: SEQUENCE DIAGRAM\nUS21_GET THE NUMBER OF STUDENTS ENROLLED IN A PROGRAMME EDITION (HAPPY PATH)
 
 ASC -> UI ++ :  I want to get the number of students enrolled in a programme edition!
-UI -> CTR ++ : getAllDegreeTypes()
-CTR -> IDTR ++: getAllDegreeTypes()
-CTR <-- IDTR -- : dTL1
-
-ref over CTR
-    Convert DOMAIN 2 DTO
-end ref
-
-UI <-- CTR  -- : dTL1_DTO
-UI --> ASC -- : Which Degree Type?
-ASC -> UI ++ : This Degree Type!
-
-
-UI -> CTR ++ : getAllPrograms(DegreeTypeID_DTO )
-
-ref over CTR
-    Convert DTO 2 VO
-end ref
-
-CTR -> IPR ++: getAllPrograms(DegreeTypeID)
-CTR <-- IPR --: pL1
-
-ref over CTR
-    Convert DOMAIN 2 DTO
-end ref
-
-UI <-- CTR -- : pL1_DTO
-UI --> ASC -- : Which Programme? pL1
-
-
-ASC -> UI ++ :This Programme!
-
-UI -> CTR ++ : getAllProgrammeEditions(ProgrammeDTO)
-
-ref over CTR
-    Convert DTO 2 VO
-end ref
-
-CTR -> IPER ++ : getAllProgrammeEditions(ProgrammeID)
-IPER --> CTR -- : pEL1
-
-ref over CTR
-    Convert DOMAIN 2 DTO
-end ref
-
-CTR --> UI -- :pEL1
 UI --> ASC -- :Which Programme Edition?
 ASC -> UI ++ : This Programme Edition
 UI -> CTR ++ : getTheNumberOfStudentsEnrolled\nInAProgrammeEdition(programmeEditionDTO)
@@ -73,12 +23,12 @@ ref over CTR
     Convert DTO 2 VO
 end ref
 
-CTR -> IPER ++ : getTheNumberOfStudentsEnrolled\nInAProgrammeEdition(programmeEditionId)
-IPER -> IPEER ++  : getTheNumberOfStudentsEnrolled\nInAProgrammeEdition(programmeEditionId)
-IPEER --> IPER -- : int
-IPER --> CTR --: int
+CTR -> IPEER ++ : getTheNumberOfStudentsEnrolled\nInAProgrammeEdition(programmeEditionId)
+IPEER --> CTR --: int
 
 CTR --> "UI" --  : int
 
 UI --> ASC -- : This is the number of Students in the selected ProgrammeEdition, int.
 @enduml
+
+
