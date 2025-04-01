@@ -1,5 +1,6 @@
 package PAI.repository;
 
+import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
@@ -8,7 +9,7 @@ import PAI.factory.ICourseEditionEnrolmentListFactory;
 
 import java.util.*;
 
-public class CourseEditionEnrolmentRepository {
+public class CourseEditionEnrolmentRepository implements ICourseEditionEnrolmentRepository {
 
     private Set<CourseEditionEnrolment> _courseEditionEnrolments;
 
@@ -90,6 +91,34 @@ public class CourseEditionEnrolmentRepository {
             }
             enrolStudentInACourseEdition(studentId, courseEditionId);
         }
+    }
+
+    @Override
+    public CourseEditionEnrolment save(CourseEditionEnrolment entity) {
+
+        if(entity == null){
+            throw new IllegalArgumentException("Entity cannot be null");
+        }
+        _courseEditionEnrolments.add(entity);
+        return entity;
+    }
+
+    @Override
+    public Iterable<CourseEditionEnrolment> findAll() {
+        return new ArrayList<>(_courseEditionEnrolments);
+    }
+
+    @Override
+    public Optional<CourseEditionEnrolment> ofIdentity(CourseEditionEnrolmentID id) {
+        return _courseEditionEnrolments.stream()
+                .filter(enrolment -> enrolment.identity().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public boolean containsOfIdentity(CourseEditionEnrolmentID id) {
+        return _courseEditionEnrolments.stream()
+                .anyMatch(enrolment -> enrolment.identity().equals(id));
     }
 }
 
