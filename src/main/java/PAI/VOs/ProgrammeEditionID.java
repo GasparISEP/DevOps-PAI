@@ -2,8 +2,6 @@ package PAI.VOs;
 
 import PAI.ddd.DomainId;
 
-import java.util.UUID;
-
 public class ProgrammeEditionID implements DomainId {
 
     private final ProgrammeID _programmeID;
@@ -33,6 +31,6 @@ public class ProgrammeEditionID implements DomainId {
 
     @Override
     public String toString() {
-        return "testing toString";
+        return _programmeID.getProgID().toString()+"-"+_schoolYearID.getSchoolYearID().toString();
     }
 }

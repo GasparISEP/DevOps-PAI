@@ -2,8 +2,9 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class ProgrammeEditionIDTest {
@@ -167,10 +168,50 @@ class ProgrammeEditionIDTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
+        UUID schoolYearInternalID = mock(UUID.class);
+        UUID programmeInternalID = mock(UUID.class);
+
+        when(schoolYearID.getSchoolYearID()).thenReturn(schoolYearInternalID);
+        when(programmeID.getProgID()).thenReturn(programmeInternalID);
+
+        when(schoolYearInternalID.toString()).thenReturn("sy1");
+        when(programmeInternalID.toString()).thenReturn("prog1");
+
         // Act
         String result = programmeEditionID.toString();
 
         // Assert
-        assertEquals("testing toString", result);
+        assertEquals("prog1-sy1", result);
+    }
+
+    @Test
+    void shouldReturnDifferentStringsForDifferentInstances() throws Exception {
+        // Arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        SchoolYearID schoolYearID2 = mock(SchoolYearID.class);
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
+
+        UUID schoolYearInternalID1 = mock(UUID.class);
+        UUID schoolYearInternalID2 = mock(UUID.class);
+        UUID programmeInternalID = mock(UUID.class);
+
+        when(schoolYearID1.getSchoolYearID()).thenReturn(schoolYearInternalID1);
+        when(schoolYearID2.getSchoolYearID()).thenReturn(schoolYearInternalID2);
+        when(programmeID.getProgID()).thenReturn(programmeInternalID);
+
+        when(schoolYearInternalID1.toString()).thenReturn("sy1");
+        when(schoolYearInternalID2.toString()).thenReturn("sy2");
+        when(programmeInternalID.toString()).thenReturn("prog1");
+
+        String pEID1 = programmeEditionID1.toString();
+
+        // Act
+        String pEID2 = programmeEditionID2.toString();
+
+        // Assert
+        assertNotEquals(pEID1, pEID2);
     }
 }
