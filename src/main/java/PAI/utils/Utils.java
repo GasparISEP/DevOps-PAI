@@ -21,6 +21,8 @@ public class Utils {
         NIF_RULE_MAP.put(normalize("Croatia"), "^\\d{11}$");
         //CY 8 digits + 1 letter
         NIF_RULE_MAP.put(normalize("Cyprus"), "^\\d{8}[A-Z]$");
+        //CZ between 8, 10 digits
+        NIF_RULE_MAP.put(normalize("Czech Republic"), "^\\d{8,10}$");
     }
 
     public static boolean NIFValidator (Country country, String NIF){
