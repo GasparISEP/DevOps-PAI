@@ -5,10 +5,8 @@ import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -889,5 +887,87 @@ class CourseEditionEnrolmentRepositoryTest {
         // test for the case where CourseEdition is null.
         boolean result2 = enrolmentRepository.removeEnrolment(studentID, null);
         assertFalse(result2, "Removing a non existing enrollment should return false.");
+    }
+
+    @Test
+    void should_save_courseEditionEnrolment() {
+
+        //arrange
+        ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+
+        CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+
+        when(enrolment.identity()).thenReturn(enrolmentID);
+
+        //act
+        CourseEditionEnrolment enrolmentSaved = repository.save(enrolment);
+
+        //assert
+        assertNotNull(enrolmentSaved);
+        assertTrue(repository.containsOfIdentity(enrolmentSaved.identity()));
+    }
+
+    @Test
+    void should_return_all_courseEditionEnrolments() {
+
+        //arrange
+        ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+        CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolment enrolment2 = mock(CourseEditionEnrolment.class);
+
+        repository.save(enrolment1);
+        repository.save(enrolment2);
+
+        //act
+        Iterable<CourseEditionEnrolment> enrolments = repository.findAll();
+        List<CourseEditionEnrolment> enrolmentList = new ArrayList<>();
+        enrolments.forEach(enrolmentList::add);
+
+        //assert
+        assertNotNull(enrolments);
+        assertEquals(2, StreamSupport.stream(enrolments.spliterator(),false).count());
+    }
+
+    @Test
+    void should_find_enrolment_by_identity() {
+
+        //arrange
+        ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
+
+        when(enrolment.identity()).thenReturn(enrolmentID);
+        repository.save(enrolment);
+
+        //act
+        Optional<CourseEditionEnrolment> enrolmentFound = repository.ofIdentity(enrolmentID);
+
+        //assert
+        assertTrue(enrolmentFound.isPresent());
+        assertEquals(enrolment,enrolmentFound.get());
+    }
+
+    @Test
+    void should_check_if_repository_contains_enrolment_by_identity() {
+
+        //arrange
+        ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
+
+        when(enrolment.identity()).thenReturn(enrolmentID);
+        repository.save(enrolment);
+
+        //act + assert
+        assertTrue(repository.containsOfIdentity(enrolmentID));
     }
 }
