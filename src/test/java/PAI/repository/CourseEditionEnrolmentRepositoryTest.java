@@ -950,6 +950,7 @@ class CourseEditionEnrolmentRepositoryTest {
         assertFalse(result2, "Removing a non existing enrollment should return false.");
     }
 
+
     @Test
     void should_save_courseEditionEnrolment() {
 
