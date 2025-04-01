@@ -390,17 +390,19 @@ class ProgrammeDDDRepositoryTest {
     }
 
     @Test
-    void testFindByProgrammeIDNotFound() throws Exception {
+    void testFindByProgrammeIDNotFound() throws IllegalArgumentException {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeListRepoFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         List<ProgrammeDDD> programmeDDDList = new ArrayList<>();
         when(programmeListRepoFactory.newProgrammeArrayList()).thenReturn(programmeDDDList);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
 
         ProgrammeDDDRepository repository = new ProgrammeDDDRepository(IProgrammeFactory, programmeListRepoFactory);
 
         // Act
-        ProgrammeID nonExistentID = new ProgrammeID();
+        ProgrammeID nonExistentID = new ProgrammeID(name, acronym);
         Optional<ProgrammeDDD> foundPlan = repository.findProgrammeByID(nonExistentID);
 
         // Assert
