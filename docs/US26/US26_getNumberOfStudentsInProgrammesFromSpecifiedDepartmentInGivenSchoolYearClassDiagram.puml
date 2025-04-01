@@ -12,7 +12,7 @@ class Department {
     -_name: String
     -_acronym: String
     +Department(acronym: String, name: String)
-    + equals(obj: Object): boolean
+    +equals(obj: Object): boolean
 }
 
 class DepartmentRepository {
@@ -26,7 +26,7 @@ class ProgrammeEditionEnrolmentRepo {
 }
 
 class ProgrammeEditionEnrolment {
-    _enrolmentDate: LocalDate
+    -_enrolmentDate: LocalDate
     +ProgrammeEditionEnrolment(student: Student, programmeEdition: ProgrammeEdition, _enrolmentDate: LocalDate)
     +isEnrolmentAssociatedToDepartmentAndSchoolYear(department: Department, schoolYear: SchoolYear): boolean
     +getStudentUniqueNumber(): int
@@ -70,15 +70,15 @@ Class Student {
     +getUniqueNumber(): String
 }
 
-Department "*\n _departmentsList " <-- " 1  " DepartmentRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "        1\n_departmentRepository " DepartmentRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "                      _schoolYearRepository 1  " SchoolYearRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1"   ..> "      1\n_peeRepo"  ProgrammeEditionEnrolmentRepo
+Department "*\n _departmentsList" <-- "1" DepartmentRepository
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1\n_departmentRepository" DepartmentRepository
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "_schoolYearRepository 1" SchoolYearRepository
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1\n_peeRepo" ProgrammeEditionEnrolmentRepo
 ProgrammeEditionEnrolmentRepo "1" --> "_programmeEditionEnrolmentList  * " ProgrammeEditionEnrolment
-SchoolYearRepository "1" --> "_schoolYearList\n                       *" SchoolYear
-ProgrammeEdition "           *\n_programme" <-- "1" Programme
-ProgrammeEdition "_schoolYear\n1..*" <-- "1" SchoolYear
-Programme"*\n_department"-->"1" Department
+SchoolYearRepository "1" --> "_schoolYearList\n*" SchoolYear
+ProgrammeEdition "*\n_programme" --> "1" Programme
+ProgrammeEdition "1" --> "_schoolYear 1" SchoolYear
+Programme"*"-->"1 _department" Department
 ProgrammeEdition"1\n_programmeEdition"<--"*" ProgrammeEditionEnrolment
-ProgrammeEditionEnrolment"*\n_student "<--"1 " Student
+ProgrammeEditionEnrolment"*"-->"1 _student" Student
 @enduml
