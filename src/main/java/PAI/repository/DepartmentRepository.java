@@ -1,4 +1,5 @@
 package PAI.repository;
+import PAI.VOs.DepartmentID;
 import PAI.domain.Department;
 import PAI.domain.Teacher;
 import java.util.Set;
