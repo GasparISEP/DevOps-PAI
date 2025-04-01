@@ -3,34 +3,37 @@ package PAI.VOs;
 import PAI.ddd.DomainId;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class CourseInStudyPlanID implements DomainId {
 
-    private final UUID _courseInStudyPlanId;
+    private final CourseID _courseID;
+    private final StudyPlanID _studyPlanID;
 
-    public CourseInStudyPlanID() {
-        this._courseInStudyPlanId = UUID.randomUUID();
-    }
-
-    public UUID getCourseInStudyPlanId() {
-        return _courseInStudyPlanId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CourseInStudyPlanID that)) return false;
-        return Objects.equals(_courseInStudyPlanId, that._courseInStudyPlanId);
+    public CourseInStudyPlanID(CourseID courseID, StudyPlanID studyPlanID) {
+        this._courseID = courseID;
+        this._studyPlanID = studyPlanID;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(_courseInStudyPlanId);
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        CourseInStudyPlanID courseInStudyPlanID = (CourseInStudyPlanID) object;
+        return _courseID.equals(courseInStudyPlanID._courseID)
+                && _studyPlanID.equals(courseInStudyPlanID._studyPlanID);
     }
 
     @Override
     public String toString() {
-        return _courseInStudyPlanId.toString();
+        return "CourseInStudyPlanID{" +
+                "_courseID=" + _courseID +
+                ", _studyPlanID=" + _studyPlanID +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_courseID, _studyPlanID);
     }
 }

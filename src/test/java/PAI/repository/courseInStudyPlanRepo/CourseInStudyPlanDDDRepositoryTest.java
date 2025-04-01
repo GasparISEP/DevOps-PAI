@@ -119,8 +119,11 @@ class CourseInStudyPlanDDDRepositoryTest {
 
         CourseInStudyPlanDDDRepository repository = new CourseInStudyPlanDDDRepository(factory, listFactory);
 
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+
         // Act
-        CourseInStudyPlanID nonExistentID = new CourseInStudyPlanID();
+        CourseInStudyPlanID nonExistentID = new CourseInStudyPlanID(courseID, studyPlanID);
         Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.findCourseInStudyPlanByID(nonExistentID);
 
         // Assert
