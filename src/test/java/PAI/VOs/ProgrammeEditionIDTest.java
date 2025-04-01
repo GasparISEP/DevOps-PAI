@@ -7,8 +7,9 @@ import static org.mockito.Mockito.mock;
 
 class ProgrammeEditionIDTest {
 
+    // constructor Tests
     @Test
-    void shouldCreateProgrammeEditionID() {
+    void shouldCreateProgrammeEditionID() throws Exception {
         // Arrange
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
@@ -21,7 +22,34 @@ class ProgrammeEditionIDTest {
     }
 
     @Test
-    void shouldReturnTrueIfProgrammeEditionIDIsComparedToItSelf() {
+    void shouldNotCreateProgrammeEditionIDIfSchoolYearIsNull() throws Exception {
+        // Arrange
+        SchoolYearID schoolYearID = null;
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionID(programmeID, schoolYearID));
+
+        // Assert
+        assertEquals("schoolYearID cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldNotCreateProgrammeEditionIDIfProgrammeIDIsNull() throws Exception {
+        // Arrange
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = null;
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionID(programmeID, schoolYearID));
+
+        // Assert
+        assertEquals("programmeID cannot be null", exception.getMessage());
+    }
+
+    // equals Test
+    @Test
+    void shouldReturnTrueIfProgrammeEditionIDIsComparedToItSelf() throws Exception {
         // Arrange
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
@@ -34,8 +62,9 @@ class ProgrammeEditionIDTest {
         assertTrue(result);
     }
 
+    // toString Tests
     @Test
-    void shouldReturnExpectedStringRepresentation() {
+    void shouldReturnExpectedStringRepresentation() throws Exception {
         // Arrange
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
