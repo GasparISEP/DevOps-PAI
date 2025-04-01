@@ -3,10 +3,10 @@
 actor admin
 
 participant ":UI" as UI #application
-participant "US01_ConfigureTeacherCategoryControllerV2" as Controller #application
-participant "TeacherCategoryFactoryV2Impl" as Factory
+participant "US01_ConfigureTeacherCategoryController" as Controller #application
+participant "TeacherCategoryFactoryImpl" as Factory
 participant "TeacherCategoryRepositoryImpl" as Repository
-participant "TeacherCategoryV2" as Aggregate
+participant "TeacherCategory" as Aggregate
 participant "Name" as VOName
 participant "TeacherCategoryID" as VOId
 
@@ -27,7 +27,7 @@ Controller -> Factory ++ : createTeacherCategory(nameVO)
 Factory -> VOId ++ : new TeacherCategoryID()
 VOId --> Factory -- : idVO
 
-Factory -> Aggregate ++ : new TeacherCategoryV2(idVO, nameVO)
+Factory -> Aggregate ++ : new TeacherCategory(idVO, nameVO)
 Aggregate --> Factory -- : tcAggregate
 
 Factory --> Controller -- : tcAggregate

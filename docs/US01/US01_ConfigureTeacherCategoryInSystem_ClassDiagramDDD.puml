@@ -4,17 +4,19 @@ skinparam ranksep 180
 skinparam linetype ortho
 skinparam nodesep 180
 
-' ======= DDD Base Interfaces =======
-interface "<<DDD>>\nAggregateRoot<ID>" as IAggregateRoot
-interface "<<DDD>>\nDomainEntity<ID>" as IDomainEntity
-interface "<<DDD>>\nValueObject" as IValueObject
-interface "<<DDD>>\nDomainId" as IDomainId
-interface "<<DDD>>\nIRepository<ID, T>" as IRepository
+package "PAI" {
 
-' ======= AGGREGATE =======
-package "TeacherCategory Aggregate" {
-    entity "<<Root>>\n<<Aggregate>>\nTeacherCategoryV2" as TCA {
-        + TeacherCategoryV2(id: TeacherCategoryID, name: Name)
+  ' ======= DDD Base Interfaces =======
+  interface "<<DDD>>\nAggregateRoot<ID>" as IAggregateRoot
+  interface "<<DDD>>\nDomainEntity<ID>" as IDomainEntity
+  interface "<<DDD>>\nValueObject" as IValueObject
+  interface "<<DDD>>\nDomainId" as IDomainId
+  interface "<<DDD>>\nIRepository<ID, T>" as IRepository
+
+  ' ======= AGGREGATE =======
+  package "domain" {
+    entity "<<Root>>\n<<Aggregate>>\nTeacherCategory" as TCA {
+        + TeacherCategory(id: TeacherCategoryID, name: Name)
         + getId(): TeacherCategoryID
         + getName(): Name
         + getIdValue(): UUID
@@ -24,7 +26,9 @@ package "TeacherCategory Aggregate" {
         + equals(Object obj): boolean
         + hashCode(): int
     }
+  }
 
+  package "VOs" {
     class "<<Value Object>>\nName" as VOName {
         - name: String
         + getName(): String
@@ -40,77 +44,83 @@ package "TeacherCategory Aggregate" {
         + hashCode(): int
     }
 
-    ' Associations
-    TCA "1" --> "1" VOName : uses
-    TCA "1" --> "1" VOId : uses
-
-    ' Inheritance / Implements
-    TCA ..|> IAggregateRoot
-    TCA ..|> IDomainEntity
     VOId ..|> IDomainId
     VOId ..|> IValueObject
     VOName ..|> IValueObject
-}
+  }
 
-' ======= FACTORY =======
-package "PAI.factory" {
-    interface "<<Factory Interface>>\nITeacherCategoryFactoryV2" as ITCFactoryV2 {
-        + createTeacherCategory(name: Name): TeacherCategoryV2
+  ' Associations
+  TCA "1" --> "1" VOName : uses
+  TCA "1" --> "1" VOId : uses
+  TCA ..|> IAggregateRoot
+  TCA ..|> IDomainEntity
+
+  ' ======= FACTORY =======
+  package "factory" {
+    interface "<<Factory>>\nITeacherCategoryFactory" as IFactory {
+        + createTeacherCategory(name: Name): TeacherCategory
     }
 
-    class "TeacherCategoryFactoryV2Impl" as TCFactoryV2Impl {
-        + createTeacherCategory(name: Name): TeacherCategoryV2
+    class "TeacherCategoryFactoryImpl" as FactoryImpl {
+        + createTeacherCategory(name: Name): TeacherCategory
     }
 
-    ITCFactoryV2 <|.. TCFactoryV2Impl : implements
-    TCFactoryV2Impl --> TCA : creates
-    TCFactoryV2Impl --> VOName : uses
-    TCFactoryV2Impl --> VOId : generates
+    IFactory <|.. FactoryImpl : implements
+    FactoryImpl --> TCA : creates
+    FactoryImpl --> VOName : uses
+    FactoryImpl --> VOId : generates
 
-    interface "<<List Factory>>\nITeacherCategoryListFactoryV2" as IListFactoryV2 {
-        + getTeacherCategoryList(): List<TeacherCategoryV2>
+    interface "<<List Factory>>\nITeacherCategoryListFactory" as IListFactory {
+        + getTeacherCategoryList(): List<TeacherCategory>
     }
 
-    class "TeacherCategoryListFactoryV2Impl" as ListFactoryV2Impl {
-        + getTeacherCategoryList(): List<TeacherCategoryV2>
+    class "TeacherCategoryListFactoryImpl" as ListFactoryImpl {
+        + getTeacherCategoryList(): List<TeacherCategory>
     }
 
-    IListFactoryV2 <|.. ListFactoryV2Impl : implements
-}
+    IListFactory <|.. ListFactoryImpl : implements
+  }
 
-' ======= REPOSITORY =======
-package "PAI.repository" {
-    interface "<<Repository>>\nITeacherCategoryRepository" as ITCRepo {
-        + save(category: TeacherCategoryV2): TeacherCategoryV2
-        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategoryV2>
+  ' ======= REPOSITORY =======
+  package "repository" {
+    interface "<<Repository>>\nITeacherCategoryRepository" as IRepo {
+        + save(category: TeacherCategory): TeacherCategory
+        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
         + containsOfIdentity(id: TeacherCategoryID): boolean
-        + findAll(): Iterable<TeacherCategoryV2>
+        + findAll(): Iterable<TeacherCategory>
         + existsByName(name: Name): boolean
+        + getTeacherCategoryList(): List<TeacherCategory>
+        + findByName(name: Name): Optional<TeacherCategory>
     }
 
-    class "TeacherCategoryRepositoryImpl" as TCRepoImpl {
-        + save(category: TeacherCategoryV2): TeacherCategoryV2
-        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategoryV2>
+    class "TeacherCategoryRepositoryImpl" as RepoImpl {
+        + save(category: TeacherCategory): TeacherCategory
+        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
         + containsOfIdentity(id: TeacherCategoryID): boolean
-        + findAll(): Iterable<TeacherCategoryV2>
+        + findAll(): Iterable<TeacherCategory>
         + existsByName(name: Name): boolean
+        + getTeacherCategoryList(): List<TeacherCategory>
+        + findByName(name: Name): Optional<TeacherCategory>
     }
 
-    IRepository <|.. ITCRepo : extends
-    ITCRepo <|.. TCRepoImpl : implements
+    IRepository <|.. IRepo : extends
+    IRepo <|.. RepoImpl : implements
 
-    TCRepoImpl --> TCA : stores
-    TCRepoImpl --> VOId : looks up
+    RepoImpl --> TCA : stores
+    RepoImpl --> VOId : looks up
+  }
+
+  ' ======= CONTROLLER =======
+  package "controller" {
+    class "US01_ConfigureTeacherCategoryController" as Controller {
+        + configureTeacherCategory(categoryName: String): boolean
+    }
+
+    Controller --> IRepo : uses
+    Controller --> IFactory : uses
+    Controller ..> TCA : creates
+    Controller ..> VOName : uses
+  }
 }
-
-' ======= CONTROLLER =======
-class "US01_ConfigureTeacherCategoryControllerV2" as ControllerV2 {
-    + configureTeacherCategory(categoryName: String): boolean
-}
-
-ControllerV2 --> ITCRepo : uses
-ControllerV2 --> ITCFactoryV2 : uses
-ControllerV2 ..> TCA : creates
-ControllerV2 ..> VOName : uses
 
 @enduml
