@@ -93,4 +93,28 @@ class UtilsTest {
         assertFalse(result2);
     }
 
+    @Test
+    void croatiaNIF_HR_isCorrect(){
+        //arrange
+        String countryName = "Croatia";
+        Country country = new Country(countryName);
+        String stringNIF = "12345678901";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void croatiaNIF_HR_isIncorrect(){
+        //arrange
+        String countryName = "Croatia";
+        Country country = new Country(countryName);
+        String stringNIF = "1234567890";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        //assert
+        assertFalse(result);
+    }
+
 }

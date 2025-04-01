@@ -17,6 +17,8 @@ public class Utils {
         NIF_RULE_MAP.put(normalize("Belgium"), "^\\d{11}$");
         //9 or 10 digits
         NIF_RULE_MAP.put(normalize("Bulgaria"), "^\\d{9,10}$");
+        //11 digits
+        NIF_RULE_MAP.put(normalize("Croatia"), "^\\d{11}$");
     }
 
     public static boolean NIFValidator (Country country, String NIF){
