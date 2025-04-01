@@ -54,4 +54,17 @@ class StudyPlanDDDTest {
         // Assert
         assertNotEquals(studyPlan1.getStudyPlanID(), studyPlan2.getStudyPlanID());
     }
+
+    @Test
+    void shouldReturnProgrammeID() {
+        // arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears);
+        // act
+        ProgrammeID result = studyPlan1.getProgrammeID();
+        // assert
+        assertEquals(programmeID, result);
+    }
 }
