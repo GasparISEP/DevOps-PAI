@@ -1,11 +1,13 @@
 package PAI.domain;
 
+import PAI.VOs.ProgrammeEditionID;
+
 public class CourseEdition {
 
     private Course _course;
     private ProgrammeEdition _programmeEdition;
     private Teacher _ruc;
-
+    private ProgrammeEditionID _programmeEditionId;
 
     public CourseEdition (Course course, ProgrammeEdition programmeEdition) throws Exception {
         if (programmeEdition == null || course==null) {

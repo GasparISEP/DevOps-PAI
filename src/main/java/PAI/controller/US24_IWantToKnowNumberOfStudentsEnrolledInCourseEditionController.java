@@ -1,25 +1,24 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.domain.CourseEdition;
-import PAI.repository.CourseEditionEnrolmentRepository;
+import PAI.repository.CourseEditionEnrolmentRepositoryImpl;
 
 public class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController {
 
-    private CourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
+    private CourseEditionEnrolmentRepositoryImpl _courseEditionEnrolmentRepositoryImpl;
 
-    public US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(CourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
+    public US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController(CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepositoryImpl) {
 
-        if (courseEditionEnrolmentRepository == null) {
+        if (courseEditionEnrolmentRepositoryImpl == null) {
             throw new IllegalArgumentException("Course Edition Enrolment Repository cannot be null");
         }
 
-        _courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
+        _courseEditionEnrolmentRepositoryImpl = courseEditionEnrolmentRepositoryImpl;
     }
 
    public int IWantToKnowNumberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionID) throws Exception {
 
-        return _courseEditionEnrolmentRepository.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
+        return _courseEditionEnrolmentRepositoryImpl.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
 
     }
 }

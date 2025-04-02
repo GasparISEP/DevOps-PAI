@@ -21,7 +21,7 @@ public class ProgrammeDDDRepository {
         _programmeRepoListFactory = programmeLisListFactory;
     }
 
-    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID) throws Exception {
+    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, Department department, TeacherID programmeDirectorID) throws Exception {
 
         ProgrammeDDD programme_DDD = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
 
@@ -33,8 +33,12 @@ public class ProgrammeDDDRepository {
     }
 
     // Change ProgrammeDirector
-    public boolean changeProgrammeDirector(ProgrammeDDD programme, TeacherID newDirectorID) throws Exception {
-        return programme.newProgrammeDirector(newDirectorID);
+    public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
+        Optional<ProgrammeDDD> programmeDDD = findProgrammeByID(programmeID);
+        if (programmeDDD.isPresent()) {
+            return programmeDDD.get().newProgrammeDirector(newDirectorID);
+        }
+        return false;
     }
 
     public List<ProgrammeDDD> getAllProgrammes() {

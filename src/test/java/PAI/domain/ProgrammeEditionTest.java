@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

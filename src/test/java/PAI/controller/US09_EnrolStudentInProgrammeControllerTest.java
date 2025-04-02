@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.programme.ProgrammeDDD;
@@ -35,7 +36,10 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private ProgrammeID _programmeID;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
     private static Date _date;
-    private Address address1;
+    private Street _street;
+    private PostalCode _postalCode;
+    private Location _location;
+    private Country _country;
     private Name _name;
     private NameWithNumbersAndSpecialChars _nameWithNumbersAndSpecialChars;
     private NIF _nif;
@@ -59,23 +63,29 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         _date = mock(Date.class);
 
         // Register some students
-        address1 = mock(Address.class);
+        _street = mock(Street.class);
+        _postalCode = mock(PostalCode.class);
+        _location = mock(Location.class);
+        _country = mock(Country.class);
         _studentID = mock(StudentID.class);
         _name = mock(Name.class);
         _nif = mock(NIF.class);
         _phone = mock(PhoneNumber.class);
         _email = mock(Email.class);
         _academicEmail = mock(StudentAcademicEmail.class);
-        _studentRepository.registerStudent(_studentID, _name, _nif, _phone, _email, address1, _academicEmail);
+        _studentRepository.registerStudent(_studentID, _name, _nif, _phone, _email, _street, _postalCode, _location, _country, _academicEmail);
 
-        Address address2 = mock(Address.class);
+        Street streetDouble2 = mock(Street.class);
+        PostalCode postalCodeDouble2 = mock(PostalCode.class);
+        Location locationDouble2 = mock(Location.class);
+        Country countryDouble2 = mock(Country.class);
         StudentID mockStudentID2 = mock(StudentID.class);
         Name nameDouble2 = mock(Name.class);
         NIF nifDouble2 = mock(NIF.class);
         PhoneNumber phoneDouble2 = mock(PhoneNumber.class);
         Email emailDouble2 = mock(Email.class);
         StudentAcademicEmail academicEmailDouble2 = new StudentAcademicEmail(mockStudentID2);
-        _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, address2, academicEmailDouble2);
+        _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, streetDouble2, postalCodeDouble2, locationDouble2, countryDouble2, academicEmailDouble2);
     }
 
     //quando vai buscar

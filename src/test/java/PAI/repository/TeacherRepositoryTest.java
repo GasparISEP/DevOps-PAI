@@ -30,7 +30,7 @@ class TeacherRepositoryTest {
     private NIF _nifDouble;
     private PhoneNumber _phoneNumberDouble;
     private AcademicBackground _academicBackgroundDouble;
-    private Department _departmentDouble;
+    private DepartmentID _departmentIDDouble;
     private Street _streetDouble;
     private PostalCode _postalCodeDouble;
     private Location _locationDouble;
@@ -58,7 +58,7 @@ class TeacherRepositoryTest {
         _nifDouble = mock(NIF.class);
         _phoneNumberDouble = mock(PhoneNumber.class);
         _academicBackgroundDouble = mock(AcademicBackground.class);
-        _departmentDouble = mock(Department.class);
+        _departmentIDDouble = mock(DepartmentID.class);
         _streetDouble = mock(Street.class);
         _postalCodeDouble = mock(PostalCode.class);
         _locationDouble = mock(Location.class);
@@ -207,13 +207,13 @@ class TeacherRepositoryTest {
 
         when(_teacherFactory.createTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble)).thenReturn(_teacherDouble);
+                _countryDouble, _departmentIDDouble)).thenReturn(_teacherDouble);
         when(_iterator.hasNext()).thenReturn(false);
         when(_teacherDouble.identity()).thenReturn(_teacherID);
 
         // Act
         Optional<TeacherID> result = teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentIDDouble);
 
         // Assert
         assertTrue(result.isPresent());
@@ -233,7 +233,7 @@ class TeacherRepositoryTest {
 
         when(_teacherFactory.createTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble)).thenReturn(_teacherDouble, teacherDouble2);
+                _countryDouble, _departmentIDDouble)).thenReturn(_teacherDouble, teacherDouble2);
 
         // Mock iterator behavior
         when(_iterator.hasNext()).thenReturn(false, true, false);
@@ -243,12 +243,12 @@ class TeacherRepositoryTest {
 
         teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble);
+                _countryDouble, _departmentIDDouble);
 
         // Act
         Optional<TeacherID> result = teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble);
+                _countryDouble, _departmentIDDouble);
 
         // Assert
         assertTrue(result.isPresent());
@@ -267,7 +267,7 @@ class TeacherRepositoryTest {
 
         when(_teacherFactory.createTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble)).thenReturn(_teacherDouble, teacherDouble2);
+                _countryDouble, _departmentIDDouble)).thenReturn(_teacherDouble, teacherDouble2);
 
         // Mock iterator behavior
         when(_iterator.hasNext()).thenReturn(false, true);
@@ -278,12 +278,12 @@ class TeacherRepositoryTest {
 
         teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble);
+                _countryDouble, _departmentIDDouble);
 
         // Act
         Optional<TeacherID> result = teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble);
+                _countryDouble, _departmentIDDouble);
 
         // Assert
         assertTrue(result.isEmpty());

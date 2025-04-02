@@ -3,30 +3,43 @@ package PAI.VOs;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseInStudyPlanIDTest {
 
     @Test
-    void testDefaultConstructorCreatesNonNullID() {
-        //arrange + act
-        CourseInStudyPlanID id = new CourseInStudyPlanID();
+    void defaultConstructorCreatesNonNullCourseInStudyPlanID() {
+        //arrange
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        //act
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
         //assert
-        assertNotNull(id.getCourseInStudyPlanId());
+        assertNotNull(id);
     }
 
     @Test
-    void testEqualsMethodWithDifferentUUID() {
-        //arrange + act
-        CourseInStudyPlanID id1 = new CourseInStudyPlanID();
-        CourseInStudyPlanID id2 = new CourseInStudyPlanID();
+    void equalsMethodWithDifferentCourseInStudyPlanID() {
+        //arrange
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseID courseID1 = mock(CourseID.class);
+        StudyPlanID studyPlanID1 = mock(StudyPlanID.class);
+
+        //act
+        CourseInStudyPlanID id1 = new CourseInStudyPlanID(courseID, studyPlanID);
+        CourseInStudyPlanID id2 = new CourseInStudyPlanID(courseID1, studyPlanID1);
         //arrange
         assertNotEquals(id1, id2);
     }
 
     @Test
-    void testHashCodeConsistency() {
+    void hashCodeConsistency() {
         //arrange
-        CourseInStudyPlanID id = new CourseInStudyPlanID();
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
         //act
         int hash1 = id.hashCode();
         int hash2 = id.hashCode();
@@ -35,31 +48,56 @@ class CourseInStudyPlanIDTest {
     }
 
     @Test
-    void testToStringReturnsUUIDString() {
-        //arrange
-        CourseInStudyPlanID id = new CourseInStudyPlanID();
-        //act
-        String uuidString = id.getCourseInStudyPlanId().toString();
-        //assert
-        assertEquals(uuidString, id.toString());
-    }
-
-    @Test
     void testEqualsSameObject() {
-        CourseInStudyPlanID id = new CourseInStudyPlanID();
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
         assertEquals(id, id);
     }
 
     @Test
     void testEqualsWithNull() {
-        CourseInStudyPlanID id = new CourseInStudyPlanID();
-        assertNotEquals(id , null);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
+        assertNotEquals(null, id);
     }
 
     @Test
     void testEqualsWithDifferenteClass() {
-        CourseInStudyPlanID id = new CourseInStudyPlanID();
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
         String other = "not a CourseInStudyPlanID";
-        assertNotEquals(id, other);
+        assertNotEquals(other, id);
+    }
+
+    @Test
+    void testEqualsWithIdenticalValues() {
+        // Arrange
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanID id1 = new CourseInStudyPlanID(courseID, studyPlanID);
+        CourseInStudyPlanID id2 = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        // Act & Assert
+        assertEquals(id1, id2, "Os objetos com os mesmos valores devem ser iguais.");
+        assertEquals(id1.hashCode(), id2.hashCode(), "Os hashCodes devem ser iguais para objetos iguais.");
+    }
+
+    @Test
+    void testToString() {
+        // Arrange
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        when(courseID.toString()).thenReturn("CourseID{mock}");
+        when(studyPlanID.toString()).thenReturn("StudyPlanID{mock}");
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        // Act
+        String expected = "CourseInStudyPlanID{_courseID=CourseID{mock}, _studyPlanID=StudyPlanID{mock}}";
+
+        // Assert
+        assertEquals(expected, id.toString());
     }
 }

@@ -2,20 +2,18 @@ package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
-import PAI.repository.CourseEditionEnrolmentRepository;
-import PAI.domain.CourseEdition;
-import PAI.domain.Student;
+import PAI.repository.ICourseEditionEnrolmentRepository;
 
 public class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
 
-    private final CourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
+    private final ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
 
-    public US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(CourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
+    public US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
 
         this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
     }
-//    public boolean removeStudentEnrolment(StudentID studentId, CourseEditionID courseEditionsId) {
-//
-//           return courseEditionEnrolmentRepository.removeEnrolment(studentId, courseEditionsId);
-//    }
+    public boolean removeStudentEnrolment(StudentID studentId, CourseEditionID courseEditionsId) {
+
+           return courseEditionEnrolmentRepository.removeEnrolment(studentId, courseEditionsId);
+    }
 }

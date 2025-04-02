@@ -1,6 +1,10 @@
 package PAI.controller;
 
-import PAI.repository.TeacherCategoryRepository;
+import PAI.domain.TeacherCategory;
+import PAI.factory.ITeacherCategoryFactory;
+import PAI.repository.ITeacherCategoryRepository;
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,127 +12,69 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for the {@link US01_ConfigureTeacherCategoryController} class.
- * These tests verify the functionality of the controller's behavior in handling teacher category configurations.
+ * Testes unitários para o controller V2 de configuração de categorias de professor.
  */
 public class US01_ConfigureTeacherCategoryControllerTest {
 
-    private TeacherCategoryRepository repository; // Mocked repository
+    private ITeacherCategoryRepository repository;
+    private ITeacherCategoryFactory factory;
     private US01_ConfigureTeacherCategoryController controller;
 
-    /**
-     * Setup method to initialize the mock repository and controller before each test.
-     * This method is called before each test is run.
-     */
     @BeforeEach
     public void setUp() {
-        // Arrange
-        repository = mock(TeacherCategoryRepository.class); //  Mock the repository
-        controller = new US01_ConfigureTeacherCategoryController(repository);
+        repository = mock(ITeacherCategoryRepository.class);
+        factory = mock(ITeacherCategoryFactory.class);
+        controller = new US01_ConfigureTeacherCategoryController(repository, factory);
     }
 
-    /**
-     * Tests the constructor of the controller with a null repository.
-     * This test verifies that an {@link IllegalArgumentException} is thrown when the repository is null.
-     */
     @Test
-    public void testConstructorWithNullRepository() {
-        // Arrange
-        TeacherCategoryRepository nullRepository = null;
-
-        // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US01_ConfigureTeacherCategoryController(nullRepository);
-        });
-        assertEquals("Repository cannot be null", exception.getMessage());
+    public void testConstructorWithNullArguments() {
+        assertThrows(IllegalArgumentException.class, () -> new US01_ConfigureTeacherCategoryController(null, factory));
+        assertThrows(IllegalArgumentException.class, () -> new US01_ConfigureTeacherCategoryController(repository, null));
     }
 
-    /**
-     * Tests the behavior of the controller when attempting to add a duplicate category.
-     * This test verifies that the controller throws an exception if the category already exists.
-     *
-     * @throws Exception if an error occurs while configuring the teacher category.
-     */
     @Test
-    public void testAddDuplicateCategory() throws Exception {
-        // Arrange
-        String categoryName = "Math";
+    public void testAddNewCategorySuccessfully() throws Exception {
+        Name name = new Name("Matemática");
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), name);
 
-        when(repository.registerTeacherCategory(categoryName))
-                .thenReturn(true) // First call succeeds
-                .thenReturn(false); // Return false if category already exists
+        when(repository.existsByName(any(Name.class))).thenReturn(false);
+        when(factory.createTeacherCategory(any(Name.class))).thenReturn(category);
+        when(repository.save(category)).thenReturn(category);
 
-        // Act & Assert
-        controller.configureTeacherCategory(categoryName); // First call works
-        assertThrows(Exception.class, () -> controller.configureTeacherCategory(categoryName)); // Second call should throw
-    };
+        boolean result = controller.configureTeacherCategory("Matemática");
 
-    /**
-     * Tests the behavior of the controller when adding a new teacher category.
-     * This test ensures that the controller can successfully add a new category and interact with the repository.
-     *
-     * @throws Exception if an error occurs while configuring the teacher category.
-     */
-    @Test
-    public void testAddNewCategory() throws Exception {
-        // Arrange
-        String categoryName = "Science";
-        // Tell the mock to return 'true' when we try to add the category
-        when(repository.registerTeacherCategory(categoryName)).thenReturn(true);
-
-        // Act
-        boolean result = controller.configureTeacherCategory(categoryName);
-
-        // Assert
         assertTrue(result);
-        verify(repository).registerTeacherCategory(categoryName); // Verify that the method was called
+        verify(repository).save(category);
     }
 
-    /**
-     * Tests the behavior of the controller when adding a category with special characters in its name.
-     * This test verifies that the system handles special characters correctly in the category name.
-     *
-     * @throws Exception if an error occurs while configuring the teacher category.
-     */
     @Test
-    public void testAddCategoryWithSpecialCharacters() throws Exception { //Ensures that category names with special characters are handled properly
-        // Arrange
-        String specialCharCategory = "Comp#Sci!";
+    public void testDuplicateCategoryThrowsException() throws Exception {
+        Name name = new Name("Física Fisica");
 
-        when(repository.registerTeacherCategory(specialCharCategory)).thenReturn(true);
+        when(repository.existsByName(any(Name.class))).thenReturn(true);
 
-        // Act
-        boolean result = controller.configureTeacherCategory(specialCharCategory);
+        Exception ex = assertThrows(Exception.class, () -> controller.configureTeacherCategory("Física fisica"));
+        assertEquals("Category already exists.", ex.getMessage());
+    }
 
-        // Assert
+    @Test
+    public void testCategoryWithSpecialCharacters() throws Exception {
+        Name name = new Name("Comp-Sci");
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), name);
+
+        when(repository.existsByName(any(Name.class))).thenReturn(false);
+        when(factory.createTeacherCategory(any(Name.class))).thenReturn(category);
+        when(repository.save(category)).thenReturn(category);
+
+        boolean result = controller.configureTeacherCategory("Comp-Sci");
+
         assertTrue(result);
-        verify(repository).registerTeacherCategory(specialCharCategory);
+        verify(repository).save(category);
     }
 
-    /**
-     * Tests the case sensitivity of teacher category names.
-     * This test ensures that the system can handle category names with different cases, such as "math" and "Math".
-     *
-     * @throws Exception if an error occurs while configuring the teacher category.
-     */
     @Test
-    public void testCaseSensitivityInCategoryNames() throws Exception { //Ensures that the system handles case sensitivity properly.
-        // Arrange
-        String categoryLower = "math";
-        String categoryUpper = "Math";
-
-        when(repository.registerTeacherCategory(categoryLower)).thenReturn(true);
-        when(repository.registerTeacherCategory(categoryUpper)).thenReturn(true);
-
-        // Act
-        boolean resultLower = controller.configureTeacherCategory(categoryLower);
-        boolean resultUpper = controller.configureTeacherCategory(categoryUpper);
-
-        // Assert
-        assertTrue(resultLower);
-        assertTrue(resultUpper);
-        verify(repository).registerTeacherCategory(categoryLower);
-        verify(repository).registerTeacherCategory(categoryUpper);
+    public void testInvalidLowercaseNameThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> new Name("história"));
     }
-
 }

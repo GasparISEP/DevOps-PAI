@@ -15,6 +15,11 @@ class US16_EnrolAStudentInACourseEditionController {
 
 interface ICourseEditionEnrolmentRepository {
     +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition): boolean
+    +findByStudentAndEdition(StudentID student, CourseEditionID courseEdition): Optional<CourseEditionEnrolment>
+    +numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId): int
+    +removeEnrolment(StudentID studentID, CourseEditionID courseEditionID): boolean
+    +enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions)
 }
 
 class CourseEditionEnrolmentRepositoryImpl {
@@ -63,6 +68,7 @@ package "CourseEditionEnrolment Aggregate" #LightBlue {
               courseEdition: CourseEditionID)
              +equals (obj: Object): boolean
              +hashCode(): int
+             +sameAs(obj: Object): boolean
     }
 }
 
@@ -84,7 +90,7 @@ class "<<Value Object>>\n CourseEditionEnrolmentID" {
 package "CourseEdition Aggregate" #LightBlue{
     entity "<<Root>>\n CourseEdition" {
     +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID)
-    +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEditionID
+    +getProgrammeEditionID() : ProgrammeEditionID
     }
 }
 

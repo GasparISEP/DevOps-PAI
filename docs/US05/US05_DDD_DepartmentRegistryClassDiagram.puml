@@ -4,23 +4,23 @@ title US05: Register a Department in the System
 
 class US05_RegisterADepartmentController {
     +US05_RegisterADepartmentController(departmentRepo: IDepartmentRepository)
-    +registerDepartment(acronym: Acronym, name: Name): boolean
+    +registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
 }
 
 interface IDepartmentRepository {
-    + registerDepartment(acronym: Acronym, name: Name): boolean
+    + registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
 }
 class DepartmentRepository {
     +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
-    +registerDepartment(acronym: Acronym, name: Name) :boolean
+    +registerDepartment(acronym: DepartmentAcronym, name: Name) :boolean
 }
 
 class DepartmentFactoryImpl {
-    +newDepartment(acronym: Acronym, name: Name): Department
+    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
 }
 
 interface IDepartmentFactory {
-    +newDepartment(acronym: Acronym, name: Name): Department
+    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
 }
 
 class DepartmentListFactoryImpl {
@@ -38,7 +38,7 @@ interface Set {
 package "Department Aggregate" {
 
 class Department <<root>> {
-    +Department(departmentAcronym: String, departmentName: String)
+    +Department(acronym: DepartmentAcronym , name: Name)
     +hashCode(): int
     +identity(): DepartmentAcronym
     +equals(obj: Object): boolean
@@ -56,8 +56,17 @@ class Name <<Value Object >> {
 
 class DepartmentAcronym <<Value Object>> {
     -_acronym: String
-    + Acronym(acronym: String)
+    + DepartmentAcronym(acronym: String)
     + getAcronym(): String
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+class DepartmentID <<Value Object>> {
+    + DepartmentID(acronym: DepartmentAcronym)
+    + getAcronym(): DepartmentAcronym
+    + equals(obj: Object): boolean
+    + hashCode(): int
 }
 
 DepartmentRepository "1" ..> "*" Department
@@ -72,5 +81,6 @@ IDepartmentRepository <|.. DepartmentRepository
 Department "1" <.. "1" IDepartmentFactory
 IDepartmentFactory "_departmentFactory1" <.. "1"  DepartmentRepository
 Name "_departmentName 1" <-- "1" Department
-DepartmentAcronym "_departmentAcronym 1" <-- "1" Department
+Department "1" --> "1 _departmentId" DepartmentID
+DepartmentID "1" --> "1 _departmentAcronym" DepartmentAcronym
 @enduml

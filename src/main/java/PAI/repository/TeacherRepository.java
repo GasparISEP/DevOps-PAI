@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TeacherRepository implements IRepository<TeacherID, Teacher> {
+public class TeacherRepository implements ITeacherRepository {
     private List<Teacher> _teachers;
     private ITeacherFactory _teacherFactory;
 
@@ -53,10 +53,10 @@ public class TeacherRepository implements IRepository<TeacherID, Teacher> {
     }
 
     public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-                                   Street street, PostalCode postalCode, Location location, Country country, Department department) {
+                                   Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-                street, postalCode, location, country, department);
+                street, postalCode, location, country, departmentID);
 
         if (isDuplicateTeacherInList(teacher)){
             return Optional.empty();
@@ -79,12 +79,6 @@ public class TeacherRepository implements IRepository<TeacherID, Teacher> {
             return true;
         }
         return false;
-    }
-
-    // US20 - retrieves all the teachers in the repository
-    // This method is to be deleted and instead use findAll
-    public List<Teacher> getAllTeachers() {
-        return new ArrayList<>(_teachers);
     }
 
     public Optional<Teacher> getTeacherByNIF(NIF nif) {

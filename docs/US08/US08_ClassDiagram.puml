@@ -24,7 +24,7 @@ package "Student Aggregate" {
         - _NIF : NIF
         - _phone : Phone
         - _email : Email
-        - _address : Address
+        - _address : AddressVO
         - _institutionalEmail : InstitutionalEmail
         + identity() : StudentID
         + sameAs (object : Object) : boolean
@@ -34,15 +34,12 @@ package "Student Aggregate" {
 }
 
 package "Address Aggregate" {
-    class Address <<Root>> <<Value Object>> {
+    class AddressVO <<Root>> <<Value Object>> {
         - _street : Street
         - _postalCode : PostalCode
         - _location : Location
         - _country : Country
-        + getStreet() : Street
-        + getPostalCode() : PostalCode
-        + getLocation() : Location
-        + getCountry() : Country
+        + isAttributeValid(attribute : Object)
     }
 }
 
@@ -114,14 +111,18 @@ class Country <<Value Object>> {
     -_country : String
     + Country(country : String)
     + isCountryInvalid(country : String)
+    + equals(object : Object)
+    + getCountry()
 }
 
 interface IStudentFactory <<Interface>> {
-    + newStudent(StudentID : StudentID, name : Name, NIF : Name, phone : Phone, email : Email, street : Street, postalCode : PostalCode, location : Location, country : Country) : Student
+    + newStudent(StudentID : StudentID, name : Name, NIF : Name, phone : Phone, email : Email, street : Street, address : AddressVO) : Student
+    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : AddressVO
 }
 
 class StudentFactoryImpl {
-    + newStudent(uniqueNumber : String, name : String, NIF : String, phone : String, email : String, street : Street, postalCode : PostalCode, location : Location, country : Country) : Student
+    + newStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : AddressVO) : Student
+    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : AddressVO
 }
 
 interface IStudentListFactory <<Interface>> {
@@ -130,14 +131,6 @@ interface IStudentListFactory <<Interface>> {
 
 class StudentListFactoryImpl {
     + newArrayList() : List<Student>
-}
-
-interface IAddressFactory <<Interface>> {
-    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : Address
-}
-
-class AddressFactoryImpl {
-    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : Address
 }
 
 class List<Student> <<Interface>> {}
@@ -164,13 +157,10 @@ StudentRepository "1" ..> "1" IStudentFactory
 StudentRepository "1" ---> "_students\n*" Student
 StudentRepository "1" ..> "1" IStudentListFactory
 IStudentListFactory "1 " ..> "1  " List: <<creates>>
-Student "1" --> "1" Address
+Student "1" --> "1" AddressVO
 StudentFactoryImpl "*" ..|> "1     " IStudentFactory
 StudentListFactoryImpl "*" ..|> "1     " IStudentListFactory
-AddressFactoryImpl "*" ..|> "1  " IAddressFactory
-IAddressFactory "1" .l.> "1" Address: <<create>>
 IStudentFactory "1" ..> "1" Student: <<create>>
-IStudentFactory "1" ..> "1" IAddressFactory
 StudentRepository ...|> IStudentRepository
 IStudentRepository ..|> IRepository
 Student "*" ----> "1" StudentID
@@ -179,9 +169,9 @@ Student "\n *" ----> "1  " Email
 Student "\n *" ----> "1   " InstitutionalEmail
 Student "\n *" ----> "1 " Phone
 Student "\n *" ----> "1 " NIF
-Address "\n *" ----> "1" Street
-Address "\n *" ----> "1" PostalCode
-Address "\n *" ----> "1" Location
-Address "\n *" ----> "1" Country
+AddressVO "\n *" ----> "1" Street
+AddressVO "\n *" ----> "1" PostalCode
+AddressVO "\n *" ----> "1" Location
+AddressVO "\n *" ----> "1" Country
 
 @enduml

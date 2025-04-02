@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.ProgrammeEdition;
 import PAI.repository.ProgrammeEditionEnrolmentRepository;
 import PAI.repository.ProgrammeEditionRepository;
@@ -28,11 +29,11 @@ public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionContro
         return _programmeEditionRepository.getAllProgrammeEditions();
     }
 
-    public int iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEdition programmeEdition){
+    public int iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionId){
 
-        if(programmeEdition == null){
+        if(programmeEditionId == null){
             throw new IllegalArgumentException("Programme Edition cannot be null");
         }
-        return _programmeEditionEnrolmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition);
+        return _programmeEditionEnrolmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionId);
     }
 }

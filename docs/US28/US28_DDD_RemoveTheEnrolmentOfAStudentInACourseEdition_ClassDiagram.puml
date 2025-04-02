@@ -6,7 +6,7 @@ skinparam titleFontSize 18
 skinparam linetype ortho
 
 class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
-    +US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller\n(courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository)
+    +US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller\n(ceeRepository: ICourseEditionEnrolmentRepository)
     +removeStudentEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
 }
 
@@ -33,7 +33,7 @@ class EnrolmentStatus <<Value Object>>{
     }
 
 
-class CourseEditionEnrolmentRepository {
+class CourseEditionEnrolmentRepositoryImpl {
     +CourseEditionEnrolmentRepository(factory: ICourseEditionEnrolmentFactory,
      listFactory: ICourseEditionEnrolmentListFactory)
     +enrolStudentInACourseEdition (studenIDt: StudentID, courseEditionID: CourseEditionID): boolean
@@ -113,17 +113,13 @@ class SchoolYearID <<Value Object>> {
 
 package "CourseEdition Aggregate" #LightYellow{
 class CourseEdition <<Root>> <<Entity>>{
-    -_courseInStudyPlan: CourseInStudyPlan
-    -_programmeEdition: ProgrammeEdition
-    -_ruc: Teacher
-    +CourseEdition(id: CourseEditionID, programmeEdition:
-    ProgrammeEdition, courseInStudyPlan: CourseInStudyPlan)
+    +CourseEdition(programmeEditionID: \n ProgrammeEditionID, courseInStudyPlanID: CourseInStudyPlanID)
+    +CourseEdition(courseEditionID: CourseEditionID, programmeEditionID: \n ProgrammeEditionID, courseInStudyPlanID: CourseInStudyPlanID)
 }
 }
 
 class CourseEditionID <<Value Object>> {
-    -_courseEditionID : UUID
-    + CourseEditionID()
+    + CourseEditionID(programmeEdition: ProgrammeEdition, \n courseInStudyPlanID: CourseInStudyPlanID)
     + toString() : String
     + equals (object : Object) : boolean
 }
@@ -162,10 +158,10 @@ CourseEditionEnrolment "*" --> "_studentID 1" StudentID
 CourseEditionEnrolment "*" --> "_courseEditionID 1    " CourseEditionID
 ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
 ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
-CourseEditionEnrolmentRepository ..> ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentRepositoryImpl ..> ICourseEditionEnrolmentFactory
 ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
-CourseEditionEnrolmentRepository ..> ICourseEditionEnrolmentListFactory
-ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepository
+CourseEditionEnrolmentRepositoryImpl ..> ICourseEditionEnrolmentListFactory
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
 US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller "1" ..> "_enrolmentRepo 1" ICourseEditionEnrolmentRepository
 Date "_enrolmentDate 1" <-- "1" CourseEditionEnrolment
 EnrolmentStatus "_isActive 1" <-- "1" CourseEditionEnrolment
@@ -180,8 +176,10 @@ NIF "_NIF 1" <-- "1" Student
 PhoneNumber "_phone 1" <-- "1" Student
 Email "_email 1" <-- "1" Student
 StudentAcademicEmail "_studentAcademicEmail 1" <-- "1" Student
-CourseEditionEnrolmentRepository "1"..> "_courseEditionEnrolments *    " CourseEditionEnrolment
+CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *    " CourseEditionEnrolment
 CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
+CourseInStudyPlanID "_courseInStudyPlanID 1" <-- "1" CourseEdition
+ProgrammeEditionID "_programmeEditionID 1" <-- "1" CourseEdition
 CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
 StudentID "_studentID 1" <--  CourseEditionEnrolmentID
 CourseEditionID "_courseEditionID 1" <--  CourseEditionEnrolmentID

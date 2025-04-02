@@ -4,7 +4,8 @@ title US26_getNumberOfStudentsInProgrammesFromSpecifiedDepartmentInGivenSchoolYe
 top to bottom direction
 skinparam ranksep 100
 skinparam nodesep 100
-
+skinparam classBackgroundColor #E1F5FE
+skinparam linetype ortho
 
 class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
     +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( IProgrammeEditionEnrolmentRepo PEERepo,ISchoolYearRepository schoolYearRepository,IDepartmentRepository departmentRepository
@@ -66,8 +67,6 @@ class SchoolYearRepository {
     +schoolYearExists(schoolYear: SchoolYear): boolean
 }
 
-
-
 package "ProgrammeEdition Aggregate" #Lightblue{
      class ProgrammeEdition <<Root>> {
         - programmeEditionID: ProgrammeEditionID
@@ -117,12 +116,12 @@ package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
     }
 }
 
-"ProgrammeEdition Aggregate" "1..*" --> "1" "SchoolYear Aggregate"
+"ProgrammeEdition Aggregate" "1..*" --> "1 _schoolYear" "SchoolYear Aggregate"
 "ProgrammeEdition Aggregate" "1..*" --> "1 _programme" "Programme Aggregate"
-"Programme Aggregate" "1" --> "1" "Department Aggregate"
-"ProgrammeEditionEnrolment Aggregate" "*" --> "1" "Student Aggregate"
-"ProgrammeEditionEnrolment Aggregate" "*" <-u- "1" "ProgrammeEditionEnrolmentRepo"
-"Department Aggregate" "* _departmentsList" <-- "1" DepartmentRepository
+"Programme Aggregate" "1..*" --> "1 _department" "Department Aggregate"
+"ProgrammeEditionEnrolment Aggregate" "1..*" --> "1 _student" "Student Aggregate"
+"ProgrammeEditionEnrolment Aggregate" "_programmeEditionEnrolmentList *" <-u- "1" "ProgrammeEditionEnrolmentRepo"
+"Department Aggregate" "_departmentsList *" <-- "1" DepartmentRepository
 IDepartmentRepository <|.. DepartmentRepository
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _departmentRepository" "IDepartmentRepository"
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _schoolYearRepository"  "ISchoolYearRepository"
