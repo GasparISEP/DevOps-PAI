@@ -67,4 +67,8 @@ public class CourseDDD implements AggregateRoot<CourseID> {
                 _quantityCreditsEcts.equals(courseDDDTest._quantityCreditsEcts) &&
                 _duration.equals(courseDDDTest._duration);
     }
+
+    public Name getName() {
+        return _name;
+    }
 }
