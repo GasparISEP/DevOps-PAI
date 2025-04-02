@@ -279,4 +279,40 @@ class UtilsTest {
         assertFalse(result3);
     }
 
+    @Test
+    void france_FR_isCorrect(){
+        //arrange
+        String countryName = "France";
+        Country country = new Country(countryName);
+        String stringNIF1 = "0123456789012";
+        String stringNIF2 = "1123456789012";
+        String stringNIF3 = "2123456789012";
+        String stringNIF4 = "3123456789012";
+        //act
+        boolean result1 = Utils.NIFValidator(country, stringNIF1);
+        boolean result2 = Utils.NIFValidator(country, stringNIF2);
+        boolean result3 = Utils.NIFValidator(country, stringNIF3);
+        boolean result4 = Utils.NIFValidator(country, stringNIF4);
+        //assert
+        assertTrue(result1);
+        assertTrue(result2);
+        assertTrue(result3);
+        assertTrue(result4);
+    }
+
+    @Test
+    void france_FR_isIncorrect(){
+        //arrange
+        String countryName = "France";
+        Country country = new Country(countryName);
+        String stringNIF1 = "4123456789012";
+        String stringNIF2 = "11234567890123";
+        //act
+        boolean result1 = Utils.NIFValidator(country, stringNIF1);
+        boolean result2 = Utils.NIFValidator(country, stringNIF2);
+        //assert
+        assertFalse(result1);
+        assertFalse(result2);
+    }
+
 }
