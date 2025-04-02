@@ -33,6 +33,8 @@ public class Utils {
         NIF_RULE_MAP.put("FRANCE", "[0-3]\\d{12}");
         //DE 9 digits
         NIF_RULE_MAP.put("GERMANY", "^\\d{9,11}$");
+        //EL 9 digits
+        NIF_RULE_MAP.put("GREECE", "^\\d{9}$");
     }
 
     public static boolean NIFValidator (Country country, String NIF){

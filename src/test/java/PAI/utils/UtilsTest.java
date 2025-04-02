@@ -348,4 +348,31 @@ class UtilsTest {
         assertFalse(result2);
     }
 
+    @Test
+    void greece_EL_isCorrect(){
+        //arrange
+        String countryName = "Greece";
+        Country country = new Country(countryName);
+        String stringNIF1 = "123456789";
+        //act
+        boolean result1 = Utils.NIFValidator(country,stringNIF1);
+        //assert
+        assertTrue(result1);
+    }
+
+    @Test
+    void greece_EL_isIncorrect(){
+        //arrange
+        String countryName = "Greece";
+        Country country = new Country(countryName);
+        String stringNIF1 = "1234567890";
+        String stringNIF2 = "12345678";
+        //act
+        boolean result1 = Utils.NIFValidator(country,stringNIF1);
+        boolean result2 = Utils.NIFValidator(country,stringNIF2);
+        //assert
+        assertFalse(result1);
+        assertFalse(result2);
+    }
+
 }
