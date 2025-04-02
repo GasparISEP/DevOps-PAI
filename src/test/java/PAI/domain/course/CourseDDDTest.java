@@ -2,6 +2,7 @@ package PAI.domain.course;
 
 import PAI.VOs.*;
 import PAI.domain.CourseEdition_2;
+import PAI.domain.TeacherCategory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -267,19 +268,163 @@ class CourseDDDTest {
     }
 
     @Test
-    void shouldReturnSameAs() throws Exception {
-        // Arrange
+    void shouldReturnTrueIfCourseSameAsObject() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
         CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
         DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
-        CourseID courseID = mock(CourseID.class);
 
         CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
-        CourseDDD courseDDD1 = courseDDD;
+        Object courseDDD2 = courseDDD;
 
-        // Assert
-        assertFalse(courseDDD.sameAs(courseDDD1));
+        //Act
+        boolean result = courseDDD.sameAs(courseDDD2);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfObjectIsNotSameAsCourse() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        CourseEdition_2 courseEdition = mock(CourseEdition_2.class);
+
+        //Act
+        boolean result = courseDDD.sameAs(courseEdition);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfNameAcronymCourseQuantityCreditsEctsAndDurationCourseInCurricularYearOfBothObjectsAreTheSame() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        CourseDDD courseDDD2 = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        //Act
+        boolean result = courseDDD.sameAs(courseDDD2);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNameAreNotSameButAcronymCourseQuantityCreditsEctsAndDurationCourseInCurricularYearAreTheSame() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Name name2 = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        CourseDDD courseDDD2 = new CourseDDD(courseID,name2, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        //Act
+        boolean result = courseDDD.sameAs(courseDDD2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfAcronymAreNotSameButNameCourseQuantityCreditsEctsAndDurationCourseInCurricularYearAreTheSame() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        Acronym acronym2 = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        CourseDDD courseDDD2 = new CourseDDD(courseID,name, acronym2, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        //Act
+        boolean result = courseDDD.sameAs(courseDDD2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseQuantityCreditsEctsAreNotSameButNameAcronymAndDurationCourseInCurricularYearAreTheSame() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts2 = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        CourseDDD courseDDD2 = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts2, durationCourseInCurricularYear);
+
+        //Act
+        boolean result = courseDDD.sameAs(courseDDD2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNameAcronymAndCourseQuantityCreditsEctsAreTheSameButDurationCourseInCurricularYearAreNotSame() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear2 = mock(DurationCourseInCurricularYear.class);
+
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        CourseDDD courseDDD2 = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear2);
+
+        //Act
+        boolean result = courseDDD.sameAs(courseDDD2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnNameFromCourse() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        //Act
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        //Assert
+        assertEquals(name, courseDDD.getName());
     }
 
 }
