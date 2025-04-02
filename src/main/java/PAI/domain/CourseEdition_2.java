@@ -9,6 +9,7 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
     private final CourseEditionID _courseEditionID;
     private final CourseInStudyPlanID _courseInStudyPlanID;
     private final ProgrammeEditionID _programmeEditionID;
+    private Teacher _ruc;
 
     public CourseEdition_2 (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
 
@@ -79,6 +80,16 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
                 return true;
         }
         return false;
+    }
+
+    // US20 - sets the RUC for this course edition
+    public boolean setRuc(Teacher teacher) {
+        if (teacher == null) {
+            return false;
+        }
+
+        this._ruc = teacher;
+        return true;
     }
 }
 

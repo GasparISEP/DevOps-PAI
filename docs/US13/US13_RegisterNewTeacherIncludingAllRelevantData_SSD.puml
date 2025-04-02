@@ -5,20 +5,20 @@ title US13: As a HRC, I want to register a new teacher in the system, including 
 actor HRC
 participant ":System" as System #Pink
 
-HRC -> System: I want to register a new teacher including all relevant data.
+HRC -> System: I want to register a new teacher including all relevant data.\t
 activate System #silver
 System --> HRC: Choose a teacher category from the list
-HRC -> System: tc1
+HRC -> System: teacherCategory
 System --> HRC: Choose a department from the list
-HRC -> System: dpt1
+HRC -> System: department
 System --> HRC: What are the attributes?
-HRC -> System: acronym, name, email, nif, phoneNumber,\nstreet, postcode, location,country,\nacademicBackground, workingPercentage, date
+HRC -> System: teacherAcronym, name, email, nif, phoneNumber,\nstreet, postalCode, location, country,\nacademicBackground, workingPercentage, date
 System --> HRC: Teacher registered!
 deactivate System
 
 
 Note Right HRC #Pink/White
-    *tc1* = Teacher Category Object
-    *dpt1* = Department Object
+    **teacherCategory** = A Teacher Category already in system
+    **department** = A Department already in system
 End Note
 @enduml
