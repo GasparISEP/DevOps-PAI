@@ -1,16 +1,16 @@
-package PAI.controller;
-import PAI.VOs.*;
-import PAI.domain.*;
-import PAI.factory.*;
-import PAI.repository.DepartmentRepository;
-import PAI.repository.ProgrammeEditionEnrolmentRepository;
-import PAI.repository.SchoolYearRepository;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
+//package PAI.controller;
+//import PAI.VOs.*;
+//import PAI.domain.*;
+//import PAI.factory.*;
+//import PAI.repository.DepartmentRepository;
+//import PAI.repository.ProgrammeEditionEnrolmentRepository;
+//import PAI.repository.SchoolYearRepository;
+//import org.junit.jupiter.api.Test;
+//import static org.junit.jupiter.api.Assertions.*;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
+//
+//class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
 //    //testing the constructor
 //    //valid constructor
@@ -640,4 +640,4 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
     }
     */
-}
+//}
