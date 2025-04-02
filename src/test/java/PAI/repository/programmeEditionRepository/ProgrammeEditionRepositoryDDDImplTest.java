@@ -3,16 +3,14 @@ package PAI.repository.programmeEditionRepository;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.ProgrammeEdition;
 import PAI.domain.programmeEdition.IProgrammeEditionDDDFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionRepositoryDDDImplTest {
 
@@ -59,7 +57,7 @@ class ProgrammeEditionRepositoryDDDImplTest {
 
     // createProgrammeEdition Test
     @Test
-    void shouldReturnFalseWhenCreateProgrammeEdition() throws Exception {
+    void shouldReturnTrueWhenCreatingAProgrammeEditionThatDoesNotExistInTheRepository() throws Exception {
         // Arrange
         IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
         IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
@@ -72,9 +70,64 @@ class ProgrammeEditionRepositoryDDDImplTest {
         boolean result = pER.createProgrammeEdition(pID, sYID);
 
         // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCreatingAProgrammeEditionWithANullProgrammeID() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
+        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+
+        ProgrammeID pID = null;
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        when(programmeEditionFactory.createProgrammeEdition(pID, sYID)).thenThrow(new Exception("ProgrammeID cannot be null"));
+
+        // Act
+        boolean result = pER.createProgrammeEdition(pID, sYID);
+
+        // Assert
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnFalseWhenCreatingAProgrammeEditionWithANullSchoolYear() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
+        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = null;
+        when(programmeEditionFactory.createProgrammeEdition(pID, sYID)).thenThrow(new Exception("SchoolYearID cannot be null"));
+
+        // Act
+        boolean result = pER.createProgrammeEdition(pID, sYID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCreatingAProgrammeEditionThatAlreadyExistsInTheRepository() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
+        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE = mock(ProgrammeEditionDDD.class);
+        when(programmeEditionFactory.createProgrammeEdition(pID, sYID)).thenReturn(pE);
+        pER.createProgrammeEdition(pID, sYID);
+
+        // Act
+        boolean result = pER.createProgrammeEdition(pID, sYID);
+
+        // Assert
+        assertFalse(result);
+    }
 
     // findProgrammeEditionByProgrammeIDAndSchoolYearID Test
     @Test
