@@ -112,7 +112,7 @@ class CourseInStudyPlanDDDTest {
 
         // Act
         CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
-        CourseInStudyPlanID id = course.getCourseInStudyPlanID();
+        CourseInStudyPlanID id = course.identity();
 
         // Assert
         assertNotNull(id);
@@ -129,8 +129,8 @@ class CourseInStudyPlanDDDTest {
         CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
 
         // Act: obter o identificador em duas chamadas consecutivas
-        CourseInStudyPlanID id1 = course.getCourseInStudyPlanID();
-        CourseInStudyPlanID id2 = course.getCourseInStudyPlanID();
+        CourseInStudyPlanID id1 = course.identity();
+        CourseInStudyPlanID id2 = course.identity();
 
         // Assert: ambas as chamadas devem retornar o mesmo objeto
         assertEquals(id1, id2);

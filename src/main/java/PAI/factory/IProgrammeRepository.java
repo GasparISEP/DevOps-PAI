@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProgrammeRepository {
-    boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) throws Exception;
+    boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector, IProgrammeCourseListFactory programmeCourseListFactory, ICourseFactory ICourseFactory) throws Exception;
     boolean changeProgrammeDirector(Programme programme, Teacher newDirector) throws Exception;
     List<Programme> getAllProgrammes();
     List<Course> getCourseList(Programme programme);

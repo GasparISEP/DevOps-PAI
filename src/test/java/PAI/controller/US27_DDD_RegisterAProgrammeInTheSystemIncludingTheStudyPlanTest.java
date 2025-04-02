@@ -1,4 +1,4 @@
-package PAI.controller.US27_DDD;
+package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
@@ -91,7 +91,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
 
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
         Date implementationDate = new Date("21-03-2000");
-        when(programmeRepo.findProgrammeByID(programmeID)).thenReturn(Optional.of(programmeDDD));
+        when(programmeRepo.ofIdentity(programmeID)).thenReturn(Optional.of(programmeDDD));
 
         // Act
         boolean result = controller.createStudyPlanDDD(programmeID, implementationDate);
@@ -115,7 +115,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
         Date implementationDate = new Date("21-03-2000");
 
-        when(programmeRepo.findProgrammeByID(programmeID)).thenReturn(Optional.empty());
+        when(programmeRepo.ofIdentity(programmeID)).thenReturn(Optional.empty());
 
         // Act
         boolean result = controller.createStudyPlanDDD(programmeID, implementationDate);

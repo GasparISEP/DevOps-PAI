@@ -382,16 +382,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
@@ -471,16 +466,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);
@@ -552,16 +542,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);
@@ -640,16 +625,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);
@@ -728,16 +709,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);
