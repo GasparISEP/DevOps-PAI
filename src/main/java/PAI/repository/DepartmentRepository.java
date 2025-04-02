@@ -42,9 +42,9 @@ public class DepartmentRepository {
                 .collect(Collectors.toSet());
     }
 
-//    public boolean departmentExists (Department department){
-//        return department != null && _departments.contains(department);
-//    }
+    public boolean departmentExists (DepartmentID departmentID){
+        return departmentID != null && _departments.contains(departmentID);
+    }
 
 //    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID furtherDirectorId) {
 //        if (furtherDirectorId.getTeacherById.isInDepartment(department.getDepartmentById(departmentId))) {

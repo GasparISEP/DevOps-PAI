@@ -25,17 +25,17 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
             Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
 
-//        if(!isDepartmentInDepartmentRepository(departmentID)){
-//            return false;
-//        }
+        if(!isDepartmentInDepartmentRepository(departmentID)){
+            return false;
+        }
 
         _teacherRepository.registerTeacher(
                  acronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         return true;
     }
 
-    private boolean isDepartmentInDepartmentRepository(Department department) {
-        return _departmentRepository.departmentExists(department);
+    private boolean isDepartmentInDepartmentRepository(DepartmentID departmentID) {
+        return _departmentRepository.departmentExists(departmentID);
     }
 
     private void validateTeacherRepository(TeacherRepository teacherRepository) {

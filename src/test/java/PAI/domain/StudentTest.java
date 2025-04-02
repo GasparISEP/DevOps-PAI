@@ -311,10 +311,10 @@ class StudentTest {
 
         TeacherAcronym acronymDouble = mock(TeacherAcronym.class);
         AcademicBackground academicBackgroundDouble = mock(AcademicBackground.class);
-        Department departmentDouble = mock(Department.class);
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
         AddressVO addressVODouble = mock(AddressVO.class);
 
-        Teacher teacher = new Teacher(acronymDouble, nameDouble, emailDouble, nifDouble, phoneDouble, academicBackgroundDouble, addressVODouble, departmentDouble);
+        Teacher teacher = new Teacher(acronymDouble, nameDouble, emailDouble, nifDouble, phoneDouble, academicBackgroundDouble, addressVODouble, departmentIDDouble);
 
         // Act
         boolean result = student.sameAs(teacher);

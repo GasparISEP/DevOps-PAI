@@ -6,7 +6,6 @@ import PAI.VOs.WorkingPercentage;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepository;
-import PAI.repository.TeacherCategoryRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;

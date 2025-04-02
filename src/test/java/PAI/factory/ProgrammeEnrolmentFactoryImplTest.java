@@ -30,6 +30,7 @@ class ProgrammeEnrolmentFactoryImplTest {
         DepartmentAcronym _departmentAcronym;
         Name _departmentName;
         Department _department;
+        DepartmentID _departmentID;
         TeacherCategoryID _teacherCategoryID;
         IAddressFactory _addressFactory;
         TeacherCareerProgressionFactoryImpl _tcpFactory;
@@ -68,8 +69,9 @@ class ProgrammeEnrolmentFactoryImplTest {
             _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);
             _degreeTypeID = new DegreeTypeID("Master");
-            _departmentAcronym= new DepartmentAcronym("DEI");
             _departmentName= new Name("Departamento Engenharia Informática");
+            _departmentAcronym = new DepartmentAcronym("DEI");
+            _departmentID = new DepartmentID(_departmentAcronym);
             _department = new Department(_departmentAcronym,_departmentName);
             _teacherCategoryID = new TeacherCategoryID();
             _addressFactory = new AddressFactoryImpl();
@@ -83,7 +85,7 @@ class ProgrammeEnrolmentFactoryImplTest {
             _nif = new NIF("123456789", _country);
             _phoneNumber = new PhoneNumber("+351", "912 345 678");
             _academicBackground = new AcademicBackground("Doutoramento em Engenharia Informática, 2005, ISEP");
-            _teacher = new Teacher(_teacherAcronym, _name, _email, _nif, _phoneNumber, _academicBackground, _addressVO, _department);
+            _teacher = new Teacher(_teacherAcronym, _name, _email, _nif, _phoneNumber, _academicBackground, _addressVO, _departmentID);
             _programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
             _courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
             _studyPlanArrayListFactory = new StudyPlanListFactoryImpl();

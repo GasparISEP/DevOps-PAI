@@ -10,17 +10,16 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing constructor of US16 controller
     @Test
-    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryInterfaceIsNull (){
+    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryInterfaceIsNull() {
         //arrange
-        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock (ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock (ICourseEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -32,10 +31,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
+    void shouldReturnExceptionIfCourseEditionRepositoryIsNull() {
         //arrange
-        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock (CourseEditionEnrolmentRepositoryImpl.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(CourseEditionEnrolmentRepositoryImpl.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -47,10 +46,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
+    void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull() {
         //arrange
         ICourseEditionRepository doubleCeRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -63,10 +62,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing find Programme Editions that Student is Enrolled Method
     @Test
-    void shouldReturnEmptyListWhenStudentIsNull(){
+    void shouldReturnEmptyListWhenStudentIsNull() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
@@ -80,23 +79,23 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled (){
+    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
         StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEditionID doublePee1Id = mock (ProgrammeEditionID.class);
-        ProgrammeEditionID doublePee2Id = mock (ProgrammeEditionID.class);
-        ProgrammeEditionID doublePee3Id = mock (ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee1Id = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee2Id = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee3Id = mock(ProgrammeEditionID.class);
 
 
-        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
-                thenReturn(List.of(doublePee1Id,doublePee2Id,doublePee3Id));
+        when(doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
+                thenReturn(List.of(doublePee1Id, doublePee2Id, doublePee3Id));
 
         //act
         List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
@@ -106,10 +105,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnAnEmptyListWhenStudentIsNotEnrolledInAnyProgrammeEdition (){
+    void shouldReturnAnEmptyListWhenStudentIsNotEnrolledInAnyProgrammeEdition() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
@@ -118,7 +117,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID doubleStudentId = mock(StudentID.class);
 
 
-        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
+        when(doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
                 thenReturn(List.of());
 
         //act
@@ -131,43 +130,43 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing find Course Editions by Programme Edition Method
     @Test
-    void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition(){
+    void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        ProgrammeEditionID doubleProgrammeEditionID = mock (ProgrammeEditionID.class);
-        CourseEditionID doubleCourseEdition1 = mock (CourseEditionID.class);
-        CourseEditionID doubleCourseEdition2 = mock (CourseEditionID.class);
+        ProgrammeEditionID doubleProgrammeEditionID = mock(ProgrammeEditionID.class);
+        CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
+        CourseEditionID doubleCourseEdition2 = mock(CourseEditionID.class);
 
-        when (doubleCourseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
+        when(doubleCourseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
 
         //act
         List<CourseEditionID> result = controller.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID);
 
         //assert
-        assertEquals (2, result.size());
+        assertEquals(2, result.size());
     }
 
     //testing enroll a student in a course edition method
     @Test
-    void shouldReturnTrueIfIsAValidCourseEditionEnrollment () {
+    void shouldReturnTrueIfIsAValidCourseEditionEnrollment() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID = mock (StudentID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
@@ -177,23 +176,23 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition () {
+    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID1 = mock (StudentID.class);
+        StudentID doubleStudentID1 = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
-        StudentID doubleStudentID2 = mock (StudentID.class);
+        StudentID doubleStudentID2 = mock(StudentID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn(true);
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID);
@@ -203,24 +202,24 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions () {
+    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID1 = mock (StudentID.class);
+        StudentID doubleStudentID1 = mock(StudentID.class);
         CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
-        StudentID doubleStudentID2 = mock (StudentID.class);
+        StudentID doubleStudentID2 = mock(StudentID.class);
         CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn(true);
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID1);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID2)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID2)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID2);
@@ -230,23 +229,23 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions () {
+    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStID1 = mock (StudentID.class);
-        CourseEditionID doubleCeID1 = mock (CourseEditionID.class);
-        CourseEditionID doubleCeID2 = mock (CourseEditionID.class);
+        StudentID doubleStID1 = mock(StudentID.class);
+        CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
+        CourseEditionID doubleCeID2 = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn(true);
         controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1,doubleCeID2)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID2)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID2);
@@ -256,19 +255,19 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition () {
+    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition() {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID = mock (StudentID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
@@ -281,7 +280,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing find Programme Editions that Student is Enrolled Method
     @Test
-    void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest(){
+    void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest() {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -305,7 +304,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest () throws Exception {
+    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest() throws Exception {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -327,16 +326,16 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID2);
 
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Programme2");
         Acronym acronym2 = new Acronym("P2");
-        ProgrammeID programmeID2 = new ProgrammeID(name2,acronym2);
+        ProgrammeID programmeID2 = new ProgrammeID(name2, acronym2);
         ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID2, schoolYearID2);
 
-        peeRepository.enrolStudentInProgrammeEdition(studentID1,programmeEditionID1);
-        peeRepository.enrolStudentInProgrammeEdition(studentID1,programmeEditionID2);
+        peeRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID1);
+        peeRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID2);
 
         //act
         List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(studentID1);
@@ -344,7 +343,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //assert
         assertEquals(2, result.size());
     }
-
     //testing find Course Editions by Programme Edition Method
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
@@ -376,11 +374,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
         Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, department);
+                academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
@@ -464,11 +463,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
         Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, department);
+                academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
@@ -544,11 +544,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
         Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, department);
+                academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
@@ -631,11 +632,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
         Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, department);
+                academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
         CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
@@ -717,11 +719,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
         Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, department);
+                academicBackground, address, departmentID);
 
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
