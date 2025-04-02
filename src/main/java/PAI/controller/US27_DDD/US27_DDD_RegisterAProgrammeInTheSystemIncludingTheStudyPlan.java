@@ -39,7 +39,7 @@ public class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
         ProgrammeDDD programmeDDD;
 
         try {
-            Optional<ProgrammeDDD> optionalProgrammeDDD = _programmeDDDList.findProgrammeByID(programmeID);
+            Optional<ProgrammeDDD> optionalProgrammeDDD = _programmeDDDList.ofIdentity(programmeID);
             programmeDDD = optionalProgrammeDDD.orElseThrow(() -> new IllegalArgumentException("Programme with ID " + programmeID + " not found"));
         } catch (IllegalArgumentException e) {
             return false;
