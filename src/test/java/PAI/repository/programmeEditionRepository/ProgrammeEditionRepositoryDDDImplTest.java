@@ -95,22 +95,6 @@ class ProgrammeEditionRepositoryDDDImplTest {
     }
 
 
-    // getAllProgrammeEditions Test
-    @Test
-    void shouldReturnNullWhenGetAllProgrammeEditions() throws Exception {
-        // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
-        IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
-
-        // Act
-        List<ProgrammeEditionDDD> programmeEditions = pER.getAllProgrammeEditions();
-
-        // Assert
-        assertNull(programmeEditions);
-    }
-
-
     // findProgrammeEditionByID Test
     @Test
     void shouldReturnNullWhenFindProgrammeEditionByID() throws Exception {

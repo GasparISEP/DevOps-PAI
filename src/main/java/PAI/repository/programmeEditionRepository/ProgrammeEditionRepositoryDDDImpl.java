@@ -37,11 +37,6 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     }
 
     @Override
-    public List<ProgrammeEditionDDD> getAllProgrammeEditions() {
-        return null;
-    }
-
-    @Override
     public ProgrammeEditionDDD findProgrammeEditionByID(ProgrammeEditionID programmeEditionID) {
         return null;
     }
