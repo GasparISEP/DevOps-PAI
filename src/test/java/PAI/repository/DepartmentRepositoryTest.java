@@ -133,49 +133,6 @@ class DepartmentRepositoryTest {
         assertEquals(2, result.size());
     }
     @Test
-    void departmentExistsShouldReturnTrue() throws Exception {
-        // Arrange
-        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
-        Name name = mock(Name.class);
-        Department department1Double = mock(Department.class);
-        DepartmentRepositoryImpl departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        DepartmentID id1 = mock(DepartmentID.class);
-
-        // Mock the behavior of registerDepartment to return true
-        when(departmentRepoDouble.registerDepartment(acronym, name)).thenReturn(true);
-
-        // Mock the behavior of departmentExists to return true
-        when(departmentRepoDouble.departmentExists(id1)).thenReturn(true);
-
-        // Act
-        boolean result = departmentRepoDouble.departmentExists(id1);
-
-        // Assert
-        assertTrue(result);
-    }
-    @Test
-    void departmentExistShouldReturnFalse() throws Exception {
-        // Arrange
-        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
-        Name name = mock(Name.class);
-        Department department1Double = mock(Department.class);
-        DepartmentRepositoryImpl departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        DepartmentID id1 = mock(DepartmentID.class);
-
-        // Mock the behavior of registerDepartment to return true
-        when(departmentRepoDouble.registerDepartment(acronym, name)).thenReturn(true);
-
-        // Mock the behavior of departmentExists to return true
-        when(departmentRepoDouble.departmentExists(id1)).thenReturn(false);
-
-        // Act
-        boolean result = departmentRepoDouble.departmentExists(id1);
-
-        // Assert
-        assertFalse(result);
-    }
-
-    @Test
     void shouldReturnTrueIfDepartmentExistsInDepartmentRepository() throws Exception {
         // Arrange
         IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
