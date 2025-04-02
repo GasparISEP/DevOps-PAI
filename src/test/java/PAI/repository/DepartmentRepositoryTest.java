@@ -132,6 +132,78 @@ class DepartmentRepositoryTest {
         // Assert
         assertEquals(2, result.size());
     }
+    @Test
+    void departmentExistsShouldReturnTrue() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
+        Department department1Double = mock(Department.class);
+        DepartmentRepositoryImpl departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+        DepartmentID id1 = mock(DepartmentID.class);
+
+        // Mock the behavior of registerDepartment to return true
+        when(departmentRepoDouble.registerDepartment(acronym, name)).thenReturn(true);
+
+        // Mock the behavior of departmentExists to return true
+        when(departmentRepoDouble.departmentExists(id1)).thenReturn(true);
+
+        // Act
+        boolean result = departmentRepoDouble.departmentExists(id1);
+
+        // Assert
+        assertTrue(result);
+    }
+    @Test
+    void departmentExistShouldReturnFalse() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
+        Department department1Double = mock(Department.class);
+        DepartmentRepositoryImpl departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+        DepartmentID id1 = mock(DepartmentID.class);
+
+        // Mock the behavior of registerDepartment to return true
+        when(departmentRepoDouble.registerDepartment(acronym, name)).thenReturn(true);
+
+        // Mock the behavior of departmentExists to return true
+        when(departmentRepoDouble.departmentExists(id1)).thenReturn(false);
+
+        // Act
+        boolean result = departmentRepoDouble.departmentExists(id1);
+
+        // Assert
+        assertFalse(result);
+    }
+
+        @Test
+        void findDepartmentByIDTest_DepartmentExists() {
+        //assert
+            DepartmentID departmentID = mock(DepartmentID.class);
+            Department department = mock(Department.class);
+            DepartmentRepositoryImpl departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+            // Act
+            when(departmentRepoDouble.departmentExists(departmentID)).thenReturn(true);
+            when(departmentRepoDouble.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
+            Optional<Department> result = departmentRepoDouble.findDepartmentByID(departmentID);
+
+            // Assert
+            assertTrue(result.isPresent());
+            assertEquals(department, result.get());
+        }
+
+        @Test
+        void findDepartmentByIDTest_DepartmentDoesNotExist() {
+            // Arrange
+            Department department = mock(Department.class);
+            DepartmentRepositoryImpl departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+            DepartmentID nonExistentDepartmentID = mock(DepartmentID.class);
+
+            // Act
+            Optional<Department> result = departmentRepoDouble.findDepartmentByID(nonExistentDepartmentID);
+
+            // Assert
+            assertFalse(result.isPresent());
+        }
 
 //    @Test
 //    void shouldReturnTrueIfDepartmentExistsInDepartmentRepository() throws Exception {
