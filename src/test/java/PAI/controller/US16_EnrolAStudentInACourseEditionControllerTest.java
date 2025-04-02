@@ -375,7 +375,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
-        Department department = new Department("DEI", "Department1");
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
                 academicBackground, address, department);
@@ -461,7 +463,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
-        Department department = new Department("DEI", "Department1");
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
                 academicBackground, address, department);
@@ -539,7 +543,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
-        Department department = new Department("DEI", "Department1");
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
                 academicBackground, address, department);
@@ -624,7 +630,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
-        Department department = new Department("DEI", "Department1");
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
                 academicBackground, address, department);
@@ -708,7 +716,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
         AddressVO address = new AddressVO(street, postalCode, location, country);
-        Department department = new Department("DEI", "Department1");
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
         Teacher t1 = new Teacher(
                 acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
                 academicBackground, address, department);
