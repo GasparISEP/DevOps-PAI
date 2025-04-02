@@ -144,7 +144,7 @@ class ProgrammeEditionRepositoryDDDImplTest {
         SchoolYearID sYID = mock(SchoolYearID.class);
 
         // Act
-        Optional<ProgrammeEditionID> programmeEdition = pER.findProgrammeEditionByProgrammeIDAndSchoolYearID(pID, sYID);
+        Optional<ProgrammeEditionID> programmeEdition = pER.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(pID, sYID);
 
         // Assert
         assertTrue(programmeEdition.isEmpty());
