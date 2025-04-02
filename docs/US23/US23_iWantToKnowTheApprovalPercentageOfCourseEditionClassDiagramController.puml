@@ -5,13 +5,19 @@ title US23: I want to know the approval percentage of a CourseEdition
 class US23_IWantToKnowTheApprovalPercentageOfACourseEdition  {
     +US23_IWantToKnowTheApprovalPercentageOfACourseEdition(gradeStudentRepository : GradeStudentRepository)
     +IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition : CourseEdition): double
-
+    +findCourseEditionIdByCourseEdition (courseEdition : CourseEdition)
 }
 
 interface IStudentGradeRepository {
     +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): Optional<StudentGrade>
     +knowAverageGrade(courseEditionID: CourseEditionID): Double
     +knowApprovalRate(courseEditionID: CourseEditionID): double
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+
 }
 
 package "StudentGrade" {
@@ -31,8 +37,8 @@ entity "<<root>>\nStudentGrade" {
 }
 
 class Grade <<ValueObject>> {
-    -_grade: double
-    +knowGrade(): double
+     -grade: double
+        +knowGrade()
     }
 
     class LocalDate <<ValueObject>> {
@@ -53,6 +59,12 @@ class StudentGradeRepository {
     +addGradeToStudent(Grade, Date , Student, Course Edition)
     +knowAverageGrade(Course Edition)
     +knowApprovalRate(Course Edition)
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+
 }
 
 
