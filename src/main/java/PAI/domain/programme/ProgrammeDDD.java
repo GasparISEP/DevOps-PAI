@@ -54,7 +54,6 @@ public class ProgrammeDDD {
         _programmeID = new ProgrammeID(name,acronym);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -67,13 +66,11 @@ public class ProgrammeDDD {
         return this._programmeID.equals(programmeID);
     }
 
-
     public boolean newProgrammeDirector(TeacherID teacherDirectorID) throws Exception {
         if (teacherDirectorID == null) return false;
         _programmeDirectorID = teacherDirectorID;
         return true;
     }
-
 
     public boolean isInDepartment(Department department) {
         return _department.equals(department);

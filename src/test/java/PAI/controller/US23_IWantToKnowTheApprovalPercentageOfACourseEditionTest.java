@@ -7,12 +7,14 @@ import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
+import PAI.repository.ICourseEditionRepository;
 import PAI.repository.StudentGradeRepository;
 import PAI.repository.CourseEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,93 +23,28 @@ import static org.mockito.Mockito.*;
 class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
 
     @Test
-    void gradeStudentInRepository() throws Exception {
+    void shouldCreateController() {
         //arrange
-        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
-
-        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-        StudentID student1 = mock(StudentID.class);
-        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
-
-        Grade grade = mock(Grade.class);
-        Date dateDouble = mock(Date.class);
-
-        when(IStudentGradeListFactory.newArrayList()).thenReturn( mockGradeList);
-
-        StudentGradeRepository list = mock(StudentGradeRepository.class);
-        when(list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1)).thenReturn(true);
-
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        US23_IWantToKnowTheApprovalPercentageOfACourseEdition controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(studentGradeRepository,courseEditionRepository);
         //act
-        US23_IWantToKnowTheApprovalPercentageOfACourseEdition approval1 = mock(US23_IWantToKnowTheApprovalPercentageOfACourseEdition.class);
-        when(approval1.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEditionID1)).thenReturn(100.0);
-
-        //assert
-        assertNotNull(approval1);
+        assertNotNull(controller);
     }
-
 
     @Test
-    void approvalRateInACourseEdition () throws Exception {
-
+    void shouldReturnApprovalPercentageInCourseEdition(){
         //arrange
-        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
-        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
-
-        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        StudentGradeRepository list = mock(StudentGradeRepository.class);
-
-        CourseEditionEnrolmentRepositoryImpl enrollmentRepository= mock(CourseEditionEnrolmentRepositoryImpl.class);
-
-        US23_IWantToKnowTheApprovalPercentageOfACourseEdition controlador1 = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(list);
-
-        StudentID student1 = mock(StudentID.class);
-        StudentID student2 = mock(StudentID.class);
-        StudentID student3 = mock(StudentID.class);
-        StudentID student4 = mock(StudentID.class);
-        Grade grade1 = mock(Grade.class);
-        Grade grade2 = mock(Grade.class);
-        Date dateDouble = mock(Date.class);
-        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
-        CourseEditionID courseEdition = mock(CourseEditionID.class);
-        StudentGrade studentGrade1 = mock(StudentGrade.class);
-        StudentGrade studentGrade2 = mock(StudentGrade.class);
-
-        when(grade1.knowGrade()).thenReturn(8.0);
-        when(grade2.knowGrade()).thenReturn(20.0);
-
-        when(studentGrade1.get_grade()).thenReturn(grade1);
-        when(studentGrade2.get_grade()).thenReturn(grade2);
-
-
-        when(IStudentGradeFactory.newGradeStudent(grade1, dateDouble, student1, courseEditionID1)).thenReturn(studentGrade1);
-        when(IStudentGradeFactory.newGradeStudent(grade2, dateDouble, student2, courseEditionID1)).thenReturn(studentGrade2);
-
-        when(studentGrade1.hasThisCourseEditionID(courseEditionID1)).thenReturn(true);
-        when(studentGrade2.hasThisCourseEditionID(courseEditionID1)).thenReturn(true);
-
-
-        enrollmentRepository.enrolStudentInACourseEdition(student3, courseEdition);
-        enrollmentRepository.enrolStudentInACourseEdition(student4, courseEdition);
-
-        list.addGradeToStudent(grade1, dateDouble, student1, courseEditionID1);
-        list.addGradeToStudent(grade2, dateDouble, student2, courseEditionID1);
-        when(list.knowApprovalRate(courseEditionID1)).thenReturn(50.0);
-
-
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        US23_IWantToKnowTheApprovalPercentageOfACourseEdition controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(studentGradeRepository,courseEditionRepository);
+        CourseEdition_2 courseEdition_2Double = mock(CourseEdition_2.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        when(courseEditionRepository.findIdByCourseEdition(courseEdition_2Double)).thenReturn(Optional.of(courseEditionIDDouble));
+        when(studentGradeRepository.knowApprovalRate(courseEditionIDDouble)).thenReturn(16.0);
         //act
-        double optC1 = controlador1.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEditionID1);
-
+        double result = controller.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition_2Double);
         //assert
-        assertEquals(50.0,optC1,0.01);
+        assertEquals(16.0,result);
     }
-
 }
-//
-//
-//
-//
-//
-//
-//

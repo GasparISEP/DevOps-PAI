@@ -71,4 +71,16 @@ public class CourseDDD implements AggregateRoot<CourseID> {
     public Name getName() {
         return _name;
     }
+
+    public Acronym getAcronym() {
+        return _acronym;
+    }
+
+    public CourseQuantityCreditsEcts getCourseQuantityCreditsEcts() {
+        return _quantityCreditsEcts;
+    }
+
+    public DurationCourseInCurricularYear getDurationCourseInCurricularYear() {
+        return _duration;
+    }
 }

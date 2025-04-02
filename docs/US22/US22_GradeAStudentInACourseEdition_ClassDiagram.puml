@@ -50,9 +50,6 @@ entity "<<root>>\nCourseEditionEnrolment"  {
     }
     }
 
- class Localdate <<ValueObject>> {
-                    -LocalDate : String
-                }
 
 class List<GradeStudent> {
 
@@ -187,7 +184,7 @@ entity "<<root>>\nCourseEdition"  {
     }
     }
 
-"<<root>>\nCourseEditionEnrolment" --> "1" Localdate
+"<<root>>\nCourseEditionEnrolment" --> "1" LocalDate
 "<<root>>\nStudent" "*" --> "1" Name
 "<<root>>\nStudent" "*" --> "1" NIF
 "<<root>>\nStudent" "*" --> "1" Email

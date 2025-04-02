@@ -57,7 +57,7 @@ ASC -> UI #application: 1st!
 
 UI -> ":AddCourseToAProgrammeController"  #application : addCourseToProgramme (course1ID, studyPlan1ID, CurricularYear, Semester)
 
-":AddCourseToAProgrammeController" -> ":CourseInStudyPlanRepository" ++ #application : registerCourseInStudyPlan(course1ID, studyPlan1ID, CurricularYear, Semester)
+":AddCourseToAProgrammeController" -> ":CourseInStudyPlanRepository" ++ #application : createCourseInStudyPlan_2(CurricularYear, Semester, course1ID, studyPlan1ID)
 
 create "cisp1:CourseInStudyPlan" as CISP #lightblue
 ":CourseInStudyPlanRepository" --> CISP : <create> (course1ID, studyPlan1ID, CurricularYear, Semester)
