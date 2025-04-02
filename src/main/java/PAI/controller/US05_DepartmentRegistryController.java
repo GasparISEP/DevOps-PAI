@@ -1,13 +1,13 @@
 package PAI.controller;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
-import PAI.repository.DepartmentRepository;
+import PAI.repository.IDepartmentRepository;
 
 public class US05_DepartmentRegistryController {
 
-    private DepartmentRepository _departmentRepo;
+    private final IDepartmentRepository _departmentRepo;
 
-    public US05_DepartmentRegistryController(DepartmentRepository departmentRepo){
+    public US05_DepartmentRegistryController(IDepartmentRepository departmentRepo){
         if(departmentRepo==null){
             throw new IllegalArgumentException("Department Repository cannot be null.");
         }

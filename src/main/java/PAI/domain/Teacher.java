@@ -58,7 +58,7 @@ public class Teacher implements AggregateRoot<TeacherID> {
     }
 
     public boolean isInDepartment(DepartmentID departmentID) {
-        return _departmentID == departmentID;
+        return _departmentID.equals(departmentID);
     }
 
     public boolean hasThisNIF(NIF nif) {

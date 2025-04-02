@@ -1,18 +1,16 @@
 package PAI.repository;
 
-import PAI.VOs.AccessMethodID;
-import PAI.VOs.Date;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.factory.IProgrammeEnrolmentListFactory;
 
 import java.util.List;
+import java.util.Optional;
 
-public class ProgrammeEnrolmentRepository {
+public class ProgrammeEnrolmentRepository implements IProgrammeEnrolmentRepository {
 
-    private List<ProgrammeEnrolment> _enrolmentList;
+    private List<ProgrammeEnrolment> _programmeEnrolmentList;
     private IProgrammeEnrolmentFactory _programmeEnrolmentFactory;
 
     public ProgrammeEnrolmentRepository(IProgrammeEnrolmentFactory programmeEnrolmentFactory, IProgrammeEnrolmentListFactory programmeEnrolmentList){
@@ -20,7 +18,7 @@ public class ProgrammeEnrolmentRepository {
         if(programmeEnrolmentFactory == null || programmeEnrolmentList == null)
             throw new IllegalArgumentException("Factory cannot be null!");
 
-        _enrolmentList = programmeEnrolmentList.newArrayList();
+        _programmeEnrolmentList = programmeEnrolmentList.newArrayList();
         _programmeEnrolmentFactory = programmeEnrolmentFactory;
     }
 
@@ -28,16 +26,15 @@ public class ProgrammeEnrolmentRepository {
 
         ProgrammeEnrolment newProgrammeEnrolment = _programmeEnrolmentFactory.createProgrammeEnrolment(studentID, accessMethodID, programmeID, enrolmentDate);
 
-        //Checks if Enrolment is repeated
         if(!isEnrolmentRepeated(newProgrammeEnrolment)) {
-            _enrolmentList.add(newProgrammeEnrolment);
+            _programmeEnrolmentList.add(newProgrammeEnrolment);
             return true;
         } else
             throw new Exception("Student is already enrolled in the programme.");
     }
 
     private boolean isEnrolmentRepeated(ProgrammeEnrolment newEnrolment) {
-        for (ProgrammeEnrolment enrolment : _enrolmentList) {
+        for (ProgrammeEnrolment enrolment : _programmeEnrolmentList) {
             if (enrolment.hasSameEnrolment(newEnrolment)) {
                 return true; // Return true if a repeated enrolment is found
             }
@@ -45,12 +42,40 @@ public class ProgrammeEnrolmentRepository {
         return false; // Return false if no repeated enrolment is found
     }
 
-    public boolean isStudentEnrolled (Student student, Programme programme) {
-        for (ProgrammeEnrolment existingEnrolment : _enrolmentList) {
+    public boolean isStudentEnrolled(Student student, Programme programme) {
+        for (ProgrammeEnrolment existingEnrolment : _programmeEnrolmentList) {
             if (existingEnrolment.hasSameStudent(student) && existingEnrolment.hasSameProgramme(programme)) {
                 return true;
             }
         }
         return false;
     }
+
+    @Override
+    public ProgrammeEnrolment save(ProgrammeEnrolment entity) {
+        _programmeEnrolmentList.add(entity);
+        return entity;
+    };
+
+    @Override
+    public Iterable<ProgrammeEnrolment> findAll() {
+        if(_programmeEnrolmentList.isEmpty())
+            throw new IllegalArgumentException("Programme Enrolment must not be empty.");
+        return _programmeEnrolmentList;
+    };
+
+    @Override
+    public Optional<ProgrammeEnrolment> ofIdentity(ProgrammeEnrolmentID peID) {
+        return _programmeEnrolmentList.stream()
+                .filter(pe -> pe.identity().equals(peID))
+                .findAny();
+    };
+
+    @Override
+    public boolean containsOfIdentity(ProgrammeEnrolmentID peID) {
+        if (!ofIdentity(peID).isPresent()){
+            return false;
+        }
+        return true;
+    };
 }

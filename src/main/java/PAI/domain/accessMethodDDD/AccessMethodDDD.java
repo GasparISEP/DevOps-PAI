@@ -6,12 +6,13 @@ import PAI.ddd.AggregateRoot;
 
 public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
 
-    private AccessMethodID _accessMethodId;
+    private final AccessMethodID _accessMethodId;
     private final NameWithNumbersAndSpecialChars _accessMethodName;
 
     protected AccessMethodDDD (NameWithNumbersAndSpecialChars accessMethodName){
         if(accessMethodName == null) throw new IllegalArgumentException("Access Method name cannot be null");
 
+        this._accessMethodId = new AccessMethodID();
         this._accessMethodName = accessMethodName;
     }
 

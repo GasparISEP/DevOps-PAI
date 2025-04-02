@@ -4,8 +4,11 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.factory.ProgrammeRepositoryListFactoryImpl;
+import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +60,35 @@ class ProgrammeDDDRepositoryImplTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void changeProgrammeDirectorReturnsTrue() throws Exception {
+        // Arrange
+        IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory programmeListListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+
+        ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeListListFactory);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+
+        when(programme.getProgrammeID()).thenReturn((programmeID));
+
+        Field repoField = ProgrammeDDDRepositoryImpl.class.getDeclaredField("_programmeRepo");
+        repoField.setAccessible(true);
+        List<ProgrammeDDD> repo = (List<ProgrammeDDD>) repoField.get(programmeList);
+        repo.add(programme);
+
+        when(programme.newProgrammeDirector(teacherID)).thenReturn(true);
+
+        // Act
+        boolean result = programmeList.changeProgrammeDirector(programmeID, teacherID);
+
+        // Asssert
+        assertTrue(result);
+    }
+
 
     @Test
     void dontChangeProgrammedDirectorOfValidProgramme() throws Exception {

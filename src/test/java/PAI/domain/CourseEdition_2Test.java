@@ -3,11 +3,14 @@ package PAI.domain;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.controller.US20_DefineRucForCourseEditionController;
 import PAI.repository.CourseEditionRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -384,64 +387,36 @@ class CourseEdition_2Test {
         assertFalse(result);
     }
 
-    // US20 - Test if the RUC is assigned correctly
+    // US20 - Test if the RUC is correctly defined if teacher is valid
     @Test
     void shouldReturnTrueIfRucIsSet() throws Exception {
-        //SUT = CourseEdition -> ProgrammeEdition, Course and Teacher as Doubles
-        //Arrange
-        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
-        Course courseDouble1 = mock (Course.class);
-        Teacher rucDouble = mock (Teacher.class);
 
-        when(programmeEditionDouble1.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble1, courseDouble1)).thenReturn(true);
+        // Arrange
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
+        TeacherID teacherID = mock(TeacherID.class);
 
-        CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
+        // Act
+        boolean result = courseEdition2.setRuc(teacherID);
 
-        //Act
-        boolean result = courseEdition1.setRuc(rucDouble);
-
-        //Assert
+        // Assert
         Assertions.assertTrue(result);
     }
 
-    // US20 - Test if the RUC is not assigned when teacher is null
+    // US20 - Test if the RUC is not defined when teacher is null
     @Test
-    void shouldNotDefineRucForCourseEditionIfTeacherIsNull() throws Exception {
+    void shouldReturnFalseIfTeacherIsNull() throws Exception {
 
         // Arrange
-        CourseEditionRepository repo1 = mock(CourseEditionRepository.class);
-        TeacherRepository repo2 = mock(TeacherRepository.class);
-        US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
-
-        CourseEdition cE1 = mock(CourseEdition.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
 
         // Act
-        boolean result = ctrl1.defineRucForCourseEdition(cE1, null);
+        boolean result = courseEdition2.setRuc(null);
 
         // Assert
-        Assertions.assertFalse(result, "RUC definition should fail when Teacher is null");
-        verify(repo1, never()).setRucInACourseEdition(any(), any()); // Ensure repository is NOT called
-    }
-
-    // US20 - Test if RUC is not assigned again if it already exists
-    @Test
-    void shouldNotRedefineRucIfRucAlreadyExists() throws Exception {
-
-        // Arrange
-        CourseEditionRepository repo1 = mock(CourseEditionRepository.class);
-        TeacherRepository repo2 = mock(TeacherRepository.class);
-        US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
-
-        CourseEdition cE1 = mock(CourseEdition.class);
-        Teacher t1 = mock(Teacher.class);
-
-        when(repo1.setRucInACourseEdition(cE1, t1)).thenReturn(false);
-
-        // Act
-        boolean result = ctrl1.defineRucForCourseEdition(cE1, t1);
-
-        // Assert
-        Assertions.assertFalse(result, "RUC should not be redefined if it already exists");
-        verify(repo1).setRucInACourseEdition(cE1, t1);  // Verify that the repository method was called
+        Assertions.assertFalse(result);
     }
 }
