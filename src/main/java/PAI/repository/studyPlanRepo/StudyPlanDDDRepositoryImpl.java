@@ -1,6 +1,7 @@
 package PAI.repository.studyPlanRepo;
 
 import PAI.VOs.*;
+import PAI.domain.Teacher;
 import PAI.domain.studyPlan.StudyPlanDDD;
 import PAI.domain.studyPlan.IStudyPlanDDDFactory;
 
@@ -20,7 +21,7 @@ public class StudyPlanDDDRepository {
 
     }
 
-    public boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts)  throws Exception {
+    public boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts) {
 
         StudyPlanDDD studyPlan_DDD = _studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
