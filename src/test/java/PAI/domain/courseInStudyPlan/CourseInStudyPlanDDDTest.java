@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseInStudyPlanDDDTest {
 
@@ -133,5 +134,116 @@ class CourseInStudyPlanDDDTest {
 
         // Assert: ambas as chamadas devem retornar o mesmo objeto
         assertEquals(id1, id2);
+    }
+
+    @Test
+    public void testEqualsSameObjectShouldReturnTrue() {
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+
+        CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        //act + assert
+        assertTrue(course.equals(course));
+    }
+
+    @Test
+    public void testEqualsDifferentTypeShouldReturnFalse() {
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+
+        CourseInStudyPlanDDD course = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        //act + assert
+        assertNotEquals("Não sou um CourseInStudyPlanDDD", course);
+    }
+
+    @Test
+    public void testEquals_sameCourseID_shouldReturnTrue() {
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+
+        CourseInStudyPlanDDD course1 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        CourseInStudyPlanDDD course2 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        //act + assert
+        assertTrue(course1.equals(course2));
+    }
+
+    @Test
+    public void testEqualsDifferentCourseIDShouldReturnFalse() {
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanDDD course1 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        Semester semester2 = mock(Semester.class);
+        CurricularYear curricularYear2 = mock(CurricularYear.class);
+        CourseID courseID2 = mock(CourseID.class);
+        StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
+
+        CourseInStudyPlanDDD course2 = new CourseInStudyPlanDDD(semester2, curricularYear2, courseID2, studyPlanID2);
+
+        //act + assert
+        assertFalse(course1.equals(course2));
+    }
+
+    @Test
+    public void testIdentityShouldReturnCourseInStudyPlanID() {
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanDDD course1 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        //act + assert
+        assertEquals(courseInStudyPlanID, course1.identity());
+    }
+
+    @Test
+    public void testSameAsSameIdentityShouldReturnTrue() {
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanDDD course1 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        CourseInStudyPlanDDD course2 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        assertTrue(course1.sameAs(course2));
+    }
+
+    @Test
+    public void testSameAs_differentIdentity_shouldReturnFalse() {
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanDDD course1 = new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
+
+        Semester semester2 = mock(Semester.class);
+        CurricularYear curricularYear2 = mock(CurricularYear.class);
+        CourseID courseID2 = mock(CourseID.class);
+        StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
+        CourseInStudyPlanDDD course2 = new CourseInStudyPlanDDD(semester2, curricularYear2, courseID2, studyPlanID2);
+
+        //act + assert
+        assertFalse(course1.sameAs(course2));
     }
 }

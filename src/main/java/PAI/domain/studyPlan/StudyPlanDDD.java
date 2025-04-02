@@ -36,7 +36,7 @@ public class StudyPlanDDD implements AggregateRoot<StudyPlanID> {
 
     @Override
     public StudyPlanID identity() {
-        return _studyPlanID;
+        return this._studyPlanID;
     }
 
     @Override
