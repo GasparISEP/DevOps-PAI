@@ -7,13 +7,7 @@ import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ITeacherRepository;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
 import java.util.List;
-<<<<<<< Updated upstream
-import java.util.stream.StreamSupport;
-
-=======
->>>>>>> Stashed changes
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -86,61 +80,6 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         List<Teacher> teachers = List.of(teacher1, teacher2);
 
-<<<<<<< Updated upstream
-        when(ctrl1.getTeachers()).thenReturn(teachers);
-
-        // Act
-        Iterable<Teacher> result = ctrl1.getTeachers();
-        List<Teacher> resultList = StreamSupport.stream(result.spliterator(), false).toList();
-
-        // Assert
-        assertEquals(2, resultList.size(), "Should return exactly two teachers");
-
-        //Arrange Teacher
-//        TeacherCategory category = new TeacherCategory("Professor Adjunto");
-//        Department department = new Department("MAT", "Mathematics");
-//        AddressFactory addressFactoryDouble = mock(AddressFactory.class);
-//        TeacherCareerProgressionFactory TCPfactoryDouble = mock(TeacherCareerProgressionFactory.class);
-//
-//        //Arrange
-//        CourseEditionFactory courseEditionFactory = new CourseEditionFactory();
-//        CourseEditionListFactory courseEditionListFactory = new CourseEditionListFactory();
-//        CourseEditionRepository repo1 = new CourseEditionRepository(courseEditionFactory, courseEditionListFactory);
-//
-//        TeacherFactory teacherFactory = mock(TeacherFactory.class);
-//        Teacher teacher1 = mock(Teacher.class);
-//        Teacher teacher2 = mock(Teacher.class);
-//
-//        when(teacherFactory.createTeacher("AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
-//                "A106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
-//                category, 70, department, TCPfactoryDouble)).thenReturn(teacher1);
-//
-//        when(teacherFactory.createTeacher("BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780",
-//                "B106","Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
-//                category, 70, department, TCPfactoryDouble)).thenReturn(teacher2);
-//
-//        TeacherListFactory teacherListFactory = mock(TeacherListFactory.class);
-//        TeacherRepository repo2 = new TeacherRepository(teacherFactory, teacherListFactory);
-//        US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
-//
-//        repo2.registerTeacher( "AAA", "Joao Costa", "AAA@isep.ipp.pt", "123456789",
-//                "A106", "Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
-//                category, 70, department, TCPfactoryDouble);
-//
-//        repo2.registerTeacher( "BBB", "Mariana Antunes", "BBB@isep.ipp.pt", "123456780",
-//                "B106","Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores","4444-098","Porto","Portugal", addressFactoryDouble,"15-04-2005",
-//                category, 70, department, TCPfactoryDouble);
-//
-//        //Act
-//        List<Teacher> result = ctrl1.getTeachers();
-//
-//        //Assert
-//        assertEquals(2, result.size());
-=======
         when(iTeacherRepository.findAll()).thenReturn(teachers);
 
         // Act
@@ -148,7 +87,6 @@ class US20_DefineRucForCourseEditionControllerTest {
 
         // Assert
         assertIterableEquals(teachers, result);
->>>>>>> Stashed changes
     }
 
     // Teste getCourseEditions
@@ -173,4 +111,3 @@ class US20_DefineRucForCourseEditionControllerTest {
         assertIterableEquals(courseEditions, result);
     }
 }
-

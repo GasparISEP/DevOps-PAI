@@ -16,24 +16,8 @@ public class US20_DefineRucForCourseEditionController {
         this._iTeacherRepository = iTeacherRepository;
     }
 
-<<<<<<< Updated upstream
-    // Method to get all Course Editions
-    public List<CourseEdition_2> getCourseEditions() {
-        return _courseEditionRepository.getCourseEditions();
-    }
-
-    // Method to get all Teachers
-    public Iterable<Teacher> getTeachers() {
-        return _teacherRepository.findAll();
-    }
-
-    // Define RUC for a specific Course Edition
-    public boolean defineRucForCourseEdition(CourseEdition courseEdition, Teacher teacher) {
-        if (teacher == null) {
-=======
     public boolean defineRucForCourseEdition(CourseEdition_2 courseEdition_2, TeacherID teacherID) {
         if (courseEdition_2 == null || teacherID == null) {
->>>>>>> Stashed changes
             return false;
         }
 
