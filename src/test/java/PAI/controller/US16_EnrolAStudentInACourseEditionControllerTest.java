@@ -372,7 +372,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -461,7 +461,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -542,7 +542,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -630,7 +630,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -717,7 +717,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");

@@ -294,7 +294,6 @@ class US19_CreateCourseEditionControllerTest {
     private US19_CreateCourseEditionController controller;
 
     private Course course;
-    private IAddressFactory addressFactory;
 
     private TeacherCareerProgressionListFactoryImpl teacherCareerListFactory;
     private TeacherCareerProgressionFactoryImpl teacherCareerFactory;

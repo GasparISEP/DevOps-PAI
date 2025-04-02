@@ -1,14 +1,7 @@
 package PAI.domain;
 
 import PAI.VOs.*;
-import PAI.VOs.Location;
-import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -20,7 +13,7 @@ class StudentTest {
     void validAttributesCreateObject() {
 
         //arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -36,7 +29,7 @@ class StudentTest {
     void invalidStudentIDShouldReturnException() throws IllegalArgumentException {
 
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
@@ -54,7 +47,7 @@ class StudentTest {
     void nullNameDoesNotCreateObject() {
 
         //arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         NIF nifDouble = mock(NIF.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
@@ -69,7 +62,7 @@ class StudentTest {
     void nullNIFDoesNotCreateObject() {
 
         //arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
@@ -84,7 +77,7 @@ class StudentTest {
     void nullPhoneDoesNotCreateObject() {
 
         //arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -99,7 +92,7 @@ class StudentTest {
     void nullEmailDoesNotCreateObject () {
 
         //arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -129,7 +122,7 @@ class StudentTest {
     void nullAcademicEmailDoesNotCreateObject () {
 
         //arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -143,7 +136,7 @@ class StudentTest {
     @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameID() {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -155,7 +148,6 @@ class StudentTest {
 
         when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
 
-        Address address2 = mock(Address.class);
         Student student2 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
@@ -170,7 +162,7 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTwoStudentsDontHaveTheSameID() {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -180,8 +172,6 @@ class StudentTest {
 
         Student student1 = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
-
-        Address address2 = mock(Address.class);
         StudentID mockStudentID2 = mock(StudentID.class);
         Student student2 = new Student(mockStudentID2, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
@@ -195,7 +185,7 @@ class StudentTest {
     @Test
     void objectsToCompareInEqualsMethodAreTheSame () {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -215,7 +205,7 @@ class StudentTest {
     @Test
     void objectsToCompareInEqualsMethodAreNotTheSame () {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -242,7 +232,7 @@ class StudentTest {
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
 
         Student student = new Student(studentIDDouble, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
         AccessMethod accessMethodDouble = mock(AccessMethod.class);
@@ -257,7 +247,7 @@ class StudentTest {
     @Test
     void objectsToCompareInSameAsMethodAreTheSame () {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -277,7 +267,7 @@ class StudentTest {
     @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameNIF() {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         StudentID mockStudentID2 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
@@ -299,7 +289,7 @@ class StudentTest {
     @Test
     void objectsToCompareInSameAsMethodAreNotTheSame () {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -312,7 +302,7 @@ class StudentTest {
         TeacherAcronym acronymDouble = mock(TeacherAcronym.class);
         AcademicBackground academicBackgroundDouble = mock(AcademicBackground.class);
         DepartmentID departmentIDDouble = mock(DepartmentID.class);
-        AddressVO addressVODouble = mock(AddressVO.class);
+        Address addressVODouble = mock(Address.class);
 
         Teacher teacher = new Teacher(acronymDouble, nameDouble, emailDouble, nifDouble, phoneDouble, academicBackgroundDouble, addressVODouble, departmentIDDouble);
 
@@ -326,7 +316,7 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTwoStudentsDontHaveTheSameNIF() {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         StudentID mockStudentID2 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
@@ -349,7 +339,7 @@ class StudentTest {
     @Test
     void shouldReturnTrueIfTheIDIsFoundInAStudent() {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -370,7 +360,7 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTheIDIsNotFoundInAStudent() {
         // Arrange
-        AddressVO addressDouble = mock(AddressVO.class);
+        Address addressDouble = mock(Address.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);

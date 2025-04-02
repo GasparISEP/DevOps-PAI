@@ -2,13 +2,13 @@ package PAI.VOs;
 
 import PAI.ddd.ValueObject;
 
-public class AddressVO implements ValueObject {
+public class Address implements ValueObject {
     private Street _street;
     private PostalCode _postalCode;
     private Location _location;
     private Country _country;
 
-    public AddressVO(Street street, PostalCode postalCode, Location location, Country country){
+    public Address(Street street, PostalCode postalCode, Location location, Country country){
         if (!isAttributeValid(street)) {
             throw new IllegalArgumentException("Street cannot be null.");
         }

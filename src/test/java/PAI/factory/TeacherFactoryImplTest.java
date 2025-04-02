@@ -50,7 +50,7 @@ class TeacherFactoryImplTest {
         ITeacherFactory teacherFactory = new TeacherFactoryImpl();
         createTeacherAndArgumentsDouble();
 
-        try (MockedConstruction<AddressVO> addressConstruction = mockConstruction(AddressVO.class);
+        try (MockedConstruction<Address> addressConstruction = mockConstruction(Address.class);
              MockedConstruction<Teacher> teacherConstruction = mockConstruction(Teacher.class)) {
 
             // Act
@@ -60,7 +60,7 @@ class TeacherFactoryImplTest {
                     _departmentIDDouble);
 
             // Assert
-            List<AddressVO> addressInstances = addressConstruction.constructed();
+            List<Address> addressInstances = addressConstruction.constructed();
             assertEquals(1, addressInstances.size());
 
             List<Teacher> teacherInstances = teacherConstruction.constructed();
@@ -107,7 +107,7 @@ class TeacherFactoryImplTest {
             case "Department" -> _departmentIDDouble = null;
         }
 
-        try (MockedConstruction<AddressVO> addressInstanceDouble = mockConstruction(AddressVO.class, (mock, context) -> {
+        try (MockedConstruction<Address> addressInstanceDouble = mockConstruction(Address.class, (mock, context) -> {
             if (nullField.equals("Street") || nullField.equals("PostalCode") ||
                     nullField.equals("Location") || nullField.equals("Country")) {
                 throw new IllegalArgumentException("Field is null");
