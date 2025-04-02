@@ -41,16 +41,19 @@ class Grade <<ValueObject>> {
         +knowGrade()
     }
 
-    class LocalDate <<ValueObject>> {
-    -date: String
-    +isDateValid(date: String): void
-    +get_date(): LocalDate
+    class Date <<ValueObject>> {
+    -LocalDate
+    +Date(LocalDate localDate)
+    +LocalDate getLocalDate()
+    +Date now()
+    +isBefore(Date other)
+    +isAfter(Date other)
+    +equals(Object o)
     }
 
 class StudentGradeID <<ValueObject>> {
-    -_studentGradeID: Long
-    -_courseEditionID: Long
-    -_studentID: Long
+    -_courseEditionID
+    -_studentID
 }
 
 class StudentGradeRepository {
@@ -108,19 +111,23 @@ class "<<root>>\nStudent" {
 }
 
 class Name <<ValueObject>> {
-    -_name: String
+    -Name : String
+                        +getName()
+                        +equals()
+                        +hashCode()
     }
 
     class NIF <<ValueObject>> {
-    -_nif: String
+    -NIF : String
     }
 
     class Phone <<ValueObject>> {
-    -_phone: String
+    -CountryCode: String
+                             -Number: String
     }
 
     class Email <<ValueObject>> {
-    -_email: String
+   -Email: String
     }
 
     class InstitutionalEmail <<ValueObject>> {
@@ -128,11 +135,17 @@ class Name <<ValueObject>> {
     }
 
     class Address <<ValueObject>> {
-    -_address: String
+     -Street
+                             -PostalCode
+                             -Location
+                             -Country
     }
 
 class StudentID <<ValueObject>> {
-    -_studentID: Long
+    -uniqueNumber: int
+    +equals()
+    +getUniqueNumber()
+    +isEquals()
 }
 package "CourseEdition" {
 class "<<root>>\nCourseEdition" {
@@ -145,11 +158,14 @@ class "<<root>>\nCourseEdition" {
 }
 
 class CourseEditionID <<ValueObject>> {
-    -_courseEditionID: Long
+   -ProgrammeEdiitionID
+   -CourseInStudyPlanID
+   +toString()
+   +equals()
 }
 
 "<<root>>\nStudentGrade" "*" --> "1" Grade
-"<<root>>\nStudentGrade" "*" --> "1" LocalDate
+"<<root>>\nStudentGrade" "*" --> "1" Date
 "<<root>>\nStudentGrade" --> "1" StudentID: belongs
 "<<root>>\nStudentGrade" --> "1" StudentGradeID
 "<<root>>\nStudentGrade" -up-> "1" CourseEditionID : refers to
