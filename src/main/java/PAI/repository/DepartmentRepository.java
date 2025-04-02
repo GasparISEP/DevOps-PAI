@@ -1,8 +1,11 @@
 package PAI.repository;
 import PAI.VOs.DepartmentID;
+import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.Name;
 import PAI.domain.Department;
-import PAI.domain.Teacher;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import PAI.factory.IDepartmentFactory;
 import PAI.factory.IDepartmentListFactory;
 
@@ -17,7 +20,8 @@ public class DepartmentRepository {
         _departments = IDepartmentListFactory.newDepartmentList();
     }
 
-    public boolean registerDepartment(String acronym, String name) throws Exception {
+    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception {
+
         Department newDepartment = _departmentFactory.newDepartment(acronym,name);
 
         boolean isDepartmentRegistered = _departments.add(newDepartment);
@@ -29,22 +33,23 @@ public class DepartmentRepository {
     }
 
     // Method to get the list of Departments
-    public Set<Department> getDepartments() {
-        if (_departments.isEmpty()){
+    public Set<DepartmentID> getDepartmentIDs() {
+        if (_departments.isEmpty()) {
             throw new IllegalStateException("Department list is empty.");
         }
-        return _departments;
+        return _departments.stream()
+                .map(Department::getDepartmentID)
+                .collect(Collectors.toSet());
     }
 
-    public boolean departmentExists (Department department){
-        return department != null && _departments.contains(department);
+    public boolean departmentExists (DepartmentID departmentID){
+        return departmentID != null && _departments.contains(departmentID);
     }
 
-    public boolean updateOfDepartmentDirector(Department department, Teacher furtherDirector) {
-        if(furtherDirector!=null && furtherDirector.isInDepartment(department)) {
-            department.changeDirector(furtherDirector);
-            return true;
-        }
-            return false;
-    }
+//    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID furtherDirectorId) {
+//        if (furtherDirectorId.getTeacherById.isInDepartment(department.getDepartmentById(departmentId))) {
+//            departmentId.changeDirector(furtherDirectorId.identity());
+//        }
+//        return false;
+//        }
 }

@@ -1,25 +1,25 @@
 package PAI.controller;
 import PAI.VOs.*;
+import PAI.domain.Department;
+import PAI.domain.TeacherCategory;
+import PAI.repository.DepartmentRepository;
+import PAI.repository.TeacherCareerProgressionRepository;
+import PAI.repository.TeacherCategoryRepositoryImpl;
+import PAI.repository.TeacherRepository;
 import PAI.VOs.Location;
-import PAI.domain.*;
-import PAI.factory.IAddressFactory;
-
-import PAI.repository.*;
-
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class US13_RegisterTeacherAndRelevantDataController {
 
-    private TeacherCategoryRepository _teacherCategoryRepository;
+    private TeacherCategoryRepositoryImpl _teacherCategoryRepository;
     private DepartmentRepository _departmentRepository;
     private TeacherRepository _teacherRepository;
     private TeacherCareerProgressionRepository _teacherCareerProgressionRepository;
 
     //Constructor
-    public US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepository teacherCategoryRepository,
+    public US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepositoryImpl teacherCategoryRepository,
         DepartmentRepository departmentRepository, TeacherRepository teacherRepository, TeacherCareerProgressionRepository teacherCareerProgressionRepository) {
 
         if (teacherCategoryRepository == null) {
@@ -50,20 +50,20 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to get all Departments
-    public Set<Department> getDepartmentsList() throws IllegalStateException{
-        return _departmentRepository.getDepartments();
+    public Set<DepartmentID> getDepartmentIDList() throws IllegalStateException{
+        return _departmentRepository.getDepartmentIDs();
     }
 
     // Method to register the Teacher object
     public boolean registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber,
                                    AcademicBackground academicBackground, Street street, PostalCode postalCode,
-                                   Location location, Country country, Department department, Date date,
+                                   Location location, Country country, DepartmentID departmentID, Date date,
                                    TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage) throws Exception {
 
 
         // register Teacher
         Optional<TeacherID> optionalTeacherID = _teacherRepository.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-            street, postalCode, location, country, department);
+            street, postalCode, location, country, departmentID);
 
         if (optionalTeacherID.isEmpty()) {
             return false;

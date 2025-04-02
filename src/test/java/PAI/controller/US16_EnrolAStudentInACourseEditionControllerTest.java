@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.*;
@@ -9,21 +10,20 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing constructor of US16 controller
     @Test
-    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryInterfaceIsNull (){
+    void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryInterfaceIsNull() {
         //arrange
-        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock (ICourseEditionEnrolmentRepository.class);
-        CourseEditionRepository doubleCourseEditionRepository = mock (CourseEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US16_EnrolAStudentInACourseEditionController(doubleCeeRepositoryInterface, null, doubleCourseEditionRepository);
+            new US16_EnrolAStudentInACourseEditionController(doubleCeeRepositoryInterface, null, doubleCourseEditionRepositoryInterface);
         });
 
         //assert
@@ -31,10 +31,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfCourseEditionRepositoryIsNull (){
+    void shouldReturnExceptionIfCourseEditionRepositoryIsNull() {
         //arrange
-        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock (CourseEditionEnrolmentRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(CourseEditionEnrolmentRepositoryImpl.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -46,14 +46,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull (){
+    void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull() {
         //arrange
-        CourseEditionRepository doubleCeRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCeRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US16_EnrolAStudentInACourseEditionController(null, doublePeeRepositoryInterface, doubleCeRepository);
+            new US16_EnrolAStudentInACourseEditionController(null, doublePeeRepositoryInterface, doubleCeRepositoryInterface);
         });
 
         //assert
@@ -62,14 +62,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing find Programme Editions that Student is Enrolled Method
     @Test
-    void shouldReturnEmptyListWhenStudentIsNull(){
+    void shouldReturnEmptyListWhenStudentIsNull() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
         //act
         List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
@@ -79,23 +79,23 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled (){
+    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
         StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEditionID doublePee1Id = mock (ProgrammeEditionID.class);
-        ProgrammeEditionID doublePee2Id = mock (ProgrammeEditionID.class);
-        ProgrammeEditionID doublePee3Id = mock (ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee1Id = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee2Id = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID doublePee3Id = mock(ProgrammeEditionID.class);
 
 
-        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
-                thenReturn(List.of(doublePee1Id,doublePee2Id,doublePee3Id));
+        when(doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
+                thenReturn(List.of(doublePee1Id, doublePee2Id, doublePee3Id));
 
         //act
         List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
@@ -105,19 +105,19 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnAnEmptyListWhenStudentIsNotEnrolledInAnyProgrammeEdition (){
+    void shouldReturnAnEmptyListWhenStudentIsNotEnrolledInAnyProgrammeEdition() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
         StudentID doubleStudentId = mock(StudentID.class);
 
 
-        when (doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
+        when(doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
                 thenReturn(List.of());
 
         //act
@@ -130,43 +130,43 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing find Course Editions by Programme Edition Method
     @Test
-    void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition(){
+    void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        ProgrammeEdition doubleProgrammeEdition = mock (ProgrammeEdition.class);
-        CourseEdition_2 doubleCourseEdition1 = mock (CourseEdition_2.class);
-        CourseEdition_2 doubleCourseEdition2 = mock (CourseEdition_2.class);
+        ProgrammeEditionID doubleProgrammeEditionID = mock(ProgrammeEditionID.class);
+        CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
+        CourseEditionID doubleCourseEdition2 = mock(CourseEditionID.class);
 
-        when (doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
+        when(doubleCourseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
 
         //act
-        List<CourseEdition_2> result = controller.findCourseEditionsByProgrammeEdition(doubleProgrammeEdition);
+        List<CourseEditionID> result = controller.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID);
 
         //assert
-        assertEquals (2, result.size());
+        assertEquals(2, result.size());
     }
 
     //testing enroll a student in a course edition method
     @Test
-    void shouldReturnTrueIfIsAValidCourseEditionEnrollment () {
+    void shouldReturnTrueIfIsAValidCourseEditionEnrollment() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID = mock (StudentID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
@@ -176,23 +176,23 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition () {
+    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID1 = mock (StudentID.class);
+        StudentID doubleStudentID1 = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
-        StudentID doubleStudentID2 = mock (StudentID.class);
+        StudentID doubleStudentID2 = mock(StudentID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn(true);
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID);
@@ -202,24 +202,24 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions () {
+    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID1 = mock (StudentID.class);
+        StudentID doubleStudentID1 = mock(StudentID.class);
         CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
-        StudentID doubleStudentID2 = mock (StudentID.class);
+        StudentID doubleStudentID2 = mock(StudentID.class);
         CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn(true);
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID1);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2,doubleCEID2)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID2)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID2);
@@ -229,23 +229,23 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions () {
+    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStID1 = mock (StudentID.class);
-        CourseEditionID doubleCeID1 = mock (CourseEditionID.class);
-        CourseEditionID doubleCeID2 = mock (CourseEditionID.class);
+        StudentID doubleStID1 = mock(StudentID.class);
+        CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
+        CourseEditionID doubleCeID2 = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn(true);
         controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1,doubleCeID2)).thenReturn (true);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID2)).thenReturn(true);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID2);
@@ -255,19 +255,19 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition () {
+    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition() {
         //arrange
-        CourseEditionRepository doubleCourseEditionRepository = mock(CourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock (IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
-                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepository);
+                doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
-        StudentID doubleStudentID = mock (StudentID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when (doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
+        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
@@ -280,7 +280,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing find Programme Editions that Student is Enrolled Method
     @Test
-    void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest(){
+    void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest() {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -288,11 +288,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository ceeRepository = new CourseEditionEnrolmentRepository(ceeFactory, ceeListFactory);
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
-        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
-        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
+        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -303,313 +303,466 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         assertTrue(result.isEmpty());
     }
 
-//    @Test
-//    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest () throws Exception {
-//        //arrange
-//        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-//        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-//        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
-//
-//        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
-//        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-//        CourseEditionEnrolmentRepository ceeRepository = new CourseEditionEnrolmentRepository(ceeFactory, ceeListFactory);
-//
-//        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
-//        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
-//        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
-//
-//        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
-//
-//        StudentID studentID1 = new StudentID(1234567);
-//
-//        Date date = new Date("15-04-2005");
-//        TeacherCategoryID tcID = new TeacherCategoryID();
-//        WorkingPercentage wp = new WorkingPercentage(70);
-//        TeacherID teacherID = TeacherID.createNew();
-//        DegreeType degreeType = new DegreeType("Bachelor", 25);
-//        Department dpt1 = new Department("DEI", "Department1");
-//        IAddressFactory addressFactory = new AddressFactoryImpl();
-//        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
-//        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
-//
-//        Teacher t1 = new Teacher(
-//                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-//                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores", "4444-098", "Porto", "Portugal",
-//                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
-//        );
-//
-//        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-//        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-//        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-//        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-//
-//        Programme programme1 = new Programme(
-//                "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
-//                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-//                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
-//        );
-//
-//        Description description = new Description("School Year 23/24");
-//        Date startDate = new Date ("01-09-2023");
-//        Date endDate = new Date ("31-08-2024");
-//        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
-//
-//        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
-//
-//        SchoolYear schoolYear2 = new SchoolYear(description, startDate, endDate);
-//        ProgrammeEdition programmeEdition2 = new ProgrammeEdition(programme1, schoolYear2);
-//
-//        peeRepository.enrolStudentInProgrammeEdition(studentID1,programmeEdition1);
-//        peeRepository.enrolStudentInProgrammeEdition(studentID1,programmeEdition2);
-//
-//        //act
-//        List<ProgrammeEdition> result = controller.findProgrammeEditionsThatStudentIsEnrolled(studentID1);
-//
-//        //assert
-//        assertEquals(2, result.size());
-//    }
+    @Test
+    void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest() throws Exception {
+        //arrange
+        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
 
-//    //testing find Course Editions by Programme Edition Method
-//    @Test
-//    void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
-//        //arrange
-//        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-//        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-//        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
-//
-//        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
-//        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-//        CourseEditionEnrolmentRepository ceeRepository = new CourseEditionEnrolmentRepository(ceeFactory, ceeListFactory);
-//
-//        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
-//        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
-//        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
-//
-//        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
-//
-//        Date date = new Date("15-04-2005");
-//        TeacherCategoryID tcID = new TeacherCategoryID();
-//        WorkingPercentage wp = new WorkingPercentage(70);
-//        TeacherID teacherID = TeacherID.createNew();
-//        DegreeType degreeType = new DegreeType("Bachelor", 25);
-//        Department dpt1 = new Department("DEI", "Department1");
-//        IAddressFactory addressFactory = new AddressFactoryImpl();
-//        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
-//        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
-//
-//        Teacher t1 = new Teacher(
-//                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-//                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores", "4444-098", "Porto", "Portugal",
-//                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
-//        );
-//
-//        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-//        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-//        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-//        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-//
-//        Programme programme1 = new Programme(
-//                "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
-//                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-//                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
-//        );
-//
-//        Description description = new Description("School Year 23/24");
-//        Date startDate = new Date ("01-09-2023");
-//        Date endDate = new Date ("31-08-2024");
-//        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
-//
-//        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
-//
-//        Course course1 = new Course ("Informatics", "INF", 6, 1);
-//        Course course2 = new Course ("Mechanics", "MFN", 6, 1);
-//
-//        programme1.addCourseToAProgramme(course1);
-//        programme1.addCourseToAProgramme(course2);
-//        courseEditionRepository.createAndSaveCourseEdition(course1,programmeEdition1);
-//        courseEditionRepository.createAndSaveCourseEdition(course2,programmeEdition1);
-//
-//        //act
-//        List<CourseEdition> result = controller.findCourseEditionsByProgrammeEdition(programmeEdition1);
-//
-//        //assert
-//        assertEquals (2, result.size());
-//    }
+        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
+        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-//    //testing enroll a student in a course edition
-//    @Test
-//    void shouldReturnTrueIfIsAValidCourseEditionEnrollment_IntegrationTest () throws Exception {
-//        //arrange
-//        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-//        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-//        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
-//
-//        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
-//        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-//        CourseEditionEnrolmentRepository ceeRepository = new CourseEditionEnrolmentRepository(ceeFactory, ceeListFactory);
-//
-//        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
-//        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
-//        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
-//
-//        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
-//
-//        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-//
-//        StudentID studentID1 = new StudentID(1234567);
-//
-//        Name name = new Name("Rita");
-//        String countryName = "Portugal";
-//        Country country = new Country(countryName);
-//        NIF nif = new NIF("123456789", country);
-//        PhoneNumber phone = new PhoneNumber("+351","963741258");
-//        Email email = new Email("rita@gmail.com");
-//        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID1);
-//
-//        Student st1 = new Student(studentID1, name, nif, phone, email, address1, academicEmail);
-//
-//        StudentID studentID2 = new StudentID(1234367);
-//        Name name2 = new Name("Rita");
-//        NIF nif2 = new NIF("123456789", country);
-//        PhoneNumber phone2 = new PhoneNumber("+351","963741258");
-//        Email email2 = new Email("rita@gmail.com");
-//        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID1);
-//
-//        Student st2 = new Student(studentID2, name2, nif2, phone2, email2, address1, academicEmail2);
-//
-//        Course course1 = new Course ("Informatics", "INF", 6, 1);
-//
-//        Date date = new Date("15-04-2005");
-//        TeacherCategoryID tcID = new TeacherCategoryID();
-//        WorkingPercentage wp = new WorkingPercentage(70);
-//        TeacherID teacherID = TeacherID.createNew();
-//        DegreeType degreeType = new DegreeType("Bachelor", 25);
-//        Department dpt1 = new Department("DEI", "Department1");
-//        IAddressFactory addressFactory = new AddressFactoryImpl();
-//        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
-//        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
-//
-//        Teacher t1 = new Teacher(
-//                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-//                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores", "4444-098", "Porto", "Portugal",
-//                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
-//        );
-//
-//        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-//        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-//        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-//        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-//
-//        Programme programme1 = new Programme(
-//                "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
-//                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-//                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
-//        );
-//
-//        programme1.addCourseToAProgramme(course1);
-//
-//        Description description = new Description("School Year 23/24");
-//        Date startDate = new Date ("01-09-2023");
-//        Date endDate = new Date ("31-08-2024");
-//        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
-//
-//        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
-//
-//        CourseEdition ce1 = new CourseEdition(course1, programmeEdition1);
-//
-//        courseEditionRepository.createAndSaveCourseEdition(course1,programmeEdition1);
-//        ceeRepository.enrolStudentInACourseEdition(st2,ce1);
-//
-//        //act
-//        boolean result = controller.enrolStudentInCourseEdition(st1,ce1);
-//
-//        //assert
-//        assertTrue(result);
-//    }
-//
-//    @Test
-//    void shouldReturnFalseIfStudentIsAlreadyEnrolledInCourseEdition_IntegrationTest () throws Exception {
-//        //arrange
-//        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-//        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-//        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
-//
-//        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
-//        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-//        CourseEditionEnrolmentRepository ceeRepository = new CourseEditionEnrolmentRepository(ceeFactory, ceeListFactory);
-//
-//        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
-//        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
-//        CourseEditionRepository courseEditionRepository = new CourseEditionRepository(ceFactory, ceListFactory);
-//
-//        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
-//
-//        Address address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-//        StudentID studentID = new StudentID(1234567);
-//        Name name = new Name("Rita");
-//        String countryName = "Portugal";
-//        Country country = new Country(countryName);
-//        NIF nif = new NIF("123456789", country);
-//        PhoneNumber phone = new PhoneNumber("+351","963741258");
-//        Email email = new Email("rita@gmail.com");
-//        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
-//        Student st1 = new Student(studentID, name, nif, phone, email, address1, academicEmail);
-//
-//        Course course1 = new Course ("Informatics", "INF", 6, 1);
-//
-//        Date date = new Date("15-04-2005");
-//        TeacherCategoryID tcID = new TeacherCategoryID();
-//        WorkingPercentage wp = new WorkingPercentage(70);
-//        TeacherID teacherID = TeacherID.createNew();
-//        DegreeType degreeType = new DegreeType("Bachelor", 25);
-//        Department dpt1 = new Department("DEI", "Department1");
-//        IAddressFactory addressFactory = new AddressFactoryImpl();
-//        TeacherCareerProgressionFactoryImpl tcpFactory = new TeacherCareerProgressionFactoryImpl();
-//        TeacherCareerProgressionListFactoryImpl tcpLF = new TeacherCareerProgressionListFactoryImpl();
-//
-//        Teacher t1 = new Teacher(
-//                "ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-//                "Doutoramento em Engenharia Informatica, 2005, ISEP",
-//                "Rua das Flores", "4444-098", "Porto", "Portugal",
-//                addressFactory, date, tcID, wp, teacherID, dpt1, tcpFactory, tcpLF
-//        );
-//
-//        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-//        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-//        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-//        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-//
-//        Programme programme1 = new Programme(
-//                "Computer Engineering", "CE", 20, 6, degreeType, dpt1, t1,
-//                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-//                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
-//        );
-//
-//        programme1.addCourseToAProgramme(course1);
-//
-//        Description description = new Description("School Year 23/24");
-//        Date startDate = new Date ("01-09-2023");
-//        Date endDate = new Date ("31-08-2024");
-//        SchoolYear schoolYear1 = new SchoolYear(description, startDate, endDate);
-//
-//        ProgrammeEdition programmeEdition1 = new ProgrammeEdition(programme1, schoolYear1);
-//
-//        CourseEdition ce1 = new CourseEdition(course1, programmeEdition1);
-//
-//        courseEditionRepository.createAndSaveCourseEdition(course1,programmeEdition1);
-//        ceeRepository.enrolStudentInACourseEdition(st1,ce1);
-//
-//        //act
-//        boolean result = controller.enrolStudentInCourseEdition(st1,ce1);
-//
-//        //assert
-//        assertFalse(result);
-//    }
+        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
+        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+
+        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        StudentID studentID1 = new StudentID(1234567);
+
+        SchoolYearID schoolYearID2 = new SchoolYearID();
+
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
+        Acronym acronym1 = new Acronym("P1");
+        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID2);
+
+        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Programme2");
+        Acronym acronym2 = new Acronym("P2");
+        ProgrammeID programmeID2 = new ProgrammeID(name2, acronym2);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID2, schoolYearID2);
+
+        peeRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID1);
+        peeRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID2);
+
+        //act
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(studentID1);
+
+        //assert
+        assertEquals(2, result.size());
+    }
+    //testing find Course Editions by Programme Edition Method
+    @Test
+    void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
+        //arrange
+        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+
+        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
+        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
+        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+
+        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
+        Name nameTeacher = new Name ("Joe Doe");
+        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
+        Country countryTeacher = new Country("Portugal");
+        NIF nifTeacher = new NIF("123456789", countryTeacher);
+        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4444-789");
+        Location location = new Location("Porto");
+        Country country = new Country("Portugal");
+        AddressVO address = new AddressVO(street, postalCode, location, country);
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
+        Teacher t1 = new Teacher(
+                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
+                academicBackground, address, departmentID);
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
+        Acronym acronym1 = new Acronym("P1");
+        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+        Date date1 = new Date ("12-12-2023");
+        Date date2 = new Date ("12-12-2024");
+        StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
+        StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1,date2);
+
+        CourseID courseID1 = new CourseID();
+        CourseID courseID2 = new CourseID();
+
+        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
+        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
+
+        Course course1 = new Course("Desenvolvimento de Software", "DSOFT", 30, 1);
+        Course course2 = new Course("Base de Dados", "BASDAD", 30, 1);
+
+        programme1.addCourseToAProgramme(course1);
+        programme1.addCourseToAProgramme(course2);
+
+        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
+        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID2,programmeEditionID1);
+
+        //act
+        List<CourseEditionID> result = controller.findCourseEditionsByProgrammeEdition(programmeEditionID1);
+
+        //assert
+        assertEquals (2, result.size());
+    }
+
+    //testing enroll a student in a course edition
+    @Test
+    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition_IntegrationTest () throws Exception {
+        //arrange
+        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+
+        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
+        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
+        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+
+        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1234367);
+
+        Course course1 = new Course ("Informatics", "INF", 6, 1);
+
+        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
+        Name nameTeacher = new Name ("Joe Doe");
+        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
+        Country countryTeacher = new Country("Portugal");
+        NIF nifTeacher = new NIF("123456789", countryTeacher);
+        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4444-789");
+        Location location = new Location("Porto");
+        Country country = new Country("Portugal");
+        AddressVO address = new AddressVO(street, postalCode, location, country);
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
+        Teacher t1 = new Teacher(
+                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
+                academicBackground, address, departmentID);
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        programme1.addCourseToAProgramme(course1);
+
+
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
+        Acronym acronym1 = new Acronym("P1");
+        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+        Date date1 = new Date ("12-12-2023");
+        StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
+
+        CourseID courseID1 = new CourseID();
+
+        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
+        CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
+
+        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
+        ceeRepository.enrolStudentInACourseEdition(studentID2,ceID1);
+
+        //act
+        boolean result = controller.enrolStudentInCourseEdition(studentID1,ceID1);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions_IntegrationTest () throws Exception {
+        //arrange
+        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+
+        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
+        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
+        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+
+        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        StudentID studentID1 = new StudentID(1234567);
+
+        Course course1 = new Course ("Informatics", "INF", 6, 1);
+
+        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
+        Name nameTeacher = new Name ("Joe Doe");
+        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
+        Country countryTeacher = new Country("Portugal");
+        NIF nifTeacher = new NIF("123456789", countryTeacher);
+        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4444-789");
+        Location location = new Location("Porto");
+        Country country = new Country("Portugal");
+        AddressVO address = new AddressVO(street, postalCode, location, country);
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
+        Teacher t1 = new Teacher(
+                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
+                academicBackground, address, departmentID);
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        programme1.addCourseToAProgramme(course1);
+
+
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
+        Acronym acronym1 = new Acronym("P1");
+        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+        Date date1 = new Date ("12-12-2023");
+        StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
+        CourseID courseID1 = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
+
+        CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
+
+        Date date2 = new Date ("12-12-2024");
+        StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1,date2);
+        CourseID courseID2 = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
+
+        CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
+
+        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
+        ceeRepository.enrolStudentInACourseEdition(studentID1,ceID1);
+
+        //act
+        boolean result = controller.enrolStudentInCourseEdition(studentID1,ceID2);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions_IntegrationTest () throws Exception {
+        //arrange
+        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+
+        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
+        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
+        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+
+        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID2 = new StudentID(1234568);
+
+        Course course1 = new Course ("Informatics", "INF", 6, 1);
+
+        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
+        Name nameTeacher = new Name ("Joe Doe");
+        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
+        Country countryTeacher = new Country("Portugal");
+        NIF nifTeacher = new NIF("123456789", countryTeacher);
+        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4444-789");
+        Location location = new Location("Porto");
+        Country country = new Country("Portugal");
+        AddressVO address = new AddressVO(street, postalCode, location, country);
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
+        Teacher t1 = new Teacher(
+                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
+                academicBackground, address, departmentID);
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        programme1.addCourseToAProgramme(course1);
+
+
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
+        Acronym acronym1 = new Acronym("P1");
+        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+        Date date1 = new Date ("12-12-2023");
+        StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
+        CourseID courseID1 = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
+
+        CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
+
+        Date date2 = new Date ("12-12-2024");
+        StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1,date2);
+        CourseID courseID2 = new CourseID();
+        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
+
+        CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
+
+        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
+        ceeRepository.enrolStudentInACourseEdition(studentID1,ceID1);
+
+        //act
+        boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID2);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfStudentIsAlreadyEnrolledInCourseEdition_IntegrationTest () throws Exception {
+        //arrange
+        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+
+        CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
+        CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
+
+        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
+        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+
+        US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
+
+        StudentID studentID = new StudentID(1234567);
+
+        Course course1 = new Course ("Informatics", "INF", 6, 1);
+
+        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
+        Name nameTeacher = new Name ("Joe Doe");
+        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
+        Country countryTeacher = new Country("Portugal");
+        NIF nifTeacher = new NIF("123456789", countryTeacher);
+        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4444-789");
+        Location location = new Location("Porto");
+        Country country = new Country("Portugal");
+        AddressVO address = new AddressVO(street, postalCode, location, country);
+        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(acronym);
+        Name name= new Name("Departmento Engenharia Informática");
+        Department department = new Department(acronym, name);
+        Teacher t1 = new Teacher(
+                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
+                academicBackground, address, departmentID);
+
+
+        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
+        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        DegreeType degreeType = new DegreeType("Bachelor", 25);
+
+        Programme programme1 = new Programme(
+                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
+                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
+                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+        );
+
+        programme1.addCourseToAProgramme(course1);
+
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
+        Acronym acronym1 = new Acronym("P1");
+        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+        Date date1 = new Date ("12-12-2023");
+        StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
+
+        CourseID courseID1 = new CourseID();
+
+        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
+        CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
+
+        courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
+        ceeRepository.enrolStudentInACourseEdition(studentID,ceID1);
+
+        //act
+        boolean result = controller.enrolStudentInCourseEdition(studentID,ceID1);
+
+        //assert
+        assertFalse(result);
+    }
 }

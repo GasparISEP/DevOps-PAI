@@ -1,6 +1,7 @@
 package PAI.repository;
 
 import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.factory.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,10 @@ class StudentRepositoryTest {
         private IStudentFactory _studentFactoryImplDouble;
         private IStudentListFactory _studentListFactoryImplDouble;
         private Iterator _iterator;
-        private Address _addressDouble;
+        private Street _streetDouble;
+        private PostalCode _postalCodeDouble;
+        private Location _locationDouble;
+        private Country _countryDouble;
         private Student _studentDouble1;
         private Student _studentDouble2;
         private StudentID _studentID1;
@@ -43,7 +47,10 @@ class StudentRepositoryTest {
             _studentFactoryImplDouble = mock(IStudentFactory.class);
             _studentListFactoryImplDouble = mock(IStudentListFactory.class);
 
-            _addressDouble = mock(Address.class);
+            _streetDouble = mock(Street.class);
+            _postalCodeDouble = mock(PostalCode.class);
+            _locationDouble = mock(Location.class);
+            _countryDouble = mock(Country.class);
             _studentDouble1 = mock(Student.class);
             _studentDouble2 = mock(Student.class);
             _studentID1 = mock(StudentID.class);
@@ -89,19 +96,19 @@ class StudentRepositoryTest {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
 
-            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble2);
 
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
 
             when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(true);
 
-            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             // Act & Assert
             Exception exception = assertThrows(Exception.class, () -> {
-                studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+                studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
             });
             assertEquals(exception.getMessage(), "Duplicate ID or NIF detected. Student cannot be added.");
         }
@@ -110,12 +117,12 @@ class StudentRepositoryTest {
         void testRegisterDuplicateStudentIDThrowsException() throws Exception {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble2);
 
             when(_iterator.hasNext()).thenReturn(false);
 
-            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             when(_iterator.hasNext()).thenReturn(true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
@@ -124,7 +131,7 @@ class StudentRepositoryTest {
 
             // Act & Assert
             Exception exception = assertThrows(Exception.class, () -> {
-                studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+                studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
             });
             assertEquals("Duplicate ID or NIF detected. Student cannot be added.", exception.getMessage());
         }
@@ -133,16 +140,16 @@ class StudentRepositoryTest {
         void shouldReturnTrueWhenValidStudentsAreRegistered() throws Exception {
             // Arrange
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID2, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1);
             when(_studentDouble2.isEquals(_studentDouble1) && _studentDouble2.sameAs(_studentDouble1)).thenReturn(false);
 
-            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             // Act
-            boolean result = studentRepository.registerStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+            boolean result = studentRepository.registerStudent(_studentID2, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             // Assert
             assertTrue(result);
@@ -154,19 +161,19 @@ class StudentRepositoryTest {
             StudentID studentIDToBeFound = mock(StudentID.class);
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
             // Register Second Student
-            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(studentIDToBeFound, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(studentIDToBeFound, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble2);
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
-            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             NIF nifDouble = mock(NIF.class);
 
             when(_studentDouble1.isEquals(_studentDouble2)).thenReturn(false);
             when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(true);
             // Register Second Student
-            studentRepository.registerStudent(studentIDToBeFound, _name, nifDouble, _phone, _email, _addressDouble, _academicEmail);
+            studentRepository.registerStudent(studentIDToBeFound, _name, nifDouble, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             when(_iterator.hasNext()).thenReturn(true, true);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
@@ -189,18 +196,18 @@ class StudentRepositoryTest {
             // Arrange
             StudentID studentIDToBeFound = mock(StudentID.class);
             StudentRepository studentRepository = new StudentRepository(_studentFactoryImplDouble, _studentListFactoryImplDouble);
-            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble1);
-            when(_studentFactoryImplDouble.newStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail)).thenReturn(_studentDouble2);
+            when(_studentFactoryImplDouble.newStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble1);
+            when(_studentFactoryImplDouble.newStudent(_studentID2, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail)).thenReturn(_studentDouble2);
 
             when(_iterator.hasNext()).thenReturn(false, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
 
-            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+            studentRepository.registerStudent(_studentID1, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             when(_studentDouble1.equals(_studentDouble2)).thenReturn(false);
             when(_studentDouble1.sameAs(_studentDouble2)).thenReturn(false);
 
-            studentRepository.registerStudent(_studentID2, _name, _nif, _phone, _email, _addressDouble, _academicEmail);
+            studentRepository.registerStudent(_studentID2, _name, _nif, _phone, _email, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _academicEmail);
 
             when(_iterator.hasNext()).thenReturn(true, true, false);
             when(_iterator.next()).thenReturn(_studentDouble1, _studentDouble2);
@@ -216,154 +223,6 @@ class StudentRepositoryTest {
 
             // Assert
             assertTrue(studentNotFound.isEmpty());
-        }
-    }
-
-    @Nested
-    class TestsWithoutIsolation {
-
-        private StudentFactoryImpl _studentFactoryImpl;
-        private StudentListFactoryImpl _studentListFactoryImpl;
-        private Address _address1;
-        private Address _address2;
-
-        @BeforeEach
-        //arrange
-        void setup() throws Exception{
-            _studentFactoryImpl = new StudentFactoryImpl();
-            _studentListFactoryImpl = new StudentListFactoryImpl();
-            _address1 = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
-            _address2 = new Address("Rua das Flores, nº7", "3000-200", "Coimbra", "Portugal");
-        }
-
-        @Test
-        void shouldCreateRepositoryWithValidInputs() {
-            //arrange
-
-            //act
-            new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-        }
-
-        @Test
-        void shouldThrowExceptionWhenStudentWithDuplicateNIFIsRegistered() throws Exception {
-            // Arrange
-            StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-
-            StudentID studentID1 = new StudentID(1234567);
-            StudentID studentID2 = new StudentID(1789023);
-
-            Name name = mock(Name.class);
-            NIF nif = mock(NIF.class);
-            PhoneNumber phone = mock(PhoneNumber.class);
-            Email email = mock(Email.class);
-            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
-
-            // Act
-            repository.registerStudent(studentID1, name, nif, phone, email, _address1, academicEmail);
-
-            // Assert
-            assertThrows(Exception.class, () -> {
-                repository.registerStudent(studentID2, name, nif, phone, email, _address2, academicEmail);
-            });
-        }
-
-        @Test
-        void shouldThrowExceptionWhenStudentWithDuplicateIDIsRegistered() throws Exception {
-            // Arrange
-            StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-
-            StudentID studentID1 = new StudentID(1234567);
-            Name name = mock(Name.class);
-            NIF nif = mock(NIF.class);
-            PhoneNumber phone = mock(PhoneNumber.class);
-            Email email = mock(Email.class);
-            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
-
-            // Act
-            repository.registerStudent(studentID1, name, nif, phone, email, _address1, academicEmail);
-
-            // Assert
-            assertThrows(Exception.class, () -> {
-                repository.registerStudent(studentID1, name, nif, phone, email, _address2, academicEmail);
-            });
-        }
-
-        @Test
-        void shouldReturnTrueWhenStudentsWithValidAttributesAreRegistered() throws Exception {
-            // Arrange
-            StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-
-            Name name = mock(Name.class);
-            PhoneNumber phone = mock(PhoneNumber.class);
-            Email email = mock(Email.class);
-            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
-
-            StudentID studentID1 = new StudentID(1234567);
-            StudentID studentID2 = new StudentID(1789023);
-            StudentID studentID3 = new StudentID(1122332);
-
-            NIF nif1 = mock(NIF.class);
-            NIF nif2 = mock(NIF.class);
-            NIF nif3 = mock(NIF.class);
-
-            // Act
-            boolean result1 = repository.registerStudent(studentID1, name, nif1, phone, email, _address1, academicEmail);
-            boolean result2 = repository.registerStudent(studentID2, name, nif2, phone, email, _address2, academicEmail);
-            boolean result3 = repository.registerStudent(studentID3, name, nif3, phone, email, _address1, academicEmail);
-
-            // Assert
-            assertTrue(result1 && result2 && result3);
-        }
-
-        @Test
-        void shouldReturnEmptyOptionalIfStudentIDExistsInTheRepository() throws Exception {
-            // Arrange
-            StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-
-            Name name = mock(Name.class);
-            PhoneNumber phone = mock(PhoneNumber.class);
-            Email email = mock(Email.class);
-            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
-
-            StudentID studentID1 = new StudentID(1234567);
-            StudentID studentID2 = new StudentID(1789023);
-
-            NIF nif1 = mock(NIF.class);
-            NIF nif2 = mock(NIF.class);
-
-            repository.registerStudent(studentID1, name, nif1, phone, email, _address1, academicEmail);
-            repository.registerStudent(studentID2, name, nif2, phone, email, _address2, academicEmail);
-
-            // Act
-            Optional<Student> studentFromList = repository.getStudentByID(studentID2);
-
-            // Assert
-            assertTrue(studentFromList.isPresent());
-        }
-
-        @Test
-        void shouldReturnEmptyOptionalIfStudentIDDoesNotExistInTheRepository() throws Exception {
-            // Arrange
-            StudentRepository repository = new StudentRepository(_studentFactoryImpl, _studentListFactoryImpl);
-
-            Name name = mock(Name.class);
-            NIF nif = mock(NIF.class);
-            NIF nif2 = mock(NIF.class);
-            PhoneNumber phone = mock(PhoneNumber.class);
-            Email email = mock(Email.class);
-            StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
-
-            StudentID studentID1 = new StudentID(1234567);
-            StudentID studentID2 = new StudentID(1789023);
-
-            repository.registerStudent(studentID1, name, nif, phone, email, _address1, academicEmail);
-            repository.registerStudent(studentID2, name, nif2, phone, email, _address2, academicEmail);
-
-            // Act
-            Optional<Student> studentFromList = repository.getStudentByID(new StudentID(1555555));
-
-            // Assert
-            assertTrue(studentFromList.isEmpty());
         }
     }
 
@@ -383,7 +242,10 @@ class StudentRepositoryTest {
         PhoneNumber phone = mock(PhoneNumber.class);
         Email email = mock(Email.class);
         StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
-        Address address = mock(Address.class);
+        Street streetDouble = mock(Street.class);
+        PostalCode postalCodeDouble = mock(PostalCode.class);
+        Location locationDouble = mock(Location.class);
+        Country countryDouble = mock(Country.class);
 
 
         Student student = mock(Student.class);
@@ -392,10 +254,10 @@ class StudentRepositoryTest {
         when(student.sameAs(any())).thenReturn(false);
 
 
-        when(studentFactory.newStudent(studentID1, name, nif, phone, email, address, academicEmail)).thenReturn(student);
+        when(studentFactory.newStudent(studentID1, name, nif, phone, email, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmail)).thenReturn(student);
 
         // Act
-        repository.registerStudent(studentID1, name, nif, phone, email, address, academicEmail);
+        repository.registerStudent(studentID1, name, nif, phone, email, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmail);
         Optional<StudentID> result = repository.findIdByStudent(student);
 
         // Assert

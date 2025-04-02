@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +58,7 @@ class AccessMethodTest {
     void shouldReturnFalseIfObjectIsNotAccessMethod() throws Exception{
         //arrange
         AccessMethod am1 = new AccessMethod("M23");
-        TeacherCategory tc1 = new TeacherCategory("Professor Adjunto");
+        TeacherCategory tc1 = new TeacherCategory(new TeacherCategoryID(), new Name("Professor Adjunto"));
         //act
         boolean result = am1.equals(tc1);
         //assert

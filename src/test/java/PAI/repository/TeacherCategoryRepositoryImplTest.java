@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
-import PAI.domain.TeacherCategoryV2;
+import PAI.domain.TeacherCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,21 +10,21 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TeacherCategoryRepositoryV2ImplTest {
+class TeacherCategoryRepositoryImplTest {
 
-    private TeacherCategoryRepositoryV2Impl repository;
+    private TeacherCategoryRepositoryImpl repository;
 
     @BeforeEach
     void setUp() {
-        repository = new TeacherCategoryRepositoryV2Impl();
+        repository = new TeacherCategoryRepositoryImpl();
     }
 
     @Test
     void shouldSaveAndRetrieveCategoryById() {
-        TeacherCategoryV2 category = new TeacherCategoryV2(new TeacherCategoryID(), new Name("Professor Associado"));
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), new Name("Professor Associado"));
         repository.save(category);
 
-        Optional<TeacherCategoryV2> result = repository.ofIdentity(category.getId());
+        Optional<TeacherCategory> result = repository.ofIdentity(category.getId());
 
         assertTrue(result.isPresent());
         assertEquals(category, result.get());
@@ -39,7 +39,7 @@ class TeacherCategoryRepositoryV2ImplTest {
     @Test
     void shouldDetectExistingCategoryByName() {
         Name name = new Name("Professor Catedrático");
-        TeacherCategoryV2 category = new TeacherCategoryV2(new TeacherCategoryID(), name);
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), name);
         repository.save(category);
 
         assertTrue(repository.existsByName(name));
@@ -47,10 +47,10 @@ class TeacherCategoryRepositoryV2ImplTest {
 
     @Test
     void shouldReturnAllCategories() {
-        repository.save(new TeacherCategoryV2(new TeacherCategoryID(), new Name("Professor A")));
-        repository.save(new TeacherCategoryV2(new TeacherCategoryID(), new Name("Professor B")));
+        repository.save(new TeacherCategory(new TeacherCategoryID(), new Name("Professor A")));
+        repository.save(new TeacherCategory(new TeacherCategoryID(), new Name("Professor B")));
 
-        Iterable<TeacherCategoryV2> all = repository.findAll();
+        Iterable<TeacherCategory> all = repository.findAll();
 
         assertNotNull(all);
         assertTrue(all.iterator().hasNext());

@@ -1,75 +1,70 @@
 package PAI.domain;
 
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
+import PAI.ddd.AggregateRoot;
+
 import java.util.Objects;
+import java.util.UUID;
 
-/**
- * Represents a category of a teacher with a name attribute.
- */
-public class TeacherCategory {
+public class TeacherCategory implements AggregateRoot<TeacherCategoryID> {
 
-    private String _name;
+    private final TeacherCategoryID id;
+    private final Name name;
 
-    /**
-     * Constructs a TeacherCategory with the specified category name.
-     *
-     * @param categoryName the name of the teacher category
-     * @throws Exception if the category name is null or empty
-     */
-    public TeacherCategory (String categoryName)  throws Exception {
-        if (!isNameValid(categoryName)) {
-            throw new Exception("Name must be non-empty string.");
-        } 
-        else {
-            this._name = categoryName;
+    public TeacherCategory(TeacherCategoryID id, Name name) {
+        if (id == null || name == null) {
+            throw new IllegalArgumentException("Id and Name cannot be null.");
         }
+        this.id = id;
+        this.name = name;
     }
 
-    /**
-     * Validates the given category name.
-     *
-     * @param categoryName the name to validate
-     * @return true if the name is non-null and not blank, false otherwise
-     */
-    private boolean isNameValid(String categoryName) {
-        if (categoryName == null || categoryName.isBlank()) {
-            return false;
-        }
-        return true;
+    public TeacherCategoryID getId() {
+        return id;
     }
 
-    /**
-     * Retrieves the name of the teacher category.
-     *
-     * @return the category name
-     */
-    public String getName() {
-        return _name;
+    public Name getName() {
+        return name;
     }
 
-    /**
-     * Checks if this TeacherCategory is equal to another object.
-     *
-     * The equality check is based on the name attribute rather than the entire object.
-     *
-     * @param obj the object to compare
-     * @return true if the names are equal, false otherwise
-     */
+    public UUID getIdValue() {
+        return id.getValue();
+    }
+
+    public String getNameValue() {
+        return name.getName();
+    }
+
+    // From DomainEntity interface
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        TeacherCategory that = (TeacherCategory) obj;
-        return Objects.equals(_name, that._name); // Compare names
+    public TeacherCategoryID identity() {
+        return id;
     }
 
-    /**
-     * Computes the hash code for this TeacherCategory based on the name attribute.
-     *
-     * @return the hash code value
-     */
+    // From DomainEntity interface
+    @Override
+    public boolean sameAs(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof TeacherCategory other)) return false;
+        return id.equals(other.id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TeacherCategory other)) return false;
+        return Objects.equals(id, other.id);
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(_name); // Hash based on name
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "TeacherCategoryV2{id=" + id + ", name=" + name + "}";
     }
 
 }

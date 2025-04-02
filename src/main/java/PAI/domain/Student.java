@@ -10,51 +10,61 @@ public class Student implements AggregateRoot<StudentID> {
     private NIF _NIF;
     private PhoneNumber _phone;
     private Email _email;
-    private Address _address;
+    private AddressVO _address;
     private StudentAcademicEmail _institutionalEmail;
 
     //constructor validation
-    public Student(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) {
+    public Student(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, AddressVO address, StudentAcademicEmail academicEmail) {
 
         // Validation of StudentID
-        if (studentID == null)
+        if (isArgumentValid(studentID))
+            _studentID = studentID;
+        else
             throw new IllegalArgumentException("Student's ID is invalid.");
 
-        this._studentID = studentID;
-
         //Student name validation
-        if (name == null)
+        if (isArgumentValid(name))
+            _name = name;
+        else
             throw new IllegalArgumentException("Student's name cannot be empty!");
 
-        _name = name;
 
         //Student NIF validation
-        if (NIF == null)
+        if (isArgumentValid(NIF))
+            _NIF = NIF;
+        else
             throw new IllegalArgumentException("Student's NIF is invalid!");
 
-        _NIF = NIF;
-
         //Student phone validation
-        if (phone == null)
+        if (isArgumentValid(phone))
+            _phone = phone;
+        else
             throw new IllegalArgumentException("Student's phone is invalid!");
 
-        _phone = phone;
-
         //Student email validation
-        if (email == null)
+        if (isArgumentValid(email))
+            _email = email;
+        else
             throw new IllegalArgumentException("Student's email is not valid!");
 
-        _email = email;
+        if (isArgumentValid(address))
+            _address = address;
+        else
+            throw new IllegalArgumentException("Address is not valid!");
 
-        _address = address;
-
-        _institutionalEmail = academicEmail;
+        if (isArgumentValid(academicEmail))
+            _institutionalEmail = academicEmail;
+        else
+            throw new IllegalArgumentException("Student's Academic Email is not valid!");
     }
 
-    // NOTE: In future iterations, implementing a config file might be considered to replace the hardcoded email domain.
-//    private StudentAcademicEmail generateInstitutionalEmail(int uniqueNumber){
-//        return uniqueNumber + "@isep.ipp.pt";
-//    }
+    public boolean isArgumentValid (Object object) {
+
+        if (object == null)
+            return false;
+
+        return true;
+    }
 
     @Override
     public StudentID identity() {

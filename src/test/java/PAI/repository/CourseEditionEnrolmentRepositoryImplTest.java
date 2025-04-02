@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class CourseEditionEnrolmentRepositoryTest {
+class CourseEditionEnrolmentRepositoryImplTest {
 
     //test enroll a student in a course edition method
 
@@ -22,7 +22,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -43,7 +43,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -72,7 +72,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -100,7 +100,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -128,7 +128,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -154,7 +154,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         CourseEditionID doubleCe1 = mock(CourseEditionID.class);
 
@@ -172,7 +172,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         StudentID doubleSt1 = mock(StudentID.class);
 
@@ -196,8 +196,8 @@ class CourseEditionEnrolmentRepositoryTest {
         Set<CourseEditionEnrolment> mockSet = new HashSet<>();
         when(ceeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
 
-        CourseEditionEnrolmentRepository repository =
-                new CourseEditionEnrolmentRepository(doubleCeeFactory, ceeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository =
+                new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, ceeListFactory);
 
         StudentID studentID = mock(StudentID.class);
         CourseEditionID ce1 = mock(CourseEditionID.class);
@@ -227,8 +227,8 @@ class CourseEditionEnrolmentRepositoryTest {
         when(CeeListFactory.getCourseEditionEnrolmentList()).thenReturn(mockSet);
 
 
-        CourseEditionEnrolmentRepository repository =
-                new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository =
+                new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         StudentID studentID = mock(StudentID.class);
         CourseEditionID ce1 = mock(CourseEditionID.class);
@@ -391,7 +391,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repo = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
         StudentID doubleStudent1 = mock(StudentID.class);
@@ -415,7 +415,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repo = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
         CourseEditionID doubleCourseEdition2 = mock(CourseEditionID.class);
@@ -447,7 +447,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repo = new CourseEditionEnrolmentRepository(doubleCeeFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, CeeListFactory);
 
         // Create a course edition
         CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
@@ -471,7 +471,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactoryMock, CeeListFactory);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -501,7 +501,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactoryMock, CeeListFactory);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID1 = mock(CourseEditionID.class);
@@ -541,7 +541,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactoryMock, CeeListFactory);
 
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
         StudentID mockStudentID1 = mock(StudentID.class);
@@ -587,7 +587,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactoryMock, CeeListFactory);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -607,7 +607,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactoryMock, CeeListFactory);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -632,7 +632,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactoryMock, CeeListFactory);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -671,7 +671,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactoryMock = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(enrolmentFactoryMock, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactoryMock, CeeListFactory);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -778,7 +778,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
@@ -807,7 +807,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
 
@@ -851,7 +851,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
         StudentID student2ID = new StudentID(1000002);
@@ -888,7 +888,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
@@ -914,7 +914,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
@@ -944,7 +944,7 @@ class CourseEditionEnrolmentRepositoryTest {
         // Arrange
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepository enrolmentRepository = new CourseEditionEnrolmentRepository(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
@@ -976,7 +976,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF,doubleICEELF);
 
         CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
         CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
@@ -997,7 +997,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF,doubleICEELF);
         CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolment enrolment2 = mock(CourseEditionEnrolment.class);
 
@@ -1020,7 +1020,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF,doubleICEELF);
         CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
 
@@ -1041,7 +1041,7 @@ class CourseEditionEnrolmentRepositoryTest {
         //arrange
         ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
-        CourseEditionEnrolmentRepository repository = new CourseEditionEnrolmentRepository(doubleICEEF,doubleICEELF);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF,doubleICEELF);
         CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
 

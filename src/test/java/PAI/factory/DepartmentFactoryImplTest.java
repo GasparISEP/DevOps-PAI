@@ -1,23 +1,24 @@
 package PAI.factory;
+import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.Name;
 import PAI.domain.Department;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mockConstruction;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-class DepartmentFactoryTest {
+class DepartmentFactoryImplTest {
 
     @Test
     void shouldCreateAValidDepartmentWhenMockedConstructorIsGiven() throws Exception {
         //arrange
-        String acronym = "DEI";
-        String name = "Departamento Engenharia Informática";
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
 
         try (MockedConstruction<Department> departmentDouble = mockConstruction(Department.class, (mock, context) -> {
-            String actualAcronym = (String) context.arguments().get(0);
-            String actualName = (String) context.arguments().get(1);
+            DepartmentAcronym actualAcronym = (DepartmentAcronym) context.arguments().get(0);
+            Name actualName = (Name) context.arguments().get(1);
             when(mock.getAcronym()).thenReturn(actualAcronym);
             when(mock.getName()).thenReturn(actualName);
         })) {

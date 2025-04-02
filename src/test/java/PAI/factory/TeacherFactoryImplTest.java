@@ -9,8 +9,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedConstruction;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -26,13 +24,11 @@ class TeacherFactoryImplTest {
     private NIF _nifDouble;
     private PhoneNumber _phoneNumberDouble;
     private AcademicBackground _academicBackgroundDouble;
-    private Department _departmentDouble;
+    private DepartmentID _departmentIDDouble;
     private Street _streetDouble;
     private PostalCode _postalCodeDouble;
     private PAI.VOs.Location _locationDouble;
     private Country _countryDouble;
-    private Teacher _teacherDouble;
-    private AddressVO _address;
 
     private void createTeacherAndArgumentsDouble (){
         _teacherAcronymDouble = mock(TeacherAcronym.class);
@@ -41,13 +37,11 @@ class TeacherFactoryImplTest {
         _nifDouble = mock(NIF.class);
         _phoneNumberDouble = mock(PhoneNumber.class);
         _academicBackgroundDouble = mock(AcademicBackground.class);
-        _departmentDouble = mock(Department.class);
+        _departmentIDDouble = mock(DepartmentID.class);
         _streetDouble = mock(Street.class);
         _postalCodeDouble = mock(PostalCode.class);
         _locationDouble = mock(Location.class);
         _countryDouble = mock(Country.class);
-        _teacherDouble = mock(Teacher.class);
-        _address = mock(AddressVO.class);
     }
 
     @Test
@@ -63,7 +57,7 @@ class TeacherFactoryImplTest {
             Teacher result = teacherFactory.createTeacher(
                     _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
                     _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble,
-                    _departmentDouble);
+                    _departmentIDDouble);
 
             // Assert
             List<AddressVO> addressInstances = addressConstruction.constructed();
@@ -110,7 +104,7 @@ class TeacherFactoryImplTest {
             case "PostalCode" -> _postalCodeDouble = null;
             case "Location" -> _locationDouble = null;
             case "Country" -> _countryDouble = null;
-            case "Department" -> _departmentDouble = null;
+            case "Department" -> _departmentIDDouble = null;
         }
 
         try (MockedConstruction<AddressVO> addressInstanceDouble = mockConstruction(AddressVO.class, (mock, context) -> {
@@ -132,12 +126,25 @@ class TeacherFactoryImplTest {
                 teacherFactory.createTeacher(
                         _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
                         _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                        _countryDouble, _departmentDouble
+                        _countryDouble, _departmentIDDouble
                 );
                 fail("Expected exception not thrown");
             } catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Field is null"));
             }
         }
+    }
+
+    @Test
+    void shouldNotReturnNullAddressVO() {
+        createTeacherAndArgumentsDouble();
+        ITeacherFactory factory = new TeacherFactoryImpl();
+
+        Teacher teacher = factory.createTeacher(
+                _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
+                _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentIDDouble
+        );
+        assertNotNull(teacher);
     }
 }

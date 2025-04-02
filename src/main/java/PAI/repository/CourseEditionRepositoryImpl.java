@@ -79,14 +79,22 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
         return false;
     }
 
-    public List<CourseEdition_2> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId) {
-        List<CourseEdition_2> result = new ArrayList<>();
+    public List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId) {
+        List<CourseEditionID> result = new ArrayList<>();
         for (CourseEdition_2 courseEdition : _courseEditions) {
             if (courseEdition.getProgrammeEditionID().equals(programmeEditionId)) {
-                result.add(courseEdition);
+                result.add(courseEdition.identity());
             }
         }
 
         return result;
+    }
+    public Optional<CourseEditionID> findIdByCourseEdition (CourseEdition_2 courseEdition2){
+        for (CourseEdition_2 existingCourseEdition_2 : _courseEditions){
+            if (existingCourseEdition_2.equals(courseEdition2)){
+                return Optional.of(existingCourseEdition_2.identity());
+            }
+        }
+        return Optional.empty();
     }
 }

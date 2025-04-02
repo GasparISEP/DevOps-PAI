@@ -102,14 +102,40 @@ class DepartmentAcronymTest {
     }
 
     @Test
+    void shouldReturnSameHashCodeForSameAcronym() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym1 = new DepartmentAcronym("CSE");
+        DepartmentAcronym acronym2 = new DepartmentAcronym("CSE");
+        // Act & Assert
+        assertEquals(acronym1.hashCode(), acronym2.hashCode());
+    }
+
+    @Test
+    void shouldReturnDifferentHashCodeForDiferrentAcronym() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym1 = new DepartmentAcronym("CSE");
+        DepartmentAcronym acronym2 = new DepartmentAcronym("DSE");
+        // Act & Assert
+        assertNotEquals(acronym1.hashCode(), acronym2.hashCode());
+    }
+
+    @Test
+    void shouldReturnHashCodeForOneAcronym() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym1 = new DepartmentAcronym("CSE");
+        // Act
+        int result= acronym1.hashCode();
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
     void shouldBeEqualForSameAcronym() throws Exception {
         // Arrange
         DepartmentAcronym acronym1 = new DepartmentAcronym("CSE");
         DepartmentAcronym acronym2 = new DepartmentAcronym("CSE");
-
         // Act & Assert
         assertEquals(acronym1, acronym2);
-        assertEquals(acronym1.hashCode(), acronym2.hashCode());
     }
 
     @Test
@@ -117,7 +143,6 @@ class DepartmentAcronymTest {
         // Arrange
         DepartmentAcronym acronym1 = new DepartmentAcronym("CSE");
         DepartmentAcronym acronym2 = new DepartmentAcronym("ECE");
-
         // Act & Assert
         assertNotEquals(acronym1, acronym2);
     }
@@ -126,7 +151,6 @@ class DepartmentAcronymTest {
     void shouldNotBeEqualToNull() throws Exception {
         // Arrange
         DepartmentAcronym acronym = new DepartmentAcronym("CSE");
-
         // Act & Assert
         assertNotEquals(acronym, null);
     }
@@ -135,8 +159,15 @@ class DepartmentAcronymTest {
     void shouldNotBeEqualToDifferentClass() throws Exception {
         // Arrange
         DepartmentAcronym acronym = new DepartmentAcronym("CSE");
-
         // Act & Assert
         assertNotEquals(acronym, "CSE");
+    }
+
+    @Test
+    public void testEqualsWithSameInstance() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym = new DepartmentAcronym("CSE");
+        // Act & Assert
+        assertEquals(acronym, acronym);
     }
 }

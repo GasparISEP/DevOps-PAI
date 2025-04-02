@@ -396,12 +396,13 @@ class CourseEditionRepositoryImplTest {
         when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
         when(doubleCourseEdition2.identity()).thenReturn(doubleCourseEditionId2);
+
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEdition_2> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
 
         // Assert
         assertEquals(2, result.size());
@@ -430,16 +431,17 @@ class CourseEditionRepositoryImplTest {
         when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
         when(doubleCourseEdition2.identity()).thenReturn(doubleCourseEditionId2);
+
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEdition_2> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
 
         // Assert
-        assertTrue(result.contains(doubleCourseEdition1));
-        assertTrue(result.contains(doubleCourseEdition2));
+        assertTrue(result.contains(doubleCourseEditionId1));
+        assertTrue(result.contains(doubleCourseEditionId2));
 
     }
 
@@ -469,5 +471,42 @@ class CourseEditionRepositoryImplTest {
 
         // Assert
         assertEquals(programmeEditionIDDouble1, result);
+    }
+    @Test
+    void shouldReturnOptionalWithCourseEditionID() throws Exception{
+        //arrange
+        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
+        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        List<CourseEdition_2> courseEdition2s = List.of(courseEditionDouble);
+        courseEditionListFactoryDouble = () -> courseEdition2s;
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        when(courseEditionDouble.identity()).thenReturn(courseEditionID);
+
+        //act
+        Optional<CourseEditionID> result = repository.findIdByCourseEdition(courseEditionDouble);
+        //assert
+        assertTrue(result.isPresent());
+
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenDoNotFindCourseEdition() throws Exception{
+        //arrange
+        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
+        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEdition_2 courseEditionDouble2 = mock(CourseEdition_2.class);
+        List<CourseEdition_2> courseEdition2s = List.of(courseEditionDouble);
+        courseEditionListFactoryDouble = () -> courseEdition2s;
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        when(courseEditionDouble.identity()).thenReturn(courseEditionID);
+
+        //act
+        Optional<CourseEditionID> result = repository.findIdByCourseEdition(courseEditionDouble2);
+        //assert
+        assertTrue(result.isEmpty());
     }
 }

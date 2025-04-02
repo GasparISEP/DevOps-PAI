@@ -9,14 +9,14 @@ import PAI.factory.ICourseEditionEnrolmentListFactory;
 
 import java.util.*;
 
-public class CourseEditionEnrolmentRepository implements ICourseEditionEnrolmentRepository {
+public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrolmentRepository {
 
     private Set<CourseEditionEnrolment> _courseEditionEnrolments;
 
     private final ICourseEditionEnrolmentFactory _courseEditionEnrolmentFactory;
 
     //constructor
-    public CourseEditionEnrolmentRepository(ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory, ICourseEditionEnrolmentListFactory courseEditionEnrolmentListFactory) {
+    public CourseEditionEnrolmentRepositoryImpl(ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory, ICourseEditionEnrolmentListFactory courseEditionEnrolmentListFactory) {
 
         _courseEditionEnrolments = courseEditionEnrolmentListFactory.getCourseEditionEnrolmentList();
         _courseEditionEnrolmentFactory = courseEditionEnrolmentFactory;

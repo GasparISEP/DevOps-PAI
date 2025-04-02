@@ -2,7 +2,6 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.Address;
 import PAI.domain.Student;
 
 import java.util.Optional;
@@ -10,7 +9,8 @@ import java.util.Optional;
 public interface IStudentRepository extends IRepository <StudentID, Student> {
 
     boolean registerStudent(StudentID studentID, Name name, NIF NIF, PhoneNumber phone,
-                            Email email, Address address, StudentAcademicEmail academicEmail) throws Exception;
+                            Email email, Street street, PostalCode postalCode, Location location, Country country,
+                            StudentAcademicEmail academicEmail) throws Exception;
 
     Optional<Student> getStudentByID(StudentID studentID);
 
