@@ -2,8 +2,6 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.domain.*;
-import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.TeacherRepository;
 
