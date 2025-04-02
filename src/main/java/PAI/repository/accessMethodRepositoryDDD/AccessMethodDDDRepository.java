@@ -22,7 +22,7 @@ public class AccessMethodDDDRepository implements IRepositoryAccessMethodDDD{
 
             if (isAccessMethodRegistered(accessMethod)) return false;
 
-            _accessMethods.add(accessMethod);
+            save(accessMethod);
             return true;
 
         }catch (Exception e){
@@ -37,24 +37,6 @@ public class AccessMethodDDDRepository implements IRepositoryAccessMethodDDD{
         return false;
     }
 
-    public Optional<AccessMethodDDD> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
-        for ( AccessMethodDDD accessMethod : _accessMethods) {
-            if ( accessMethod.hasThisAccessMethodName(accessMethodNameToSearch)){
-                return Optional.of(accessMethod);
-            }
-        }
-        return Optional.empty();
-    }
-
-    public Optional<AccessMethodDDD> getAccessMethodByID (AccessMethodID accessMethodID) {
-        for ( AccessMethodDDD accessMethod : _accessMethods) {
-            if ( accessMethod.hasThisAccessMethodID(accessMethodID)){
-                return Optional.of(accessMethod);
-            }
-        }
-        return Optional.empty();
-    }
-
     @Override
     public AccessMethodDDD save (AccessMethodDDD accessMethod) {
         _accessMethods.add(accessMethod);
@@ -65,6 +47,15 @@ public class AccessMethodDDDRepository implements IRepositoryAccessMethodDDD{
     public Iterable<AccessMethodDDD> findAll () {
 
         return _accessMethods;
+    }
+
+    public Optional<AccessMethodDDD> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
+        for ( AccessMethodDDD accessMethod : _accessMethods) {
+            if ( accessMethod.hasThisAccessMethodName(accessMethodNameToSearch)){
+                return Optional.of(accessMethod);
+            }
+        }
+        return Optional.empty();
     }
 
     @Override

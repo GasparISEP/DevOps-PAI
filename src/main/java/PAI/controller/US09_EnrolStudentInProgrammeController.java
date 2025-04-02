@@ -48,7 +48,7 @@ public class US09_EnrolStudentInProgrammeController {
     }
 
     public Optional<AccessMethodDDD> getAccessMethodByID(AccessMethodID accessMethodID) {
-        return _accessMethodRepository.getAccessMethodByID(accessMethodID);
+        return _accessMethodRepository.ofIdentity(accessMethodID);
     }
 
     public Optional<ProgrammeDDD> getProgrammeByName(NameWithNumbersAndSpecialChars programmeName) {
