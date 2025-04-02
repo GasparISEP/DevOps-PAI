@@ -2,7 +2,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
-import PAI.repository.DepartmentRepository;
+import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.TeacherCareerProgressionRepository;
 import PAI.repository.TeacherCategoryRepositoryImpl;
 import PAI.repository.TeacherRepository;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 class US13_RegisterTeacherAndRelevantDataControllerTest {
     // Arrange
     private TeacherCategoryRepositoryImpl _teacherCategoryRepoDouble;
-    private DepartmentRepository _departmentRepoDouble;
+    private DepartmentRepositoryImpl _departmentRepoDouble;
     private TeacherRepository _teacherRepoDouble;
     private TeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
 
@@ -41,7 +41,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @BeforeEach
     void factoryDoublesSetup(){
         _teacherCategoryRepoDouble = mock(TeacherCategoryRepositoryImpl.class);
-        _departmentRepoDouble = mock(DepartmentRepository.class);
+        _departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
         _teacherRepoDouble = mock(TeacherRepository.class);
         _teacherCareerProgressionRepoDouble = mock(TeacherCareerProgressionRepository.class);
     }
