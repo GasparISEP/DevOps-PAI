@@ -3,21 +3,20 @@ package PAI.repository;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.CourseEdition_2;
-import PAI.domain.ProgrammeEdition;
-import PAI.factory.ICourseEditionFactory_2;
-import PAI.factory.ICourseEditionListFactory_2;
+import PAI.domain.CourseEditionDDD;
+import PAI.factory.ICourseEditionFactoryDDD;
+import PAI.factory.ICourseEditionListFactoryDDD;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
+public class CourseEditionRepositoryDDDImpl implements ICourseEditionRepositoryDDD {
 
-    private final List<CourseEdition_2> _courseEditions;
-    private final ICourseEditionFactory_2 _courseEditionFactory;
+    private final List<CourseEditionDDD> _courseEditions;
+    private final ICourseEditionFactoryDDD _courseEditionFactory;
 
-    public CourseEditionRepositoryImpl(ICourseEditionFactory_2 courseEditionFactory, ICourseEditionListFactory_2 courseEditionListFactory) {
+    public CourseEditionRepositoryDDDImpl(ICourseEditionFactoryDDD courseEditionFactory, ICourseEditionListFactoryDDD courseEditionListFactory) {
 
         _courseEditionFactory = courseEditionFactory;
         _courseEditions = courseEditionListFactory.newList();
@@ -26,7 +25,7 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
     public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         try {
-            CourseEdition_2 courseEdition = _courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID);
+            CourseEditionDDD courseEdition = _courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID);
            if (containsOfIdentity(courseEdition.identity()))
                 return false;
 
@@ -40,7 +39,7 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
 
     @Override
-    public CourseEdition_2 save(CourseEdition_2 courseEdition) {
+    public CourseEditionDDD save(CourseEditionDDD courseEdition) {
         if (courseEdition == null){
             throw new IllegalArgumentException("Course edition cannot be null");
         }
@@ -53,12 +52,12 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
     }
 
     @Override
-    public Iterable<CourseEdition_2> findAll() {
+    public Iterable<CourseEditionDDD> findAll() {
         return _courseEditions;
     }
 
     @Override
-    public Optional<CourseEdition_2> ofIdentity(CourseEditionID courseEditionID) {
+    public Optional<CourseEditionDDD> ofIdentity(CourseEditionID courseEditionID) {
         if (courseEditionID == null){
             throw new IllegalArgumentException("Course edition ID cannot be null");
         }
@@ -72,7 +71,7 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
     @Override
     public boolean containsOfIdentity(CourseEditionID courseEditionID) {
-            for (CourseEdition_2 courseEdition : _courseEditions) {
+            for (CourseEditionDDD courseEdition : _courseEditions) {
                 if (courseEdition.identity().equals(courseEditionID))
                     return true;
             }
@@ -81,7 +80,7 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
     public List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId) {
         List<CourseEditionID> result = new ArrayList<>();
-        for (CourseEdition_2 courseEdition : _courseEditions) {
+        for (CourseEditionDDD courseEdition : _courseEditions) {
             if (courseEdition.getProgrammeEditionID().equals(programmeEditionId)) {
                 result.add(courseEdition.identity());
             }
@@ -89,10 +88,10 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
         return result;
     }
-    public Optional<CourseEditionID> findIdByCourseEdition (CourseEdition_2 courseEdition2){
-        for (CourseEdition_2 existingCourseEdition_2 : _courseEditions){
-            if (existingCourseEdition_2.equals(courseEdition2)){
-                return Optional.of(existingCourseEdition_2.identity());
+    public Optional<CourseEditionID> findIdByCourseEdition (CourseEditionDDD courseEdition2){
+        for (CourseEditionDDD existingCourseEdition_DDD : _courseEditions){
+            if (existingCourseEdition_DDD.equals(courseEdition2)){
+                return Optional.of(existingCourseEdition_DDD.identity());
             }
         }
         return Optional.empty();

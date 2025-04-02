@@ -2,18 +2,11 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.ICourseEditionRepository;
-import PAI.repository.StudentGradeRepository;
-import PAI.repository.CourseEditionEnrolmentRepositoryImpl;
+import PAI.repository.ICourseEditionRepositoryDDD;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -26,7 +19,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     void shouldCreateController() {
         //arrange
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(studentGradeRepository,courseEditionRepository);
         //act
         assertNotNull(controller);
@@ -36,14 +29,14 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
     void shouldReturnApprovalPercentageInCourseEdition(){
         //arrange
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
         US23_IWantToKnowTheApprovalPercentageOfACourseEdition controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEdition(studentGradeRepository,courseEditionRepository);
-        CourseEdition_2 courseEdition_2Double = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEdition_DDDDouble = mock(CourseEditionDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        when(courseEditionRepository.findIdByCourseEdition(courseEdition_2Double)).thenReturn(Optional.of(courseEditionIDDouble));
+        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
         when(studentGradeRepository.knowApprovalRate(courseEditionIDDouble)).thenReturn(16.0);
         //act
-        double result = controller.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition_2Double);
+        double result = controller.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition_DDDDouble);
         //assert
         assertEquals(16.0,result);
     }
