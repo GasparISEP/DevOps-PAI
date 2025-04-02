@@ -5,13 +5,19 @@ title US23: I want to know the approval percentage of a CourseEdition
 class US23_IWantToKnowTheApprovalPercentageOfACourseEdition  {
     +US23_IWantToKnowTheApprovalPercentageOfACourseEdition(gradeStudentRepository : GradeStudentRepository)
     +IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition : CourseEdition): double
-
+    +findCourseEditionIdByCourseEdition (courseEdition : CourseEdition)
 }
 
 interface IStudentGradeRepository {
     +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): Optional<StudentGrade>
     +knowAverageGrade(courseEditionID: CourseEditionID): Double
     +knowApprovalRate(courseEditionID: CourseEditionID): double
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+
 }
 
 package "StudentGrade" {
@@ -31,20 +37,23 @@ entity "<<root>>\nStudentGrade" {
 }
 
 class Grade <<ValueObject>> {
-    -_grade: double
-    +knowGrade(): double
+     -grade: double
+        +knowGrade()
     }
 
-    class LocalDate <<ValueObject>> {
-    -date: String
-    +isDateValid(date: String): void
-    +get_date(): LocalDate
+    class Date <<ValueObject>> {
+    -LocalDate
+    +Date(LocalDate localDate)
+    +LocalDate getLocalDate()
+    +Date now()
+    +isBefore(Date other)
+    +isAfter(Date other)
+    +equals(Object o)
     }
 
 class StudentGradeID <<ValueObject>> {
-    -_studentGradeID: Long
-    -_courseEditionID: Long
-    -_studentID: Long
+    -_courseEditionID
+    -_studentID
 }
 
 class StudentGradeRepository {
@@ -53,6 +62,12 @@ class StudentGradeRepository {
     +addGradeToStudent(Grade, Date , Student, Course Edition)
     +knowAverageGrade(Course Edition)
     +knowApprovalRate(Course Edition)
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+
 }
 
 
@@ -96,19 +111,23 @@ class "<<root>>\nStudent" {
 }
 
 class Name <<ValueObject>> {
-    -_name: String
+    -Name : String
+                        +getName()
+                        +equals()
+                        +hashCode()
     }
 
     class NIF <<ValueObject>> {
-    -_nif: String
+    -NIF : String
     }
 
     class Phone <<ValueObject>> {
-    -_phone: String
+    -CountryCode: String
+                             -Number: String
     }
 
     class Email <<ValueObject>> {
-    -_email: String
+   -Email: String
     }
 
     class InstitutionalEmail <<ValueObject>> {
@@ -116,11 +135,17 @@ class Name <<ValueObject>> {
     }
 
     class Address <<ValueObject>> {
-    -_address: String
+     -Street
+                             -PostalCode
+                             -Location
+                             -Country
     }
 
 class StudentID <<ValueObject>> {
-    -_studentID: Long
+    -uniqueNumber: int
+    +equals()
+    +getUniqueNumber()
+    +isEquals()
 }
 package "CourseEdition" {
 class "<<root>>\nCourseEdition" {
@@ -133,11 +158,14 @@ class "<<root>>\nCourseEdition" {
 }
 
 class CourseEditionID <<ValueObject>> {
-    -_courseEditionID: Long
+   -ProgrammeEdiitionID
+   -CourseInStudyPlanID
+   +toString()
+   +equals()
 }
 
 "<<root>>\nStudentGrade" "*" --> "1" Grade
-"<<root>>\nStudentGrade" "*" --> "1" LocalDate
+"<<root>>\nStudentGrade" "*" --> "1" Date
 "<<root>>\nStudentGrade" --> "1" StudentID: belongs
 "<<root>>\nStudentGrade" --> "1" StudentGradeID
 "<<root>>\nStudentGrade" -up-> "1" CourseEditionID : refers to

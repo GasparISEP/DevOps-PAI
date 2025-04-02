@@ -1,21 +1,21 @@
-package PAI.controller;
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
-import PAI.domain.*;
-import PAI.factory.*;
-import PAI.repository.DepartmentRepository;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
+//package PAI.controller;
+//import PAI.VOs.Date;
+//import PAI.VOs.TeacherCategoryID;
+//import PAI.VOs.TeacherID;
+//import PAI.VOs.WorkingPercentage;
+//import PAI.domain.*;
+//import PAI.factory.*;
+//import PAI.repository.DepartmentRepository;
+//import org.junit.jupiter.api.Test;
+//
+//import java.util.HashSet;
+//import java.util.Set;
+//
+//import static org.junit.jupiter.api.Assertions.*;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
+//
+//class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
 
 //    @Test
 //    void shouldReturnExceptionIfDepartmentRepositoryIsNull() {
@@ -211,4 +211,4 @@ class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerTest {
 //        // Assert
 //        assertEquals(2, departments.size());
 //    }
-}
+//}

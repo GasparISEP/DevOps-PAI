@@ -67,7 +67,7 @@ HRC -> UI: department
 |||
 UI --> HRC: What are the attributes?
 |||
-HRC -> UI: teacher acronym, name, email, nif,\n phone number, street, postal code, location,   \n country, academic background,\n working percentage, date
+HRC -> UI: teacher acronym, name, email, nif,\n phone number, street, postal code, location,   \n country, academic background,\n working percentage, date, countryCode
 
 Note Right UI #Pink/White
     **teacherCategoryID** = A Teacher Category already in system
@@ -76,7 +76,7 @@ End Note
 
 '--- Start of registerTeacher will all inputs ---
 
-UI -> Controller: **registerTeacher**(teacherAcronym, name, email,\n nif, phoneNumber, street, postalCode,\n location, country, academicBackground,\n workingPercentage, date, teacherCategoryID, departmentID)
+UI -> Controller: **registerTeacher**(teacherAcronym, name, email,\n nif, phoneNumber, street, postalCode,\n location, country, academicBackground, workingPercentage,\n date, teacherCategoryID, departmentAcronym, countryCode)
 activate Controller
 |||
 ref over Controller

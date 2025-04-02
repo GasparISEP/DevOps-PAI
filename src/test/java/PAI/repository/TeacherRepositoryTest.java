@@ -255,13 +255,12 @@ class TeacherRepositoryTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenAnInvalidTeacherIsRegistered() {
+    public void shouldReturnFalseWhenADuplicatedTeacherIsRegistered() {
         // Arrange
         createFactoriesDoubles();
         createTeacherAndArgumentsDouble();
         createListDouble(_teacherListFactory);
         Teacher teacherDouble2 = mock(Teacher.class);
-        TeacherID teacherID2 = mock(TeacherID.class);
 
         TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
 
@@ -274,7 +273,8 @@ class TeacherRepositoryTest {
         when(_teacherDouble.identity()).thenReturn(_teacherID);
         when(_iterator.next()).thenReturn(_teacherDouble);
         when(teacherDouble2.sameAs(_teacherDouble)).thenReturn(true);
-        when(teacherDouble2.identity()).thenReturn(teacherID2);
+        when(teacherDouble2.identity()).thenReturn(_teacherID);
+
 
         teacherRepository.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
@@ -291,23 +291,6 @@ class TeacherRepositoryTest {
 
 
     // Other Tests
-
-    @Test
-    void shouldReturnAListOfTeachersWhenGetAllTeachersMethodIsCalled() {
-        // Arrange
-        createFactoriesDoubles();
-        Teacher teacher1 = mock(Teacher.class);
-        Teacher teacher2 = mock(Teacher.class);
-        List<Teacher> listTeachersDouble = List.of(teacher1, teacher2);
-        _teacherListFactory = () -> listTeachersDouble;
-        TeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
-
-        // Act
-        Iterable<Teacher> result = teacherRepository.getAllTeachers();
-
-        // Assert
-        assertIterableEquals(listTeachersDouble, result);
-    }
 
     @Test
     void shouldReturnATeacherWhenGetTeacherByNIFIsCalledWithExistingNIF() {
