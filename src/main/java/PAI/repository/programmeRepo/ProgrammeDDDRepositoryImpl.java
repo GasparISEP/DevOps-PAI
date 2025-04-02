@@ -4,18 +4,19 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.studyPlan.StudyPlanDDD;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProgrammeDDDRepository {
+public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     private final IProgrammeDDDFactory _I_programmeFactory;
     private final List<ProgrammeDDD> _programmeRepo;
     private IProgrammeDDDRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeDDDRepository(IProgrammeDDDFactory IProgrammeFactory, IProgrammeDDDRepositoryListFactory programmeLisListFactory) {
+    public ProgrammeDDDRepositoryImpl(IProgrammeDDDFactory IProgrammeFactory, IProgrammeDDDRepositoryListFactory programmeLisListFactory) {
         _I_programmeFactory = IProgrammeFactory;
         _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
         _programmeRepoListFactory = programmeLisListFactory;
@@ -78,5 +79,36 @@ public class ProgrammeDDDRepository {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public ProgrammeDDD save(ProgrammeDDD entity) {
+        _programmeRepo.add(entity);
+        return entity;
+    }
+
+    @Override
+    public Iterable<ProgrammeDDD> findAll() {
+        return _programmeRepo;
+    }
+
+    @Override
+    public Optional<ProgrammeDDD> ofIdentity(ProgrammeID id) {
+        for (ProgrammeDDD existingProgrammeDDD : _programmeRepo) {
+            if (existingProgrammeDDD.identity().equals(id)) {
+                return Optional.of(existingProgrammeDDD);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean containsOfIdentity(ProgrammeID id) {
+        for (ProgrammeDDD existingProgrammeDDD : _programmeRepo) {
+            if (existingProgrammeDDD.identity().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

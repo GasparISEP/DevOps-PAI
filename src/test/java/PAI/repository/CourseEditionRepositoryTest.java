@@ -27,7 +27,7 @@ class CourseEditionRepositoryTest {
         ICourseEditionFactory ICourseEditionFactoryDouble = mock (ICourseEditionFactory.class);
         ICourseEditionListFactory ICourseEditionListFactoryDouble = mock (ICourseEditionListFactory.class);
 
-        CourseEdition_2 courseEditionDouble = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock (CourseEditionDDD.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
@@ -52,8 +52,8 @@ class CourseEditionRepositoryTest {
             //Doubles' instantiation
         CourseEditionFactoryImpl courseEditionFactoryImplDouble = mock (CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
-        CourseEdition_2 courseEditionDouble1 = mock (CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock (CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock (CourseEditionDDD.class);
 
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
@@ -86,8 +86,8 @@ class CourseEditionRepositoryTest {
         ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEditionDouble2 = mock(ProgrammeEdition.class);
         Course courseDouble1 = mock (Course.class);
-        CourseEdition_2 courseEditionDouble1 = mock (CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock (CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock (CourseEditionDDD.class);
 
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
@@ -115,7 +115,7 @@ class CourseEditionRepositoryTest {
             //Doubles' instantiation
         CourseEditionFactoryImpl courseEditionFactoryImplDouble = mock (CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
-        CourseEdition_2 courseEditionDouble1 = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock (CourseEditionDDD.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
 
@@ -230,8 +230,8 @@ class CourseEditionRepositoryTest {
             //Doubles' instantiation
         CourseEditionFactoryImpl courseEditionFactoryImplDouble = mock (CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
-        CourseEdition_2 courseEditionDouble1 = mock (CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock (CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock (CourseEditionDDD.class);
 
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
@@ -250,7 +250,7 @@ class CourseEditionRepositoryTest {
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble2);
 
         //Act
-        List<CourseEdition_2> result = courseEditionRepository.getCourseEditions();
+        List<CourseEditionDDD> result = courseEditionRepository.getCourseEditions();
 
         //assert
         assertEquals(2, result.size());
@@ -263,8 +263,8 @@ class CourseEditionRepositoryTest {
             //Doubles' instantiation
         CourseEditionFactoryImpl courseEditionFactoryImplDouble = mock (CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
-        CourseEdition_2 courseEditionDouble1 = mock (CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock (CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock (CourseEditionDDD.class);
 
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
@@ -281,7 +281,7 @@ class CourseEditionRepositoryTest {
             //auxiliary methods
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble2);
-        List<CourseEdition_2> allEditions = courseEditionRepository.getCourseEditions();
+        List<CourseEditionDDD> allEditions = courseEditionRepository.getCourseEditions();
 
         //Act
         boolean result = allEditions.contains(courseEditionDouble1);
@@ -298,8 +298,8 @@ class CourseEditionRepositoryTest {
             //Doubles' instantiation
         CourseEditionFactoryImpl courseEditionFactoryImplDouble = mock (CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
-        CourseEdition_2 courseEditionDouble1 = mock (CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock (CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock (CourseEditionDDD.class);
 
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
@@ -315,7 +315,7 @@ class CourseEditionRepositoryTest {
 
             //auxiliary methods
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
-        List<CourseEdition_2> allEditions = courseEditionRepository.getCourseEditions();
+        List<CourseEditionDDD> allEditions = courseEditionRepository.getCourseEditions();
 
         //Act
         boolean result = allEditions.contains(courseEditionDouble2);
@@ -425,7 +425,7 @@ class CourseEditionRepositoryTest {
         CourseEditionFactoryImpl courseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactoryImpl, courseEditionListFactoryImplDouble);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
 
         // act + assert
         Exception exception = assertThrows(Exception.class, () -> {
@@ -442,12 +442,12 @@ class CourseEditionRepositoryTest {
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
         CourseEditionRepository repository = new CourseEditionRepository(courseEditionFactoryImpl, courseEditionListFactoryImplDouble);
 
-        CourseEdition_2 courseEditionToFindDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionToFindDouble = mock(CourseEditionDDD.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
 
 
-        when(courseEditionFactoryImpl.newCourseEdition(any(), any())).thenReturn(mock(CourseEdition_2.class));
+        when(courseEditionFactoryImpl.newCourseEdition(any(), any())).thenReturn(mock(CourseEditionDDD.class));
         repository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
         // act + assert

@@ -4,20 +4,15 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
-import PAI.controller.US20_DefineRucForCourseEditionController;
-import PAI.repository.CourseEditionRepository;
-import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CourseEdition_2Test {
+class CourseEditionDDDTest {
 
     //US19
     @Test
@@ -28,7 +23,7 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
         //Act
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Assert
         assertNotNull(courseEdition);
@@ -44,7 +39,7 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
         //Act
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Assert
         assertNotNull(courseEdition);
@@ -59,7 +54,7 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition_2(null, courseInStudyPlanIDDouble, programmeEditionIDDouble);});
+        assertThrows(Exception.class, () -> {new CourseEditionDDD(null, courseInStudyPlanIDDouble, programmeEditionIDDouble);});
 
     }
 
@@ -71,7 +66,7 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition_2(courseEditionIDDouble, null, programmeEditionIDDouble);});
+        assertThrows(Exception.class, () -> {new CourseEditionDDD(courseEditionIDDouble, null, programmeEditionIDDouble);});
 
     }
 
@@ -82,7 +77,7 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition_2(null, programmeEditionIDDouble);});
+        assertThrows(Exception.class, () -> {new CourseEditionDDD(null, programmeEditionIDDouble);});
 
     }
 
@@ -94,7 +89,7 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, null);});
+        assertThrows(Exception.class, () -> {new CourseEditionDDD(courseEditionIDDouble, courseInStudyPlanIDDouble, null);});
 
     }
 
@@ -105,7 +100,7 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition_2(courseInStudyPlanIDDouble, null);});
+        assertThrows(Exception.class, () -> {new CourseEditionDDD(courseInStudyPlanIDDouble, null);});
 
     }
 
@@ -115,7 +110,7 @@ class CourseEdition_2Test {
         //Arrange
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition_2(courseEditionIDDouble,null, null);});
+        assertThrows(Exception.class, () -> {new CourseEditionDDD(courseEditionIDDouble,null, null);});
 
     }
 
@@ -124,7 +119,7 @@ class CourseEdition_2Test {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID forced to be null
         //Arrange
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition_2(null, null);});
+        assertThrows(Exception.class, () -> {new CourseEditionDDD(null, null);});
 
     }
 
@@ -134,7 +129,7 @@ class CourseEdition_2Test {
         //Arrange
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Act
         CourseEditionID courseEditionID = courseEdition.identity();
@@ -149,7 +144,7 @@ class CourseEdition_2Test {
         //Arrange
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Act
         CourseEditionID courseEditionID = courseEdition.identity();
@@ -166,7 +161,7 @@ class CourseEdition_2Test {
 
         //Act
             //Spy simulates error identity()
-        CourseEdition_2 courseEdition = spy(new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble));
+        CourseEditionDDD courseEdition = spy(new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble));
         doThrow(new RuntimeException("sim error")).when(courseEdition).identity();
 
         //Assert
@@ -180,7 +175,7 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
         Object courseEdition2 = courseEdition;
 
         //Act
@@ -197,7 +192,7 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
         TeacherCategory teacherCategoryDouble = mock (TeacherCategory.class);
 
         //Act
@@ -214,8 +209,8 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
-        CourseEdition_2 courseEdition1 = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition1 = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition2 = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Act
         boolean result = courseEdition1.sameAs(courseEdition2);
@@ -231,8 +226,8 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock (CourseInStudyPlanID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock (CourseInStudyPlanID.class);
 
-        CourseEdition_2 courseEdition1 = new CourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble);
-        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanIDDouble2, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition1 = new CourseEditionDDD(courseInStudyPlanIDDouble1, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition2 = new CourseEditionDDD(courseInStudyPlanIDDouble2, programmeEditionIDDouble);
 
         //Act
         boolean result = courseEdition1.sameAs(courseEdition2);
@@ -249,8 +244,8 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble2 = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock (CourseInStudyPlanID.class);
 
-        CourseEdition_2 courseEdition1 = new CourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
-        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble2);
+        CourseEditionDDD courseEdition1 = new CourseEditionDDD(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
+        CourseEditionDDD courseEdition2 = new CourseEditionDDD(courseInStudyPlanIDDouble1, programmeEditionIDDouble2);
 
         //Act
         boolean result = courseEdition1.sameAs(courseEdition2);
@@ -267,7 +262,7 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         //Act
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Assert
         assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
@@ -281,7 +276,7 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         //Act
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Assert
         assertEquals(courseInStudyPlanIDDouble, courseEdition.getCourseInStudyPlanID());
@@ -294,7 +289,7 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Act
         boolean result = courseEdition.equals(null);
@@ -309,7 +304,7 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Act
         boolean result = courseEdition.equals(courseEdition);
@@ -324,8 +319,8 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition2 = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         boolean result = courseEdition.equals(courseEdition2);
 
@@ -340,7 +335,7 @@ class CourseEdition_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
-        CourseEdition_2 courseEdition = new CourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEdition = new CourseEditionDDD(courseInStudyPlanIDDouble, programmeEditionIDDouble);
         TeacherCategory teacherCategoryDouble = mock (TeacherCategory.class);
 
         //Act
@@ -358,8 +353,8 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition_2 courseEditionDouble1 = new CourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition_2 courseEditionDouble2 = new CourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEditionDouble1 = new CourseEditionDDD(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEditionDouble2 = new CourseEditionDDD(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Act
         boolean result = courseEditionDouble1.equals(courseEditionDouble2);
@@ -377,8 +372,8 @@ class CourseEdition_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition_2 courseEditionDouble1 = new CourseEdition_2(courseEditionIDDouble1, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition_2 courseEditionDouble2 = new CourseEdition_2(courseEditionIDDouble2, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEditionDouble1 = new CourseEditionDDD(courseEditionIDDouble1, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEditionDDD courseEditionDouble2 = new CourseEditionDDD(courseEditionIDDouble2, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         //Act
         boolean result = courseEditionDouble1.equals(courseEditionDouble2);
@@ -394,7 +389,7 @@ class CourseEdition_2Test {
         // Arrange
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
+        CourseEditionDDD courseEdition2 = new CourseEditionDDD(courseInStudyPlanID, programmeEditionID);
         TeacherID teacherID = mock(TeacherID.class);
 
         // Act
@@ -411,7 +406,7 @@ class CourseEdition_2Test {
         // Arrange
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        CourseEdition_2 courseEdition2 = new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
+        CourseEditionDDD courseEdition2 = new CourseEditionDDD(courseInStudyPlanID, programmeEditionID);
 
         // Act
         boolean result = courseEdition2.setRuc(null);

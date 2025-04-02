@@ -17,13 +17,13 @@ public class Teacher implements AggregateRoot<TeacherID> {
 
     private AcademicBackground _academicBackground;
 
-    private AddressVO _address;
+    private Address _address;
 
     private DepartmentID _departmentID;
 
     //constructor
     public Teacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-                   AddressVO address, DepartmentID departmentID) {
+                   Address address, DepartmentID departmentID) {
 
         isObjectNull(acronym, name, email, nif, phoneNumber, academicBackground, address, departmentID);
 

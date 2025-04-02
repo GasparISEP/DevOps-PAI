@@ -1,7 +1,7 @@
 package PAI.domain.course;
 
 import PAI.VOs.*;
-import PAI.domain.CourseEdition_2;
+import PAI.domain.CourseEditionDDD;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -321,7 +321,7 @@ class CourseDDDTest {
         DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
         CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
-        CourseEdition_2 courseEdition = mock (CourseEdition_2.class);
+        CourseEditionDDD courseEdition = mock (CourseEditionDDD.class);
 
         //Act
         boolean result = courseDDD.equals(courseEdition);
@@ -381,7 +381,7 @@ class CourseDDDTest {
         DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
         CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
-        CourseEdition_2 courseEdition = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEdition = mock(CourseEditionDDD.class);
 
         //Act
         boolean result = courseDDD.sameAs(courseEdition);

@@ -3,7 +3,7 @@ package PAI.factory;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.CourseEdition_2;
+import PAI.domain.CourseEditionDDD;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
-class CourseEditionFactoryImpl_2Test {
+class CourseEditionFactoryImpl_DDDTest {
 
     @Test
     void shouldCreateCourseEditionWhenConstructorIsCalled() throws Exception {
@@ -25,7 +25,7 @@ class CourseEditionFactoryImpl_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
         //instructions
-        try (MockedConstruction<CourseEdition_2> courseEditionDouble = mockConstruction(CourseEdition_2.class, (courseEditionMock, context) -> {
+        try (MockedConstruction<CourseEditionDDD> courseEditionDouble = mockConstruction(CourseEditionDDD.class, (courseEditionMock, context) -> {
             CourseEditionID actualCourseEditionID = (CourseEditionID) context.arguments().get(0);
             CourseInStudyPlanID actualCourseInStudyPlanID = (CourseInStudyPlanID) context.arguments().get(1);
             ProgrammeEditionID actualProgrammeEditionID = (ProgrammeEditionID) context.arguments().get(2);
@@ -35,10 +35,10 @@ class CourseEditionFactoryImpl_2Test {
         })) {
 
             //SUT
-            ICourseEditionFactory_2 ICourseEditionFactory = new CourseEditionFactoryImpl_2();
+            ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
 
             // Act
-            CourseEdition_2 courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+            CourseEditionDDD courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
             // Asserts
             assertNotNull(courseEdition);
@@ -46,7 +46,7 @@ class CourseEditionFactoryImpl_2Test {
             assertEquals(courseInStudyPlanIDDouble, courseEdition.getCourseInStudyPlanID());
             assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
 
-            List<CourseEdition_2> courseEditions = courseEditionDouble.constructed();
+            List<CourseEditionDDD> courseEditions = courseEditionDouble.constructed();
             assertEquals(1, courseEditions.size());
 
             assertEquals(courseEdition, courseEditions.get(0));
@@ -63,7 +63,7 @@ class CourseEditionFactoryImpl_2Test {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
 
             //instructions
-        try (MockedConstruction<CourseEdition_2> courseEditionDouble = mockConstruction(CourseEdition_2.class, (courseEditionMock, context) -> {
+        try (MockedConstruction<CourseEditionDDD> courseEditionDouble = mockConstruction(CourseEditionDDD.class, (courseEditionMock, context) -> {
             CourseEditionID actualCourseEditionID = (CourseEditionID) context.arguments().get(0);
             CourseInStudyPlanID actualCourseInStudyPlanID = (CourseInStudyPlanID) context.arguments().get(1);
             ProgrammeEditionID actualProgrammeEditionID = (ProgrammeEditionID) context.arguments().get(2);
@@ -73,10 +73,10 @@ class CourseEditionFactoryImpl_2Test {
         })) {
 
             //SUT
-            ICourseEditionFactory_2 ICourseEditionFactory = new CourseEditionFactoryImpl_2();
+            ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
 
         // Act
-            CourseEdition_2 courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+            CourseEditionDDD courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         // Asserts
             assertNotNull(courseEdition);
@@ -84,7 +84,7 @@ class CourseEditionFactoryImpl_2Test {
             assertEquals(courseInStudyPlanIDDouble, courseEdition.getCourseInStudyPlanID());
             assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
 
-            List<CourseEdition_2> courseEditions = courseEditionDouble.constructed();
+            List<CourseEditionDDD> courseEditions = courseEditionDouble.constructed();
             assertEquals(1, courseEditions.size());
 
             assertEquals(courseEdition, courseEditions.get(0));
@@ -99,10 +99,10 @@ class CourseEditionFactoryImpl_2Test {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
             //SUT
-        ICourseEditionFactory_2 ICourseEditionFactory = new CourseEditionFactoryImpl_2();
+        ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
 
             //instructions
-        try (MockedConstruction<CourseEdition_2> mock = mockConstruction(CourseEdition_2.class,(mocked, context) ->
+        try (MockedConstruction<CourseEditionDDD> mock = mockConstruction(CourseEditionDDD.class,(mocked, context) ->
         {
             //Define behavior: throwing an exception when a new instance of Location is created
             throw new RuntimeException(new InstantiationException("Course Edition constructor failed"));
@@ -124,7 +124,7 @@ class CourseEditionFactoryImpl_2Test {
         //SUT = CourseEditionFactory
         //Arrange
             //SUT
-        ICourseEditionFactory_2 ICourseEditionFactory = new CourseEditionFactoryImpl_2();
+        ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
 
         //Act + Assert
         assertThrows(Exception.class, () -> ICourseEditionFactory.newCourseEdition_2(null, null));

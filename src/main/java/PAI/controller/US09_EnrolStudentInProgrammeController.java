@@ -7,19 +7,19 @@ import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
 import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 
 import java.util.Optional;
 
 public class US09_EnrolStudentInProgrammeController {
     private final StudentRepository _studentRepository;
     private final AccessMethodDDDRepository _accessMethodRepository;
-    private final ProgrammeDDDRepository _programmeRepository;
+    private final ProgrammeDDDRepositoryImpl _programmeRepository;
     private final ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     //Constructor
     public US09_EnrolStudentInProgrammeController(StudentRepository studentRepository, AccessMethodDDDRepository accessMethodRepository,
-                                                  ProgrammeDDDRepository programmeRepository, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
+                                                  ProgrammeDDDRepositoryImpl programmeRepository, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
         if (studentRepository == null) {
             throw new IllegalArgumentException("studentRepository cannot be null.");
         }

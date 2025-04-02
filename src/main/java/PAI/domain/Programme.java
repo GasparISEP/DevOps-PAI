@@ -74,51 +74,6 @@ public class Programme {
         _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 
-    public Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
-        if(name==null) {
-            throw new IllegalArgumentException("Insert a valid Name");
-        }
-        _nameWithNumbersAndSpecialChars = name;
-
-        if (acronym == null) {
-            throw new IllegalArgumentException("Acronym must not be empty");
-        }
-        _acronymm = acronym;
-
-        if (quantityOfEcts == null) {
-            throw new IllegalArgumentException("Insert a valid number of ECTS");
-        }
-        _quantEcts = quantityOfEcts;
-
-        if (quantityOfSemesters==null) {
-            throw new IllegalArgumentException("Insert a valid number of Semesters");
-        }
-        _quantSemesters = quantityOfSemesters;
-
-        if (degreeType == null) {
-            throw new IllegalArgumentException("Insert a valid DegreeType");
-        }
-        _degreeType = degreeType;
-
-        if (department == null) {
-            throw new IllegalArgumentException("Insert a valid Department");
-        }
-        _department = department;
-
-        if (programmeDirector == null) {
-            throw new IllegalArgumentException("Insert a valid Programme Director");
-        }
-
-        _programmeDirector = programmeDirector;
-
-        _I_programmeCourseListFactory = IProgrammeCourseListFactory;
-
-        _courseList = _I_programmeCourseListFactory.createCourseList();
-
-        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
-    }
-
     private boolean isNameInvalid(String name) {
         return name == null || name.isBlank() || !name.matches("^[A-Za-zÀ-ÖØ-öø-ÿ ]+$");
     }
