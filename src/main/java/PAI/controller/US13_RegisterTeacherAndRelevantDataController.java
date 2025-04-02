@@ -1,29 +1,30 @@
 package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.TeacherCategory;
-import PAI.repository.*;
-
+import PAI.repository.DepartmentRepositoryImpl;
+import PAI.repository.TeacherCareerProgressionRepository;
+import PAI.repository.TeacherCategoryRepositoryImpl;
+import PAI.repository.TeacherRepository;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 public class US13_RegisterTeacherAndRelevantDataController {
 
-    private ITeacherCategoryRepository _teacherCategoryRepository;
-    private IDepartmentRepository _departmentRepository;
-    private ITeacherRepository _teacherRepository;
-    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;
+    private TeacherCategoryRepositoryImpl _teacherCategoryRepository;
+    private DepartmentRepositoryImpl _departmentRepositoryImpl;
+    private TeacherRepository _teacherRepository;
+    private TeacherCareerProgressionRepository _teacherCareerProgressionRepository;
 
     //Constructor
-    public US13_RegisterTeacherAndRelevantDataController(ITeacherCategoryRepository teacherCategoryRepository,
-            IDepartmentRepository departmentRepository, ITeacherRepository teacherRepository,
-            ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
+    public US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepositoryImpl teacherCategoryRepository,
+                                                         DepartmentRepositoryImpl departmentRepositoryImpl, TeacherRepository teacherRepository, TeacherCareerProgressionRepository teacherCareerProgressionRepository) {
 
         if (teacherCategoryRepository == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
         }
 
-        if (departmentRepository == null) {
+        if (departmentRepositoryImpl == null) {
             throw new IllegalArgumentException("Department Repository cannot be null");
         }
 
@@ -36,7 +37,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
         }
 
         this._teacherCategoryRepository = teacherCategoryRepository;
-        this._departmentRepository = departmentRepository;
+        this._departmentRepositoryImpl = departmentRepositoryImpl;
         this._teacherRepository = teacherRepository;
         this._teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
@@ -48,14 +49,14 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
     // Method to get all Departments
     public Set<DepartmentID> getDepartmentIDList() throws IllegalStateException{
-        return _departmentRepository.getDepartmentIDs();
+        return _departmentRepositoryImpl.getDepartmentIDs();
     }
 
     // Method to register the Teacher object
     public boolean registerTeacher(String teacherAcronym, String name, String email, String nif, String phoneNumber,
-            String academicBackground, String street, String postalCode, String location, String country, String departmentAcronym,
-            String date, String teacherCategoryID, int workingPercentage, String countryCode) throws Exception {
-
+                                   String academicBackground, String street, String postalCode,
+                                   String location, String country, String departmentAcronym, String date,
+                                   String teacherCategoryID, int workingPercentage, String countryCode) throws Exception {
 
         // turn inputs into VOs
         TeacherVOs vo = inputToVO(teacherAcronym, name, email, nif, phoneNumber, academicBackground, street,

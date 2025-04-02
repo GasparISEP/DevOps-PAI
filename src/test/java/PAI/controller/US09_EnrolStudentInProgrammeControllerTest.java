@@ -83,8 +83,6 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, streetDouble2, postalCodeDouble2, locationDouble2, countryDouble2, academicEmailDouble2);
     }
 
-    //quando vai buscar
-
     @Test
     void shouldCreateUS09ControllerTest() {
         //arrange
@@ -255,7 +253,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(null, _accessMethodID, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Student cannot be null");
+        assertEquals("Student cannot be null", exception.getMessage());
     }
 
     @Test
@@ -265,7 +263,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, null, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Access method cannot be null");
+        assertEquals("Access method cannot be null", exception.getMessage());
     }
 
     @Test
@@ -275,7 +273,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, null, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Programme cannot be null");
+        assertEquals("Programme cannot be null", exception.getMessage());
     }
 
     @Test
@@ -285,7 +283,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 
     @Test
@@ -295,7 +293,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 }
 
