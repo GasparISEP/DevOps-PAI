@@ -1,5 +1,6 @@
 package PAI.controller;
 import PAI.VOs.*;
+import PAI.VOs.Date;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.DepartmentRepositoryImpl;
@@ -8,35 +9,21 @@ import PAI.repository.TeacherCategoryRepositoryImpl;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class US13_RegisterTeacherAndRelevantDataControllerTest {
+
     // Arrange
     private TeacherCategoryRepositoryImpl _teacherCategoryRepoDouble;
     private DepartmentRepositoryImpl _departmentRepoDouble;
     private TeacherRepository _teacherRepoDouble;
     private TeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
-
-    private TeacherAcronym _teacherAcronymDouble;
-    private Name _nameDouble;
-    private Email _emailDouble;
-    private NIF _nifDouble;
-    private PhoneNumber _phoneNumberDouble;
-    private AcademicBackground _academicBackgroundDouble;
-    private Street _streetDouble;
-    private PostalCode _postalCodeDouble;
-    private Location _locationDouble;
-    private Country _countryDouble;
-    private DepartmentID _departmentIDDouble;
-    private Date _dateDouble;
-    private TeacherCategoryID _teacherCategoryIDDouble;
-    private WorkingPercentage _workingPercentageDouble;
 
     @BeforeEach
     void factoryDoublesSetup(){
@@ -44,23 +31,6 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         _departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
         _teacherRepoDouble = mock(TeacherRepository.class);
         _teacherCareerProgressionRepoDouble = mock(TeacherCareerProgressionRepository.class);
-    }
-
-    private void createTeacherArgumentDoubles(){
-        _teacherAcronymDouble = mock(TeacherAcronym.class);
-        _nameDouble = mock(Name.class);
-        _emailDouble = mock(Email.class);
-        _nifDouble = mock(NIF.class);
-        _phoneNumberDouble = mock(PhoneNumber.class);
-        _academicBackgroundDouble = mock(AcademicBackground.class);
-        _streetDouble = mock(Street.class);
-        _postalCodeDouble = mock(PostalCode.class);
-        _locationDouble = mock(Location.class);
-        _countryDouble = mock(Country.class);
-        _departmentIDDouble = mock(DepartmentID.class);
-        _dateDouble = mock(Date.class);
-        _teacherCategoryIDDouble = mock(TeacherCategoryID.class);
-        _workingPercentageDouble = mock(WorkingPercentage.class);
     }
 
 
@@ -121,7 +91,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        when(_teacherCategoryRepoDouble.getTeacherCategoryList()).thenThrow(new IllegalStateException("Teacher Category list is empty."));
+        when(_teacherCategoryRepoDouble.findAll()).thenThrow(new IllegalStateException("Teacher Category list is empty."));
 
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> controllerUS13Double.getTeacherCategoryList());
@@ -135,13 +105,13 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        when(_teacherCategoryRepoDouble.getTeacherCategoryList()).thenReturn(tcListDouble);
+        when(_teacherCategoryRepoDouble.findAll()).thenReturn(tcListDouble);
 
         // Act
-        List<TeacherCategory> result = controllerUS13Double.getTeacherCategoryList();
+        Iterable<TeacherCategory> result = controllerUS13Double.getTeacherCategoryList();
 
         // Assert
-        assertEquals(result, tcListDouble);
+        assertEquals(tcListDouble, result);
     }
 
     @Test
@@ -176,25 +146,26 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldRegisterTeacher() throws Exception {
+    void shouldRegisterTeacherWithValidInputs() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        createTeacherArgumentDoubles();
         TeacherID teacherID = mock(TeacherID.class);
         Optional<TeacherID> optionalTeacherID = Optional.of(teacherID);
 
-        when(_teacherRepoDouble.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentIDDouble)).thenReturn(optionalTeacherID);
+        when(_teacherRepoDouble.registerTeacher(any(TeacherAcronym.class), any(Name.class), any(Email.class),
+                any(NIF.class), any(PhoneNumber.class), any(AcademicBackground.class), any(Street.class),
+                any(PostalCode.class), any(Location.class), any(Country.class), any(DepartmentID.class))).thenReturn(optionalTeacherID);
 
-        when(_teacherCareerProgressionRepoDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble, teacherID)).thenReturn(true);
+        when(_teacherCareerProgressionRepoDouble.createTeacherCareerProgression(any(Date.class), any(TeacherCategoryID.class),
+                any(WorkingPercentage.class), any(TeacherID.class))).thenReturn(true);
 
         // Act
-        boolean result = controllerUS13Double.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentIDDouble, _dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble);
+        boolean result = controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com",
+                "123456789", "912345678", "Mestre em Ciências", "Rua das Flores",
+                "1234-567", "Lisboa", "Portugal", "DEI", "01-09-2024",
+                "550e8400-e29b-41d4-a716-446655440000", 100, "+351");
 
         // Assert
         assertTrue(result);
@@ -206,17 +177,17 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        createTeacherArgumentDoubles();
         Optional<TeacherID> optionalEmpty = Optional.empty();
 
-        when(_teacherRepoDouble.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentIDDouble)).thenReturn(optionalEmpty);
+        when(_teacherRepoDouble.registerTeacher(any(TeacherAcronym.class), any(Name.class), any(Email.class),
+                any(NIF.class), any(PhoneNumber.class), any(AcademicBackground.class), any(Street.class),
+                any(PostalCode.class), any(Location.class), any(Country.class), any(DepartmentID.class))).thenReturn(optionalEmpty);
 
         // Act
-        boolean result = controllerUS13Double.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentIDDouble, _dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble);
+        boolean result = controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
+                "Mestre em Ciências", "Rua das Flores", "1234-567", "Lisboa", "Portugal",
+                "DEI", "01-09-2024", "550e8400-e29b-41d4-a716-446655440000",
+                100, "+351");
 
         // Assert
         assertFalse(result);
