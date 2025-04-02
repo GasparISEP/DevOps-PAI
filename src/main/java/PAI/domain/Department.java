@@ -1,67 +1,72 @@
 package PAI.domain;
+import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.DepartmentID;
+import PAI.VOs.Name;
+import PAI.VOs.TeacherID;
+import PAI.ddd.AggregateRoot;
 import java.util.Objects;
 
-public class Department {
+public class Department implements AggregateRoot <DepartmentID> {
 
-    private String _name;
-    private String _acronym;
-    private Teacher _director;
+    private final DepartmentID _departmentId;
+    private final Name _departmentName;
+    private TeacherID _director;
 
-    //constructor
-    public Department(String acronym, String name) throws Exception {
-        validateAcronym(acronym);
-        validateName(name);
+    public Department(DepartmentAcronym acronym, Name name) throws Exception {
+        if (acronym == null || name == null) {
+            throw new IllegalArgumentException("Acronym and Name cannot be null.");
+        }
+        this._departmentId = new DepartmentID(acronym);
+        this._departmentName = name;
     }
 
-    //constructor
-    public Department(String acronym, String name,Teacher teacherDirector) throws IllegalArgumentException {
-        validateAcronym(acronym);
-        validateName(name);
+    public Department(DepartmentAcronym acronym, Name name, TeacherID teacherDirector) throws Exception {
+        if (acronym == null || name == null) {
+            throw new IllegalArgumentException("Acronym and name cannot be null.");
+        }
+        if (teacherDirector == null) {
+            throw new IllegalArgumentException("Teacher Director cannot be null.");
+        }
+        this._departmentId = new DepartmentID(acronym);
+        this._departmentName = name;
         this._director = teacherDirector;
     }
 
-    private void validateName(String name) throws IllegalArgumentException {
-        if (name == null || name.isBlank())
-            throw new IllegalArgumentException("Department´s name must be a non-empty String.");
-        if(!name.matches("^[A-Z].*")){
-            throw new IllegalArgumentException("Department´s name should start with a capital letter.");
-        }
-        if (name.length() <2 || name.length() > 100){
-            throw new IllegalArgumentException("Department´s name must be between 2 and 100 characters.");
-        }
-        this._name = name;
-    }
-
-    private void validateAcronym(String departmentAcronym) throws IllegalArgumentException {
-        if (departmentAcronym == null || departmentAcronym.isBlank())
-            throw new IllegalArgumentException("Department´s acronym must be a 3 letter non-empty String.");
-
-        if(!departmentAcronym.matches("^[A-Z]{3}$")){
-            throw new IllegalArgumentException("Department´s acronym must contain only three capital letters.");
-        }
-        this._acronym = departmentAcronym;
-    }
-
-    //US06
-    public boolean changeDirector(Teacher furtherDirector) {
-        _director = furtherDirector;
-        return true;
-    }
+    public DepartmentID identity() { return _departmentId; }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Department that = (Department) obj;
-        return Objects.equals(_name, that._name) && Objects.equals(_acronym, that._acronym);
+        return Objects.equals(_departmentId, that._departmentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_name, _acronym);
+        return Objects.hash(_departmentId);
     }
 
-    public String getName() { return _name; }
+    public boolean sameAs(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Department that = (Department) obj;
+        return Objects.equals(_departmentName, that._departmentName) && Objects.equals(_departmentId, that._departmentId);
+    }
 
-    public String getAcronym() { return _acronym; }
+    public Name getName() { return _departmentName; }
+
+    public DepartmentAcronym getAcronym() { return _departmentId.getAcronym(); }
+
+    public DepartmentID getDepartmentID() { return _departmentId; }
+
+
+    //US06
+//    public boolean changeDirector(TeacherID furtherDirector) {
+//        if (furtherDirector == null) {
+//           return false;
+//        }
+//        this._director = furtherDirector;
+//        return true;
+//    }
 }

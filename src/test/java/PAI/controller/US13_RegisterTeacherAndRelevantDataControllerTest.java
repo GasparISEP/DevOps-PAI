@@ -1,5 +1,4 @@
 package PAI.controller;
-
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
@@ -9,12 +8,10 @@ import PAI.repository.TeacherCategoryRepositoryImpl;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -153,10 +150,10 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        when(_departmentRepoDouble.getDepartments()).thenThrow(new IllegalStateException("Department list is empty."));
+        when(_departmentRepoDouble.getDepartmentIDs()).thenThrow(new IllegalStateException("Department list is empty."));
 
         // Act + Assert
-        assertThrows(IllegalStateException.class, () -> controllerUS13Double.getDepartmentsList());
+        assertThrows(IllegalStateException.class, () -> controllerUS13Double.getDepartmentIDList());
     }
 
     @Test
@@ -165,15 +162,15 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        Department dptDouble = mock(Department.class);
-        Set<Department> dptListDouble = new HashSet<>();
+        DepartmentID dptDouble = mock(DepartmentID.class);
+        Set<DepartmentID> dptListDouble = new HashSet<>();
 
         dptListDouble.add(dptDouble);
 
-        when(_departmentRepoDouble.getDepartments()).thenReturn(dptListDouble);
+        when(_departmentRepoDouble.getDepartmentIDs()).thenReturn(dptListDouble);
 
         // Act
-        Set<Department> result = controllerUS13Double.getDepartmentsList();
+        Set<DepartmentID> result = controllerUS13Double.getDepartmentIDList();
         // Assert
         assertEquals(dptListDouble, result);
     }

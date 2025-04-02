@@ -1,5 +1,4 @@
 package PAI.controller;
-
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
@@ -7,7 +6,7 @@ import PAI.repository.DepartmentRepository;
 import PAI.repository.TeacherCareerProgressionRepository;
 import PAI.repository.TeacherCategoryRepositoryImpl;
 import PAI.repository.TeacherRepository;
-
+import PAI.VOs.Location;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -51,8 +50,8 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to get all Departments
-    public Set<Department> getDepartmentsList() throws IllegalStateException{
-        return _departmentRepository.getDepartments();
+    public Set<DepartmentID> getDepartmentIDList() throws IllegalStateException{
+        return _departmentRepository.getDepartmentIDs();
     }
 
     // Method to register the Teacher object

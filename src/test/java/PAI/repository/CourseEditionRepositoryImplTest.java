@@ -472,4 +472,59 @@ class CourseEditionRepositoryImplTest {
         // Assert
         assertEquals(programmeEditionIDDouble1, result);
     }
+    @Test
+    void shouldReturnOptionalWithCourseEditionID() throws Exception{
+        //arrange
+        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
+        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+
+        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+
+        List<CourseEdition_2> courseEdition2s = List.of(courseEditionDouble);
+
+        courseEditionListFactoryDouble = () -> courseEdition2s;
+
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+
+        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble1,programmeEditionIDDouble1)).thenReturn(courseEditionDouble);
+        when(courseEditionDouble.identity()).thenReturn(courseEditionID);
+        repository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1,programmeEditionIDDouble1);
+
+        //act
+        Optional<CourseEditionID> result = repository.findByCourseEdition(courseEditionDouble);
+        //assert
+        assertTrue(result.isPresent());
+
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenDoNotFindCourseEdition() throws Exception{
+        //arrange
+        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
+        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+
+        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEdition_2 courseEditionDouble2 = mock(CourseEdition_2.class);
+
+        List<CourseEdition_2> courseEdition2s = List.of(courseEditionDouble);
+
+        courseEditionListFactoryDouble = () -> courseEdition2s;
+
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+
+        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble1,programmeEditionIDDouble1)).thenReturn(courseEditionDouble);
+        when(courseEditionDouble.identity()).thenReturn(courseEditionID);
+        repository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1,programmeEditionIDDouble1);
+
+        //act
+        Optional<CourseEditionID> result = repository.findByCourseEdition(courseEditionDouble2);
+        //assert
+        assertTrue(result.isEmpty());
+    }
 }

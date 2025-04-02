@@ -1,4 +1,6 @@
 package PAI.controller;
+import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.Name;
 import PAI.repository.DepartmentRepository;
 
 public class US05_DepartmentRegistryController {
@@ -12,7 +14,7 @@ public class US05_DepartmentRegistryController {
         this._departmentRepo=departmentRepo;
     }
 
-    public boolean registerDepartment(String acronym, String name) throws Exception{
+    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception{
         if(acronym==null || name==null){
             throw new IllegalArgumentException("Acronym or name cannot be null.");
         }

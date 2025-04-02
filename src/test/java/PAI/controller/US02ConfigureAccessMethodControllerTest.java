@@ -1,13 +1,8 @@
 package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.AccessMethod;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
 import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
-import PAI.factory.AccessMethodFactoryImpl;
-import PAI.factory.AccessMethodListFactoryImpl;
-import PAI.repository.AccessMethodRepository;
 import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDListFactoryImpl;
 import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
 import PAI.repository.accessMethodRepositoryDDD.IAccessMethodDDDListFactory;
@@ -15,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class US02ConfigureAccessMethodControllerTest {
 

@@ -1,5 +1,7 @@
 package PAI.domain;
 
+import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.Name;
 import PAI.factory.*;
 import PAI.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,9 @@ class CourseInStudyPlanTest {
         Course course1 = new Course("Programming", "PROG", 5, 1);
         Course course2 = new Course("Mathematics", "MATH", 6, 1);
         DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
+        DepartmentAcronym acronym= new DepartmentAcronym("CED");
+        Name name= new Name("Computer Engineering Departent");
+        Department cse = new Department(acronym,name);
         Teacher teacher = mock(Teacher.class);
         IProgrammeCourseListFactory IProgrammeCourseListFactory = mock(IProgrammeCourseListFactory.class);
         ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
@@ -86,7 +90,9 @@ class CourseInStudyPlanTest {
         Course course1 = new Course("Programming", "PROG", 5, 1);
         courseRepository.registerCourse("Programming", "PROG", 5, 1);
         DegreeType master = new DegreeType("Master", 240);
-        Department cse = new Department("CSE", "Computer Science Engineer");
+        DepartmentAcronym acronym= new DepartmentAcronym("CSE");
+        Name name= new Name("Computer Science Engineer");
+        Department cse = new Department(acronym,name);
         Teacher teacher = mock(Teacher.class);
         IProgrammeCourseListFactory IProgrammeCourseListFactory = mock(IProgrammeCourseListFactory.class);
         ICourseInStudyPlanFactory ICourseInStudyPlanFactory = mock(ICourseInStudyPlanFactory.class);
@@ -301,5 +307,4 @@ class CourseInStudyPlanTest {
         //assert
         assertTrue(result);
     }
-
-    }
+}
