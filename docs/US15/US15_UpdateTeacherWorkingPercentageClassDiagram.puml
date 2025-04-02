@@ -6,17 +6,17 @@ skinparam nodesep 100
 class US15_UpdateTeacherWorkingPercentageController {
     +US15_UpdateTeacherWorkingPercentageController(teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, teacherRepository: ITeacherRepository)
     +findAll()
-    +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: workingPercentageVO,
-    teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+    +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int, acronym: String)
 }
 
 package "Teacher Aggregate" {
     entity "<<Root>>\n <<Entity>>\n Teacher" {
+    +identity()
     }
 }
 
 class "<<Value Object>>\n TeacherIDVO" {
-        -acronym: String
+        -acronym: TeacherAcronym
     }
 
 
@@ -30,7 +30,7 @@ package "TeacherCareerProgression Aggregate" {
 }
 
     class "<<Value Object>>\n TeacherCareerProgressionIDVO" {
-          -ID: int
+          -ID: UUIU
     }
 
     class "<<Value Object>>\n DateVO" {
@@ -43,23 +43,23 @@ package "TeacherCareerProgression Aggregate" {
 
 class TeacherCareerProgressionRepository {
     +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
-    teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+    teacherIDVO: TeacherIDVO)
     +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
 }
 
-class TeacherRepositoryImpl {
+class TeacherRepository {
     +findAll()
+    +containsOfIdentity()
 }
 
 package "TeacherCategory Aggregate" {
     entity "<<Root>>\n <<Entity>>\nTeacherCategory" {
-        + TeacherCategory(name: CategoryNameVO)
     }
 }
 
 interface ITeacherCareerProgressionRepository {
     +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
-    teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+    teacherIDVO: TeacherIDVO)
     +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
 }
 
@@ -68,10 +68,10 @@ interface ITeacherRepository {
 }
 
 class "<<Value Object>>\n TeacherCategoryIDVO" {
-                -name: String
+                -id: UUIU
 }
 
-class TeacherCareerProgressionFactory {
+class TeacherCareerProgressionFactoryImpl {
     +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
                                         teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
@@ -96,10 +96,10 @@ US15_UpdateTeacherWorkingPercentageController "1" ..> "_teacherRepository \n 1" 
 US15_UpdateTeacherWorkingPercentageController "1" ..> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
 "<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <---- "1" ITeacherRepository
 "<<Value Object>>\n TeacherIDVO" "1  " <-- "\n 1..*     " "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
-ITeacherCareerProgressionRepository "1" ..> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
-ITeacherCareerProgressionFactory "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
-ITeacherCareerProgressionRepository "1" ..> "  _teacherCareerProgressionList \n                                     1" ITeacherCareerProgressionListFactory
-TeacherCareerProgressionFactory ..|> ITeacherCareerProgressionFactory
+TeacherCareerProgressionRepository "1" ..> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
+TeacherCareerProgressionFactoryImpl "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
+ITeacherCareerProgressionRepository "1" ..> "  _teacherCareerProgressionList \n                                     1" TeacherCareerProgressionListFactoryImpl
+TeacherCareerProgressionFactoryImpl ..|> ITeacherCareerProgressionFactory
 TeacherCareerProgressionListFactoryImpl ..|> ITeacherCareerProgressionListFactory
 ITeacherCareerProgressionListFactory ..> List
 List "1" ----> "1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
@@ -110,6 +110,6 @@ List "1" ----> "1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
 "<<Value Object>>\n TeacherCategoryIDVO" "1" <-- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
 ITeacherCareerProgressionRepository <|.. TeacherCareerProgressionRepository
-ITeacherRepository <|.. TeacherRepositoryImpl
+ITeacherRepository <|.. TeacherRepository
 
 @enduml

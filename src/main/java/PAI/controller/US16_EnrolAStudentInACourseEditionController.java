@@ -3,7 +3,6 @@ package PAI.controller;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.*;
 import PAI.repository.*;
 
 import java.util.Collections;
@@ -14,11 +13,11 @@ public class US16_EnrolAStudentInACourseEditionController {
 
     private final ICourseEditionEnrolmentRepository _ceeRepositoryInterface;
     private final IProgrammeEditionEnrolmentRepository _peeRepositoryInterface;
-    private final ICourseEditionRepository _courseEditionRepositoryInterface;
+    private final ICourseEditionRepositoryDDD _courseEditionRepositoryInterface;
 
 
     public US16_EnrolAStudentInACourseEditionController(
-            ICourseEditionEnrolmentRepository _ceeRepositoryInterface, IProgrammeEditionEnrolmentRepository peeRepositoryInterface, ICourseEditionRepository courseEditionRepositoryInterface) {
+            ICourseEditionEnrolmentRepository _ceeRepositoryInterface, IProgrammeEditionEnrolmentRepository peeRepositoryInterface, ICourseEditionRepositoryDDD courseEditionRepositoryInterface) {
 
         validateCourseEditionEnrolmentRepository (_ceeRepositoryInterface);
         validateProgrammeEditionEnrolmentRepository (peeRepositoryInterface);
@@ -64,7 +63,7 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //verify if the course edition repository is valid
-    private void validateCourseEditionRepository (ICourseEditionRepository courseEditionRepositoryInterface) throws IllegalArgumentException {
+    private void validateCourseEditionRepository (ICourseEditionRepositoryDDD courseEditionRepositoryInterface) throws IllegalArgumentException {
         if (courseEditionRepositoryInterface == null) {
             throw new IllegalArgumentException("Course edition repository cannot be null!");
         }

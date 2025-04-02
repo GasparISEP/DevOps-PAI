@@ -2,11 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.TeacherID;
-import PAI.domain.Programme;
-import PAI.domain.programme.ProgrammeDDD;
-import PAI.repository.ProgrammeRepository;
-import PAI.domain.Teacher;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +12,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldCreateController() throws Exception{
         //arrange
-        ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
+        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeRepo);
         //assert
         assertNotNull(controller);
@@ -31,7 +27,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldReturnTrueWhenDirectorIsChanged() throws Exception{
         //arrange
-        ProgrammeDDDRepository programmeList = mock(ProgrammeDDDRepository.class);
+        ProgrammeDDDRepositoryImpl programmeList = mock(ProgrammeDDDRepositoryImpl.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList);
         TeacherID teacher = mock(TeacherID.class);
         ProgrammeID programme = mock(ProgrammeID.class);

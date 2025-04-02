@@ -1,10 +1,7 @@
 package PAI.factory;
 
 import PAI.VOs.*;
-import PAI.VOs.Location;
 import PAI.domain.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
-import PAI.domain.programme.ProgrammeDDD;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

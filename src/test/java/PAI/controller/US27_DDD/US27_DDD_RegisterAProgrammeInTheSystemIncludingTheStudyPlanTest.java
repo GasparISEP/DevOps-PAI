@@ -6,7 +6,7 @@ import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.domain.studyPlan.IStudyPlanDDDFactory;
 import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
 import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
 
@@ -22,14 +22,14 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullProgrammeRepo() throws Exception {
         //arrange
-        ProgrammeDDDRepository programmeDDDRepository = null;
+        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = null;
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
         StudyPlanDDDRepositoryImpl studyPlanDDDRepo = new StudyPlanDDDRepositoryImpl(factory, listFactory);
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
-                new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeDDDRepository, studyPlanDDDRepo));
+                new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeDDDRepositoryImpl, studyPlanDDDRepo));
 
         assertEquals("Programme Repository cannot be null.", exception.getMessage());
 
@@ -40,12 +40,12 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         //arrange
         IProgrammeDDDFactory iProgrammeDDDFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeDDDRepository = new ProgrammeDDDRepository(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeDDDRepositoryImpl(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
         StudyPlanDDDRepositoryImpl studyPlanDDDRepo = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
-                new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeDDDRepository, studyPlanDDDRepo));
+                new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeDDDRepositoryImpl, studyPlanDDDRepo));
 
         assertEquals("Study Plan Repository cannot be null.", exception.getMessage());
 
@@ -57,13 +57,13 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         //arrange
         IProgrammeDDDFactory iProgrammeDDDFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeDDDRepository = new ProgrammeDDDRepository(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeDDDRepositoryImpl(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
         StudyPlanDDDRepositoryImpl studyPlanDDDRepo = new StudyPlanDDDRepositoryImpl(factory, listFactory);
 
         //act
-        US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeDDDRepository, studyPlanDDDRepo);
+        US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeDDDRepositoryImpl, studyPlanDDDRepo);
 
         //assert
         assertNotNull(controller);
@@ -72,7 +72,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void createStudyPlanDDDWithSuccess() throws Exception {
         // Arrange
-        ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
+        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
         StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -103,7 +103,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void createStudyPlanDDDProgrammeNotFound() throws Exception {
         // Arrange
-        ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
+        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
         StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -127,7 +127,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     @Test
     void registerProgrammeInTheSystemWithSuccess() throws Exception {
         //arrange
-        ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
+        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
         StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
 
         US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller =

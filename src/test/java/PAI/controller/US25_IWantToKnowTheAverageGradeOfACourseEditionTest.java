@@ -7,8 +7,7 @@ import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.IStudentGradeRepository;
-import PAI.repository.ICourseEditionRepository;
-import PAI.repository.StudentGradeRepository;
+import PAI.repository.ICourseEditionRepositoryDDD;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -33,7 +32,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
     @Test
     void nullCourseEditionRepository() {
         //arrange
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
 
         //act & assert
         Exception exception = assertThrows(Exception.class, () ->
@@ -47,12 +46,12 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         //arrange
         IStudentGradeRepository studentGradeRepositoryListDouble = mock(IStudentGradeRepository.class);
-        ICourseEditionRepository courseEditionRepositoryListDouble = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryListDouble = mock(ICourseEditionRepositoryDDD.class);
 
         US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(studentGradeRepositoryListDouble,courseEditionRepositoryListDouble);
 
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
 
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
@@ -85,11 +84,11 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionTest {
 
         //arrange
         IStudentGradeRepository studentGradeRepositoryListDouble = mock(IStudentGradeRepository.class);
-        ICourseEditionRepository courseEditionRepositoryListDouble = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryListDouble = mock(ICourseEditionRepositoryDDD.class);
 
         US25_IWantToKnowTheAverageGradeOfACourseEdition controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEdition(studentGradeRepositoryListDouble,courseEditionRepositoryListDouble);
 
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
 
         when(courseEditionRepositoryListDouble.findIdByCourseEdition(courseEditionDouble)).thenReturn(Optional.empty());
 

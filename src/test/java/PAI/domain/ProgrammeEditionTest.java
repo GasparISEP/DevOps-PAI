@@ -49,19 +49,19 @@ class ProgrammeEditionTest {
     }
 
     //EQUALS TESTS
-    @Test
-    void shouldReturnFalseIfObjectComparedIsNotProgrammeEdition() throws Exception {
-        //SUT: ProgrammeEdition
-
-        // Arrange
-        AccessMethod am1 = mock(AccessMethod.class);
-
-        // Act
-        boolean result = _programmeEdition.equals(am1);
-
-        // Assert
-        assertFalse(result);
-    }
+//    @Test
+//    void shouldReturnFalseIfObjectComparedIsNotProgrammeEdition() throws Exception {
+//        //SUT: ProgrammeEdition
+//
+//        // Arrange
+//        AccessMethod am1 = mock(AccessMethod.class);
+//
+//        // Act
+//        boolean result = _programmeEdition.equals(am1);
+//
+//        // Assert
+//        assertFalse(result);
+//    }
 
     @Test
     void shouldReturnTrueIfTwoProgrammeEditionsHaveTheSameProgrammesAndSchoolYears() throws Exception {

@@ -10,8 +10,6 @@ import PAI.repository.*;
 import org.junit.jupiter.api.Test;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +22,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
         //assert
         assertNotNull(controller);
@@ -35,7 +33,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = null;
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
 
         //assert
         assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble,courseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
@@ -46,7 +44,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);;
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = null;
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
 
         //assert
         assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble,iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
@@ -57,20 +55,20 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         StudentID studentID = mock(StudentID.class);
-        CourseEdition_2 courseEdition_2Double = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEdition_DDDDouble = mock(CourseEditionDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
         when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentID));
-        when(courseEditionRepository.findIdByCourseEdition(courseEdition_2Double)).thenReturn(Optional.of(courseEditionIDDouble));
+        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
         when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentID,courseEditionIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.isStudentEnrolledInCourseEdition(student,courseEdition_2Double);
+        boolean result = controller.isStudentEnrolledInCourseEdition(student, courseEdition_DDDDouble);
 
         //assert
         assertTrue(result);
@@ -82,21 +80,21 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         StudentID studentID = mock(StudentID.class);
-        CourseEdition_2 courseEdition_2Double = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEdition_DDDDouble = mock(CourseEditionDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
         when(studentRepository.findIdByStudent(student)).thenReturn(Optional.empty());
-        when(courseEditionRepository.findIdByCourseEdition(courseEdition_2Double)).thenReturn(Optional.of(courseEditionIDDouble));
+        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
 
         when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentID,courseEditionIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.isStudentEnrolledInCourseEdition(student,courseEdition_2Double);
+        boolean result = controller.isStudentEnrolledInCourseEdition(student, courseEdition_DDDDouble);
 
         //assert
         assertFalse(result);
@@ -107,21 +105,21 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         StudentID studentID = mock(StudentID.class);
-        CourseEdition_2 courseEdition_2Double = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEdition_DDDDouble = mock(CourseEditionDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
         when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentID));
-        when(courseEditionRepository.findIdByCourseEdition(courseEdition_2Double)).thenReturn(Optional.empty());
+        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.empty());
 
         when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentID,courseEditionIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.isStudentEnrolledInCourseEdition(student,courseEdition_2Double);
+        boolean result = controller.isStudentEnrolledInCourseEdition(student, courseEdition_DDDDouble);
 
         //assert
         assertFalse(result);
@@ -133,25 +131,25 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
 
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
-        CourseEdition_2 courseEdition_2Double = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEdition_DDDDouble = mock(CourseEditionDDD.class);
         StudentID studentIDDouble = mock(StudentID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         Grade gradeDouble = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
         when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentIDDouble));
-        when(courseEditionRepository.findIdByCourseEdition(courseEdition_2Double)).thenReturn(Optional.of(courseEditionIDDouble));
+        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
 
         when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentIDDouble,courseEditionIDDouble)).thenReturn(true);
         when(iStudentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.iWantToGradeAStudent(gradeDouble,dateDouble,student,courseEdition_2Double);
+        boolean result = controller.iWantToGradeAStudent(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
 
         //assert
         assertTrue(result);
@@ -162,25 +160,25 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD courseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
         US22_IWantToGradeAStudentInACourseEdition controller = new US22_IWantToGradeAStudentInACourseEdition(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
-        CourseEdition_2 courseEdition_2Double = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEdition_DDDDouble = mock(CourseEditionDDD.class);
         StudentID studentIDDouble = mock(StudentID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         Grade gradeDouble = mock(Grade.class);
         Date dateDouble = mock(Date.class);
 
         when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentIDDouble));
-        when(courseEditionRepository.findIdByCourseEdition(courseEdition_2Double)).thenReturn(Optional.of(courseEditionIDDouble));
+        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
 
 
         when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentIDDouble,courseEditionIDDouble)).thenReturn(false);
         when(iStudentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.iWantToGradeAStudent(gradeDouble,dateDouble,student,courseEdition_2Double);
+        boolean result = controller.iWantToGradeAStudent(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
 
         //assert
         assertFalse(result);
