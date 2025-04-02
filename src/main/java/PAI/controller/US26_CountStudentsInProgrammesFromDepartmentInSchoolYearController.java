@@ -1,12 +1,12 @@
-package PAI.controller;
-
-
-import PAI.domain.*;
-import PAI.repository.DepartmentRepository;
-import PAI.repository.ProgrammeEditionEnrolmentRepository;
-import PAI.repository.SchoolYearRepository;
-
-public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
+//package PAI.controller;
+//
+//
+//import PAI.domain.*;
+//import PAI.repository.DepartmentRepository;
+//import PAI.repository.ProgrammeEditionEnrolmentRepository;
+//import PAI.repository.SchoolYearRepository;
+//
+//public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
 //    private final ProgrammeEditionEnrolmentRepository _PEERepo;
 //    private final SchoolYearRepository _schoolYearRepository;
 //    private final DepartmentRepository _departmentRepository;
@@ -36,4 +36,4 @@ public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController 
 //        }
 //        return _PEERepo.countStudentsInProgrammesFromDepartmentInSchoolYear(department,schoolYear);
 //    }
-}
+//}

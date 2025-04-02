@@ -41,6 +41,22 @@ public class CourseDDD implements AggregateRoot<CourseID> {
     }
 
     @Override
+    public boolean equals(Object objectToCompare) {
+
+        if (this == objectToCompare)
+            return true;
+
+        if (objectToCompare instanceof CourseDDD) {
+
+            CourseDDD courseDDD = (CourseDDD) objectToCompare;
+
+            if (_courseID.equals(courseDDD._courseID))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean sameAs(Object object) {
         return false;
     }
