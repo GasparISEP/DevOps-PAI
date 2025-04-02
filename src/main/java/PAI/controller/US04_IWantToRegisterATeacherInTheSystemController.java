@@ -2,22 +2,21 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.domain.*;
 import PAI.repository.DepartmentRepository;
-import PAI.repository.TeacherRepository;
+import PAI.repository.ITeacherRepository;
 
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
-    private final TeacherRepository _teacherRepository;
+    private final ITeacherRepository _iteacherRepository;
     private final DepartmentRepository _departmentRepository;
 
-    public US04_IWantToRegisterATeacherInTheSystemController( TeacherRepository teacherRepository,
+    public US04_IWantToRegisterATeacherInTheSystemController( ITeacherRepository iteacherRepository,
                                                               DepartmentRepository departmentRepository) {
 
-        validateTeacherRepository(teacherRepository);
+        validateTeacherRepository(iteacherRepository);
         validateDepartmentRepository(departmentRepository);
 
-        this._teacherRepository = teacherRepository;
+        this._iteacherRepository = iteacherRepository;
         this._departmentRepository = departmentRepository;
     }
 
@@ -29,7 +28,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             return false;
         }
 
-        _teacherRepository.registerTeacher(
+        _iteacherRepository.registerTeacher(
                  acronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         return true;
     }
@@ -38,8 +37,8 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
         return _departmentRepository.departmentExists(departmentID);
     }
 
-    private void validateTeacherRepository(TeacherRepository teacherRepository) {
-        if (teacherRepository == null) {
+    private void validateTeacherRepository(ITeacherRepository iteacherRepository) {
+        if (iteacherRepository == null) {
             throw new IllegalStateException("TeacherRepository is null.");
         }
     }

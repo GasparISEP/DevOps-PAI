@@ -3,6 +3,8 @@ import PAI.VOs.DepartmentID;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.domain.Department;
+
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class DepartmentRepository {
 
     public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception {
 
-        Department newDepartment = _departmentFactory.newDepartment(acronym,name);
+        Department newDepartment = _departmentFactory.newDepartment(acronym, name);
 
         boolean isDepartmentRegistered = _departments.add(newDepartment);
 
@@ -42,8 +44,20 @@ public class DepartmentRepository {
                 .collect(Collectors.toSet());
     }
 
-    public boolean departmentExists (DepartmentID departmentID){
-        return departmentID != null && _departments.contains(departmentID);
+    public boolean departmentExists(DepartmentID departmentID) {
+        if (departmentID == null) {
+            return false;
+        }
+        return findDepartementByID(departmentID).isPresent();
+    }
+
+    public Optional<Department> findDepartementByID(DepartmentID departmentID) {
+        for (Department department : _departments) {
+            if (department.getDepartmentID().equals(departmentID)) {
+                return Optional.of(department);
+            }
+        }
+        return Optional.empty();
     }
 
 //    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID furtherDirectorId) {
@@ -52,4 +66,5 @@ public class DepartmentRepository {
 //        }
 //        return false;
 //        }
+
 }
