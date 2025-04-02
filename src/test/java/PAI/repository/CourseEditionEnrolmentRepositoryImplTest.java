@@ -967,25 +967,30 @@ class CourseEditionEnrolmentRepositoryImplTest {
     @Test
     void should_return_all_courseEditionEnrolments() {
 
-        //arrange
+        // arrange
         ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
         CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF, doubleICEELF);
+
         CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolment enrolment2 = mock(CourseEditionEnrolment.class);
+
+        when(enrolment1.identity()).thenReturn(mock(CourseEditionEnrolmentID.class));
+        when(enrolment2.identity()).thenReturn(mock(CourseEditionEnrolmentID.class));
 
         repository.save(enrolment1);
         repository.save(enrolment2);
 
-        //act
-        Iterable<CourseEditionEnrolment> enrolments = repository.findAll();
-        List<CourseEditionEnrolment> enrolmentList = new ArrayList<>();
-        enrolments.forEach(enrolmentList::add);
+        // act
+        List<CourseEditionEnrolment> enrolments = new ArrayList<>();
+        repository.findAll().forEach(enrolments::add);
 
-        //assert
-        assertNotNull(enrolments);
-        assertEquals(2, StreamSupport.stream(enrolments.spliterator(), false).count());
+        // assert
+        assertEquals(2, enrolments.size());
+        assertTrue(enrolments.contains(enrolment1));
+        assertTrue(enrolments.contains(enrolment2));
     }
+
 
     @Test
     void should_find_enrolment_by_identity() {
