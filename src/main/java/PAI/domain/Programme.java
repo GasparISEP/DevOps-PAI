@@ -26,10 +26,9 @@ public class Programme {
     private Teacher _programmeDirector;
     private List<Course> _courseList;
     private IProgrammeCourseListFactory _I_programmeCourseListFactory;
-    private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
+                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory) {
 
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -71,7 +70,6 @@ public class Programme {
 
         _courseList = _I_programmeCourseListFactory.createCourseList();
 
-        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 
     private boolean isNameInvalid(String name) {
@@ -143,10 +141,6 @@ public class Programme {
     }
 
     public QuantSemesters getQuantSemesters() {return _quantSemesters;}
-
-    public StudyPlan getStudyPlan() {
-        return _studyPlan;
-    }
 
     public int calculateNumberOfYears(int quantityOfSemesters) {
         int numberOfYears;

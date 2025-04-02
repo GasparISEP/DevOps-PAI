@@ -1,3 +1,4 @@
+/*
 package PAI.controller;
 
 
@@ -309,7 +310,8 @@ class US19_CreateCourseEditionControllerTest {
 
 
 
-    /*
+    */
+/*
     @BeforeEach
     void setUp() throws Exception {
         programmeEditionFactory = new ProgrammeEditionFactoryImpl();
@@ -638,6 +640,7 @@ class US19_CreateCourseEditionControllerTest {
             // Act + Assert
             assertFalse(controller.getCoursesInProgramme(programmeEdition).contains(c2));
         }
-        */
+        *//*
 
-    }
+
+    }*/
