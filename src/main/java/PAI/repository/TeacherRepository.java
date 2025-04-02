@@ -53,10 +53,10 @@ public class TeacherRepository implements ITeacherRepository {
     }
 
     public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-                                   Street street, PostalCode postalCode, Location location, Country country, Department department) {
+                                   Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-                street, postalCode, location, country, department);
+                street, postalCode, location, country, departmentID);
 
         if (isDuplicateTeacherInList(teacher)){
             return Optional.empty();

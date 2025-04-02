@@ -36,7 +36,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     private PostalCode _postalCodeDouble;
     private Location _locationDouble;
     private Country _countryDouble;
-    private Department _departmentDouble;
+    private DepartmentID _departmentIDDouble;
     private Date _dateDouble;
     private TeacherCategoryID _teacherCategoryIDDouble;
     private WorkingPercentage _workingPercentageDouble;
@@ -60,7 +60,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         _postalCodeDouble = mock(PostalCode.class);
         _locationDouble = mock(Location.class);
         _countryDouble = mock(Country.class);
-        _departmentDouble = mock(Department.class);
+        _departmentIDDouble = mock(DepartmentID.class);
         _dateDouble = mock(Date.class);
         _teacherCategoryIDDouble = mock(TeacherCategoryID.class);
         _workingPercentageDouble = mock(WorkingPercentage.class);
@@ -190,14 +190,14 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(_teacherRepoDouble.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble)).thenReturn(optionalTeacherID);
+                _countryDouble, _departmentIDDouble)).thenReturn(optionalTeacherID);
 
         when(_teacherCareerProgressionRepoDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble, teacherID)).thenReturn(true);
 
         // Act
         boolean result = controllerUS13Double.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble, _dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble);
+                _countryDouble, _departmentIDDouble, _dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble);
 
         // Assert
         assertTrue(result);
@@ -214,12 +214,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         when(_teacherRepoDouble.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble)).thenReturn(optionalEmpty);
+                _countryDouble, _departmentIDDouble)).thenReturn(optionalEmpty);
 
         // Act
         boolean result = controllerUS13Double.registerTeacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
-                _countryDouble, _departmentDouble, _dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble);
+                _countryDouble, _departmentIDDouble, _dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble);
 
         // Assert
         assertFalse(result);

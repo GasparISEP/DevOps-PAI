@@ -1,41 +1,36 @@
 package PAI.controller;
 
+import PAI.VOs.*;
+import PAI.VOs.Location;
+import PAI.domain.*;
+import PAI.repository.DepartmentRepository;
+import PAI.repository.TeacherRepository;
+
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
-   /*
     private final TeacherRepository _teacherRepository;
-    private final TeacherCategoryRepository _teacherCategoryRepository;
     private final DepartmentRepository _departmentRepository;
 
     public US04_IWantToRegisterATeacherInTheSystemController( TeacherRepository teacherRepository,
-                                                              TeacherCategoryRepository teacherCategoryRepository,
                                                               DepartmentRepository departmentRepository) {
 
         validateTeacherRepository(teacherRepository);
-        validateTeacherCategoryRepository(teacherCategoryRepository);
         validateDepartmentRepository(departmentRepository);
 
         this._teacherRepository = teacherRepository;
-        this._teacherCategoryRepository = teacherCategoryRepository;
         this._departmentRepository = departmentRepository;
     }
 
     public boolean registerATeacherInTheSystem(
-            String acronym, String name, String email, String nif, String phoneNumber,
-            String academicBackground, String street, String postalCode, String location,
-            String country, IAddressFactory addressFactory, Date date, TeacherCategoryID category,
-            WorkingPercentage workingPercentage, TeacherID teacherID, Department department) {
+            TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
+            Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
 
-//        if(!isCategoryInTeacherCategoryRepository(category)){
+//        if(!isDepartmentInDepartmentRepository(departmentID)){
 //            return false;
 //        }
-        if(!isDepartmentInDepartmentRepository(department)){
-            return false;
-        }
 
         _teacherRepository.registerTeacher(
-                acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,
-                location,country, addressFactory,date,category,workingPercentage, teacherID, department);
+                 acronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         return true;
     }
 
@@ -43,18 +38,9 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
         return _departmentRepository.departmentExists(department);
     }
 
-    private boolean isCategoryInTeacherCategoryRepository(TeacherCategory category) {
-        return _teacherCategoryRepository.getTeacherCategoryByName(category.getName()).isPresent();
-    }
-
     private void validateTeacherRepository(TeacherRepository teacherRepository) {
         if (teacherRepository == null) {
             throw new IllegalStateException("TeacherRepository is null.");
-        }
-    }
-    private void validateTeacherCategoryRepository(TeacherCategoryRepository teacherCategoryRepository) {
-        if (teacherCategoryRepository == null) {
-            throw new IllegalStateException("TeacherCategoryRepository is null.");
         }
     }
     private void validateDepartmentRepository(DepartmentRepository departmentRepository) {
@@ -62,5 +48,4 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             throw new IllegalStateException("DepartmentRepository is null.");
         }
     }
-    */
 }
