@@ -57,13 +57,13 @@ public class US13_RegisterTeacherAndRelevantDataController {
     // Method to register the Teacher object
     public boolean registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber,
                                    AcademicBackground academicBackground, Street street, PostalCode postalCode,
-                                   Location location, Country country, Department department, Date date,
+                                   Location location, Country country, DepartmentID departmentID, Date date,
                                    TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage) throws Exception {
 
 
         // register Teacher
         Optional<TeacherID> optionalTeacherID = _teacherRepository.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-            street, postalCode, location, country, department);
+            street, postalCode, location, country, departmentID);
 
         if (optionalTeacherID.isEmpty()) {
             return false;
