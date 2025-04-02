@@ -19,13 +19,13 @@ public class Teacher implements AggregateRoot<TeacherID> {
 
     private AddressVO _address;
 
-    private Department _department;
+    private DepartmentID _departmentID;
 
     //constructor
     public Teacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-                   AddressVO address, Department department) {
+                   AddressVO address, DepartmentID departmentID) {
 
-        isObjectNull(acronym, name, email, nif, phoneNumber, academicBackground, address, department);
+        isObjectNull(acronym, name, email, nif, phoneNumber, academicBackground, address, departmentID);
 
         this._teacherID = new TeacherID(acronym);
         this._name = name;
@@ -34,7 +34,7 @@ public class Teacher implements AggregateRoot<TeacherID> {
         this._phoneNumber = phoneNumber;
         this._academicBackground = academicBackground;
         this._address = address;
-        this._department = department;
+        this._departmentID = departmentID;
     }
 
     private void isObjectNull(Object... objects){
@@ -57,8 +57,8 @@ public class Teacher implements AggregateRoot<TeacherID> {
         return this._teacherID.equals(teacher._teacherID);
     }
 
-    public boolean isInDepartment(Department department) {
-        return _department == department;
+    public boolean isInDepartment(DepartmentID departmentID) {
+        return _departmentID.equals(departmentID);
     }
 
     public boolean hasThisNIF(NIF nif) {

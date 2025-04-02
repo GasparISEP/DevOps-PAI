@@ -2,13 +2,13 @@ package PAI.controller.US11_DDD;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 
 public class US11_DDD_RegisterProgrammeInTheSystem {
 
-    ProgrammeDDDRepository _programmeDDDList;
+    ProgrammeDDDRepositoryImpl _programmeDDDList;
 
-    public US11_DDD_RegisterProgrammeInTheSystem (ProgrammeDDDRepository programmeDDDList) throws Exception {
+    public US11_DDD_RegisterProgrammeInTheSystem (ProgrammeDDDRepositoryImpl programmeDDDList) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");

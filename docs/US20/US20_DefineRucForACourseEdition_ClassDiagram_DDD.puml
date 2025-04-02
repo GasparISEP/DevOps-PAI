@@ -2,6 +2,10 @@
 
 title US20_DefineRucForACourseEditionClassDiagram.puml
 
+skinparam ranksep 50
+skinparam linetype ortho
+skinparam nodesep 100
+
 class US20_DefineRucForCourseEditionController {
     -_courseEditionRepository: CourseEditionRepository
     -_teacherRepository: TeacherRepository
@@ -12,93 +16,106 @@ class US20_DefineRucForCourseEditionController {
 }
 
 interface ITeacherRepository{
-+registerTeacher(teacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
-                          country: Country, teacherCategory: TeacherCategory, departmentID: DepartmentID) : boolean
+    +registerTeacher(teacherID: TeacherID, name: Name, email: Email, nif: NIF, phoneNumber: PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
+    country: Country, teacherCategory: TeacherCategory, departmentID: DepartmentID) : boolean
+    +getTeacherID(teacher: Teacher): TeacherID
 }
 
 class TeacherRepositoryImpl {
-+TeacherRepositoryImpl (ITeacherListFactory iTeacherListFactory)
-+registerTeacher(teacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
-                           country: Country, teacherCategory: TeacherCategory, departmentID: DepartmentID) : boolean
+    +TeacherRepositoryImpl(ITeacherListFactory iTeacherListFactory)
+    +registerTeacher(teacherID: TeacherID, name: Name, email: Email, nif: NIF, phoneNumber: PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
+    country: Country, teacherCategory: TeacherCategory, departmentID: DepartmentID) : boolean
+    +getTeacherID(teacher: Teacher): TeacherID
 }
 
 interface ITeacherListFactory {
-    + ArrayList<Teacher> newArrayList()
+    +ArrayList<Teacher> newArrayList()
 }
 
 class TeacherListFactoryImpl {
-    + ArrayList<Teacher> newArrayList()
+    +ArrayList<Teacher> newArrayList()
 }
 
 interface ICourseEditionRepository {
     +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
-    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
+    +save(courseEdition: CourseEdition_2): CourseEdition_2
+        +findAll(): Iterable<CourseEdition_2>
+        +ofIdentity(courseEditionID: CourseEditionID): Optional<CourseEdition_2>
+        +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
 }
 
 class CourseEditionRepositoryImpl {
     +CourseEditionRepository(courseEditionFactory: CourseEditionFactory)
-    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
+    +createAndSaveCourseEdition(courseInStudyPlanID: CourseInStudyPlanID, programmeEditionID: ProgrammeEditionID): boolean
+    +save(courseEdition: CourseEdition_2): CourseEdition_2
+    +findAll(): Iterable<CourseEdition_2>
+    +ofIdentity(courseEditionID: CourseEditionID): Optional<CourseEdition_2>
+    +containsOfIdentity(courseEditionID: CourseEditionID): boolean
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
+    +findByCourseEdition(courseEdition2: CourseEdition_2): Optional<CourseEditionID>
 }
 
 interface ICourseEditionListFactory_2 {
-    + List<CourseEdition_2> newList()
+    +List<CourseEdition_2> newList()
 }
 
 class CourseEditionListFactoryImpl_2 {
-    + List<CourseEdition_2> newList()
+    +List<CourseEdition_2> newList()
 }
-
 
 package "Teacher Agreggate" {
     entity "<<Root>>\n<<Entity>>\nTeacher" {
-            -_acronym: String
-            -_name: String
-            -_email: String
-            -_nif: String
-            -_phoneNumber: String
-            -_academicBackground: String
-            -_address: Address
-            -_addressFactory: IAddressFactory
-            -_department: Department
-            -_teacherCareerProgressionList: List<TeacherCareerProgression>
-            -_teacherCareerProgressionFactory: ITeacherCareerProgressionFactory
-            +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
-                     street: String, postalCode: String, location: String, country: String, addressFactory: IAddressFactory,
-                     date: Date, category: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID,
-                     department: Department, teacherCareerProgressionFactory: ITeacherCareerProgressionFactory,
-                     teacherCareerProgressionListFactory: ITeacherCareerProgressionListFactory)
-            +hasSameAcronym(teacher: Teacher): boolean
-            +hasSameNif(teacher: Teacher): boolean
-            +isInDepartment(department: Department): boolean
-            +hasThisNIF(NIF: String): boolean
+        -_acronym: String
+        -_name: String
+        -_email: String
+        -_nif: String
+        -_phoneNumber: String
+        -_academicBackground: String
+        -_address: Address
+        -_addressFactory: IAddressFactory
+        -_department: Department
+        -_teacherCareerProgressionList: List<TeacherCareerProgression>
+        -_teacherCareerProgressionFactory: ITeacherCareerProgressionFactory
+        +Teacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
+                 street: String, postalCode: String, location: String, country: String, addressFactory: IAddressFactory,
+                 date: Date, category: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID,
+                 department: Department, teacherCareerProgressionFactory: ITeacherCareerProgressionFactory,
+                 teacherCareerProgressionListFactory: ITeacherCareerProgressionListFactory)
+        +hasSameAcronym(teacher: Teacher): boolean
+        +hasSameNif(teacher: Teacher): boolean
+        +isInDepartment(department: Department): boolean
+        +hasThisNIF(NIF: String): boolean
     }
 
     class "<<Value Object>>\nTeacherID" {
-            - final UUID id
-            + TeacherID(UUID id)
-            + UUID identity()
-            + boolean sameAs(Object other)
-            + static TeacherID createNew()
+        - final UUID id
+        + TeacherID(UUID id)
+        + UUID identity()
+        + boolean sameAs(Object other)
+        + static TeacherID createNew()
     }
 }
 
-package "CourseEdition Aggregate" {
+package "CourseEdition_2 Aggregate" {
     entity "<<Root>>\n<<Entity>>\nCourseEdition" {
-            -_course: Course
-            -_programmeEdition: ProgrammeEdition
-            -_ruc: Teacher
-            +CourseEdition(course: Course, programmeEdition: ProgrammeEdition)
-            +equals(objectToCompare: Object): boolean
-            +setRuc(ruc: Teacher): boolean
-            +whatProgrammeEditionBelongsThisCourseEdition(): ProgrammeEdition
-            +getCourse(): Course
+        - _courseEditionID: CourseEditionID
+        - _courseInStudyPlanID: CourseInStudyPlanID
+        - _programmeEditionID: ProgrammeEditionID
+        + CourseEdition_2(courseInStudyPlanID, programmeEditionID):
+        + CourseEdition_2(courseEditionID, courseInStudyPlanID, programmeEditionID):
+        + identity(): CourseEditionID
+        + sameAs(objectToCompare: Object): boolean
+        + getProgrammeEditionID(): ProgrammeEditionID
+        + getCourseInStudyPlanID(): CourseInStudyPlanID
+        + equals(objectToCompare: Object): boolean
+        + setRuc(ruc: Teacher): boolean
     }
 
     class "<<Value Object>>\nCourseEditionID" {
-            - final UUID _courseEditionId
-            + CourseEditionID()
-            + String toString()
-            + boolean equals(Object object)
+        - final UUID _courseEditionId
+        + CourseEditionID()
+        + String toString()
+        + boolean equals(Object object)
     }
 }
 
@@ -126,6 +143,7 @@ CourseEditionRepositoryImpl "1" -up-> "1" ICourseEditionListFactory_2 : uses
 CourseEditionListFactoryImpl_2 ..|> ICourseEditionListFactory_2
 
 @enduml
+
 
 
 

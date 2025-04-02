@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,11 +15,11 @@ class US11_DDD_RegisterProgrammeInTheSystemTest {
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullProgrammeRepo() throws Exception {
         //arrange
-        ProgrammeDDDRepository programmeDDDRepository = null;
+        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
-                new US11_DDD_RegisterProgrammeInTheSystem(programmeDDDRepository));
+                new US11_DDD_RegisterProgrammeInTheSystem(programmeDDDRepositoryImpl));
 
         assertEquals("Programme Repository cannot be null.", exception.getMessage());
 
@@ -30,10 +30,10 @@ class US11_DDD_RegisterProgrammeInTheSystemTest {
         //arrange
         IProgrammeDDDFactory iProgrammeDDDFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeDDDRepository = new ProgrammeDDDRepository(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeDDDRepositoryImpl(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
 
         //act
-        US11_DDD_RegisterProgrammeInTheSystem controller = new US11_DDD_RegisterProgrammeInTheSystem(programmeDDDRepository);
+        US11_DDD_RegisterProgrammeInTheSystem controller = new US11_DDD_RegisterProgrammeInTheSystem(programmeDDDRepositoryImpl);
 
         //assert
         assertNotNull(controller);
@@ -42,7 +42,7 @@ class US11_DDD_RegisterProgrammeInTheSystemTest {
     @Test
     void registerProgrammeInTheSystemWithSuccess() throws Exception {
         //arrange
-        ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
+        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
 
         US11_DDD_RegisterProgrammeInTheSystem controller =
                 new US11_DDD_RegisterProgrammeInTheSystem(programmeRepo);

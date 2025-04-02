@@ -3,7 +3,7 @@ package PAI.factory;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.CourseEdition_2;
+import PAI.domain.CourseEditionDDD;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -21,7 +21,7 @@ class CourseEditionFactoryImplTest {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
-        try (MockedConstruction<CourseEdition_2> courseEditionDouble = mockConstruction(CourseEdition_2.class, (mock, context) -> {
+        try (MockedConstruction<CourseEditionDDD> courseEditionDouble = mockConstruction(CourseEditionDDD.class, (mock, context) -> {
             when(mock.identity()).thenReturn(courseEditionIDDouble);
             when(mock.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
         })) {
@@ -30,14 +30,14 @@ class CourseEditionFactoryImplTest {
             ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
             // Act
-            CourseEdition_2 courseEdition = ICourseEditionFactory.newCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+            CourseEditionDDD courseEdition = ICourseEditionFactory.newCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
             // Assert
             assertNotNull(courseEdition);
             assertEquals(courseEditionIDDouble, courseEdition.identity());
             assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
 
-            List<CourseEdition_2> courseEditions = courseEditionDouble.constructed();
+            List<CourseEditionDDD> courseEditions = courseEditionDouble.constructed();
             assertEquals(1, courseEditions.size());
             assertSame(courseEdition, courseEditions.get(0));
         }

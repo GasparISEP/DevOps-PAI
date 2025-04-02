@@ -1,22 +1,18 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
-import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
 import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -30,12 +26,15 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private AccessMethodDDDRepository _accessMethodRepository;
     private static AccessMethodDDD _accessMethod;
     private AccessMethodID _accessMethodID;
-    private ProgrammeDDDRepository _programmeRepository;
+    private ProgrammeDDDRepositoryImpl _programmeRepository;
     private static ProgrammeDDD _programme;
     private ProgrammeID _programmeID;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
     private static Date _date;
-    private Address address1;
+    private Street _street;
+    private PostalCode _postalCode;
+    private Location _location;
+    private Country _country;
     private Name _name;
     private NameWithNumbersAndSpecialChars _nameWithNumbersAndSpecialChars;
     private NIF _nif;
@@ -48,7 +47,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     void setUp() throws Exception {
         _studentRepository = mock(StudentRepository.class);
         _accessMethodRepository = mock(AccessMethodDDDRepository.class);
-        _programmeRepository = mock(ProgrammeDDDRepository.class);
+        _programmeRepository = mock(ProgrammeDDDRepositoryImpl.class);
         _programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         _student = mock(Student.class);
         _accessMethod = mock(AccessMethodDDD.class);
@@ -59,26 +58,30 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         _date = mock(Date.class);
 
         // Register some students
-        address1 = mock(Address.class);
+        _street = mock(Street.class);
+        _postalCode = mock(PostalCode.class);
+        _location = mock(Location.class);
+        _country = mock(Country.class);
         _studentID = mock(StudentID.class);
         _name = mock(Name.class);
         _nif = mock(NIF.class);
         _phone = mock(PhoneNumber.class);
         _email = mock(Email.class);
         _academicEmail = mock(StudentAcademicEmail.class);
-        _studentRepository.registerStudent(_studentID, _name, _nif, _phone, _email, address1, _academicEmail);
+        _studentRepository.registerStudent(_studentID, _name, _nif, _phone, _email, _street, _postalCode, _location, _country, _academicEmail);
 
-        Address address2 = mock(Address.class);
+        Street streetDouble2 = mock(Street.class);
+        PostalCode postalCodeDouble2 = mock(PostalCode.class);
+        Location locationDouble2 = mock(Location.class);
+        Country countryDouble2 = mock(Country.class);
         StudentID mockStudentID2 = mock(StudentID.class);
         Name nameDouble2 = mock(Name.class);
         NIF nifDouble2 = mock(NIF.class);
         PhoneNumber phoneDouble2 = mock(PhoneNumber.class);
         Email emailDouble2 = mock(Email.class);
         StudentAcademicEmail academicEmailDouble2 = new StudentAcademicEmail(mockStudentID2);
-        _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, address2, academicEmailDouble2);
+        _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, streetDouble2, postalCodeDouble2, locationDouble2, countryDouble2, academicEmailDouble2);
     }
-
-    //quando vai buscar
 
     @Test
     void shouldCreateUS09ControllerTest() {
@@ -250,7 +253,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(null, _accessMethodID, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Student cannot be null");
+        assertEquals("Student cannot be null", exception.getMessage());
     }
 
     @Test
@@ -260,7 +263,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, null, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Access method cannot be null");
+        assertEquals("Access method cannot be null", exception.getMessage());
     }
 
     @Test
@@ -270,7 +273,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, null, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Programme cannot be null");
+        assertEquals("Programme cannot be null", exception.getMessage());
     }
 
     @Test
@@ -280,7 +283,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 
     @Test
@@ -290,7 +293,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 }
 

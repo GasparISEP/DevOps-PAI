@@ -17,21 +17,23 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class US08_IWantToRegisterAStudentInTheSystemControllerTest {
 
     @Test
-    void IWantToRegisterAStudentInTheSystemControllerConstructorTestWithIsolation() {
-        //arrange
+    void IWantToRegisterAStudentInTheSystemControllerConstructorTest () throws Exception {
+        // Arrange
         IStudentRepository iStudentRepository = mock(IStudentRepository.class);
-        //act
+
+        // Act
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(iStudentRepository);
     }
 
     @Test
-    void nullRepositoryDoesNotCreateObject1() {
+    void nullRepositoryDoesNotCreateObject () {
         //arrange
 
         //act
@@ -42,79 +44,34 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     }
 
     @Test
-    void registerStudentWithValidParametersReturnsTrueWithIsolation() throws Exception {
-        //arrange
-        Address addressDouble = mock(Address.class);
-        StudentID studentID = new StudentID(1234567);
-        Name name = new Name("Rita");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("123456789",country);
-        PhoneNumber phone = new PhoneNumber("+351","963741258");
-        Email email = new Email("rita@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+    void registerStudentWithValidParametersReturnsTrue () throws Exception {
 
+        // Arrange
         IStudentRepository iStudentRepository = mock(IStudentRepository.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(iStudentRepository);
 
-        when(iStudentRepository.registerStudent(studentID, name, nif, phone, email, addressDouble, academicEmail))
+        int uniqueNumber = 1000005;
+        String name = "Miguel";
+        String nif = "123456789";
+        Country nifCountry = mock(Country.class);
+        String countryCode = "+351";
+        String phoneNumber = "987654321";
+        String email = "miguel@gmail.com";
+        String street = "Praça da Canção";
+        String postalCode = "12345";
+        String location = "Coimbra";
+        String country = "Portugal";
+
+        when(iStudentRepository.registerStudent(
+                any(StudentID.class), any(Name.class), any(NIF.class),
+                any(PhoneNumber.class), any(Email.class),any(Street.class), any(PostalCode.class),
+                any(Location.class), any(Country.class), any(StudentAcademicEmail.class)))
                 .thenReturn(true);
 
-        //act
-        boolean result = ctrl.registerStudent(studentID, name, nif, phone, email, addressDouble, academicEmail);
+        // Act
+        boolean result = ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country);
 
-        //assert
+        // Assert
         assertTrue(result);
-    }
-
-    public static Stream<Arguments> provideInvalidParametersWithIsolation() {
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        return Stream.of(
-                Arguments.of(1345678, new NIF("123456789", country)),
-                Arguments.of(1234567, new NIF("987654321", country))
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideInvalidParametersWithIsolation")
-    void throwsExceptionIfNIFOrIDAreRepeatedWithoutIsolationWithIsolation(int uniqueNumber, NIF NIF) throws Exception {
-        //arrange
-        Address addressDouble = mock(Address.class);
-        StudentID mockStudentID1 = mock(StudentID.class);
-        Name nameDouble = new Name("Rita");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nifDouble = new NIF("123456789", country);
-        PhoneNumber phoneDouble = new PhoneNumber("+351","963741258");
-        Email emailDouble = new Email("rita@gmail.com");
-        StudentAcademicEmail academicEmailDouble = new StudentAcademicEmail(mockStudentID1);
-
-        StudentID mockStudentID2 = mock(StudentID.class);
-        Name nameDouble2 = mock(Name.class);
-        PhoneNumber phoneDouble2 = mock(PhoneNumber.class);
-        Email emailDouble2 = mock(Email.class);
-        StudentAcademicEmail academicEmailDouble2 = new StudentAcademicEmail(mockStudentID2);
-
-        when(mockStudentID2.getUniqueNumber()).thenReturn(uniqueNumber);
-
-        StudentRepository studentRepositoryDouble = mock(StudentRepository.class);
-        US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentRepositoryDouble);
-
-        // ID is different, but NIF duplicated ("123456789")
-        when(studentRepositoryDouble.registerStudent(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble))
-                .thenReturn(true);
-
-        ctrl.registerStudent(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
-
-        // Caso 2: ID is duplicated (1), but NIF is different ("987654321")
-        when(studentRepositoryDouble.registerStudent(mockStudentID2, nameDouble2, NIF, phoneDouble2, emailDouble2, addressDouble, academicEmailDouble2))
-                .thenThrow(new Exception("Duplicate ID or NIF detected. Student cannot be added."));
-
-        //act
-        Exception exception = assertThrows(Exception.class, () -> ctrl.registerStudent(mockStudentID2, nameDouble2, NIF, phoneDouble2, emailDouble2, addressDouble, academicEmailDouble2));
-
-        //assert
-        assertEquals(exception.getMessage(), "Duplicate ID or NIF detected. Student cannot be added.");
     }
 }

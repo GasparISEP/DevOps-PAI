@@ -1,18 +1,30 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.domain.CourseEdition;
-import PAI.repository.StudentGradeRepository;
+import PAI.domain.CourseEditionDDD;
+import PAI.factory.IStudentGradeRepository;
+import PAI.repository.ICourseEditionRepositoryDDD;
+
+import java.util.Optional;
 
 public class US23_IWantToKnowTheApprovalPercentageOfACourseEdition {
 
-    StudentGradeRepository _StudentGradeRepository;
+    IStudentGradeRepository _StudentGradeRepository;
+    ICourseEditionRepositoryDDD _CourseEditionRepository;
 
-    public US23_IWantToKnowTheApprovalPercentageOfACourseEdition(StudentGradeRepository studentGradeRepository){
+
+    public US23_IWantToKnowTheApprovalPercentageOfACourseEdition(IStudentGradeRepository studentGradeRepository, ICourseEditionRepositoryDDD iCourseEditionRepository){
         _StudentGradeRepository = studentGradeRepository;
+        _CourseEditionRepository = iCourseEditionRepository;
     }
 
-    public double IWantToKnowTheApprovalPercentageOfACourseEdition(CourseEditionID courseEditionID){
-        return _StudentGradeRepository.knowApprovalRate(courseEditionID);
+    private Optional<CourseEditionID> findCourseEditionIdByCourseEdition(CourseEditionDDD courseEdition_DDD){
+        return _CourseEditionRepository.findIdByCourseEdition(courseEdition_DDD);
+    }
+
+
+
+    public double IWantToKnowTheApprovalPercentageOfACourseEdition(CourseEditionDDD courseEdition){
+        return _StudentGradeRepository.knowApprovalRate(findCourseEditionIdByCourseEdition(courseEdition).get());
     }
 }

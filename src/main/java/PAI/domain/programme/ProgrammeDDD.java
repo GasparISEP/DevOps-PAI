@@ -1,11 +1,13 @@
 package PAI.domain.programme;
 
 import PAI.VOs.*;
+import PAI.ddd.AggregateRoot;
 import PAI.domain.Department;
+import PAI.domain.studyPlan.StudyPlanDDD;
 
 import java.util.Objects;
 
-public class ProgrammeDDD {
+public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
 
     private NameWithNumbersAndSpecialChars _name;
     private QuantSemesters _quantSemesters;
@@ -54,7 +56,6 @@ public class ProgrammeDDD {
         _programmeID = new ProgrammeID(name,acronym);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -67,13 +68,11 @@ public class ProgrammeDDD {
         return this._programmeID.equals(programmeID);
     }
 
-
     public boolean newProgrammeDirector(TeacherID teacherDirectorID) throws Exception {
         if (teacherDirectorID == null) return false;
         _programmeDirectorID = teacherDirectorID;
         return true;
     }
-
 
     public boolean isInDepartment(Department department) {
         return _department.equals(department);
@@ -110,5 +109,17 @@ public class ProgrammeDDD {
 
     public TeacherID getProgrammeDirectorID() {
         return _programmeDirectorID;
+    }
+
+    @Override
+    public ProgrammeID identity() {
+        return _programmeID;
+    }
+
+    @Override
+    public boolean sameAs(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof ProgrammeDDD programmeDDD)) return false;
+        return this._programmeID.equals(programmeDDD._programmeID);
     }
 }

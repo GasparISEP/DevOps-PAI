@@ -1,13 +1,13 @@
 package PAI.factory;
 
-import PAI.domain.CourseEdition_2;
+import PAI.domain.CourseEditionDDD;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseEditionListFactoryImpl implements ICourseEditionListFactory {
 
-    public List<CourseEdition_2> newArrayList(){
+    public List<CourseEditionDDD> newArrayList(){
         return new ArrayList<>();
     }
 }

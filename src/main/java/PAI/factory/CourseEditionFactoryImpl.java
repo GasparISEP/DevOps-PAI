@@ -2,11 +2,11 @@ package PAI.factory;
 
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.CourseEdition_2;
+import PAI.domain.CourseEditionDDD;
 
 public class CourseEditionFactoryImpl implements ICourseEditionFactory {
 
-    public CourseEdition_2 newCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) throws Exception {
-        return new CourseEdition_2(courseInStudyPlanID, programmeEditionID);
+    public CourseEditionDDD newCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) throws Exception {
+        return new CourseEditionDDD(courseInStudyPlanID, programmeEditionID);
     }
 }

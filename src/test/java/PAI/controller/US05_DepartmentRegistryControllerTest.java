@@ -1,7 +1,10 @@
 package PAI.controller;
+import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.Name;
 import PAI.factory.DepartmentFactoryImpl;
 import PAI.factory.DepartmentListFactoryImpl;
-import PAI.repository.DepartmentRepository;
+import PAI.repository.DepartmentRepositoryImpl;
+import PAI.repository.IDepartmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -11,97 +14,93 @@ class US05_DepartmentRegistryControllerTest {
     //testing the constructor
     //valid constructor
     @Test
-    void shouldCreateControllerWhenRepositoryIsValid(){
+    void shouldCreateControllerWhenRepositoryIsValid() {
         // arrange
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(DepartmentRepositoryImpl.class);
 
         // Act & assert
         US05_DepartmentRegistryController controller =
-                new US05_DepartmentRegistryController (departmentRepositoryDouble);
+                new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
     }
 
     //invalid constructor
     @Test
-    void shouldThrowExceptionWhenRepositoryIsNull(){
+    void shouldThrowExceptionWhenRepositoryIsNull() {
         // arrange
-        DepartmentRepository departmentRepository = null;
+        IDepartmentRepository IdepartmentRepositoryDouble = null;
 
         // Act
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US05_DepartmentRegistryController (departmentRepository)
+                new US05_DepartmentRegistryController(IdepartmentRepositoryDouble)
         );
-        //Assert
-        assertEquals("Department Repository cannot be null.",exception.getMessage());
+        assertEquals("Department Repository cannot be null.", exception.getMessage());
     }
 
     @Test
-    void shouldReturnTrueWhenDepartmentIsRegistered() throws Exception{
+    void shouldReturnTrueWhenDepartmentIsRegistered() throws Exception {
         //arrange
-        String acronym= "DEI";
-        String name= "Departamento Engenharia Informática";
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepositoryDouble);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(IDepartmentRepository.class);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
         //act
-        boolean result=  controller.registerDepartment(acronym,name);
+        boolean result = controller.registerDepartment(acronym, name);
         //assert
         assertTrue(result);
     }
 
     @Test
-    void shouldThrowExceptionWhenAcronymIsNull(){
+    void shouldThrowExceptionWhenAcronymIsNull() {
         //arrange
-        String acronym=null;
-        String name= "Departamento Engenharia Informática";
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepositoryDouble);
+        DepartmentAcronym acronym =null;
+        Name name = mock(Name.class);
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(IDepartmentRepository.class);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(acronym, name);
         });
-
-        //assert
         assertEquals("Acronym or name cannot be null.", exception.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenNameIsNull(){
+    void shouldThrowExceptionWhenNameIsNull() {
         //arrange
-        String acronym="DEI";
-        String name= null;
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepositoryDouble);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = null;
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(IDepartmentRepository.class);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
         //act
-        Exception exception = assertThrows(Exception.class, () -> {
-            controller.registerDepartment(acronym, name);
-        });
-
-        //assert
-        assertEquals("Acronym or name cannot be null.", exception.getMessage());
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> controller.registerDepartment(acronym, name)
+        );
+        assertTrue(exception.getMessage().contains("Acronym or name cannot be null."));
     }
 
     @Test
-    void shouldReturnTrueWhenDepartmentIs_Registered() throws Exception{
+    void shouldReturnTrueWhenDepartmentIs_Registered() throws Exception {
         //arrange
-        String acronym= "DEI";
-        String name= "Departamento Engenharia Informática";
-        DepartmentFactoryImpl iDepartmentFactory= new DepartmentFactoryImpl();
-        DepartmentListFactoryImpl iDepartmentListFactory= new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
+        DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryImpl);
         //act
-        boolean result=  controller.registerDepartment(acronym,name);
+        boolean result = controller.registerDepartment(acronym, name);
         //assert
         assertTrue(result);
     }
 
     @Test
-    void shouldThrowExceptionWhenAcronymIs_Null(){
+    void shouldThrowExceptionWhenAcronymIs_Null() {
         //arrange
-        String name= "Departamento Engenharia Informática";
-        DepartmentFactoryImpl iDepartmentFactory= new DepartmentFactoryImpl();
-        DepartmentListFactoryImpl iDepartmentListFactory= new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        Name name = mock(Name.class);
+        DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryImpl);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(null, name);
@@ -112,18 +111,17 @@ class US05_DepartmentRegistryControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNameIs_Null(){
+    void shouldThrowExceptionWhenNameIs_Null() {
         //arrange
-        String acronym="DEI";
-        DepartmentFactoryImpl iDepartmentFactory= new DepartmentFactoryImpl();
-        DepartmentListFactoryImpl iDepartmentListFactory= new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
-        US05_DepartmentRegistryController controller= new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryImpl);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(acronym, null);
         });
-
         //assert
         assertEquals("Acronym or name cannot be null.", exception.getMessage());
     }

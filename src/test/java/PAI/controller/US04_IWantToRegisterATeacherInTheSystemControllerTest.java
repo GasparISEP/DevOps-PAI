@@ -1,33 +1,70 @@
 package PAI.controller;
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
+import PAI.VOs.*;
+import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.DepartmentRepository;
-import PAI.repository.TeacherCategoryRepository;
+import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.TeacherRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/*
 
 class US04_IWantToRegisterATeacherInTheSystemControllerTest {
+    //arrange
+    private TeacherRepository _iTeacherRepoDouble;
+    private DepartmentRepositoryImpl _departmentRepoDouble;
+    private TeacherAcronym _teacherAcronymDouble;
+    private Name _nameDouble;
+    private Email _emailDouble;
+    private NIF _nifDouble;
+    private PhoneNumber _phoneNumberDouble;
+    private AcademicBackground _academicBackgroundDouble;
+    private Street _streetDouble;
+    private PostalCode _postalCodeDouble;
+    private PAI.VOs.Location _locationDouble;
+    private Country _countryDouble;
+    private DepartmentID _departmentIDDouble;
+
+    @BeforeEach
+    void factoryDoublesSetup() {
+        _iTeacherRepoDouble = mock(TeacherRepository.class);
+        _departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+    }
+
+    void createTeacherArgumentDoubles() {
+        _teacherAcronymDouble = mock(TeacherAcronym.class);
+        _nameDouble = mock(Name.class);
+        _emailDouble = mock(Email.class);
+        _nifDouble = mock(NIF.class);
+        _phoneNumberDouble = mock(PhoneNumber.class);
+        _academicBackgroundDouble = mock(AcademicBackground.class);
+        _streetDouble = mock(Street.class);
+        _postalCodeDouble = mock(PostalCode.class);
+        _locationDouble = mock(PAI.VOs.Location.class);
+        _countryDouble = mock(Country.class);
+        _departmentIDDouble = mock(DepartmentID.class);
+
+    }
 
     @Test
-    void shouldReturnExceptionIfTeacherRepositoryIsNull() {
+    void createUS04Controller() {
         //arrange
-        TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
+        //act + assert
+        new US04_IWantToRegisterATeacherInTheSystemController(
+                _iTeacherRepoDouble, _departmentRepoDouble
+        );
+    }
 
-        //act
+    @Test
+    void shouldReturnExceptionIfIteacherRepositoryIsNull() {
+        //arrange
+        //act+ assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US04_IWantToRegisterATeacherInTheSystemController(
-                    null, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
+                    null, _departmentRepoDouble);
         });
 
         //assert
@@ -35,31 +72,12 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfTeacherCategoryRepositoryIsNull() {
-        //arrange
-        TeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-
-        //act
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US04_IWantToRegisterATeacherInTheSystemController(
-                    teacherRepositoryDouble, null, departmentRepositoryDouble);
-        });
-
-        //assert
-        assertEquals("TeacherCategoryRepository is null.", exception.getMessage());
-    }
-
-    @Test
     void shouldReturnExceptionIfDepartmentRepositoryIsNull() {
         //arrange
-        TeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
-
-        //act
+        //act + act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US04_IWantToRegisterATeacherInTheSystemController(
-                    teacherRepositoryDouble, teacherCategoryRepositoryDouble, null);
+                    _iTeacherRepoDouble, null);
         });
 
         //assert
@@ -69,227 +87,159 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess() {
         //arrange
-        TeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        TeacherCategory tc1Double = mock(TeacherCategory.class);
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherIDDouble = mock(TeacherID.class);
-
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department dpt1Double = mock(Department.class);
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
-                teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
+                _iTeacherRepoDouble, _departmentRepoDouble);
 
-        when(tc1Double.getName()).thenReturn("Professor");
-        when(teacherCategoryRepositoryDouble.getTeacherCategoryByName("Professor")).thenReturn(Optional.of(tc1Double));
-        when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(true);
+
+        when(_departmentRepoDouble.departmentExists(_departmentIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, tcIDDouble, wpDouble, teacherIDDouble, dpt1Double);
+        boolean result = controller.registerATeacherInTheSystem(
+                _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentIDDouble
+        );
         //assert
         assertTrue(result);
     }
 
+
     @Test
     void shouldReturnFalseIfInvalidDepartment() {
         //arrange
-        TeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        TeacherCategory tc1Double = mock(TeacherCategory.class);
-        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-        Department dpt1Double = mock(Department.class);
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherIDDouble = mock(TeacherID.class);
 
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
-                teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
+                _iTeacherRepoDouble, _departmentRepoDouble);
 
-        when(tc1Double.getName()).thenReturn("Professor");
-        when(teacherCategoryRepositoryDouble.getTeacherCategoryByName("Professor")).thenReturn(Optional.of(tc1Double));
-        when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(false);
+
+        when(_departmentRepoDouble.departmentExists(_departmentIDDouble)).thenReturn(false);
 
         //act
-        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, tcIDDouble, wpDouble, teacherIDDouble, dpt1Double);
-        //assert
+        boolean result = controller.registerATeacherInTheSystem(
+                _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentIDDouble
+        );//assert
         assertFalse(result);
     }
 
-//    @Test
-//    void shouldReturnFalseIfInvalidTeacherCategory() {
-//        //arrange
-//        TeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-//        TeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepository.class);
-//        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-//        TeacherCategory tc1Double = mock(TeacherCategory.class);
-//        AddressFactoryImpl addressFactoryDouble = mock(AddressFactoryImpl.class);
-//        Department dpt1Double = mock(Department.class);
-//        Date dateDouble = mock(Date.class);
-//        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-//        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-//        TeacherID teacherIDDouble = mock(TeacherID.class);
-//
-//        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(
-//                teacherRepositoryDouble, teacherCategoryRepositoryDouble, departmentRepositoryDouble);
-//
-//        when(tc1Double.getName()).thenReturn("Professor");
-//        when(teacherCategoryRepositoryDouble.getTeacherCategoryByName("Professor")).thenReturn(Optional.empty());
-//        when(departmentRepositoryDouble.departmentExists(dpt1Double)).thenReturn(true);
-//
-//        //act
-//        boolean result = controller.registerATeacherInTheSystem("ABC", "Jo", "abc@isep.ipp.pt", "123456789", "B106", "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua das Flores", "4444-098", "Porto", "Portugal", addressFactoryDouble, dateDouble, tcIDDouble, wpDouble, teacherIDDouble, dpt1Double);
-//        //assert
-//        assertFalse(result);
-//    }
     //Integration tests
     @Test
     void shouldReturnExceptionIfTeacherRepositoryIsNull_integrationTest() throws Exception {
-        TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
-        DepartmentRepository departmentRepository = createDepartmentRepo();
+        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US04_IWantToRegisterATeacherInTheSystemController(
-                    null, teacherCategoryRepository, departmentRepository);
+                    null, departmentRepository);
         });
 
         //assert
         assertEquals("TeacherRepository is null.", exception.getMessage());
     }
-    @Test
-    void shouldReturnExceptionIfTeacherCategoryRepositoryIsNull_integrationTest() throws Exception {
-        TeacherRepository teacherRepository = createTeacherRepo();
-        DepartmentRepository departmentRepository = createDepartmentRepo();
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US04_IWantToRegisterATeacherInTheSystemController(
-                    teacherRepository, null, departmentRepository);
-        });
 
-        //assert
-        assertEquals("TeacherCategoryRepository is null.", exception.getMessage());
-    }
+
     @Test
     void shouldReturnExceptionIfDepartmentRepositoryIsNull_integrationTest() throws Exception {
         TeacherRepository teacherRepository = createTeacherRepo();
-        TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             new US04_IWantToRegisterATeacherInTheSystemController(
-                    teacherRepository, teacherCategoryRepository, null);
+                    teacherRepository, null);
         });
 
         //assert
         assertEquals("DepartmentRepository is null.", exception.getMessage());
-}
+    }
+
     @Test
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
         //Arrange
+        TeacherAcronym teacherAcronym = createTeacherAcronym();
+        DepartmentID departmentID= createDepartmentID();
+        Name name = new Name("John Doe");
+        Email email = new Email("john@doe.com");
+        Street street = new Street("123 street");
+        PostalCode postalCode = new PostalCode("12345");
+        Country country = new Country("Portugal");
+        PAI.VOs.Location location = new PAI.VOs.Location("Porto");
+        NIF nif = new NIF("123431123",country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
+        AcademicBackground  academicBackground= new AcademicBackground("Doctor");
 
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherIDDouble = mock(TeacherID.class);
-        Department department = createDepartment();
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory teacherCategory = createTeacherCategory();
         TeacherRepository teacherRepository = createTeacherRepo();
-        DepartmentRepository departmentRepository = createDepartmentRepo();
-        TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
-        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository,teacherCategoryRepository,departmentRepository);
+        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
+
+        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository, departmentRepository);
         //Act
-        boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson","jjj@isep.ipp.pt",
-                "123123123","+351 912 345 678","Doctorate in Computer Science in 1987,Isep","Rua do Homem Aranha",
-                "4430-123","Porto","Portugal",addressFactory,dateDouble, tcIDDouble, wpDouble, teacherIDDouble,department);
+        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         //Assert
         assertTrue(result);
     }
+
     @Test
     void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
 
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID teacherIDDouble = mock(TeacherID.class);
-        Department department1 = createDepartment1();
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCategory teacherCategory = createTeacherCategory();
+        TeacherAcronym teacherAcronym = createTeacherAcronym();
+        DepartmentID departmentID= createOtherDepartmentID();
+        Name name = new Name("John Doe");
+        Email email = new Email("john@doe.com");
+        Street street = new Street("123 street");
+        PostalCode postalCode = new PostalCode("12345");
+        Country country = new Country("Portugal");
+        PAI.VOs.Location location = new Location("Porto");
+        NIF nif = new NIF("123431123",country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
+        AcademicBackground  academicBackground= new AcademicBackground("Doctor");
+
         TeacherRepository teacherRepository = createTeacherRepo();
-        DepartmentRepository departmentRepository = createDepartmentRepo();
-        TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
-        US04_IWantToRegisterATeacherInTheSystemController controller =
-                new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository,teacherCategoryRepository,departmentRepository);
+        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
+
+        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository, departmentRepository);
         //Act
-        boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson",
-                "jjj@isep.ipp.pt","123123123","B109","Doctorate in Computer Science in 1987,Isep",
-                "Rua do Homem Aranha","4430-123","Porto","Portugal",addressFactory,dateDouble, tcIDDouble, wpDouble, teacherIDDouble,department1);
+        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         //Assert
         assertFalse(result);
     }
 
-//    @Test
-//    void shouldReturnFalseIfInvalidTeacherCategory_integrationTest() throws Exception {
-//        Date dateDouble = mock(Date.class);
-//        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-//        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-//        TeacherID teacherIDDouble = mock(TeacherID.class);
-//        Department department = createDepartment();
-//        IAddressFactory addressFactory = new AddressFactoryImpl();
-//        TeacherCategory teacherCategory1 = createTeacherCategory1();
-//        TeacherRepository teacherRepository = createTeacherRepo();
-//        DepartmentRepository departmentRepository = createDepartmentRepo();
-//        TeacherCategoryRepository teacherCategoryRepository = createTeacherCategoryRepo();
-//        US04_IWantToRegisterATeacherInTheSystemController controller =
-//                new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository,teacherCategoryRepository,departmentRepository);
-//        //Act
-//        boolean result = controller.registerATeacherInTheSystem("JJJ","J Jonah Jameson",
-//                "jjj@isep.ipp.pt","123123123","B109","Doctorate in Computer Science in 1987,Isep",
-//                "Rua do Homem Aranha","4430-123","Porto","Portugal",addressFactory,dateDouble, tcIDDouble, wpDouble, teacherIDDouble,department);
-//        //Assert
-//        assertFalse(result);
-//    }
-
-
     //Methods
     private TeacherRepository createTeacherRepo() {
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        TeacherCareerProgressionListFactoryImpl tcpLFactoryDouble = new TeacherCareerProgressionListFactoryImpl();
-        ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherCareerProgressionFactoryImpl,tcpLFactoryDouble);
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
         TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
         return new TeacherRepository(teacherFactory, teacherListFactoryImpl);
     }
-    private TeacherCategoryRepository createTeacherCategoryRepo() throws Exception {
-        TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
-        teacherCategoryFactory.createTeacherCategory("Professor");
-        TeacherCategoryListFactoryImpl
-                teacherCategoryRepositoryListFactory = new TeacherCategoryListFactoryImpl();
-
-     TeacherCategoryRepository teacherCategoryRepository= new TeacherCategoryRepository(teacherCategoryFactory,teacherCategoryRepositoryListFactory);
-     teacherCategoryRepository.registerTeacherCategory("Professor");
-     return teacherCategoryRepository;
+    private TeacherAcronym createTeacherAcronym() throws Exception {
+        return new TeacherAcronym("ABC");
     }
-    private DepartmentRepository createDepartmentRepo() throws Exception {
+    private TeacherID createTeacherID() throws Exception {
+        return new TeacherID(createTeacherAcronym());
+    }
+
+    private DepartmentRepositoryImpl createDepartmentRepo() throws Exception {
         IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
         IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository =  new DepartmentRepository(departmentFactory, departmentListFactory);
-        departmentRepository.registerDepartment("DCE","Department of Computer Science");
+        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
+        departmentRepository.registerDepartment(createDepartmentAcronym1(), createDepartmentName1());
         return departmentRepository;
     }
-    private TeacherCategory createTeacherCategory() throws Exception {
-        TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
-        return teacherCategoryFactory.createTeacherCategory("Professor");
+    private  DepartmentID createDepartmentID() throws Exception {
+        return new DepartmentID(createDepartmentAcronym1());
     }
-    private TeacherCategory createTeacherCategory1() throws Exception {
-        TeacherCategoryFactoryImpl teacherCategoryFactory = new TeacherCategoryFactoryImpl();
-        return teacherCategoryFactory.createTeacherCategory("Assistant Professor");
+    private  DepartmentID createOtherDepartmentID() throws Exception {
+        return new DepartmentID(createDepartmentAcronym2());
+    }
+    private DepartmentAcronym createDepartmentAcronym1() throws Exception {
+        return new DepartmentAcronym("DCE");
+    }
+    private DepartmentAcronym createDepartmentAcronym2() throws Exception {
+        return new DepartmentAcronym("DME");
+    }
+    private Name createDepartmentName1() throws Exception {
+        return new Name("DCE");
+    }
+    private Name createDepartmentName2() throws Exception {
+        return new Name("DME");
     }
     private Department createDepartment() throws Exception {
-        return new Department("DCE","Department of Computer Science");
+        return new Department(createDepartmentAcronym1(), createDepartmentName1());
     }
+
     private Department createDepartment1() throws Exception {
-        return new Department("DME","Department of Mechanical Engineering");
+        return new Department(createDepartmentAcronym2(), createDepartmentName1());
     }
 }
-*/
+

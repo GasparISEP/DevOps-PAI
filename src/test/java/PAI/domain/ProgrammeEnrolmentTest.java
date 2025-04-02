@@ -1,12 +1,8 @@
 package PAI.domain;
 
 import PAI.VOs.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
 import PAI.domain.programme.ProgrammeDDD;
-import PAI.VOs.Location;
-import PAI.factory.*;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.time.LocalDate;
 
@@ -17,16 +13,25 @@ import static org.mockito.Mockito.when;
 
 class ProgrammeEnrolmentTest {
 
+    private StudentID _studentIDDouble;
+    private AccessMethodID _accessMethodIDDouble;
+    private ProgrammeID _programmeIDDouble;
+    private Date _dateDouble;
+
+    private void createDoubles() {
+        _studentIDDouble = mock(StudentID.class);
+        _accessMethodIDDouble = mock(AccessMethodID.class);
+        _programmeIDDouble = mock(ProgrammeID.class);
+        _dateDouble = mock(Date.class);
+    }
+
     @Test
     void constructorAlwaysCreatesAnObjectTest() {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
+        createDoubles();
 
         //act
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //assert
         assertNotNull(programmeEnrolment);
@@ -35,55 +40,49 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnExceptionIfStudentNullTest () {
         //arrange
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
+        createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(null, accessMethodDouble, programmeDouble, dateDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(null, _accessMethodIDDouble, _programmeIDDouble, _dateDouble));
     }
 
     @Test
     void shouldReturnExceptionIfAccessMethodNullTest () {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
+        createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(studentDouble, null, programmeDouble, dateDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, null, _programmeIDDouble, _dateDouble));
     }
 
     @Test
     void shouldReturnExceptionIfProgrammeNullTest () {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        Date dateDouble = mock(Date.class);
+        createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(studentDouble, accessMethodDouble, null, dateDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, null, _dateDouble));
     }
 
     @Test
     void invalidDateDoesNotCreateObjectAndThrowsExceptionTest() {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
+        createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, null));
     }
 
     @Test
     void shouldReturnTrueWhenDateIsAfterTest() {
         // Arrange
-        Date date1 = mock(Date.class);
+        createDoubles();
         Date date2 = mock(Date.class);
-        when(date1.getLocalDate()).thenReturn(LocalDate.of(2025, 4, 1));
+        
+        when(_dateDouble.getLocalDate()).thenReturn(LocalDate.of(2025, 4, 1));
         when(date2.getLocalDate()).thenReturn(LocalDate.of(2025, 3, 31));
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(mock(StudentID.class), mock(AccessMethodID.class), mock(ProgrammeID.class), date1);
+        
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         // Act
         boolean result = programmeEnrolment.isDateAfter(date2);
@@ -95,11 +94,13 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseWhenDateIsBeforeTest() {
         // Arrange
-        Date date1 = mock(Date.class);
+        createDoubles();
         Date date2 = mock(Date.class);
-        when(date1.getLocalDate()).thenReturn(LocalDate.of(2024, 4, 1));
+        
+        when(_dateDouble.getLocalDate()).thenReturn(LocalDate.of(2024, 4, 1));
         when(date2.getLocalDate()).thenReturn(LocalDate.of(2025, 3, 31));
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(mock(StudentID.class), mock(AccessMethodID.class), mock(ProgrammeID.class), date1);
+        
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         // Act
         boolean result = programmeEnrolment.isDateAfter(date2);
@@ -111,14 +112,12 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnTrueIfStudentIsTheSameFromEnrolmentTest() {
         // arrange
-        StudentID studentDoubleID = mock(StudentID.class);
+        createDoubles();
         Student studentDouble = mock(Student.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        when(studentDouble.identity()).thenReturn(studentDoubleID);
+        
+        when(studentDouble.identity()).thenReturn(_studentIDDouble);
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDoubleID, accessMethodDouble, programmeDouble, dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         // act
         boolean result = programmeEnrolment.hasSameStudent(studentDouble);
@@ -130,17 +129,15 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnTrueIfStudentIsTheSameFromEnrolmentTestV2() {
         // arrange
-        StudentID studentDoubleID = mock(StudentID.class);
+        createDoubles();
         Student studentDouble = mock(Student.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        when(studentDouble.identity()).thenReturn(studentDoubleID);
+        
+        when(studentDouble.identity()).thenReturn(_studentIDDouble);
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDoubleID, accessMethodDouble, programmeDouble, dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         // act
-        boolean result = programmeEnrolment.hasSameStudent2(studentDoubleID);
+        boolean result = programmeEnrolment.hasSameStudent2(_studentIDDouble);
 
         // assert
         assertTrue(result);
@@ -149,14 +146,10 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseIfStudentIsNotTheSameFromEnrolmentTest() {
         //arrange
-
-        StudentID studentDouble = mock(StudentID.class);
+        createDoubles();
         Student studentDouble2 = mock(Student.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-
-        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
+        
+        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //act
         boolean result = programmeEnrolmentDouble.hasSameStudent(studentDouble2);
@@ -168,14 +161,10 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseIfStudentIsNotTheSameFromEnrolmentTestV2() {
         //arrange
-
-        StudentID studentIDDouble = mock(StudentID.class);
+        createDoubles();
         StudentID studentIDDouble2 = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
 
-        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(studentIDDouble, accessMethodDouble, programmeDouble, dateDouble);
+        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //act
         boolean result = programmeEnrolmentDouble.hasSameStudent2(studentIDDouble2);
@@ -187,13 +176,10 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnTrueIfEnrolmentHasTheSameStudentAndTheSameProgrammeTest() {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
+        createDoubles();
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -205,16 +191,14 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseIfEnrolmentHasDifferentStudentsButTheSameProgrammeTest() {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
+        createDoubles();
         StudentID studentDouble2 = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
+        
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, accessMethodDouble, programmeDouble, dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
-        when(studentDouble.isEquals(studentDouble2)).thenReturn(false);
+        when(_studentIDDouble.isEquals(studentDouble2)).thenReturn(false);
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -226,16 +210,13 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseIfEnrolmentHasTheSameStudentButDifferentProgrammesTest() {
         // arrange
-        StudentID studentDouble = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
+        createDoubles();
         ProgrammeID programmeDouble2 = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble2, dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, programmeDouble2, _dateDouble);
 
-        when(studentDouble.isEquals(studentDouble)).thenReturn(true);
+        when(_studentIDDouble.isEquals(_studentIDDouble)).thenReturn(true);
 
         // act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -247,15 +228,12 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseIfEnrolmentHasBothDifferentStudentsAndDifferentProgrammesTest() {
         // arrange
-        StudentID studentDouble = mock(StudentID.class);
+        createDoubles();
         StudentID studentDouble2 = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeDouble = mock(ProgrammeID.class);
         ProgrammeID programmeDouble2 = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDouble, dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, accessMethodDouble, programmeDouble2, dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, _accessMethodIDDouble, programmeDouble2, _dateDouble);
 
         // act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -267,14 +245,12 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnTrueIfProgrammesAreTheSameTest() {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
+        createDoubles();
         ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeID programmeDoubleID = mock(ProgrammeID.class);
-        when(programmeDouble.getProgrammeID()).thenReturn(programmeDoubleID);
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDoubleID, dateDouble);
+        when(programmeDouble.getProgrammeID()).thenReturn(_programmeIDDouble);
+
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //act
         boolean result = programmeEnrolment.hasSameProgramme2(programmeDouble.getProgrammeID());
@@ -286,18 +262,14 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseIfProgrammesAreNotTheSameTest() {
         //arrange
-        StudentID studentDouble = mock(StudentID.class);
-        AccessMethodID accessMethodDouble = mock(AccessMethodID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeID programmeDoubleID = mock(ProgrammeID.class);
-        Programme programmeDouble = mock(Programme.class);
+        createDoubles();
+        ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
+        ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentDouble, accessMethodDouble, programmeDoubleID, dateDouble);
-
-        when(programmeDouble.isEquals(programmeDouble)).thenReturn(false);
-
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, programmeIDDouble2, _dateDouble);
+        
         //act
-        boolean result = programmeEnrolment.hasSameProgramme(programmeDouble);
+        boolean result = programmeEnrolment.hasSameProgramme2(_programmeIDDouble);
 
         //assert
         assertFalse(result);
@@ -306,14 +278,11 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnStudentIDfromGetterTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Act
-        boolean result = pe1.getStudentID().equals(studentIDDouble);
+        boolean result = pe1.getStudentID().equals(_studentIDDouble);
 
         //Assert
         assertTrue(result);
@@ -322,14 +291,11 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnAccessMethodIDfromGetterTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Act
-        boolean result = pe1.getAccessMethodID().equals(accessMethodIDDouble);
+        boolean result = pe1.getAccessMethodID().equals(_accessMethodIDDouble);
 
         //Assert
         assertTrue(result);
@@ -338,14 +304,11 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnProgrammeIDfromGetterTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Act
-        boolean result = pe1.getProgrammeID().equals(programmeIDDouble);
+        boolean result = pe1.getProgrammeID().equals(_programmeIDDouble);
 
         //Assert
         assertTrue(result);
@@ -354,14 +317,11 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnDatefromGetterTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Act
-        boolean result = pe1.getDate().equals(dateDouble);
+        boolean result = pe1.getDate().equals(_dateDouble);
 
         //Assert
         assertTrue(result);
@@ -370,11 +330,8 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnProgrammeEnrolmentIDTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
         ProgrammeEnrolmentID expectedPeID = pe1.identity();
 
         //Act
@@ -387,11 +344,8 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnTrueForSameProgrammeEnrolmentTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Act
         boolean result = pe1.sameAs(pe1);
@@ -403,12 +357,10 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseForDifferentProgrammeEnrolmentTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
-        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Act
         boolean result = pe1.sameAs(pe2);
@@ -420,11 +372,9 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnFalseForDifferentObjectsTest() {
         //Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date dateDouble = mock(Date.class);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, dateDouble);
+        createDoubles();
+
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
         Object toCompare = new Object();
 
         //Act

@@ -7,7 +7,7 @@ import PAI.VOs.QuantEcts;
 
 public class StudyPlanDDDFactoryImpl implements IStudyPlanDDDFactory {
 
-    public StudyPlanDDD newStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts) throws Exception {
+    public StudyPlanDDD newStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts) {
         return new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
     }
 }

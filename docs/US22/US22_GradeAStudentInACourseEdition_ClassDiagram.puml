@@ -6,7 +6,8 @@ class US22_IWantToGradeAStudentInACourseEdition {
     +US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository : GradeStudentRepository, courseEditionEnrolmentRepository : CourseEditionEnrolmentRepository)
     +isStudentEnrolledInCourseEdition(courseEdition : CourseEdition, student : Student): boolean
     +iWantToGradeAStudent(grade : int, date : String student : Student, courseEdition : CourseEdition): GradeStudent
-
+    +findStudentIdByStudent(Student student)
+    +findStudentIdByCourseEdition(Course Edition)
 }
 
 class CourseEditionEnrolmentRepository {
@@ -31,8 +32,13 @@ interface ICourseEditionEnrolmentRepository {
 
 
  class CourseEditionEnrolmentId <<ValueObject>> {
-
+-StudentID
+-CourseEditionID
++equals()
++hashCode()
++toString()
         }
+
 package "CourseEditionEnrolment" {
 entity "<<root>>\nCourseEditionEnrolment"  {
          +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
@@ -44,9 +50,6 @@ entity "<<root>>\nCourseEditionEnrolment"  {
     }
     }
 
- class Localdate <<ValueObject>> {
-                    -LocalDate : String
-                }
 
 class List<GradeStudent> {
 
@@ -74,7 +77,10 @@ class Grade <<ValueObject>> {
         }
 
  class StudentGradeId <<ValueObject>> {
-    id: Long
+    -courseEditionID
+    -studentID
+    +equals()
+    +toString()
         }
 
 class GradeStudentRepository {
@@ -83,12 +89,22 @@ class GradeStudentRepository {
     +addGradeToStudent(Grade, Date, student, CourseEdition)
     +knowAverageGrade(Course Edition)
     +knowApprovalRate(Course Edition)
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
 }
 
 interface IGradeStudentRepositoryInterface {
    +addGradeToStudent(Grade, Date, student, CourseEdition)
    +knowAverageGrade(Course Edition)
    +knowApprovalRate(Course Edition)
+   +findIdByStudent (StudentGrade studentGrade)
+       +save(StudentGrade entity)
+       +findAll()
+       +ofIdentity(StudentGradeID id)
+       +containsOfIdentity(StudentGradeID id)
 }
 
 interface IGradeStudentFactory {
@@ -110,7 +126,10 @@ class GradeStudentFactoryImpl {
 
 
 class StudentId <<ValueObject>> {
-
+uniqueNumber: int
++equals()
++getUniqueNumber()
++isEquals()
             }
 
 package "Student" {
@@ -127,21 +146,31 @@ entity "<<root>>\nStudent"  {
     }
     class Name <<ValueObject>> {
                     -Name : String
+                    +getName()
+                    +equals()
+                    +hashCode()
                 }
         class NIF <<ValueObject>> {
                      -NIF : String
                 }
         class Phone <<ValueObject>> {
-                         -Phone : String
+                         -CountryCode: String
+                         -Number: String
                     }
         class Email <<ValueObject>> {
-                         -Phone : String
+                         -Email: String
                         }
          class Address <<ValueObject>> {
-                         -Adress : String
+                         -Street
+                         -PostalCode
+                         -Location
+                         -Country
                             }
 class CourseEditionId <<ValueObject>> {
-
+-ProgrammeEdiitionID
+-CourseInStudyPlanID
++toString()
++equals()
             }
 
 
@@ -155,7 +184,7 @@ entity "<<root>>\nCourseEdition"  {
     }
     }
 
-"<<root>>\nCourseEditionEnrolment" --> "1" Localdate
+"<<root>>\nCourseEditionEnrolment" --> "1" LocalDate
 "<<root>>\nStudent" "*" --> "1" Name
 "<<root>>\nStudent" "*" --> "1" NIF
 "<<root>>\nStudent" "*" --> "1" Email

@@ -6,5 +6,5 @@ import PAI.domain.*;
 
 public interface ITeacherFactory {
     Teacher createTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-                          Street street, PostalCode postalCode, Location location, Country country, Department department);
+                          Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID);
 }

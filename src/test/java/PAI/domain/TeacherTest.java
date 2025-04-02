@@ -20,7 +20,7 @@ class TeacherTest {
     private NIF _nifDouble;
     private PhoneNumber _phoneNumberDouble;
     private AcademicBackground _academicBackgroundDouble;
-    private Department _departmentDouble;
+    private DepartmentID _departmentIDDouble;
     private AddressVO _addressDouble;
 
     private void createDoubles (){
@@ -30,7 +30,7 @@ class TeacherTest {
         _nifDouble = mock(NIF.class);
         _phoneNumberDouble = mock(PhoneNumber.class);
         _academicBackgroundDouble = mock(AcademicBackground.class);
-        _departmentDouble = mock(Department.class);
+        _departmentIDDouble = mock(DepartmentID.class);
         _addressDouble = mock(AddressVO.class);
     }
 
@@ -41,7 +41,7 @@ class TeacherTest {
 
         // Act
         new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Assert
     }
@@ -71,13 +71,13 @@ class TeacherTest {
             case "NIF" -> _nifDouble = null;
             case "PhoneNumber" -> _phoneNumberDouble = null;
             case "AcademicBackground" -> _academicBackgroundDouble = null;
-            case "Department" -> _departmentDouble = null;
+            case "Department" -> _departmentIDDouble = null;
         }
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
             new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                    _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble
+                    _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
             );
         });
     }
@@ -88,7 +88,7 @@ class TeacherTest {
         createDoubles();
 
         Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
         TeacherID result = teacher.identity();
@@ -102,7 +102,7 @@ class TeacherTest {
         // Arrange
         createDoubles();
         Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
         boolean result = teacher.sameAs(teacher);
@@ -116,7 +116,7 @@ class TeacherTest {
         // Arrange
         createDoubles();
         Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
         boolean result = teacher.sameAs(null);
@@ -130,7 +130,7 @@ class TeacherTest {
         // Arrange
         createDoubles();
         Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
         Object otherDouble = mock(Object.class);
 
         // Act
@@ -146,10 +146,10 @@ class TeacherTest {
         createDoubles();
 
         Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         Teacher teacher2 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
         boolean result = teacher1.sameAs(teacher2);
@@ -163,10 +163,10 @@ class TeacherTest {
         // Arrange
         createDoubles();
         Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         Teacher teacher2 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
         boolean result = teacher1.sameAs(teacher2);
@@ -183,10 +183,10 @@ class TeacherTest {
         NIF nifDouble2 = mock(NIF.class);
 
         Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         Teacher teacher2 = new Teacher(acronymDouble2, _nameDouble, _emailDouble, nifDouble2,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble);
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
         boolean result = teacher1.sameAs(teacher2);
@@ -202,7 +202,7 @@ class TeacherTest {
         NIF nifDouble2 = mock(NIF.class);
 
         Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
         when(_nifDouble.getNIF()).thenReturn("123456789");
@@ -222,7 +222,7 @@ class TeacherTest {
         NIF nifDouble2 = mock(NIF.class);
 
         Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
         when(_nifDouble.getNIF()).thenReturn("123456789");
@@ -242,11 +242,11 @@ class TeacherTest {
         createDoubles();
 
         Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
         //act
-        boolean result = teacher1.isInDepartment(_departmentDouble);
+        boolean result = teacher1.isInDepartment(_departmentIDDouble);
 
         //assert
         assertTrue(result);
@@ -258,14 +258,14 @@ class TeacherTest {
 
         createDoubles();
 
-        Department departmentDouble2 = mock(Department.class);
+        DepartmentID departmentIDDouble2 = mock(DepartmentID.class);
 
         Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
-                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentDouble
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
         //act
-        boolean result = teacher1.isInDepartment(departmentDouble2);
+        boolean result = teacher1.isInDepartment(departmentIDDouble2);
 
         //assert
         assertFalse(result);

@@ -1,40 +1,36 @@
 package PAI.controller;
 
-import PAI.repository.TeacherCategoryRepository;
+import PAI.VOs.Name;
+import PAI.domain.TeacherCategory;
+import PAI.factory.ITeacherCategoryFactory;
+import PAI.repository.ITeacherCategoryRepository;
 
 /**
- * Controller for configuring the teacher category.
- * This class is responsible for handling the configuration of new teacher categories.
+ * Controller for configuring TeacherCategoryV2.
  */
-public class  US01_ConfigureTeacherCategoryController {
+public class US01_ConfigureTeacherCategoryController {
 
-    private final TeacherCategoryRepository repository;
+    private final ITeacherCategoryRepository repository;
+    private final ITeacherCategoryFactory factory;
 
-    /**
-     * Constructor for the controller, initializes the repository.
-     *
-     * @param repository the repository responsible for managing teacher categories.
-     * @throws IllegalArgumentException if the repository is null.
-     */
-    public US01_ConfigureTeacherCategoryController(TeacherCategoryRepository repository) {
-        if (repository == null) {
-            throw new IllegalArgumentException("Repository cannot be null");
+    public US01_ConfigureTeacherCategoryController(ITeacherCategoryRepository repository,
+                                                   ITeacherCategoryFactory factory) {
+        if (repository == null || factory == null) {
+            throw new IllegalArgumentException("Repository and Factory cannot be null.");
         }
         this.repository = repository;
+        this.factory = factory;
     }
 
-    /**
-     * Configures a new teacher category.
-     * Attempts to register a new teacher category using the provided name.
-     *
-     * @param categoryName the name of the teacher category to be configured.
-     * @return {@code true} if the category was successfully registered.
-     * @throws Exception if the category already exists in the repository.
-     */
     public boolean configureTeacherCategory(String categoryName) throws Exception {
-        if (!repository.registerTeacherCategory(categoryName)) {
+        Name name = new Name(categoryName);
+
+        if (repository.existsByName(name)) {
             throw new Exception("Category already exists.");
         }
-        return true; // if successful registered
+
+        TeacherCategory newCategory = factory.createTeacherCategory(name);
+        repository.save(newCategory);
+        return true;
     }
 }

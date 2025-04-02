@@ -1,7 +1,6 @@
 package PAI.repository;
 
 import PAI.VOs.*;
-import PAI.domain.Address;
 import PAI.domain.Student;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentFactory;
@@ -24,9 +23,9 @@ public class StudentRepository implements IStudentRepository {
         _students = studentListFactory.newArrayList();
     }
 
-    public boolean registerStudent(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) throws Exception {
+    public boolean registerStudent(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Street street, PostalCode postalCode, Location location, Country country, StudentAcademicEmail academicEmail) throws Exception {
 
-        Student newStudent = _studentFactory.newStudent(studentID, name, NIF, phone, email, address, academicEmail);
+        Student newStudent = _studentFactory.newStudent(studentID, name, NIF, phone, email, street, postalCode, location, country, academicEmail);
 
         if (isStudentRepeated(newStudent)) {
             throw new Exception("Duplicate ID or NIF detected. Student cannot be added.");

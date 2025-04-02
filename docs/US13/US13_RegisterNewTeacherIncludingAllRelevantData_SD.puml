@@ -13,11 +13,12 @@ participant "tcList :List<TeacherCategories>" as tcList #Yellow/Silver
 participant ":IDepartmentRepository" as DepartmentRepository <<Interface>> #Cyan/Silver
 participant "deptSet :Set<Departments>" as dptList #Yellow/Silver
 participant ":ITeacherRepository" as TeacherRepository <<Interface>> #Cyan/Silver
-participant ":ITeacherFactory" as TeacherFactory <<Interface>> #Cyan/Silver
+participant ":TeacherFactoryImpl" as TeacherFactory #Yellow/Silver
 participant "t1 :Teacher" as Teacher #Yellow/Silver
 participant "addrsVO1 :Address" as Address #Yellow/Silver
+participant "teacherIDVO1 :TeacherID" as TeacherID #Yellow/silver
 participant ":ITeacherCareerProgressionRepository" as TeacherCareerProgressionRepository <<Interface>> #Cyan/Silver
-participant ":ITeacherCareerProgressionFactory" as TeacherCareerProgressionFactory <<Interface>> #Cyan/Silver
+participant ":TeacherCareerProgressionFactoryImpl" as TeacherCareerProgressionFactory #Yellow/Silver
 participant "tcp1 :TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
 
 activate HRC
@@ -27,7 +28,7 @@ activate UI
 UI -> Controller: **getTeacherCategoriesList()**
 activate Controller
 
-Controller -> TeacherCategoryRepository: **getTeacherCategoryList()**
+Controller -> TeacherCategoryRepository: **findAll()**
 activate TeacherCategoryRepository
 
 TeacherCategoryRepository --> Controller: tcList
@@ -42,40 +43,40 @@ deactivate Controller
 
 UI --> HRC: Choose a teacher category from the list.
 
-HRC -> UI: tc1DTO
+HRC -> UI: Teacher Category
 
 UI -> Controller: **getDepartments()**
 activate Controller
 
-Controller -> DepartmentRepository: **getDepartments()**
+Controller -> DepartmentRepository: **findAll()**
 activate DepartmentRepository
 
-DepartmentRepository --> Controller: deptSet
+DepartmentRepository --> Controller: deptList
 deactivate DepartmentRepository
 |||
 ref over Controller
     \t \t Convert Domain to DTO \t
 end ref
 
-Controller --> UI: deptSetDTO
+Controller --> UI: deptListDTO
 deactivate Controller
 
 UI --> HRC: Choose a department from the list.
 |||
-HRC -> UI: dept1DTO
+HRC -> UI: department
 |||
 UI --> HRC: What are the attributes?
 |||
-HRC -> UI: teacherAcronym, name, email, nif,\n phoneNumber, street, postalCode,\n location, country, academicBackground,\n workingPercentage, date
+HRC -> UI: teacher acronym, name, email, nif,\n phone number, street, postal code, location,   \n country, academic background,\n working percentage, date, countryCode
 
-Note Right HRC #Pink/White
-    **tc1** = Teacher Category Object
-    **dpt1** = Department Object
+Note Right UI #Pink/White
+    **teacherCategoryID** = A Teacher Category already in system
+    **departmentID** = A Department already in system
 End Note
 
 '--- Start of registerTeacher will all inputs ---
 
-UI -> Controller: **registerTeacher**(acronymDTO, nameDTO, emailDTO,\n nifDTO, phoneNumberDTO, streetDTO, postalCodeDTO,\n locationDTO, countryDTO, academicBackgroundDTO,\n workingPercentageDTO, dateDTO, tc1DTO, dept1DTO)
+UI -> Controller: **registerTeacher**(teacherAcronym, name, email,\n nif, phoneNumber, street, postalCode,\n location, country, academicBackground, workingPercentage,\n date, teacherCategoryID, departmentAcronym, countryCode)
 activate Controller
 |||
 ref over Controller
@@ -85,19 +86,23 @@ end ref
 Controller -> TeacherRepository:\t **registerTeacher**(teacherAcronymVO, nameVO, emailVO, nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO, academicBackgroundVO, departmentIDVO)
 activate TeacherRepository
 
-TeacherRepository -> TeacherFactory: **createTeacher** (teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO,\n academicBackgroundVO, departmentIDVO)
+TeacherRepository -> TeacherFactory: **createTeacher**(teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO,\n academicBackgroundVO, departmentIDVO)
 activate TeacherFactory
 
-TeacherFactory -> Address **: **createAddress** (streetVO, postalCodeVO, locationVO, countryVO)
+TeacherFactory -> Address **: **createAddress**(streetVO, postalCodeVO, locationVO, countryVO)
 activate Address
 |||
 Address --> TeacherFactory:\t addrsVO1
 deactivate Address
 |||
-TeacherFactory -> Teacher **: **createTeacher** (teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, addrsVO1,\n academicBackgroundVO, departmentIDVO)
+TeacherFactory -> Teacher **: **createTeacher**(teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, addrsVO1,\n academicBackgroundVO, departmentIDVO)
 activate Teacher
 
+Teacher -> TeacherID **: **createTeacherID**(teacherAcronymVO)
+activate TeacherID
 |||
+TeacherID --> Teacher: TeacherIDVO1
+deactivate TeacherID
 Teacher --> TeacherFactory: \t t1
 deactivate Teacher
 
@@ -112,16 +117,22 @@ end ref
 TeacherRepository -> TeacherRepository: **save** (t1)
 deactivate Teacher
 
-TeacherRepository --> Controller: True
+TeacherRepository -> Teacher: **identity()**
+activate Teacher
+|||
+Teacher --> TeacherRepository: teacherIDVO1
+deactivate Teacher
+
+TeacherRepository --> Controller: teacherIDVO1
 deactivate TeacherRepository
 |||
-Controller -> TeacherCareerProgressionRepository: **registerTeacherCareerProgression**(dateVO, tc1IDVO, WorkingPercentage, t1IDVO)
+Controller -> TeacherCareerProgressionRepository: **registerTeacherCareerProgression**(dateVO, teacherCategoryIDVO, workingPercentageVO, teacherIDVO1)
 activate TeacherCareerProgressionRepository
 
-TeacherCareerProgressionRepository -> TeacherCareerProgressionFactory: **createTeacherCareerProgression**(dateVO,\n tc1IDVO, WorkingPercentage, t1IDVO)
+TeacherCareerProgressionRepository -> TeacherCareerProgressionFactory: **createTeacherCareerProgression**(dateVO,\n teacherCategoryIDVO,\n workingPercentageVO, teacherIDVO1)
 activate TeacherCareerProgressionFactory
 
-TeacherCareerProgressionFactory -> TeacherCareerProgression: **createTeacherCarrerProgression**(dateVO,\n tc1IDVO, WorkingPercentage, t1IDVO)
+TeacherCareerProgressionFactory -> TeacherCareerProgression **: **createTeacherCarrerProgression**(dateVO,\n teacherCategoryIDVO,\n workingPercentageVO, teacherIDVO1)
 activate TeacherCareerProgression
 |||
 TeacherCareerProgression --> TeacherCareerProgressionFactory: \ttcp1

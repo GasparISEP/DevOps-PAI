@@ -109,4 +109,98 @@ class StudyPlanDDDTest {
         // assert
         assertEquals(quantityOfEcts, result);
     }
+
+    @Test
+    void testIdentityReturnsCorrectID() {
+        //arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+
+        //act + assert
+        assertEquals(id, studyPlan.identity());
+    }
+
+    @Test
+    void testSameAsReturnsTrueForSameObject() {
+        //arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+
+        //act + assert
+        assertTrue(studyPlan.sameAs(studyPlan));
+    }
+
+    @Test
+    void testSameAsReturnsTrueForEqualID() {
+        //arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+
+        //act + assert
+        assertTrue(studyPlan1.sameAs(studyPlan2));
+    }
+
+    @Test
+    void testSameAsReturnsFalseForDifferentID() {
+        //arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        Date implementationDate2 = mock(Date.class);
+        DurationInYears durationInYears2 = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts2 = mock(QuantEcts.class);
+
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID2, implementationDate2, durationInYears2, quantityOfEcts2);
+
+        //act + assert
+        assertFalse(studyPlan1.sameAs(studyPlan2));
+    }
+
+    @Test
+    void testSameAsReturnsFalseForNull() {
+        //arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+
+        //act + assert
+        assertFalse(studyPlan.sameAs(null));
+    }
+
+    @Test
+    void testSameAsReturnsFalseForDifferentType() {
+        //arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+
+        Object other = new Object();
+
+        //act + assert
+        assertFalse(studyPlan.sameAs(other));
+    }
 }

@@ -1,197 +1,257 @@
 package PAI.domain;
-import PAI.VOs.Date;
-import PAI.VOs.Description;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 class DepartmentTest {
 
     @Test
     void shouldReturnDepartment_whenAllTheAtributesAreValid () throws Exception {
         //arrange
-        String acronym = "DEI";
-        String name = "Department1";
-        //act & assert
-        Department department = new Department(acronym, name);
-    }
-
-    @Test
-    void shouldReturnDepartment_whenAllTheAtributesAreValid_withDirector () {
-        //arrange
-        String acronym = "DEI";
-        String name = "Department1";
-        Teacher teacherDirectorDouble = mock(Teacher.class);
-        //act & assert
-        Department department = new Department(acronym, name, teacherDirectorDouble);
-    }
-
-    @Test
-    void shouldReturnDepartment_whenAllTheAtributesAreValid_withTwoLettersName () {
-        //arrange
-        String acronym = "DEI";
-        String name = "DE";
-        Teacher teacherDirectorDouble = mock(Teacher.class);
-        //act & assert
-        Department department = new Department(acronym, name, teacherDirectorDouble);
-    }
-
-    @Test
-    void shouldReturnDepartment_whenAllTheAtributesAreValid_withHundredLettersName (){
-        //arrange
-        String acronym = "DEI";
-        String name = "D".repeat(100);
-        Teacher teacherDirectorDouble = mock(Teacher.class);
-
-        //act & assert
-        Department department = new Department(acronym, name, teacherDirectorDouble);
-    }
-
-    //testing failure cases of Department's name
-    public static Stream<Arguments> provideInvalidDepartmentsNames() {
-        return Stream.of(
-                arguments(null, "Department´s name must be a non-empty String."),
-                arguments("", "Department´s name must be a non-empty String."),
-                arguments("   ", "Department´s name must be a non-empty String."),
-                arguments("A", "Department´s name must be between 2 and 100 characters."),
-                arguments("A".repeat(101), "Department´s name must be between 2 and 100 characters."),
-                arguments("department1", "Department´s name should start with a capital letter."),
-                arguments("123Name", "Department´s name should start with a capital letter."),
-                arguments("!@#Name", "Department´s name should start with a capital letter.")
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("provideInvalidDepartmentsNames")
-    void testInvalidNames(String name, String expectedMessage) {
-        // Arrange
-        String acronym = "DEI";
-        Teacher teacherDirector1Double = mock(Teacher.class);
-
-        // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            new Department(acronym, name, teacherDirector1Double);
-        });
-        assertEquals(expectedMessage, exception.getMessage());
-    }
-
-    //testing failure cases of Department's acronyms
-    public static Stream<Arguments> provideInvalidDepartmentsAcronyms() {
-        return Stream.of(
-                arguments(null, "Department´s acronym must be a 3 letter non-empty String."),
-                arguments("", "Department´s acronym must be a 3 letter non-empty String."),
-                arguments("   ", "Department´s acronym must be a 3 letter non-empty String."),
-                arguments("A", "Department´s acronym must contain only three capital letters."),
-                arguments("AF".repeat(121), "Department´s acronym must contain only three capital letters."),
-                arguments("AFRT".repeat(121), "Department´s acronym must contain only three capital letters."),
-                arguments("A F R", "Department´s acronym must contain only three capital letters."),
-                arguments(" AFR", "Department´s acronym must contain only three capital letters."),
-                arguments("AFR ", "Department´s acronym must contain only three capital letters."),
-                arguments("AF1", "Department´s acronym must contain only three capital letters."),
-                arguments("!RT", "Department´s acronym must contain only three capital letters.")
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("provideInvalidDepartmentsAcronyms")
-    void testInvalidAcronyms(String acronym, String expectedMessage) {
-        // Arrange
-        String name = "Department1";
-        Teacher teacherDirector1Double = mock(Teacher.class);
-
-        // Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            new Department(acronym, name, teacherDirector1Double);
-        });
-        assertEquals(expectedMessage, exception.getMessage());
-    }
-
-    //US06
-    @Test
-    void shouldReturnTrueWhenTeacherIsOfTheDepartment() throws Exception{
-        //arrange
-        Teacher teacher1Double = mock(Teacher.class);
-        Department dpt1= new Department("DEI","Engenharia Informática");
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
         //act
-        boolean result = dpt1.changeDirector(teacher1Double);
+        Department department = new Department(acronym, name);
         //assert
-        assertTrue (result);
+        assertNotNull(department);
+    }
+
+    @Test
+    void shouldReturnDepartment_whenAllTheAtributesAreValid_withDirector () throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        TeacherID teacherDirectorDouble = mock(TeacherID.class);
+        //act
+        Department department = new Department(acronym, name, teacherDirectorDouble);
+        //assert
+        assertNotNull(department);
+    }
+
+    @Test
+    void shouldReturnException_whenAcronymIsNull () {
+        // Arrange
+        DepartmentAcronym acronym=null;
+        Name name = mock(Name.class);
+        TeacherID director = mock(TeacherID.class);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Department(acronym, name, director)
+        );
+        assertTrue(exception.getMessage().contains("Acronym and name cannot be null."));
+    }
+
+    @Test
+    void shouldReturnException_whenNameIsNull () {
+        // Arrange
+        Name name= null;
+        DepartmentAcronym acronym= mock(DepartmentAcronym.class);
+        TeacherID director = mock(TeacherID.class);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Department(acronym, name, director)
+        );
+        assertTrue(exception.getMessage().contains("Acronym and name cannot be null."));
+    }
+
+    @Test
+    void shouldReturnException_whenDirectorIsNull () {
+        // Arrange
+        Name name= mock(Name.class);
+        DepartmentAcronym acronym= mock(DepartmentAcronym.class);
+        // Act & Assert
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Department(acronym, name, null)
+        );
+        assertTrue(thrown.getMessage().contains("Teacher Director cannot be null."));
+    }
+
+    @Test
+    void shouldReturnCorrectDepartmentID() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
+        DepartmentID expectedId = mock(DepartmentID.class);
+        Department department = spy(new Department(acronym, name));
+        doReturn(expectedId).when(department).identity();
+        // Act
+        DepartmentID actualId = department.identity();
+        // Assert
+        assertEquals(expectedId, actualId);
     }
 
     //Testing the equals method
     @Test
     void testShouldReturnTrueForEqualDepartments()throws Exception {
         // Arrange
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = new Department("DEI", "Departamento Engenharia Informática");
+        DepartmentAcronym acronym= mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department1 = new Department(acronym,name);
+        Department department2 = new Department(acronym,name);
 
         // Act & Assert
-        assertTrue(department1.equals(department2));
+        assertEquals(department1, department2);
     }
 
     @Test
-    void testShouldReturnFalseForDifferentNames()throws Exception {
+    void testShouldReturnFalseForDifferentDepartments()throws Exception {
         // Arrange
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
+        DepartmentAcronym acronym= mock(DepartmentAcronym.class);
+        DepartmentAcronym acronym1= mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department1 = new Department(acronym,name);
+        Department department2 = new Department(acronym1,name);
 
         // Act & Assert
-        assertFalse(department1.equals(department2));
-    }
-
-    @Test
-    void testShouldReturnFalseForDifferentAcronyms()throws Exception {
-        // Arrange
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Department department2 = new Department("DEQ", "Departamento Engenharia Química");
-
-        // Act & Assert
-        assertFalse(department1.equals(department2));
+        assertNotEquals(department1, department2);
     }
 
     @Test
     void testShouldReturnFalseWhenNullDepartment() throws Exception{
         // Arrange
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
+        DepartmentAcronym acronym= mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department1 = new Department(acronym, name);
         // Act & Assert
-        assertFalse(department1.equals(null));
+        assertNotEquals(null, department1);
     }
 
     @Test
     void shouldReturnFalseWhenComparedWithDifferentClassObject() throws Exception {
         // Arrange
-        Department department1 = new Department("DEI", "Departamento Engenharia Informática");
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date ("01-09-2024");
-        Date endDate = new Date ("31-07-2025");
-        SchoolYear schoolYear1 = new SchoolYear(description, startDate,endDate);
+        DepartmentAcronym acronym= mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department1 = new Department(acronym,name);
 
         // Act & Assert
-        assertFalse(department1.equals(schoolYear1));
+        assertNotEquals("DEI", department1);
     }
 
     @Test
     void shouldReturnTrueWhenSameObjectIsCompared() throws Exception {
         // arrange
-        Department department = new Department("DEI", "Departamento Engenharia Informática");
-
+        DepartmentAcronym acronym= mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department = new Department(acronym,name);
         // act & assert
-        assertTrue(department.equals(department));
+        assertEquals(department, department);
+    }
+
+    @Test
+    void shouldReturnSameHashCodeForEqualObjects() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department = new Department(acronym,name);
+        Department department1 = new Department(acronym,name);
+        // Act & Assert
+        assertEquals(department.hashCode(), department1.hashCode());
+    }
+
+    @Test
+    void shouldReturnDifferentHashCodeForDiferrentObjects() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym1 = mock(DepartmentAcronym.class);
+        Name name1= mock(Name.class);
+        DepartmentAcronym acronym2= mock(DepartmentAcronym.class);
+        Name name2= mock(Name.class);
+        Department department = new Department(acronym1,name1);
+        Department department1 = new Department(acronym2,name2);
+        // Act & Assert
+        assertNotEquals(department.hashCode(), department1.hashCode());
+    }
+
+    @Test
+    void shouldReturnHashCodeForOneDepartment() throws Exception {
+        // Arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department= new Department(acronym,name);
+        // Act
+        int result= department.hashCode();
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void testSameAsWithSameObject() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department = new Department(acronym,name);
+        //act & assert
+        assertTrue(department.sameAs(department));
+    }
+
+    @Test
+    void testSameAsWithNull() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department = new Department(acronym,name);
+        //act & assert
+        assertFalse(department.sameAs(null));
+    }
+
+    @Test
+    void testSameAsWithTwoEqualObjects() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department1 = new Department(acronym,name);
+        Department department2 = new Department(acronym,name);
+        //act & assert
+        assertTrue(department1.sameAs(department2));
+    }
+
+    @Test
+    void testSameAsWithDifferentClass() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Department department = new Department(acronym,name);
+        //act & assert
+        assertFalse(department.sameAs("DEI"));
+    }
+
+    @Test
+    void testSameAsWithDifferentDepartmentId() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        DepartmentAcronym acronym1 = mock(DepartmentAcronym.class);
+        Department department1 = new Department(acronym,name);
+        Department department2= new Department(acronym1,name);
+        //act & assert
+        assertFalse(department1.sameAs(department2));
+    }
+
+    @Test
+    void testSameAsWithDifferentDepartmentName() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        Name name2= mock(Name.class);
+        Department department1 = new Department(acronym,name);
+        Department department2= new Department(acronym,name2);
+        //act & assert
+        assertFalse(department1.sameAs(department2));
     }
 
     @Test
     void shouldReturnDepartmentName() throws Exception {
         // arrange
-        String name = "Departamento Engenharia Informática";
-        String acronym= "DEI";
+        Name name = mock(Name.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         Department department = new Department(acronym,name);
-
         // act
-        String actualName = department.getName();
-
+        Name actualName = department.getName();
         // assert
         assertEquals(name, actualName);
     }
@@ -199,31 +259,36 @@ class DepartmentTest {
     @Test
     void shouldReturnDepartmentAcronym() throws Exception {
         // arrange
-        String acronym = "DEI";
-        String name= "Departamento Engenharia Informática";
-        Department department = new Department(acronym, name);
+        Name name = mock(Name.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Department department = new Department(acronym,name);
         // act
-        String actualAcronym = department.getAcronym();
-
+        DepartmentAcronym actualAcronym = department.getAcronym();
         // assert
         assertEquals(acronym, actualAcronym);
     }
-
     @Test
-    void shouldReturnSameHashCodeIfEqualObjects() throws Exception {
-        //arrange
-        Department department1 = new Department("CSE", "Computer Science");
-        Department department2 = new Department("CSE", "Computer Science");
-        //act & assert
-        assertEquals(department1.hashCode(), department2.hashCode());
+    void shouldReturnDepartmentID() throws Exception {
+        // arrange
+        Name name = mock(Name.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        DepartmentID departmentID = new DepartmentID(acronym);
+        Department department = new Department(acronym,name);
+        // act
+        DepartmentID actualID = department.getDepartmentID();
+        // assert
+        assertEquals(departmentID, actualID);
     }
 
-    @Test
-    void shouldReturnDifferentHashCodeIfDifferentObjects() throws Exception {
-        //arrange
-        Department department1 = new Department("CSE", "Computer Science");
-        Department department2 = new Department("DEI", "Computer Engineering");
-        //act&assert
-        assertNotEquals(department1.hashCode(), department2.hashCode());
-    }
+    //US06
+//    @Test
+//    void shouldReturnTrueWhenTeacherIsOfTheDepartment() throws Exception{
+//        //arrange
+//        Teacher teacher1Double = mock(Teacher.class);
+//        Department dpt1= new Department("DEI","Engenharia Informática");
+//        //act
+//        boolean result = dpt1.changeDirector(teacher1Double);
+//        //assert
+//        assertTrue (result);
+//    }
 }
