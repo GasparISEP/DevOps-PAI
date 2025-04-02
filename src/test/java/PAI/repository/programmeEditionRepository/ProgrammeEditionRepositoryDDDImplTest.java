@@ -7,7 +7,6 @@ import PAI.domain.programmeEdition.IProgrammeEditionDDDFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -145,7 +144,7 @@ class ProgrammeEditionRepositoryDDDImplTest {
         SchoolYearID sYID = mock(SchoolYearID.class);
 
         // Act
-        Optional<ProgrammeEditionDDD> programmeEdition = pER.findProgrammeEditionByProgrammeIDAndSchoolYearID(pID, sYID);
+        Optional<ProgrammeEditionID> programmeEdition = pER.findProgrammeEditionByProgrammeIDAndSchoolYearID(pID, sYID);
 
         // Assert
         assertTrue(programmeEdition.isEmpty());
@@ -241,17 +240,52 @@ class ProgrammeEditionRepositoryDDDImplTest {
 
     //containsOfIdentity Test
     @Test
-    void shouldReturnFalseWhencontainsOfIdentity() throws Exception {
+    void shouldReturnFalseWhenRepositoryDoesNotContainAProgrammeEditionWithGivenID() throws Exception {
         // Arrange
         IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        ProgrammeEditionDDD pE1 = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD pE2 = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD pE3 = mock(ProgrammeEditionDDD.class);
+        when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
+
         IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
         ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+
+        when(pE1.identity()).thenReturn(mock(ProgrammeEditionID.class));
+        when(pE2.identity()).thenReturn(mock(ProgrammeEditionID.class));
+        when(pE3.identity()).thenReturn(mock(ProgrammeEditionID.class));
 
         // Act
         boolean result = pER.containsOfIdentity(pEID);
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenRepositoryContainsAProgrammeEditionWithGivenID() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        ProgrammeEditionDDD pE1 = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD pE2 = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD pE3 = mock(ProgrammeEditionDDD.class);
+        when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
+
+        IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
+        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+
+        when(pE1.identity()).thenReturn(mock(ProgrammeEditionID.class));
+        when(pE2.identity()).thenReturn(pEID);
+        when(pE3.identity()).thenReturn(mock(ProgrammeEditionID.class));
+
+        // Act
+        boolean result = pER.containsOfIdentity(pEID);
+
+        // Assert
+        assertTrue(result);
     }
 }

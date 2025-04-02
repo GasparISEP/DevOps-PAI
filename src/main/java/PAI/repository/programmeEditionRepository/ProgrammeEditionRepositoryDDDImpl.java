@@ -37,7 +37,7 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     }
 
     @Override
-    public Optional<ProgrammeEditionDDD> findProgrammeEditionByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
+    public Optional<ProgrammeEditionID> findProgrammeEditionByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
         return Optional.empty();
     }
 
@@ -62,6 +62,10 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
 
     @Override
     public boolean containsOfIdentity(ProgrammeEditionID id) {
+        for(ProgrammeEditionDDD check : _programmeEditions){
+            if (check.identity().equals(id))
+                return true;
+        }
         return false;
     }
 }
