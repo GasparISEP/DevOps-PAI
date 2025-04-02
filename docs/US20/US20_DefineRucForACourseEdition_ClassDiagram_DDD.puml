@@ -2,6 +2,10 @@
 
 title US20_DefineRucForACourseEditionClassDiagram.puml
 
+skinparam ranksep 50
+skinparam linetype ortho
+skinparam nodesep 100
+
 class US20_DefineRucForCourseEditionController {
     -_courseEditionRepository: CourseEditionRepository
     -_teacherRepository: TeacherRepository
@@ -82,16 +86,20 @@ package "Teacher Agreggate" {
     }
 }
 
-package "CourseEdition Aggregate" {
+package "CourseEdition_2 Aggregate" {
     entity "<<Root>>\n<<Entity>>\nCourseEdition" {
-            -_course: Course
-            -_programmeEdition: ProgrammeEdition
-            -_ruc: Teacher
-            +CourseEdition(course: Course, programmeEdition: ProgrammeEdition)
-            +equals(objectToCompare: Object): boolean
-            +setRuc(ruc: Teacher): boolean
-            +whatProgrammeEditionBelongsThisCourseEdition(): ProgrammeEdition
-            +getCourse(): Course
+            - _courseEditionID: CourseEditionID
+            - _courseInStudyPlanID: CourseInStudyPlanID
+            - _programmeEditionID: ProgrammeEditionID
+            + CourseEdition_2(courseInStudyPlanID,
+               programmeEditionID):
+             + CourseEdition_2(courseEditionID,
+               courseInStudyPlanID, programmeEditionID):
+             + identity(): CourseEditionID
+             + sameAs(objectToCompare: Object): boolean
+             + getProgrammeEditionID(): ProgrammeEditionID
+             + getCourseInStudyPlanID(): CourseInStudyPlanID
+             + equals(objectToCompare: Object): boolean
     }
 
     class "<<Value Object>>\nCourseEditionID" {
