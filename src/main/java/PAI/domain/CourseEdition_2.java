@@ -2,6 +2,7 @@ package PAI.domain;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.ddd.AggregateRoot;
 
 public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
@@ -9,7 +10,7 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
     private final CourseEditionID _courseEditionID;
     private final CourseInStudyPlanID _courseInStudyPlanID;
     private final ProgrammeEditionID _programmeEditionID;
-    private Teacher _ruc;
+    private TeacherID _ruc;
 
     public CourseEdition_2 (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
 
@@ -82,13 +83,13 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
         return false;
     }
 
-    // US20 - sets the RUC for this course edition
-    public boolean setRuc(Teacher teacher) {
-        if (teacher == null) {
+    // US20 - Define o RUC para esta edição do curso, referenciando um TeacherID.
+    public boolean setRuc(TeacherID teacherID) {
+        if (teacherID == null) {
             return false;
         }
 
-        this._ruc = teacher;
+        this._ruc = teacherID;
         return true;
     }
 }

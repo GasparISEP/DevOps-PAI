@@ -267,6 +267,18 @@ class DepartmentTest {
         // assert
         assertEquals(acronym, actualAcronym);
     }
+    @Test
+    void shouldReturnDepartmentID() throws Exception {
+        // arrange
+        Name name = mock(Name.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        DepartmentID departmentID = new DepartmentID(acronym);
+        Department department = new Department(acronym,name);
+        // act
+        DepartmentID actualID = department.getDepartmentID();
+        // assert
+        assertEquals(departmentID, actualID);
+    }
 
     //US06
 //    @Test
