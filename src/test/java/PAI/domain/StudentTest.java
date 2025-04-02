@@ -20,7 +20,7 @@ class StudentTest {
     void validAttributesCreateObject() {
 
         //arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -29,14 +29,14 @@ class StudentTest {
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
         //act
-        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
     }
 
     @Test
     void invalidStudentIDShouldReturnException() throws IllegalArgumentException {
 
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
@@ -44,7 +44,7 @@ class StudentTest {
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> new Student(null, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble));
+        Exception exception = assertThrows(Exception.class, () -> new Student(null, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble));
 
         // Assert
         assertEquals("Student's ID is invalid.", exception.getMessage());
@@ -54,7 +54,7 @@ class StudentTest {
     void nullNameDoesNotCreateObject() {
 
         //arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         NIF nifDouble = mock(NIF.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
@@ -62,14 +62,14 @@ class StudentTest {
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student(mockStudentID, null, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, null, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble));
     }
 
     @Test
     void nullNIFDoesNotCreateObject() {
 
         //arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
@@ -77,14 +77,14 @@ class StudentTest {
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, null, phoneDouble, emailDouble, address1, academicEmailDouble));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, null, phoneDouble, emailDouble, addressDouble, academicEmailDouble));
     }
 
     @Test
     void nullPhoneDoesNotCreateObject() {
 
         //arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -92,14 +92,14 @@ class StudentTest {
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, nifDouble, null, emailDouble, address1, academicEmailDouble));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, nifDouble, null, emailDouble, addressDouble, academicEmailDouble));
     }
 
     @Test
     void nullEmailDoesNotCreateObject () {
 
         //arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -107,13 +107,13 @@ class StudentTest {
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, null, address1, academicEmailDouble));
+        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, null, addressDouble, academicEmailDouble));
     }
 
     @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameID() {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -121,12 +121,12 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
 
         Address address2 = mock(Address.class);
-        Student student2 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, address2, academicEmailDouble);
+        Student student2 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
 
@@ -140,7 +140,7 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTwoStudentsDontHaveTheSameID() {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -148,12 +148,12 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student student1 = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
 
         Address address2 = mock(Address.class);
         StudentID mockStudentID2 = mock(StudentID.class);
-        Student student2 = new Student(mockStudentID2, nameDouble, nifDouble, phoneDouble, emailDouble, address2, academicEmailDouble);
+        Student student2 = new Student(mockStudentID2, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student1.equals(student2);
@@ -165,7 +165,7 @@ class StudentTest {
     @Test
     void objectsToCompareInEqualsMethodAreTheSame () {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -173,7 +173,7 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student.equals(student);
@@ -185,7 +185,7 @@ class StudentTest {
     @Test
     void objectsToCompareInEqualsMethodAreNotTheSame () {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -193,7 +193,7 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student.equals(student);
@@ -203,9 +203,31 @@ class StudentTest {
     }
 
     @Test
+    void objectToCompareIsNotInstanceOfStudent () {
+
+        // Arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+        AddressVO addressDouble = mock(AddressVO.class);
+
+        Student student = new Student(studentIDDouble, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+        AccessMethod accessMethodDouble = mock(AccessMethod.class);
+
+        // Act
+        boolean result = student.equals(accessMethodDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
     void objectsToCompareInSameAsMethodAreTheSame () {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -213,7 +235,7 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student.sameAs(student);
@@ -225,8 +247,7 @@ class StudentTest {
     @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameNIF() {
         // Arrange
-        Address address1 = mock(Address.class);
-        Address address2 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         StudentID mockStudentID2 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
@@ -235,8 +256,8 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
-        Student student2 = new Student(mockStudentID2, nameDouble, nifDouble, phoneDouble, emailDouble, address2, academicEmailDouble);
+        Student student1 = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+        Student student2 = new Student(mockStudentID2, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student1.sameAs(student2);
@@ -248,7 +269,7 @@ class StudentTest {
     @Test
     void objectsToCompareInSameAsMethodAreNotTheSame () {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -256,7 +277,7 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student student = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         TeacherAcronym acronymDouble = mock(TeacherAcronym.class);
         AcademicBackground academicBackgroundDouble = mock(AcademicBackground.class);
@@ -275,8 +296,7 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTwoStudentsDontHaveTheSameNIF() {
         // Arrange
-        Address address1 = mock(Address.class);
-        Address address2 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID1 = mock(StudentID.class);
         StudentID mockStudentID2 = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
@@ -286,8 +306,8 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
-        Student student2 = new Student(mockStudentID2, nameDouble, nifDouble2, phoneDouble, emailDouble, address2, academicEmailDouble);
+        Student student1 = new Student(mockStudentID1, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+        Student student2 = new Student(mockStudentID2, nameDouble, nifDouble2, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student1.sameAs(student2);
@@ -299,7 +319,7 @@ class StudentTest {
     @Test
     void shouldReturnTrueIfTheIDIsFoundInAStudent() {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -307,13 +327,11 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
-
-        Address address2 = mock(Address.class);
-        Student student2 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, address2, academicEmailDouble);
+        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+        Student student2 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
-        boolean result = student1.equals(student2);
+        boolean result = student1.isEquals(student2);
 
         // Assert
         assertTrue(result);
@@ -322,7 +340,7 @@ class StudentTest {
     @Test
     void shouldReturnFalseIfTheIDIsNotFoundInAStudent() {
         // Arrange
-        Address address1 = mock(Address.class);
+        AddressVO addressDouble = mock(AddressVO.class);
         StudentID mockStudentID = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
@@ -330,11 +348,16 @@ class StudentTest {
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, address1, academicEmailDouble);
+        Student studentDouble1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
-        StudentID mockStudentID2 = mock(StudentID.class);
+        StudentID studentIDDouble2 = mock(StudentID.class);
+        NIF nifDouble2 = mock(NIF.class);
+
+        Student studentDouble2 = new Student(studentIDDouble2, nameDouble, nifDouble2, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+
+
         // Act
-        boolean result = student1.equals(mockStudentID2);
+        boolean result = studentDouble1.isEquals(studentDouble2);
 
         // Assert
         assertFalse(result);

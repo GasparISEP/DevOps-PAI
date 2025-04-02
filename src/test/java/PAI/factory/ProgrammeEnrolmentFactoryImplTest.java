@@ -60,9 +60,8 @@ class ProgrammeEnrolmentFactoryImplTest {
             _location = new Location("Tomar");
             _country = new Country("Portugal");
             _addressVO = new AddressVO(_street, _postalCode, _location, _country);
-            _address = new Address("Praceta do Sol, nº19", "3745-144", "Tomar", "Portugal");
             _studentID = new StudentID(1234567);
-            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789", new Country("Portugal")), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _address, new StudentAcademicEmail(_studentID));
+            _student = new Student(_studentID, new Name("Rita"), new NIF("123456789", new Country("Portugal")), new PhoneNumber("+351","963741258"), new Email("rita@gmail.com"), _addressVO, new StudentAcademicEmail(_studentID));
             _accessMethod = new AccessMethodID();
             _date = new Date("14-02-2024");
             _degreeType = new DegreeType("Master", 240);
