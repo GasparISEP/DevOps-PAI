@@ -41,4 +41,38 @@ class GradeTest {
         // Assert
         assertEquals(expectedValue, actualValue);
     }
+
+    @Test
+    void shouldBeEqualWhenSameObject() throws Exception {
+        Grade grade = new Grade(15);
+        assertEquals(grade, grade);
+    }
+
+    @Test
+    void shouldBeEqualWhenSameValue() throws Exception {
+        Grade grade1 = new Grade(15);
+        Grade grade2 = new Grade(15);
+        assertEquals(grade1, grade2);
+    }
+
+    @Test
+    void shouldNotBeEqualWhenDifferentValue() throws Exception {
+        Grade grade1 = new Grade(15);
+        Grade grade2 = new Grade(16);
+        assertNotEquals(grade1, grade2);
+    }
+
+    @Test
+    void shouldNotBeEqualWhenNull() throws Exception {
+        Grade grade = new Grade(15);
+        assertNotEquals(grade, null);
+    }
+
+    @Test
+    void shouldNotBeEqualWhenDifferentClass() throws Exception {
+        Grade grade = new Grade(15);
+        String notAGrade = "Not a Grade";
+        assertNotEquals(grade, notAGrade);
+    }
+
 }
