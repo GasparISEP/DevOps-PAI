@@ -2,7 +2,6 @@ package PAI.domain.course;
 
 import PAI.VOs.*;
 import PAI.domain.CourseEdition_2;
-import PAI.domain.TeacherCategory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -459,6 +458,23 @@ class CourseDDDTest {
 
         //Assert
         assertEquals(courseQuantityCreditsEcts, courseDDD.getCourseQuantityCreditsEcts());
+    }
+
+    @Test
+    void shouldReturnDurationCourseInCurricularYearFromCourse() {
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        //Act
+        CourseDDD courseDDD = new CourseDDD(courseID,name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        //Assert
+        assertEquals(durationCourseInCurricularYear, courseDDD.getDurationCourseInCurricularYear());
     }
 
 }
