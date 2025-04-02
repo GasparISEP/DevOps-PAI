@@ -1,13 +1,13 @@
-package PAI.controller;
-
-import PAI.domain.Department;
-import PAI.repository.DepartmentRepository;
-import PAI.domain.Teacher;
-
-import java.util.List;
-import java.util.Set;
-
-public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
+//package PAI.controller;
+//
+//import PAI.domain.Department;
+//import PAI.repository.DepartmentRepository;
+//import PAI.domain.Teacher;
+//
+//import java.util.List;
+//import java.util.Set;
+//
+//public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 
 //    private final DepartmentRepository _departmentRepository;
 
@@ -33,4 +33,4 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 //        }
 //
 //    }
-}
+//}

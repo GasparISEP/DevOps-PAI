@@ -3,7 +3,8 @@ import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.factory.DepartmentFactoryImpl;
 import PAI.factory.DepartmentListFactoryImpl;
-import PAI.repository.DepartmentRepository;
+import PAI.repository.DepartmentRepositoryImpl;
+import PAI.repository.IDepartmentRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -15,22 +16,22 @@ class US05_DepartmentRegistryControllerTest {
     @Test
     void shouldCreateControllerWhenRepositoryIsValid() {
         // arrange
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(DepartmentRepositoryImpl.class);
 
         // Act & assert
         US05_DepartmentRegistryController controller =
-                new US05_DepartmentRegistryController(departmentRepositoryDouble);
+                new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
     }
 
     //invalid constructor
     @Test
     void shouldThrowExceptionWhenRepositoryIsNull() {
         // arrange
-        DepartmentRepository departmentRepository = null;
+        IDepartmentRepository IdepartmentRepositoryDouble = null;
 
         // Act
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US05_DepartmentRegistryController(departmentRepository)
+                new US05_DepartmentRegistryController(IdepartmentRepositoryDouble)
         );
         assertEquals("Department Repository cannot be null.", exception.getMessage());
     }
@@ -40,8 +41,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         Name name = mock(Name.class);
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryDouble);
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(IDepartmentRepository.class);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
         //act
         boolean result = controller.registerDepartment(acronym, name);
         //assert
@@ -53,8 +54,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         DepartmentAcronym acronym =null;
         Name name = mock(Name.class);
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryDouble);
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(IDepartmentRepository.class);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(acronym, name);
@@ -67,8 +68,8 @@ class US05_DepartmentRegistryControllerTest {
         //arrange
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         Name name = null;
-        DepartmentRepository departmentRepositoryDouble = mock(DepartmentRepository.class);
-        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryDouble);
+        IDepartmentRepository IdepartmentRepositoryDouble = mock(IDepartmentRepository.class);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(IdepartmentRepositoryDouble);
         //act
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -84,8 +85,8 @@ class US05_DepartmentRegistryControllerTest {
         Name name = mock(Name.class);
         DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
-        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryImpl);
         //act
         boolean result = controller.registerDepartment(acronym, name);
         //assert
@@ -98,8 +99,8 @@ class US05_DepartmentRegistryControllerTest {
         Name name = mock(Name.class);
         DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
-        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryImpl);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(null, name);
@@ -115,8 +116,8 @@ class US05_DepartmentRegistryControllerTest {
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository = new DepartmentRepository(iDepartmentFactory, iDepartmentListFactory);
-        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepository);
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentRepositoryImpl);
         //act
         Exception exception = assertThrows(Exception.class, () -> {
             controller.registerDepartment(acronym, null);
