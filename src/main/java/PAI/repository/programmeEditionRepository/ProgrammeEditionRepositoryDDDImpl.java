@@ -53,6 +53,10 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
 
     @Override
     public Optional<ProgrammeEditionDDD> ofIdentity(ProgrammeEditionID id) {
+        for(ProgrammeEditionDDD check : _programmeEditions){
+            if (check.identity().equals(id))
+                return Optional.of(check);
+        }
         return Optional.empty();
     }
 

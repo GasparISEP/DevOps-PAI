@@ -11,7 +11,7 @@ class CourseEditionListFactoryImpl_DDDTest {
     @Test
     void shouldCreateCourseEditionArrayList() {
         // Arrange
-        ICourseEditionListFactoryDDD courseEditionListFactory = new CourseEditionListFactoryImplDDD();
+        ICourseEditionListFactoryDDD courseEditionListFactory = new CourseEditionListFactoryDDDImpl();
 
         // Act
         List<CourseEditionDDD> courseEditionArrayList = courseEditionListFactory.newList();

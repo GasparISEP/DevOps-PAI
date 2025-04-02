@@ -44,13 +44,13 @@ public class CourseEditionRepository {
         return new ArrayList<>(_courseEditions); // Retorna uma cópia da lista
     }
 
-    // US20 - sets the RUC for a specific course edition
-    public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
-        if (!_courseEditions.contains(ce1)) {
-            throw new IllegalArgumentException("Course edition not found in repository.");
-        }
-        return ce1.setRuc(t1);
-    }
+//    // US20 - sets the RUC for a specific course edition
+//    public boolean setRucInACourseEdition(CourseEdition ce1, Teacher t1) {
+//        if (!_courseEditions.contains(ce1)) {
+//            throw new IllegalArgumentException("Course edition not found in repository.");
+//        }
+//        return ce1.setRuc(t1);
+//    }
 
     public ProgrammeEditionID findWhichProgrammeEditionBelongsToACourseEdition(CourseEditionDDD courseEdition) throws Exception {
         for (CourseEditionDDD courseEdition1 : _courseEditions)

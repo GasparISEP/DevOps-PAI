@@ -4,7 +4,11 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.studyPlan.IStudyPlanDDDFactory;
+import PAI.domain.studyPlan.StudyPlanDDD;
 import PAI.factory.ProgrammeRepositoryListFactoryImpl;
+import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
+import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
 import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 
@@ -398,5 +402,114 @@ class ProgrammeDDDRepositoryImplTest {
 
         // Assert
         assertFalse(foundPlan.isPresent());
+    }
+
+    @Test
+    void testSaveAddsProgramme() {
+        ProgrammeDDD programmeDDD1 = mock(ProgrammeDDD.class);
+
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> ProgrammeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(ProgrammeList);
+
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+        ProgrammeID id = mock(ProgrammeID.class);
+        when(programmeDDD1.identity()).thenReturn(id);
+
+        ProgrammeDDD saved = repository.save(programmeDDD1);
+
+        assertEquals(programmeDDD1, saved);
+        assertTrue(repository.containsOfIdentity(id));
+    }
+
+    @Test
+    void testFindAllReturnsAllProgrammes() {
+        ProgrammeDDD programmeDDD1 = mock(ProgrammeDDD.class);
+        ProgrammeDDD programmeDDD2 = mock(ProgrammeDDD.class);
+
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeDDDList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeDDDList);
+
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+
+        repository.save(programmeDDD1);
+        repository.save(programmeDDD2);
+
+        //act
+        List<ProgrammeDDD> all = (List<ProgrammeDDD>) repository.findAll();
+
+        //assert
+        assertEquals(2, all.size());
+        assertTrue(all.contains(programmeDDD1) && all.contains(programmeDDD2));
+    }
+
+    @Test
+    void testOfIdentityReturnsCorrectPlan() {
+        ProgrammeDDD programmeDDD1 = mock(ProgrammeDDD.class);
+
+
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+        ProgrammeID id = mock(ProgrammeID.class);
+        when(programmeDDD1.identity()).thenReturn(id);
+
+        repository.save(programmeDDD1);
+
+        Optional<ProgrammeDDD> found = repository.ofIdentity(id);
+
+        assertTrue(found.isPresent());
+        assertEquals(programmeDDD1, found.get());
+    }
+
+    @Test
+    void testOfIdentityReturnsEmptyWhenNotFound() {
+
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+        ProgrammeID id = mock(ProgrammeID.class);
+
+        Optional<ProgrammeDDD> found = repository.ofIdentity(id);
+
+        assertFalse(found.isPresent());
+    }
+    @Test
+    void testContainsOfIdentityReturnsTrueWhenExists() {
+        ProgrammeDDD programmeDDD1 = mock(ProgrammeDDD.class);
+
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+        ProgrammeID id = mock(ProgrammeID.class);
+        when(programmeDDD1.identity()).thenReturn(id);
+
+        repository.save(programmeDDD1);
+
+        assertTrue(repository.containsOfIdentity(id));
+    }
+
+    @Test
+    void testContainsOfIdentityReturnsFalseWhenNotExists() {
+
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+        ProgrammeID id = mock(ProgrammeID.class);
+
+        assertFalse(repository.containsOfIdentity(id));
     }
 }

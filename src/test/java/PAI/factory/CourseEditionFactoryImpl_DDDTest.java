@@ -35,7 +35,7 @@ class CourseEditionFactoryImpl_DDDTest {
         })) {
 
             //SUT
-            ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
+            ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryDDDImpl();
 
             // Act
             CourseEditionDDD courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
@@ -73,7 +73,7 @@ class CourseEditionFactoryImpl_DDDTest {
         })) {
 
             //SUT
-            ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
+            ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryDDDImpl();
 
         // Act
             CourseEditionDDD courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
@@ -99,7 +99,7 @@ class CourseEditionFactoryImpl_DDDTest {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
             //SUT
-        ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
+        ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryDDDImpl();
 
             //instructions
         try (MockedConstruction<CourseEditionDDD> mock = mockConstruction(CourseEditionDDD.class,(mocked, context) ->
@@ -124,7 +124,7 @@ class CourseEditionFactoryImpl_DDDTest {
         //SUT = CourseEditionFactory
         //Arrange
             //SUT
-        ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryImplDDD();
+        ICourseEditionFactoryDDD ICourseEditionFactory = new CourseEditionFactoryDDDImpl();
 
         //Act + Assert
         assertThrows(Exception.class, () -> ICourseEditionFactory.newCourseEdition_2(null, null));
