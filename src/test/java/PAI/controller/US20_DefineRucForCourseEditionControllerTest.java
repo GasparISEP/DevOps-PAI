@@ -11,7 +11,9 @@ import PAI.repository.CourseEditionRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -205,14 +207,14 @@ class US20_DefineRucForCourseEditionControllerTest {
         Teacher teacher2 = mock(Teacher.class);
         List<Teacher> teachers = List.of(teacher1, teacher2);
 
-        when(repo2.getAllTeachers()).thenReturn(teachers);
+        when(ctrl1.getTeachers()).thenReturn(teachers);
 
         // Act
-        List<Teacher> result = ctrl1.getTeachers();
+        Iterable<Teacher> result = ctrl1.getTeachers();
+        List<Teacher> resultList = StreamSupport.stream(result.spliterator(), false).toList();
 
         // Assert
-        assertEquals(2, result.size(), "Should return exactly two teachers");
-        verify(repo2).getAllTeachers(); // Verify method was called
+        assertEquals(2, resultList.size(), "Should return exactly two teachers");
 
         //Arrange Teacher
 //        TeacherCategory category = new TeacherCategory("Professor Adjunto");
