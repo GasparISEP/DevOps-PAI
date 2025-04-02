@@ -81,6 +81,12 @@ public class TeacherRepository implements ITeacherRepository {
         return false;
     }
 
+    // US20 - retrieves all the teachers in the repository
+    // This method is to be deleted and instead use findAll
+    public List<Teacher> getAllTeachers() {
+        return new ArrayList<>(_teachers);
+    }
+
     public Optional<Teacher> getTeacherByNIF(NIF nif) {
 
         for (Teacher existingTeacher : _teachers) {
