@@ -72,7 +72,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
 
         //act
-        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(null);
 
         //assert
         assertTrue(result.isEmpty());
@@ -98,7 +98,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 thenReturn(List.of(doublePee1Id, doublePee2Id, doublePee3Id));
 
         //act
-        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(doubleStudentId);
 
         //assert
         assertEquals(3, result.size());
@@ -121,7 +121,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 thenReturn(List.of());
 
         //act
-        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(doubleStudentId);
 
         //assert
         assertEquals(0, result.size());
@@ -146,7 +146,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         when(doubleCourseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
 
         //act
-        List<CourseEditionID> result = controller.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID);
+        List<CourseEditionID> result = controller.findCourseEditionIDsByProgrammeEdition(doubleProgrammeEditionID);
 
         //assert
         assertEquals(2, result.size());
@@ -297,7 +297,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         //act
-        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(null);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(null);
 
         //assert
         assertTrue(result.isEmpty());
@@ -338,11 +338,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         peeRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID2);
 
         //act
-        List<ProgrammeEditionID> result = controller.findProgrammeEditionsThatStudentIsEnrolled(studentID1);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(studentID1);
 
         //assert
         assertEquals(2, result.size());
     }
+
     //testing find Course Editions by Programme Edition Method
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
@@ -416,7 +417,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID2,programmeEditionID1);
 
         //act
-        List<CourseEditionID> result = controller.findCourseEditionsByProgrammeEdition(programmeEditionID1);
+        List<CourseEditionID> result = controller.findCourseEditionIDsByProgrammeEdition(programmeEditionID1);
 
         //assert
         assertEquals (2, result.size());

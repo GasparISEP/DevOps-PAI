@@ -29,7 +29,7 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //show a list of programme editions that student is enrolled
-    public List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled (StudentID studentId) {
+    public List<ProgrammeEditionID> findProgrammeEditionIDsThatStudentIsEnrolled(StudentID studentId) {
 
         if (studentId == null) {
             return Collections.emptyList();
@@ -39,7 +39,7 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
-    public List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionID) {
+    public List<CourseEditionID> findCourseEditionIDsByProgrammeEdition(ProgrammeEditionID programmeEditionID) {
         return _courseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(programmeEditionID);
     }
 
