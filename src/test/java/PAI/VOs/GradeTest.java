@@ -41,4 +41,19 @@ class GradeTest {
         // Assert
         assertEquals(expectedValue, actualValue);
     }
+
+    @Test
+    void shouldBeEqualWhenSameObject() throws Exception {
+        Grade grade = new Grade(15);
+        assertEquals(grade, grade);
+    }
+
+    @Test
+    void shouldBeEqualWhenSameValue() throws Exception {
+        Grade grade1 = new Grade(15);
+        Grade grade2 = new Grade(15);
+        assertEquals(grade1, grade2);
+    }
+
+
 }
