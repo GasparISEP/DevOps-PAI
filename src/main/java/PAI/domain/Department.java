@@ -58,6 +58,10 @@ public class Department implements AggregateRoot <DepartmentID> {
 
     public DepartmentAcronym getAcronym() { return _departmentId.getAcronym(); }
 
+    public DepartmentID getDepartmentID() {
+        return _departmentId;
+    }
+
 
     //US06
 //    public boolean changeDirector(TeacherID furtherDirector) {

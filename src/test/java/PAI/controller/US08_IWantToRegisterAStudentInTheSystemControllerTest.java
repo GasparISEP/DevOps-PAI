@@ -17,16 +17,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class US08_IWantToRegisterAStudentInTheSystemControllerTest {
 
     @Test
-    void IWantToRegisterAStudentInTheSystemControllerConstructorTest () {
-        //arrange
+    void IWantToRegisterAStudentInTheSystemControllerConstructorTest () throws Exception {
+        // Arrange
         IStudentRepository iStudentRepository = mock(IStudentRepository.class);
-        //act
+
+        // Act
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(iStudentRepository);
     }
 
@@ -43,29 +45,33 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
 
     @Test
     void registerStudentWithValidParametersReturnsTrue () throws Exception {
-        //arrange
-        Address addressDouble = mock(Address.class);
-        StudentID studentID = mock(StudentID.class);
-        Name name = mock(Name.class);
-        Street streetDouble = mock(Street.class);
-        PostalCode postalCodeDouble = mock(PostalCode.class);
-        Location locationDouble = mock(Location.class);
-        Country countryDouble = mock(Country.class);
-        NIF nif = mock(NIF.class);
-        PhoneNumber phone = mock(PhoneNumber.class);
-        Email email = mock(Email.class);
-        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
 
+        // Arrange
         IStudentRepository iStudentRepository = mock(IStudentRepository.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(iStudentRepository);
 
-        when(iStudentRepository.registerStudent(studentID, name, nif, phone, email, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmail))
+        int uniqueNumber = 1000005;
+        String name = "Miguel";
+        String nif = "123456789";
+        Country nifCountry = mock(Country.class);
+        String countryCode = "+351";
+        String phoneNumber = "987654321";
+        String email = "miguel@gmail.com";
+        String street = "Praça da Canção";
+        String postalCode = "12345";
+        String location = "Coimbra";
+        String country = "Portugal";
+
+        when(iStudentRepository.registerStudent(
+                any(StudentID.class), any(Name.class), any(NIF.class),
+                any(PhoneNumber.class), any(Email.class),any(Street.class), any(PostalCode.class),
+                any(Location.class), any(Country.class), any(StudentAcademicEmail.class)))
                 .thenReturn(true);
 
-        //act
-        boolean result = ctrl.registerStudent(studentID, name, nif, phone, email, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmail);
+        // Act
+        boolean result = ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country);
 
-        //assert
+        // Assert
         assertTrue(result);
     }
 }
