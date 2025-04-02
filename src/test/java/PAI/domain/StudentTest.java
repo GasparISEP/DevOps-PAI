@@ -134,6 +134,26 @@ class StudentTest {
     }
 
     @Test
+    void identityMethodShouldReturnStudentID () {
+        // Arrange
+        Address addressDouble = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        Email emailDouble = mock(Email.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        Student student = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+
+        // Act
+        StudentID studentID = student.identity();
+
+        // Assert
+        assertInstanceOf(StudentID.class, studentID);
+    }
+
+    @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameID() {
         // Arrange
         Address addressDouble = mock(Address.class);
