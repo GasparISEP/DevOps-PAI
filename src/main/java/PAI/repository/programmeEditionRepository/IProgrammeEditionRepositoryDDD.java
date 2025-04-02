@@ -14,9 +14,5 @@ public interface IProgrammeEditionRepositoryDDD extends IRepository<ProgrammeEdi
 
     public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid);
 
-    public Optional <ProgrammeEdition> findProgrammeEditionByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid);
-
-    public List<ProgrammeEdition> getAllProgrammeEditions();
-
-    public ProgrammeID findProgrammeEditionByID();
+    public Optional <ProgrammeEditionDDD> findProgrammeEditionByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid);
 }
