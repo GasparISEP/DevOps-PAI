@@ -3,6 +3,7 @@ package PAI.VOs;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class TeacherAcronymTest {
 
@@ -31,33 +32,103 @@ class TeacherAcronymTest {
     @Test
     void shouldNotReturnAcronymIfNull() {
         //Act+Assert
-        assertThrows(Exception.class, () -> new TeacherAcronym(null));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym(null));
     }
 
     @Test
     void shouldNotReturnAcronymIfBlank()  {
-        assertThrows(Exception.class, () -> new TeacherAcronym(""));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym(""));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsNumbers()  {
-        assertThrows(Exception.class, () -> new TeacherAcronym("AB1"));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("AB1"));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsLowerCases() {
-        assertThrows(Exception.class, () -> new TeacherAcronym("ABc"));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("ABc"));
     }
 
     @Test
     void shouldNotReturnAcronymIfContainsSpecialChars() {
-        assertThrows(Exception.class, () -> new TeacherAcronym("AB@"));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("AB@"));
     }
-
 
     @Test
     void shouldNotReturnAcronymIfMoreThan3Letters() {
-        assertThrows(Exception.class, () -> new TeacherAcronym("ABCD"));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("ABCD"));
     }
 
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenTeacherAcronymIsNull() {
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherAcronym(null);
+        });
+    }
+
+    @Test
+    void shouldReturnTrueWhenObjectsAreTheSame(){
+        // Arrange
+        TeacherAcronym teacherAcronym = new TeacherAcronym("ABC");
+
+        // Act
+        boolean result = teacherAcronym.equals(teacherAcronym);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenTeacherAcronymIsTheSame() {
+        // Arrange
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym("ABC");
+
+        // Act
+        boolean result = teacherAcronym1.equals(teacherAcronym2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenOtherObjectAndTeacherIDAreNotTheSame(){
+        // Arrange
+        TeacherAcronym teacherAcronym = new TeacherAcronym("ABC");
+        Object otherObject = new Object();
+
+        // Act
+        boolean result = teacherAcronym.equals(otherObject);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenTeacherAcronymsAreNotTheSame() {
+        // Arrange
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym("ABB");
+
+        // Act
+        boolean result = teacherAcronym1.equals(teacherAcronym2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenTeacherIDIsComparedWithNull() {
+        // Arrange
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+        TeacherAcronym teacherAcronym2 = null;
+
+        // Act
+        boolean result = teacherAcronym1.equals(teacherAcronym2);
+
+        // Assert
+        assertFalse(result);
+    }
 }
