@@ -43,8 +43,12 @@ public class Utils {
         NIF_RULE_MAP.put("ITALY", "[a-zA-Z]{6}\\d{2}[a-zA-Z]\\d{2}[a-zA-Z]\\d{3}[a-zA-Z]");
         //LV 11 digits
         NIF_RULE_MAP.put("LATVIA", "^\\d{11}$");
-        //LT
+        //LT 11 digits
         NIF_RULE_MAP.put("LITHUANIA", "^\\d{11}$");
+        //LU 13 digits
+        NIF_RULE_MAP.put("LUXEMBOURG", "^\\d{13}$");
+        //MT 7 digits + 1 letter (M,G,A,P,L,H,B,Z)
+        NIF_RULE_MAP.put("MALTA", "\\d{7}[MGAPLHBZ]");
     }
 
     public static boolean NIFValidator (Country country, String NIF){

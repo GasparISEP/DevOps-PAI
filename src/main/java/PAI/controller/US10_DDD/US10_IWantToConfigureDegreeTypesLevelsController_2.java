@@ -1,4 +1,4 @@
-package PAI.domain.DegreeTypeDDD;
+package PAI.controller.US10_DDD;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
