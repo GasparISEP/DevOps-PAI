@@ -111,6 +111,36 @@ class StudentTest {
     }
 
     @Test
+    void nullAddressDoesNotCreateObject () {
+
+        //arrange
+        StudentID mockStudentID = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        Email emailDouble = mock(Email.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, null, academicEmailDouble));
+    }
+
+    @Test
+    void nullAcademicEmailDoesNotCreateObject () {
+
+        //arrange
+        AddressVO addressDouble = mock(AddressVO.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        Email emailDouble = mock(Email.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, null));
+    }
+
+    @Test
     void shouldReturnTrueIfTwoStudentsHaveTheSameID() {
         // Arrange
         AddressVO addressDouble = mock(AddressVO.class);
