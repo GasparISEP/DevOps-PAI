@@ -89,4 +89,12 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
         return result;
     }
+    public Optional<CourseEditionID> findByCourseEdition (CourseEdition_2 courseEdition2){
+        for (CourseEdition_2 existingCourseEdition_2 : _courseEditions){
+            if (existingCourseEdition_2.equals(courseEdition2)){
+                return Optional.of(existingCourseEdition_2.identity());
+            }
+        }
+        return Optional.empty();
+    }
 }
