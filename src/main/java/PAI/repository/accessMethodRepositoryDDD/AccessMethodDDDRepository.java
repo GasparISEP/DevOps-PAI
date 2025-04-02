@@ -7,7 +7,7 @@ import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class AccessMethodDDDRepository {
+public class AccessMethodDDDRepository implements IRepositoryAccessMethodDDD{
     private final IAccessMethodDDDFactory _accessMethodFactory;
     private final List<AccessMethodDDD> _accessMethods;
 
@@ -53,5 +53,38 @@ public class AccessMethodDDDRepository {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public AccessMethodDDD save (AccessMethodDDD accessMethod) {
+        _accessMethods.add(accessMethod);
+        return accessMethod;
+    }
+
+    @Override
+    public Iterable<AccessMethodDDD> findAll () {
+
+        return _accessMethods;
+    }
+
+    @Override
+    public Optional<AccessMethodDDD> ofIdentity (AccessMethodID id) {
+
+        for (AccessMethodDDD accessMethod : _accessMethods) {
+            if (accessMethod.identity().equals(id)){
+                return Optional.of(accessMethod);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean containsOfIdentity (AccessMethodID id) {
+        for (AccessMethodDDD accessMethod : _accessMethods) {
+            if (accessMethod.identity().equals(id)){
+                return true;
+            }
+        }
+        return false;
     }
 }
