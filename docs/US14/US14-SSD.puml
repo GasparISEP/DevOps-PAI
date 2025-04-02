@@ -2,14 +2,13 @@
 title US14: Update a Teacher's Category in the System
 actor HRC
 participant ":System" as system
-HRC -> system: I want to update a teacher's Category.
-system --> HRC: What Teacher?
-HRC -> system: teacherNIF!
-system --> HRC: With what Teacher Category?
-HRC -> system: teacherCategoryName!
+HRC -> system: I want to update the teacher's Category.
+system --> HRC: Which Teacher?
+HRC -> system: Teacher's Acronym!
+system --> HRC: Which Teacher Category?
+HRC -> system: Teacher Category's ID!
 system -> HRC: What date?
-HRC -> system: date!
-system --> HRC: Sure?
-HRC -> system: Yes!
+HRC -> system: Date!
+
 system --> HRC: OK!
 @enduml

@@ -3,28 +3,27 @@ import PAI.VOs.DepartmentID;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.domain.Department;
-
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import PAI.factory.IDepartmentFactory;
 import PAI.factory.IDepartmentListFactory;
 
-public class DepartmentRepository {
+public class DepartmentRepositoryImpl implements IDepartmentRepository{
 
     private final Set<Department> _departments;
     private final IDepartmentFactory _departmentFactory;
 
     //constructor
-    public DepartmentRepository(IDepartmentFactory IDepartmentFactory, IDepartmentListFactory IDepartmentListFactory) {
+    public DepartmentRepositoryImpl(IDepartmentFactory IDepartmentFactory, IDepartmentListFactory IDepartmentListFactory) {
         _departmentFactory = IDepartmentFactory;
         _departments = IDepartmentListFactory.newDepartmentList();
     }
 
-    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception {
+    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception{
 
-        Department newDepartment = _departmentFactory.newDepartment(acronym, name);
+        Department newDepartment = _departmentFactory.newDepartment(acronym,name);
 
         boolean isDepartmentRegistered = _departments.add(newDepartment);
 
@@ -40,7 +39,7 @@ public class DepartmentRepository {
             throw new IllegalStateException("Department list is empty.");
         }
         return _departments.stream()
-                .map(Department::getDepartmentID)
+                .map(Department::identity)
                 .collect(Collectors.toSet());
     }
 
@@ -48,10 +47,10 @@ public class DepartmentRepository {
         if (departmentID == null) {
             return false;
         }
-        return findDepartementByID(departmentID).isPresent();
+        return findDepartmentByID(departmentID).isPresent();
     }
 
-    public Optional<Department> findDepartementByID(DepartmentID departmentID) {
+    public Optional<Department> findDepartmentByID(DepartmentID departmentID) {
         for (Department department : _departments) {
             if (department.getDepartmentID().equals(departmentID)) {
                 return Optional.of(department);
@@ -66,5 +65,29 @@ public class DepartmentRepository {
 //        }
 //        return false;
 //        }
+
+    @Override
+    public Department save(Department entity) {
+        _departments.add(entity);
+        return entity;
+    }
+
+    @Override
+    public Iterable<Department> findAll() {
+        return new HashSet<>(_departments);
+    }
+
+    @Override
+    public Optional<Department> ofIdentity(DepartmentID id) {
+        return _departments.stream()
+                .filter(department -> department.identity().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public boolean containsOfIdentity(DepartmentID id) {
+        return _departments.stream()
+                .anyMatch(department -> department.identity().equals(id));
+    }
 
 }

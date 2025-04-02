@@ -1,10 +1,34 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.*;
-import PAI.factory.*;
-import PAI.repository.CourseRepository;
-import PAI.repository.ProgrammeRepository;
+import PAI.domain.course.CourseDDD;
+import PAI.domain.course.CourseFactoryDDDImpl;
+import PAI.domain.course.ICourseFactoryDDD;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDDDDDFactoryImpl;
+import PAI.domain.courseInStudyPlan.ICourseInStudyPlanDDDFactory;
+import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.ProgrammeDDDFactoryImpl;
+import PAI.domain.studyPlan.IStudyPlanDDDFactory;
+import PAI.domain.studyPlan.StudyPlanDDD;
+import PAI.domain.studyPlan.StudyPlanDDDFactoryImpl;
+import PAI.repository.courseInStudyPlanRepo.CourseInStudyPlanDDDDDDRepositoryImpl;
+import PAI.repository.courseInStudyPlanRepo.CourseInStudyPlanDDDListFactoryImpl;
+import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDListFactory;
+import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
+import PAI.repository.courseRepositoryDDD.CourseRepositoryDDDImpl;
+import PAI.repository.courseRepositoryDDD.CourseRepositoryListFactoryImpl;
+import PAI.repository.courseRepositoryDDD.ICourseRepositoryDDD;
+import PAI.repository.courseRepositoryDDD.ICourseRepositoryListFactoryDDD;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
+import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
+import PAI.repository.studyPlanRepo.StudyPlanDDDListFactoryImpl;
+import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,72 +39,94 @@ import static org.mockito.Mockito.*;
 
 public class US03AddCourseToProgrammeControllerTest {
 
+    private static final Log log = LogFactory.getLog(US03AddCourseToProgrammeControllerTest.class);
     private US03_AddCourseToProgrammeController us03AddCourseToProgrammeController;
-    private ProgrammeRepository programmeRepositoryDouble;
-    private CourseRepository courseRepositoryDouble;
+    private IProgrammeDDDRepository iProgrammeDDDRepository;
+    private ICourseRepositoryDDD iCourseRepositoryDDD;
+    private IStudyPlanDDDRepository iStudyPlanDDDRepository;
+    private ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository;
 
     @BeforeEach
     void setUp() throws Exception {
-        programmeRepositoryDouble = mock(ProgrammeRepository.class);
-        courseRepositoryDouble = mock(CourseRepository.class);
-        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeRepositoryDouble, courseRepositoryDouble);
+        iProgrammeDDDRepository = mock(IProgrammeDDDRepository.class);
+        iCourseRepositoryDDD = mock(ICourseRepositoryDDD.class);
+        iStudyPlanDDDRepository = mock(IStudyPlanDDDRepository.class);
+        iCourseInStudyPlanDDDRepository = mock(ICourseInStudyPlanDDDRepository.class);
+        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
     }
 
     @Test
-    void shouldNotAddCourseToProgrammeIfCourseAlreadyInList_IsolatedTest() throws Exception {
+    void shouldReturnFalseIfNotAddCourseToProgramme_IsolatedTest() throws Exception {
         // arrange
-        Programme programmeDouble = mock(Programme.class);
-        Course courseDouble = mock(Course.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        Semester semester = mock(Semester.class);
+        CourseDDD courseDDD = mock(CourseDDD.class);
+        StudyPlanDDD studyPlanDDD = mock(StudyPlanDDD.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
-        when(programmeDouble.addCourseToAProgramme(courseDouble)).thenReturn(false);
+        when(courseDDD.identity()).thenReturn(courseID);
+        when(studyPlanDDD.identity()).thenReturn(studyPlanID);
+        when(iCourseInStudyPlanDDDRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(false);
 
         // act
-        boolean result = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
-
-        // assert
-        assertFalse(result);
+        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, courseDDD, studyPlanDDD);
+        //assert
+        assertFalse(addCourseToProgramme);
     }
 
     @Test
     void shouldAddCourseToProgramme() throws Exception {
         // arrange
-        Programme programmeDouble = mock(Programme.class);
-        Course courseDouble = mock(Course.class);
-        when(programmeDouble.addCourseToAProgramme(courseDouble)).thenReturn(true);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        Semester semester = mock(Semester.class);
+        CourseDDD courseDDD = mock(CourseDDD.class);
+        StudyPlanDDD studyPlanDDD = mock(StudyPlanDDD.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+
+        when(courseDDD.identity()).thenReturn(courseID);
+        when(studyPlanDDD.identity()).thenReturn(studyPlanID);
+        when(iCourseInStudyPlanDDDRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(true);
         //act
-        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, courseDouble);
+        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, courseDDD, studyPlanDDD);
         //assert
         assertTrue(addCourseToProgramme);
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeListIsNull_IsolatedTest() throws IllegalArgumentException {
+    void shouldThrowExceptionIfProgrammeRepositoryIsNull_IsolatedTest() throws IllegalArgumentException {
         // arrange
-        ProgrammeRepository nullProgrammeList = null;
-        CourseRepository courseRepository = mock(CourseRepository.class);
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(nullProgrammeList, courseRepository);
+            new US03_AddCourseToProgrammeController(null, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
         });
     }
 
     @Test
-    void shouldThrowExceptionIfCourseIsNull_IsolatedTest() {
+    void shouldThrowExceptionIfPCourseRepositoryIsNull_IsolatedTest() throws IllegalArgumentException {
         // arrange
-        Programme programmeDouble = mock(Programme.class);
-        //act + assert
-        assertThrows(Exception.class, () -> {
-            us03AddCourseToProgrammeController.addCourseToProgramme(programmeDouble, null);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository,null, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
         });
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeIsNull_IsolatedTest() {
+    void shouldThrowExceptionIfPStudyPlanRepositoryIsNull_IsolatedTest() throws IllegalArgumentException {
         // arrange
-        Course courseDouble = mock(Course.class);
-        //act + assert
-        assertThrows(Exception.class, () -> {
-            us03AddCourseToProgrammeController.addCourseToProgramme(null, courseDouble);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository,iCourseRepositoryDDD, null, iCourseInStudyPlanDDDRepository);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfPCourseInStudyPlanRepositoryIsNull_IsolatedTest() throws IllegalArgumentException {
+        // arrange
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository,iCourseRepositoryDDD, iStudyPlanDDDRepository, null);
         });
     }
 
@@ -88,12 +134,12 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllProgrammes_IsolatedTest() {
         // arrange
-        List<Programme> programmeList = mock(List.class);
+        List<ProgrammeDDD> programmeList = mock(List.class);
 
-        when(programmeRepositoryDouble.getAllProgrammes()).thenReturn(programmeList);
+        when(iProgrammeDDDRepository.findAll()).thenReturn(programmeList);
 
         // act
-        List<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
+        Iterable<ProgrammeDDD> result = us03AddCourseToProgrammeController.getAllProgrammes();
 
         // assert
         assertEquals(programmeList, result);
@@ -102,417 +148,431 @@ public class US03AddCourseToProgrammeControllerTest {
     @Test
     void shouldReturnAllCourses_IsolatedTest() {
         // arrange
-        List<Course> courseListDouble = mock(List.class);
-        when(courseRepositoryDouble.getAllCourses()).thenReturn(courseListDouble);
+        List<CourseDDD> courseListDouble = mock(List.class);
+        when(iCourseRepositoryDDD.findAll()).thenReturn(courseListDouble);
         // act
-        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
+        Iterable<CourseDDD> result = us03AddCourseToProgrammeController.getAllCourses();
         // assert
         assertEquals(courseListDouble, result);
     }
 
     @Test
-    void shouldThrowExceptionIfCourseRepositoryIsNull_IsolatedTest() {
+    void shouldReturnAllStudyPlansByProgrammeID_IsolatedTest() {
         // arrange
-        ProgrammeRepository programmeList = mock(ProgrammeRepository.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        List<StudyPlanDDD> studyPlanDDDList = mock(List.class);
+        when(iStudyPlanDDDRepository.getAllStudyPlansByProgrammeId(programmeID)).thenReturn(studyPlanDDDList);
+        // act
+        Iterable<StudyPlanDDD> result = us03AddCourseToProgrammeController.getAllStudyPlansByProgrammeId(programmeID);
+        // assert
+        assertEquals(studyPlanDDDList, result);
+    }
 
-        // act + assert
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfCourseIsNull_IsolatedTest() throws Exception {
+        // arrange
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        Semester semester = mock(Semester.class);
+        StudyPlanDDD studyPlanDDD = mock(StudyPlanDDD.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, null, studyPlanDDD);
+        });
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfStudyPlanIsNull_IsolatedTest() throws Exception {
+        // arrange
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        Semester semester = mock(Semester.class);
+        CourseDDD courseDDD = mock(CourseDDD.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, courseDDD, null);
+        });
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfCurricularYearIsNull_IsolatedTest() throws Exception {
+        // arrange
+        StudyPlanDDD studyPlanDDD = mock(StudyPlanDDD.class);
+        Semester semester = mock(Semester.class);
+        CourseDDD courseDDD = mock(CourseDDD.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {us03AddCourseToProgrammeController.addCourseToProgramme(semester, null, courseDDD, studyPlanDDD);
+        });
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfSemesterIsNull_IsolatedTest() throws Exception {
+        // arrange
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        StudyPlanDDD studyPlanDDD = mock(StudyPlanDDD.class);
+        CourseDDD courseDDD = mock(CourseDDD.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {us03AddCourseToProgrammeController.addCourseToProgramme(null , curricularYear, courseDDD, studyPlanDDD);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeIdIsNull() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(programmeList, null);
+            us03AddCourseToProgrammeController.getAllStudyPlansByProgrammeId(null);
         });
     }
 
     // Integration Tests
 
-    /*
+    @Test
+    void shouldThrowExceptionIfCourseRepositoryNull() throws Exception {
+        // arrange
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, null, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeRepositoryNull() throws Exception {
+        // arrange
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(null, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfStudyPlanRepositoryNull() throws Exception {
+        // arrange
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
+
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, null, iCourseInStudyPlanDDDRepository);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseInStudyPlanRepositoryNull() throws Exception {
+        // arrange
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
+
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, null);
+        });
+    }
+
     @Test
     void shouldCreateAddCourseToProgrammeController() throws Exception {
         // arrange
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
-        WorkingPercentage workingPercentage = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Department department1 = new Department("DEI", "Departamento EI");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
-                "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
-                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        Acronym acronym = new Acronym("LEI");
-        QuantEcts quantEcts = new QuantEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
+
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
         //act
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
         //assert
         assertNotNull(US03AddCourseToProgrammeController);
     }
 
 
     @Test
-    void shouldNotAddCourseToProgrammeIfCourseAlreadyInList() throws Exception {
+    void shouldAddCourseToProgramme_IntegrationTest() throws Exception {
         // arrange
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
-        WorkingPercentage workingPercentage = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Department department1 = new Department("DEI", "Departamento EI");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
-                "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
-                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
+
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+
+        Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
+        CourseDDD courseDDD = new CourseDDD(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        Semester semester = new Semester(2);
+        CurricularYear curricularYear = new CurricularYear(2, 3);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
+        Acronym acronymProgramme = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
         QuantEcts quantEcts = new QuantEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
-        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
-        Programme lei = programmeList.getAllProgrammes().get(0);
-        lei.addCourseToAProgramme(courseRepository.getAllCourses().get(0));
-        Course course1 = lei.getCourseList().get(0);
-        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        Date date = new Date("10-10-2022");
+        DurationInYears durationInYears = new DurationInYears(6);
+        StudyPlanDDD studyPlanDDD = new StudyPlanDDD(programmeID, date, durationInYears, quantEcts);
+
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
         //act
-        boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(lei, course1);
+        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, courseDDD, studyPlanDDD);
+        // assert
+        assertTrue(addCourseToProgramme);
+    }
+
+    @Test
+    void shouldNotAddCourseToProgrammeIfCourseInStudyPlanAlreadyExists_IntegrationTest() throws Exception {
+        // arrange
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
+
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+
+        Name name = new Name("Licenciatura Engenharia Informática");
+        Acronym acronym = new Acronym("LEI");
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
+        CourseDDD courseDDD = new CourseDDD(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        Semester semester = new Semester(2);
+        CurricularYear curricularYear = new CurricularYear(2, 3);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
+        Acronym acronymProgramme = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
+        QuantEcts quantEcts = new QuantEcts(30);
+        Date date = new Date("10-10-2022");
+        DurationInYears durationInYears = new DurationInYears(6);
+        StudyPlanDDD studyPlanDDD = new StudyPlanDDD(programmeID, date, durationInYears, quantEcts);
+
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, courseDDD, studyPlanDDD);
+        //act
+        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, courseDDD, studyPlanDDD);
         // assert
         assertFalse(addCourseToProgramme);
     }
 
     @Test
-    void shouldAddCourseToProgrammeIfAllArgumentsAreValid() throws Exception {
+    void shouldNotThrowExceptionIfCourseIsNull_IntegrationTest() throws Exception {
         // arrange
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
-        WorkingPercentage workingPercentage = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Department department1 = new Department("DEI", "Departamento EI");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
-                "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
-                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        ICourseFactory ICourseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(ICourseFactoryImpl, courseListFactoryImpl);
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        Acronym acronym = new Acronym("LEI");
-        QuantEcts quantEcts = new QuantEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, ICourseFactoryImpl);
-        Course course1 = courseRepository.getAllCourses().get(0);
-        Programme lei = programmeList.getAllProgrammes().get(0);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
-        //act
-        boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(lei, course1);
-        //assert
-        assertTrue(addCourseToProgramme);
-    }
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
 
-    @Test
-    void shouldThrowExceptionIfProgrammeListIsNull() throws Exception {
-        // arrange
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        // act + assert
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+
+        Semester semester = new Semester(2);
+        CurricularYear curricularYear = new CurricularYear(2, 3);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
+        Acronym acronymProgramme = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
+        QuantEcts quantEcts = new QuantEcts(30);
+        Date date = new Date("10-10-2022");
+        DurationInYears durationInYears = new DurationInYears(6);
+        StudyPlanDDD studyPlanDDD = new StudyPlanDDD(programmeID, date, durationInYears, quantEcts);
+
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(null, courseRepository);
+            US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, null, studyPlanDDD);
         });
     }
 
     @Test
-    void shouldThrowExceptionIfCourseRepositoryIsNull() throws IllegalArgumentException {
+    void shouldThrowExceptionIfStudyPlanIsNull_IntegrationTest() throws Exception {
         // arrange
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        // act + assert
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
+
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+
+        Name name = new Name("Licenciatura Engenharia Informática");
+        Acronym acronym = new Acronym("LEI");
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
+        CourseDDD courseDDD = new CourseDDD(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        Semester semester = new Semester(2);
+        CurricularYear curricularYear = new CurricularYear(2, 3);
+
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(programmeList, null);
+            US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, courseDDD, null);
         });
     }
 
     @Test
-    void shouldThrowExceptionIfCourseIsNull() throws Exception {
+    void shouldThrowExceptionIfCurricularYearIsNull_IntegrationTest() throws Exception {
         // arrange
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
-        WorkingPercentage workingPercentage = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Department department1 = new Department("DEI", "Departamento EI");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
-                "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
-                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
 
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
 
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+
+        Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
+        CourseDDD courseDDD = new CourseDDD(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        Semester semester = new Semester(2);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
+        Acronym acronymProgramme = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
         QuantEcts quantEcts = new QuantEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
-        Programme lei = programmeList.getAllProgrammes().get(0);
-        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
-        //act + assert
+        Date date = new Date("10-10-2022");
+        DurationInYears durationInYears = new DurationInYears(6);
+        StudyPlanDDD studyPlanDDD = new StudyPlanDDD(programmeID, date, durationInYears, quantEcts);
+
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            US03AddCourseToProgrammeController.addCourseToProgramme(lei, null);
+            US03AddCourseToProgrammeController.addCourseToProgramme(semester, null, courseDDD, studyPlanDDD);
         });
     }
 
     @Test
-    void shouldReturnSizeOneIfOnlyOneCourseInList() throws Exception {
+    void shouldThrowExceptionIfSemesterIsNull_IntegrationTest() throws Exception {
         // arrange
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
+        ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = new CourseRepositoryListFactoryImpl();
+        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryDDDImpl();
+        ICourseRepositoryDDD iCourseRepositoryDDD = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
 
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
+        ProgrammeDDDFactoryImpl programmeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
 
-        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        ICourseInStudyPlanDDDFactory iCourseInStudyPlanFactory = new CourseInStudyPlanDDDDDDFactoryImpl();
+        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
 
-        // act
-        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
 
-        // assert
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void shouldReturnCourseInList() throws Exception {
-        // arrange
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        Course course = courseRepository.getAllCourses().get(0);
-        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
-        // act
-        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
-
-        // assert
-        assertEquals(course, result.get(0));
-    }
-
-    @Test
-    void shouldReturnSizeOneIfOnlyOneProgrammeInList() throws Exception {
-        // arrange
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
-        WorkingPercentage workingPercentage = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        Department department1 = new Department("DEI", "Departamento EI");
-        TeacherCategory teacherCategory1 = new TeacherCategory("categoria1");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
-                "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
-                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+        Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
+        CourseDDD courseDDD = new CourseDDD(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        CurricularYear curricularYear = new CurricularYear(2, 3);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
+        Acronym acronymProgramme = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
         QuantEcts quantEcts = new QuantEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
-        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
+        Date date = new Date("10-10-2022");
+        DurationInYears durationInYears = new DurationInYears(6);
+        StudyPlanDDD studyPlanDDD = new StudyPlanDDD(programmeID, date, durationInYears, quantEcts);
 
-        // act
-        List<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
-
-        // assert
-        assertEquals(1, result.size());
+        US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
+                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepositoryDDD, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            US03AddCourseToProgrammeController.addCourseToProgramme(null, curricularYear, courseDDD, studyPlanDDD);
+        });
     }
-
-    @Test
-    void shouldReturnProgrammeInList() throws Exception {
-        // arrange
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
-        WorkingPercentage workingPercentage = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        Department department1 = new Department("DEI", "Departamento EI");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
-                "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
-                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        Acronym acronym = new Acronym("LEI");
-        QuantEcts quantEcts = new QuantEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informatica");
-        programmeList.registerProgramme(name, acronym, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
-        Programme programme = programmeList.getAllProgrammes().get(0);
-        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
-
-        // act
-        List<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
-
-        // assert
-        assertEquals(programme, result.get(0));
-    }
-
-    @Test
-    void shouldReturnAllProgrammes() throws Exception {
-        // arrange
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID();
-        WorkingPercentage workingPercentage = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        Department department1 = new Department("DEI", "Departamento EI");
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        DegreeType degree1 = new DegreeType("Licenciatura",30);
-        Teacher teacher1 = new Teacher("NSS", "Nuno Silva", "NSS@isep.ipp.pt", "238310710",
-                "+351 912 345 678","Doutoramento em Engenharia Informatica, 2005, " +
-                "ISEP","Rua São Tomé Nº100", "4435-696","Gondomar","Portugal",
-                addressFactory, date, teacherCategoryID, workingPercentage, teacherID, department1, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanArrayListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        Acronym acronym1 = new Acronym("LEI");
-        Acronym acronym2 = new Acronym("LEQ");
-        QuantEcts quantEcts = new QuantEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Engenharia Informática");
-        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Engenharia Química");
-        programmeList.registerProgramme(name1, acronym1, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
-        programmeList.registerProgramme(name2, acronym2, quantEcts, quantSemesters,
-                degree1, department1, teacher1, programmeCourseListFactoryImpl1,courseInStudyPlanFactory, studyPlanArrayListFactory, studyPlanFactory, courseFactoryImpl);
-
-        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
-
-        // act
-        List<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
-
-        // assert
-        assertEquals(2, result.size());
-        assertEquals(programmeList.getAllProgrammes().get(0), result.get(0));
-        assertEquals(programmeList.getAllProgrammes().get(1), result.get(1));
-    }
-
-    @Test
-    void shouldReturnAllCourses() throws Exception {
-        // arrange
-        ProgrammeFactoryImpl programmeFactory = new ProgrammeFactoryImpl();
-        ProgrammeRepositoryListFactoryImpl programmeListArrayListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepository programmeList = new ProgrammeRepository(programmeFactory, programmeListArrayListFactory);
-
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
-        CourseListFactoryImpl courseListFactoryImpl = new CourseListFactoryImpl();
-        CourseRepository courseRepository = new CourseRepository(courseFactoryImpl, courseListFactoryImpl);
-        courseRepository.registerCourse("matemática", "MTA", 5, 1);
-        courseRepository.registerCourse("algebra", "ALG", 5, 1);
-        US03_AddCourseToProgrammeController us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(programmeList, courseRepository);
-
-        // act
-        List<Course> result = us03AddCourseToProgrammeController.getAllCourses();
-
-        // assert
-        assertEquals(2, result.size());
-        assertEquals(courseRepository.getAllCourses().get(0), result.get(0));
-        assertEquals(courseRepository.getAllCourses().get(1), result.get(1));
-    }
-    */
 }

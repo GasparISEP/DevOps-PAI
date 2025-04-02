@@ -10,11 +10,11 @@ public class Student implements AggregateRoot<StudentID> {
     private NIF _NIF;
     private PhoneNumber _phone;
     private Email _email;
-    private AddressVO _address;
+    private Address _address;
     private StudentAcademicEmail _institutionalEmail;
 
     //constructor validation
-    public Student(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, AddressVO address, StudentAcademicEmail academicEmail) {
+    public Student(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) {
 
         // Validation of StudentID
         if (isArgumentValid(studentID))

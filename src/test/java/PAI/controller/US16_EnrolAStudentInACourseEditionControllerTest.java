@@ -19,7 +19,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryInterfaceIsNull() {
         //arrange
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -48,7 +48,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull() {
         //arrange
-        ICourseEditionRepository doubleCeRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCeRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
 
         //act
@@ -64,7 +64,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnEmptyListWhenStudentIsNull() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -81,7 +81,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -107,7 +107,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAnEmptyListWhenStudentIsNotEnrolledInAnyProgrammeEdition() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -132,7 +132,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -156,7 +156,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -178,7 +178,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -204,7 +204,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -231,7 +231,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -257,7 +257,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition() {
         //arrange
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -290,9 +290,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
-        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
+        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -314,9 +314,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
-        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
+        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -355,9 +355,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
-        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
+        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -372,7 +372,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -382,16 +382,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
@@ -439,9 +434,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
-        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
+        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -461,7 +456,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -471,16 +466,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);
@@ -521,9 +511,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
-        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
+        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -542,7 +532,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -552,16 +542,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);
@@ -608,9 +593,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
-        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
+        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -630,7 +615,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -640,16 +625,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
                 academicBackground, address, departmentID);
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);
@@ -696,9 +677,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImpl_2 ceFactory = new CourseEditionFactoryImpl_2();
-        CourseEditionListFactoryImpl_2 ceListFactory = new CourseEditionListFactoryImpl_2();
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
+        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -717,7 +698,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         PostalCode postalCode = new PostalCode("4444-789");
         Location location = new Location("Porto");
         Country country = new Country("Portugal");
-        AddressVO address = new AddressVO(street, postalCode, location, country);
+        Address address = new Address(street, postalCode, location, country);
         DepartmentAcronym acronym= new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(acronym);
         Name name= new Name("Departmento Engenharia Informática");
@@ -728,16 +709,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
 
         ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         DegreeType degreeType = new DegreeType("Bachelor", 25);
 
         Programme programme1 = new Programme(
                 "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1, courseInStudyPlanFactory,
-                studyPlanListFactory, studyPlanFactory, courseFactoryImpl
+                programmeCourseListFactoryImpl1
         );
 
         programme1.addCourseToAProgramme(course1);

@@ -2,9 +2,11 @@ package PAI.domain.programme;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
+import PAI.domain.studyPlan.StudyPlanDDD;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 class ProgrammeDDDTest {
@@ -186,7 +188,7 @@ class ProgrammeDDDTest {
     }
 
     @Test
-    void equalsProgrammeReturnFalse () throws IllegalArgumentException {
+    void equalsProgrammeReturnFalseWhenProgrammeIsDifferent () throws IllegalArgumentException {
         //arrange
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
@@ -203,6 +205,30 @@ class ProgrammeDDDTest {
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name1, acronym1, qtyEcts1,qtySemesters1,degreeTypeID1,department1, programmeDirectorID);
         ProgrammeDDD CEE = new ProgrammeDDD(name2, acronym2, qtyEcts2,qtySemesters2,degreeTypeID2,department1, programmeDirectorID);
+        //act
+        boolean result = CE.equals(CEE);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void equalsProgrammeReturnFalseWhenProgrammeIsNull () throws IllegalArgumentException {
+        //arrange
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym1 = mock(Acronym.class);
+        Acronym acronym2 = mock(Acronym.class);
+        QuantEcts qtyEcts1 = mock(QuantEcts.class);
+        QuantEcts qtyEcts2 = mock(QuantEcts.class);
+        QuantSemesters qtySemesters1 = mock(QuantSemesters.class);
+        QuantSemesters qtySemesters2 = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
+        DegreeTypeID degreeTypeID2 = mock(DegreeTypeID.class);
+        Department department1 = mock(Department.class);
+        Department department2 = mock(Department.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        ProgrammeDDD CE = new ProgrammeDDD(name1, acronym1, qtyEcts1,qtySemesters1,degreeTypeID1,department1, programmeDirectorID);
+        ProgrammeDDD CEE = null;
         //act
         boolean result = CE.equals(CEE);
         //assert
@@ -230,6 +256,7 @@ class ProgrammeDDDTest {
     void isEqualsReturnFalse () throws IllegalArgumentException {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
         Acronym acronym1 = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
@@ -238,7 +265,7 @@ class ProgrammeDDDTest {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym1, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name1, acronym1, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.isEquals(CEE.getProgrammeID());
         //assert
@@ -418,5 +445,145 @@ class ProgrammeDDDTest {
         TeacherID result = CE.getProgrammeDirectorID();
         //assert
         assertEquals(programmeDirectorID, result);
+    }
+
+    @Test
+    void testIdentityWithSameID() {
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Department department1 = mock(Department.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeDDD programme = new ProgrammeDDD(name,acronym, qtyEcts,qtySemesters,degreeTypeID, department1, programmeDirectorID);
+
+
+
+        assertEquals(programmeID, programme.identity());
+    }
+
+    @Test
+    void testIdentityWithDifferentID() {
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Department department1 = mock(Department.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeDDD programme = new ProgrammeDDD(name,acronym, qtyEcts,qtySemesters,degreeTypeID, department1, programmeDirectorID);
+
+
+
+        assertNotEquals(programmeID, programme.identity());
+    }
+
+    @Test
+    void testSameAsReturnsTrueForSameObject() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Department department1 = mock(Department.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+
+        ProgrammeDDD programme = new ProgrammeDDD(name,acronym, qtyEcts,qtySemesters,degreeTypeID, department1, programmeDirectorID);
+
+        //act + assert
+        assertTrue(programme.sameAs(programme));
+    }
+
+    @Test
+    void testSameAsReturnsFalseForDifferentObjectFromSameClass() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Department department1 = mock(Department.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+
+        ProgrammeDDD programme1 = new ProgrammeDDD(name,acronym, qtyEcts,qtySemesters,degreeTypeID, department1, programmeDirectorID);
+        ProgrammeDDD programme2 = mock(ProgrammeDDD.class);
+        //act + assert
+        assertFalse(programme1.sameAs(programme2));
+    }
+
+    @Test
+    void testSameAsReturnsFalseForNullObject() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Department department1 = mock(Department.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+
+        ProgrammeDDD programme1 = new ProgrammeDDD(name,acronym, qtyEcts,qtySemesters,degreeTypeID, department1, programmeDirectorID);
+        ProgrammeDDD programme2 = null;
+        //act + assert
+        assertFalse(programme1.sameAs(programme2));
+    }
+
+    @Test
+    void testSameAsReturnsFalseForDifferentClassObject() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Department department1 = mock(Department.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+
+        ProgrammeDDD programme1 = new ProgrammeDDD(name,acronym, qtyEcts,qtySemesters,degreeTypeID, department1, programmeDirectorID);
+        String string = "hello";
+        //act + assert
+        assertFalse(programme1.sameAs(string));
+    }
+
+    @Test
+    void hasThisProgrammeNameShouldReturnFalseForNull() {
+        //arrange
+        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        //act + assert
+        assertFalse(programme.hasThisProgrammeName(null));
+    }
+
+    @Test
+    void isEqualsShouldReturnFalseForNull() {
+        //arrange
+        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        //act + assert
+        assertFalse(programme.isEquals(null));
+    }
+    @Test
+    void programmeIDShouldBeBasedOnNameAndAcronym() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Science");
+        Acronym acronym = new Acronym("CS");
+        ProgrammeDDD programme = new ProgrammeDDD(name, acronym, mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(Department.class), mock(TeacherID.class));
+        ProgrammeID expectedId = new ProgrammeID(name, acronym);
+        //act + assert
+        assertEquals(expectedId, programme.identity());
+    }
+
+    @Test
+    void newProgrammeDirectorShouldUpdateDirector() throws Exception {
+
+        TeacherID newDirector = mock(TeacherID.class);
+        ProgrammeDDD programme = new ProgrammeDDD( mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class),mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(Department.class), mock(TeacherID.class));
+
+        programme.newProgrammeDirector(newDirector);
+        assertEquals(newDirector, programme.getProgrammeDirectorID());
     }
 }

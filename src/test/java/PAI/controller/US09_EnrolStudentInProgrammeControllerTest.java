@@ -3,21 +3,16 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
-import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
-import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -28,10 +23,10 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private StudentRepository _studentRepository;
     private static Student _student;
     private StudentID _studentID;
-    private AccessMethodDDDRepository _accessMethodRepository;
-    private static AccessMethodDDD _accessMethod;
+    private AccessMethodRepositoryImpl _accessMethodRepository;
+    private static AccessMethod _accessMethod;
     private AccessMethodID _accessMethodID;
-    private ProgrammeDDDRepository _programmeRepository;
+    private ProgrammeDDDRepositoryImpl _programmeRepository;
     private static ProgrammeDDD _programme;
     private ProgrammeID _programmeID;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
@@ -51,11 +46,11 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         _studentRepository = mock(StudentRepository.class);
-        _accessMethodRepository = mock(AccessMethodDDDRepository.class);
-        _programmeRepository = mock(ProgrammeDDDRepository.class);
+        _accessMethodRepository = mock(AccessMethodRepositoryImpl.class);
+        _programmeRepository = mock(ProgrammeDDDRepositoryImpl.class);
         _programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         _student = mock(Student.class);
-        _accessMethod = mock(AccessMethodDDD.class);
+        _accessMethod = mock(AccessMethod.class);
         _accessMethodID = mock(AccessMethodID.class);
         _nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
         _programme = mock(ProgrammeDDD.class);
@@ -87,8 +82,6 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         StudentAcademicEmail academicEmailDouble2 = new StudentAcademicEmail(mockStudentID2);
         _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, streetDouble2, postalCodeDouble2, locationDouble2, countryDouble2, academicEmailDouble2);
     }
-
-    //quando vai buscar
 
     @Test
     void shouldCreateUS09ControllerTest() {
@@ -164,7 +157,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars)).thenReturn(Optional.of(_accessMethod));
 
         //act
-        Optional<AccessMethodDDD> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
+        Optional<AccessMethod> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
 
         //assert
         assertEquals(result, Optional.of(_accessMethod));
@@ -177,7 +170,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars)).thenReturn(Optional.empty());
 
         //act
-        Optional<AccessMethodDDD> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
+        Optional<AccessMethod> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
 
         //assert
         assertTrue(result.isEmpty());
@@ -190,7 +183,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getAccessMethodByID(_accessMethodID)).thenReturn(Optional.of(_accessMethod));
 
         //act
-        Optional<AccessMethodDDD> result = _controller.getAccessMethodByID(_accessMethodID);
+        Optional<AccessMethod> result = _controller.getAccessMethodByID(_accessMethodID);
 
         //assert
         assertEquals(result, Optional.of(_accessMethod));
@@ -260,7 +253,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(null, _accessMethodID, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Student cannot be null");
+        assertEquals("Student cannot be null", exception.getMessage());
     }
 
     @Test
@@ -270,7 +263,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, null, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Access method cannot be null");
+        assertEquals("Access method cannot be null", exception.getMessage());
     }
 
     @Test
@@ -280,7 +273,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, null, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Programme cannot be null");
+        assertEquals("Programme cannot be null", exception.getMessage());
     }
 
     @Test
@@ -290,7 +283,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 
     @Test
@@ -300,7 +293,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 }
 

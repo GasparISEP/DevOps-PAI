@@ -54,10 +54,6 @@ public class CourseInStudyPlanDDD implements AggregateRoot<CourseInStudyPlanID> 
         return this._studyPlanID;
     }
 
-    public CourseInStudyPlanID getCourseInStudyPlanID() {
-        return this._courseInStudyPlanID;
-    }
-
     @Override
     public CourseInStudyPlanID identity() {
         return this._courseInStudyPlanID;
