@@ -12,7 +12,7 @@ HRC -> System: teacherCategory
 System --> HRC: Choose a department from the list
 HRC -> System: department
 System --> HRC: What are the attributes?
-HRC -> System: teacherAcronym, name, email, nif, phoneNumber,\nstreet, postalCode, location, country,\nacademicBackground, workingPercentage, date
+HRC -> System: teacherAcronym, name, email, nif, phoneNumber,\nstreet, postalCode, location, country, academicBackground,\n workingPercentage, date, countryCode
 System --> HRC: Teacher registered!
 deactivate System
 

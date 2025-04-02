@@ -12,7 +12,8 @@ class US13_RegisterTeacherAndRelevantDataController {
     +getTeacherCategoryList()
     +getDepartmentList()
     +registerTeacher(teacherAcronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String,
-        street: Street, postalCode: String, location: String, country: String, date: String, teacherCategoryId: String, workingPercentage: String, departmentAcronym: String)
+        street: Street, postalCode: String, location: String, country: String, date: String, teacherCategoryId: String,
+         workingPercentage: String, departmentAcronym: String, countryCode: String)
 }
 
 interface ITeacherCategoryRepository {
