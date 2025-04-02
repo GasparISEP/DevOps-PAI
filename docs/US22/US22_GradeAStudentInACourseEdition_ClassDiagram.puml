@@ -74,7 +74,10 @@ class Grade <<ValueObject>> {
         }
 
  class StudentGradeId <<ValueObject>> {
-    id: Long
+    -courseEditionID
+    -studentID
+    +equals()
+    +toString()
         }
 
 class GradeStudentRepository {
@@ -110,7 +113,10 @@ class GradeStudentFactoryImpl {
 
 
 class StudentId <<ValueObject>> {
-
+uniqueNumber: int
++equals()
++getUniqueNumber()
++isEquals()
             }
 
 package "Student" {
@@ -141,7 +147,10 @@ entity "<<root>>\nStudent"  {
                          -Adress : String
                             }
 class CourseEditionId <<ValueObject>> {
-
+-ProgrammeEdiitionID
+-CourseInStudyPlanID
++toString()
++equals()
             }
 
 
