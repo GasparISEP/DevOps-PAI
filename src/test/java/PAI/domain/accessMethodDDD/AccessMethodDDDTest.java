@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class AccessMethodDDDTest {
 
@@ -171,7 +172,7 @@ class AccessMethodDDDTest {
         NameWithNumbersAndSpecialChars accessMethodNameToSearch = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
         //act
-        boolean result = accessMethod.hasThisAccessMethodName(accessMethodNameToSearch);
+        boolean result = accessMethod.sameAs(accessMethodNameToSearch);
         //assert
         assertFalse(result);
     }
@@ -184,7 +185,7 @@ class AccessMethodDDDTest {
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
         //act
-        boolean result = accessMethod.hasThisAccessMethodID(accessMethodIDToSearch);
+        boolean result = accessMethod.identity().equals(accessMethodIDToSearch);
         //assert
         assertFalse(result);
     }

@@ -7,7 +7,7 @@ import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
-import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
+import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepositoryImpl;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private StudentRepository _studentRepository;
     private static Student _student;
     private StudentID _studentID;
-    private AccessMethodDDDRepository _accessMethodRepository;
+    private AccessMethodDDDRepositoryImpl _accessMethodRepository;
     private static AccessMethodDDD _accessMethod;
     private AccessMethodID _accessMethodID;
     private ProgrammeDDDRepositoryImpl _programmeRepository;
@@ -46,7 +46,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         _studentRepository = mock(StudentRepository.class);
-        _accessMethodRepository = mock(AccessMethodDDDRepository.class);
+        _accessMethodRepository = mock(AccessMethodDDDRepositoryImpl.class);
         _programmeRepository = mock(ProgrammeDDDRepositoryImpl.class);
         _programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         _student = mock(Student.class);

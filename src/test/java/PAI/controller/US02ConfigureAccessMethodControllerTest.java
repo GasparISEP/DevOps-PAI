@@ -4,7 +4,7 @@ import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
 import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDListFactoryImpl;
-import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
+import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepositoryImpl;
 import PAI.repository.accessMethodRepositoryDDD.IAccessMethodDDDListFactory;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class US02ConfigureAccessMethodControllerTest {
         //arrange
         IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
         IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
-        AccessMethodDDDRepository doubleAccessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        AccessMethodDDDRepositoryImpl doubleAccessMethodRepository = new AccessMethodDDDRepositoryImpl(accessMethodFactory, accessMethodListFactory);
         //act
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(doubleAccessMethodRepository);
         //assert
@@ -43,7 +43,7 @@ class US02ConfigureAccessMethodControllerTest {
         //arrange
         IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
         IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(accessMethodFactory, accessMethodListFactory);
         NameWithNumbersAndSpecialChars accessMethodName = new NameWithNumbersAndSpecialChars("Maiores 23");
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
         //act
@@ -57,7 +57,7 @@ class US02ConfigureAccessMethodControllerTest {
         //arrange
         IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
         IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(accessMethodFactory, accessMethodListFactory);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
         //act
         boolean isConfigured = ctrl1.configureAccessMethod(null);
@@ -70,7 +70,7 @@ class US02ConfigureAccessMethodControllerTest {
         //arrange
         IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
         IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(accessMethodFactory, accessMethodListFactory);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodRepository);
         NameWithNumbersAndSpecialChars accessMethodName = new NameWithNumbersAndSpecialChars("Maiores 23");
         ctrl1.configureAccessMethod(accessMethodName);

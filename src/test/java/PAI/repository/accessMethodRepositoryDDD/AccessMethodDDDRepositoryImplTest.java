@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class AccessMethodDDDRepositoryTest {
+class AccessMethodDDDRepositoryImplTest {
 
     @Test
     void shouldCreateAccessMethodRepository(){
@@ -19,7 +19,7 @@ class AccessMethodDDDRepositoryTest {
         AccessMethodDDDFactoryImpl doubleAccessMethodFactory = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactory = mock(AccessMethodDDDListFactoryImpl.class);
         //act
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository(doubleAccessMethodFactory, doubleAccessMethodListFactory);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactory, doubleAccessMethodListFactory);
         //assert
         assertNotNull(accessMethodRepository);
     }
@@ -29,7 +29,7 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
@@ -45,11 +45,11 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
         IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
-        AccessMethodDDDRepository accessMethodDDDRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        AccessMethodDDDRepositoryImpl accessMethodDDDRepositoryImpl = new AccessMethodDDDRepositoryImpl(accessMethodFactory, accessMethodListFactory);
         NameWithNumbersAndSpecialChars accessMethodName1 = new NameWithNumbersAndSpecialChars("Maiores 23");
-        accessMethodDDDRepository.registerAccessMethod(accessMethodName1);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(accessMethodName1);
         //act
-        boolean result = accessMethodDDDRepository.registerAccessMethod(accessMethodName1);
+        boolean result = accessMethodDDDRepositoryImpl.registerAccessMethod(accessMethodName1);
         //assert
         assertFalse(result);
     }
@@ -59,7 +59,7 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
@@ -74,7 +74,7 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = null;
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenThrow(new IllegalArgumentException("Cannot create Access Method, because name is invalid."));
         //act
@@ -88,7 +88,7 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
@@ -105,7 +105,7 @@ class AccessMethodDDDRepositoryTest {
     void shouldNotGetAccessMethodByNameIfRepositoryIsEmpty(){
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //act
         Optional<AccessMethodDDD> optionalAccessMethod = accessMethodRepository.getAccessMethodByName(doubleAccessMethodName);
@@ -117,63 +117,28 @@ class AccessMethodDDDRepositoryTest {
     void shouldNotGetAccessMethodByNameIfNameNotFound(){
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
         accessMethodRepository.registerAccessMethod(doubleAccessMethodName);
-        when(doubleAccessMethod.hasThisAccessMethodName(doubleAccessMethodName)).thenReturn(false);
+        when(doubleAccessMethod.sameAs(doubleAccessMethodName)).thenReturn(false);
         //act
         Optional<AccessMethodDDD> optionalAccessMethod = accessMethodRepository.getAccessMethodByName(doubleAccessMethodName);
         //assert
         assertEquals(Optional.empty(), optionalAccessMethod);
-    }
-    @Test
-    void shouldGetAccessMethodByID() {
-        //arrange
-        AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
-        AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
-        AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
-        AccessMethodID doubleAccessMethodID = mock(AccessMethodID.class);
-        NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
-        accessMethodRepository.registerAccessMethod(doubleAccessMethodName);
-        when(doubleAccessMethod.hasThisAccessMethodID(doubleAccessMethodID)).thenReturn(true);
-        //act
-        Optional<AccessMethodDDD> optionalAccessMethod = accessMethodRepository.getAccessMethodByID(doubleAccessMethodID);
-        AccessMethodDDD result = optionalAccessMethod.get();
-        //assert
-        assertEquals(doubleAccessMethod, result);
     }
 
     @Test
     void shouldNotGetAccessMethodByIDIfRepositoryIsEmpty(){
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodRepository = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         AccessMethodID doubleAccessMethodID = mock(AccessMethodID.class);
         //act
-        Optional<AccessMethodDDD> optionalAccessMethod = accessMethodRepository.getAccessMethodByID(doubleAccessMethodID);
+        Optional<AccessMethodDDD> optionalAccessMethod = accessMethodRepository.ofIdentity(doubleAccessMethodID);
         //assert
         assertEquals(Optional.empty(),optionalAccessMethod);
-    }
-
-    @Test
-    void shouldNotGetAccessMethodByIDIfNameNotFound(){
-        AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
-        AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodRepository = new AccessMethodDDDRepository (doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
-        AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
-        NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodID doubleAccessMethodID = mock(AccessMethodID.class);
-        when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
-        accessMethodRepository.registerAccessMethod(doubleAccessMethodName);
-        when(doubleAccessMethod.hasThisAccessMethodID(doubleAccessMethodID)).thenReturn(false);
-        //act
-        Optional<AccessMethodDDD> optionalAccessMethod = accessMethodRepository.getAccessMethodByID(doubleAccessMethodID);
-        //assert
-        assertEquals(Optional.empty(), optionalAccessMethod);
     }
 
     @Test
@@ -181,16 +146,16 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodDDDRepository = new AccessMethodDDDRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodDDDRepositoryImpl = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         AccessMethodDDD doubleAccessMethod2 = mock(AccessMethodDDD.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod2);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName);
         //act
-        Iterable <AccessMethodDDD> accessMethods = accessMethodDDDRepository.findAll();
+        Iterable <AccessMethodDDD> accessMethods = accessMethodDDDRepositoryImpl.findAll();
         Iterator<AccessMethodDDD> iterator = accessMethods.iterator();
         AccessMethodDDD get1 = iterator.next();
         AccessMethodDDD get2 = iterator.next();
@@ -206,23 +171,23 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodDDDRepository = new AccessMethodDDDRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodDDDRepositoryImpl = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
 
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         NameWithNumbersAndSpecialChars doubleAccessMethodName2 = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod2 = mock(AccessMethodDDD.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName);
 
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName2)).thenReturn(doubleAccessMethod2);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName2);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName2);
 
         AccessMethodID doubleAccessMethodID = mock(AccessMethodID.class);
         when(doubleAccessMethod.identity()).thenReturn(mock(AccessMethodID.class));
         when(doubleAccessMethod2.identity()).thenReturn(doubleAccessMethodID);
         //act
-        Optional<AccessMethodDDD> accessMethod = accessMethodDDDRepository.ofIdentity(doubleAccessMethodID);
+        Optional<AccessMethodDDD> accessMethod = accessMethodDDDRepositoryImpl.ofIdentity(doubleAccessMethodID);
         //assert
         assertEquals(Optional.of(doubleAccessMethod2), accessMethod);
     }
@@ -232,20 +197,20 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodDDDRepository = new AccessMethodDDDRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodDDDRepositoryImpl = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         AccessMethodDDD doubleAccessMethod2 = mock(AccessMethodDDD.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod2);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName);
         AccessMethodID doubleAccessMethodID = mock(AccessMethodID.class);
         when(doubleAccessMethod.identity()).thenReturn(doubleAccessMethodID);
         when(doubleAccessMethod2.identity()).thenReturn(doubleAccessMethodID);
         AccessMethodID doubleAccessMethodID2 = mock(AccessMethodID.class);
         //act
-        Optional<AccessMethodDDD> accessMethod = accessMethodDDDRepository.ofIdentity(doubleAccessMethodID2);
+        Optional<AccessMethodDDD> accessMethod = accessMethodDDDRepositoryImpl.ofIdentity(doubleAccessMethodID2);
         //assert
         assertEquals(Optional.empty(), accessMethod);
     }
@@ -255,24 +220,24 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodDDDRepository = new AccessMethodDDDRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodDDDRepositoryImpl = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
 
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         NameWithNumbersAndSpecialChars doubleAccessMethodName2 = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod2 = mock(AccessMethodDDD.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName);
 
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName2)).thenReturn(doubleAccessMethod2);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName2);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName2);
 
         AccessMethodID doubleAccessMethodID = mock(AccessMethodID.class);
         when(doubleAccessMethod.identity()).thenReturn(mock(AccessMethodID.class));
         when(doubleAccessMethod2.identity()).thenReturn(doubleAccessMethodID);
 
         //act
-        boolean result = accessMethodDDDRepository.containsOfIdentity(doubleAccessMethodID);
+        boolean result = accessMethodDDDRepositoryImpl.containsOfIdentity(doubleAccessMethodID);
         //assert
         assertTrue(result);
     }
@@ -282,24 +247,24 @@ class AccessMethodDDDRepositoryTest {
         //arrange
         AccessMethodDDDFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodDDDFactoryImpl.class);
         AccessMethodDDDListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodDDDListFactoryImpl.class);
-        AccessMethodDDDRepository accessMethodDDDRepository = new AccessMethodDDDRepository(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+        AccessMethodDDDRepositoryImpl accessMethodDDDRepositoryImpl = new AccessMethodDDDRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
 
         NameWithNumbersAndSpecialChars doubleAccessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod = mock(AccessMethodDDD.class);
         NameWithNumbersAndSpecialChars doubleAccessMethodName2 = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodDDD doubleAccessMethod2 = mock(AccessMethodDDD.class);
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName)).thenReturn(doubleAccessMethod);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName);
 
         when(doubleAccessMethodFactoryImpl.createAccessMethod(doubleAccessMethodName2)).thenReturn(doubleAccessMethod2);
-        accessMethodDDDRepository.registerAccessMethod(doubleAccessMethodName2);
+        accessMethodDDDRepositoryImpl.registerAccessMethod(doubleAccessMethodName2);
 
         AccessMethodID doubleAccessMethodID = mock(AccessMethodID.class);
         when(doubleAccessMethod.identity()).thenReturn(mock(AccessMethodID.class));
         when(doubleAccessMethod2.identity()).thenReturn(mock(AccessMethodID.class));
 
         //act
-        boolean result = accessMethodDDDRepository.containsOfIdentity(doubleAccessMethodID);
+        boolean result = accessMethodDDDRepositoryImpl.containsOfIdentity(doubleAccessMethodID);
         //assert
         assertFalse(result);
     }
