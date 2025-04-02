@@ -6,6 +6,7 @@ import PAI.VOs.Name;
 import PAI.ddd.IRepository;
 import PAI.domain.Department;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface IDepartmentRepository extends IRepository<DepartmentID, Department> {
@@ -13,4 +14,8 @@ public interface IDepartmentRepository extends IRepository<DepartmentID, Departm
     boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception;
 
     Set<DepartmentID> getDepartmentIDs();
+
+    Optional<Department> findDepartmentByID(DepartmentID departmentID);
+
+    boolean departmentExists(DepartmentID departmentID);
 }
