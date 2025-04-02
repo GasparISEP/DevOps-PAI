@@ -6,7 +6,7 @@ import PAI.VOs.Semester;
 import PAI.VOs.StudyPlanID;
 
 public class CourseInStudyPlanDDDDDDFactoryImpl implements ICourseInStudyPlanDDDFactory {
-        public CourseInStudyPlanDDD newCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID) throws Exception {
+        public CourseInStudyPlanDDD newCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID) {
             return new CourseInStudyPlanDDD(semester, curricularYear, courseID, studyPlanID);
         }
 }

@@ -48,16 +48,39 @@ public class CourseDDD implements AggregateRoot<CourseID> {
 
         if (objectToCompare instanceof CourseDDD) {
 
-            CourseDDD courseDDD = (CourseDDD) objectToCompare;
+            CourseDDD courseDDDTest = (CourseDDD) objectToCompare;
 
-            if (_courseID.equals(courseDDD._courseID))
+            if (_courseID.equals(courseDDDTest._courseID))
                 return true;
         }
         return false;
     }
 
     @Override
-    public boolean sameAs(Object object) {
-        return false;
+    public boolean sameAs(Object objectToCompare) {
+        if (!(objectToCompare instanceof CourseDDD)) {
+            return false;
+        }
+        CourseDDD courseDDDTest = (CourseDDD) objectToCompare;
+        return _name.equals(courseDDDTest._name) &&
+                _acronym.equals((courseDDDTest._acronym)) &&
+                _quantityCreditsEcts.equals(courseDDDTest._quantityCreditsEcts) &&
+                _duration.equals(courseDDDTest._duration);
+    }
+
+    public Name getName() {
+        return _name;
+    }
+
+    public Acronym getAcronym() {
+        return _acronym;
+    }
+
+    public CourseQuantityCreditsEcts getCourseQuantityCreditsEcts() {
+        return _quantityCreditsEcts;
+    }
+
+    public DurationCourseInCurricularYear getDurationCourseInCurricularYear() {
+        return _duration;
     }
 }
