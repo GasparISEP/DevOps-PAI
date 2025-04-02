@@ -375,4 +375,151 @@ class UtilsTest {
         assertFalse(result2);
     }
 
+    @Test
+    void hungary_HU_isCorrect(){
+        //arrange
+        String countryName = "Hungary";
+        Country country = new Country(countryName);
+        String stringNIF1 = "1234567890";
+        //act
+        boolean result1 = Utils.NIFValidator(country,stringNIF1);
+        //assert
+        assertTrue(result1);
+    }
+
+    @Test
+    void hungary_HU_isIncorrect(){
+        //arrange
+        String countryName = "Hungary";
+        Country country = new Country(countryName);
+        String stringNIF1 = "12345678901";
+        String stringNIF2 = "123456789";
+        //act
+        boolean result1 = Utils.NIFValidator(country,stringNIF1);
+        boolean result2 = Utils.NIFValidator(country,stringNIF2);
+        //assert
+        assertFalse(result1);
+        assertFalse(result2);
+    }
+
+    @Test
+    void ireland_IE_isCorrect(){
+        //arrange
+        String countryName = "Ireland";
+        Country country = new Country(countryName);
+        String stringNIF1 = "1234567A";
+        String stringNIF2 = "1234567AB";
+        String stringNIF3 = "1234567aB";
+        //act
+        boolean result1 = Utils.NIFValidator(country,stringNIF1);
+        boolean result2 = Utils.NIFValidator(country,stringNIF2);
+        boolean result3 = Utils.NIFValidator(country,stringNIF3);
+        //assert
+        assertTrue(result1);
+        assertTrue(result2);
+        assertTrue(result3);
+    }
+
+    @Test
+    void ireland_IE_isIncorrect(){
+        //arrange
+        String countryName = "Ireland";
+        Country country = new Country(countryName);
+        String stringNIF1 = "1234567ABC";
+        String stringNIF2 = "123456AB";
+        //act
+        boolean result1 = Utils.NIFValidator(country,stringNIF1);
+        boolean result2 = Utils.NIFValidator(country,stringNIF2);
+        //assert
+        assertFalse(result1);
+        assertFalse(result2);
+    }
+
+    @Test
+    void italy_IT_isCorrect(){
+        //arrange
+        String countryName = "Italy";
+        Country country = new Country(countryName);
+        String stringNIF1 = "ABCDEF12A12A123A";
+        //act
+        boolean result = Utils.NIFValidator(country,stringNIF1);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void italy_IT_isIncorrect(){
+        //arrange
+        String countryName = "Italy";
+        Country country = new Country(countryName);
+        String stringNIF1 = "ABCDE12A12A123A";
+        String stringNIF2 = "ABCDEF123A12A123A";
+        String stringNIF3 = "ABCDEF12AB12A123A";
+        String stringNIF4 = "ABCDEF12A123A123A";
+        //act
+        boolean result = Utils.NIFValidator(country,stringNIF1);
+        boolean result2 = Utils.NIFValidator(country,stringNIF2);
+        boolean result3 = Utils.NIFValidator(country,stringNIF3);
+        boolean result4 = Utils.NIFValidator(country,stringNIF4);
+        //assert
+        assertFalse(result);
+        assertFalse(result2);
+        assertFalse(result3);
+        assertFalse(result4);
+    }
+
+    @Test
+    void latvia_LV_isCorrect(){
+        //arrange
+        String countryName = "Latvia";
+        Country country = new Country(countryName);
+        String stringNIF = "12345678901";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void latvia_LV_isIncorrect(){
+        //arrange
+        String countryName = "Latvia";
+        Country country = new Country(countryName);
+        String stringNIF = "1234567890";
+        String stringNIF2 = "123456789012";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        boolean result2 = Utils.NIFValidator(country, stringNIF2);
+        //assert
+        assertFalse(result);
+        assertFalse(result2);
+    }
+
+    @Test
+    void lithuania_LT_isCorrect(){
+        //arrange
+        String countryName = "Lithuania";
+        Country country = new Country(countryName);
+        String stringNIF = "12345678901";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void lithuania_LT_isIncorrect(){
+        //arrange
+        String countryName = "Lithuania";
+        Country country = new Country(countryName);
+        String stringNIF = "1234567890";
+        String stringNIF2 = "123456789012";
+        //act
+        boolean result = Utils.NIFValidator(country, stringNIF);
+        boolean result2 = Utils.NIFValidator(country, stringNIF2);
+        //assert
+        assertFalse(result);
+        assertFalse(result2);
+    }
+
 }

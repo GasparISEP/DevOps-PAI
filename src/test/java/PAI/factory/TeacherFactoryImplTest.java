@@ -29,8 +29,6 @@ class TeacherFactoryImplTest {
     private PostalCode _postalCodeDouble;
     private PAI.VOs.Location _locationDouble;
     private Country _countryDouble;
-    private Teacher _teacherDouble;
-    private AddressVO _address;
 
     private void createTeacherAndArgumentsDouble (){
         _teacherAcronymDouble = mock(TeacherAcronym.class);
@@ -44,8 +42,6 @@ class TeacherFactoryImplTest {
         _postalCodeDouble = mock(PostalCode.class);
         _locationDouble = mock(Location.class);
         _countryDouble = mock(Country.class);
-        _teacherDouble = mock(Teacher.class);
-        _address = mock(AddressVO.class);
     }
 
     @Test
@@ -137,5 +133,18 @@ class TeacherFactoryImplTest {
                 assertTrue(e.getCause().getMessage().contains("Field is null"));
             }
         }
+    }
+
+    @Test
+    void shouldNotReturnNullAddressVO() {
+        createTeacherAndArgumentsDouble();
+        ITeacherFactory factory = new TeacherFactoryImpl();
+
+        Teacher teacher = factory.createTeacher(
+                _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
+                _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
+                _countryDouble, _departmentIDDouble
+        );
+        assertNotNull(teacher);
     }
 }

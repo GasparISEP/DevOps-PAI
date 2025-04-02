@@ -6,7 +6,6 @@ import PAI.ddd.IRepository;
 import PAI.domain.*;
 import PAI.factory.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,27 +57,13 @@ public class TeacherRepository implements ITeacherRepository {
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);
 
-        if (isDuplicateTeacherInList(teacher)){
+        if (containsOfIdentity(teacher.identity())){
             return Optional.empty();
         }
 
         save(teacher);
 
         return Optional.of(teacher.identity());
-    }
-
-    private boolean isDuplicateTeacherInList (Teacher teacher) {
-
-        try {
-            for (Teacher existingTeacher : _teachers) {
-                if (teacher.sameAs(existingTeacher)) {
-                    throw new IllegalArgumentException("A teacher with the same identity already exists in the system.");
-                }
-            }
-        } catch (IllegalArgumentException e){
-            return true;
-        }
-        return false;
     }
 
     public Optional<Teacher> getTeacherByNIF(NIF nif) {

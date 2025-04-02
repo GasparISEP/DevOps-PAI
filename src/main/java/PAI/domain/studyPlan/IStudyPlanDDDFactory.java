@@ -7,5 +7,5 @@ import PAI.VOs.QuantEcts;
 
 public interface IStudyPlanDDDFactory {
 
-    StudyPlanDDD newStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts) throws Exception;
+    StudyPlanDDD newStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts);
 }

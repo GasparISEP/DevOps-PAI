@@ -11,4 +11,6 @@ public class StudyPlanDDDListFactoryImpl implements IStudyPlanDDDListFactory {
     public List<StudyPlanDDD> newArrayList() {
         return new ArrayList<>();
     }
+
+    
 }
