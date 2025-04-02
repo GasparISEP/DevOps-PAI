@@ -3,17 +3,17 @@ package PAI.controller.US27_DDD;
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.programme.ProgrammeDDD;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
 
 import java.util.Optional;
 
 public class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
 
-    ProgrammeDDDRepository _programmeDDDList;
+    ProgrammeDDDRepositoryImpl _programmeDDDList;
     StudyPlanDDDRepositoryImpl _studyPlanDDDRepo;
 
-    public US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan (ProgrammeDDDRepository programmeDDDList, StudyPlanDDDRepositoryImpl studyPlanDDDRepo) throws Exception {
+    public US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan (ProgrammeDDDRepositoryImpl programmeDDDList, StudyPlanDDDRepositoryImpl studyPlanDDDRepo) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");

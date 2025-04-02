@@ -4,7 +4,6 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
-import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,13 +12,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeDDDRepositoryTest {
+class ProgrammeDDDRepositoryImplTest {
     @Test
     void shouldRegisterValidProgramme() throws Exception {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         Acronym acronym = mock(Acronym.class);
         DegreeTypeID master = mock(DegreeTypeID.class);
         Department CSE = mock(Department.class);
@@ -40,7 +39,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         DegreeTypeID master = mock(DegreeTypeID.class);
         Department CSE = mock(Department.class);
         TeacherID teacher = mock(TeacherID.class);
@@ -64,7 +63,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeListListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeListListFactory);
+        ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeListListFactory);
         ProgrammeID programmeID = mock(ProgrammeID.class);
 
         // Act
@@ -80,7 +79,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         DegreeTypeID master = mock(DegreeTypeID.class);
 
         Department departmentDouble = mock(Department.class);
@@ -109,7 +108,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeList = new ProgrammeDDDRepository(IProgrammeFactoryDouble, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         DegreeTypeID master = mock(DegreeTypeID.class);
         Department cse = mock(Department.class);
         TeacherID teacher = mock(TeacherID.class);
@@ -137,7 +136,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         IProgrammeDDDFactory IProgrammeFactory = mock(IProgrammeDDDFactory.class);
-        ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactory, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeRepoListFactory);
 
         List<ProgrammeDDD> programmeListMock = List.of(mock(ProgrammeDDD.class), mock(ProgrammeDDD.class));
         when(programmeRepoListFactory.copyProgrammeArrayList(any())).thenReturn(programmeListMock);
@@ -179,7 +178,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         IProgrammeDDDFactory IProgrammeFactory = mock(IProgrammeDDDFactory.class);
-        ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactory, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeRepoListFactory);
 
         List<ProgrammeDDD> programmeListMock = List.of(mock(ProgrammeDDD.class), mock(ProgrammeDDD.class));
         when(programmeRepoListFactory.copyProgrammeArrayList(any())).thenReturn(programmeListMock);
@@ -197,7 +196,7 @@ class ProgrammeDDDRepositoryTest {
         //Arrange
         IProgrammeDDDFactory IProgrammeFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactory, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeRepoListFactory);
 
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
@@ -228,7 +227,7 @@ class ProgrammeDDDRepositoryTest {
         //Arrange
         IProgrammeDDDFactory IProgrammeFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactory, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeRepoListFactory);
 
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
@@ -260,7 +259,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactory, programmeRepoListFactory);
+        ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeRepoListFactory);
 
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
@@ -303,7 +302,7 @@ class ProgrammeDDDRepositoryTest {
         // Arrange
         IProgrammeDDDFactory IProgrammeFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeListRepoFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepository programmeRepo = new ProgrammeDDDRepository(IProgrammeFactory, programmeListRepoFactory);
+        ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeListRepoFactory);
 
         // Act
         List<NameWithNumbersAndSpecialChars> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
@@ -334,7 +333,7 @@ class ProgrammeDDDRepositoryTest {
         when(programmeListRepoFactory.copyProgrammeArrayList(anyList()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        ProgrammeDDDRepository repository = new ProgrammeDDDRepository(IProgrammeFactory, programmeListRepoFactory);
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeListRepoFactory);
 
         // Act
         repository.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, master, cse, teacher);
@@ -359,7 +358,7 @@ class ProgrammeDDDRepositoryTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
 
-        ProgrammeDDDRepository repository = new ProgrammeDDDRepository(IProgrammeFactory, programmeListRepoFactory);
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, programmeListRepoFactory);
 
         // Act
         ProgrammeID nonExistentID = new ProgrammeID(name, acronym);
