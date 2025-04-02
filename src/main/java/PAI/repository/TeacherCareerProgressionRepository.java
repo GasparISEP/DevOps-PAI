@@ -96,6 +96,9 @@ public class TeacherCareerProgressionRepository implements ITeacherCareerProgres
 
     public boolean updateWorkingPercentageInTeacherCareerProgression(Date date, WorkingPercentage workingPercentage, TeacherID teacherID) throws Exception {
 
+        if(date == null || workingPercentage == null || teacherID == null)
+            return false;
+
         Optional<TeacherCareerProgression> optionalTCP = findLastTCPFromTeacherID(teacherID);
 
         if (optionalTCP.isEmpty())
@@ -108,10 +111,12 @@ public class TeacherCareerProgressionRepository implements ITeacherCareerProgres
 
         TeacherCategoryID teacherCategoryID = lastTCP.getTeacherCategoryID();
 
-        if(lastTCP.getWorkingPercentage() == workingPercentage)
+        if(lastTCP.getWorkingPercentage().equals(workingPercentage))
             return false;
 
-        return createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+        createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+
+        return true;
     }
 
     public boolean updateTeacherCategoryInTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, TeacherID teacherID) throws Exception {
