@@ -1,14 +1,12 @@
 package PAI.controller;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
-
-import java.util.Optional;
+import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepositoryImpl;
 
 public class US02_ConfigureAccessMethodController {
 
-    private final AccessMethodDDDRepository _accessMethodRepository;
+    private final AccessMethodDDDRepositoryImpl _accessMethodRepository;
 
-    public US02_ConfigureAccessMethodController(AccessMethodDDDRepository accessMethodRepository) {
+    public US02_ConfigureAccessMethodController(AccessMethodDDDRepositoryImpl accessMethodRepository) {
 
         _accessMethodRepository = accessMethodRepository;
 

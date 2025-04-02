@@ -7,11 +7,11 @@ import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class AccessMethodDDDRepository implements IRepositoryAccessMethodDDD{
+public class AccessMethodDDDRepositoryImpl implements IRepositoryAccessMethodDDD{
     private final IAccessMethodDDDFactory _accessMethodFactory;
     private final List<AccessMethodDDD> _accessMethods;
 
-    public AccessMethodDDDRepository (IAccessMethodDDDFactory accessMethodFactory, IAccessMethodDDDListFactory accessMethodListFactory){
+    public AccessMethodDDDRepositoryImpl(IAccessMethodDDDFactory accessMethodFactory, IAccessMethodDDDListFactory accessMethodListFactory){
         _accessMethodFactory = accessMethodFactory;
         _accessMethods = accessMethodListFactory.createAccessMethodList();
     }
