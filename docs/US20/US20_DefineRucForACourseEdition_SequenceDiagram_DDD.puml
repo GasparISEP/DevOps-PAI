@@ -17,7 +17,7 @@ participant "tL1:List<Teacher>" as LT #application
 PD -> UI ++ #application: I want to define the RUC for a Course Edition
 UI -> C : getAllTeachers()
 activate C #application
-C -> TR : getAllTeachers()
+C -> TR : findAll()
 activate TR #application
 TR --> C -- : tL1
 C --> UI : tL1
@@ -27,26 +27,26 @@ deactivate C
 
 PD <-- UI --: Which Teacher?
 PD -> UI ++ #application: t1
-UI -> C : t1.getTeacherID()
+UI -> C : getAllCourseEditions()
 activate C #application
-C -> T : getTeacherID()
-activate T #application
-T --> C -- : t1ID
-C --> UI : t1ID
+C -> TR : findAll()
+activate TR #application
+TR --> C -- : ceL1
+C --> UI : ceL1
 
 deactivate C
 
 PD <-- UI --: Which Course Edition?
 PD -> UI ++ #application: ce1
-UI -> C : ce1.setRuc(t1ID)
+UI -> C : defineRucForCourseEdition(ce1, t1ID)
 activate C #application
 C -> CE : setRuc(t1ID)
 activate CE #application
-CE --> C -- : true
-C --> UI : true
+CE --> C -- : True
+C --> UI : True
 
 deactivate C
-UI --> PD : Ruc defined.
+UI --> PD : RUC defined
 
 deactivate UI
 
