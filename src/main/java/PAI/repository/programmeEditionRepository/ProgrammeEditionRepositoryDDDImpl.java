@@ -52,7 +52,7 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
 
     @Override
     public Iterable<ProgrammeEditionDDD> findAll() {
-        return null;
+        return _programmeEditions;
     }
 
     @Override
