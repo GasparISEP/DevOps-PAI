@@ -1029,4 +1029,58 @@ class CourseEditionEnrolmentRepositoryImplTest {
         //act + assert
         assertTrue(repository.containsOfIdentity(enrolmentID));
     }
+
+    @Test
+    void should_return_true_when_ID_exists(){
+
+        //arrange
+        ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF,doubleICEELF);
+
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
+
+        when(enrolment.identity()).thenReturn(enrolmentID);
+
+        repository.save(enrolment);
+
+        //act
+        boolean idExists = repository.containsOfIdentity(enrolmentID);
+
+        //assert
+        assertTrue(idExists);
+    }
+
+    @Test
+    void should_return_false_if_ID_doesnt_exists(){
+
+        //arrange
+        ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF,doubleICEELF);
+
+        CourseEditionEnrolmentID idDoesntExists = mock(CourseEditionEnrolmentID.class);
+
+        //act
+        boolean idExists = repository.containsOfIdentity(idDoesntExists);
+
+        //arrange
+        assertFalse(idExists);
+    }
+
+    @Test
+    void should_return_false_if_ID_is_null(){
+
+        //arrange
+        ICourseEditionEnrolmentFactory doubleICEEF = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory doubleICEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleICEEF,doubleICEELF);
+
+        //act
+        boolean idExists = repository.containsOfIdentity(null);
+
+        //assert
+        assertFalse(idExists);
+    }
 }
