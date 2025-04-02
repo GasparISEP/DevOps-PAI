@@ -7,8 +7,10 @@ import PAI.domain.programmeEdition.IProgrammeEditionDDDFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -285,17 +287,43 @@ class ProgrammeEditionRepositoryDDDImplTest {
 
     // findAll Test
     @Test
-    void shouldReturnNullWhenFindAll() throws Exception {
+    void shouldReturnIterableWithProgrammeEditionsContainedInTheRepository() throws Exception {
         // Arrange
         IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        ProgrammeEditionDDD pE1 = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD pE2 = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD pE3 = mock(ProgrammeEditionDDD.class);
+        when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
+
         IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
         ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
 
         // Act
-        Iterable<ProgrammeEditionDDD> pE = pER.findAll();
+        Iterable<ProgrammeEditionDDD> pERCheck = pER.findAll();
 
         // Assert
-        assertNull(pE);
+        assertNotNull(pERCheck);
+        List<ProgrammeEditionDDD> resultList = StreamSupport.stream(pERCheck.spliterator(), false).toList();
+        assertEquals(3, resultList.size());
+        assertTrue(resultList.containsAll(Set.of(pE1, pE2, pE3)));
+    }
+
+    @Test
+    void shouldReturnEmptyIterableIfRepositoryIsEmpty() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of()));
+
+        IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
+        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+
+        // Act
+        Iterable<ProgrammeEditionDDD> pERCheck = pER.findAll();
+
+        // Assert
+        assertNotNull(pERCheck);
+        List<ProgrammeEditionDDD> resultList = StreamSupport.stream(pERCheck.spliterator(), false).toList();
+        assertEquals(0, resultList.size());
     }
 
 
