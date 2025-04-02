@@ -1,4 +1,4 @@
-package PAI.domain.accessMethodDDD;
+package PAI.domain.accessMethod;
 
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
@@ -8,24 +8,24 @@ import org.mockito.MockedConstruction;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class AccessMethodDDDFactoryImplTest {
+class AccessMethodFactoryImplTest {
 
     @Test
     void givenMockedConstructorAccessMethodFactoryShouldCreateAccessMethod() throws InstantiationException {
         //arrange
-        AccessMethodDDDFactoryImpl accessMethodFactoryImpl = new AccessMethodDDDFactoryImpl();
+        AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
         AccessMethodID accessMethodID = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        try (MockedConstruction<AccessMethodDDD> mockAccessMethod = mockConstruction(AccessMethodDDD.class, (mock, context) ->{
+        try (MockedConstruction<AccessMethod> mockAccessMethod = mockConstruction(AccessMethod.class, (mock, context) ->{
         })) {
             //act
-            AccessMethodDDD accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodID,accessMethodName);
+            AccessMethod accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodID,accessMethodName);
             //assert
             assertNotNull(accessMethod);
 
             //O objeto isolado deve existir
             assertEquals(1, mockAccessMethod.constructed().size());
-            AccessMethodDDD doubleAccessMethod = mockAccessMethod.constructed().get(0);
+            AccessMethod doubleAccessMethod = mockAccessMethod.constructed().get(0);
             assertNotNull(doubleAccessMethod);
             assertEquals(accessMethod,doubleAccessMethod);
         }
@@ -34,11 +34,11 @@ class AccessMethodDDDFactoryImplTest {
     @Test
     void mockingConstructorThrowingException(){
         //arrange
-        AccessMethodDDDFactoryImpl accessMethodFactoryImpl = new AccessMethodDDDFactoryImpl();
+        AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
         AccessMethodID accessMethodID = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //Use try-with-resources to mock construction and throw an exception
-        try (MockedConstruction<AccessMethodDDD> mock = mockConstruction(AccessMethodDDD.class,(mocked, context) ->
+        try (MockedConstruction<AccessMethod> mock = mockConstruction(AccessMethod.class,(mocked, context) ->
         {
             //Define behavior: throwing an exception when a new instance of Location is created
             throw new RuntimeException(new InstantiationException("AccessMethod constructor failed"));
@@ -57,18 +57,18 @@ class AccessMethodDDDFactoryImplTest {
     @Test
     void givenMockedConstructorAccessMethodFactoryShouldCreateAccessMethodOnlyWithName() throws InstantiationException {
         //arrange
-        AccessMethodDDDFactoryImpl accessMethodFactoryImpl = new AccessMethodDDDFactoryImpl();
+        AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        try (MockedConstruction<AccessMethodDDD> mockAccessMethod = mockConstruction(AccessMethodDDD.class, (mock, context) ->{
+        try (MockedConstruction<AccessMethod> mockAccessMethod = mockConstruction(AccessMethod.class, (mock, context) ->{
         })) {
             //act
-            AccessMethodDDD accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodName);
+            AccessMethod accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodName);
             //assert
             assertNotNull(accessMethod);
 
             //O objeto isolado deve existir
             assertEquals(1, mockAccessMethod.constructed().size());
-            AccessMethodDDD doubleAccessMethod = mockAccessMethod.constructed().get(0);
+            AccessMethod doubleAccessMethod = mockAccessMethod.constructed().get(0);
             assertNotNull(doubleAccessMethod);
             assertEquals(accessMethod,doubleAccessMethod);
         }
@@ -77,10 +77,10 @@ class AccessMethodDDDFactoryImplTest {
     @Test
     void mockingConstructorOnlyWithNameThrowingException(){
         //arrange
-        AccessMethodDDDFactoryImpl accessMethodFactoryImpl = new AccessMethodDDDFactoryImpl();
+        AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //Use try-with-resources to mock construction and throw an exception
-        try (MockedConstruction<AccessMethodDDD> mock = mockConstruction(AccessMethodDDD.class,(mocked, context) ->
+        try (MockedConstruction<AccessMethod> mock = mockConstruction(AccessMethod.class,(mocked, context) ->
         {
             //Define behavior: throwing an exception when a new instance of Location is created
             throw new RuntimeException(new InstantiationException("AccessMethod constructor failed"));
@@ -99,7 +99,7 @@ class AccessMethodDDDFactoryImplTest {
     @Test
     void shouldNotCreateAccessMethod(){
         //arrange
-        AccessMethodDDDFactoryImpl accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        AccessMethodFactoryImpl accessMethodFactory = new AccessMethodFactoryImpl();
         AccessMethodID accessMethodID = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //act + assert
@@ -110,7 +110,7 @@ class AccessMethodDDDFactoryImplTest {
     @Test
     void shouldNotCreateAccessMethodWithOnlyName(){
         //arrange
-        AccessMethodDDDFactoryImpl accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        AccessMethodFactoryImpl accessMethodFactory = new AccessMethodFactoryImpl();
         //act + assert
         assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(null));
     }

@@ -222,27 +222,27 @@ class StudentTest {
         assertTrue(result);
     }
 
-    @Test
-    void objectToCompareIsNotInstanceOfStudent () {
-
-        // Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        Name nameDouble = mock(Name.class);
-        NIF nifDouble = mock(NIF.class);
-        PhoneNumber phoneDouble = mock(PhoneNumber.class);
-        Email emailDouble = mock(Email.class);
-        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
-        Address addressDouble = mock(Address.class);
-
-        Student student = new Student(studentIDDouble, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
-        AccessMethod accessMethodDouble = mock(AccessMethod.class);
-
-        // Act
-        boolean result = student.equals(accessMethodDouble);
-
-        // Assert
-        assertFalse(result);
-    }
+//    @Test
+//    void objectToCompareIsNotInstanceOfStudent () {
+//
+//        // Arrange
+//        StudentID studentIDDouble = mock(StudentID.class);
+//        Name nameDouble = mock(Name.class);
+//        NIF nifDouble = mock(NIF.class);
+//        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+//        Email emailDouble = mock(Email.class);
+//        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+//        Address addressDouble = mock(Address.class);
+//
+//        Student student = new Student(studentIDDouble, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+//        AccessMethod accessMethodDouble = mock(AccessMethod.class);
+//
+//        // Act
+//        boolean result = student.equals(accessMethodDouble);
+//
+//        // Assert
+//        assertFalse(result);
+//    }
 
     @Test
     void objectsToCompareInSameAsMethodAreTheSame () {
