@@ -76,7 +76,7 @@ End Note
 
 '--- Start of registerTeacher will all inputs ---
 
-UI -> Controller: **registerTeacher**(teacherAcronym, name, email,\n nif, phoneNumber, street, postalCode,\n location, country, academicBackground,\n workingPercentage, date, teacherCategoryID, departmentID)
+UI -> Controller: **registerTeacher**(teacherAcronym, name, email,\n nif, phoneNumber, street, postalCode,\n location, country, academicBackground,\n workingPercentage, date, teacherCategoryID, departmentAcronym)
 activate Controller
 |||
 ref over Controller
