@@ -27,7 +27,7 @@ HRC -> UI : I want to update the Teacher's Category
 activate HRC
 
 activate UI
-UI -> Controller : findAll()
+UI -> Controller : findAllTeachers()
 
 activate Controller
 Controller -> teacherRepo : findAll()
@@ -45,7 +45,7 @@ deactivate UI
 HRC -> UI : Teacher's Acronym
 
 activate UI
-UI -> Controller : findAll()
+UI -> Controller : findAllTeacherCategories()
 
 activate Controller
 Controller -> teacherCategoryRepo : findAll()

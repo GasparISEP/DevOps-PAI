@@ -5,7 +5,8 @@ skinparam nodesep 100
 
 class US14_UpdateTeacherCategoryController {
     +US14_UpdateTeacherCategoryController()
-    +findAll()
+    +findAllTeachers()
+    +findAllTeacherCategories()
     +updateTeacherCategoryInTeacherCareerProgression(date: String, teacherAcronym: String, teacherCategory: String)
 }
 
