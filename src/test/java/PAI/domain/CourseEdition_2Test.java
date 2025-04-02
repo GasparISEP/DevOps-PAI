@@ -3,6 +3,10 @@ package PAI.domain;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.controller.US20_DefineRucForCourseEditionController;
+import PAI.repository.CourseEditionRepository;
+import PAI.repository.TeacherRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -378,5 +382,66 @@ class CourseEdition_2Test {
 
         //Assert
         assertFalse(result);
+    }
+
+    // US20 - Test if the RUC is assigned correctly
+    @Test
+    void shouldReturnTrueIfRucIsSet() throws Exception {
+        //SUT = CourseEdition -> ProgrammeEdition, Course and Teacher as Doubles
+        //Arrange
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+        Course courseDouble1 = mock (Course.class);
+        Teacher rucDouble = mock (Teacher.class);
+
+        when(programmeEditionDouble1.isCourseInProgrammeCourseListByProgrammeEdition(programmeEditionDouble1, courseDouble1)).thenReturn(true);
+
+        CourseEdition courseEdition1 = new CourseEdition(courseDouble1, programmeEditionDouble1);
+
+        //Act
+        boolean result = courseEdition1.setRuc(rucDouble);
+
+        //Assert
+        Assertions.assertTrue(result);
+    }
+
+    // US20 - Test if the RUC is not assigned when teacher is null
+    @Test
+    void shouldNotDefineRucForCourseEditionIfTeacherIsNull() throws Exception {
+
+        // Arrange
+        CourseEditionRepository repo1 = mock(CourseEditionRepository.class);
+        TeacherRepository repo2 = mock(TeacherRepository.class);
+        US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
+
+        CourseEdition cE1 = mock(CourseEdition.class);
+
+        // Act
+        boolean result = ctrl1.defineRucForCourseEdition(cE1, null);
+
+        // Assert
+        Assertions.assertFalse(result, "RUC definition should fail when Teacher is null");
+        verify(repo1, never()).setRucInACourseEdition(any(), any()); // Ensure repository is NOT called
+    }
+
+    // US20 - Test if RUC is not assigned again if it already exists
+    @Test
+    void shouldNotRedefineRucIfRucAlreadyExists() throws Exception {
+
+        // Arrange
+        CourseEditionRepository repo1 = mock(CourseEditionRepository.class);
+        TeacherRepository repo2 = mock(TeacherRepository.class);
+        US20_DefineRucForCourseEditionController ctrl1 = new US20_DefineRucForCourseEditionController(repo1, repo2);
+
+        CourseEdition cE1 = mock(CourseEdition.class);
+        Teacher t1 = mock(Teacher.class);
+
+        when(repo1.setRucInACourseEdition(cE1, t1)).thenReturn(false);
+
+        // Act
+        boolean result = ctrl1.defineRucForCourseEdition(cE1, t1);
+
+        // Assert
+        Assertions.assertFalse(result, "RUC should not be redefined if it already exists");
+        verify(repo1).setRucInACourseEdition(cE1, t1);  // Verify that the repository method was called
     }
 }
