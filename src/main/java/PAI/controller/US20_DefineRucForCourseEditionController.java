@@ -24,8 +24,8 @@ public class US20_DefineRucForCourseEditionController {
     }
 
     // Method to get all Teachers
-    public List<Teacher> getTeachers() {
-        return _teacherRepository.getAllTeachers();
+    public Iterable<Teacher> getTeachers() {
+        return _teacherRepository.findAll();
     }
 
     // Define RUC for a specific Course Edition

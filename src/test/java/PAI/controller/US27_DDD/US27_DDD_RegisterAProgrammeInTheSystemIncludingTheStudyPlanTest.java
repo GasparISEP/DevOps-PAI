@@ -8,7 +8,7 @@ import PAI.domain.studyPlan.IStudyPlanDDDFactory;
 import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
 import PAI.repository.programmeRepo.ProgrammeDDDRepository;
 import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
-import PAI.repository.studyPlanRepo.StudyPlanDDDRepository;
+import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         ProgrammeDDDRepository programmeDDDRepository = null;
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
-        StudyPlanDDDRepository studyPlanDDDRepo = new StudyPlanDDDRepository(factory, listFactory);
+        StudyPlanDDDRepositoryImpl studyPlanDDDRepo = new StudyPlanDDDRepositoryImpl(factory, listFactory);
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
@@ -41,7 +41,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         IProgrammeDDDFactory iProgrammeDDDFactory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepository programmeDDDRepository = new ProgrammeDDDRepository(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
-        StudyPlanDDDRepository studyPlanDDDRepo = null;
+        StudyPlanDDDRepositoryImpl studyPlanDDDRepo = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
@@ -60,7 +60,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         ProgrammeDDDRepository programmeDDDRepository = new ProgrammeDDDRepository(iProgrammeDDDFactory, iProgrammeDDDRepoListFactory);
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
-        StudyPlanDDDRepository studyPlanDDDRepo = new StudyPlanDDDRepository(factory, listFactory);
+        StudyPlanDDDRepositoryImpl studyPlanDDDRepo = new StudyPlanDDDRepositoryImpl(factory, listFactory);
 
         //act
         US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeDDDRepository, studyPlanDDDRepo);
@@ -73,7 +73,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void createStudyPlanDDDWithSuccess() throws Exception {
         // Arrange
         ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
-        StudyPlanDDDRepository studyPlanRepo = mock(StudyPlanDDDRepository.class);
+        StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
 
@@ -104,7 +104,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void createStudyPlanDDDProgrammeNotFound() throws Exception {
         // Arrange
         ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
-        StudyPlanDDDRepository studyPlanRepo = mock(StudyPlanDDDRepository.class);
+        StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
 
@@ -128,7 +128,7 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
     void registerProgrammeInTheSystemWithSuccess() throws Exception {
         //arrange
         ProgrammeDDDRepository programmeRepo = mock(ProgrammeDDDRepository.class);
-        StudyPlanDDDRepository studyPlanRepo = mock(StudyPlanDDDRepository.class);
+        StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
 
         US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller =
                 new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(programmeRepo, studyPlanRepo);
