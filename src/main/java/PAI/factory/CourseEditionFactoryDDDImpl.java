@@ -5,7 +5,7 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEditionDDD;
 
-public class CourseEditionFactoryImplDDD implements ICourseEditionFactoryDDD {
+public class CourseEditionFactoryDDDImpl implements ICourseEditionFactoryDDD {
 
     public CourseEditionDDD newCourseEdition_2(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);

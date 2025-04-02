@@ -290,8 +290,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImplDDD ceFactory = new CourseEditionFactoryImplDDD();
-        CourseEditionListFactoryImplDDD ceListFactory = new CourseEditionListFactoryImplDDD();
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
@@ -314,8 +314,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImplDDD ceFactory = new CourseEditionFactoryImplDDD();
-        CourseEditionListFactoryImplDDD ceListFactory = new CourseEditionListFactoryImplDDD();
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
@@ -355,8 +355,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImplDDD ceFactory = new CourseEditionFactoryImplDDD();
-        CourseEditionListFactoryImplDDD ceListFactory = new CourseEditionListFactoryImplDDD();
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
@@ -439,8 +439,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImplDDD ceFactory = new CourseEditionFactoryImplDDD();
-        CourseEditionListFactoryImplDDD ceListFactory = new CourseEditionListFactoryImplDDD();
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
@@ -521,8 +521,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImplDDD ceFactory = new CourseEditionFactoryImplDDD();
-        CourseEditionListFactoryImplDDD ceListFactory = new CourseEditionListFactoryImplDDD();
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
@@ -608,8 +608,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImplDDD ceFactory = new CourseEditionFactoryImplDDD();
-        CourseEditionListFactoryImplDDD ceListFactory = new CourseEditionListFactoryImplDDD();
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
@@ -696,8 +696,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryImplDDD ceFactory = new CourseEditionFactoryImplDDD();
-        CourseEditionListFactoryImplDDD ceListFactory = new CourseEditionListFactoryImplDDD();
+        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
+        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
