@@ -2,9 +2,9 @@ package PAI.repository.programmeEditionRepository;
 
 import PAI.domain.ProgrammeEdition;
 
-import java.util.List;
+import java.util.Set;
 
 public interface IProgrammeEditionDDDListFactory {
 
-    List<ProgrammeEdition> createProgrammeEditionList();
+    Set<ProgrammeEdition> createProgrammeEditionList();
 }
