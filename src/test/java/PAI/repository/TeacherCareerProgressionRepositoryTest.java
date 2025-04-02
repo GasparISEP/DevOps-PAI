@@ -442,7 +442,7 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenDateIsNull() throws Exception {
+    void shouldReturnFalseIfDateIsNullWhenUpdatingWorkingPercentage() throws Exception {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
@@ -463,7 +463,7 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenWorkingPercentageIsNull() throws Exception {
+    void shouldReturnFalseIfWorkingPercentageIsNullWhenUpdatingWorkingPercentage() throws Exception {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
@@ -484,7 +484,7 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
-    void shouldReturnFalseWhenTeacherIDIsNull() throws Exception {
+    void shouldReturnFalseIfTeacherIDIsNullWhenUpdatingWorkingPercentage() throws Exception {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
@@ -681,6 +681,69 @@ class TeacherCareerProgressionRepositoryTest {
 
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfDateIsNullWhenUpdatingTeacherCategory() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        TeacherCategoryID teacherCategoryIDDouble = (TeacherCategoryID) doubles[3];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //act
+        boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(null, teacherCategoryIDDouble, teacherIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCategoryIDIsNullWhenUpdatingTeacherCategory() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date dateDouble = (Date) doubles[2];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //act
+        boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(dateDouble, null, teacherIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherIDIsNullWhenUpdatingTeacherCategory() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date dateDouble = (Date) doubles[2];
+        TeacherCategoryID teacherCategoryIDDouble = (TeacherCategoryID) doubles[3];
+
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //act
+        boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(dateDouble, teacherCategoryIDDouble, null);
+
+        //assert
+        assertFalse(result);
     }
 
     @Test
