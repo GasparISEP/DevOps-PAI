@@ -2,7 +2,6 @@
 package PAI.repository;
 
 import PAI.VOs.*;
-import PAI.domain.CourseEdition;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeListFactory;

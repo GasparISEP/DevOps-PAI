@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class AddressVOTest {
+class AddressTest {
 
     // Method to create doubles for tests with isolation
     private Object[] createDoublesForTestsWithIsolation() {
@@ -26,7 +26,7 @@ class AddressVOTest {
         Country countryDouble = (Country) doubles[3];
 
         //Act
-        AddressVO address = new AddressVO(streetDouble, postalCodeDouble, locationDouble, countryDouble);
+        Address address = new Address(streetDouble, postalCodeDouble, locationDouble, countryDouble);
     }
 
     @Test
@@ -38,7 +38,7 @@ class AddressVOTest {
         Country countryDouble = (Country) doubles[3];
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new AddressVO(null, postalCodeDouble, locationDouble, countryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new Address(null, postalCodeDouble, locationDouble, countryDouble));
     }
 
     @Test
@@ -50,7 +50,7 @@ class AddressVOTest {
         Country countryDouble = (Country) doubles[3];
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new AddressVO(streetDouble, null, locationDouble, countryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new Address(streetDouble, null, locationDouble, countryDouble));
     }
 
     @Test
@@ -62,7 +62,7 @@ class AddressVOTest {
         Country countryDouble = (Country) doubles[3];
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new AddressVO(streetDouble, postalCodeDouble, null, countryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new Address(streetDouble, postalCodeDouble, null, countryDouble));
     }
 
     @Test
@@ -74,6 +74,6 @@ class AddressVOTest {
         Location locationDouble = (Location) doubles[2];
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new AddressVO(streetDouble, postalCodeDouble, locationDouble, null));
+        assertThrows(IllegalArgumentException.class, () -> new Address(streetDouble, postalCodeDouble, locationDouble, null));
     }
 }

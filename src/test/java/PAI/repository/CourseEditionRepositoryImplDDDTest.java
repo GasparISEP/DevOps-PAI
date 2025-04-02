@@ -15,24 +15,24 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CourseEditionRepositoryImplTest {
+class CourseEditionRepositoryImplDDDTest {
 
     //US19
     @Test
     void shouldReturnTrueIfCourseEditionHasBeenCreated() throws Exception {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
 
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble))
                 .thenReturn(courseEditionDouble);
@@ -55,17 +55,17 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnTrueIfTheAddedCourseEditionHasDifferentCourseButTheSameProgrammeEdition() throws Exception {
         // Arrange
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
 
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
-        CourseEdition_2 courseEditionDouble1 = mock(CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock(CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock(CourseEditionDDD.class);
 
             // Spy
-        ICourseEditionRepository courseEditionRepository = spy(new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble));
+        ICourseEditionRepositoryDDD courseEditionRepository = spy(new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble));
 
             // instructions
         when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble))
@@ -88,17 +88,17 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnTrueIfTheAddedCourseEditionHasSameCourseButDifferentProgrammeEdition() throws Exception {
         // Arrange
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
 
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble2 = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
-        CourseEdition_2 courseEditionDouble1 = mock(CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock(CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock(CourseEditionDDD.class);
 
             // Spy
-        ICourseEditionRepository courseEditionRepository = spy(new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble));
+        ICourseEditionRepositoryDDD courseEditionRepository = spy(new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble));
 
             // instructions
         when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble1))
@@ -122,14 +122,14 @@ class CourseEditionRepositoryImplTest {
         //SUT = CourseEditionRepository
         //Arrange
         //Doubles' instantiation
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
-        CourseEdition_2 courseEditionDouble1 = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble1 = mock(CourseEditionDDD.class);
 
             // Spy
-        ICourseEditionRepository courseEditionRepository = spy(new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble));
+        ICourseEditionRepositoryDDD courseEditionRepository = spy(new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble));
 
             // instructions
         when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble))
@@ -147,17 +147,17 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnFalseIfTheCourseEditionIsAlreadyRegistered() throws Exception {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble)).thenReturn(courseEditionDouble);
         when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
@@ -174,20 +174,20 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnCourseEdition_SaveMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
 
         // Act
-        CourseEdition_2 result = repository.save(courseEditionDouble);
+        CourseEditionDDD result = repository.save(courseEditionDouble);
 
         // Assert
         verify(courseEditionsDouble).add(courseEditionDouble);
@@ -197,10 +197,10 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldThrowExceptionIfCourseEditionIsNull_SaveMethod() {
         // Arrange
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         // Act & Assert
         Exception thrown = assertThrows(Exception.class, () -> repository.save(null));
@@ -210,11 +210,11 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldThrowExceptionIfCourseEditionIDIsNull_SaveMethod() {
         // Arrange
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         when(courseEditionDouble.identity()).thenReturn(null);
 
@@ -226,16 +226,16 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnAllCourseEditions_FindAllMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
 
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         // Act
-        Iterable<CourseEdition_2> result = repository.findAll();
+        Iterable<CourseEditionDDD> result = repository.findAll();
 
         // Assert
         assertEquals(courseEditionsDouble, result);
@@ -244,13 +244,13 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldThrowExceptionIfCourseEditionIDIsNull_ofIdentityMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
 
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> repository.ofIdentity(null));
@@ -260,22 +260,22 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnEmptyIfNotFound_ofIdentityMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        Iterator<CourseEdition_2> iteratorDouble = mock(Iterator.class);
+        Iterator<CourseEditionDDD> iteratorDouble = mock(Iterator.class);
 
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
 
         when(courseEditionsDouble.iterator()).thenReturn(iteratorDouble);
         when(iteratorDouble.hasNext()).thenReturn(false);
 
         // Act
-        Optional<CourseEdition_2> result = repository.ofIdentity(courseEditionIDDouble);
+        Optional<CourseEditionDDD> result = repository.ofIdentity(courseEditionIDDouble);
 
         // Assert
         assertFalse(result.isPresent());
@@ -284,13 +284,13 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnTrueIfResultContainsCourseEditionWithCourseEditionID_ofIdentityMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
         when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
@@ -298,7 +298,7 @@ class CourseEditionRepositoryImplTest {
         when(courseEditionsDouble.iterator()).thenReturn(List.of(courseEditionDouble).iterator());
 
         // Act
-        Optional<CourseEdition_2> result = repository.ofIdentity(courseEditionIDDouble);
+        Optional<CourseEditionDDD> result = repository.ofIdentity(courseEditionIDDouble);
 
         // Assert
         assertTrue(result.isPresent());
@@ -308,15 +308,15 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnTrueIfRepositoryContainsCourseEditionWithCourseEditionID_containsOfIdentityMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
 
         when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
         when(courseEditionsDouble.iterator()).thenReturn(List.of(courseEditionDouble).iterator()); // Simula a iteração correta
@@ -331,17 +331,17 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnFalseIfRepositoryNotContainsCourseEditionWithCourseEditionID_containsOfIdentityMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
 
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
-        Iterator<CourseEdition_2> iteratorDouble = mock(Iterator.class);
+        Iterator<CourseEditionDDD> iteratorDouble = mock(Iterator.class);
         when(iteratorDouble.hasNext()).thenReturn(false);
         when(courseEditionsDouble.iterator()).thenReturn(iteratorDouble);
 
@@ -355,14 +355,14 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnFalseIfIdentityDoesNotMatch_containsOfIdentityMethod() {
         // Arrange
-        List<CourseEdition_2> courseEditionsDouble = mock(List.class);
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
+        List<CourseEditionDDD> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
         when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
 
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
         when(courseEditionsDouble.iterator()).thenReturn(Collections.singletonList(courseEditionDouble).iterator());
         when(courseEditionDouble.identity()).thenReturn(mock(CourseEditionID.class));
@@ -377,12 +377,12 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnCorrectNumberOfCourseEditionsInProgrammeEdition() throws Exception {
         // Arrange
-        ICourseEditionFactory_2 doubleCourseEditionFactory = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
-        CourseEditionRepositoryImpl courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(doubleCourseEditionFactory, courseEditionListFactoryDouble);
+        ICourseEditionFactoryDDD doubleCourseEditionFactory = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
+        CourseEditionRepositoryDDDImpl courseEditionRepositoryImplDDD = new CourseEditionRepositoryDDDImpl(doubleCourseEditionFactory, courseEditionListFactoryDouble);
 
-        CourseEdition_2 doubleCourseEdition1 = mock(CourseEdition_2.class);
-        CourseEdition_2 doubleCourseEdition2 = mock(CourseEdition_2.class);
+        CourseEditionDDD doubleCourseEdition1 = mock(CourseEditionDDD.class);
+        CourseEditionDDD doubleCourseEdition2 = mock(CourseEditionDDD.class);
         CourseEditionID doubleCourseEditionId1 = mock(CourseEditionID.class);
         CourseEditionID doubleCourseEditionId2 = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
@@ -397,12 +397,12 @@ class CourseEditionRepositoryImplTest {
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
         when(doubleCourseEdition2.identity()).thenReturn(doubleCourseEditionId2);
 
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
+        courseEditionRepositoryImplDDD.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
+        courseEditionRepositoryImplDDD.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEditionID> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImplDDD.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
 
         // Assert
         assertEquals(2, result.size());
@@ -413,12 +413,12 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnCorrectCourseEditionsInList() throws Exception {
         // Arrange
-        ICourseEditionFactory_2 doubleCourseEditionFactory = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
-        CourseEditionRepositoryImpl courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(doubleCourseEditionFactory, courseEditionListFactoryDouble);
+        ICourseEditionFactoryDDD doubleCourseEditionFactory = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
+        CourseEditionRepositoryDDDImpl courseEditionRepositoryImplDDD = new CourseEditionRepositoryDDDImpl(doubleCourseEditionFactory, courseEditionListFactoryDouble);
 
-        CourseEdition_2 doubleCourseEdition1 = mock(CourseEdition_2.class);
-        CourseEdition_2 doubleCourseEdition2 = mock(CourseEdition_2.class);
+        CourseEditionDDD doubleCourseEdition1 = mock(CourseEditionDDD.class);
+        CourseEditionDDD doubleCourseEdition2 = mock(CourseEditionDDD.class);
         CourseEditionID doubleCourseEditionId1 = mock(CourseEditionID.class);
         CourseEditionID doubleCourseEditionId2 = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
@@ -432,12 +432,12 @@ class CourseEditionRepositoryImplTest {
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
         when(doubleCourseEdition2.identity()).thenReturn(doubleCourseEditionId2);
 
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
+        courseEditionRepositoryImplDDD.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
+        courseEditionRepositoryImplDDD.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEditionID> result = courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImplDDD.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
 
         // Assert
         assertTrue(result.contains(doubleCourseEditionId1));
@@ -450,7 +450,7 @@ class CourseEditionRepositoryImplTest {
     void shouldReturnProgrammeEditionWhenCourseEditionExists() throws Exception {
         // Arrange
 
-        CourseEdition_2 doubleCourseEdition = mock(CourseEdition_2.class);
+        CourseEditionDDD doubleCourseEdition = mock(CourseEditionDDD.class);
         CourseEditionFactoryImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
         CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
@@ -475,12 +475,12 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnOptionalWithCourseEditionID() throws Exception{
         //arrange
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
-        List<CourseEdition_2> courseEdition2s = List.of(courseEditionDouble);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
+        List<CourseEditionDDD> courseEdition2s = List.of(courseEditionDouble);
         courseEditionListFactoryDouble = () -> courseEdition2s;
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         when(courseEditionDouble.identity()).thenReturn(courseEditionID);
 
@@ -494,13 +494,13 @@ class CourseEditionRepositoryImplTest {
     @Test
     void shouldReturnOptionalEmptyWhenDoNotFindCourseEdition() throws Exception{
         //arrange
-        ICourseEditionFactory_2 courseEditionFactoryDouble = mock(ICourseEditionFactory_2.class);
-        ICourseEditionListFactory_2 courseEditionListFactoryDouble = mock(ICourseEditionListFactory_2.class);
-        CourseEdition_2 courseEditionDouble = mock(CourseEdition_2.class);
-        CourseEdition_2 courseEditionDouble2 = mock(CourseEdition_2.class);
-        List<CourseEdition_2> courseEdition2s = List.of(courseEditionDouble);
+        ICourseEditionFactoryDDD courseEditionFactoryDouble = mock(ICourseEditionFactoryDDD.class);
+        ICourseEditionListFactoryDDD courseEditionListFactoryDouble = mock(ICourseEditionListFactoryDDD.class);
+        CourseEditionDDD courseEditionDouble = mock(CourseEditionDDD.class);
+        CourseEditionDDD courseEditionDouble2 = mock(CourseEditionDDD.class);
+        List<CourseEditionDDD> courseEdition2s = List.of(courseEditionDouble);
         courseEditionListFactoryDouble = () -> courseEdition2s;
-        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         when(courseEditionDouble.identity()).thenReturn(courseEditionID);
 

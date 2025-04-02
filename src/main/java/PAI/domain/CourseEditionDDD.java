@@ -5,14 +5,14 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
 import PAI.ddd.AggregateRoot;
 
-public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
+public class CourseEditionDDD implements AggregateRoot<CourseEditionID> {
 
     private final CourseEditionID _courseEditionID;
     private final CourseInStudyPlanID _courseInStudyPlanID;
     private final ProgrammeEditionID _programmeEditionID;
     private TeacherID _ruc;
 
-    public CourseEdition_2 (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+    public CourseEditionDDD(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
 
         if (programmeEditionID == null) {
             throw new IllegalArgumentException ("ProgrammeEdition must be valid");
@@ -28,7 +28,7 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
     }
 
 
-    public CourseEdition_2(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+    public CourseEditionDDD(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         if (courseEditionID == null) {
             throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
         }
@@ -50,10 +50,10 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
 
     @Override
     public boolean sameAs(Object objectToCompare) {
-        if (!(objectToCompare instanceof CourseEdition_2)) {
+        if (!(objectToCompare instanceof CourseEditionDDD)) {
             return false;
         }
-        CourseEdition_2 courseEditionTest = (CourseEdition_2) objectToCompare;
+        CourseEditionDDD courseEditionTest = (CourseEditionDDD) objectToCompare;
 
         return _courseInStudyPlanID.equals(courseEditionTest._courseInStudyPlanID) &&
                 _programmeEditionID.equals(courseEditionTest._programmeEditionID);
@@ -73,9 +73,9 @@ public class CourseEdition_2 implements AggregateRoot<CourseEditionID> {
         if (this == objectToCompare)
             return true;
 
-        if (objectToCompare instanceof CourseEdition_2) {
+        if (objectToCompare instanceof CourseEditionDDD) {
 
-            CourseEdition_2 courseEdition = (CourseEdition_2) objectToCompare;
+            CourseEditionDDD courseEdition = (CourseEditionDDD) objectToCompare;
 
             if (_courseEditionID.equals(courseEdition._courseEditionID))
                 return true;

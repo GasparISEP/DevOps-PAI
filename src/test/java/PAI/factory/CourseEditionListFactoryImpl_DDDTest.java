@@ -1,20 +1,20 @@
 package PAI.factory;
 
-import PAI.domain.CourseEdition_2;
+import PAI.domain.CourseEditionDDD;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class CourseEditionListFactoryImpl_2Test {
+class CourseEditionListFactoryImpl_DDDTest {
 
     @Test
     void shouldCreateCourseEditionArrayList() {
         // Arrange
-        ICourseEditionListFactory_2 courseEditionListFactory = new CourseEditionListFactoryImpl_2();
+        ICourseEditionListFactoryDDD courseEditionListFactory = new CourseEditionListFactoryImplDDD();
 
         // Act
-        List<CourseEdition_2> courseEditionArrayList = courseEditionListFactory.newList();
+        List<CourseEditionDDD> courseEditionArrayList = courseEditionListFactory.newList();
 
         // Assert
         assertNotNull(courseEditionArrayList);
