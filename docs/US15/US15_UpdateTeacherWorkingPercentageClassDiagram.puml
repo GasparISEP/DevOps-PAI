@@ -1,7 +1,7 @@
 @startuml
 !pragma layout smetana
-skinparam ranksep 100
-skinparam nodesep 100
+skinparam ranksep 120
+skinparam nodesep 120
 
 class US15_UpdateTeacherWorkingPercentageController {
     +US15_UpdateTeacherWorkingPercentageController(teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, teacherRepository: ITeacherRepository)
@@ -16,16 +16,17 @@ package "Teacher Aggregate" {
 }
 
 class "<<Value Object>>\n TeacherIDVO" {
-        -acronym: TeacherAcronym
+        -ID: TeacherAcronym
     }
 
 
 package "TeacherCareerProgression Aggregate" {
     entity "<<Root>>\n <<Entity>>\nTeacherCareerProgression" {
         +TeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO)
-        +iisLastDateEqualOrBeforeNewDate(dateVO: DateVO)
+        +isLastDateEqualOrBeforeNewDate(dateVO: DateVO)
         +getTeacherCategoryID()
         +getWorkingPercentage()
+        +getDate()
     }
 }
 
@@ -65,6 +66,7 @@ interface ITeacherCareerProgressionRepository {
 
 interface ITeacherRepository {
     +findAll()
+    +containsOfIdentity()
 }
 
 class "<<Value Object>>\n TeacherCategoryIDVO" {
@@ -108,7 +110,7 @@ List "1" ----> "1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n DateVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n WorkingPercentageVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
-"<<Value Object>>\n TeacherCategoryIDVO" "1" <-- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
+"<<Value Object>>\n TeacherCategoryIDVO" "1" <-u- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
 ITeacherCareerProgressionRepository <|.. TeacherCareerProgressionRepository
 ITeacherRepository <|.. TeacherRepository
 

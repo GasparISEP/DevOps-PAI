@@ -35,7 +35,7 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     // Change ProgrammeDirector
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
-        Optional<ProgrammeDDD> programmeDDD = findProgrammeByID(programmeID);
+        Optional<ProgrammeDDD> programmeDDD = ofIdentity(programmeID);
         if (programmeDDD.isPresent()) {
             return programmeDDD.get().newProgrammeDirector(newDirectorID);
         }
@@ -70,15 +70,6 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
             list.add(programme.getProgrammeName());
         }
         return list;
-    }
-
-    public Optional<ProgrammeDDD> findProgrammeByID(ProgrammeID programmeID) {
-        for (ProgrammeDDD programmeDDD : _programmeRepo) {
-            if (programmeDDD.getProgrammeID().equals(programmeID)) {
-                return Optional.of(programmeDDD);
-            }
-        }
-        return Optional.empty();
     }
 
     @Override

@@ -56,7 +56,7 @@ public class US09_EnrolStudentInProgrammeController {
     }
 
     public Optional<ProgrammeDDD> getProgrammeByID(ProgrammeID programmeID) {
-        return _programmeRepository.findProgrammeByID(programmeID);
+        return _programmeRepository.ofIdentity(programmeID);
     }
 
     public boolean enrolStudentInProgramme(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {
