@@ -3,16 +3,17 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
-import PAI.repository.DepartmentRepository;
+import PAI.repository.DepartmentRepositoryImpl;
+import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.TeacherRepository;
 
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
     private final TeacherRepository _teacherRepository;
-    private final DepartmentRepository _departmentRepository;
+    private final DepartmentRepositoryImpl _departmentRepository;
 
     public US04_IWantToRegisterATeacherInTheSystemController( TeacherRepository teacherRepository,
-                                                              DepartmentRepository departmentRepository) {
+                                                              DepartmentRepositoryImpl departmentRepository) {
 
         validateTeacherRepository(teacherRepository);
         validateDepartmentRepository(departmentRepository);
@@ -43,7 +44,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             throw new IllegalStateException("TeacherRepository is null.");
         }
     }
-    private void validateDepartmentRepository(DepartmentRepository departmentRepository) {
+    private void validateDepartmentRepository(DepartmentRepositoryImpl departmentRepository) {
         if (departmentRepository == null) {
             throw new IllegalStateException("DepartmentRepository is null.");
         }

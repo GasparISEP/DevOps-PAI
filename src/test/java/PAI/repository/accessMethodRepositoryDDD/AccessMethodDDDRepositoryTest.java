@@ -3,6 +3,7 @@ import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
+import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -36,6 +37,20 @@ class AccessMethodDDDRepositoryTest {
         accessMethodRepository.registerAccessMethod(doubleAccessMethodName);
         //act
         boolean result = accessMethodRepository.registerAccessMethod(doubleAccessMethodName);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldNotRegisterAccessMethodIfSameAccessMethodNameIsAlreadyRegistered(){
+        //arrange
+        IAccessMethodDDDFactory accessMethodFactory = new AccessMethodDDDFactoryImpl();
+        IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
+        AccessMethodDDDRepository accessMethodDDDRepository = new AccessMethodDDDRepository(accessMethodFactory, accessMethodListFactory);
+        NameWithNumbersAndSpecialChars accessMethodName1 = new NameWithNumbersAndSpecialChars("Maiores 23");
+        accessMethodDDDRepository.registerAccessMethod(accessMethodName1);
+        //act
+        boolean result = accessMethodDDDRepository.registerAccessMethod(accessMethodName1);
         //assert
         assertFalse(result);
     }

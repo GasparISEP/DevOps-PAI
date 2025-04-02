@@ -31,7 +31,10 @@ public class AccessMethodDDDRepository {
     }
 
     private boolean isAccessMethodRegistered (AccessMethodDDD accessMethod){
-        return _accessMethods.contains(accessMethod);
+        for(AccessMethodDDD accessMethodDDD : _accessMethods){
+            return accessMethodDDD.equals(accessMethod) || accessMethodDDD.sameAs(accessMethodDDD);
+        }
+        return false;
     }
 
     public Optional<AccessMethodDDD> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
