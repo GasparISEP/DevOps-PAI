@@ -16,19 +16,19 @@ public class US20_DefineRucForCourseEditionController {
         this._iTeacherRepository = iTeacherRepository;
     }
 
-    public boolean defineRucForCourseEdition(CourseEditionDDD courseEdition_DDD, TeacherID teacherID) {
-        if (courseEdition_DDD == null || teacherID == null) {
-            return false;
-        }
-
-        return courseEdition_DDD.setRuc(teacherID);
-    }
-
     public Iterable<Teacher> getAllTeachers() {
         return _iTeacherRepository.findAll();
     }
 
     public Iterable<CourseEditionDDD> getAllCourseEditions() {
         return _iCourseEditionRepository.findAll();
+    }
+
+    public boolean defineRucForCourseEdition(CourseEditionDDD courseEdition_2, TeacherID teacherID) {
+        if (courseEdition_2 == null || teacherID == null) {
+            return false;
+        }
+
+        return courseEdition_2.setRuc(teacherID);
     }
 }

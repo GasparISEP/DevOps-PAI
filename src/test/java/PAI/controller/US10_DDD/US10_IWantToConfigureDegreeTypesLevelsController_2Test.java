@@ -1,9 +1,8 @@
-package PAI.domain.DegreeTypeDDD;
+package PAI.controller.US10_DDD;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.controller.US10_DDD.US10_IWantToConfigureDegreeTypesLevelsController_2;
 import PAI.repository.DegreeTypeRepoDDD.DegreeTypeRepository_2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

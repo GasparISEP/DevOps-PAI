@@ -6,18 +6,13 @@ import PAI.domain.*;
 import PAI.domain.accessMethodDDD.AccessMethodDDD;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
-import PAI.repository.ProgrammeRepository;
 import PAI.repository.StudentRepository;
 import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
 import PAI.repository.programmeRepo.ProgrammeDDDRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -87,8 +82,6 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         StudentAcademicEmail academicEmailDouble2 = new StudentAcademicEmail(mockStudentID2);
         _studentRepository.registerStudent(mockStudentID2, nameDouble2, nifDouble2, phoneDouble2, emailDouble2, streetDouble2, postalCodeDouble2, locationDouble2, countryDouble2, academicEmailDouble2);
     }
-
-    //quando vai buscar
 
     @Test
     void shouldCreateUS09ControllerTest() {
@@ -260,7 +253,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(null, _accessMethodID, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Student cannot be null");
+        assertEquals("Student cannot be null", exception.getMessage());
     }
 
     @Test
@@ -270,7 +263,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, null, _programmeID, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Access method cannot be null");
+        assertEquals("Access method cannot be null", exception.getMessage());
     }
 
     @Test
@@ -280,7 +273,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, null, _date);});
         //assert
-        assertEquals(exception.getMessage(), "Programme cannot be null");
+        assertEquals("Programme cannot be null", exception.getMessage());
     }
 
     @Test
@@ -290,7 +283,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 
     @Test
@@ -300,7 +293,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //act
         Exception exception = assertThrows(Exception.class, () -> {_controller.enrolStudentInProgramme(_studentID, _accessMethodID, _programmeID, null);});
         //assert
-        assertEquals(exception.getMessage(), "Date cannot be null or empty");
+        assertEquals("Date cannot be null or empty", exception.getMessage());
     }
 }
 
