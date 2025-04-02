@@ -27,6 +27,8 @@ public class Utils {
         NIF_RULE_MAP.put("DENMARK", "^\\d{10}$");
         //EE between 9, 11 digits
         NIF_RULE_MAP.put("ESTONIA", "^\\d{9,11}$");
+        //FI 6 digits + "+, -, A" + 3 digits + 1 digit or letter
+        NIF_RULE_MAP.put("FINLAND", "\\d{6}[+\\-A]\\d{3}[a-zA-Z0-9]");
     }
 
     public static boolean NIFValidator (Country country, String NIF){
