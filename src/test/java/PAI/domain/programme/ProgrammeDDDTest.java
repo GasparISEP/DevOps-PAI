@@ -256,6 +256,7 @@ class ProgrammeDDDTest {
     void isEqualsReturnFalse () throws IllegalArgumentException {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
         Acronym acronym1 = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
@@ -264,7 +265,7 @@ class ProgrammeDDDTest {
         Department department1 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeDDD CE = new ProgrammeDDD(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
-        ProgrammeDDD CEE = new ProgrammeDDD(name, acronym1, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        ProgrammeDDD CEE = new ProgrammeDDD(name1, acronym1, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
         //act
         boolean result = CE.isEquals(CEE.getProgrammeID());
         //assert

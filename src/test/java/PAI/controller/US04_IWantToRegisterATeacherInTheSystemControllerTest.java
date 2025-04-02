@@ -4,6 +4,7 @@ import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.DepartmentRepositoryImpl;
+import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     //arrange
-    private TeacherRepository _iTeacherRepoDouble;
+    private ITeacherRepository _iTeacherRepoDouble;
     private DepartmentRepositoryImpl _departmentRepoDouble;
     private TeacherAcronym _teacherAcronymDouble;
     private Name _nameDouble;
@@ -30,7 +31,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
     @BeforeEach
     void factoryDoublesSetup() {
-        _iTeacherRepoDouble = mock(TeacherRepository.class);
+        _iTeacherRepoDouble = mock(ITeacherRepository.class);
         _departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
     }
 

@@ -1,6 +1,6 @@
-package PAI.repository.accessMethodRepositoryDDD;
+package PAI.repository.accessMethodRepository;
 
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.accessMethod.AccessMethod;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,14 +8,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AccessMethodDDDListFactoryImplTest {
+class AccessMethodListFactoryImplTest {
 
     @Test
     void shouldCreateAccessMethodListFactory(){
         //arrange
-        IAccessMethodDDDListFactory accessMethodListFactory = new AccessMethodDDDListFactoryImpl();
+        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
         //act
-        List<AccessMethodDDD> accessMethods = accessMethodListFactory.createAccessMethodList();
+        List<AccessMethod> accessMethods = accessMethodListFactory.createAccessMethodList();
         //assert
         assertNotNull(accessMethodListFactory);
         assertNotNull(accessMethods);
