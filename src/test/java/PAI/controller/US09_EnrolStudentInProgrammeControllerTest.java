@@ -3,11 +3,11 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
-import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepositoryImpl;
+import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +23,8 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private StudentRepository _studentRepository;
     private static Student _student;
     private StudentID _studentID;
-    private AccessMethodDDDRepositoryImpl _accessMethodRepository;
-    private static AccessMethodDDD _accessMethod;
+    private AccessMethodRepositoryImpl _accessMethodRepository;
+    private static AccessMethod _accessMethod;
     private AccessMethodID _accessMethodID;
     private ProgrammeDDDRepositoryImpl _programmeRepository;
     private static ProgrammeDDD _programme;
@@ -46,11 +46,11 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         _studentRepository = mock(StudentRepository.class);
-        _accessMethodRepository = mock(AccessMethodDDDRepositoryImpl.class);
+        _accessMethodRepository = mock(AccessMethodRepositoryImpl.class);
         _programmeRepository = mock(ProgrammeDDDRepositoryImpl.class);
         _programmeEnrolmentRepository = mock(ProgrammeEnrolmentRepository.class);
         _student = mock(Student.class);
-        _accessMethod = mock(AccessMethodDDD.class);
+        _accessMethod = mock(AccessMethod.class);
         _accessMethodID = mock(AccessMethodID.class);
         _nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
         _programme = mock(ProgrammeDDD.class);
@@ -157,7 +157,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars)).thenReturn(Optional.of(_accessMethod));
 
         //act
-        Optional<AccessMethodDDD> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
+        Optional<AccessMethod> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
 
         //assert
         assertEquals(result, Optional.of(_accessMethod));
@@ -170,7 +170,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars)).thenReturn(Optional.empty());
 
         //act
-        Optional<AccessMethodDDD> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
+        Optional<AccessMethod> result = _controller.getAccessMethodByName(_nameWithNumbersAndSpecialChars);
 
         //assert
         assertTrue(result.isEmpty());
@@ -183,7 +183,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getAccessMethodByID(_accessMethodID)).thenReturn(Optional.of(_accessMethod));
 
         //act
-        Optional<AccessMethodDDD> result = _controller.getAccessMethodByID(_accessMethodID);
+        Optional<AccessMethod> result = _controller.getAccessMethodByID(_accessMethodID);
 
         //assert
         assertEquals(result, Optional.of(_accessMethod));

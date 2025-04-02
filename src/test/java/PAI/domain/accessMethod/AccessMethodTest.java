@@ -1,4 +1,4 @@
-package PAI.domain.accessMethodDDD;
+package PAI.domain.accessMethod;
 
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
@@ -6,16 +6,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-class AccessMethodDDDTest {
+class AccessMethodTest {
 
     @Test
     void shouldCreateAccessMethodOnlyWithValidName(){
         //arrange
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //act
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodName);
         //assert
         assertNotNull(accessMethod);
     }
@@ -24,7 +23,7 @@ class AccessMethodDDDTest {
     void shouldThrowExceptionWithNullName(){
         //arrange
         //act + assert
-        assertThrows(Exception.class, () -> new AccessMethodDDD(null));
+        assertThrows(Exception.class, () -> new AccessMethod(null));
     }
 
     @Test
@@ -33,7 +32,7 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //act
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         //assert
         assertNotNull(accessMethod);
     }
@@ -44,7 +43,7 @@ class AccessMethodDDDTest {
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //act
         //assert
-        assertThrows(Exception.class, () -> new AccessMethodDDD(null, accessMethodName));
+        assertThrows(Exception.class, () -> new AccessMethod(null, accessMethodName));
     }
 
     @Test
@@ -53,7 +52,7 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         //act
         //assert
-        assertThrows(Exception.class, () -> new AccessMethodDDD(accessMethodId, null));
+        assertThrows(Exception.class, () -> new AccessMethod(accessMethodId, null));
     }
 
     @Test
@@ -61,7 +60,7 @@ class AccessMethodDDDTest {
         //arrange
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         //act
         AccessMethodID accessMethodID = accessMethod.identity();
         //assert
@@ -74,8 +73,8 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId1 = mock(AccessMethodID.class);
         AccessMethodID accessMethodId2 = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod1 = new AccessMethodDDD(accessMethodId1,accessMethodName);
-        AccessMethodDDD accessMethod2 = new AccessMethodDDD(accessMethodId2, accessMethodName);
+        AccessMethod accessMethod1 = new AccessMethod(accessMethodId1,accessMethodName);
+        AccessMethod accessMethod2 = new AccessMethod(accessMethodId2, accessMethodName);
         //act
         boolean result = accessMethod1.sameAs(accessMethod2);
         //assert
@@ -89,8 +88,8 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId2 = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName1 = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars accessMethodName2 = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod1 = new AccessMethodDDD(accessMethodId1,accessMethodName1);
-        AccessMethodDDD accessMethod2 = new AccessMethodDDD(accessMethodId2, accessMethodName2);
+        AccessMethod accessMethod1 = new AccessMethod(accessMethodId1,accessMethodName1);
+        AccessMethod accessMethod2 = new AccessMethod(accessMethodId2, accessMethodName2);
         //act
         boolean result = accessMethod1.sameAs(accessMethod2);
         //assert
@@ -102,7 +101,7 @@ class AccessMethodDDDTest {
         //arrange
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         String name = "AccessMethod";
         //act
         boolean result = accessMethod.sameAs(accessMethodId);
@@ -117,7 +116,7 @@ class AccessMethodDDDTest {
         //arrange
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         //act
         boolean result = accessMethod.equals(accessMethod);
         //assert
@@ -130,8 +129,8 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName1 = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars accessMethodName2 = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod1 = new AccessMethodDDD(accessMethodId, accessMethodName1);
-        AccessMethodDDD accessMethod2 = new AccessMethodDDD(accessMethodId, accessMethodName2);
+        AccessMethod accessMethod1 = new AccessMethod(accessMethodId, accessMethodName1);
+        AccessMethod accessMethod2 = new AccessMethod(accessMethodId, accessMethodName2);
         //act
         boolean result = accessMethod1.equals(accessMethod2);
         //assert
@@ -143,7 +142,7 @@ class AccessMethodDDDTest {
         //arrange
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         //act
         boolean result = accessMethod.hasThisAccessMethodName(accessMethodName);
         //assert
@@ -157,7 +156,7 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = new NameWithNumbersAndSpecialChars(maiores23);
         NameWithNumbersAndSpecialChars accessMethodNameToSearch = new NameWithNumbersAndSpecialChars(maiores23);
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         //act
         boolean result = accessMethod.hasThisAccessMethodName(accessMethodNameToSearch);
         //assert
@@ -170,7 +169,7 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars accessMethodNameToSearch = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         //act
         boolean result = accessMethod.sameAs(accessMethodNameToSearch);
         //assert
@@ -183,7 +182,7 @@ class AccessMethodDDDTest {
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         AccessMethodID accessMethodIDToSearch = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        AccessMethodDDD accessMethod = new AccessMethodDDD(accessMethodId, accessMethodName);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
         //act
         boolean result = accessMethod.identity().equals(accessMethodIDToSearch);
         //assert

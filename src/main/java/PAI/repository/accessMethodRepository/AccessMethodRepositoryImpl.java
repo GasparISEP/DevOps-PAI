@@ -1,24 +1,24 @@
-package PAI.repository.accessMethodRepositoryDDD;
+package PAI.repository.accessMethodRepository;
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
-import PAI.domain.accessMethodDDD.IAccessMethodDDDFactory;
+import PAI.domain.accessMethod.AccessMethod;
+import PAI.domain.accessMethod.IAccessMethodFactory;
 
 import java.util.List;
 import java.util.Optional;
 
-public class AccessMethodDDDRepositoryImpl implements IRepositoryAccessMethodDDD{
-    private final IAccessMethodDDDFactory _accessMethodFactory;
-    private final List<AccessMethodDDD> _accessMethods;
+public class AccessMethodRepositoryImpl implements IRepositoryAccessMethod {
+    private final IAccessMethodFactory _accessMethodFactory;
+    private final List<AccessMethod> _accessMethods;
 
-    public AccessMethodDDDRepositoryImpl(IAccessMethodDDDFactory accessMethodFactory, IAccessMethodDDDListFactory accessMethodListFactory){
+    public AccessMethodRepositoryImpl(IAccessMethodFactory accessMethodFactory, IAccessMethodListFactory accessMethodListFactory){
         _accessMethodFactory = accessMethodFactory;
         _accessMethods = accessMethodListFactory.createAccessMethodList();
     }
 
     public boolean registerAccessMethod (NameWithNumbersAndSpecialChars accessMethodName){
         try {
-            AccessMethodDDD accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
+            AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
 
             if (isAccessMethodRegistered(accessMethod)) return false;
 
@@ -30,27 +30,27 @@ public class AccessMethodDDDRepositoryImpl implements IRepositoryAccessMethodDDD
         }
     }
 
-    private boolean isAccessMethodRegistered (AccessMethodDDD accessMethod){
-        for(AccessMethodDDD accessMethodDDD : _accessMethods){
+    private boolean isAccessMethodRegistered (AccessMethod accessMethod){
+        for(AccessMethod accessMethodDDD : _accessMethods){
             return accessMethodDDD.equals(accessMethod) || accessMethodDDD.sameAs(accessMethodDDD);
         }
         return false;
     }
 
     @Override
-    public AccessMethodDDD save (AccessMethodDDD accessMethod) {
+    public AccessMethod save (AccessMethod accessMethod) {
         _accessMethods.add(accessMethod);
         return accessMethod;
     }
 
     @Override
-    public Iterable<AccessMethodDDD> findAll () {
+    public Iterable<AccessMethod> findAll () {
 
         return _accessMethods;
     }
 
-    public Optional<AccessMethodDDD> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
-        for ( AccessMethodDDD accessMethod : _accessMethods) {
+    public Optional<AccessMethod> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
+        for ( AccessMethod accessMethod : _accessMethods) {
             if ( accessMethod.hasThisAccessMethodName(accessMethodNameToSearch)){
                 return Optional.of(accessMethod);
             }
@@ -59,9 +59,9 @@ public class AccessMethodDDDRepositoryImpl implements IRepositoryAccessMethodDDD
     }
 
     @Override
-    public Optional<AccessMethodDDD> ofIdentity (AccessMethodID id) {
+    public Optional<AccessMethod> ofIdentity (AccessMethodID id) {
 
-        for (AccessMethodDDD accessMethod : _accessMethods) {
+        for (AccessMethod accessMethod : _accessMethods) {
             if (accessMethod.identity().equals(id)){
                 return Optional.of(accessMethod);
             }
@@ -71,7 +71,7 @@ public class AccessMethodDDDRepositoryImpl implements IRepositoryAccessMethodDDD
 
     @Override
     public boolean containsOfIdentity (AccessMethodID id) {
-        for (AccessMethodDDD accessMethod : _accessMethods) {
+        for (AccessMethod accessMethod : _accessMethods) {
             if (accessMethod.identity().equals(id)){
                 return true;
             }
