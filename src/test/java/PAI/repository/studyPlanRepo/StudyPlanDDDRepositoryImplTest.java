@@ -119,10 +119,10 @@ public class StudyPlanDDDRepositoryImplTest {
         // Act
         repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
         StudyPlanDDD createdPlan = repository.getAllStudyPlans_2().get(0);
-        StudyPlanID studyPlanID = createdPlan.getStudyPlanID();
+        StudyPlanID studyPlanID = createdPlan.identity();
 
         // Act
-        Optional<StudyPlanDDD> foundPlan = repository.findStudyPlanByID(studyPlanID);
+        Optional<StudyPlanDDD> foundPlan = repository.ofIdentity(studyPlanID);
 
         // Assert
         assertTrue(foundPlan.isPresent());
@@ -144,7 +144,7 @@ public class StudyPlanDDDRepositoryImplTest {
 
         // Act
         StudyPlanID nonExistentID = new StudyPlanID(programmeID, implementationDate);
-        Optional<StudyPlanDDD> foundPlanOpt = repository.findStudyPlanByID(nonExistentID);
+        Optional<StudyPlanDDD> foundPlanOpt = repository.ofIdentity(nonExistentID);
 
         // Assert
         assertFalse(foundPlanOpt.isPresent());
