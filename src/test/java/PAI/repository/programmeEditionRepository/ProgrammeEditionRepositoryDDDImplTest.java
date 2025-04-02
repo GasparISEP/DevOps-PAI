@@ -6,6 +6,7 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.IProgrammeEditionDDDFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
@@ -269,19 +270,40 @@ class ProgrammeEditionRepositoryDDDImplTest {
 
     // save Test
     @Test
-    void shouldReturnNullWhenSave () throws Exception {
+    void shouldReturnProgrammeEditionWhenSave () throws Exception {
         // Arrange
         IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        ProgrammeEditionDDD pE = mock(ProgrammeEditionDDD.class);
+        Set<ProgrammeEditionDDD> programmeEditions= mock(Set.class);
+        when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn(programmeEditions);
+
         IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
         ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
 
-        ProgrammeEditionDDD pE = mock(ProgrammeEditionDDD.class);
-
         // Act
-        ProgrammeEditionDDD result = pER.save(pE);
+        ProgrammeEditionDDD pEToBeSaved = pER.save(pE);
 
         // Assert
-        assertNull(result);
+        Mockito.verify(programmeEditions).add(pEToBeSaved);
+        assertNotNull(pEToBeSaved);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionIsNull () throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        ProgrammeEditionDDD pE = null;
+        Set<ProgrammeEditionDDD> programmeEditions= mock(Set.class);
+        when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn(programmeEditions);
+
+        IProgrammeEditionDDDFactory programmeEditionFactory = mock(IProgrammeEditionDDDFactory.class);
+        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> pER.save(pE));
+
+        // Assert
+        assertEquals("Programme Edition cannot be null", exception.getMessage());
     }
 
 

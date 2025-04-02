@@ -46,8 +46,13 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     }
 
     @Override
-    public ProgrammeEditionDDD save(ProgrammeEditionDDD entity) {
-        return null;
+    public ProgrammeEditionDDD save(ProgrammeEditionDDD programmeEdition) {
+        if (programmeEdition == null){
+            throw new IllegalArgumentException("Programme Edition cannot be null");
+        }
+        _programmeEditions.add(programmeEdition);
+
+        return programmeEdition;
     }
 
     @Override
