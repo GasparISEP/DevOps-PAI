@@ -54,11 +54,24 @@ class DateTest {
         assertEquals(date1, date2);
         assertNotEquals(date1, date3);
     }
+    @Test
+    public void testEqualsDiferentClasses() {
+        Date date1 = new Date("31-03-2025");
+        String date2 = "31-03-2025";
+        //act + assert
+        assertNotEquals(date2, date1);
+    }
 
 
     @Test
-    public void testEqualsWithNull() {
+    public void testEqualsWithDifferentClass() {
         Date date1 = new Date("31-03-2025");
-        assertNotEquals(null, date1);
+        Object differentObject = "31-03-2025";
+        assertFalse(date1.equals(differentObject));
+    }
+    @Test
+    public void testNow() {
+        Date today = Date.now();
+        assertEquals(LocalDate.now(), today.getLocalDate());
     }
 }
