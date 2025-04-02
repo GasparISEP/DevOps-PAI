@@ -2,7 +2,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
-import PAI.repository.DepartmentRepository;
+import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.TeacherCareerProgressionRepository;
 import PAI.repository.TeacherCategoryRepositoryImpl;
 import PAI.repository.TeacherRepository;
@@ -14,19 +14,19 @@ import java.util.Set;
 public class US13_RegisterTeacherAndRelevantDataController {
 
     private TeacherCategoryRepositoryImpl _teacherCategoryRepository;
-    private DepartmentRepository _departmentRepository;
+    private DepartmentRepositoryImpl _departmentRepositoryImpl;
     private TeacherRepository _teacherRepository;
     private TeacherCareerProgressionRepository _teacherCareerProgressionRepository;
 
     //Constructor
     public US13_RegisterTeacherAndRelevantDataController(TeacherCategoryRepositoryImpl teacherCategoryRepository,
-        DepartmentRepository departmentRepository, TeacherRepository teacherRepository, TeacherCareerProgressionRepository teacherCareerProgressionRepository) {
+                                                         DepartmentRepositoryImpl departmentRepositoryImpl, TeacherRepository teacherRepository, TeacherCareerProgressionRepository teacherCareerProgressionRepository) {
 
         if (teacherCategoryRepository == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
         }
 
-        if (departmentRepository == null) {
+        if (departmentRepositoryImpl == null) {
             throw new IllegalArgumentException("Department Repository cannot be null");
         }
 
@@ -39,7 +39,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
         }
 
         this._teacherCategoryRepository = teacherCategoryRepository;
-        this._departmentRepository = departmentRepository;
+        this._departmentRepositoryImpl = departmentRepositoryImpl;
         this._teacherRepository = teacherRepository;
         this._teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
@@ -51,7 +51,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
     // Method to get all Departments
     public Set<DepartmentID> getDepartmentIDList() throws IllegalStateException{
-        return _departmentRepository.getDepartmentIDs();
+        return _departmentRepositoryImpl.getDepartmentIDs();
     }
 
     // Method to register the Teacher object
