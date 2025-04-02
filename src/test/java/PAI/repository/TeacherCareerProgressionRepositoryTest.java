@@ -442,6 +442,69 @@ class TeacherCareerProgressionRepositoryTest {
     }
 
     @Test
+    void shouldReturnFalseWhenDateIsNull() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+        WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
+
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //act
+        boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(null, wpDouble, teacherIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenWorkingPercentageIsNull() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date dateDouble = (Date) doubles[2];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //act
+        boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(dateDouble, null, teacherIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenTeacherIDIsNull() throws Exception {
+        //arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        Date dateDouble = (Date) doubles[2];
+        WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
+
+        ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
+        when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
+
+        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+
+        //act
+        boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(dateDouble, wpDouble, null);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
     void shouldReturnFalseWhenThereIsNoLastTCPToUpdateWorkingPercentage() throws Exception {
         //arrange
         Object[] doubles = createDoublesForTestsWithIsolation();

@@ -3,21 +3,22 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.repository.DepartmentRepositoryImpl;
-import PAI.repository.TeacherRepository;
+import PAI.repository.IDepartmentRepository;
+import PAI.repository.ITeacherRepository;
 
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
-    private final TeacherRepository _teacherRepository;
-    private final DepartmentRepositoryImpl _departmentRepository;
+    private final ITeacherRepository _iTeacherRepository;
+    private final IDepartmentRepository _iDepartmentRepository;
 
-    public US04_IWantToRegisterATeacherInTheSystemController( TeacherRepository teacherRepository,
-                                                              DepartmentRepositoryImpl departmentRepository) {
+    public US04_IWantToRegisterATeacherInTheSystemController( ITeacherRepository iTeacherRepository,
+                                                              IDepartmentRepository iDepartmentRepository) {
 
-        validateTeacherRepository(teacherRepository);
-        validateDepartmentRepository(departmentRepository);
+        validateTeacherRepository(iTeacherRepository);
+        validateDepartmentRepository(iDepartmentRepository);
 
-        this._teacherRepository = teacherRepository;
-        this._departmentRepository = departmentRepository;
+        this._iTeacherRepository = iTeacherRepository;
+        this._iDepartmentRepository = iDepartmentRepository;
     }
 
     public boolean registerATeacherInTheSystem(
@@ -28,22 +29,22 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
             return false;
         }
 
-        _teacherRepository.registerTeacher(
+        _iTeacherRepository.registerTeacher(
                  acronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         return true;
     }
 
     private boolean isDepartmentInDepartmentRepository(DepartmentID departmentID) {
-        return _departmentRepository.departmentExists(departmentID);
+        return _iDepartmentRepository.departmentExists(departmentID);
     }
 
-    private void validateTeacherRepository(TeacherRepository teacherRepository) {
+    private void validateTeacherRepository(ITeacherRepository teacherRepository) {
         if (teacherRepository == null) {
             throw new IllegalStateException("TeacherRepository is null.");
         }
     }
-    private void validateDepartmentRepository(DepartmentRepositoryImpl departmentRepository) {
-        if (departmentRepository == null) {
+    private void validateDepartmentRepository(IDepartmentRepository iDepartmentRepository) {
+        if (iDepartmentRepository == null) {
             throw new IllegalStateException("DepartmentRepository is null.");
         }
     }

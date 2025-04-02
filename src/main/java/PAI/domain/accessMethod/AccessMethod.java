@@ -1,15 +1,15 @@
-package PAI.domain.accessMethodDDD;
+package PAI.domain.accessMethod;
 
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.ddd.AggregateRoot;
 
-public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
+public class AccessMethod implements AggregateRoot<AccessMethodID> {
 
     private final AccessMethodID _accessMethodId;
     private final NameWithNumbersAndSpecialChars _accessMethodName;
 
-    protected AccessMethodDDD (NameWithNumbersAndSpecialChars accessMethodName){
+    protected AccessMethod(NameWithNumbersAndSpecialChars accessMethodName){
         if(accessMethodName == null) throw new IllegalArgumentException("Access Method name cannot be null");
 
         this._accessMethodId = new AccessMethodID();
@@ -17,7 +17,7 @@ public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
     }
 
 
-    protected AccessMethodDDD (AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName){
+    protected AccessMethod(AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName){
         if(accessMethodID == null) throw new IllegalArgumentException("Access Method ID cannot be null");
 
         this._accessMethodId = accessMethodID;
@@ -37,7 +37,7 @@ public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
 
         if(this == object) return true;
 
-        if(object instanceof AccessMethodDDD oAccessMethod){
+        if(object instanceof AccessMethod oAccessMethod){
             return this._accessMethodId.equals(oAccessMethod._accessMethodId);
         }
 
@@ -48,7 +48,7 @@ public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
     @Override
     public boolean sameAs (Object object) {
 
-        if (object instanceof AccessMethodDDD oAccessMethod){
+        if (object instanceof AccessMethod oAccessMethod){
             return this._accessMethodName.equals(oAccessMethod._accessMethodName);
         }
 
@@ -58,6 +58,4 @@ public class AccessMethodDDD implements AggregateRoot<AccessMethodID> {
     public boolean hasThisAccessMethodName (NameWithNumbersAndSpecialChars accessMethodName) {
         return _accessMethodName.equals(accessMethodName);
     }
-
-    public boolean hasThisAccessMethodID (AccessMethodID accessMethodID) {return this._accessMethodId.equals(accessMethodID);}
 }
