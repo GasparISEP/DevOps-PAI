@@ -2,10 +2,12 @@ package PAI.domain.studyPlan;
 
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
+import PAI.domain.Teacher;
 
 public class StudyPlanDDD implements AggregateRoot<StudyPlanID> {
 
     private Date _implementationDate;
+    private Date _endDate;
     private DurationInYears _durationInYears;
     private ProgrammeID _programmeID;
     private StudyPlanID _studyPlanID;
@@ -38,9 +40,9 @@ public class StudyPlanDDD implements AggregateRoot<StudyPlanID> {
     }
 
     @Override
-    public boolean sameAs(Object other) {
-        if (this == other) return true;
-        if (!(other instanceof StudyPlanDDD studyPlan)) return false;
-        return this._studyPlanID.equals(studyPlan._studyPlanID);
+    public boolean sameAs(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof StudyPlanDDD studyPlanDDD)) return false;
+        return this._studyPlanID.equals(studyPlanDDD._studyPlanID);
     }
 }
