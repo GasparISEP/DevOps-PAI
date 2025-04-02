@@ -12,8 +12,42 @@ import static org.mockito.Mockito.*;
 class CourseDDDTest {
 
     @Test
+    void shouldCreateCourseWithoutCourseIDAsParameter() {
+        //SUT = Course -> Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        //Act
+        CourseDDD courseDDD = new CourseDDD(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        //Assert
+        assertNotNull(courseDDD);
+    }
+
+    @Test
+    void shouldCreateCourseWithCourseIDAsParameter() {
+        //SUT = Course ->CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
+        //Act
+        CourseDDD courseDDD = new CourseDDD(courseID, name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        //Assert
+        assertNotNull(courseDDD);
+    }
+
+    @Test
     void shouldCreateValidCourse() throws Exception {
-        //arrange
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
@@ -27,7 +61,8 @@ class CourseDDDTest {
 
     @Test
     void shouldThrowExceptionIfCourseIdIsInvalid() throws Exception{
-        //arrange
+        //SUT = Course -> Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
         CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
@@ -37,8 +72,20 @@ class CourseDDDTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseNameIsInvalid() throws Exception{
-        //arrange
+    void shouldThrowExceptionIfCourseNameIsInvalidWithoutCourseIDAsParameter() throws Exception{
+        //SUT = Course -> Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseDDD(null, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear));
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseNameIsInvalidWithCourseIDAsParameter() throws Exception{
+        //SUT = Course -> CourseID, Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
         CourseID courseID = mock(CourseID.class);
         Acronym acronym = mock(Acronym.class);
         CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
@@ -48,8 +95,20 @@ class CourseDDDTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseAcronymIsInvalid() throws Exception{
-        //arrange
+    void shouldThrowExceptionIfCourseAcronymIsInvalidWithoutCourseIDAsParameter() throws Exception{
+        //SUT = Course -> Name, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        Name name = mock(Name.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseDDD(name, null, courseQuantityCreditsEcts, durationCourseInCurricularYear));
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseAcronymIsInvalidWithCourseIDAsParameter() throws Exception{
+        //SUT = Course -> CourseID, Name, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
@@ -59,19 +118,43 @@ class CourseDDDTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseQuantityCreditsEctsIsInvalid() throws Exception{
-        //arrange
+    void shouldThrowExceptionIfCourseQuantityCreditsEctsIsInvalidWithoutCourseIDAsParameter() throws Exception{
+        //SUT = Course -> Name , Acronym and DurationCourseInCurricularYear as Doubles
+        //Arrange
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseDDD(name, acronym, null, durationCourseInCurricularYear));
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseQuantityCreditsEctsIsInvalidWithCourseIDAsParameter() throws Exception{
+        //SUT = Course -> CourseID, Name , Acronym and DurationCourseInCurricularYear as Doubles
+        //Arrange
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
         DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
         //act + assert
-        assertThrows(Exception.class, () -> new CourseDDD(courseID,name, acronym, null, durationCourseInCurricularYear));
+        assertThrows(Exception.class, () -> new CourseDDD(courseID, name, acronym, null, durationCourseInCurricularYear));
     }
 
     @Test
-    void shouldThrowExceptionIfCourseDurationInCurricularYearIsInvalid() throws Exception{
-        //arrange
+    void shouldThrowExceptionIfCourseDurationInCurricularYearIsInvalidWithoutCourseIDAsParameter() throws Exception{
+        //SUT = Course -> Name , Acronym and CourseQuantityCreditsEcts as Doubles
+        //Arrange
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        //act + assert
+        assertThrows(Exception.class, () -> new CourseDDD(name, acronym, courseQuantityCreditsEcts, null));
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseDurationInCurricularYearIsInvalidWithCourseIDAsParameter() throws Exception{
+        //SUT = Course -> CourseID, Name , Acronym and CourseQuantityCreditsEcts as Doubles
+        //Arrange
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
@@ -82,7 +165,8 @@ class CourseDDDTest {
 
     @Test
     void shouldReturnCorrectIdentity() throws Exception {
-        // Arrange
+        //SUT = Course -> CourseID, Name , Acronym, CourseQuantityCreditsEcts and DurationCourseInCurricularYear as Doubles
+        //Arrange
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
         CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
