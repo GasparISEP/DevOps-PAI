@@ -25,11 +25,11 @@ CT --> UI -- : dTL1_DTO
 UI --> ASC -- : which degree type??
 
 ASC -> UI ++ #application :  degree Type 1!
-UI -> CT ++ #application: getAllProgrammes(dT1_DTO)
+UI -> CT ++ #application: getProgrammesByDegreeTypeID(dT1_DTO)
 ref over CT
     Convert DegreeTypeDTO to DegreeTypeID
 end ref
-CT -> PR ++ #application: getAllProgrammes(dT1ID)
+CT -> PR ++ #application: getProgrammesByDegreeTypeID(dT1ID)
 PR --> CT -- : pL1
 ref over CT
     Convert ProgrammeList to ProgrammeDTOList
