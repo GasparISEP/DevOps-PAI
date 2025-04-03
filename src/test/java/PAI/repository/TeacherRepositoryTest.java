@@ -294,7 +294,7 @@ class TeacherRepositoryTest {
     }
 
     @Test
-    void shouldReturnIdWhenTeacherExistsInList() throws IllegalArgumentException {
+    void shouldNotReturnIdWhenTeacherDoesntExistsInList() throws IllegalArgumentException {
         // Arrange
         ITeacherFactory teacherFactory = mock(ITeacherFactory.class);
         ITeacherListFactory teacherListFactory = mock(ITeacherListFactory.class);
