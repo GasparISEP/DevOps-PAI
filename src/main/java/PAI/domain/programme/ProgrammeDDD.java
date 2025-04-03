@@ -14,11 +14,11 @@ public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
     private QuantEcts _quantEcts;
     private Acronym _acronym;
     private DegreeTypeID _degreeTypeID;
-    private Department _department;
+    private DepartmentID _department;
     private TeacherID _programmeDirectorID;
     private ProgrammeID _programmeID;
 
-    public ProgrammeDDD(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, Department department, TeacherID programmeDirectorID) throws IllegalArgumentException {
+    public ProgrammeDDD(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws IllegalArgumentException {
         if(name==null) {
             throw new IllegalArgumentException("Programme name cannot be null");
         }
@@ -44,10 +44,10 @@ public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
         }
         _degreeTypeID = degreeTypeID;
 
-        if (department == null) {
+        if (departmentID == null) {
             throw new IllegalArgumentException("Department must not be null");
         }
-        _department = department;
+        _department = departmentID;
 
         if (programmeDirectorID == null) {
             throw new IllegalArgumentException("Insert a valid Programme Director");
@@ -74,8 +74,8 @@ public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
         return true;
     }
 
-    public boolean isInDepartment(Department department) {
-        return _department.equals(department);
+    public boolean isInDepartment(DepartmentID departmentID) {
+        return _department.equals(departmentID);
     }
 
     public ProgrammeID getProgrammeID(){
@@ -103,7 +103,7 @@ public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
         return _degreeTypeID;
     }
 
-    public Department getDepartment() {
+    public DepartmentID getDepartment() {
         return _department;
     }
 

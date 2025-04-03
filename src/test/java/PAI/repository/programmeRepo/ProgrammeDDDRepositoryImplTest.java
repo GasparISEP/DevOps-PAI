@@ -28,7 +28,7 @@ class ProgrammeDDDRepositoryImplTest {
         ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         Acronym acronym = mock(Acronym.class);
         DegreeTypeID master = mock(DegreeTypeID.class);
-        Department CSE = mock(Department.class);
+        DepartmentID CSE = mock(DepartmentID.class);
         TeacherID teacher = mock(TeacherID.class);
         ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
@@ -48,7 +48,7 @@ class ProgrammeDDDRepositoryImplTest {
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         DegreeTypeID master = mock(DegreeTypeID.class);
-        Department CSE = mock(Department.class);
+        DepartmentID CSE = mock(DepartmentID.class);
         TeacherID teacher = mock(TeacherID.class);
         ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
@@ -118,7 +118,7 @@ class ProgrammeDDDRepositoryImplTest {
         ProgrammeDDDRepositoryImpl programmeRepo = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         DegreeTypeID master = mock(DegreeTypeID.class);
 
-        Department departmentDouble = mock(Department.class);
+        DepartmentID departmentDouble = mock(DepartmentID.class);
         TeacherID teacher = mock(TeacherID.class);
         Acronym acronym = mock(Acronym.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
@@ -146,7 +146,7 @@ class ProgrammeDDDRepositoryImplTest {
         IProgrammeDDDRepositoryListFactory programmeRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
         ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeRepoListFactory);
         DegreeTypeID master = mock(DegreeTypeID.class);
-        Department cse = mock(Department.class);
+        DepartmentID cse = mock(DepartmentID.class);
         TeacherID teacher = mock(TeacherID.class);
         ProgrammeDDD programme = mock(ProgrammeDDD.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
@@ -182,7 +182,7 @@ class ProgrammeDDDRepositoryImplTest {
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeTypeID master1 = mock(DegreeTypeID.class);
-        Department cse1 = mock(Department.class);
+        DepartmentID cse2 = mock(DepartmentID.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
         NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
@@ -190,7 +190,7 @@ class ProgrammeDDDRepositoryImplTest {
         QuantEcts quantityOfEcts2 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters2 = mock(QuantSemesters.class);
         DegreeTypeID master2 = mock(DegreeTypeID.class);
-        Department cse2 = mock(Department.class);
+        DepartmentID cse1 = mock(DepartmentID.class);
         TeacherID teacher2 = mock(TeacherID.class);
 
         ProgrammeDDD programme1 = mock(ProgrammeDDD.class);
@@ -239,7 +239,7 @@ class ProgrammeDDDRepositoryImplTest {
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeTypeID master1 = mock(DegreeTypeID.class);
-        Department cse1 = mock(Department.class);
+        DepartmentID cse1 = mock(DepartmentID.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
         ProgrammeDDD programme1 = mock(ProgrammeDDD.class);
@@ -271,7 +271,7 @@ class ProgrammeDDDRepositoryImplTest {
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeTypeID master1 = mock(DegreeTypeID.class);
-        Department cse1 = mock(Department.class);
+        DepartmentID cse1 = mock(DepartmentID.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
 
@@ -303,7 +303,7 @@ class ProgrammeDDDRepositoryImplTest {
         QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
         DegreeTypeID master1 = mock(DegreeTypeID.class);
-        Department cse1 = mock(Department.class);
+        DepartmentID cse1 = mock(DepartmentID.class);
         TeacherID teacher1 = mock(TeacherID.class);
 
         when(name1.getnameWithNumbersAndSpecialChars()).thenReturn("Matemática");
@@ -360,7 +360,7 @@ class ProgrammeDDDRepositoryImplTest {
         QuantEcts quantityOfEcts = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
         DegreeTypeID master = mock(DegreeTypeID.class);
-        Department cse = mock(Department.class);
+        DepartmentID cse = mock(DepartmentID.class);
         TeacherID teacher = mock(TeacherID.class);
 
         when(IProgrammeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, master, cse, teacher))

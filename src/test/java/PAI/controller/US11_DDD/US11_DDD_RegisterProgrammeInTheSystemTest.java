@@ -53,7 +53,7 @@ class US11_DDD_RegisterProgrammeInTheSystemTest {
         QuantEcts qtyEcts = mock(QuantEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        Department department1 = mock(Department.class);
+        DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
         //act
