@@ -1,0 +1,43 @@
+@startuml
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+
+title findByStudentAndEdition - Sequence Diagram
+
+participant ":ICourseEditionEnrolmentRepository" as IRepo
+participant ":CourseEditionEnrolmentRepositoryImpl" as RepoImpl
+participant "cee:CourseEditionEnrolment" as Enrolment
+participant "stID: StudentID" as StudentID
+participant "ceID: CourseEditionID" as CourseEditionID
+
+autonumber
+
+IRepo -> RepoImpl : findByStudentAndEdition(studentID, courseEditionID)
+activate RepoImpl
+
+loop Iterate over _courseEditionEnrolments
+    RepoImpl -> Enrolment : hasStudent(studentID)
+    activate Enrolment
+    Enrolment -> StudentID : equals(studentID)
+    activate StudentID
+    StudentID --> Enrolment : true
+    deactivate StudentID
+    Enrolment --> RepoImpl : true
+    deactivate Enrolment
+
+    RepoImpl -> Enrolment : hasCourseEdition(courseEditionID)
+    activate Enrolment
+    Enrolment -> CourseEditionID : equals(courseEditionID)
+    activate CourseEditionID
+    CourseEditionID --> Enrolment : true
+    deactivate CourseEditionID
+    Enrolment -> RepoImpl : true
+    deactivate Enrolment
+
+    RepoImpl --> IRepo : Optional.of(CourseEditionEnrolment)
+    deactivate RepoImpl
+end
+
+@enduml

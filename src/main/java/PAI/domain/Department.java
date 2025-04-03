@@ -58,9 +58,7 @@ public class Department implements AggregateRoot <DepartmentID> {
 
     public DepartmentAcronym getAcronym() { return _departmentId.getAcronym(); }
 
-    public DepartmentID getDepartmentID() {
-        return _departmentId;
-    }
+    public DepartmentID getDepartmentID() {return _departmentId;}
 
 
     //US06

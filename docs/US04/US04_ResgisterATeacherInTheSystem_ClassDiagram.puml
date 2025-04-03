@@ -1,119 +1,90 @@
 @startuml
 !pragma layout smetana
+'left to right direction
 
-class US04_IWantToRegisterATeacherInTheSystemController #lightblue{
-        +US04_IWantToRegisterATeacherInTheSystemController(teacherRepository : TeacherRepository,teacherCategoryRepository:TeacherCategoryRepository, departmentRepository: DepartmentRepository)
-        +registerATeacherInTheSystem(acronym:Acronym,teacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
-                                          country: Country,teacherCategoryID:TeacherCategoryID ,departmentAcronym: DepartmentAcronym)
+class US04_IWantToRegisterATeacherInTheSystemController {
+        +US04_IWantToRegisterATeacherInTheSystemController(TeacherRepository teacherRepository,
+        teacherCategoryRepository: TeacherCategoryRepository, departmentRepository: DepartmentRepository)
+        +registerATeacherInTheSystem(acronym: String, name: String , email:  String , nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+        country: String, date: String, category: TeacherCategory, workingPercentage: int, department: Department, careerProgressionFactory: TeacherCareerProgressionFactory)
 }
 
-class TeacherRepository #lightblue{
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     -_academicBackground:String
+     +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String, academicBackground: String, street: String, postalCode: String, location: String,
+     country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory)
+     +hasSameAcronym(teacher: Teacher) : boolean
+     +hasSameNif(teacher: Teacher) : boolean
+}
+
+class TeacherRepository {
     +TeacherRepository(teacherFactory: TeacherFactory, teacherListFactory : TeacherListFactory)
-    +registerTeacher(teacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
-                          country: Country, teacherCategory: TeacherCategory, department: Department) : boolean
+    +registerTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+    country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory) : boolean
 }
 
-class TeacherFactory #lightblue{
-    +createTeacher(TeacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
-                        country: Country, teacherCategory: TeacherCategory, department: Department):Teacher
+class TeacherFactory {
+    +createTeacher(acronym: String, name: String , email:  String , nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+    country: String, date: String, category: TeacherCategory, workingPercentage: int, department: Department, careerProgressionFactory: TeacherCareerProgressionFactory)
 }
 
-class DepartmentRepository #lightblue{
-    +DepartmentRepository (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
-    +departmentExists(departmentAcronym: DepartmentAcronym): boolean
-}
-
-class AddressFactory #lightblue{
-    + createAddress (street : Street, postalCode : PostalCode, location : Location, country : Country)
-}
-class TeacherListFactory #lightblue{
-    +newArrayList() : ArrayList<Teacher>
-}
-class TeacherCategoryFactory #lightblue{
-    +createTeacherCategory(teacherCategoryID:TeacherCategoryID, name:Name)
-}
-interface ITeacherListFactory #lightblue{
-    + newArrayList(): ArrayList<Teacher>
-}
-
-interface ITeacherFactory #lightblue{
-+createTeacher(Acronym acronym,TeacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
-                        country: Country, teacherCategoryID: TeacherCategoryID, departmentAcronym : DepartmentAcronym):Teacher
-}
-interface IDepartmentRepository #lightblue{
-
+class DepartmentRepository {
     +DepartmentRepository (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
     +departmentExists(department: Department): boolean
 }
-interface ITeacherRepository #lightblue{
-+registerTeacher(acronym:Acronym,teacherID: TeacherID, name:Name, email: Email, nif: NIF, phoneNumber:PhoneNumber, academicBackground: AcademicBackground, street: Street, postalCode: PostalCode, location: Location,
-                          country: Country, teacherCategoryID: TeacherCategoryID, departmentAcronym: DepartmentAcronym) : boolean
-}
-interface IAddressFactory #lightblue{
-+createAddress((street : Street, postalCode : PostalCode, location : Location, country : Country) : Address
-}
-interface ITeacherCategoryRepository #lightblue{
 
+class TeacherCategory {
+    -_name:String
+    +TeacherCategory (name : String)
+    +getName(): String
 }
-interface ITeacherCategoryFactory #lightblue {}
-package "Department Aggregates" #CornflowerBlue       {
-class "<<Root>>Department"#lightblue {
-    -name:Name
-    -departmentAcronym:DepartmentAcronym
-    -director:Teacher
+
+class TeacherCategoryRepository {
+    +TeacherCategoryRepository (teacherCategoryFactory : TeacherCategoryFactory, teacherCategoryListFactory : TeacherCategoryListFactory)
+    +getTeacherCategoryByName(name: String) : Optional<TeacherCategory>
+}
+
+class Address {
+    -_street : String
+    -_postalCode : String
+    -_location : String
+    -_country : String
+    +Address (street : String, postalCode : String, location : String, country : String)
+}
+
+class AddressFactory {
+    + createAdress (street : String, postalCode : String, location : String, country : String )
+}
+
+class Department {
     +Department (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
 }
-}
-package "Address Aggregates" #CornflowerBlue{
-class "<<root>>Address" #lightblue{
-    -_street : Street
-    -_postalCode : PostalCode
-    -_location : Location
-    -_country : Country
-    +Address (street : Street, postalCode : PostalCode, location : Location, country : Country)
-}
-}
-package "Teacher Aggregates"#CornflowerBlue {
-entity "<<Root>>Teacher"#lightblue {
-    -_acronym:Acronym
-    -_teacherId: TeacherId
-    -_name: Name
-    -_email: Email
-    -_nif: NIF
-    -_phoneNumber: PhoneNumber
-    -_academicBackground: AcademicBackground
-    -_address: Address
-    -_category: TeacherCategoryID
-    -_departmentAcronym: DepartmentAcronym
-     +Teacher(acronym:Acronym,teacherID: TeacherId, name: Name, email: Email, nif: NIF, phoneNumber: PhoneNumber, academicBackground: AcademicBackground,
-                address: Address,TeacherCategoryID:teacherCategoryID, departmentAcronym: DepartmentAcronym)
-}
-}
-package "Teacher Category Aggregates" #CornflowerBlue{
-entity "<<Root Teacher Category>>" #lightblue{
-    -_teacherCategoryID: TeacherCategoryID
-    -_name:Name
-}
-}
-US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1    " IDepartmentRepository
-IDepartmentRepository "1"..>"1" DepartmentRepository
-AddressFactory  ..|> IAddressFactory
-IAddressFactory ..> "<<root>>Address"
-"<<root>>Address""1" <-- "1" "<<Root>>Teacher"
-"<<Root>>Teacher"  "*" --> "1               " "<<Root>>Department"
-TeacherRepository ..> "<<Root>>Teacher"
-TeacherRepository  .u.>             ITeacherListFactory
-TeacherRepository  .u.>             ITeacherFactory
-TeacherFactory ..|> ITeacherFactory
-ITeacherFactory ..> "<<Root>>Teacher"
-TeacherListFactory ..|> ITeacherListFactory
-DepartmentRepository ->"1       " "<<Root>>Department"
-ITeacherRepository "1"..|>"1" TeacherRepository
-ITeacherRepository ..> US04_IWantToRegisterATeacherInTheSystemController
-TeacherCategoryFactory ..> ITeacherCategoryFactory
-ITeacherCategoryRepository "1"-> US04_IWantToRegisterATeacherInTheSystemController
-TeacherCategoryRepository "1" ..> US04_IWantToRegisterATeacherInTheSystemController
-ITeacherCategoryFactory --> "<<Root Teacher Category>>"
-"<<Root Teacher Category>>" -> "<<Root>>Teacher"
 
+class ArrayList {
+    +add() : boolean
+}
+
+class TeacherListFactory {
+    +newArrayList() : ArrayList<Teacher>
+}
+
+
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherCategoryRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1    " DepartmentRepository
+TeacherRepository "   1    " -u-> " _teacherFactory  1     " TeacherFactory
+Teacher "_teacher 1                   " <-- "1 " TeacherFactory
+TeacherCategory "                   * _teacherCategoryList  " <-- "1" TeacherCategoryRepository
+Teacher "       *  " --> "1  _ teacherCategory " TeacherCategory
+Teacher "1" --> "1 _addressFactory     " AddressFactory
+AddressFactory "1" --> "_address 1    " Address
+Teacher "*" --> "1               " Department
+TeacherRepository "1" ..> "   * _teacher            "Teacher
+TeacherRepository "1" ..> "_teacherListFactory 1" TeacherListFactory
+TeacherListFactory "1" ..> " _arrayList 1  "ArrayList
 @enduml
