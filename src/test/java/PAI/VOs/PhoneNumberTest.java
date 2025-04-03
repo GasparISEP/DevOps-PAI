@@ -120,4 +120,28 @@ class PhoneNumberTest {
         //assert
         assertNotNull(phoneNumber);
     }
+
+    static Stream<Arguments> testPhoneNumbersWithInvalidInputs() {
+        return Streams.of(
+                Arguments.of("+111", "12345"),
+                Arguments.of("+111", "1234567890123456"),
+                Arguments.of("+111", ""),
+                Arguments.of("+111", " "),
+                Arguments.of("+111", "123 456 789 012 345 6"),
+                Arguments.of("+111", "abcd1234"),
+                Arguments.of("+111", "1234!@#5678"),
+                Arguments.of("+111", "(123) 45"),
+                Arguments.of("+111", "555-abc-7890"),
+                Arguments.of("+111", "１２３４５６"),
+                Arguments.of("+111", "٠١٢٣٤٥٦")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testPhoneNumbersWithInvalidInputs")
+    void invalidPhoneNumbersInputShouldReturnException(String countryCode, String number) {
+        //arrange
+
+        //act + assert
+        Assertions.assertThrows(Exception.class, () -> new PhoneNumber(countryCode, number));
+    }
 }
