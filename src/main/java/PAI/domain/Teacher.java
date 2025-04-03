@@ -21,6 +21,8 @@ public class Teacher implements AggregateRoot<TeacherID> {
 
     private DepartmentID _departmentID;
 
+    private TeacherAcademicEmail _teacherAcademicEmail;
+
     //constructor
     public Teacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
                    Address address, DepartmentID departmentID) {
@@ -35,6 +37,7 @@ public class Teacher implements AggregateRoot<TeacherID> {
         this._academicBackground = academicBackground;
         this._address = address;
         this._departmentID = departmentID;
+        this._teacherAcademicEmail = new TeacherAcademicEmail(acronym);
     }
 
     private void isObjectNull(Object... objects){

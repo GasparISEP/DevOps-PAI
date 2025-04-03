@@ -1,7 +1,7 @@
 @startuml
 autonumber
 skinparam sequenceMessageAlign center
-title US08: I want to register a Student in the system
+title Diagram Referenced in US08_SequenceDiagram
 
 actor ASC
 participant "sID:StudentID" as studentID #implementation
@@ -13,6 +13,7 @@ participant "street1:Street" as street #strategy
 participant "pc1:PostalCode" as postalCode #application
 participant "l1:Location" as location #implementation
 participant "c1:Country" as country #motivation
+participant "aE1:StudentAcademicEmail" as academicEmail #physical
 
 ASC --> studentID : create StudentID VO (uniqueNumber)
 activate studentID
@@ -53,5 +54,10 @@ ASC --> country : create Country VO (country)
 activate country
 country --> ASC : Country VO
 deactivate country
+
+ASC --> academicEmail : create StudentAcademicEmail VO (academicEmail)
+activate academicEmail
+academicEmail --> ASC : StudentAcademicEmail VO
+deactivate academicEmail
 
 @enduml
