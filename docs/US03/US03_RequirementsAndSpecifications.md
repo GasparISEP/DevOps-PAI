@@ -8,9 +8,9 @@
 4. [Non-Functional Requirements](#4-non-functional-requirements)
 5. [Acceptance Criteria](#5-acceptance-criteria)
 6. [Business Rules](#6-business-rules)
-7. [Event Flow](#7-eventflow)
+7. [Event Flow](#7-event-flow)
 8. [Testing and Validation](#8-testing-and-validation)
-9. [Identified Risks](#9-identified-risks)
+9. [Identified Risks](#9-risk-analysis)
 10. [Conclusion](#10-conclusion)
 
 ## 1. Introduction
