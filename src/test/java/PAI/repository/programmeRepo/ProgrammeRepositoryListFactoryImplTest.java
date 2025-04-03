@@ -35,6 +35,8 @@ class ProgrammeRepositoryListFactoryImplTest {
         List<ProgrammeDDD> copiedList = factory.copyProgrammeArrayList(originalList);
 
         // assert
-        assertNotSame(originalList, copiedList);
+        assertNotSame(originalList, copiedList); // verifica se é uma nova instância
+        assertEquals(originalList.size(), copiedList.size()); // verifica se têm o mesmo tamanho
+        assertIterableEquals(originalList, copiedList); // verifica se os elementos são os mesmos (por igualdade de referência ou equals)
     }
 }

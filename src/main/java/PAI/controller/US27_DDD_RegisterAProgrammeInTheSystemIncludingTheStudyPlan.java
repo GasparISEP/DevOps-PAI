@@ -3,17 +3,20 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
+import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
 import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
 
 import java.util.Optional;
 
 public class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
 
-    ProgrammeDDDRepositoryImpl _programmeDDDList;
-    StudyPlanDDDRepositoryImpl _studyPlanDDDRepo;
 
-    public US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan (ProgrammeDDDRepositoryImpl programmeDDDList, StudyPlanDDDRepositoryImpl studyPlanDDDRepo) throws Exception {
+    IProgrammeDDDRepository _programmeDDDList;
+    IStudyPlanDDDRepository _studyPlanDDDRepo;
+
+    public US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan (IProgrammeDDDRepository programmeDDDList, IStudyPlanDDDRepository studyPlanDDDRepo) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");
@@ -28,9 +31,9 @@ public class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
         _studyPlanDDDRepo = studyPlanDDDRepo;
     }
 
-    public boolean registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, Department department, TeacherID programmeDirectorID) throws Exception {
+    public boolean registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
 
-        _programmeDDDList.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
+        _programmeDDDList.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
         return true;
     }
 

@@ -47,7 +47,7 @@ public class US22_IWantToGradeAStudentInACourseEdition {
         return false;
     }
 
-    public boolean iWantToGradeAStudent (Grade grade, Date date, Student student, CourseEditionDDD courseEdition_DDD) throws Exception{
+    public boolean registerStudentGrade(Grade grade, Date date, Student student, CourseEditionDDD courseEdition_DDD) throws Exception{
         Optional<StudentID> studentID = findStudentIdByStudent(student);
 
         if (isStudentEnrolledInCourseEdition(student, courseEdition_DDD)){
