@@ -11,18 +11,19 @@ participant "s[i]:Student" as Student #strategy
 participant "sf1:StudentFactory" as SF #technology
 participant "s1:Student" as s1 #strategy
 participant "af1:AddressFactory" as AF #motivation
-participant "a1:Address" as A #physical
+participant "address1:Address" as A #physical
 
 ASC -> UI: I want to register a student in the system
 activate UI
 UI --> ASC: What is the Student's information?
-ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country
+ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country, academicEmail
 
-UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country)
+UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country, academicEmail)
 activate ctrl
+
 ref over ctrl
     Convert studentID, name, NIF, phone, email,
-    street, postalCode, location, country to VO
+    street, postalCode, location, country, academicEmail to Value Object
 end ref
 
 ctrl -> SR: registerStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO)
@@ -36,12 +37,12 @@ activate AF
 
 AF --> A**: new Address \n (streetVO, postalCodeVO, locationVO, countryVO)
 activate A
-A --> AF: a1
+A --> AF: address1
 deactivate A
 
-AF --> SF: a1
+AF --> SF: address1
 deactivate AF
-SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, a1)
+SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, address1)
 activate s1
 s1 --> SF: s1
 deactivate s1
@@ -51,14 +52,14 @@ deactivate SF
 SR -> SR : isStudentRepeated(s1)
 
 loop for each Student in SR
-    SR -> Student: hasSameID(s1)
+    SR -> Student: isEquals(s1) || sameAs(s1)
     activate Student
 end
 
 Student --> SR : False
 deactivate Student
 
-SR -> SR: students.add(s1)
+SR -> SR: save(s1)
 SR --> ctrl: True
 deactivate SR
 ctrl --> UI: True

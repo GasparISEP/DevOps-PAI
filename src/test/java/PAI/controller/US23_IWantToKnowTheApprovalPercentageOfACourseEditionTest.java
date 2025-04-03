@@ -36,7 +36,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionTest {
         when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
         when(studentGradeRepository.knowApprovalRate(courseEditionIDDouble)).thenReturn(16.0);
         //act
-        double result = controller.IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition_DDDDouble);
+        double result = controller.CalculateApprovalPercentageOfACourseEdition(courseEdition_DDDDouble);
         //assert
         assertEquals(16.0,result);
     }

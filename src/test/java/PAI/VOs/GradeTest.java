@@ -23,6 +23,24 @@ class GradeTest {
     }
 
     @Test
+    void shouldCreateGradeWithValue20() throws Exception {
+
+        // Act
+        Grade grade1= new Grade(20);
+        // Assert
+        assertNotNull(grade1);
+    }
+
+    @Test
+    void shouldCreateGradeWithValue0() throws Exception {
+
+        // Act
+        Grade grade1= new Grade(0);
+        // Assert
+        assertNotNull(grade1);
+    }
+
+    @Test
     void shouldNotCreateGradeWithValueAbove20() {
 
         // Act + Assert
