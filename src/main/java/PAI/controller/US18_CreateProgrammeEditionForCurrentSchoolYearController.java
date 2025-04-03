@@ -29,10 +29,7 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames(){
 
-        /*if (_programmeRepository == null)
-            return new ArrayList<>();
-        return _programmeRepository.getAllProgrammeNames();*/
-        return null;
+        return _programmeRepository.getAllProgrammeNames();
     }
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName){
