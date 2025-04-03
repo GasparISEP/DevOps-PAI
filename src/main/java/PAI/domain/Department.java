@@ -64,11 +64,11 @@ public class Department implements AggregateRoot <DepartmentID> {
 
 
     //US06
-//    public boolean changeDirector(TeacherID furtherDirector) {
-//        if (furtherDirector == null) {
-//           return false;
-//        }
-//        this._director = furtherDirector;
-//        return true;
-//    }
+    public boolean changeDirector(TeacherID furtherDirectorID) {
+        if (furtherDirectorID == null) {
+            return false;
+        }
+        this._director = furtherDirectorID;
+        return true;
+    }
 }
