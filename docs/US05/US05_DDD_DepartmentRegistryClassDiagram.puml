@@ -83,4 +83,5 @@ IDepartmentFactory "_departmentFactory1" <.. "1"  DepartmentRepository
 Name "_departmentName 1" <-- "1" Department
 Department "1" --> "1 _departmentId" DepartmentID
 DepartmentID "1" --> "1 _departmentAcronym" DepartmentAcronym
+Department "1" ..> "1" DepartmentAcronym
 @enduml

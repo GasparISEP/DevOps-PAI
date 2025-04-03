@@ -1,22 +1,21 @@
 package PAI.domain.programme;
 
 import PAI.VOs.*;
+import PAI.ddd.AggregateRoot;
 import PAI.domain.Department;
 
-import java.util.Objects;
-
-public class ProgrammeDDD {
+public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
 
     private NameWithNumbersAndSpecialChars _name;
     private QuantSemesters _quantSemesters;
     private QuantEcts _quantEcts;
     private Acronym _acronym;
     private DegreeTypeID _degreeTypeID;
-    private Department _department;
+    private DepartmentID _department;
     private TeacherID _programmeDirectorID;
     private ProgrammeID _programmeID;
 
-    public ProgrammeDDD(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, Department department, TeacherID programmeDirectorID) throws IllegalArgumentException {
+    public ProgrammeDDD(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws IllegalArgumentException {
         if(name==null) {
             throw new IllegalArgumentException("Programme name cannot be null");
         }
@@ -42,10 +41,10 @@ public class ProgrammeDDD {
         }
         _degreeTypeID = degreeTypeID;
 
-        if (department == null) {
+        if (departmentID == null) {
             throw new IllegalArgumentException("Department must not be null");
         }
-        _department = department;
+        _department = departmentID;
 
         if (programmeDirectorID == null) {
             throw new IllegalArgumentException("Insert a valid Programme Director");
@@ -58,8 +57,7 @@ public class ProgrammeDDD {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ProgrammeDDD programme = (ProgrammeDDD) o;
-        return _quantEcts == programme._quantEcts && _quantSemesters == programme._quantSemesters &&
-                Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
+        return this._programmeID.equals(programme._programmeID);
     }
 
     public boolean isEquals (ProgrammeID programmeID) {
@@ -72,8 +70,8 @@ public class ProgrammeDDD {
         return true;
     }
 
-    public boolean isInDepartment(Department department) {
-        return _department.equals(department);
+    public boolean isInDepartment(DepartmentID departmentID) {
+        return _department.equals(departmentID);
     }
 
     public ProgrammeID getProgrammeID(){
@@ -97,15 +95,32 @@ public class ProgrammeDDD {
         return _name;
 
     }
+
     public DegreeTypeID getDegreeTypeID() {
         return _degreeTypeID;
     }
 
-    public Department getDepartment() {
+    public DepartmentID getDepartment() {
         return _department;
     }
 
     public TeacherID getProgrammeDirectorID() {
         return _programmeDirectorID;
+    }
+
+    @Override
+    public ProgrammeID identity() {
+        return _programmeID;
+    }
+
+    @Override
+    public boolean sameAs(Object object) {
+        if (object instanceof ProgrammeDDD) {
+            ProgrammeDDD programmeDDD = (ProgrammeDDD) object;
+
+            if (this._name.equals(programmeDDD._name) || (this._acronym.equals(programmeDDD._acronym)) )
+                return true;
+        }
+        return false;
     }
 }

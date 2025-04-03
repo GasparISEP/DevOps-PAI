@@ -43,8 +43,20 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
                 .collect(Collectors.toSet());
     }
 
-    public boolean departmentExists (DepartmentID departmentID){
-        return departmentID != null && _departments.contains(departmentID);
+    public boolean departmentExists(DepartmentID departmentID) {
+        if (departmentID == null) {
+            return false;
+        }
+        return findDepartmentByID(departmentID).isPresent();
+    }
+
+    public Optional<Department> findDepartmentByID(DepartmentID departmentID) {
+        for (Department department : _departments) {
+            if (department.getDepartmentID().equals(departmentID)) {
+                return Optional.of(department);
+            }
+        }
+        return Optional.empty();
     }
 
 //    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID furtherDirectorId) {
@@ -77,4 +89,5 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
         return _departments.stream()
                 .anyMatch(department -> department.identity().equals(id));
     }
+
 }

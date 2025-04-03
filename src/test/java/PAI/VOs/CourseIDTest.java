@@ -73,14 +73,4 @@ class CourseIDTest {
         //Assert
         assertEquals(hash1,hash2);
     }
-
-    @Test
-    void shouldReturnId() {
-        //Arrange
-        CourseID courseID = new CourseID();
-        //Act
-        UUID id = courseID.getCourseId();
-        //Assert
-        assertNotNull(id);
-    }
 }

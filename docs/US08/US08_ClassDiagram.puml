@@ -33,14 +33,12 @@ package "Student Aggregate" {
     }
 }
 
-package "Address Aggregate" {
-    class AddressVO <<Root>> <<Value Object>> {
-        - _street : Street
-        - _postalCode : PostalCode
-        - _location : Location
-        - _country : Country
-        + isAttributeValid(attribute : Object)
-    }
+class AddressVO <<Root>> <<Value Object>> {
+    - _street : Street
+    - _postalCode : PostalCode
+    - _location : Location
+    - _country : Country
+    + isAttributeValid(attribute : Object)
 }
 
 class StudentID <<Value Object>> {
@@ -133,7 +131,7 @@ class StudentListFactoryImpl {
     + newArrayList() : List<Student>
 }
 
-class List<Student> <<Interface>> {}
+class List<Student> {}
 
 interface IStudentRepository <<Interface>> {
     +registerStudent()

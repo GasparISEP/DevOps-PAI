@@ -99,10 +99,10 @@ class CourseInStudyPlanDDDRepositoryImpTest {
         repository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
 
         CourseInStudyPlanDDD createdCourse = repository.getAllCourseInStudyPlanList_2().get(0);
-        CourseInStudyPlanID courseInStudyPlanID = createdCourse.getCourseInStudyPlanID();
+        CourseInStudyPlanID courseInStudyPlanID = createdCourse.identity();
 
         // Act
-        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.findCourseInStudyPlanByID(courseInStudyPlanID);
+        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.ofIdentity(courseInStudyPlanID);
 
         // Assert
         assertTrue(foundCourseOpt.isPresent());
@@ -124,7 +124,7 @@ class CourseInStudyPlanDDDRepositoryImpTest {
 
         // Act
         CourseInStudyPlanID nonExistentID = new CourseInStudyPlanID(courseID, studyPlanID);
-        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.findCourseInStudyPlanByID(nonExistentID);
+        Optional<CourseInStudyPlanDDD> foundCourseOpt = repository.ofIdentity(nonExistentID);
 
         // Assert
         assertFalse(foundCourseOpt.isPresent());

@@ -34,16 +34,6 @@ public class CourseInStudyPlanDDDDDDRepositoryImpl implements ICourseInStudyPlan
         return _coursesInStudyPlanList_2;
     }
 
-
-    public Optional<CourseInStudyPlanDDD> findCourseInStudyPlanByID(CourseInStudyPlanID courseInStudyPlanID) {
-        for (CourseInStudyPlanDDD courseInStudyPlanDDD : _coursesInStudyPlanList_2) {
-            if (courseInStudyPlanDDD.getCourseInStudyPlanID().equals(courseInStudyPlanID)) ;
-            return Optional.of(courseInStudyPlanDDD);
-        }
-
-        return Optional.empty();
-    }
-
     @Override
     public CourseInStudyPlanDDD save(CourseInStudyPlanDDD courseInStudyPlanDDD) {
         _coursesInStudyPlanList_2.add(courseInStudyPlanDDD);

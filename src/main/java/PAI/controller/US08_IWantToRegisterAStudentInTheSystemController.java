@@ -1,29 +1,38 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.Address;
 import PAI.repository.IStudentRepository;
-import PAI.repository.StudentRepository;
 
 public class US08_IWantToRegisterAStudentInTheSystemController {
 
     private IStudentRepository _IStudentRepository;
 
-    public US08_IWantToRegisterAStudentInTheSystemController(IStudentRepository iStudentRepository) {
+    public US08_IWantToRegisterAStudentInTheSystemController(
+            IStudentRepository iStudentRepository) throws Exception {
 
         if (iStudentRepository == null)
             throw new IllegalArgumentException ("Student repository cannot be null!");
 
          _IStudentRepository = iStudentRepository;
-
     }
 
-    public boolean registerStudent (StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Street street, PostalCode postalCode, Location location, Country country, StudentAcademicEmail academicEmail) throws Exception {
+    public boolean registerStudent (int uniqueNumber, String name, String nif, Country nifCountry,
+                                    String countryCode, String phoneNumber, String email, String street,
+                                    String postalCode, String location, String country) throws Exception {
 
-        _IStudentRepository.registerStudent(studentID, name, NIF, phone, email, street, postalCode, location, country, academicEmail);
+        StudentID studentID = new StudentID(uniqueNumber);
+        Name nameVO = new Name(name);
+        NIF nifVO = new NIF(nif, nifCountry);
+        PhoneNumber phone = new PhoneNumber(countryCode, phoneNumber);
+        Email emailVO = new Email(email);
+        Street streetVO = new Street(street);
+        PostalCode postalCodeVO = new PostalCode(postalCode);
+        Location locationVO = new Location(location);
+        Country countryVO = new Country(country);
+        StudentAcademicEmail academicEmailVO = new StudentAcademicEmail(studentID);
+
+        _IStudentRepository.registerStudent(studentID, nameVO, nifVO, phone, emailVO, streetVO, postalCodeVO, locationVO, countryVO, academicEmailVO);
 
         return true;
-
-
     }
 }

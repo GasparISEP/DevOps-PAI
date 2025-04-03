@@ -132,60 +132,67 @@ class DepartmentRepositoryTest {
         // Assert
         assertEquals(2, result.size());
     }
+    @Test
+    void shouldReturnTrueIfDepartmentExistsInDepartmentRepository() throws Exception {
+        // Arrange
+        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
+        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble,listFactoryInterfaceDouble);
+        DepartmentAcronym departmentAcronym= mock(DepartmentAcronym.class);
+        Department department1Double= mock(Department.class);
+        Name name= mock(Name.class);
+        DepartmentID departmentID= mock(DepartmentID.class);
 
-//    @Test
-//    void shouldReturnTrueIfDepartmentExistsInDepartmentRepository() throws Exception {
-//        // Arrange
-//        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-//        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
-//        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
+        when(factoryInterfaceDouble.newDepartment(departmentAcronym,name)).thenReturn(department1Double);
+        when(department1Double.getDepartmentID()).thenReturn(departmentID);
+
+        repository.registerDepartment(departmentAcronym,name);
+
+        // Act
+        boolean result= repository.departmentExists(departmentID);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfDepartmentDoesNotExistInDepartmentRepository() throws Exception {
+        // Arrange
+        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
+        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble,listFactoryInterfaceDouble);
+        DepartmentAcronym departmentAcronym= mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        DepartmentID departmentID= mock(DepartmentID.class);
+        Department departmentDouble = mock(Department.class);
+        DepartmentID nonExistingDepartmentDouble = mock(DepartmentID.class);
+
+        when(factoryInterfaceDouble.newDepartment(departmentAcronym,name)).thenReturn(departmentDouble);
+        when(departmentDouble.getDepartmentID()).thenReturn(departmentID);
+
+        repository.registerDepartment(departmentAcronym,name);
+
+
+        //act
+        boolean result = repository.departmentExists(nonExistingDepartmentDouble);
+
+        // Assert
+        assertFalse(result);
+    }
 //
-//        Department department1Double= mock(Department.class);
-//
-//        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(department1Double);
-//
-//        repository.registerDepartment("CSE", "Computer Science");
-//
-//        // Act
-//        boolean result= repository.departmentExists(department1Double);
-//
-//        //Assert
-//        assertTrue(result);
-//    }
-//
-//    @Test
-//    void shouldReturnFalseIfDepartmentDoesNotExistInDepartmentRepository() throws Exception {
-//        // Arrange
-//        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-//        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
-//        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
-//
-//        Department departmentDouble = mock(Department.class);
-//        Department nonExistingDepartmentDouble = mock(Department.class);
-//
-//        when(factoryInterfaceDouble.newDepartment("CSE", "Computer Science")).thenReturn(departmentDouble);
-//        repository.registerDepartment("CSE", "Computer Science");
-//
-//        //act
-//        boolean result = repository.departmentExists(nonExistingDepartmentDouble);
-//
-//        // Assert
-//        assertFalse(result);
-//    }
-//
-//    @Test
-//    void shouldReturnFalseIfDepartmentIsNull() {
-//        // Arrange
-//        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-//        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
-//        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
-//
-//        // Act
-//        boolean result= repository.departmentExists(null);
-//
-//        //Assert
-//        assertFalse(result);
-//    }
+    @Test
+    void shouldReturnFalseIfDepartmentIsNull() {
+        // Arrange
+        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
+        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble,listFactoryInterfaceDouble);
+
+        // Act
+        boolean result= repository.departmentExists(null);
+
+        //Assert
+        assertFalse(result);
+    }
 //
 //    @Test
 //    void shouldReturnTrueIfUpdateDepartmentDirector(){
