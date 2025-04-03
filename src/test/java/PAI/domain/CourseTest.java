@@ -115,19 +115,6 @@ class CourseTest {
         assertSame(course1,objectToCompare);
     }
 
-//    @Test
-//    void shouldReturnFalseIfObjectComparedIsNotAnInstanceOfCourse() throws Exception{
-//        //arrange
-//        Course course1 = new Course("Informatics", "INF", 10, 1);
-//
-//        AccessMethod accessMethodMock = mock(AccessMethod.class);
-//        Object objectToCompare = accessMethodMock;
-//        //act
-//        boolean result = course1.equals(objectToCompare);
-//        //assert
-//        assertFalse(result);
-//    }
-
     @Test
     void shouldReturnTrueIfObjectComparedHasTheSameAcronymAsOtherCourse() throws Exception{
         //arrange
