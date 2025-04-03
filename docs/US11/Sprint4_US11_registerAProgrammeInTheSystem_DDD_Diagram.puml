@@ -1,16 +1,15 @@
 @startuml
 skinparam linetype ortho
 
-title US11:  I want to register a programme in the system.
 
-class US11_RegisterAProgrammeInTheSystem {
+title US27:  I want to register a programme in the system, including the study plan
+
+class US27_RegisterAProgrammeInTheSystemIncludingStudyPlan {
    }
 
-
-package "DegreeType Aggregate" {
-    entity "<<root>>\nDegreeType" {
+    class DegreeTypeID <<ValueObject>> {
     }
-}
+
 
 package "Programme Aggregate" {
     entity "<<root>>\nProgramme" {
@@ -18,20 +17,23 @@ package "Programme Aggregate" {
 }
 
 
-package "Teacher Aggregate" {
-    entity "<<root>>\nTeacher" {
-    }
+class TeacherID <<ValueObject>> {
 }
 
-package "Department Aggregate" {
-    entity "<<root>>\nDepartment" {
-    }
+
+
+entity DepartmentID <<ValueObject>> {
 }
 
-US11_RegisterAProgrammeInTheSystem ..> "<<root>>\nProgramme"
 
-"<<root>>\nDegreeType" "1" <-- "*" "<<root>>\nProgramme"
-"<<root>>\nTeacher" "1" <-- "*" "<<root>>\nProgramme"
-"<<root>>\nDepartment" "1" <-- "*" "<<root>>\nProgramme"
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ....> "<<root>>\nProgramme"
+
+
+
+
+DegreeTypeID "1" <-right- "*" "<<root>>\nProgramme"
+TeacherID "1" <-right- "*" "<<root>>\nProgramme"
+
+DepartmentID "1" <-up- "*" "<<root>>\nProgramme"
 
 @enduml
