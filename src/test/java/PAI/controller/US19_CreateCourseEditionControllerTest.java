@@ -1,18 +1,25 @@
 
 package PAI.controller;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.domain.CourseEditionDDD;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.factory.IProgrammeRepository;
 import PAI.repository.DegreeTypeRepoDDD.IDegreeTypeRepository_2;
 import PAI.repository.ICourseEditionRepositoryDDD;
 import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
 import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US19_CreateCourseEditionControllerTest {
 
@@ -101,6 +108,34 @@ class US19_CreateCourseEditionControllerTest {
         //Act
         //Assert
         assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, courseInStudyPlanRepositoryDouble, programmeEditionRepositoryDouble, null);});
+    }
+
+    @Test
+    void getProgrammesByDegreeTypeID() throws Exception {
+        //Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+
+        DegreeTypeID degreeTypeIDDouble = mock(DegreeTypeID.class);
+
+        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        when(programme.getDegreeTypeID()).thenReturn(degreeTypeIDDouble);
+
+        List<ProgrammeDDD> ListWithProgramme = Arrays.asList(programme);
+        when(programmeRepositoryDouble.getProgrammesByDegreeTypeID(degreeTypeIDDouble)).thenReturn(ListWithProgramme);
+
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, courseInStudyPlanRepositoryDouble, programmeEditionRepositoryDouble, courseEditionRepositoryDouble);
+
+        //Act
+        List<ProgrammeDDD> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeIDDouble);
+
+        //Assert
+        assertEquals(1, result.size());
+        assertTrue(result.contains(programme));
     }
 
 

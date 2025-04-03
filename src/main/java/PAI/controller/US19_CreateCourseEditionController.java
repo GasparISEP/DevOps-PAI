@@ -1,4 +1,6 @@
 package PAI.controller;
+import PAI.VOs.DegreeTypeID;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.CourseEditionRepository;
 import PAI.repository.DegreeTypeRepoDDD.IDegreeTypeRepository_2;
 import PAI.repository.ICourseEditionRepositoryDDD;
@@ -44,6 +46,10 @@ public class US19_CreateCourseEditionController {
         _courseInStudyPlanRepository = courseInStudyPlanRepository;
         _programmeEditionRepository = programmeEditionRepository;
         _courseEditionRepository = courseEditionRepository;
+    }
+
+    public List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
+        return _programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
     }
 
 //    public List<ProgrammeEdition> getAllProgrammeEditions() {
