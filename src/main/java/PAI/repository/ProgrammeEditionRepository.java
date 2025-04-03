@@ -1,5 +1,8 @@
 package PAI.repository;
 
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.Programme;
 import PAI.domain.ProgrammeEdition;
 import PAI.factory.IProgrammeEditionFactory;
@@ -38,18 +41,6 @@ public class ProgrammeEditionRepository {
     private boolean isProgrammeEditionAlreadyRegistered(ProgrammeEdition programmeEdition) {
 
         return _ProgrammeEditions.contains(programmeEdition);
-    }
-
-    public Optional<ProgrammeEdition> findProgrammeEditionBySchoolYearAndProgramme(
-            Programme programme,
-            SchoolYear schoolYear) {
-        for (ProgrammeEdition programmeEdition : _ProgrammeEditions) {
-            if (programmeEdition.findProgrammeInProgrammeEdition().equals(programme) &&
-                    programmeEdition.findSchoolYearInProgrammeEdition().equals(schoolYear)) {
-                return Optional.of(programmeEdition);
-            }
-        }
-        return Optional.empty();
     }
 
     public List<ProgrammeEdition> getAllProgrammeEditions() {

@@ -33,4 +33,9 @@ public class ProgrammeEditionID implements DomainId {
     public String toString() {
         return _programmeID.toString()+"-"+_schoolYearID.getSchoolYearID().toString();
     }
+
+    @Override
+    public int hashCode() {
+        return _programmeID.hashCode() + _schoolYearID.hashCode();
+    }
 }

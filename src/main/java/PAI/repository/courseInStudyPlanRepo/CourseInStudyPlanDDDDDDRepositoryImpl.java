@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanDDDFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,16 @@ public class CourseInStudyPlanDDDDDDRepositoryImpl implements ICourseInStudyPlan
 
     public List<CourseInStudyPlanDDD> getAllCourseInStudyPlanList_2() {
         return _coursesInStudyPlanList_2;
+    }
+
+    @Override
+    public List<CourseInStudyPlanDDD> getCoursesInStudyPlanByStudyPlanID(StudyPlanID studyPlanID) {
+        List<CourseInStudyPlanDDD> listOfCoursesInStudyPlan = new ArrayList<>();
+        for (CourseInStudyPlanDDD courseInStudyPlan : _coursesInStudyPlanList_2) {
+            if (courseInStudyPlan.getStudyplanID().equals(studyPlanID))
+                listOfCoursesInStudyPlan.add(courseInStudyPlan);
+        }
+        return listOfCoursesInStudyPlan;
     }
 
     @Override

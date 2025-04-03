@@ -263,4 +263,40 @@ class CourseInStudyPlanDDDRepositoryImpTest {
         //act + assert
         assertFalse(repository.containsOfIdentity(id));
     }
+
+    @Test
+    void shouldReturnsListOfCourseInStudyPlanWithStudyPlanID() {
+        // Arrange
+        ICourseInStudyPlanDDDFactory courseInStudyPlanFactoryDouble = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactoryDouble = mock(ICourseInStudyPlanDDDListFactory.class);
+        StudyPlanID studyPlanIDDouble = mock(StudyPlanID.class);
+        StudyPlanID otherStudyPlanIDDouble = mock(StudyPlanID.class);
+
+        List<CourseInStudyPlanDDD> listOfCoursesInStudyPlan = new ArrayList<>();
+        when(listFactoryDouble.newArrayList()).thenReturn(listOfCoursesInStudyPlan);
+
+        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(
+                courseInStudyPlanFactoryDouble, listFactoryDouble);
+
+        CourseInStudyPlanDDD course1Double = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD course2Double = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD course3Double = mock(CourseInStudyPlanDDD.class);
+
+        when(course1Double.getStudyplanID()).thenReturn(studyPlanIDDouble);
+        when(course2Double.getStudyplanID()).thenReturn(studyPlanIDDouble);
+        when(course3Double.getStudyplanID()).thenReturn(otherStudyPlanIDDouble);
+
+        listOfCoursesInStudyPlan.add(course1Double);
+        listOfCoursesInStudyPlan.add(course2Double);
+        listOfCoursesInStudyPlan.add(course3Double);
+
+        // Act
+        List<CourseInStudyPlanDDD> result = repository.getCoursesInStudyPlanByStudyPlanID(studyPlanIDDouble);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(course1Double));
+        assertTrue(result.contains(course2Double));
+        assertFalse(result.contains(course3Double));
+    }
 }

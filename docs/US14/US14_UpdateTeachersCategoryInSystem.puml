@@ -7,15 +7,16 @@ title: As a HRC, I want to update the teacher’s category in the system.
 actor HRC
 participant ":UI" as UI #white
 participant "ctrl:UpdateTeachersCategoryController" as Controller #lightgreen
-participant "teacherRepo:TeacherRepository" as teacherRepo #Silver
-participant "teacherList :List<Teacher>" as teacherList #Yellow/Silver
-participant ":Teacher" as Teacher #lightyellow
-participant "categoryRepo:TeacherCategoryRepository" as teacherCategoryRepo #Silver
+participant "teacherRepo:TeacherRepository" as TeacherRepo #Silver
+participant "teacherList :List<Teacher>" as TeacherList #Yellow/Silver
+participant "categoryRepo:TeacherCategoryRepository" as TeacherCategoryRepo #Silver
 participant "tcList :List<TeacherCategories>" as tcList #Yellow/Silver
 participant ":TeacherCategory" as TeacherCategory #lightyellow
-participant "teacherIDVO :TeacherIDVO" as teacherIDVO #lightblue
 participant "newDateVO :DateVO" as newDateVO #lightblue
 participant "newTeacherCategoryIDVO :TeacherCategoryIDVO" as tcVO #lightblue
+participant "teacherAcronymVO :TeacherAcronymVO" as teacherAcronymVO #lightblue
+participant "teacherIDVO :TeacherIDVO" as teacherIDVO #lightblue
+participant ":Teacher" as Teacher #lightyellow
 participant "tcpRepo: TeacherCareerProgressionRepository" as TCPRepo #Silver
 participant "tcpList :List<TeacherCareerProgressions>" as tcpList #Yellow/Silver
 participant "lastTCP:TeacherCareerProgression" as TCP #lightyellow
@@ -30,11 +31,11 @@ activate UI
 UI -> Controller : findAllTeachers()
 
 activate Controller
-Controller -> teacherRepo : findAll()
+Controller -> TeacherRepo : findAll()
 
-activate teacherRepo
-teacherRepo --> Controller : teachersList
-deactivate teacherRepo
+activate TeacherRepo
+TeacherRepo --> Controller : teachersList
+deactivate TeacherRepo
 
 Controller --> UI : teachersList
 deactivate Controller
@@ -48,11 +49,11 @@ activate UI
 UI -> Controller : findAllTeacherCategories()
 
 activate Controller
-Controller -> teacherCategoryRepo : findAll()
+Controller -> TeacherCategoryRepo : findAll()
 
-activate teacherCategoryRepo
-teacherCategoryRepo --> Controller : categoryList
-deactivate teacherCategoryRepo
+activate TeacherCategoryRepo
+TeacherCategoryRepo --> Controller : categoryList
+deactivate TeacherCategoryRepo
 
 Controller --> UI : categoryList
 deactivate Controller
@@ -72,72 +73,75 @@ activate UI
 UI -> Controller : updateTeacherCategoryInTeacherCareerProgression \n (teacherAcronym, date, teacherCategory)
 
 activate Controller
-Controller -> teacherIDVO** : createTeacherIDVO(teacherAcronym)
-
-activate teacherIDVO
-teacherIDVO -> teacherIDVO : isTeacherAcronymValid()
-teacherIDVO --> Controller : teacherIDVO
-deactivate teacherIDVO
 
 Controller -> newDateVO** : createDateVO(date)
-
 activate newDateVO
 newDateVO -> newDateVO : validate and format date
 newDateVO --> Controller : newDateVO
 deactivate newDateVO
 
-Controller -> tcVO** : createTeacherCategoryIDVO(teacherCategory)
-
+Controller -> tcVO** : createNameTeacherCategory(teacherCategory)
 activate tcVO
-tcVO -> tcVO : isTeacherCategoryValid()
-tcVO --> Controller : newTeacherCategoryIDVO
+tcVO -> tcVO : isNameValid()
+tcVO --> Controller : newNameTeacherCategoryVO
 deactivate tcVO
 
-Controller -> teacherRepo: containsOfIdentity(teacherIDVO)
-
-activate teacherRepo
+Controller -> TeacherCategoryRepo : getTeacherCategoryIDFromName(newNameTeacherCategoryVO)
+activate TeacherCategoryRepo
 loop
-    teacherRepo -> Teacher : teacher.identity().equals(teacherIdVO1)
-    activate Teacher
-
-    Teacher --> teacherRepo : True
-    deactivate Teacher
-end
-teacherRepo -> Controller: True
-deactivate teacherRepo
-
-Controller -> teacherCategoryRepo: containsOfIdentity(newTeacherCategoryIDVO)
-
-activate teacherCategoryRepo
-loop
-    teacherCategoryRepo -> TeacherCategory : teacherCategory.identity().equals(newTeacherCategoryIDVO)
+    TeacherCategoryRepo -> TeacherCategory : category.getName().equals(newNameTeacherCategoryVO)
     activate TeacherCategory
 
-    TeacherCategory --> teacherCategoryRepo : True
+    TeacherCategory -> TeacherCategoryRepo : true
     deactivate TeacherCategory
 end
-teacherCategoryRepo -> Controller: True
-deactivate teacherCategoryRepo
+TeacherCategoryRepo -> Controller : optionalTeacherCategoryID
+deactivate TeacherCategoryRepo
+
+
+
+Controller -> Controller : teacherCategoryID = optionalTeacherCategoryID.get()
+
+Controller -> teacherAcronymVO** : createTeacherAcronymVO(teacherAcronym)
+activate teacherAcronymVO
+teacherAcronymVO -> teacherAcronymVO : isTeacherAcronymValid()
+teacherAcronymVO -> Controller : teacherAcronymVO
+deactivate teacherAcronymVO
+
+Controller -> teacherIDVO** : createTeacherIDVO(teacherAcronymVO)
+activate teacherIDVO
+teacherIDVO -> teacherIDVO : validate teacherID
+teacherIDVO --> Controller : teacherIDVO
+deactivate teacherIDVO
+
+Controller -> TeacherRepo: containsOfIdentity(teacherIDVO)
+activate TeacherRepo
+loop
+    TeacherRepo -> Teacher : teacher.identity().equals(teacherIdVO1)
+    activate Teacher
+
+    Teacher --> TeacherRepo : True
+    deactivate Teacher
+end
+TeacherRepo -> Controller: True
+deactivate TeacherRepo
 
 Controller -> TCPRepo : updateTeacherCategoryInTeacherCareerProgression \n(teacherIDVO, newDateVO, newTeacherCategoryIDVO)
-
 activate TCPRepo
 TCPRepo -> TCPRepo : optionalTCP = findLastTCPFromTeacherID(teacherIDVO)
 TCPRepo -> TCPRepo : lastTCP = optionalTCP.get()
-TCPRepo -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate(newDateVO)
 
+TCPRepo -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate(newDateVO)
 activate TCP
 TCP --> TCPRepo: True
 deactivate TCP
 
 TCPRepo -> TCP : lastTCP.getWorkingPercentage()
-
 activate TCP
 TCP --> TCPRepo : lastWorkingPercentageVO
 deactivate TCP
 
 TCPRepo -> TCP : lastTCP.getTeacherCategoryID()
-
 activate TCP
 TCP --> TCPRepo : lastTeacherCategoryIDVO
 deactivate TCP
@@ -145,10 +149,9 @@ deactivate TCP
 TCPRepo -> TCPRepo : validate if lastTeacherCategoryIDVO \nis different from newTeacherCategoryIDVO
 
 TCPRepo -> tcpFactory : createTeacherCareerProgression \n(newDateVO, lastWorkingPercentageVO, newTeacherCategoryIDVO, teacherIDVO)
-
 activate tcpFactory
-tcpFactory -> newTCP** : createTeacherCareerProgression \n(newDateVO, lastWorkingPercentageVO, newTeacherCategoryIDVO, teacherIDVO)
 
+tcpFactory -> newTCP** : createTeacherCareerProgression \n(newDateVO, lastWorkingPercentageVO, newTeacherCategoryIDVO, teacherIDVO)
 activate newTCP
 newTCP --> tcpFactory : newTCP
 deactivate newTCP

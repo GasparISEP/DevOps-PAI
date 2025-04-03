@@ -13,13 +13,13 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
 
     boolean enrolStudentInACourseEdition(StudentID studentId, CourseEditionID courseEditionId);
 
-    boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition);
+    boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId);
 
-    Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID student, CourseEditionID courseEdition);
+    Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID studentId, CourseEditionID courseEditionId);
 
     int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception;
 
-    boolean removeEnrolment(StudentID studentID, CourseEditionID courseEditionID);
+    boolean removeEnrolment(StudentID studentId, CourseEditionID courseEditionId);
 
     void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions);
 

@@ -1,6 +1,8 @@
 package PAI.repository.DegreeTypeRepoDDD;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
@@ -26,18 +28,18 @@ class DegreeTypeRepository_2Test {
 
     @BeforeEach
     void setUp() {
-        degreeTypeFactoryMock = Mockito.mock(IDegreeTypeFactoryInterface_2.class);
-        degreeTypeListFactoryMock = Mockito.mock(IDegreeTypeListFactory_2.class);
-        degreeTypeMock = Mockito.mock(DegreeType_2.class);
+        degreeTypeFactoryMock = mock(IDegreeTypeFactoryInterface_2.class);
+        degreeTypeListFactoryMock = mock(IDegreeTypeListFactory_2.class);
+        degreeTypeMock = mock(DegreeType_2.class);
 
         List<DegreeType_2> degreeTypeList = new ArrayList<>();
-        Mockito.when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
+        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
 
         degreeTypeRepository = new DegreeTypeRepository_2(degreeTypeFactoryMock, degreeTypeListFactoryMock);
 
-        degreeTypeID = Mockito.mock(DegreeTypeID.class);
-        name = Mockito.mock(Name.class);
-        maxEcts = Mockito.mock(MaxEcts.class);
+        degreeTypeID = mock(DegreeTypeID.class);
+        name = mock(Name.class);
+        maxEcts = mock(MaxEcts.class);
     }
 
     @Test
@@ -55,7 +57,7 @@ class DegreeTypeRepository_2Test {
 
     @Test
     void testRegisterDegreeType_Success() throws Exception {
-        Mockito.when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
+        when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
                 .thenReturn(degreeTypeMock);
 
         assertTrue(degreeTypeRepository.registerDegreeType(degreeTypeID, name, maxEcts));
@@ -63,10 +65,34 @@ class DegreeTypeRepository_2Test {
 
     @Test
     void testRegisterDegreeType_AlreadyExists() throws Exception {
-        Mockito.when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
+        when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
                 .thenReturn(degreeTypeMock);
 
         degreeTypeRepository.registerDegreeType(degreeTypeID, name, maxEcts);
         assertFalse(degreeTypeRepository.registerDegreeType(degreeTypeID, name, maxEcts));
+    }
+
+    @Test
+    void shouldReturnListOfAllDegreeTypesAvailable() {
+        // Arrange
+        IDegreeTypeFactoryInterface_2 degreeTypeFactoryDouble = mock(IDegreeTypeFactoryInterface_2.class);
+        IDegreeTypeListFactory_2 degreeTypeListFactoryDouble = mock(IDegreeTypeListFactory_2.class);
+
+        DegreeType_2 degreeType1Double = mock(DegreeType_2.class);
+        DegreeType_2 degreeType2Double = mock(DegreeType_2.class);
+        List<DegreeType_2> expectedList = List.of(degreeType1Double, degreeType2Double);
+
+        when(degreeTypeListFactoryDouble.createDegreeType_2List()).thenReturn(expectedList);
+
+            //SUT
+        DegreeTypeRepository_2 repository = new DegreeTypeRepository_2(degreeTypeFactoryDouble, degreeTypeListFactoryDouble);
+
+        // Act
+        List<DegreeType_2> result = repository.getAllDegreeTypes();
+
+        // Assert
+        assertEquals(expectedList, result);
+        assertTrue(result.contains(degreeType1Double));
+        assertTrue(result.contains(degreeType2Double));
     }
 }

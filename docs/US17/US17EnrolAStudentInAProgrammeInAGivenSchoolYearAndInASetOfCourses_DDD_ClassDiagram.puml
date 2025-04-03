@@ -17,8 +17,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
           schoolYearRepository: ISchoolYearRepository,
           programmeEnrolmentRepository: IProgrammeEnrolmentRepository)
     +enrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(studentId: StudentID, \n programmeId: ProgrammeID, schoolYearId: SchoolYearID)
-    +getAllProgrammes(): List<ProgrammeID>
-    +getAllSchoolYears(): List<SchoolYearID>
+    +getAllProgrammesIDs(): List<ProgrammeID>
+    +getAllSchoolYearsIDs(): List<SchoolYearID>
 }
 
 'Interfaces
@@ -28,11 +28,11 @@ interface IProgrammeEditionEnrolmentRepository {
 }
 
 interface IProgrammeEditionRepository {
-    +findProgrammeEditionBySchoolYearAndProgramme(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
+    +findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
 }
 
 interface IProgrammeRepository {
-    +getAllProgrammes() : List<ProgrammeID>
+    +getAllProgrammesIDs() : List<ProgrammeID>
 }
 
 interface ICourseEditionEnrolmentRepository {
@@ -46,19 +46,11 @@ interface ICourseEditionRepository {
 }
 
 interface ISchoolYearRepository {
-    +getAllSchoolYears() : List<SchoolYearId>
+    +getAllSchoolYearsIDs() : List<SchoolYearID>
 }
 
 interface IProgrammeEnrolmentRepository {
     +isStudentEnrolled(studentId: StudentID, programmeId: ProgrammeID) : boolean
-}
-
-interface IProgrammeRepositoryListFactory {
-    +copyProgrammeArrayList(List<ProgrammeID>)
-}
-
-interface ISchoolYearListFactory {
-    +copySchoolYearArrayList(List<SchoolYear>)
 }
 
 interface IProgrammeEditionEnrolmentFactory{
@@ -79,12 +71,12 @@ class ProgrammeEditionEnrolmentRepositoryImpl {
 
 class ProgrammeEditionRepositoryImpl {
     +ProgrammeEditionRepositoryImpl(programmeEditionFactory: ProgrammeEditionFactory)
-    +findProgrammeEditionBySchoolYearAndProgramme(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
+    +findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
 }
 
 class ProgrammeRepositoryImpl {
     +ProgrammeRepositoryImpl(programmeFactory: ProgrammeFactory)
-    +getAllProgrammes() : List<ProgrammeId>
+    +getAllProgrammesIDs() : List<ProgrammeID>
 }
 
 class CourseEditionEnrolmentRepositoryImpl {
@@ -101,7 +93,7 @@ class CourseEditionRepositoryImpl {
 
 class SchoolYearRepositoryImpl {
     +SchoolYearRepositoryImpl(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
-    +getAllSchoolYears() : List<SchoolYearID>
+    +getAllSchoolYearsIDs() : List<SchoolYearID>
 }
 
 class ProgrammeEnrolmentRepositoryImpl {
@@ -109,10 +101,6 @@ class ProgrammeEnrolmentRepositoryImpl {
     +isStudentEnrolled(studentId: ProgrammeEnrolmentRepositoryStudentID, programmeId: ProgrammeID) : boolean
 }
 
-class ProgrammeEditionRepositoryImpl {
-    +ProgrammeEditionRepositoryImpl(programmeEditionFactory: ProgrammeEditionFactory)
-    +findProgrammeEditionBySchoolYearAndProgramme(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
-}
 
 'Repository -> interface
 IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositoryImpl
@@ -135,18 +123,9 @@ package "CourseEditionEnrolment Aggregate" #Lightblue {
 package "ProgrammeEditionEnrolment Aggregate" #Lightblue {
     class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
     +ProgrammeEditionEnrolment(studentId:StudentID, programmeEditionId: ProgrammeEditionID)
-    +getStudentUniqueNumber() : String
+    +hasSameStudent(studentId:StudentID) : StudentID
     +equals (obj: Object) : boolean
-    +findProgrammeEditionInEnrollment () : ProgrammeEditionID
-    }
-}
-
-package "ProgrammeEditionEnrolment Aggregate" #Lightblue {
-    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
-    +ProgrammeEditionEnrolment(studentId:StudentID, programmeEditionId: ProgrammeEditionID)
-    +getStudentUniqueNumber() : String
-    +equals (obj: Object) : boolean
-    +findProgrammeEditionInEnrollment () : ProgrammeEditionID
+    +hasSameProgrammeEdition (programmeEdition: ProgrammeEdition)) : ProgrammeEditionID
     }
 }
 
@@ -154,6 +133,7 @@ package "Programme Aggregate" #Lightblue{
     class Programme <<Root>> <<Entity>>  {
      + Programme(name : String, acronym : String, quantityOfEcts: int, quantityOfSemesters : int,
           degreeTypeId : DegreeTypeID, departmentId : DepartmentID, programmeDirectorId : TeacherID, programmeCourseListFactory: ProgrammeCourseListFactory)
+     +getProgrammesIDs()
     }
  }
 
@@ -161,18 +141,14 @@ package "Programme Aggregate" #Lightblue{
      class Student <<Root>> <<Entity>> {
          +Student(uniqueNumber: int, name: Name, NIF: NIF, phone: Phone,
          email: Email, address: Address)
-         + hasSameUniqueNumber(studentId : StudentID) : boolean
-         + hasSameNIF(studentId : StudentID) : boolean
-         + getUniqueNumber() : String
-         + hasThisUniqueNumber(uniqueNumber : String) : boolean
      }
  }
 
  package "ProgrammeEdition Aggregate" #Lightblue{
      class ProgrammeEdition <<Root>> <<Entity>> {
          +ProgrammeEdition(programmeId: ProgrammeID, schoolYearId: SchoolYearID)
-         +findProgrammeInProgrammeEdition() : ProgrammeID
-         +findSchoolYearInProgrammeEdition() : SchoolYearID
+         +findProgrammeIDInProgrammeEdition() : ProgrammeID
+         +findSchoolYearIDInProgrammeEdition() : SchoolYearID
      }
  }
 
@@ -195,8 +171,8 @@ package "Programme Aggregate" #Lightblue{
 package "ProgrammeEnrolment Aggregate" #Lightblue{
     class ProgrammeEnrolment <<Root>> <<Entity>> {
         +ProgrammeEnrolment(studentId: StudentID, accessMethod: AccessMethod)
-        +getStudentFromEnrolment() : StudentID
-        +getProgrammeFromEnrolment() : ProgrammeID
+        +hasSameStudent() : StudentID
+        +hasSameProgramme() : ProgrammeID
     }
 }
 
@@ -353,6 +329,16 @@ class SchoolYearID <<Value Object>>{
     + toString(): String
     }
 
+class Date <<Value Object>> {
+     -localDate: LocalDate
+     +Date (localDate : LocalDate)
+}
+
+class  EnrolmentStatus <<Value Object>> {
+     -_isActive: boolean
+     +EnrollmentStatus(isActive: boolean)
+}
+
 'Factory
 class ProgrammeEditionEnrolmentFactoryImpl {
     +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
@@ -366,13 +352,7 @@ class CourseEditionEnrolmentListFactoryImpl {
     +newArrayList(): List<CourseEditionEnrolmentID>
 }
 
-class ProgrammeRepositoryListFactoryImpl {
-    +copyProgrammeArrayList(List<Programme>): List<ProgrammeID>
-}
 
-class SchoolYearListFactoryImpl {
-    +copySchoolYearArrayList(List<SchoolYear>) : List<SchoolYearID>
-}
 
 
 class CourseEditionListFactoryImpl{
@@ -433,25 +413,22 @@ IProgrammeEditionEnrolmentListFactory ..> ProgrammeEditionEnrolmentArrayList
 IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
 IProgrammeEditionEnrolmentListFactory <|.. ProgrammeEditionEnrolmentListFactoryImpl
 ProgrammeEnrolmentRepositoryImpl "1" --> "*" ProgrammeEnrolment
-ProgrammeRepositoryImpl ..> IProgrammeRepositoryListFactory
 ProgrammeRepositoryImpl ..> Programme
 ProgrammeRepositoryImpl "1" --> "1" ProgrammeArrayList
 ProgrammeArrayList "1" --> " _programme *" Programme
-IProgrammeRepositoryListFactory ..> ProgrammeArrayList
-ProgrammeRepositoryListFactoryImpl ..|> IProgrammeRepositoryListFactory
-SchoolYearRepositoryImpl ..> ISchoolYearListFactory
-SchoolYearListFactoryImpl ..|> ISchoolYearListFactory
-ISchoolYearListFactory ..> SchoolYearArrayList
+
+
+
 SchoolYearRepositoryImpl ..> SchoolYear
 SchoolYearRepositoryImpl "1" --> "1" SchoolYearArrayList
 SchoolYearArrayList "1" --> " _schoolYear *" SchoolYear
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionID
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionEnrolmentID
 ProgrammeEdition "1" --> "1" ProgrammeEditionID
-CourseEditionID "1" -->"1" CourseEditionID
+CourseEdition "1"--> "1" CourseEditionID
 ProgrammeEdition "1" --> "1" SchoolYearID
 SchoolYearID "1" --> "1" SchoolYear
-CourseEditionEnrolment "1" --> "1" StudentID
+CourseEditionEnrolment "1"   -u-> "1"  StudentID
 CourseEditionEnrolment "1" --> "1" CourseEditionID
 CourseEditionEnrolment "1" --> "1" CourseEditionEnrolmentID
 ProgrammeEnrolment "1" --> "1" ProgrammeID
@@ -472,4 +449,8 @@ Address "  *" ---> "1" Street
 Address "*                " ---> "1" PostalCode
 Address " *" ---> "1" Location
 Address " *" ---> "1" Country
+
+CourseEditionEnrolment  "1" --> "1 _status" EnrolmentStatus
+ProgrammeEditionEnrolment  " 1    " --> "1  _date " Date
+CourseEditionEnrolment "1" --> "_date 1    " Date
 @enduml

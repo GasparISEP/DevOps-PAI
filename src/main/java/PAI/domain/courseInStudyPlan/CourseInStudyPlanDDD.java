@@ -2,7 +2,6 @@ package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
-import PAI.domain.studyPlan.StudyPlanDDD;
 
 public class CourseInStudyPlanDDD implements AggregateRoot<CourseInStudyPlanID> {
 
@@ -35,7 +34,7 @@ public class CourseInStudyPlanDDD implements AggregateRoot<CourseInStudyPlanID> 
         CourseInStudyPlanDDD courseToBeCompared = (CourseInStudyPlanDDD) ObjectToCompare;
 
         // Compara os atributos relevantes
-        return this._courseID.equals(courseToBeCompared._courseID);
+        return this._courseInStudyPlanID.equals(courseToBeCompared._courseInStudyPlanID);
     }
 
     public CourseID getCourseID() {
@@ -63,6 +62,7 @@ public class CourseInStudyPlanDDD implements AggregateRoot<CourseInStudyPlanID> 
     public boolean sameAs(Object object) {
         if (this == object) return true;
         if (!(object instanceof CourseInStudyPlanDDD courseInStudyPlanDDD)) return false;
-        return this._courseInStudyPlanID.equals(courseInStudyPlanDDD._courseInStudyPlanID);
+        return this._studyPlanID.equals(courseInStudyPlanDDD._studyPlanID) &&
+                this._courseID.equals(courseInStudyPlanDDD._courseID);
     }
 }

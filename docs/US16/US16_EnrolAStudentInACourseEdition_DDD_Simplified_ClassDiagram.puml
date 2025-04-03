@@ -1,0 +1,143 @@
+@startuml
+skinparam ranksep 60
+skinparam nodesep 60
+skinparam linetype ortho
+skinparam classBackgroundColor #E1F5FE
+
+
+class US16_EnrolAStudentInACourseEditionController {
+    +US16_EnrolAStudentInACourseEditionController\n(_ceeRepositoryInterface: ICourseEditionEnrolmentRepository,
+    peeRepositoryInterface: IProgrammeEditionEnrolmentRepository,\n courseEditionRepositoryInterface: ICourseEditionRepositoryDDD)
+    +enrolStudentInCourseEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +findProgrammeEditionIDsThatStudentIsEnrolled\n(studentId: StudentID): List<ProgrammeEditionID>
+    +findCourseEditionIDsByProgrammeEdition\n(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +enrolStudentInACourseEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+class CourseEditionEnrolmentRepositoryImpl {
+    +CourseEditionEnrolmentRepository\n(courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+interface IProgrammeEditionEnrolmentRepository {
+     +findProgrammeEditionsThatStudentIsEnrolled\n(studentId: StudentID): List<ProgrammeEditionID>
+}
+
+class ProgrammeEditionEnrolmentRepositoryImpl {
+    +ProgrammeEditionEnrolmentRepository\n(programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory,
+    programmeEditionEnrolmentListFactory: IProgrammeEditionEnrolmentListFactory)
+    +findProgrammeEditionsThatStudentIsEnrolled\n(studentId: StudentID): List<ProgrammeEditionID>
+}
+
+interface ICourseEditionRepositoryDDD {
+     +findCourseEditionsByProgrammeEdition\n(programmeEditionId: ProgrammeEditionID):\n List<CourseEditionID>
+}
+
+class CourseEditionRepositoryDDDImpl {
+    +CourseEditionRepository\n(courseEditionFactory: ICourseEditionFactoryDDD,\n courseEditionListFactory: ICourseEditionListFactoryDDD)
+    +findCourseEditionsByProgrammeEdition\n(programmeEditionId: ProgrammeEditionID):\n List<CourseEditionID>
+}
+
+interface ICourseEditionEnrolmentListFactory{
+    +getCourseEditionEnrolmentList():\n Set<CourseEditionEnrolment>
+}
+
+class CourseEditionEnrolmentListFactoryImpl {
+    +getCourseEditionEnrolmentList():\n Set<CourseEditionEnrolment>
+}
+
+interface ICourseEditionEnrolmentFactory{
+    +createCourseEditionEnrolment\n(studentId: StudentID, courseEditionId: CourseEditionID):\n CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentFactoryImpl{
+    +createCourseEditionEnrolment\n(studentId: StudentID, courseEditionId: CourseEditionID):\n CourseEditionEnrolment
+}
+
+package "CourseEditionEnrolment Aggregate" #LightBlue {
+    entity "<<Root>>\n CourseEditionEnrolment" {
+             +CourseEditionEnrolment(studentId:StudentID,\n courseEditionId: CourseEditionID)
+             +equals (obj: Object): boolean
+             +hashCode(): int
+             +sameAs(obj: Object): boolean
+    }
+}
+
+note right of "CourseEditionEnrolment Aggregate"
+This is the Aggregate Root of CourseEditionEnrolment.
+And has it's Value Objects and ID's represented as attributes
+end note
+
+package "CourseEditionDDD Aggregate" #LightBlue{
+    entity "<<Root>>\n CourseEditionDDD" {
+    +CourseEditionDDD(\n programmeEditionId: ProgrammeEditionID,\n courseInStudyPlanId: CourseInStudyPlanID,\n courseEditionId: CourseEditionID)
+    +getProgrammeEditionID():\n ProgrammeEditionID
+    +identity(): CourseEditionID
+    }
+}
+
+note right of "CourseEditionDDD Aggregate"
+This is the Aggregate Root of CourseEdition.
+And has it's Values Objects and ID's represented as attributes.
+end note
+
+package "Student Aggregate" #LightBlue{
+    entity "<<Root>>\n Student" {
+    +Student(studentID: StudentID,\n name: Name,\n NIF: NIF,\n phone: PhoneNumber,\n email: Email,\n address: Address,\n academicEmail: StudentAcademicEmail)
+    }
+}
+
+note right of "Student Aggregate"
+This is the Aggregate Root of CourseEdition.
+And has it's Value Objects and ID's represented as attributes
+end note
+
+package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
+    entity "<<Root>>\n ProgrammeEditionEnrolment" {
+    +ProgrammeEditionEnrolment(\nstudentId: StudentID,
+    programmeEditionId: ProgrammeEditionID)
+    +findStudentInProgrammeEdition(): StudentID
+    +findProgrammeEditionInEnrolment(): ProgrammeEditionID
+    }
+}
+
+note right of "ProgrammeEditionEnrolment Aggregate"
+This is the Aggregate Root of ProgrammeEditionEnrolment.
+And has it's VO's and ID's represented as attributes
+end note
+
+interface Set {
+    +add(courseEditionEnrolment:
+    CourseEditionEnrolment): boolean
+}
+
+
+US16_EnrolAStudentInACourseEditionController "1   ".u.> "1    " ICourseEditionRepositoryDDD
+US16_EnrolAStudentInACourseEditionController "1  "..> "1       " IProgrammeEditionEnrolmentRepository
+US16_EnrolAStudentInACourseEditionController "1   "..> "  1    " ICourseEditionEnrolmentRepository
+
+"CourseEditionDDD Aggregate" "_listOfCE * " <-- "1   " CourseEditionRepositoryDDDImpl
+
+"ProgrammeEditionEnrolment Aggregate" " *    " <-- "1   " ProgrammeEditionEnrolmentRepositoryImpl
+
+ICourseEditionEnrolmentRepository <|.u. CourseEditionEnrolmentRepositoryImpl
+IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
+ICourseEditionRepositoryDDD <|.. CourseEditionRepositoryDDDImpl
+
+Set "   1            " -->  "CourseEditionEnrolment Aggregate"
+
+ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
+ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
+
+ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " Set
+ICourseEditionEnrolmentRepository"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentRepository "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
+CourseEditionEnrolmentRepositoryImpl "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
+ICourseEditionEnrolmentFactory "1  " ..> "1  " "CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentListFactory "1  " .u.> "1  " Set
+
+@enduml

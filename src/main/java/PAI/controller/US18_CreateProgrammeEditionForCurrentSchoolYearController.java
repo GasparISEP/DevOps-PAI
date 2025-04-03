@@ -1,47 +1,60 @@
 package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.*;
-import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeRepository;
-import PAI.repository.SchoolYearRepository;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
+import PAI.domain.SchoolYear;
+import PAI.domain.programme.ProgrammeDDD;
+import PAI.repository.ISchoolYearRepository;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
-    private final ProgrammeEditionRepository _programmeEditionRepository;
-    private final SchoolYearRepository _schoolYearRepository;
-    private final ProgrammeRepository _programmeList;
+    private final IProgrammeEditionRepositoryDDD _programmeEditionRepository;
+    private final ISchoolYearRepository _schoolYearRepository;
+    private final IProgrammeDDDRepository _programmeRepository;
 
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository, ProgrammeRepository programmeList) {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionRepositoryDDD programmeEditionRepository, ISchoolYearRepository schoolYearRepository, IProgrammeDDDRepository programmeRepository) throws Exception {
+
+        if (programmeEditionRepository == null)
+            throw new Exception("Programme Edition Repository cannot be null");
+        if (schoolYearRepository == null)
+            throw new Exception("School Year Repository cannot be null");
+        if (programmeRepository == null)
+            throw new Exception("Programme Repository cannot be null");
 
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
-        _programmeList = programmeList;
+        _programmeRepository = programmeRepository;
     }
 
     public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames(){
 
-        if (_programmeList == null)
-            return new ArrayList<>();
-        return _programmeList.getAllProgrammeNames();
+        return _programmeRepository.getAllProgrammeNames();
     }
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName){
 
-        if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
+        Optional<ProgrammeDDD> programmeOpt = _programmeRepository.getProgrammeByName(programmeName);
+        ProgrammeDDD programme = programmeOpt.orElse(null);
 
-        Optional<Programme> programmeOpt = _programmeList.getProgrammeByName(programmeName);
-        Programme programme = programmeOpt.orElse(null);
+        ProgrammeID pID;
+        if (programme == null)
+            return false;
+
+        pID = programme.identity();
 
         SchoolYear currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
-        if(currentSchoolYear == null) return false;
+        if(currentSchoolYear == null)
+            return false;
 
-        boolean isCreated = _programmeEditionRepository.createProgrammeEdition(programme, currentSchoolYear);
+        SchoolYearID sYID = currentSchoolYear.identity();
 
+        boolean isCreated = _programmeEditionRepository.createProgrammeEdition(pID, sYID);
         return isCreated;
     }
 }

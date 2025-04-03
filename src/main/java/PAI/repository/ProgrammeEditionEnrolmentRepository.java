@@ -86,6 +86,9 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
 
     @Override
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment entity) {
+        if (entity == null || entity.identity() == null) {
+            throw new IllegalArgumentException("Entity cannot be null");
+        }
         _programmeEditionEnrolments.add(entity);
         return entity;
     }
@@ -104,7 +107,10 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
 
     @Override
     public boolean containsOfIdentity(ProgrammeEditionEnrolmentID id) {
-        return _programmeEditionEnrolments.stream()
-                .anyMatch(enrolment -> enrolment.identity().equals(id));
+            if (!ofIdentity(id).isPresent()){
+                return false;
+            }
+            return true;
+
     }
 }

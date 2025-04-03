@@ -35,6 +35,14 @@ public class StudyPlanDDDRepositoryImpl implements IStudyPlanDDDRepository {
         return this._studyPlanList_2;
     }
 
+    @Override
+    public StudyPlanID getLatestStudyPlanIDByProgrammeID(ProgrammeID programmeID) {
+        List<StudyPlanDDD> list = getAllStudyPlansByProgrammeId(programmeID);
+        StudyPlanID studyPlanID = list.getLast().identity();
+
+        return studyPlanID;
+    }
+
     public List<StudyPlanDDD> getAllStudyPlansByProgrammeId(ProgrammeID programmeID) {
         List<StudyPlanDDD> studyPlanDDDList = new ArrayList<>();
         for (StudyPlanDDD studyPlanDDD : _studyPlanList_2) {

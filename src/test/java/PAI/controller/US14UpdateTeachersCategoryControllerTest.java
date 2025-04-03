@@ -1,112 +1,313 @@
 package PAI.controller;
 
-import PAI.repository.TeacherCategoryRepositoryImpl;
-import PAI.repository.TeacherRepository;
-import org.junit.jupiter.api.BeforeAll;
+import PAI.VOs.Date;
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.domain.Teacher;
+import PAI.domain.TeacherCategory;
+import PAI.repository.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US14UpdateTeachersCategoryControllerTest {
 
-    private static TeacherCategoryRepositoryImpl tcr1;
-    private static TeacherRepository tr1;
+    @Test
+    void shouldCreateUpdateTeacherCategoryController() {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
 
-    @BeforeAll
-    static void setUp() throws Exception {
+        //Act
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
 
-        tr1 = mock(TeacherRepository.class);
-        tcr1 = mock(TeacherCategoryRepositoryImpl.class);
-
+        //Assert
+        assertNotNull(controller);
     }
 
     @Test
-    void shouldCreateUpdateTeachersCategoryControllerIfNullTeacherRepository() {
-        //arrange
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new US14_UpdateTeachersCategoryController(null, tcr1));
-    }
-
-    @Test
-    void shouldNotCreateUpdateTeachersCategoryControllerIfNullTeacherCategoryRepository() {
-        //arrange
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new US14_UpdateTeachersCategoryController(tr1, null));
-    }
-/*
-    static Stream<Arguments> testValues() {
-        return Stream.of(
-                Arguments.of(" ", "213784542", "Efectivo"),
-                Arguments.of("", "213784542", "Efectivo"),
-                Arguments.of(null, "213784542", "Efectivo"),
-                Arguments.of("30-01-2025", " ", "Efectivo"),
-                Arguments.of("30-01-2025", "", "Efectivo"),
-                Arguments.of("30-01-2025", null, "Efectivo"),
-                Arguments.of("30-01-2025", "213784542", " "),
-                Arguments.of("30-01-2025", "213784542", ""),
-                Arguments.of("30-01-2025", "213784542", null)
-        );
-    }
-    @ParameterizedTest
-    @MethodSource("testValues")
-    void inputsAreNullOrBlank_UnsuccessfullyUpdatedCategory(String date, String teacherNIF, String teacherCategoryName) {
-        US14_UpdateTeachersCategoryController controller1 = new US14_UpdateTeachersCategoryController(tr1, tcr1);
-        assertThrows(IllegalArgumentException.class, () -> controller1.updateTeacherCategory(date, teacherNIF, teacherCategoryName));
-    }
-
-    @Test
-    void successfullyUpdatedTeachersCategory() {
+    void shouldNotCreateUpdateTeacherCategoryControllerIfNullTeacherRepository() {
         // Arrange
-        Teacher teacherDouble = mock(Teacher.class);
-        TeacherCategory tc1Double = mock(TeacherCategory.class);
-        TeacherCategory tc2Double = mock(TeacherCategory.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
 
-        when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacherDouble));
-        when(teacherDouble.hasThisNIF("213784542")).thenReturn(true);
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () ->
+            new US14_UpdateTeachersCategoryController(null, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble));
+    }
 
-        when(tc1Double.getName()).thenReturn("Assistente");
-        when(tc2Double.getName()).thenReturn("Efetivo");
+    @Test
+    void shouldNotCreateUpdateTeacherCategoryControllerIfNullTeacherCategoryRepository() {
+        // Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
 
-        when(tcr1.getTeacherCategoryByName("Assistente")).thenReturn(Optional.of(tc1Double));
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, null, teacherCareerProgressionRepositoryDouble));
+    }
 
-        when(tcr1.getTeacherCategoryByName("Efetivo")).thenReturn(Optional.of(tc2Double));
+    @Test
+    void shouldNotCreateUpdateTeacherCategoryControllerIfNullTeacherCareerProgressionRepository() {
+        // Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
 
-        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(tr1, tcr1);
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, null));
+    }
 
-        // Act
-        boolean result = controller.updateTeacherCategory("30-01-2025", "213784542", "Efetivo");
+    @Test
+    void shouldReturnListOfTeachers() {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        List<Teacher> listDouble = mock(List.class);
 
-        // Assert
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+
+        when(teacherRepositoryDouble.findAll()).thenReturn(listDouble);
+
+        //Act
+        Iterable<Teacher> result = controller.findAllTeachers();
+
+        //Assert
+        assertEquals(result, listDouble);
+    }
+
+    @Test
+    void shouldReturnListOfTeacherCategories() {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        List<TeacherCategory> listDouble = mock(List.class);
+
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+
+        when(teacherCategoryRepositoryDouble.findAll()).thenReturn(listDouble);
+
+        //Act
+        Iterable<TeacherCategory> result = controller.findAllTeacherCategories();
+
+        //Assert
+        assertEquals(result, listDouble);
+    }
+
+    @Test
+    void successfullyUpdatesTeacherCategoryInTeacherCareerProgression() throws Exception {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+
+        String date = "12-03-2024";
+        String teacherCategory = "Assistant";
+        String teacherAcronym = "ABC";
+
+        TeacherCategoryID tcIDVODouble = mock(TeacherCategoryID.class);
+
+        when(teacherCategoryRepositoryDouble.getTeacherCategoryIDFromName(any(Name.class)))
+                .thenReturn(Optional.of(tcIDVODouble));
+
+        when(teacherRepositoryDouble.containsOfIdentity(any(TeacherID.class))).thenReturn(true);
+
+        when(teacherCareerProgressionRepositoryDouble.updateTeacherCategoryInTeacherCareerProgression(
+                any(Date.class), any(TeacherCategoryID.class), any(TeacherID.class))).thenReturn(true);
+
+        //Act
+        boolean result = controller.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategory, teacherAcronym);
+
+        //Assert
         assertTrue(result);
     }
 
-    @Test
-    void noTeacherInRepoWithInputNIF_UnsuccessfullyUpdatedTeachersCategory() {
-        // Arrange
+    public static Stream<Arguments> provideInvalidDates() {
+        return Stream.of(
+                Arguments.of((Date) null),
+                Arguments.of(""),
+                Arguments.of(" "),
+                Arguments.of("2024-12-03"),
+                Arguments.of("03/12/2024"),
+                Arguments.of("12 de Março de 2024"),
+                Arguments.of("32-01-2024"),
+                Arguments.of("12-13-2024"),
+                Arguments.of("03-12-24")
+        );
+    }
 
-        when(tr1.getTeacherByNIF("111111111")).thenReturn(Optional.empty());
+    @ParameterizedTest
+    @MethodSource("provideInvalidDates")
+    void shouldThrowExceptionWhenDateIsInvalid (String date) {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
 
-        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(tr1, tcr1);
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
 
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> controller.updateTeacherCategory("30-01-2025", "111111111", "Efectivo"));
+        String teacherCategory = "Assistant";
+        String teacherAcronym = "ABC";
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> controller.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategory, teacherAcronym));
+    }
+
+    public static Stream<Arguments> provideInvalidTeacherCategory() {
+        return Stream.of(
+                Arguments.of((String) null),
+                Arguments.of(""),
+                Arguments.of(" ")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidTeacherCategory")
+    void shouldThrowExceptionWhenTeacherCategoryIsInvalid (String teacherCategory) throws Exception {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+
+        String date = "12-03-2024";
+        String teacherAcronym = "ABC";
+
+        TeacherCategoryID tcIDVODouble = mock(TeacherCategoryID.class);
+
+        when(teacherCategoryRepositoryDouble.getTeacherCategoryIDFromName(any(Name.class)))
+                .thenReturn(Optional.of(tcIDVODouble));
+
+        //Act + Assert
+        assertThrows (IllegalArgumentException.class, () -> controller.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategory, teacherAcronym));
+    }
+
+    public static Stream<Arguments> provideInvalidTeacherAcronym() {
+        return Stream.of(
+                Arguments.of((String) null),
+                Arguments.of(""),
+                Arguments.of(" "),
+                Arguments.of("AB1"),
+                Arguments.of("ABc"),
+                Arguments.of("AB@")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidTeacherAcronym")
+    void shouldThrowExceptionWhenTeacherAcronymIsInvalid (String teacherAcronym) {
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+
+        String date = "12-03-2024";
+        String teacherCategory = "Assistant";
+
+        TeacherCategoryID tcIDVODouble = mock(TeacherCategoryID.class);
+
+        when(teacherCategoryRepositoryDouble.getTeacherCategoryIDFromName(any(Name.class)))
+                .thenReturn(Optional.of(tcIDVODouble));
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> controller.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategory, teacherAcronym));
     }
 
     @Test
-    void noTeacherCategoryInRepoWithInputTeacherCategoryName_UnsuccessfullyUpdatedTeachersCategory() {
-        // Arrange
-        Teacher teacher = mock(Teacher.class);
+    void shouldReturnFalseIfTeacherCategoryIsNotRegistered() throws Exception {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
 
-        when(tr1.getTeacherByNIF("213784542")).thenReturn(Optional.of(teacher));
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
 
-        when(tcr1.getTeacherCategoryByName("Doutor")).thenReturn(Optional.empty());
+        String date = "12-03-2024";
+        String teacherCategory = "Assistant";
+        String teacherAcronym = "ABC";
 
-        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(tr1, tcr1);
+        when(teacherCategoryRepositoryDouble.getTeacherCategoryIDFromName(any(Name.class)))
+                .thenReturn(Optional.empty());
 
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> controller.updateTeacherCategory("30-01-2025", "213784542", "Doutor"));
-    }*/
+        //Act
+        boolean result = controller.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategory, teacherAcronym);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherIsNotRegistered() throws Exception {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+
+        TeacherCategoryID tcIDVODouble = mock(TeacherCategoryID.class);
+
+        String date = "12-03-2024";
+        String teacherCategory = "Assistant";
+        String teacherAcronym = "ABC";
+
+        when(teacherCategoryRepositoryDouble.getTeacherCategoryIDFromName(any(Name.class)))
+                .thenReturn(Optional.of(tcIDVODouble));
+
+        when(teacherRepositoryDouble.containsOfIdentity(any(TeacherID.class))).thenReturn(false);
+
+        //Act
+        boolean result = controller.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategory, teacherAcronym);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenUpdatingTeacherCategoryInTeacherCareerProgressionIsUnsuccessful() throws Exception {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
+        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+
+        US14_UpdateTeachersCategoryController controller = new US14_UpdateTeachersCategoryController(teacherRepositoryDouble, teacherCategoryRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+
+        TeacherCategoryID tcIDVODouble = mock(TeacherCategoryID.class);
+
+        String date = "12-03-2024";
+        String teacherCategory = "Assistant";
+        String teacherAcronym = "ABC";
+
+        when(teacherCategoryRepositoryDouble.getTeacherCategoryIDFromName(any(Name.class)))
+                .thenReturn(Optional.of(tcIDVODouble));
+
+        when(teacherRepositoryDouble.containsOfIdentity(any(TeacherID.class))).thenReturn(true);
+
+        when(teacherCareerProgressionRepositoryDouble.updateTeacherCategoryInTeacherCareerProgression(
+                any(Date.class), any(TeacherCategoryID.class), any(TeacherID.class))).thenReturn(false);
+
+        //Act
+        boolean result = controller.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategory, teacherAcronym);
+
+        //Assert
+        assertFalse(result);
+    }
 }

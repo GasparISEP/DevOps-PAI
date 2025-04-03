@@ -110,23 +110,6 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnTrueIfStudentIsTheSameFromEnrolmentTest() {
-        // arrange
-        createDoubles();
-        Student studentDouble = mock(Student.class);
-        
-        when(studentDouble.identity()).thenReturn(_studentIDDouble);
-
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-
-        // act
-        boolean result = programmeEnrolment.hasSameStudent(studentDouble);
-
-        // assert
-        assertTrue(result);
-    }
-
-    @Test
     void shouldReturnTrueIfStudentIsTheSameFromEnrolmentTestV2() {
         // arrange
         createDoubles();
@@ -137,7 +120,7 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         // act
-        boolean result = programmeEnrolment.hasSameStudent2(_studentIDDouble);
+        boolean result = programmeEnrolment.hasSameStudent(_studentIDDouble);
 
         // assert
         assertTrue(result);
@@ -147,12 +130,12 @@ class ProgrammeEnrolmentTest {
     void shouldReturnFalseIfStudentIsNotTheSameFromEnrolmentTest() {
         //arrange
         createDoubles();
-        Student studentDouble2 = mock(Student.class);
+        StudentID studentIDDouble2 = mock(StudentID.class);
         
         ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //act
-        boolean result = programmeEnrolmentDouble.hasSameStudent(studentDouble2);
+        boolean result = programmeEnrolmentDouble.hasSameStudent(studentIDDouble2);
 
         //assert
         assertFalse(result);
@@ -167,7 +150,7 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //act
-        boolean result = programmeEnrolmentDouble.hasSameStudent2(studentIDDouble2);
+        boolean result = programmeEnrolmentDouble.hasSameStudent(studentIDDouble2);
 
         //assert
         assertFalse(result);
@@ -243,7 +226,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnTrueIfProgrammesAreTheSameTest() {
+    void shouldReturnTrueIfProgrammesAreTheSameTestV2() {
         //arrange
         createDoubles();
         ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
@@ -253,23 +236,22 @@ class ProgrammeEnrolmentTest {
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //act
-        boolean result = programmeEnrolment.hasSameProgramme2(programmeDouble.getProgrammeID());
+        boolean result = programmeEnrolment.hasSameProgramme(programmeDouble.getProgrammeID());
 
         //assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseIfProgrammesAreNotTheSameTest() {
+    void shouldReturnFalseIfProgrammesAreNotTheSameTestV2() {
         //arrange
         createDoubles();
         ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
-        ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
 
         ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, programmeIDDouble2, _dateDouble);
         
         //act
-        boolean result = programmeEnrolment.hasSameProgramme2(_programmeIDDouble);
+        boolean result = programmeEnrolment.hasSameProgramme(_programmeIDDouble);
 
         //assert
         assertFalse(result);
@@ -339,6 +321,7 @@ class ProgrammeEnrolmentTest {
 
         //Assert
         assertEquals(expectedPeID, result);
+        assertNotNull(result);
     }
 
     @Test
@@ -352,6 +335,27 @@ class ProgrammeEnrolmentTest {
 
         //Assert
         assertTrue(result);
+        assertNotNull(pe1.identity());
+    }
+
+    @Test
+    void shouldReturnTrueForSameObjectsProgrammeEnrolmentTest() {
+        //Arrange
+        createDoubles();
+        ProgrammeEnrolment pe1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment pe2 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentID peID1 = mock(ProgrammeEnrolmentID.class);
+        ProgrammeEnrolmentID peID2 = mock(ProgrammeEnrolmentID.class);
+
+        when(pe1.identity()).thenReturn(peID1);
+        when(pe2.identity()).thenReturn(peID2);
+        when(pe1.sameAs(pe2)).thenReturn(true);
+
+        //Act
+        boolean result = pe1.sameAs(pe1);
+
+        //Assert
+        assertFalse(result);
     }
 
     @Test
@@ -385,6 +389,43 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
+    void shouldReturnFalseForDifferentProgrammeEnrolmentsTest() {
+        //Arrange
+        createDoubles();
+
+        ProgrammeEnrolment pe1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment pe2 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentID differentID = mock(ProgrammeEnrolmentID.class);
+        when(pe2.sameAs(differentID)).thenReturn(false);
+
+        //Act
+        boolean result = pe1.sameAs(pe2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseInSameAsForDifferentProgrammeEnrolmentsTest() {
+        //Arrange
+        createDoubles();
+
+        ProgrammeEnrolment pe1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment pe2 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentID differentID = mock(ProgrammeEnrolmentID.class);
+        ProgrammeEnrolmentID differentID2 = mock(ProgrammeEnrolmentID.class);
+        when(pe1.identity()).thenReturn(differentID);
+        when(pe2.identity()).thenReturn(differentID2);
+
+        //Act
+        boolean result = pe1.sameAs(pe2);
+
+        //Assert
+        assertFalse(result);
+        assertEquals(differentID, pe1.identity());
+    }
+
+    @Test
     void shouldReturnHashCodeProgrammeEnrolmentTest() {
         //Arrange
         StudentID studentID = new StudentID(1241204);
@@ -399,5 +440,38 @@ class ProgrammeEnrolmentTest {
 
         //Act + Assert
         assertNotEquals(pe1.hashCode(), pe2.hashCode());
+    }
+
+    @Test
+    void shouldReturnNullIdentity() {
+        // Arrange
+        ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
+        when(programmeEnrolment.identity()).thenReturn(null);
+
+        // Act
+        ProgrammeEnrolmentID result = programmeEnrolment.identity();
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullIdentity2() {
+        // Arrange
+        ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
+        when(programmeEnrolment.identity()).thenReturn(null);
+
+        // Act
+        ProgrammeEnrolmentID result = programmeEnrolment.identity();
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    public void testEquals_DifferentUUID() {
+        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID();
+        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID();
+        assertNotEquals(id1, id2);
     }
 }
