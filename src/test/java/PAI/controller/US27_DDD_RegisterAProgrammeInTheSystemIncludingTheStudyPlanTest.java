@@ -4,10 +4,17 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.ProgrammeDDDFactoryImpl;
 import PAI.domain.studyPlan.IStudyPlanDDDFactory;
+import PAI.domain.studyPlan.StudyPlanDDD;
+import PAI.domain.studyPlan.StudyPlanDDDFactoryImpl;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryListFactoryImpl;
 import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
+import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
+import PAI.repository.studyPlanRepo.StudyPlanDDDListFactoryImpl;
 import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
 
 import org.junit.jupiter.api.Test;
@@ -143,17 +150,71 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
         //act
-        boolean result = controller.registerAProgrammeDDDInTheSystem(name, acronym, qtyEcts,qtySemesters,degreeTypeID,department1, programmeDirectorID);
+        boolean result = controller.registerAProgrammeDDDInTheSystem(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
 
         //assert
         assertTrue(result);
     }
 
     @Test
-    void registerProgrammeInTheSystemSuccessIntegrationTest(){
+    void registerProgrammeInTheSystemSuccessIntegrationTest() throws Exception {
         //arrange
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("ABC");
+        Acronym acronym = new Acronym("ABC");
+        QuantEcts quantEcts = new QuantEcts(12);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("123456789");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("ALG");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("ALP");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        IProgrammeDDDFactory iProgrammeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+
+        US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(iProgrammeDDDRepository, iStudyPlanDDDRepository);
 
         //act
+        boolean result = controller.registerAProgrammeDDDInTheSystem(nameWithNumbersAndSpecialChars, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
         //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void createStudyPlanIntegrationTest() throws Exception {
+        //arrange
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("ABC");
+        Acronym acronym = new Acronym("ABC");
+        QuantEcts quantEcts = new QuantEcts(12);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("123456789");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("ALG");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("ALP");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        Date implemtationDate = new Date("21-03-2025");
+
+        IProgrammeDDDFactory iProgrammeDDDFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeDDDFactory, iProgrammeDDDRepositoryListFactory);
+
+        IStudyPlanDDDFactory iStudyPlanDDDFactory = new StudyPlanDDDFactoryImpl();
+        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
+        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanDDDFactory, iStudyPlanDDDListFactory);
+
+        US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan controller = new US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(iProgrammeDDDRepository, iStudyPlanDDDRepository);
+        controller.registerAProgrammeDDDInTheSystem(nameWithNumbersAndSpecialChars, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        //act
+        boolean result = controller.createStudyPlanDDD(programmeID, implemtationDate);
+        //assert
+        assertTrue(result);
     }
 }
