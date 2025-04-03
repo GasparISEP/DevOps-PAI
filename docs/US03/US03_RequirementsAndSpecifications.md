@@ -18,8 +18,7 @@ This document specifies the requirements for User Story 3 (PAI project), includi
 - Functional and non-functional requirements
 - Acceptance criteria
 - Business rules
-- Risk analysis  
-  Providing a complete framework for development and quality assurance.
+- Risk analysis 
 
 ## 2. User Story Description
 **Role:** Academic Services Collaborator (ASC)  
@@ -40,7 +39,7 @@ This document specifies the requirements for User Story 3 (PAI project), includi
 ## 5. Acceptance Criteria
 - [ ] ASC can add Course to a Programme
 - [ ] Course uniquely linked to a Programme 
-- [ ] System validates existence of:
+- [ ] The System validates the existence of:
     - Selected Programme
     - Selected Study Plan
     - Selected Course
