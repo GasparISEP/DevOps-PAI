@@ -2,245 +2,155 @@
 
 title US26_getNumberOfStudentsInProgrammesFromSpecifiedDepartmentInGivenSchoolYear.puml
 top to bottom direction
-skinparam ranksep 170
-skinparam nodesep 200
+skinparam ranksep 100
+skinparam nodesep 100
+skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
-
-
 class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
-    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( IProgrammeEditionEnrolmentRepo PEERepo,ISchoolYearRepository schoolYearRepository,IDepartmentRepository departmentRepository
+    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( IProgrammeEditionEnrolmentRepository PEERepo,ISchoolYearRepository schoolYearRepository,IDepartmentRepository departmentRepository
     +countStudentsInProgrammeFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
 }
 
-package "Programme Aggregate" #LightBlue{
-    entity "<<Root>>\n Programme" {
-    +Programme( programmeID: ProgrammeID, NameWithNumbersAndSpecialChars: NameWithNumbersAndSpecialChars, acronym: Acronym, quantEcts: QuantEcts, quantSemesters: quantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID, teacherID: TeacherID)
-    +isInDepartment ( departmentID: DepartmentID): boolean
-    }
-}
-
-class "<<Value Object>>\n NameWithNumbersAndSpecialChars" {
-     +NameWithNumbersAndSpecialChars ()
-}
-
-class "<<Value Object>>\n TeacherID" {
-     +TeacherID ()
-}
-
-class "<<Value Object>>\n DegreeTypeID" {
-     +DegreeTypeID ()
-}
-
-
-class "<<Value Object>>\n ProgrammeID" {
-     +programmeID ()
-}
-
-
-class "<<Value Object>>\n QuantEcts" {
-     +quantEcts ()
-}
-
-class "<<Value Object>>\n QuantSemesters" {
-     +quantSemesters ()
-}
-
-package "Department Aggregate" #LightBlue {
-    entity "<<Root>>\n Department" {
-     +Department(departmentID: DepartmentID, name: Name, acronym: Acronym)
-     +equals(obj: Object): boolean
-    }
-}
-
-class "<<Value Object>>\n DepartmentID" {
-     +DepartmentID ()
-}
-class "<<Value Object>>\n Acronym" {
-     +Acronym ()
-}
-
-
+'Interfaces and Repositories'
 interface IDepartmentRepository {
-    +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
-    +DepartmentExists(Department department) :boolean
+    +departmentExists(DepartmentID department) :boolean
 }
 
-class DepartmentRepository {
-    +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
-    +DepartmentExists(Department department) :boolean
+class DepartmentRepositoryImpl {
+    +departmentExists(DepartmentID department) :boolean
+    +findDepartmentByID(DepartmentID department) :Optional <Department>
 }
 
-interface IProgrammeEditionEnrolmentRepo {
-     +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
-     +countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
-}
-class ProgrammeEditionEnrolmentRepo {
-    +ProgrammeEditionEnrolmentRepo(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
-    +countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
+interface IProgrammeDDDRepository {
+    +findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
 }
 
+class ProgrammeDDDRepositoryImpl {
+     +findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
+}
 
+interface IProgrammeEditionEnrolmentRepository {
+     +countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID: SchoolYearID, List<ProgrammeID> ProgrammeIDs): int
+}
+class ProgrammeEditionEnrolmentRepository {
+    +countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID: SchoolYearID, List<ProgrammeID> ProgrammeIDs): int
+}
 
 interface ISchoolYearRepository {
-    +SchoolYearRepository(schoolYearFactory: SchoolYearFactory)
-    +schoolYearExists(schoolYear: SchoolYear): boolean
+    +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
 }
 
 class SchoolYearRepository {
-    +SchoolYearRepository(schoolYearFactory: SchoolYearFactory)
-    +schoolYearExists(schoolYear: SchoolYear): boolean
+    +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
 }
 
+'Aggregates'
 
-
- package "ProgrammeEdition Aggregate" #Lightblue{
-     class ProgrammeEdition <<Root>> {
-         +ProgrammeEdition(programmeEditionID: ProgrammeEditionID, programmeID: ProgrammeID, schoolYearID: SchoolYearID)
-         +isEditionAssociatedToDepartmentAndSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): boolean
-     }
- }
-
-class "<<Value Object>>\n ProgrammeEditionID" {
-     +ProgrammeEditionID ()
-}
-
-
-package "SchoolYear Aggregate" #LightBlue{
-    entity "<<Root>>\n SchoolYear" {
-    +SchoolYear(schoolYearID: SchoolYearID, description: Description, date: StartDate, date: EndDate)
-    +isSameSchoolYear(newSchoolYear: SchoolYear): boolean
+package "ProgrammeDDD Aggregate" #LightBlue{
+    class ProgrammeDDD <<Root>> <<Entity>> {
+    +isInDepartment ( departmentID: DepartmentID): boolean
+    +identity (): ProgrammeID
     }
 }
-
-class "<<Value Object>>\n SchoolYearID" {
-     +SchoolYearID ()
+class NameWithNumbersAndSpecialChars <<Value Object>> {
 }
-class "<<Value Object>>\n Description" {
-     +Description ()
+class QuantSemesters <<Value Object>> {
+}
+class QuantEcts <<Value Object>> {
+}
+class Acronym <<Value Object>> {
+}
+class DegreeTypeID <<Value Object>> {
 }
 
-package "Student Aggregate" #LightBlue{
-    entity "<<Root>>\n Student" {
-    +Student(uniqueNumber: StudentID, name: Name,
-    NIF: NIF, phone: PhoneNumber, email: Email, address: Address)
-    +getUniqueNumber(): String
+
+package "Department Aggregate" #LightBlue {
+    class Department <<Root>> <<Entity>> {
+     +getDepartmentID(): DepartmentID
     }
-
+}
+class Name <<Value Object>> {
 }
 
-class "<<Value Object>>\n StudentID" {
-     +StudentID ()
+class ProgrammeID <<Value Object>> {
+     +equals ()
 }
-
-class "<<Value Object>>\n Name" {
-     +Name ()
+class DepartmentID <<Value Object>> {
+     +equals ()
 }
-
-class "<<Value Object>>\n NIF" {
-     +NIF ()
+class SchoolYearID <<Value Object>> {
+     +equals ()
 }
-
-class "<<Value Object>>\n Email" {
-     +Email ()
+class ProgrammeEditionID <<Value Object>> {
+     +isSameProgrammeEdition ()
 }
-
-class "<<Value Object>>\n PhoneNumber" {
-     +PhoneNumber ()
-}
-
-class "<<Value Object>>\n Address" {
-     +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
-}
-
-class "<<Value Object>>\n Street" {
-     +Street()
-}
-
-class "<<Value Object>>\n PostalCode" {
-     +PostalCode()
-}
-
-class "<<Value Object>>\n Location" {
-     +Location()
-}
-
-class "<<Value Object>>\n Country" {
-     +Country()
-}
-class "<<Value Object>>\n Date" {
-     +Date (date : String)
-     +Date (localDate : LocalDate)
-     +getLocalDate () : LocalDate
-     +equals (o: Obj) : boolean
-     +hashcode () : int
+class TeacherID <<Value Object>> {
 }
 
 package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
-    entity "<<Root>>\n ProgrammeEditionEnrolment" {
-     +ProgrammeEditionEnrolment(studentID: StudentID, programmeEditionID: ProgrammeEditionID, date: Date)
-        +isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): boolean
-        +getStudentUniqueNumber(studentID): int
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
+      +isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
+      +findStudentInProgrammeEdition(): StudentID
     }
 }
-
-class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
-     +ProgrammeEditionEnrolmentID()
-     +equals (obj: Object) : boolean
+class ProgrammeEditionEnrolmentID <<Value Object>> {
+}
+class ProgrammeEditionID <<Value Object>> {
+}
+class StudentID <<Value Object>> {
+}
+class LocalDate <<Value Object>> {
 }
 
-"SchoolYear Aggregate" "1" --> "1 _schoolYearID" "<<Value Object>>\n SchoolYearID"
-"SchoolYear Aggregate" "1" -u-> "1 _description" "<<Value Object>>\n Description"
-"SchoolYear Aggregate" "1" --> "1 _startDate" "<<Value Object>>\n Date"
-"SchoolYear Aggregate" "1" --> "1 _endDate" "<<Value Object>>\n Date"
+ package "SchoolYear Aggregate" #Lightblue{
+     class SchoolYear <<Root>> <<Entity>>  {
+        +identity(): SchoolYearID
+    }
+ }
+ class Date <<Value Object>> {
+ }
+ class Description <<Value Object>> {
+ }
 
 
-"Department Aggregate" "1" -l-> "1 _departmentID" "<<Value Object>>\n DepartmentID"
-"Department Aggregate" "1" --> "1 _acronym" "<<Value Object>>\n Acronym"
-"Department Aggregate" "1" --> "1 _name" "<<Value Object>>\n Name"
+ SchoolYear "1" --> "1" Description
+ SchoolYear "1" --> "1 _startDate\n" Date
+ SchoolYear "1" --> "1 _endDate" Date
 
-"ProgrammeEdition Aggregate" "1..*" --> "1 _programmeEditionID" "<<Value Object>>\n ProgrammeEditionID"
-"ProgrammeEdition Aggregate" "1..*" --> "1 _schoolYearID" "<<Value Object>>\n SchoolYearID"
-"ProgrammeEdition Aggregate" "1..*" --> "1 _programmeID" "<<Value Object>>\n ProgrammeID"
+ ProgrammeEditionEnrolment "1" --> "1" ProgrammeEditionEnrolmentID
+ ProgrammeEditionEnrolment "1" --> "1" ProgrammeEditionID
+ ProgrammeEditionEnrolment "1" --> "1" StudentID
+ ProgrammeEditionEnrolment "1" --> "1" LocalDate
 
-"Programme Aggregate" "1" --> "1 _programmeID" "<<Value Object>>\n ProgrammeID"
-"Programme Aggregate" "1" --> "1 _acronym" "<<Value Object>>\n Acronym"
-"Programme Aggregate" "1" --> "1 _nameWithNumbersAndSpecialChars" "<<Value Object>>\n NameWithNumbersAndSpecialChars"
-"Programme Aggregate" "1" --> "1 _quantityOfEcts" "<<Value Object>>\n QuantEcts"
-"Programme Aggregate" "1" --> "1 _quantityOfSemesters" "<<Value Object>>\n QuantSemesters"
-"Programme Aggregate" "1..*" --> "1 _departmentID" "<<Value Object>>\n DepartmentID"
-"Programme Aggregate" "1" --> "1 _teacherID" "<<Value Object>>\n TeacherID"
-"Programme Aggregate" "1" --> "1 _degreeTypeID" "<<Value Object>>\n DegreeTypeID"
+ProgrammeDDD "1" --> "1" NameWithNumbersAndSpecialChars
+ProgrammeDDD "1" --> "1" QuantSemesters
+ProgrammeDDD "1" --> "1" QuantEcts
+ProgrammeDDD "1" --> "1" Acronym
+ProgrammeDDD "1" --> "1" DegreeTypeID
+ProgrammeDDD "1" --> "1 _programmeDirectorID" TeacherID
 
+Department "1" --> "1" Name
+Department "1" --> "1 _director" TeacherID
 
-"Student Aggregate" "1" --> "1 _studentID" "<<Value Object>>\n StudentID"
-"Student Aggregate" "1" --> "1 _name" "<<Value Object>>\n Name"
-"Student Aggregate" "1" --> "1 _NIF" "<<Value Object>>\n NIF"
-"Student Aggregate" "1" --> "1 _email" "<<Value Object>>\n Email"
-"Student Aggregate" "1" --> "1 _phoneNumber" "<<Value Object>>\n PhoneNumber"
-"Student Aggregate" "1" --> "1 _address" "<<Value Object>>\n Address"
-
-"<<Value Object>>\n Address" "1" --> "1 _street" "<<Value Object>>\n Street"
-"<<Value Object>>\n Address" "1" --> "1 _postalCode" "<<Value Object>>\n PostalCode"
-"<<Value Object>>\n Address" "1" --> "1 _location" "<<Value Object>>\n Location"
-"<<Value Object>>\n Address" "1" --> "1 _country" "<<Value Object>>\n Country"
-
-
-"ProgrammeEditionEnrolment Aggregate" "1..*" -u-> "_studentID 1    ""<<Value Object>>\n StudentID"
-"ProgrammeEditionEnrolment Aggregate" "_programmeEditionEnrolmentList *" <-- "1" ProgrammeEditionEnrolmentRepo
-"ProgrammeEditionEnrolment Aggregate" "1" --> "1  _date " "<<Value Object>>\n Date"
-"ProgrammeEditionEnrolment Aggregate" "1" --> "1  _peeID " "<<Value Object>>\n ProgrammeEditionEnrolmentID"
-
-"Department Aggregate" "_departmentsList *" <-- "1" DepartmentRepository
-IDepartmentRepository <|.. DepartmentRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _departmentRepository" IDepartmentRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _schoolYearRepository" ISchoolYearRepository
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1"   ..> "1 _peeRepo"  IProgrammeEditionEnrolmentRepo
-
-IProgrammeEditionEnrolmentRepo <|.. ProgrammeEditionEnrolmentRepo
+ProgrammeEditionEnrolmentRepository "1" --> "1..*" ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment "1" --> "1" ProgrammeEditionID
+ProgrammeEditionID "1" --> "1" ProgrammeID
+ProgrammeEditionID "1" --> "1" SchoolYearID
+SchoolYearRepository "1" --> "1..*" SchoolYear
+SchoolYear "1" --> "1 _schoolYearID" SchoolYearID
+Department "1" --> "1 _departmentID" DepartmentID
+DepartmentRepositoryImpl "1" --> "1..*" Department
+ProgrammeDDDRepositoryImpl "1" --> "1..*" ProgrammeDDD
+ProgrammeDDD "1" --> "1 _departmentID" DepartmentID
+ProgrammeDDD "1" -u-> "1 _programmeID" ProgrammeID
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _departmentRepository" "IDepartmentRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _peeRepo" "IProgrammeEditionEnrolmentRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _pDDDRepo" "IProgrammeDDDRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _schoolYearRepository"  "ISchoolYearRepository"
+IDepartmentRepository <|.. DepartmentRepositoryImpl
+IProgrammeDDDRepository <|.. ProgrammeDDDRepositoryImpl
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepository
 ISchoolYearRepository <|.. SchoolYearRepository
-SchoolYearRepository "1" --> "_schoolYearList *" "SchoolYear Aggregate"
-
-
 
 @enduml
