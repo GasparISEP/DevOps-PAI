@@ -113,5 +113,6 @@ package "Department Aggregate" {
 "<<root>>\nTeacher" "1" -u-> "1" "<<root>>\nDepartment"
 "<<root>>\nStudent" "1" <-- "*" "<<root>>\nStudentGrade"
 "<<root>>\nCourse" "1" <-- "*" "<<root>>\nCourseInStudyPlan"
+"<<root>>\nProgrammeEnrolment" "*" --> "1" "<<root>>\nProgramme"
 
 @enduml

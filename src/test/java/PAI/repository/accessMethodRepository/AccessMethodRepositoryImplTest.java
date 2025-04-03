@@ -269,5 +269,20 @@ class AccessMethodRepositoryImplTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldSaveAccessMethod(){
+        //arrange
+        AccessMethodFactoryImpl doubleAccessMethodFactoryImpl = mock(AccessMethodFactoryImpl.class);
+        AccessMethodListFactoryImpl doubleAccessMethodListFactoryImpl = mock(AccessMethodListFactoryImpl.class);
+        AccessMethodRepositoryImpl accessMethodRepositoryImpl = new AccessMethodRepositoryImpl(doubleAccessMethodFactoryImpl, doubleAccessMethodListFactoryImpl);
+
+        AccessMethod doubleAccessMethod = mock(AccessMethod.class);
+        //act
+        AccessMethod result = accessMethodRepositoryImpl.save(doubleAccessMethod);
+        //assert
+        assertNotNull(result);
+        assertEquals(doubleAccessMethod, result);
+    }
+
 
 }

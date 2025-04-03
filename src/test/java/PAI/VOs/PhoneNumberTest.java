@@ -284,4 +284,19 @@ class PhoneNumberTest {
         //Assert
         assertFalse(result);
     }
+
+    @Test
+    void toStringShouldBeEqualToObject() throws Exception {
+        //arrange
+        String countryCode = "+351";
+        String number = "999999999";
+        PhoneNumber phoneNumber = new PhoneNumber(countryCode,number);
+        String expected = "Country Code = +351 PhoneNumber = 999999999";
+
+        //act
+        String phoneNumberAttributtes = phoneNumber.toString();
+
+        //asert
+        assertEquals(expected, phoneNumberAttributtes);
+    }
 }

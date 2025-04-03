@@ -11,4 +11,7 @@ public interface IStudyPlanDDDRepository extends IRepository<StudyPlanID, StudyP
 
     boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts);
     List<StudyPlanDDD> getAllStudyPlansByProgrammeId(ProgrammeID programmeID);
+    List<StudyPlanDDD> getAllStudyPlans_2();
+
+    StudyPlanID getLatestStudyPlanIDByProgrammeID(ProgrammeID programmeID);
 }

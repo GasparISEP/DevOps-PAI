@@ -2,14 +2,13 @@ package PAI.repository;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;
+import PAI.VOs.TeacherID;
 import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
 import PAI.factory.IDepartmentListFactory;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.StreamSupport;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,7 +26,6 @@ class DepartmentRepositoryTest {
         Name name= mock(Name.class);
         // Act
         boolean result = repository.registerDepartment(acronym,name);
-
         // Assert
         assertTrue(result, "The department should be successfully registered.");
     }
@@ -193,60 +191,82 @@ class DepartmentRepositoryTest {
         //Assert
         assertFalse(result);
     }
-//
-//    @Test
-//    void shouldReturnTrueIfUpdateDepartmentDirector(){
-//        //arrange
-//        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-//        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
-//        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
-//
-//        Department departmentDouble = mock(Department.class);
-//        Teacher furtherDirectorDouble = mock(Teacher.class);
-//
-//        when(furtherDirectorDouble.isInDepartment(departmentDouble)).thenReturn(true);
-//        when(departmentDouble.changeDirector(furtherDirectorDouble)).thenReturn(true);
-//
-//        //act
-//        boolean result= repository.updateOfDepartmentDirector(departmentDouble,furtherDirectorDouble);
-//
-//        //assert
-//        assertTrue(result);
-//    }
-//
-//    @Test
-//    void shouldReturnFalseIfTeacherDoesNotBelongToDepartment(){
-//        //arrange
-//        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-//        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
-//        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
-//
-//        Department departmentDouble = mock(Department.class);
-//        Teacher furtherDirectorDouble = mock(Teacher.class);
-//
-//        when(furtherDirectorDouble.isInDepartment(departmentDouble)).thenReturn(false);
-//
-//        //act
-//        boolean result= repository.updateOfDepartmentDirector(departmentDouble,furtherDirectorDouble);
-//
-//        //assert
-//        assertFalse(result);
-//    }
-//
-//    @Test
-//    void shouldReturnFalseIfTeacherIsNull (){
-//        //arrange
-//        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-//        IDepartmentListFactory listFactoryInterfaceDouble= mock(IDepartmentListFactory.class);
-//        DepartmentRepository repository = new DepartmentRepository(factoryInterfaceDouble,listFactoryInterfaceDouble);
-//        Department dpt1Double= mock(Department.class);
-//
-//        //act
-//        boolean result = repository.updateOfDepartmentDirector(dpt1Double, null);
-//
-//        //assert
-//        assertFalse(result);
-//    }
+
+    @Test
+    void shouldReturnTrueIfUpdateDepartmentDirector() {
+        // Arrange
+        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
+        Set<Department> departmentSet = new HashSet<>();
+
+        when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
+
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        Department departmentDouble = mock(Department.class);
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+        TeacherID furtherDirectorIDDouble = mock(TeacherID.class);
+
+        departmentSet.add(departmentDouble);
+
+        when(departmentDouble.identity()).thenReturn(departmentIDDouble);
+        when(departmentDouble.changeDirector(furtherDirectorIDDouble)).thenReturn(true);
+
+        // Act
+        boolean result = repository.updateOfDepartmentDirector(departmentIDDouble, furtherDirectorIDDouble);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherIDIsNull (){
+        //arrange
+        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
+        Set<Department> departmentSet = new HashSet<>();
+
+        when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
+
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        Department departmentDouble = mock(Department.class);
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+
+        departmentSet.add(departmentDouble);
+
+        when(departmentDouble.identity()).thenReturn(departmentIDDouble);
+
+        // Act
+        boolean result = repository.updateOfDepartmentDirector(departmentIDDouble, null);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfDepartmentIDIsNull (){
+        //arrange
+        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
+        Set<Department> departmentSet = new HashSet<>();
+
+        when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
+
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        Department departmentDouble = mock(Department.class);
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+        TeacherID furtherDirectorIDDouble = mock(TeacherID.class);
+
+        departmentSet.add(departmentDouble);
+
+        when(departmentDouble.identity()).thenReturn(departmentIDDouble);
+        when(departmentDouble.changeDirector(furtherDirectorIDDouble)).thenReturn(true);
+
+        // Act
+        boolean result = repository.updateOfDepartmentDirector(null, furtherDirectorIDDouble);
+
+        //assert
+        assertFalse(result);
+    }
 
     @Test
     void shouldSaveDepartment() {

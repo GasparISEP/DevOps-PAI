@@ -52,4 +52,9 @@ public class PhoneNumber implements ValueObject {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Country Code = " + this._countryCode + " " + "PhoneNumber = " + this._number;
+    }
 }

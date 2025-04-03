@@ -7,6 +7,7 @@ import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.factory.ISchoolYearListFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,4 +107,12 @@ public class SchoolYearRepository implements ISchoolYearRepository {
         return true;
     }
 
+    public List<SchoolYearID> getAllSchoolYearsIDs() {
+        List<SchoolYearID> schoolYearsIds = new ArrayList<>();
+        for (SchoolYear schoolYear : _schoolYearList) {
+            schoolYearsIds.add(schoolYear.identity());
+        }
+        return schoolYearsIds;
     }
+
+}
