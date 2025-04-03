@@ -112,7 +112,7 @@ class PhoneNumberTest {
     }
     @ParameterizedTest
     @MethodSource("testCountryCodeWithvalidInputs")
-    void validCountryCodeInputShouldReturnException(String countryCode, String number) throws Exception {
+    void validCountryCodeInputShouldReturnValueObject(String countryCode, String number) throws Exception {
         //arrange
         //act
         PhoneNumber phoneNumber = new PhoneNumber(countryCode, number);
@@ -143,5 +143,34 @@ class PhoneNumberTest {
 
         //act + assert
         Assertions.assertThrows(Exception.class, () -> new PhoneNumber(countryCode, number));
+    }
+
+    static Stream<Arguments> testPhoneNumbersWithValidInputs() {
+        return Streams.of(
+                Arguments.of("+111", "123456"),
+                Arguments.of("+111", "987654321"),
+                Arguments.of("+111", "123456789012345"),
+                Arguments.of("+111", "000001"),
+                Arguments.of("+111", "999999999999999"),
+                Arguments.of("+111", "000001"),
+                Arguments.of("+111", "000000000000000"),
+                Arguments.of("+111", "555123456"),
+                Arguments.of("+111", "351987654321"),
+                Arguments.of("+111", "918273645"),
+                Arguments.of("+111", "1234567890"),
+                Arguments.of("+111", "4912345678901"),
+                Arguments.of("+111", "447123456789"),
+                Arguments.of("+111", "8613812345678")
+                );
+    }
+    @ParameterizedTest
+    @MethodSource("testPhoneNumbersWithValidInputs")
+    void validPhoneNumbersInputShouldReturnValueObject(String countryCode, String number) throws Exception{
+        //arrange
+        //act
+        PhoneNumber phoneNumber = new PhoneNumber(countryCode, number);
+
+        //assert
+        assertNotNull(phoneNumber);
     }
 }
