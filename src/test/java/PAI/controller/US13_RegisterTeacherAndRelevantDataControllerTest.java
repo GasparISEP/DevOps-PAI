@@ -3,7 +3,10 @@ import PAI.VOs.*;
 import PAI.VOs.Date;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
-import PAI.repository.*;
+import PAI.repository.DepartmentRepositoryImpl;
+import PAI.repository.TeacherCareerProgressionRepository;
+import PAI.repository.TeacherCategoryRepositoryImpl;
+import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,10 +20,10 @@ import static org.mockito.Mockito.when;
 class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     // Arrange
-    private ITeacherCategoryRepository _teacherCategoryRepoDouble;
-    private IDepartmentRepository _departmentRepoDouble;
-    private ITeacherRepository _teacherRepoDouble;
-    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
+    private TeacherCategoryRepositoryImpl _teacherCategoryRepoDouble;
+    private DepartmentRepositoryImpl _departmentRepoDouble;
+    private TeacherRepository _teacherRepoDouble;
+    private TeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
 
     @BeforeEach
     void factoryDoublesSetup(){

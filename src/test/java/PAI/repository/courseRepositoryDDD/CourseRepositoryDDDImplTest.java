@@ -151,8 +151,7 @@ class CourseRepositoryDDDImplTest {
         ICourseFactoryDDD iCourseFactoryDDD = mock(ICourseFactoryDDD.class);
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(CourseRepositoryListFactoryImpl.class);
         CourseRepositoryDDDImpl courseRepositoryDDDImpl = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
-        // act
-        // assert
+        // act + assert
         assertThrows(IllegalArgumentException.class, () -> courseRepositoryDDDImpl.save(null));
 
     }

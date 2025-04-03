@@ -6,7 +6,7 @@ ASC -> UI ++ #application : I want to add Course to a Programme
 
 UI -> ":AddCourseToAProgrammeController" ++ #application: getAllProgrammes()
 
-":AddCourseToAProgrammeController" -> ProgrammeRepository ++ #application: getAllProgrammes()
+":AddCourseToAProgrammeController" -> ProgrammeRepository ++ #application: findAll()
 
 ProgrammeRepository --> ":AddCourseToAProgrammeController" -- #application: programmeList
 

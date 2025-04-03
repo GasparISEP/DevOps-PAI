@@ -22,10 +22,6 @@ public class StudyPlanDDD implements AggregateRoot<StudyPlanID> {
         this._studyPlanID = new StudyPlanID(programmeID, implementationDate);
     }
 
-    public StudyPlanID getStudyPlanID() {
-        return this._studyPlanID;
-    }
-
     public QuantEcts getQuantityOfEcts() {
         return this._quantityOfEcts;
     }

@@ -37,27 +37,44 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     }
 
     @Override
-    public Optional<ProgrammeEditionDDD> findProgrammeEditionByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
+    public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
+        for(ProgrammeEditionDDD check : _programmeEditions) {
+            if (check.findProgrammeIDInProgrammeEdition().equals(programmeid) && check.findSchoolYearIDInProgrammeEdition().equals(schoolYearid))
+                return Optional.of(check.identity());
+        }
         return Optional.empty();
     }
 
     @Override
-    public ProgrammeEditionDDD save(ProgrammeEditionDDD entity) {
-        return null;
+    public ProgrammeEditionDDD save(ProgrammeEditionDDD programmeEdition) {
+        if (programmeEdition == null){
+            throw new IllegalArgumentException("Programme Edition cannot be null");
+        }
+        _programmeEditions.add(programmeEdition);
+
+        return programmeEdition;
     }
 
     @Override
     public Iterable<ProgrammeEditionDDD> findAll() {
-        return null;
+        return _programmeEditions;
     }
 
     @Override
     public Optional<ProgrammeEditionDDD> ofIdentity(ProgrammeEditionID id) {
+        for(ProgrammeEditionDDD check : _programmeEditions){
+            if (check.identity().equals(id))
+                return Optional.of(check);
+        }
         return Optional.empty();
     }
 
     @Override
     public boolean containsOfIdentity(ProgrammeEditionID id) {
+        for(ProgrammeEditionDDD check : _programmeEditions){
+            if (check.identity().equals(id))
+                return true;
+        }
         return false;
     }
 }

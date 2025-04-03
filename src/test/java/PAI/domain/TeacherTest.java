@@ -21,7 +21,7 @@ class TeacherTest {
     private PhoneNumber _phoneNumberDouble;
     private AcademicBackground _academicBackgroundDouble;
     private DepartmentID _departmentIDDouble;
-    private AddressVO _addressDouble;
+    private Address _addressDouble;
 
     private void createDoubles (){
         _teacherAcronymDouble = mock(TeacherAcronym.class);
@@ -31,7 +31,7 @@ class TeacherTest {
         _phoneNumberDouble = mock(PhoneNumber.class);
         _academicBackgroundDouble = mock(AcademicBackground.class);
         _departmentIDDouble = mock(DepartmentID.class);
-        _addressDouble = mock(AddressVO.class);
+        _addressDouble = mock(Address.class);
     }
 
     @Test

@@ -6,12 +6,16 @@ actor HRC
 participant ":UI" as UI
 participant "ctrl:UpdateTeacherWorkingPercentageController" as Controller #lightgreen
 participant "teacherRepo:TeacherRepository" as TRepo
+participant "teacherList: List<Teacher>" #lightyellow
+participant "teacher[i]: Teacher" as teacher #lightpink
+participant "teacherAcronymVO1:TeacherAcronymVO" as teacherAcronymVO1
 participant "teacherIdVO1:TeacherIdVO" as teacherIdVO1
 participant "dateVO1:DateVO" as dateVO1
 participant "workingPercentageVO1:WorkingPercentageVO" as wpVO1
 participant "tcpRepo: TeacherCareerProgressionRepository" as TCPRepo #lightblue
+participant "tcpLList: List<TeacherCareerProgression>" #lightyellow
 participant "lastTCP:TeacherCareerProgression" as TCP #lightpink
-participant "tcpF:TCPfactory" as TCPf #burlywood
+participant "tcpF:ITCPfactory" as TCPf #burlywood
 participant "tcp1:TeacherCareerProgression" as TCP1
 
 HRC -> UI : I want to update Teacher's working percentage
@@ -37,26 +41,43 @@ UI --> HRC: What date?
 deactivate UI
 HRC -> UI: Date
 activate UI
-UI -> Controller : updateTeacherWorkingPercentage \n (Teacher's acronym, date, workingPercentage)
+UI -> Controller : updateTeacherWorkingPercentage \n (teacherAcronym, date, workingPercentage)
 activate Controller
 
-Controller -> teacherIdVO1** : createTeacherIdVO(Teacher's acronym)
+Controller -> teacherAcronymVO1** : createTeacherAcronymVO(teacherAcronym)
+activate teacherAcronymVO1
+teacherAcronymVO1 -> teacherAcronymVO1 : validate teacher acronym
+teacherAcronymVO1 --> Controller : teacherAcronymVO1
+deactivate teacherAcronymVO1
+Controller -> teacherIdVO1** : createTeacherIdVO(teacherAcronymVO1)
 activate teacherIdVO1
-teacherIdVO1 -> teacherIdVO1 : isTeacherAcronymValid()
+teacherIdVO1 -> teacherIdVO1 : validate teacher acronym VO
 teacherIdVO1 --> Controller : teacherIdVO1
 deactivate teacherIdVO1
 
 Controller -> dateVO1** : createDateVO(date)
 activate dateVO1
-dateVO1 -> dateVO1 : isDateValid()
+dateVO1 -> dateVO1 : validate and format date
 dateVO1 --> Controller : dateVO1
 deactivate dateVO1
 
 Controller -> wpVO1** : createWorkingPercentageVO(workingPercentage)
 activate wpVO1
-wpVO1 -> wpVO1 : isWorkingPercentageValid()
+wpVO1 -> wpVO1 : isWorkingPercentageValid(workingPercentage)
 wpVO1 --> Controller : workingPercentageVO1
 deactivate wpVO1
+
+Controller -> TRepo : containsOfIdentity(teacherIdVO1)
+activate TRepo
+loop
+    TRepo -> teacher : teacher.identity().equals(teacherIdVO1)
+    activate teacher
+    teacher --> TRepo : True
+    deactivate teacher
+end
+TRepo --> Controller : True
+deactivate TRepo
+
 
 Controller -> TCPRepo : updateWorkingPercentageInTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherIdVO1)
 activate TCPRepo
