@@ -33,7 +33,7 @@ public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
     public boolean changeProgrammeDirector (ProgrammeDDD programmeDDD, Teacher teacher) throws Exception{
         Optional <ProgrammeID> programmeID = findProgrammeIDbyProgramme(programmeDDD);
         Optional<TeacherID> teacherID = findTeacherIDbyTeacher(teacher);
-        _programmeRepo.changeProgrammeDirector(programmeID.get(), teacherID.get());
-        return true;
+        return  _programmeRepo.changeProgrammeDirector(programmeID.get(), teacherID.get());
+
     }
 }

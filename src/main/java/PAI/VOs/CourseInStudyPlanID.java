@@ -15,13 +15,11 @@ public class CourseInStudyPlanID implements DomainId {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass())
-            return false;
-        CourseInStudyPlanID courseInStudyPlanID = (CourseInStudyPlanID) object;
-        return _courseID.equals(courseInStudyPlanID._courseID)
-                && _studyPlanID.equals(courseInStudyPlanID._studyPlanID);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CourseInStudyPlanID that)) return false;
+        return Objects.equals(_courseID, that._courseID)
+                && _studyPlanID.equals(that._studyPlanID);
     }
 
     @Override

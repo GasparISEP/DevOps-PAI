@@ -82,15 +82,6 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         return list;
     }
 
-    public Optional<ProgrammeDDD> findProgrammeByID(ProgrammeID programmeID) {
-        for (ProgrammeDDD programmeDDD : _programmeRepo) {
-            if (programmeDDD.getProgrammeID().equals(programmeID)) {
-                return Optional.of(programmeDDD);
-            }
-        }
-        return Optional.empty();
-    }
-
     @Override
     public ProgrammeDDD save(ProgrammeDDD entity) {
         _programmeRepo.add(entity);

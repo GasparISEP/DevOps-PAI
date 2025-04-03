@@ -148,4 +148,12 @@ class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlanTest {
         //assert
         assertTrue(result);
     }
+
+    @Test
+    void registerProgrammeInTheSystemSuccessIntegrationTest(){
+        //arrange
+
+        //act
+        //assert
+    }
 }

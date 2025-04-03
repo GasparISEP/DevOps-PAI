@@ -67,7 +67,7 @@ public class TeacherRepository implements ITeacherRepository {
 
     public Optional<TeacherID> findTeacherIdByTeacher (Teacher teacher) {
         for (Teacher existingTeacher : _teachers) {
-            if (existingTeacher.equals(teacher)) {
+            if (existingTeacher.sameAs(teacher)) {
                 return Optional.of(teacher.identity());
             }
         }
