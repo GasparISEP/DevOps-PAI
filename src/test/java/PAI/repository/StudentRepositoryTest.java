@@ -237,27 +237,16 @@ class StudentRepositoryTest {
         StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
 
         StudentID studentID1 = new StudentID(1234567);
-        Name name = mock(Name.class);
-        NIF nif = mock(NIF.class);
-        PhoneNumber phone = mock(PhoneNumber.class);
-        Email email = mock(Email.class);
-        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
-        Street streetDouble = mock(Street.class);
-        PostalCode postalCodeDouble = mock(PostalCode.class);
-        Location locationDouble = mock(Location.class);
-        Country countryDouble = mock(Country.class);
-
 
         Student student = mock(Student.class);
+        repository.save(student);
         when(student.identity()).thenReturn(studentID1);
-        when(student.isEquals(any())).thenReturn(false);
-        when(student.sameAs(any())).thenReturn(false);
+
+        when(student.sameAs(any())).thenReturn(true);
 
 
-        when(studentFactory.newStudent(studentID1, name, nif, phone, email, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmail)).thenReturn(student);
 
         // Act
-        repository.registerStudent(studentID1, name, nif, phone, email, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmail);
         Optional<StudentID> result = repository.findIdByStudent(student);
 
         // Assert
@@ -406,5 +395,40 @@ class StudentRepositoryTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldNotReturnIdWhenTeacherDoesntExistsInList() throws Exception {
+        // Arrange
+        IStudentFactory iStudentFactory = mock(IStudentFactory.class);
+        IStudentListFactory iStudentListFactory = mock(IStudentListFactory.class);
+        List<Student> studentList = new ArrayList<>();
+        when(iStudentListFactory.newArrayList()).thenReturn(studentList);
+
+        StudentRepository repository = new StudentRepository(iStudentFactory, iStudentListFactory);
+
+        StudentID studentID1 = mock(StudentID.class);
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        Student student = mock(Student.class);
+        Street street = mock(Street.class);
+        PostalCode postalCode = mock(PostalCode.class);
+        Location location = mock(Location.class);
+        Country country = mock(Country.class);
+        StudentAcademicEmail studentAcademicEmail = mock(StudentAcademicEmail.class);
+        when(student.identity()).thenReturn(studentID1);
+
+
+        when(iStudentFactory.newStudent(studentID1, name, nif, phone, email, street, postalCode, location, country, studentAcademicEmail)).thenReturn(student);
+        when(student.sameAs(any())).thenReturn(false);
+
+        // Act
+        repository.registerStudent(studentID1, name, nif, phone, email, street, postalCode, location, country, studentAcademicEmail);
+        Optional<StudentID> result = repository.findIdByStudent(student);
+
+        // Assert
+        assertTrue(result.isEmpty());
     }
 }

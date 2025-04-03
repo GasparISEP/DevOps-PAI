@@ -82,15 +82,6 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         return list;
     }
 
-    public Optional<ProgrammeDDD> findProgrammeByID(ProgrammeID programmeID) {
-        for (ProgrammeDDD programmeDDD : _programmeRepo) {
-            if (programmeDDD.getProgrammeID().equals(programmeID)) {
-                return Optional.of(programmeDDD);
-            }
-        }
-        return Optional.empty();
-    }
-
     @Override
     public ProgrammeDDD save(ProgrammeDDD entity) {
         _programmeRepo.add(entity);
@@ -114,17 +105,12 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     @Override
     public boolean containsOfIdentity(ProgrammeID id) {
-        for (ProgrammeDDD existingProgrammeDDD : _programmeRepo) {
-            if (existingProgrammeDDD.identity().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return ofIdentity(id).isPresent();
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) {
         for (ProgrammeDDD existingProgramme : _programmeRepo) {
-            if (existingProgramme.equals(programme)) {
+            if (existingProgramme.sameAs(programme)) {
                 return Optional.of(programme.identity());
             }
         }

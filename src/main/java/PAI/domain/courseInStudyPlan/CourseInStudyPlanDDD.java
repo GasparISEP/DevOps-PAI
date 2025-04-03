@@ -2,7 +2,6 @@ package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
-import PAI.domain.studyPlan.StudyPlanDDD;
 
 public class CourseInStudyPlanDDD implements AggregateRoot<CourseInStudyPlanID> {
 

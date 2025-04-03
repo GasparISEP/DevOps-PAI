@@ -1,9 +1,9 @@
 package PAI.controller;
-import PAI.VOs.DegreeTypeID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
+import PAI.domain.DegreeTypeDDD.DegreeType_2;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import PAI.domain.studyPlan.IStudyPlanDDDFactory;
 import PAI.repository.DegreeTypeRepoDDD.IDegreeTypeRepository_2;
 import PAI.repository.ICourseEditionRepositoryDDD;
@@ -56,28 +56,25 @@ public class US19_CreateCourseEditionController {
         _courseEditionRepository = courseEditionRepository;
     }
 
+    public List<DegreeType_2> getAllDegreeTypes() {
+        return _degreeTypeRepository.getAllDegreeTypes();
+    }
+
     public List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
         return _programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
     }
 
-    public List<CourseInStudyPlanDDD> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) throws Exception {
+    public List<CourseInStudyPlanDDD> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) {
         StudyPlanID studyPlanID = _studyPlanRepository.getLatestStudyPlanIDByProgrammeID(programmeID);
         return _courseInStudyPlanRepository.getCoursesInStudyPlanByStudyPlanID(studyPlanID);
     }
 
-//    public List<ProgrammeEdition> getAllProgrammeEditions() {
-//        return _programmeEditionRepository.getAllProgrammeEditions();
-//    }
-//
-//    public List<Course> getCoursesInProgramme(ProgrammeEdition programmeEdition) {
-//        Programme programme = _programmeEditionRepository.findProgrammeInProgrammeEdition(programmeEdition);
-//        return _programmeList.getCourseList(programme);
-//    }
-//
-//    public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-//            if(!_courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID))
-//                return false;
-//        _courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
-//            return true;
-//    }
+    public List<ProgrammeEditionDDD> getProgrammeEditionsByProgrammeID (ProgrammeID programmeID) {
+        return _programmeEditionRepository.getProgrammeEditionsByProgrammeID(programmeID);
+
+    }
+
+    public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+        return _courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+    }
 }
