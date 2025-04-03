@@ -294,6 +294,45 @@ class TeacherRepositoryTest {
     }
 
     @Test
+    void shouldReturnIdWhenTeacherExistsInList() throws IllegalArgumentException {
+        // Arrange
+        ITeacherFactory teacherFactory = mock(ITeacherFactory.class);
+        ITeacherListFactory teacherListFactory = mock(ITeacherListFactory.class);
+        List<Teacher> teacherList = new ArrayList<>();
+        when(teacherListFactory.newList()).thenReturn(teacherList);
+
+        TeacherRepository repository = new TeacherRepository(teacherFactory, teacherListFactory);
+
+        TeacherID teacherID1 = mock(TeacherID.class);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        AcademicBackground academicBackground = mock(AcademicBackground.class);
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Street streetDouble = mock(Street.class);
+        PostalCode postalCodeDouble = mock(PostalCode.class);
+        Location locationDouble = mock(Location.class);
+        Country countryDouble = mock(Country.class);
+
+        Teacher teacher = mock(Teacher.class);
+
+        when(teacher.identity()).thenReturn(teacherID1);
+
+
+        when(teacherFactory.createTeacher(teacherAcronym, name, email, nif, phone, academicBackground, streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentID)).thenReturn(teacher);
+        when(teacher.sameAs(any())).thenReturn(false);
+
+        // Act
+        repository.registerTeacher(teacherAcronym, name, email, nif, phone, academicBackground, streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentID);
+        Optional<TeacherID> result = repository.findTeacherIdByTeacher(teacher);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
     void testFindTeacherIdByTeacherReturnsCorrectIdWhenTeacherExists() {
             // Arrange
             createFactoriesDoubles();
