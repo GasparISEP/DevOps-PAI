@@ -121,6 +121,9 @@ public class TeacherCareerProgressionRepository implements ITeacherCareerProgres
 
     public boolean updateTeacherCategoryInTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, TeacherID teacherID) throws Exception {
 
+        if(date == null || teacherCategoryID == null || teacherID == null)
+            return false;
+
         Optional<TeacherCareerProgression> optionalTCP = findLastTCPFromTeacherID(teacherID);
 
         if (optionalTCP.isEmpty())

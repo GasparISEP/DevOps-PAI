@@ -126,8 +126,10 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
 
     @Override
     public boolean containsOfIdentity(CourseEditionEnrolmentID id) {
-        return _courseEditionEnrolments.stream()
-                .anyMatch(enrolment -> enrolment.identity().equals(id));
+        if (!ofIdentity(id).isPresent()){
+            return false;
+        }
+        return true;
     }
 }
 

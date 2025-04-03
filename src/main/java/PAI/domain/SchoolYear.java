@@ -25,14 +25,10 @@ public class SchoolYear implements AggregateRoot<SchoolYearID> {
         if (endDate.isBefore(startDate)) {
             throw new IllegalArgumentException("End date cannot be before start date.");
         }
-
-        try {
             _startDate = startDate;
             _endDate = endDate;
             _description = description;
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
+
     }
 
     // Method to compare if School Years are equal
