@@ -1,8 +1,10 @@
 package PAI.repository.programmeRepo;
 
 import PAI.VOs.*;
+import PAI.domain.Teacher;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -574,6 +576,51 @@ class ProgrammeDDDRepositoryImplTest {
         List<ProgrammeDDD> result = programmeRepository.getProgrammesByDegreeTypeID(anyID);
 
         //Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testFindProgrammeIdByTeacherReturnsCorrectIdWhenProgrammeExists() {
+        // Arrange
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+        ProgrammeDDD programmeDDD = mock(ProgrammeDDD.class);
+        ProgrammeID id = mock(ProgrammeID.class);
+        repository.save(programmeDDD);
+        when(programmeDDD.identity()).thenReturn(id);
+
+        // Act
+        Optional<ProgrammeID> result = repository.findProgrammeIdByProgramme(programmeDDD);
+
+        // Assert
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void testFindProgrammeIdByTeacherReturnsCorrectIdWhenProgrammeDoesNotExist() {
+        // Arrange
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+        ProgrammeDDD programmeDDD = mock(ProgrammeDDD.class);
+        ProgrammeDDD programmeDDD1 = mock(ProgrammeDDD.class);
+        ProgrammeID id = mock(ProgrammeID.class);
+        repository.save(programmeDDD);
+        when(programmeDDD.identity()).thenReturn(id);
+
+        // Act
+        Optional<ProgrammeID> result = repository.findProgrammeIdByProgramme(programmeDDD1);
+
+        // Assert
         assertTrue(result.isEmpty());
     }
 }

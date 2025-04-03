@@ -3,7 +3,10 @@ package PAI.repository;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
+import PAI.domain.studyPlan.IStudyPlanDDDFactory;
+import PAI.domain.studyPlan.StudyPlanDDD;
 import PAI.factory.*;
+import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -288,4 +292,48 @@ class TeacherRepositoryTest {
         // Assert
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void testFindTeacherIdByTeacherReturnsCorrectIdWhenTeacherExists() {
+            // Arrange
+            createFactoriesDoubles();
+            TeacherID idDouble = mock(TeacherID.class);
+            Teacher teacher = mock(Teacher.class);
+
+            List<Teacher> teachers = List.of(teacher);
+            _teacherListFactory = () -> teachers;
+
+            TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+            when(teacher.identity()).thenReturn(idDouble);
+            when(teacher.sameAs(any())).thenReturn(true);
+
+            // Act
+            Optional<TeacherID> result = repository.findTeacherIdByTeacher(teacher);
+
+            // Assert
+            assertTrue(result.isPresent());
+    }
+
+    @Test
+    void testFindTeacherIdByTeacherReturnsEmptyWhenTeacherDoesNotExist() {
+        // Arrange
+        createFactoriesDoubles();
+        TeacherID idDouble = mock(TeacherID.class);
+        Teacher teacher = mock(Teacher.class);
+        Teacher teacherDouble = mock(Teacher.class);
+
+        List<Teacher> teachers = List.of(teacher);
+        _teacherListFactory = () -> teachers;
+
+        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
+        when(teacher.identity()).thenReturn(idDouble);
+
+
+        // Act
+        Optional<TeacherID> result = repository.findTeacherIdByTeacher(teacherDouble);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
 }
