@@ -17,7 +17,7 @@ class ProgrammeDDDFactoryImplTest {
         QuantEcts quantityOfEcts = mock(QuantEcts.class);
         QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        Department department = mock(Department.class);
+        DepartmentID department = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
         //act
