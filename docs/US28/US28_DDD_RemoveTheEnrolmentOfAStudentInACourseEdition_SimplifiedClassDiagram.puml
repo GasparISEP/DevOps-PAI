@@ -101,16 +101,16 @@ class CourseEditionEnrolmentID <<Value Object>> {
 
 
 
-CourseEditionEnrolment "*" --> "_studentID 1" StudentID
-CourseEditionEnrolment "*" --> "_courseEditionID 1    " CourseEditionID
+"CourseEditionEnrolment Aggregate" "*" --> "_studentID 1         " StudentID
+"CourseEditionEnrolment Aggregate" "*" --> "      _courseEditionID 1    " CourseEditionID
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
 US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller "1" ..> "_enrolmentRepo 1" ICourseEditionEnrolmentRepository
-Date "_enrolmentDate 1" <-- "1" CourseEditionEnrolment
-EnrolmentStatus "_isActive 1" <-- "1" CourseEditionEnrolment
-StudentID "_studentID 1" <-- "1" Student
-CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *    " CourseEditionEnrolment
-CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
-CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
+Date "_enrolmentDate 1" <-- "1" "CourseEditionEnrolment Aggregate"
+EnrolmentStatus "_isActive 1" <-- "1" "CourseEditionEnrolment Aggregate"
+StudentID "_studentID 1" <-- "1" "Student Aggregate"
+CourseEditionEnrolmentRepositoryImpl "1"..> " _courseEditionEnrolments*    " "CourseEditionEnrolment Aggregate"
+CourseEditionID "_courseEditionID 1" <-- "1" "CourseEdition Aggregate"
+CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" "CourseEditionEnrolment Aggregate"
 StudentID "_studentID 1" <--  CourseEditionEnrolmentID
 CourseEditionID "_courseEditionID 1" <--  CourseEditionEnrolmentID
 
