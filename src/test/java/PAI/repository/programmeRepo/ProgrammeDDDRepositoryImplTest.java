@@ -517,7 +517,8 @@ class ProgrammeDDDRepositoryImplTest {
     }
 
     @Test
-    public void testGetProgrammesByDegreeTypeID_MatchFound() throws Exception {
+    void shouldReturnListOfProgrammesForProgrammesByDegreeTypeIDMethod_MatchFound() throws Exception {
+        //Arrange
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
@@ -527,16 +528,20 @@ class ProgrammeDDDRepositoryImplTest {
         List<ProgrammeDDD> ListWithProgramme = Arrays.asList(programme);
         when(listFactory.newProgrammeArrayList()).thenReturn(ListWithProgramme);
 
+            //SUT
         IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
 
+        //Act
         List<ProgrammeDDD> result = programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
 
+        //Assert
         assertEquals(1, result.size());
         assertTrue(result.contains(programme));
     }
 
     @Test
-    public void testGetProgrammesByDegreeTypeID_NoMatch() throws Exception {
+    void shouldReturnEmptyListForProgrammesByDegreeTypeIDMethod_NoMatch() throws Exception {
+        //Arrange
         DegreeTypeID searchedID = mock(DegreeTypeID.class);
         DegreeTypeID otherID = mock(DegreeTypeID.class);
         IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
@@ -544,24 +549,31 @@ class ProgrammeDDDRepositoryImplTest {
         ProgrammeDDD programme = mock(ProgrammeDDD.class);
         when(programme.getDegreeTypeID()).thenReturn(otherID);
 
+            //SUT
         IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
 
+        //Act
         List<ProgrammeDDD> result = programmeRepository.getProgrammesByDegreeTypeID(searchedID);
 
+        //Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testGetProgrammesByDegreeTypeID_EmptyRepo() throws Exception {
+    void shouldReturnEmptyListForProgrammesByDegreeTypeIDMethod_EmptyRepo() throws Exception {
+        //Arrange
         DegreeTypeID anyID = mock(DegreeTypeID.class);
 
         IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
 
+            //SUT
         IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
 
+        //Act
         List<ProgrammeDDD> result = programmeRepository.getProgrammesByDegreeTypeID(anyID);
 
+        //Assert
         assertTrue(result.isEmpty());
     }
 }

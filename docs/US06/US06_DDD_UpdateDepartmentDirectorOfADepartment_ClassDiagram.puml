@@ -6,135 +6,146 @@ skinparam nodesep 100
 skinparam linetype ortho
 
 class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
-    +US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(IDepartmentRepository)
-    +updateDepartmentDirector (departmentID: DepartmentID, teacherID: TeacherID) : boolean
-    +getAllDepartments () : Set<Department>
+    + US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentRepository: IDepartmentRepository, teacherRepository: ITeacherRepository)
+    + getAllDepartmentID(): Set<DepartmentID>
+    + updateDepartmentDirector (departmentID: DepartmentID, teacherID: TeacherID) : boolean
 }
 
-package "Department Aggregate" #LightBlue {
-    entity "<<Root>>\n Department" {
-     +Department(departmentID: DepartmentID, name: Name, acronym: Acronym, teacherID: TeacherID)
-     +changeDirector(furtherDirectorID: TeacherID) : boolean
+interface IDepartmentRepository {
+   + getDepartmentIDs(): Set<DepartmentID>
+   + updateOfDepartmentDirector(departmentId: DepartmentID, teacherId: TeacherID): boolean
+}
+
+class DepartmentRepositoryImpl {
+    + DepartmentRepositoryImpl(iDepartmentFactory: IDepartmentFactory, iDepartmentListFactory IDepartmentListFactory)
+    + getDepartmentIDs(): Set<DepartmentID>
+    + updateOfDepartmentDirector(departmentID: DepartmentID, furtherDirectorID: TeacherID): boolean
+}
+
+
+package "Department Aggregate" {
+class Department <<root>> {
+     + Department(acronym: DepartmentAcronym, name: Name, teacherDirector: TeacherID)
+     + changeDirector(furtherDirectorID: TeacherID): boolean
+     + identity(): DepartmentID
     }
 }
 
-class "<<Value Object>>\n DepartmentID" {
-     +DepartmentID ()
-}
-class "<<Value Object>>\n Name" {
-     +Name ()
-}
-class "<<Value Object>>\n Acronym" {
-     +Acronym ()
+class Name <<Value Object >> {
+    -_name: String
+    + Name(name: String)
 }
 
-package "Teacher Aggregate"#LightBlue{
-entity "<<Root>>Teacher" {
-    +Teacher(teacherID: TeacherId, name: Name, email: Email, nif: NIF, phoneNumber: PhoneNumber, academicBackground: AcademicBackground,
-                address: Address, departmentID: DepartmentID)
+class DepartmentAcronym <<Value Object>> {
+    -_acronym: String
+    + DepartmentAcronym(acronym: String)
+}
+
+class DepartmentID <<Value Object>> {
+    + DepartmentID(acronym: DepartmentAcronym)
+    + getAcronym(): DepartmentAcronym
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+package "Teacher Aggregate" {
+class Teacher <<root>> {
+    +Teacher(acronym: TeacherAcronym, name: Name, email: Email , nif: NIF, phoneNumber: PhoneNumber, academicBackground: AcademicBackground,
+                            address: Address, departmentID: DepartmentID) {
     +isInDepartment(departmentID: DepartmentID) :boolean
 }
 }
 
-class "<<Value Object>>\n TeacherID" {
-     +TeacherID()
-}
-class "<<Value Object>>\n NIF" {
-     +nif()
+interface ITeacherRepository {
 }
 
-class "<<Value Object>>\n AcademicBackground" {
-     +AcademicBackground()
-}
-class "<<Value Object>>\n PhoneNumber" {
-     +PhoneNumber()
-}
-class "<<Value Object>>\n Email" {
-     +Email()
+class TeacherRepository {
+  ofIdentity(id: Optional<Teacher>): Optional<Teacher>
 }
 
+class Name <<Value Object>> {
+    -_name: String
+    + Name (name: String)
+}
 
+class Email <<Value Object>> {
+    -_email: String
+    + Email (email: String)
+}
 
-class "<<Value Object>>\n Address" {
+class NIF <<Value Object>> {
+    -_nif: String
+    + NIF (NIF: String, country: Country)
+}
+
+class PhoneNumber <<Value Object>> {
+    + PhoneNumber(countryCode: String, number: String)
+    - _countryCode: String
+    -_number: String
+}
+
+class AcademicBackground <<Value Object>> {
+    -_description: String
+    + AcademicBackground(description: String)
+}
+
+class Address <<Value Object>>{
      +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
 }
 
-class "<<Value Object>>\n Street" {
-     +Street()
+class Street <<Value Object>> {
+     -_street: String
+     +Street(street: String)
 }
 
-class "<<Value Object>>\n PostalCode" {
-     +PostalCode()
+class PostalCode  <<Value Object>> {
+     -_postalCode: String
+     +PostalCode(postalCode: String)
 }
 
-class "<<Value Object>>\n Location" {
-     +Location()
+class Location  <<Value Object>>  {
+     -_locationName: String
+     +Location(locationName: String)
 }
 
-class "<<Value Object>>\n Country" {
-     +Country()
+class Country  <<Value Object>>{
+     -_country: String
+     +Country(country: String)
 }
 
-package "TeacherCategory Aggregate"#LightBlue{
-entity "<<Root>>TeacherCategory" {
-    +TeacherCategory(teacherCategoryID: TeacherCategoryId, name: Name)
-}
-}
-
-class "<<Value Object>>\n TeacherCategoryID" {
-     +TeacherCategoryID ()
-}
-
-interface IDepartmentRepository {
-    +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
-    +DepartmentExists(Department department) :boolean
-}
-
-class DepartmentRepository {
-    +DepartmentRepository(departmentFactoryInterface: DepartmentFactory, departmentListFactoryInterface: DepartmentListFactory )
-    +DepartmentExists(Department department) :boolean
-}
-
-
-class DepartmentRepository {
-    +departmentRepository(departmentFactory : DepartmentFactory, departmentListFactory : DepartmentLisFactory)
-    +updateOfDepartmentDirector (department: Department, furtherDirector: Teacher) :boolean
-    +getAllDepartments () : Set<Department>
-}
-
+class TeacherID <<Value Object>> {
+     + TeacherID (teacherAcronym: TeacherAcronym)
+     + equals(obj: Object): boolean
+     }
 
 US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1          " IDepartmentRepository
-IDepartmentRepository <|.. DepartmentRepository
-"Teacher Aggregate" "1" --> "1  _address" "<<Value Object>>\n Address"
-"Teacher Aggregate" "1" --> "* _teacherCategory" "TeacherCategory Aggregate"
-"Department Aggregate" "_listDepartment *         " <-- "1" DepartmentRepository
+IDepartmentRepository <|.. DepartmentRepositoryImpl
 
 
-
-"Department Aggregate" "1" --> "1 _departmentID" "<<Value Object>>\n DepartmentID"
-"Department Aggregate" "1" --> "1 _acronym" "<<Value Object>>\n Acronym"
-"Department Aggregate" "1" --> "1 _name" "<<Value Object>>\n Name"
-"Department Aggregate" "1" --> "1 _departmentDirector" "<<Value Object>>\n TeacherID"
-
-"Teacher Aggregate" "1" --> "1 _teacherID" "<<Value Object>>\n TeacherID"
-"Teacher Aggregate" "1" --> "1 _name" "<<Value Object>>\n Name"
-"Teacher Aggregate" "1" --> "1 _email" "<<Value Object>>\n Email"
-"Teacher Aggregate" "1" --> "1 _nif" "<<Value Object>>\n NIF"
-"Teacher Aggregate" "1" --> "1 _phoneNumber" "<<Value Object>>\n PhoneNumber"
-"Teacher Aggregate" "1" --> "1 _academicBackground" "<<Value Object>>\n AcademicBackground"
-"Teacher Aggregate" "1..*" --> "1 _departmentID" "<<Value Object>>\n DepartmentID"
+Department "_listDepartment *         " <-- "1" DepartmentRepositoryImpl
+Department "1" --> "1 _name" Name
+Department "1" --> "1 _departmentDirector" TeacherID
+Department "1" --> "1 _departmentId" DepartmentID
+DepartmentID "1" --> "1 _departmentAcronym" DepartmentAcronym
+Department "1" ..> "1" DepartmentAcronym
 
 
+Teacher "1" --> "1 _teacherID" TeacherID
+Teacher "*" --> "1 _departmentID" DepartmentID
+Teacher "1" --> "1 _address" Address
 
+Address "1" -u-> "1 _street" Street
+Address "1" --> "1 _postalCode" PostalCode
+Address "1" --> "1 _location" Location
+Address "1" --> "1 _country" Country
 
-"TeacherCategory Aggregate" "1" --> "1 _teacherCategoryID" "<<Value Object>>\n TeacherCategoryID"
-"TeacherCategory Aggregate" "1" --> "1 _name" "<<Value Object>>\n Name"
+NIF "1" --> "1 _country" Country
+Teacher "1" --> "1 _name" Name
+Teacher "1" --> "1 _email" Email
+Teacher "1" --> "1 _nif" NIF
+Teacher "1" --> "1 _phoneNumber" PhoneNumber
+Teacher "1" --> "_academicBackground" AcademicBackground
 
-
-"<<Value Object>>\n Address" "1" --> "1 _street" "<<Value Object>>\n Street"
-"<<Value Object>>\n Address" "1" --> "1 _postalCode" "<<Value Object>>\n PostalCode"
-"<<Value Object>>\n Address" "1" --> "1 _location" "<<Value Object>>\n Location"
-"<<Value Object>>\n Address" "1" --> "1 _country" "<<Value Object>>\n Country"
-
-
+ITeacherRepository <|.. TeacherRepository
+TeacherRepository "1" --> "* _teachers" Teacher
 @enduml
