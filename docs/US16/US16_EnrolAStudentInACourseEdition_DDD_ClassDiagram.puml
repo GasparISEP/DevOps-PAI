@@ -84,7 +84,7 @@ class "<<Value Object>>\n CourseEditionEnrolmentID" {
 
 package "CourseEditionDDD Aggregate" #LightBlue{
     entity "<<Root>>\n CourseEditionDDD" {
-    +CourseEditionDDD(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID)
+    +CourseEditionDDD(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
     +getProgrammeEditionID() : ProgrammeEditionID
     +identity(): CourseEditionID
     }
@@ -182,7 +182,7 @@ class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
      +toString (): String
 }
 
-interface CourseEditionEnrolmentSet {
+interface Set {
     +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
 }
 
@@ -214,18 +214,17 @@ ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
 IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
 ICourseEditionRepositoryDDD <|.. CourseEditionRepositoryDDDImpl
 
-CourseEditionEnrolmentSet "   1            " -->  "CourseEditionEnrolment Aggregate"
+Set "   1            " -->  "CourseEditionEnrolment Aggregate"
 
 ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
 ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
 
-ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " CourseEditionEnrolmentSet
+ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " Set
 ICourseEditionEnrolmentRepository"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
 ICourseEditionEnrolmentRepository "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
 CourseEditionEnrolmentRepositoryImpl "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
 ICourseEditionEnrolmentFactory "1  " ..> "1  " "CourseEditionEnrolment Aggregate"
-ICourseEditionEnrolmentListFactory "1  " .u.> "1  " CourseEditionEnrolmentSet
-
+ICourseEditionEnrolmentListFactory "1  " .u.> "1  " Set
 
 "CourseEditionEnrolment Aggregate" "1" --> "1 _ceeID""<<Value Object>>\n CourseEditionEnrolmentID"
 "CourseEditionEnrolment Aggregate" "1" --> "                                1 _status      ""<<Value Object>>\n EnrolmentStatus"
