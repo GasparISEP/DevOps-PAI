@@ -1,11 +1,16 @@
 package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
+import PAI.domain.SchoolYear;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
 import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
@@ -34,17 +39,22 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName){
 
-/*        if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
+        Optional<ProgrammeDDD> programmeOpt = _programmeRepository.getProgrammeByName(programmeName);
+        ProgrammeDDD programme = programmeOpt.orElse(null);
 
-        Optional<Programme> programmeOpt = _programmeRepository.getProgrammeByName(programmeName);
-        Programme programme = programmeOpt.orElse(null);
+        ProgrammeID pID;
+        if (programme == null)
+            return false;
+
+        pID = programme.identity();
 
         SchoolYear currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
-        if(currentSchoolYear == null) return false;
+        if(currentSchoolYear == null)
+            return false;
 
-        boolean isCreated = _programmeEditionRepository.createProgrammeEdition(programme, currentSchoolYear);
+        SchoolYearID sYID = currentSchoolYear.identity();
 
-        return isCreated;*/
-        return false;
+        boolean isCreated = _programmeEditionRepository.createProgrammeEdition(pID, sYID);
+        return isCreated;
     }
 }
