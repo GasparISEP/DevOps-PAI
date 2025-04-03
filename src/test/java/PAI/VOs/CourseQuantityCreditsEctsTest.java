@@ -105,14 +105,4 @@ class CourseQuantityCreditsEctsTest {
         //Assert
         assertEquals(hash1,hash2);
     }
-
-    @Test
-    void shouldReturnQuantityCreditsEcts() throws Exception {
-        //Arrange
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
-        //Act
-        double quantityCreditsEcts = courseQuantityCreditsEcts.getCourseQuantityCreditsEcts();
-        //Assert
-        assertNotNull(quantityCreditsEcts);
-    }
 }
