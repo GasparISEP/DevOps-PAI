@@ -2,16 +2,15 @@
 
 skinparam linetype ortho
 
-class US11_RegisterAProgrammeInTheSystem {
-    -_programmeRepository: ProgrammeRepository
-    +US11_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(ProgrammeRepository programmeRepository)
-    +registerProgrammeInTheSystemIncludingStudyPlan(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType, department: Department, programmeDirector: Teacher,
-    programmeCourseListFactory: ProgrammeCourseListFactory, courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory): boolean
-    +addCourseToStudyPlan(semester: int, curricularYear: int, course: Course, programme: Programme): boolean
+class US11_DDD_RegisterAProgrammeInTheSystem {
+    -_programmeDDDList: ProgrammeRepository
+    -_studyPlanDDDRepo: IStudyPlanDDDRepository
+    +US11_DDD_RegisterAProgrammeInTheSystem(IProgrammeDDDRepository programmeDDDList, IStudyPlanDDDRepository studyPlanDDDRepo)
+    +registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+    DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
 }
 
 class "List<Programme>" {}
-
 
 class DepartmentID <<ValueObject>> {}
 class Acronym <<ValueObject>> {
@@ -49,7 +48,7 @@ class QuantSemesters <<ValueObject>> {
 
 package "Programme Aggregate" {
     class "<<root>>\nProgramme" {
-         + Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, DepartmentID departmentID, \nTeacherID programmeDirectorID)
+         + Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, \nDegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID)
          + equals(Object o): boolean
          + isEquals (ProgrammeID programmeID): boolean
          + newProgrammeDirector(TeacherID teacherDirectorID)
@@ -63,54 +62,65 @@ package "Programme Aggregate" {
          + getDegreeTypeID(): DegreeType_ID
          + getDepartmentID(): DepartmentID
          + getProgrammeDirectorID(): TeacherID
+         + identity(): ProgrammeID
+         + sameAs(Object object): boolean
     }
-
-
-
 }
+
 class ProgrammeRepository {
-     -_programmeFactory: ProgrammeFactory
-     -_programmeRepository: List<Programme>
-     -_programmeRepositoryListFactory: ProgrammeRepositoryListFactory
-     +ProgrammeRepository(programmeFactory: ProgrammeFactory)
-     +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType; department : Department,programmeDirector: Teacher): boolean
+     -_I_programmeFactory: IProgrammeDDDFactory
+     -_programmeRepo: List<Programme>
+     -_programmeRepoListFactory: IProgrammeDDDRepositoryListFactory
+     +registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+         DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+         +changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID): boolean
+         +getAllProgrammes(): List<Programme>
+         +getProgrammeByName(NameWithNumbersAndSpecialChars name): Optional<Programme>
+         +getProgrammeByAcronym(Acronym acronym): Programme
+         +getAllProgrammeNames(): List<NameWithNumbersAndSpecialChars>
+         +save(ProgrammeDDD entity): Programme
+         +findAll(): Iterable<Programme>
+         +ofIdentity(ProgrammeID id): Optional<Programme>
+         +containsOfIdentity(ProgrammeID id): boolean
 }
 
 interface IProgrammeRepository {
-    +registerProgramme(): boolean
-    +changeProgrammeDirector(): boolean
+    +registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+    DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+    +changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID): boolean
     +getAllProgrammes(): List<Programme>
     +getProgrammeByName(NameWithNumbersAndSpecialChars name): Optional<Programme>
     +getProgrammeByAcronym(Acronym acronym): Programme
     +getAllProgrammeNames(): List<NameWithNumbersAndSpecialChars>
+    +save(ProgrammeDDD entity): Programme
+    +findAll(): Iterable<Programme>
+    +ofIdentity(ProgrammeID id): Optional<Programme>
+    +containsOfIdentity(ProgrammeID id): boolean
 }
 
 class DegreeType_ID <<ValueObject>> {}
 
 class TeacherID <<ValueObject>> {}
 
-
 interface IProgrammeRepositoryListFactory {
-    +copyProgrammeArrayList(List<Programme> list): List<Programme>
-    +newProgrammeArrayList(): ArrayList<Programme>
+    +newProgrammeArrayList(): List<Programme>
+    +copyProgrammeArrayList(List<ProgrammeDDD> list): List<Programme>
 }
 
 class ProgrammeRepositoryListFactoryImpl {
-    +copyProgrammeArrayList(List<Programme> list): List<Programme>
-    +newProgrammeArrayList(): ArrayList<Programme>
+    +newProgrammeArrayList(): List<Programme>
+    +copyProgrammeArrayList(List<ProgrammeDDD> list): List<Programme>
 }
 
 interface IProgrammeFactory {
-    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID)
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, \nDepartmentID departmentID, TeacherID programmeDirectorID): Programme
 }
 
 class ProgrammeFactoryImpl {
-    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID)
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, \nDepartmentID departmentID, TeacherID programmeDirectorID): Programme
 }
 
-
-US11_RegisterAProgrammeInTheSystem "1" ..> "1" IProgrammeRepository
-
+US11_DDD_RegisterAProgrammeInTheSystem "1" ..> "1" IProgrammeRepository
 
 IProgrammeRepository <|.. ProgrammeRepository
 IProgrammeRepository ..> IProgrammeRepositoryListFactory
@@ -129,5 +139,4 @@ IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "<<root>>\nProgramme" "*" --> "1" Acronym : "has"
 "<<root>>\nProgramme" "*" --> "1" NameWithNumbersAndSpecialChars : "has"
 "<<root>>\nProgramme" "*" --> "1" ProgrammeID : "has"
-
 @enduml

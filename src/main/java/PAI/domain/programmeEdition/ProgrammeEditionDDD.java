@@ -62,4 +62,9 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
             return true;
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return _programmeEditionID.hashCode();
+    }
 }

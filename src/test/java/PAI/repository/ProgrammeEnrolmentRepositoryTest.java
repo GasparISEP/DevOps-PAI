@@ -6,6 +6,9 @@ import PAI.domain.ProgrammeEnrolment;
 import PAI.domain.Student;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.factory.IProgrammeEnrolmentListFactory;
+import PAI.factory.ProgrammeEnrolmentFactoryImpl;
+import PAI.factory.ProgrammeEnrolmentListFactoryImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -136,9 +139,7 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInProgramme() {
         // Arrange
-        Student studentDouble = mock(Student.class);
         StudentID studentIdDouble = mock(StudentID.class);
-        Programme programmeDouble = mock(Programme.class);
         ProgrammeID programmeIdDouble = mock(ProgrammeID.class);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
@@ -173,9 +174,7 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldReturnFalseIfStudentIsNotEnrolledInProgramme() {
         // Arrange
-        Student studentDouble = mock(Student.class);
         StudentID studentIdDouble = mock(StudentID.class);
-        Programme programmeDouble = mock(Programme.class);
         ProgrammeID programmeIdDouble = mock(ProgrammeID.class);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
@@ -353,4 +352,48 @@ class ProgrammeEnrolmentRepositoryTest {
         // Assert
         assertFalse(result);
     }
+
+
+    @Test
+    void shouldReturnOptionalWhenMatchingOfIdentity() {
+
+        IProgrammeEnrolmentFactory factory = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactory = mock(IProgrammeEnrolmentListFactory.class);
+        ProgrammeEnrolmentRepository repository = new ProgrammeEnrolmentRepository(factory, listFactory);
+        ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID();
+        ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
+
+        when(programmeEnrolment.identity()).thenReturn(peID);
+        repository.save(programmeEnrolment);
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repository.ofIdentity(peID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(programmeEnrolment, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenNoMatchingOfIdentity() {
+        // Arrange
+        IProgrammeEnrolmentFactory factory = mock(IProgrammeEnrolmentFactory.class);
+        IProgrammeEnrolmentListFactory listFactory = mock(IProgrammeEnrolmentListFactory.class);
+        ProgrammeEnrolmentRepository repository = new ProgrammeEnrolmentRepository(factory, listFactory);
+        ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID();
+        ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
+
+        when(programmeEnrolment.identity()).thenReturn(peID);
+        repository.save(programmeEnrolment);
+
+        ProgrammeEnrolmentID nonMatchingID = new ProgrammeEnrolmentID();
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repository.ofIdentity(nonMatchingID);
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
 }
+
+

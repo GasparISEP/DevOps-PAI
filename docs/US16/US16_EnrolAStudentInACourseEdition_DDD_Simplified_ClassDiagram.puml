@@ -6,72 +6,64 @@ skinparam classBackgroundColor #E1F5FE
 
 
 class US16_EnrolAStudentInACourseEditionController {
-    +US16_EnrolAStudentInACourseEditionController(_ceeRepositoryInterface: ICourseEditionEnrolmentRepository,
-    peeRepositoryInterface: IProgrammeEditionEnrolmentRepository , courseEditionRepositoryInterface: ICourseEditionRepositoryDDD)
-    +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
-    +findProgrammeEditionsIDThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionId>
-    +findCourseEditionsIDByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionId>
+    +US16_EnrolAStudentInACourseEditionController\n(_ceeRepositoryInterface: ICourseEditionEnrolmentRepository,
+    peeRepositoryInterface: IProgrammeEditionEnrolmentRepository,\n courseEditionRepositoryInterface: ICourseEditionRepositoryDDD)
+    +enrolStudentInCourseEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +findProgrammeEditionIDsThatStudentIsEnrolled\n(studentId: StudentID): List<ProgrammeEditionID>
+    +findCourseEditionIDsByProgrammeEdition\n(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
 }
 
 interface ICourseEditionEnrolmentRepository {
-    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
-    +isStudentEnrolledInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
-    +findByStudentAndEdition(studentId: StudentID, courseEditionId: CourseEditionID): Optional<CourseEditionEnrolment>
-    +numberOfStudentsEnrolledInCourseEdition(courseEditionId: CourseEditionID): int
-    +removeEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): boolean
-    +enrolStudentInProgrammeCourseEditions(studentId: StudentID, List<CourseEditionID> courseEditions)
+    +enrolStudentInACourseEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): boolean
 }
 
 class CourseEditionEnrolmentRepositoryImpl {
-    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    +CourseEditionEnrolmentRepository\n(courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
     courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
-    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +enrolStudentInACourseEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): boolean
 }
 
 interface IProgrammeEditionEnrolmentRepository {
-     +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+     +findProgrammeEditionsThatStudentIsEnrolled\n(studentId: StudentID): List<ProgrammeEditionID>
 }
 
 class ProgrammeEditionEnrolmentRepositoryImpl {
-    +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory)
-    +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+    +ProgrammeEditionEnrolmentRepository\n(programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory,
+    programmeEditionEnrolmentListFactory: IProgrammeEditionEnrolmentListFactory)
+    +findProgrammeEditionsThatStudentIsEnrolled\n(studentId: StudentID): List<ProgrammeEditionID>
 }
 
 interface ICourseEditionRepositoryDDD {
-          +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEditionID>
+     +findCourseEditionsByProgrammeEdition\n(programmeEditionId: ProgrammeEditionID):\n List<CourseEditionID>
 }
 
 class CourseEditionRepositoryDDDImpl {
-    +CourseEditionRepository(courseEditionFactory: ICourseEditionFactoryDDD, courseEditionListFactory: ICourseEditionListFactoryDDD)
-    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEditionID>
+    +CourseEditionRepository\n(courseEditionFactory: ICourseEditionFactoryDDD,\n courseEditionListFactory: ICourseEditionListFactoryDDD)
+    +findCourseEditionsByProgrammeEdition\n(programmeEditionId: ProgrammeEditionID):\n List<CourseEditionID>
 }
 
 interface ICourseEditionEnrolmentListFactory{
-    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+    +getCourseEditionEnrolmentList():\n Set<CourseEditionEnrolment>
 }
 
 class CourseEditionEnrolmentListFactoryImpl {
-    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+    +getCourseEditionEnrolmentList():\n Set<CourseEditionEnrolment>
 }
 
 interface ICourseEditionEnrolmentFactory{
-    +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+    +createCourseEditionEnrolment\n(studentId: StudentID, courseEditionId: CourseEditionID):\n CourseEditionEnrolment
 }
 
 class CourseEditionEnrolmentFactoryImpl{
-    +createCourseEditionEnrolment(studentId: StudentId, courseEditionId: CourseEditionID): CourseEditionEnrolment
+    +createCourseEditionEnrolment\n(studentId: StudentID, courseEditionId: CourseEditionID):\n CourseEditionEnrolment
 }
 
 package "CourseEditionEnrolment Aggregate" #LightBlue {
     entity "<<Root>>\n CourseEditionEnrolment" {
-             -CourseEditionEnrolmentId _courseEditionEnrolmentId
-             -CourseEditionId _courseEditionId
-             -StudentID _studentId
-             -Date _localDate
-             +CourseEditionEnrolment(studentId:StudentID,
-              courseEdition: CourseEditionID)
+             +CourseEditionEnrolment(studentId:StudentID,\n courseEditionId: CourseEditionID)
              +equals (obj: Object): boolean
              +hashCode(): int
+             +sameAs(obj: Object): boolean
     }
 }
 
@@ -80,30 +72,22 @@ This is the Aggregate Root of CourseEditionEnrolment.
 And has it's Value Objects and ID's represented as attributes
 end note
 
-package "CourseEdition Aggregate" #LightBlue{
-    entity "<<Root>>\n CourseEdition" {
-    -CourseEditionID _courseEditionId
-    +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID)
-    +whatProgrammeEditionBelongsThisCourseEdition () : ProgrammeEditionID
+package "CourseEditionDDD Aggregate" #LightBlue{
+    entity "<<Root>>\n CourseEditionDDD" {
+    +CourseEditionDDD(\n programmeEditionId: ProgrammeEditionID,\n courseInStudyPlanId: CourseInStudyPlanID)
+    +getProgrammeEditionID():\n ProgrammeEditionID
+    +identity(): CourseEditionID
     }
 }
 
-note right of "CourseEdition Aggregate"
+note right of "CourseEditionDDD Aggregate"
 This is the Aggregate Root of CourseEdition.
 And has it's Values Objects and ID's represented as attributes.
 end note
 
 package "Student Aggregate" #LightBlue{
     entity "<<Root>>\n Student" {
-    -StudentID _uniqueNumber
-    -Name _name
-    -NIF _NIF
-    -PhoneNumber _countryCode, _number
-    -Email _email
-    -Address _street, _country, _postalCode, _location
-    +Student(studentID: StudentID, name: Name,
-    NIF: NIF, phone: PhoneNumber, email: Email, address: Address,
-    academicEmail: StudentAcademicEmail)
+    +Student(studentID: StudentID,\n name: Name,\n NIF: NIF,\n phone: PhoneNumber,\n email: Email,\n address: Address,\n academicEmail: StudentAcademicEmail)
     }
 }
 
@@ -114,12 +98,10 @@ end note
 
 package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
     entity "<<Root>>\n ProgrammeEditionEnrolment" {
-    -_programmeEditionId: ProgrammeEditionID
-    -_studentId: StudentID
-    -localDate: Date
-    +ProgrammeEditionEnrolment(student:Student, programmeEdition: ProgrammeEdition)
-    +findStudentInProgrammeEdition () : StudentID
-    +findProgrammeEditionInEnrolment () : ProgrammeEditionID
+    +ProgrammeEditionEnrolment(\nstudentId: StudentID,
+    programmeEditionId: ProgrammeEditionID)
+    +findStudentInProgrammeEdition(): StudentID
+    +findProgrammeEditionInEnrolment(): ProgrammeEditionID
     }
 }
 
@@ -129,7 +111,8 @@ And has it's VO's and ID's represented as attributes
 end note
 
 interface CourseEditionEnrolmentSet {
-    +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
+    +add(courseEditionEnrolment:
+    CourseEditionEnrolment): boolean
 }
 
 
@@ -137,9 +120,9 @@ US16_EnrolAStudentInACourseEditionController "1   ".u.> "1    " ICourseEditionRe
 US16_EnrolAStudentInACourseEditionController "1  "..> "1       " IProgrammeEditionEnrolmentRepository
 US16_EnrolAStudentInACourseEditionController "1   "..> "  1    " ICourseEditionEnrolmentRepository
 
-"CourseEditionDDD Aggregate" "_listOfCE * " <-- "1   " ICourseEditionRepositoryDDDImpl
+"CourseEditionDDD Aggregate" "_listOfCE * " <-- "1   " CourseEditionRepositoryDDDImpl
 
-"ProgrammeEditionEnrolment Aggregate" " *    " <-- "1   " IProgrammeEditionEnrolmentRepositoryImpl
+"ProgrammeEditionEnrolment Aggregate" " *    " <-- "1   " ProgrammeEditionEnrolmentRepositoryImpl
 
 ICourseEditionEnrolmentRepository <|.u. CourseEditionEnrolmentRepositoryImpl
 IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
