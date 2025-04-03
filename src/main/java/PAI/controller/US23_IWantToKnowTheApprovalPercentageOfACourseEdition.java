@@ -24,7 +24,7 @@ public class US23_IWantToKnowTheApprovalPercentageOfACourseEdition {
 
 
 
-    public double IWantToKnowTheApprovalPercentageOfACourseEdition(CourseEditionDDD courseEdition){
+    public double CalculateApprovalPercentageOfACourseEdition(CourseEditionDDD courseEdition){
         return _StudentGradeRepository.knowApprovalRate(findCourseEditionIdByCourseEdition(courseEdition).get());
     }
 }
