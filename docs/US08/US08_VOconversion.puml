@@ -1,0 +1,63 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+title Diagram Referenced in US08_SequenceDiagram
+
+actor ASC
+participant "sID:StudentID" as studentID #implementation
+participant "name1:Name" as name #motivation
+participant "nif1:NIF" as NIF #physical
+participant "phone1:Phone" as phone #technology
+participant "email1:Email" as email #business
+participant "street1:Street" as street #strategy
+participant "pc1:PostalCode" as postalCode #application
+participant "l1:Location" as location #implementation
+participant "c1:Country" as country #motivation
+participant "aE1:StudentAcademicEmail" as academicEmail #physical
+
+ASC --> studentID : create StudentID VO (uniqueNumber)
+activate studentID
+studentID --> ASC : studentID VO
+deactivate studentID
+
+ASC --> name : create Name VO (name)
+activate name
+name --> ASC : name VO
+deactivate name
+
+ASC --> phone : create Phone VO (phone)
+activate phone
+phone --> ASC : phone VO
+deactivate phone
+
+ASC --> email : create Email VO (email)
+activate email
+email --> ASC : email VO
+deactivate email
+
+ASC --> street : create Street VO (street)
+activate street
+street --> ASC : Street VO
+deactivate street
+
+ASC --> postalCode : create PostalCode VO (postalCode)
+activate postalCode
+postalCode --> ASC : PostalCode VO
+deactivate postalCode
+
+ASC --> location : create Location VO (location)
+activate location
+location --> ASC : Location VO
+deactivate location
+
+ASC --> country : create Country VO (country)
+activate country
+country --> ASC : Country VO
+deactivate country
+
+ASC --> academicEmail : create StudentAcademicEmail VO (academicEmail)
+activate academicEmail
+academicEmail --> ASC : StudentAcademicEmail VO
+deactivate academicEmail
+
+@enduml
