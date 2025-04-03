@@ -1,0 +1,90 @@
+@startuml
+!pragma layout smetana
+'left to right direction
+
+class US04_IWantToRegisterATeacherInTheSystemController {
+        +US04_IWantToRegisterATeacherInTheSystemController(TeacherRepository teacherRepository,
+        teacherCategoryRepository: TeacherCategoryRepository, departmentRepository: DepartmentRepository)
+        +registerATeacherInTheSystem(acronym: String, name: String , email:  String , nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+        country: String, date: String, category: TeacherCategory, workingPercentage: int, department: Department, careerProgressionFactory: TeacherCareerProgressionFactory)
+}
+
+class Teacher {
+     -_acronym:String
+     -_name:String
+     -_email:String
+     -_nif:String
+     -_phoneNumber:String
+     -_academicBackground:String
+     +Teacher(acronym: String, name:String, email: String, nif: String, phoneNumber:String, academicBackground: String, street: String, postalCode: String, location: String,
+     country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory)
+     +hasSameAcronym(teacher: Teacher) : boolean
+     +hasSameNif(teacher: Teacher) : boolean
+}
+
+class TeacherRepository {
+    +TeacherRepository(teacherFactory: TeacherFactory, teacherListFactory : TeacherListFactory)
+    +registerTeacher(acronym: String, name: String, email: String, nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+    country: String, date: String, teacherCategory: TeacherCategory, workingPercentage: int, department: Department, teacherCareerProgressionFactory: TeacherCareerProgressionFactory) : boolean
+}
+
+class TeacherFactory {
+    +createTeacher(acronym: String, name: String , email:  String , nif: String, phoneNumber: String, academicBackground: String, street: String, postalCode: String, location: String,
+    country: String, date: String, category: TeacherCategory, workingPercentage: int, department: Department, careerProgressionFactory: TeacherCareerProgressionFactory)
+}
+
+class DepartmentRepository {
+    +DepartmentRepository (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
+    +departmentExists(department: Department): boolean
+}
+
+class TeacherCategory {
+    -_name:String
+    +TeacherCategory (name : String)
+    +getName(): String
+}
+
+class TeacherCategoryRepository {
+    +TeacherCategoryRepository (teacherCategoryFactory : TeacherCategoryFactory, teacherCategoryListFactory : TeacherCategoryListFactory)
+    +getTeacherCategoryByName(name: String) : Optional<TeacherCategory>
+}
+
+class Address {
+    -_street : String
+    -_postalCode : String
+    -_location : String
+    -_country : String
+    +Address (street : String, postalCode : String, location : String, country : String)
+}
+
+class AddressFactory {
+    + createAdress (street : String, postalCode : String, location : String, country : String )
+}
+
+class Department {
+    +Department (departmentFactory : DepartmentFactory, departmentListFactory : DepartmentListFactory)
+}
+
+class ArrayList {
+    +add() : boolean
+}
+
+class TeacherListFactory {
+    +newArrayList() : ArrayList<Teacher>
+}
+
+
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1" TeacherCategoryRepository
+US04_IWantToRegisterATeacherInTheSystemController "1" ..> "1    " DepartmentRepository
+TeacherRepository "   1    " -u-> " _teacherFactory  1     " TeacherFactory
+Teacher "_teacher 1                   " <-- "1 " TeacherFactory
+TeacherCategory "                   * _teacherCategoryList  " <-- "1" TeacherCategoryRepository
+Teacher "       *  " --> "1  _ teacherCategory " TeacherCategory
+Teacher "1" --> "1 _addressFactory     " AddressFactory
+AddressFactory "1" --> "_address 1    " Address
+Teacher "*" --> "1               " Department
+TeacherRepository "1" ..> "   * _teacher            "Teacher
+TeacherRepository "1" ..> "_teacherListFactory 1" TeacherListFactory
+TeacherListFactory "1" ..> " _arrayList 1  "ArrayList
+@enduml

@@ -1,0 +1,60 @@
+@startuml
+
+title US04: Register a Teacher in the System
+
+actor Administrator
+participant ":UI" as UI
+participant ":US04_IWantToRegisterATeacherInTheSystemController" as Controller
+participant ":TeacherCategoryRepository" as TeacherCategoryRepository
+participant ":DepartmentRepository" as DepartmentRepository
+participant ":TeacherRepository" as TeacherRepository
+participant ":TeacherFactory" as TeacherFactory
+participant "t1:Teacher" as Teacher
+participant "t[i]:Teacher" as TeacherI
+
+Administrator -> UI : I want to register a teacher in the system.
+activate UI
+UI --> Administrator: What data: acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, date, category, workingPercentage, department?
+deactivate UI
+Administrator -> UI: Enter data: acronym, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, date, category, workingPercentage, department!
+activate UI
+UI --> Administrator : Sure?
+deactivate UI
+Administrator -> UI: Yes!
+activate UI
+UI -> Controller : registerATeacherInTheSystem(acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
+activate Controller
+Controller -> TeacherCategoryRepository : isCategoryInTeacherCategoryRepository(category)
+activate TeacherCategoryRepository
+TeacherCategoryRepository -->Controller : True!
+deactivate TeacherCategoryRepository
+Controller -> DepartmentRepository : isDepartmentInDepartmentRepository(category)
+activate DepartmentRepository
+DepartmentRepository -->Controller : True!
+deactivate DepartmentRepository
+Controller -> TeacherRepository: registerTeacher(acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
+activate TeacherRepository
+
+TeacherRepository -> TeacherFactory: createTeacher (acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
+activate TeacherFactory
+TeacherFactory -> Teacher **: createTeacher (acronym,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,date,category,workingPercentage,department)
+activate Teacher
+Teacher -> Teacher: isValid
+Teacher --> TeacherFactory: t1
+deactivate Teacher
+TeacherFactory --> TeacherRepository: t1
+deactivate TeacherFactory
+loop for each Teacher t[i] in TeacherRepository
+TeacherRepository -> TeacherI: compareTeacherAcronymAndNifInList (t1:Teacher)
+activate TeacherI
+TeacherI --> TeacherRepository: Acronym and NIF are not in the list
+deactivate TeacherI
+end
+TeacherRepository -> TeacherRepository: add (t1:Teacher)
+TeacherRepository --> Controller : True!
+deactivate TeacherRepository
+Controller --> UI : True!
+deactivate Controller
+UI -->Administrator : OK!
+deactivate UI
+@enduml
