@@ -4,6 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.factory.ITeacherFactory;
+import PAI.factory.ITeacherListFactory;
 import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
@@ -593,6 +595,7 @@ class ProgrammeDDDRepositoryImplTest {
         ProgrammeID id = mock(ProgrammeID.class);
         repository.save(programmeDDD);
         when(programmeDDD.identity()).thenReturn(id);
+        when(programmeDDD.sameAs(programmeDDD)).thenReturn(true);
 
         // Act
         Optional<ProgrammeID> result = repository.findProgrammeIdByProgramme(programmeDDD);
@@ -619,6 +622,41 @@ class ProgrammeDDDRepositoryImplTest {
 
         // Act
         Optional<ProgrammeID> result = repository.findProgrammeIdByProgramme(programmeDDD1);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldNotReturnIdWhenProgrammeDoesntExistsInList() throws Exception {
+        // Arrange
+        IProgrammeDDDFactory programmeFactory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory programmeListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        List<ProgrammeDDD> programmeList = new ArrayList<>();
+        when(programmeListFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeDDDRepositoryImpl repository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeListFactory);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts quantEcts = mock(QuantEcts.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        when(programme.identity()).thenReturn(programmeID);
+
+
+        when(programmeFactory.registerProgramme(name,acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID)).thenReturn(programme);
+        when(programme.sameAs(any())).thenReturn(false);
+
+        // Act
+        repository.registerProgramme(name,acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Optional<ProgrammeID> result = repository.findProgrammeIdByProgramme(programme);
 
         // Assert
         assertTrue(result.isEmpty());
