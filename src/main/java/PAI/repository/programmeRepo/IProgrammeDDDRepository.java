@@ -16,4 +16,6 @@ public interface IProgrammeDDDRepository extends IRepository <ProgrammeID, Progr
     List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception;
     Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) throws Exception;
     boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception;
+
+    List<ProgrammeID> getAllProgrammesIDs();
 }

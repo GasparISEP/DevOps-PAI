@@ -96,4 +96,13 @@ public class CourseEditionRepositoryDDDImpl implements ICourseEditionRepositoryD
         }
         return Optional.empty();
     }
+
+    public ProgrammeEditionID findWhichProgrammeEditionBelongsToACourseEdition(CourseEditionDDD courseEdition) throws Exception {
+        for (CourseEditionDDD courseEdition1 : _courseEditions)
+            if (courseEdition1.equals(courseEdition)) {
+                return courseEdition1.getProgrammeEditionID();
+            }
+
+        throw new Exception("The course edition does not belong to the course Edition Repository.");
+    }
 }
