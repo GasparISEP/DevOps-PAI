@@ -149,7 +149,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(iStudentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.iWantToGradeAStudent(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
+        boolean result = controller.registerStudentGrade(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
 
         //assert
         assertTrue(result);
@@ -178,7 +178,7 @@ class US22_IWantToGradeAStudentInACourseEditionTest {
         when(iStudentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.iWantToGradeAStudent(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
+        boolean result = controller.registerStudentGrade(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
 
         //assert
         assertFalse(result);
