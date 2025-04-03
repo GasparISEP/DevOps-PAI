@@ -335,6 +335,27 @@ class ProgrammeEnrolmentTest {
 
         //Assert
         assertTrue(result);
+        assertNotNull(pe1.identity());
+    }
+
+    @Test
+    void shouldReturnTrueForSameObjectsProgrammeEnrolmentTest() {
+        //Arrange
+        createDoubles();
+        ProgrammeEnrolment pe1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment pe2 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentID peID1 = mock(ProgrammeEnrolmentID.class);
+        ProgrammeEnrolmentID peID2 = mock(ProgrammeEnrolmentID.class);
+
+        when(pe1.identity()).thenReturn(peID1);
+        when(pe2.identity()).thenReturn(peID2);
+        when(pe1.sameAs(pe2)).thenReturn(true);
+
+        //Act
+        boolean result = pe1.sameAs(pe1);
+
+        //Assert
+        assertFalse(result);
     }
 
     @Test
@@ -365,6 +386,43 @@ class ProgrammeEnrolmentTest {
 
         //Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseForDifferentProgrammeEnrolmentsTest() {
+        //Arrange
+        createDoubles();
+
+        ProgrammeEnrolment pe1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment pe2 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentID differentID = mock(ProgrammeEnrolmentID.class);
+        when(pe2.sameAs(differentID)).thenReturn(false);
+
+        //Act
+        boolean result = pe1.sameAs(pe2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseInSameAsForDifferentProgrammeEnrolmentsTest() {
+        //Arrange
+        createDoubles();
+
+        ProgrammeEnrolment pe1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment pe2 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentID differentID = mock(ProgrammeEnrolmentID.class);
+        ProgrammeEnrolmentID differentID2 = mock(ProgrammeEnrolmentID.class);
+        when(pe1.identity()).thenReturn(differentID);
+        when(pe2.identity()).thenReturn(differentID2);
+
+        //Act
+        boolean result = pe1.sameAs(pe2);
+
+        //Assert
+        assertFalse(result);
+        assertEquals(differentID, pe1.identity());
     }
 
     @Test
@@ -408,5 +466,12 @@ class ProgrammeEnrolmentTest {
 
         // Assert
         assertNull(result);
+    }
+
+    @Test
+    public void testEquals_DifferentUUID() {
+        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID();
+        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID();
+        assertNotEquals(id1, id2);
     }
 }
