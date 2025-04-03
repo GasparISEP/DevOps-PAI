@@ -1,5 +1,6 @@
 package PAI.VOs;
 
+import PAI.domain.course.CourseDDD;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class PhoneNumberTest {
 
@@ -172,5 +176,112 @@ class PhoneNumberTest {
 
         //assert
         assertNotNull(phoneNumber);
+    }
+
+    @Test
+    void shouldReturnTrueEqualsWhenComparedWithSameObject() throws Exception {
+        //Arrange
+        String countryCode = "+351";
+        String number = "999999999";
+
+        PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
+
+        //Act
+        boolean result = phoneNumberTest.equals(phoneNumberTest);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseForEqualsWithNullObjectToCompare() throws Exception {
+        //Arrange
+        String countryCode = "+351";
+        String number = "999999999";
+
+        PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
+        //Act
+        boolean result = phoneNumberTest.equals(null);
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueEqualsWhenComparedWithSameInstanceOfObject() throws Exception{
+        //Arrange
+        String countryCode = "+351";
+        String number = "999999999";
+
+        PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
+        PhoneNumber phoneNumberTest2 = new PhoneNumber(countryCode,number);
+        //Act
+        boolean result = phoneNumberTest.equals(phoneNumberTest2);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueForEqualsOfPhoneNumberWithSameParameters() throws Exception{
+        //Arrange
+        String countryCode = "+351";
+        String number = "999999999";
+
+        PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
+        PhoneNumber phoneNumberTest2 = new PhoneNumber(countryCode,number);
+        //Act
+        boolean result = phoneNumberTest.equals(phoneNumberTest2);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfClassesAreDifferent() throws Exception{
+        //Arrange
+        String countryCode = "+351";
+        String number = "999999999";
+
+        PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
+        CourseDDD courseDDD = mock(CourseDDD.class);
+
+        //Act
+        boolean result = phoneNumberTest.equals(courseDDD);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCountryCodeAreNotTheSame() throws Exception {
+        //Arrange
+        String countryCode = "+351";
+        String countryCode2 = "+352";
+        String number = "999999999";
+
+        PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
+        PhoneNumber phoneNumberTest2 = new PhoneNumber(countryCode2,number);
+
+        //Act
+        boolean result = phoneNumberTest.equals(phoneNumberTest2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNumbersAreNotTheSame() throws Exception {
+        //Arrange
+        String countryCode = "+351";
+        String number = "999999999";
+        String number2 = "999999998";
+
+        PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
+        PhoneNumber phoneNumberTest2 = new PhoneNumber(countryCode,number2);
+
+        //Act
+        boolean result = phoneNumberTest.equals(phoneNumberTest2);
+
+        //Assert
+        assertFalse(result);
     }
 }
