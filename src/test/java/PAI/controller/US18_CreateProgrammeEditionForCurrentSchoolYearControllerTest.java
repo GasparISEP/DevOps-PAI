@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
+    //Constructor Tests
     @Test
     void shouldCreateController() throws Exception {
         // Arrange
@@ -65,6 +66,28 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Assert
         assertEquals("Programme Edition Repository cannot be null", exception.getMessage());
     }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD ProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+
+        ISchoolYearRepository schoolYearRepository = null;
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository, schoolYearRepository, programmeRepository);});
+
+        // Assert
+        assertEquals("School Year Repository cannot be null", exception.getMessage());
+    }
+
+
 
     @Test
     void shouldCreateProgrammeEditionMock() {

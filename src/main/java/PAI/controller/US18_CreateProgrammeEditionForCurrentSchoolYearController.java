@@ -17,6 +17,8 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
         if (programmeEditionRepository == null)
             throw new Exception("Programme Edition Repository cannot be null");
+        if (schoolYearRepository == null)
+            throw new Exception("School Year Repository cannot be null");
 
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
