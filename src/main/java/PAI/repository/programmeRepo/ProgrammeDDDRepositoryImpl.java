@@ -105,12 +105,7 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     @Override
     public boolean containsOfIdentity(ProgrammeID id) {
-        for (ProgrammeDDD existingProgrammeDDD : _programmeRepo) {
-            if (existingProgrammeDDD.identity().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return ofIdentity(id).isPresent();
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) {
