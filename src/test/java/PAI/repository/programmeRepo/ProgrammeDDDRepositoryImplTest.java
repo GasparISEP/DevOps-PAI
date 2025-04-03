@@ -1,19 +1,13 @@
 package PAI.repository.programmeRepo;
 
 import PAI.VOs.*;
-import PAI.domain.*;
 import PAI.domain.programme.IProgrammeDDDFactory;
 import PAI.domain.programme.ProgrammeDDD;
-import PAI.domain.studyPlan.IStudyPlanDDDFactory;
-import PAI.domain.studyPlan.StudyPlanDDD;
-import PAI.factory.ProgrammeRepositoryListFactoryImpl;
-import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
-import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
-import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
@@ -520,5 +514,54 @@ class ProgrammeDDDRepositoryImplTest {
         ProgrammeID id = mock(ProgrammeID.class);
 
         assertFalse(repository.containsOfIdentity(id));
+    }
+
+    @Test
+    public void testGetProgrammesByDegreeTypeID_MatchFound() throws Exception {
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
+
+        List<ProgrammeDDD> ListWithProgramme = Arrays.asList(programme);
+        when(listFactory.newProgrammeArrayList()).thenReturn(ListWithProgramme);
+
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+
+        List<ProgrammeDDD> result = programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
+
+        assertEquals(1, result.size());
+        assertTrue(result.contains(programme));
+    }
+
+    @Test
+    public void testGetProgrammesByDegreeTypeID_NoMatch() throws Exception {
+        DegreeTypeID searchedID = mock(DegreeTypeID.class);
+        DegreeTypeID otherID = mock(DegreeTypeID.class);
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        when(programme.getDegreeTypeID()).thenReturn(otherID);
+
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+
+        List<ProgrammeDDD> result = programmeRepository.getProgrammesByDegreeTypeID(searchedID);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetProgrammesByDegreeTypeID_EmptyRepo() throws Exception {
+        DegreeTypeID anyID = mock(DegreeTypeID.class);
+
+        IProgrammeDDDFactory factory = mock(IProgrammeDDDFactory.class);
+        IProgrammeDDDRepositoryListFactory listFactory = mock(IProgrammeDDDRepositoryListFactory.class);
+
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(factory, listFactory);
+
+        List<ProgrammeDDD> result = programmeRepository.getProgrammesByDegreeTypeID(anyID);
+
+        assertTrue(result.isEmpty());
     }
 }

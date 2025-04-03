@@ -33,6 +33,16 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         return true;
     }
 
+    @Override
+    public List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) {
+        List <ProgrammeDDD> programmeList = new ArrayList<>();
+        for (ProgrammeDDD programmeDDD : _programmeRepo) {
+            if (programmeDDD.getDegreeTypeID().equals(degreeTypeID))
+                programmeList.add(programmeDDD);
+        }
+        return programmeList;
+    }
+
     // Change ProgrammeDirector
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
         Optional<ProgrammeDDD> programmeDDD = ofIdentity(programmeID);
