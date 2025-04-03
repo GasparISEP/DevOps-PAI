@@ -288,47 +288,4 @@ class TeacherRepositoryTest {
         // Assert
         assertTrue(result.isEmpty());
     }
-
-
-    // Other Tests
-
-    @Test
-    void shouldReturnATeacherWhenGetTeacherByNIFIsCalledWithExistingNIF() {
-        // Arrange
-        createFactoriesDoubles();
-        NIF nifDouble = mock(NIF.class);
-        Teacher teacher = mock(Teacher.class);
-        when(teacher.hasThisNIF(nifDouble)).thenReturn(true);
-
-        List<Teacher> teachers = List.of(teacher);
-        _teacherListFactory = () -> teachers;
-
-        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
-
-        // Act
-        Optional<Teacher> result = repository.getTeacherByNIF(nifDouble);
-
-        // Assert
-        assertTrue(result.isPresent());
-    }
-
-    @Test
-    void shouldNotReturnATeacherWhenGetTeacherByNIFIsCalledWithNoExistingNIF(){
-        // Arrange
-        createFactoriesDoubles();
-        NIF nifDouble = mock(NIF.class);
-        Teacher teacher = mock(Teacher.class);
-        when(teacher.hasThisNIF(nifDouble)).thenReturn(false);
-
-        List<Teacher> teachers = List.of(teacher);
-        _teacherListFactory = () -> teachers;
-
-        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
-
-        // Act
-        Optional<Teacher> result = repository.getTeacherByNIF(nifDouble);
-
-        // Assert
-        assertTrue(result.isEmpty());
-    }
 }

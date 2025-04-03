@@ -56,4 +56,13 @@ public class TeacherCategoryRepositoryImpl implements ITeacherCategoryRepository
         return categories.stream()
                 .anyMatch(c -> c.getName().equals(name));
     }
+
+    public Optional<TeacherCategoryID> getTeacherCategoryIDFromName (Name name) {
+        for (TeacherCategory category : categories) {
+            if (category.getName().equals(name)) {
+                return Optional.of(category.getId());
+            }
+        }
+        return Optional.empty();
+    }
 }

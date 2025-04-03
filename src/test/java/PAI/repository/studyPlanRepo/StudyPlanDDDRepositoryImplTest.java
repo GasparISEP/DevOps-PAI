@@ -316,4 +316,40 @@ public class StudyPlanDDDRepositoryImplTest {
 
         assertFalse(repository.containsOfIdentity(id));
     }
+
+
+    @Test
+    void shouldReturnStudyPlanIDFromLastStudyPlanByProgrammeID() {
+        // Arrange
+        IStudyPlanDDDFactory studyPlanFactoryDouble = mock(IStudyPlanDDDFactory.class);
+        IStudyPlanDDDListFactory listFactoryDouble = mock(IStudyPlanDDDListFactory.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+
+        List<StudyPlanDDD> listOfStudyPlan = new ArrayList<>();
+        when(listFactoryDouble.newArrayList()).thenReturn(listOfStudyPlan);
+
+        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(studyPlanFactoryDouble, listFactoryDouble);
+
+        StudyPlanDDD studyPlan1Double = mock(StudyPlanDDD.class);
+        StudyPlanDDD studyPlan2Double = mock(StudyPlanDDD.class);
+
+        when(studyPlan1Double.getProgrammeID()).thenReturn(programmeIDDouble);
+        when(studyPlan2Double.getProgrammeID()).thenReturn(programmeIDDouble);
+
+        StudyPlanID studyPlanID1Double = mock(StudyPlanID.class);
+        StudyPlanID studyPlanID2Double = mock(StudyPlanID.class);
+
+        when(studyPlan1Double.identity()).thenReturn(studyPlanID1Double);
+        when(studyPlan2Double.identity()).thenReturn(studyPlanID2Double);
+
+
+        listOfStudyPlan.add(studyPlan1Double);
+        listOfStudyPlan.add(studyPlan2Double);
+
+        // Act
+        StudyPlanID result = repository.getLatestStudyPlanIDByProgrammeID(programmeIDDouble);
+
+        // Assert
+        assertEquals(studyPlanID2Double, result);
+    }
 }

@@ -20,6 +20,10 @@ class "<<Value Object>>\n TeacherIDVO" {
         -ID: TeacherAcronym
     }
 
+class "<<Value Object>>\n TeacherAcronymVO" {
+        -teacherAcronym: String
+    }
+
 
 package "TeacherCareerProgression Aggregate" {
     entity "<<Root>>\n <<Entity>>\nTeacherCareerProgression" {
@@ -40,8 +44,18 @@ package "TeacherCareerProgression Aggregate" {
     }
 
     class "<<Value Object>>\n WorkingPercentageVO" {
-              -workingPercentage: int
+          -workingPercentage: int
    }
+
+class "<<Value Object>>\n TeacherCategoryIDVO" {
+                -ID: UUID
+}
+
+package "TeacherCategory Aggregate" {
+    entity "<<Root>>\n <<Entity>>\nTeacherCategory" {
+        + getName()
+    }
+}
 
 class TeacherCareerProgressionRepositoryImpl {
     +updateTeacherCategoryInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
@@ -52,12 +66,6 @@ class TeacherCareerProgressionRepositoryImpl {
 class TeacherRepository {
     +findAll()
     +containsOfIdentity()
-}
-
-package "TeacherCategory Aggregate" {
-    entity "<<Root>>\n <<Entity>>\nTeacherCategory" {
-        + identity()
-    }
 }
 
 interface ITeacherCareerProgressionRepository {
@@ -71,8 +79,14 @@ interface ITeacherRepository {
     +containsOfIdentity()
 }
 
-class "<<Value Object>>\n TeacherCategoryIDVO" {
-                -ID: UUID
+interface ITeacherCategoryRepository {
+    +findAll()
+    +getTeacherCategoryIDFromName(name: Name)
+}
+
+class TeacherCategoryRepositoryImpl {
+    +findAll()
+    +getTeacherCategoryIDFromName(name: Name)
 }
 
 class TeacherCareerProgressionFactoryImpl {
@@ -96,9 +110,10 @@ interface ITeacherCareerProgressionListFactory {
 class List<TeacherCareerProgression> {
 }
 
-US14_UpdateTeacherCategoryController "1" ..> "_teacherRepository \n 1" ITeacherRepository
-US14_UpdateTeacherCategoryController "1" .r.> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
-"<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <-r- "1" ITeacherRepository
+US14_UpdateTeacherCategoryController "1" -d-> "_teacherRepository \n 1" ITeacherRepository
+US14_UpdateTeacherCategoryController "1" -l-> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
+US14_UpdateTeacherCategoryController "1" -d-> "_teacherCategoryRepository \n 1" ITeacherCategoryRepository
+"<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <-d- "1" ITeacherRepository
 "<<Value Object>>\n TeacherIDVO" "1  " <-- "\n 1..*     " "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
 ITeacherCareerProgressionRepository "1" ..> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
 ITeacherCareerProgressionFactory "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
@@ -111,9 +126,13 @@ List "1" ---> "1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCareerProgressionIDVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n DateVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n WorkingPercentageVO"
-"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
-"<<Value Object>>\n TeacherCategoryIDVO" "1" <-u- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" -d-> "1" "<<Value Object>>\n TeacherCategoryIDVO"
+"<<Value Object>>\n TeacherCategoryIDVO" "1" <-d- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
 ITeacherCareerProgressionRepository "1" <|.u. "*" TeacherCareerProgressionRepositoryImpl
 ITeacherRepository "1" <|.l. "*" TeacherRepository
+ITeacherCategoryRepository "1" <|.u. "*" TeacherCategoryRepositoryImpl
+"<<Value Object>>\n TeacherAcronymVO" "1" <-l- "1" "<<Root>>\n <<Entity>>\n Teacher"
+"<<Value Object>>\n TeacherAcronymVO" "1" <-r- "1" "<<Value Object>>\n TeacherIDVO"
+"<<Root>>\n <<Entity>>\nTeacherCategory" "_teacherCategories         \n 1..*           " <-r- "1" ITeacherCategoryRepository
 
 @enduml

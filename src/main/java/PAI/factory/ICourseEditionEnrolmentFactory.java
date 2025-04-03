@@ -7,5 +7,5 @@ import PAI.domain.Student;
 
 public interface ICourseEditionEnrolmentFactory {
 
-    CourseEditionEnrolment createCourseEditionEnrolment(StudentID student, CourseEditionID courseEdition);
+    CourseEditionEnrolment createCourseEditionEnrolment(StudentID studentId, CourseEditionID courseEditionId);
 }
