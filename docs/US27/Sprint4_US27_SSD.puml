@@ -9,6 +9,8 @@ Admin -> System  : Name! Acronym! quantityOfEcts! quantityOfSemesters!  \nDegree
 System --> Admin  : Done! Do you want to register a Study Plan?
 
 Admin -> System : Yes.
+System --> Admin: Implementation date?
+Admin -> System : Date.
 System --> Admin : Study Plan Created.
 
 loop Repeat User Story 03 Add a Course \nto Programme until Study Plan is Full.
