@@ -73,16 +73,51 @@ class PhoneNumberTest {
                 Arguments.of("+1a2", "999999999"),
                 Arguments.of("+1#2", "999999999"),
                 Arguments.of("+11 ", "999999999"),
-                Arguments.of("+ 11", "999999999")
-
+                Arguments.of("+ 11", "999999999"),
+                Arguments.of("++123", "999999999"),
+                Arguments.of("+++1", "999999999"),
+                Arguments.of("1", "999999999"),
+                Arguments.of("+001", "999999999"),
+                Arguments.of("+-351", "999999999"),
+                Arguments.of("+3 1", "999999999"),
+                Arguments.of("+abc", "999999999")
         );
     }
     @ParameterizedTest
     @MethodSource("testCountryCodeWithInvalidInputs")
-    void invalidEmailInputShouldReturnException(String countryCode, String number) {
+    void invalidCountryCodeInputShouldReturnException(String countryCode, String number) {
         //arrange
 
         //act + assert
         Assertions.assertThrows(Exception.class, () -> new PhoneNumber(countryCode, number));
+    }
+
+    static Stream<Arguments> testCountryCodeWithvalidInputs() {
+        return Streams.of(
+                Arguments.of("+1", "999999999"),
+                Arguments.of("+7", "999999999"),
+                Arguments.of("+20", "999999999"),
+                Arguments.of("+33", "999999999"),
+                Arguments.of("+44", "999999999"),
+                Arguments.of("+49", "999999999"),
+                Arguments.of("+55", "999999999"),
+                Arguments.of("+91", "999999999"),
+                Arguments.of("+351", "999999999"),
+                Arguments.of("+358", "999999999"),
+                Arguments.of("+380", "999999999"),
+                Arguments.of("+972", "999999999"),
+                Arguments.of("+1242", "999999999"),
+                Arguments.of("+1264", "999999999")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testCountryCodeWithvalidInputs")
+    void validCountryCodeInputShouldReturnException(String countryCode, String number) throws Exception {
+        //arrange
+        //act
+        PhoneNumber phoneNumber = new PhoneNumber(countryCode, number);
+
+        //assert
+        assertNotNull(phoneNumber);
     }
 }

@@ -14,10 +14,10 @@ public class PhoneNumber implements ValueObject {
         if(isCountryCodeInvalid(countryCode)){
             throw new IllegalArgumentException("Country Code is invalid");
         }
-        this._countryCode = countryCode;
-
         if(areParameterInvalid(number)){
             throw new IllegalArgumentException("Number cannot be empty");}
+
+        this._countryCode = countryCode;
         this._number = number;
     }
 
