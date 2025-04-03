@@ -68,7 +68,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionWhenSchoolYearIsNull() throws Exception {
         // Arrange
         IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
         IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
@@ -85,6 +85,26 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         // Assert
         assertEquals("School Year Repository cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD ProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+
+        IProgrammeDDDRepository programmeRepository = null;
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository, schoolYearRepository, programmeRepository);});
+
+        // Assert
+        assertEquals("Programme Repository cannot be null", exception.getMessage());
     }
 
 
