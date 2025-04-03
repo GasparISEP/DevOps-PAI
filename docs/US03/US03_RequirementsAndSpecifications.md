@@ -1,4 +1,4 @@
-# System Requirements and Specifications - US03 #
+# System Requirements and Specifications—US03 #
 
 ### Table of Contents
 
@@ -54,11 +54,11 @@ This document specifies the requirements for User Story 3 (PAI project), includi
 
 ## 7. Event Flow
 1. ASC initiates asks to add a Course to a Programme
-2. System guides through selection process:
+2. System guides through a selection process:
     - Programme
     - Study Plan of chosen Programme
     - Course
-3. System validates of Course can be added to Programme
+3. System validates, of Course, can be added to the Programme
 4. System checks for existing registrations
 5. On validation success:
     - Create Course in Study Plan, which stores to which Study Plan of specified Programme the Course will belong
@@ -84,4 +84,4 @@ The solution ensures:
 ✔ Reliability via robust architecture  
 ✔ Usability with guided workflows
 
-#### Risk mitigation and thorough testing will guarantee feature success.  
+#### Risk mitigation and thorough testing will guarantee to feature success.  
