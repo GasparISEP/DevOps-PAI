@@ -92,7 +92,7 @@ package "Student Aggregate" #LightBlue{
 }
 
 note right of "Student Aggregate"
-This is the Aggregate Root of CourseEdition.
+This is the Aggregate Root of Student.
 And has it's Value Objects and ID's represented as attributes
 end note
 
