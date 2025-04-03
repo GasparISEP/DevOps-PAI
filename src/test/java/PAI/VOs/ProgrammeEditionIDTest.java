@@ -210,4 +210,23 @@ class ProgrammeEditionIDTest {
         // Assert
         assertNotEquals(pEID1, pEID2);
     }
+
+
+    // HashCode Test
+    @Test
+    void shouldReturnHashCode() throws Exception {
+        // Arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+
+
+        // Act
+        int result = programmeEditionID.hashCode();
+
+        // Assert
+        assertEquals(result, programmeEditionID.hashCode());
+        assertNotEquals(result, programmeEditionID2.hashCode());
+    }
 }
