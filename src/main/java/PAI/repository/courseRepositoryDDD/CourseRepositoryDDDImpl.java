@@ -28,20 +28,10 @@ public class CourseRepositoryDDDImpl implements ICourseRepositoryDDD {
 
         CourseDDD courseDDD = _courseFactory.createCourse(id, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
 
-//        if(containsOfIdentity(courseDDD.identity()))
-//            return false;
-
         courseDDD = save(courseDDD);
         if(courseDDD == null)
             return false;
         return true;
-
-//        if (containsOfIdentity(id)) {
-//            return false;
-//        }
-//        CourseDDD course = _courseFactory.createCourse(id, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
-//        save(course);
-//        return true;
     }
 
     @Override
