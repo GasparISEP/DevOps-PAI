@@ -4,6 +4,7 @@ package PAI.controller;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.StudyPlanID;
+import PAI.domain.DegreeTypeDDD.DegreeType_2;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.domain.programmeEdition.ProgrammeEditionDDD;
@@ -129,6 +130,42 @@ class US19_CreateCourseEditionControllerTest {
         //Act
         //Assert
         assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, studyPlanRepositoryDouble, courseInStudyPlanRepositoryDouble, programmeEditionRepositoryDouble, null);});
+    }
+
+    @Test
+    void shouldReturnListOfDegreeTypes() {
+        // Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+        DegreeType_2 degreeType1Double = mock(DegreeType_2.class);
+        DegreeType_2 degreeType2Double = mock(DegreeType_2.class);
+        List<DegreeType_2> expectedList = List.of(degreeType1Double, degreeType2Double);
+
+        when(degreeTypeRepositoryDouble.getAllDegreeTypes()).thenReturn(expectedList);
+
+        //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+                degreeTypeRepositoryDouble,
+                programmeRepositoryDouble,
+                studyPlanRepositoryDouble,
+                courseInStudyPlanRepositoryDouble,
+                programmeEditionRepositoryDouble,
+                courseEditionRepositoryDouble
+        );
+
+        // Act
+        List<DegreeType_2> result = controller.getAllDegreeTypes();
+
+        // Assert
+        assertEquals(expectedList, result);
+        assertTrue(result.contains(degreeType1Double));
+        assertTrue(result.contains(degreeType2Double));
+        verify(degreeTypeRepositoryDouble).getAllDegreeTypes();
     }
 
     @Test
