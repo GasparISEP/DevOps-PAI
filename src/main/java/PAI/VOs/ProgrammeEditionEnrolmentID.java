@@ -8,17 +8,14 @@ public class ProgrammeEditionEnrolmentID implements DomainId {
 
     private final ProgrammeEditionID _programmeEditionId;
     private final StudentID _studentiD;
-    private final SchoolYearID _schoolYearId;
 
-    public ProgrammeEditionEnrolmentID(ProgrammeEditionID programmeEditionId, StudentID studentiD, SchoolYearID schoolYearId) {
+    public ProgrammeEditionEnrolmentID(ProgrammeEditionID programmeEditionId, StudentID studentiD) {
 
         validateProgrammeEditionID(programmeEditionId);
         validateStudentID(studentiD);
-        validateSchoolYearID(schoolYearId);
 
         this._programmeEditionId = programmeEditionId;
         this._studentiD = studentiD;
-        this._schoolYearId = schoolYearId;
     }
 
     private void validateProgrammeEditionID (ProgrammeEditionID programmeEditioniD) {
@@ -31,24 +28,17 @@ public class ProgrammeEditionEnrolmentID implements DomainId {
             throw new IllegalArgumentException ("Student must be valid");
     }
 
-    private void validateSchoolYearID (SchoolYearID schoolYearId) {
-        if (schoolYearId == null)
-            throw new IllegalArgumentException ("SchoolYear must be valid");
-    }
-
     @Override
-    public boolean equals(Object objectToCompare) {
-        if (this == objectToCompare) return true;
-        if (objectToCompare == null || getClass() != objectToCompare.getClass()) return false;
-        ProgrammeEditionEnrolmentID that = (ProgrammeEditionEnrolmentID) objectToCompare;
-        return Objects.equals(_programmeEditionId, that._programmeEditionId) &&
-                Objects.equals(_studentiD, that._studentiD) &&
-                Objects.equals(_schoolYearId, that._schoolYearId);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProgrammeEditionEnrolmentID that = (ProgrammeEditionEnrolmentID) o;
+        return Objects.equals(_programmeEditionId, that._programmeEditionId) && Objects.equals(_studentiD, that._studentiD);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_programmeEditionId, _studentiD, _schoolYearId);
+        return Objects.hash(_programmeEditionId, _studentiD);
     }
 
     @Override
@@ -56,7 +46,6 @@ public class ProgrammeEditionEnrolmentID implements DomainId {
         return "ProgrammeEditionEnrolmentID{" +
                 "_programmeEditionId=" + _programmeEditionId +
                 ", _studentiD=" + _studentiD +
-                ", _schoolYearId=" + _schoolYearId +
                 '}';
     }
 }
