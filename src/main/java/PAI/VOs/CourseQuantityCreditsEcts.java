@@ -39,8 +39,4 @@ public class CourseQuantityCreditsEcts {
     public int hashCode() {
         return Objects.hash(_quantityCreditsEcts);
     }
-
-    public double getCourseQuantityCreditsEcts() {
-        return _quantityCreditsEcts;
-    }
 }
