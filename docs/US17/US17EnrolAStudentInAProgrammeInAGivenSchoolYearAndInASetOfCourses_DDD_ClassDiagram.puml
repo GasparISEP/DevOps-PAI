@@ -8,15 +8,8 @@ skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
 class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
-    +US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-          programmeEditionEnrolmentRepo: IProgrammeEditionEnrolmentRepository,
-          programmeEditionRepository: IProgrammeEditionRepository,
-          programmeRepository: IProgrammeRepository,
-          courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository,
-          courseEditionRepository: ICourseEditionRepository,
-          schoolYearRepository: ISchoolYearRepository,
-          programmeEnrolmentRepository: IProgrammeEnrolmentRepository)
-    +enrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(studentId: StudentID, \n programmeId: ProgrammeID, schoolYearId: SchoolYearID)
+    +US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrolmentRepo: IProgrammeEditionEnrolmentRepository,\n programmeEditionRepository: IProgrammeEditionRepository, programmeRepository: IProgrammeRepository,courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository,\n courseEditionRepository: ICourseEditionRepository,schoolYearRepository: ISchoolYearRepository, programmeEnrolmentRepository: IProgrammeEnrolmentRepository)
+    +enrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(studentId: StudentID, programmeId: ProgrammeID, schoolYearId: SchoolYearID)
     +getAllProgrammesIDs(): List<ProgrammeID>
     +getAllSchoolYearsIDs(): List<SchoolYearID>
 }
@@ -125,22 +118,22 @@ package "ProgrammeEditionEnrolment Aggregate" #Lightblue {
     +ProgrammeEditionEnrolment(studentId:StudentID, programmeEditionId: ProgrammeEditionID)
     +hasSameStudent(studentId:StudentID) : StudentID
     +equals (obj: Object) : boolean
-    +hasSameProgrammeEdition (programmeEdition: ProgrammeEdition)) : ProgrammeEditionID
+    +hasSameProgrammeEdition (programmeEdition: ProgrammeEdition) : ProgrammeEditionID
     }
 }
 
 package "Programme Aggregate" #Lightblue{
     class Programme <<Root>> <<Entity>>  {
-     + Programme(name : String, acronym : String, quantityOfEcts: int, quantityOfSemesters : int,
-          degreeTypeId : DegreeTypeID, departmentId : DepartmentID, programmeDirectorId : TeacherID, programmeCourseListFactory: ProgrammeCourseListFactory)
-     +getProgrammesIDs()
+     + Programme(name : NameWithNumbersAndSpecialChars, acronym : Acronym,\n quantityOfEcts: QuantEcts, quantityOfSemesters : QuantSemesters,
+          degreeTypeID : DegreeTypeID, departmentID : DepartmentID, programmeDirectorID : TeacherID)
+     +getProgrammesID() : ProgrammeID
     }
  }
 
  package "Student Aggregate" #Lightblue{
      class Student <<Root>> <<Entity>> {
-         +Student(uniqueNumber: int, name: Name, NIF: NIF, phone: Phone,
-         email: Email, address: Address)
+         +Student(studentId: StudentID, name: Name, NIF: NIF, phone: Phone,
+         email: Email, address: Address, academicEmail  : StudentAcademicEmail)
      }
  }
 
@@ -154,23 +147,20 @@ package "Programme Aggregate" #Lightblue{
 
  package "CourseEdition Aggregate" #Lightblue{
      class CourseEdition <<Root>> <<Entity>> {
-         +CourseEdition(programmeEditionId: ProgrammeEditionID, course: Course)
+         +CourseEdition(programmeEditionId: ProgrammeEditionID,\n courseInStudyPlanID: CourseInStudyPlanID, courseEditionId: CourseEditionID)
          +whatProgrammeEditionBelongsThisCourseEdition() : ProgrammeEditionID
      }
  }
 
  package "SchoolYear Aggregate" #Lightblue{
      class SchoolYear <<Root>> <<Entity>>  {
-        -_description:String
-        -_startData:String
-        -_endDate:String
-        +SchoolYearID(description: String, StartDate: String, EndDate: String)
+        +SchoolYear(description: Description, startDate: Date, endDate: Date)
     }
  }
 
 package "ProgrammeEnrolment Aggregate" #Lightblue{
     class ProgrammeEnrolment <<Root>> <<Entity>> {
-        +ProgrammeEnrolment(studentId: StudentID, accessMethod: AccessMethod)
+        +ProgrammeEnrolment(studentId: StudentID, accessMethod: AccessMethod,\n programmeID: ProgrammeID, date: Date)
         +hasSameStudent() : StudentID
         +hasSameProgramme() : ProgrammeID
     }
@@ -180,74 +170,57 @@ package "ProgrammeEnrolment Aggregate" #Lightblue{
 'Value Objects
 
 class CourseEditionEnrolmentID <<Value Object>>{
-    -_id : long
-    + CourseEditionEnrolmentID ( id: long)
-    + getId(): long
-    + equals(object: Object) : boolean
-    + hashcode(): int
-    + toString(): String
-
+    -_studentID: StudentID
+    - _courseEditionID : CourseEditionID
+    + CourseEditionEnrolmentID (studentId: StudentID, courseEditionID : CourseEditionID)
 }
 
 class ProgrammeEditionEnrolmentID <<Value Object>> {
-    -_id : long
-    + ProgrammeEditionEnrolmentID ( id: long)
-    + getId(): long
-    + equals(object: Object) : boolean
-    + hashcode(): int
-    + toString(): String
-
+    - _programmeEditionId : ProgrammeEditionID
+    -_studentID: StudentID
+    -_schoolYearId: SchoolYearID
+    + ProgrammeEditionEnrolmentID (programmeEditionId : ProgrammeEditionID,\n studentID: StudentID, schoolYearId: SchoolYearID )
 }
 
 class ProgrammeID <<Value Object>> {
-    -_id : long
-    + SchoolYearId (id: long)
-    + getId(): long
-    + equals(object: Object) : boolean
-    + hashcode(): int
-    + toString(): String
+    -_name : NameWithNumbersAndSpecialChars
+    -_acronym : Acronym
+    + ProgrammeID (name : NameWithNumbersAndSpecialChars,acronym : Acronym)
 }
 
 class StudentID <<Value Object>> {
     -_uniqueNumber : int
     + StudentID(uniqueNumber : int)
-    + isUniqueNumberValid()
 }
 
 class Name <<Value Object>> {
     -_name : String
     + Name(name : String)
-    + isNameValid
 }
 
 class NIF <<Value Object>> {
     -_NIF : String
     + NIF(NIF : String)
-    + isNIFInvalid()
 }
 
 class Phone <<Value Object>> {
     -_phone : String
     + Phone(phone : String)
-    + isPhoneNumberValid
 }
 
 class Acronym <<Value Object>> {
      -_acronym : String
      + Acronym(acronym : String)
-     + isAcronymInvalid(acronym : String)
 }
 
 class QuantEcts <<ValueObject>> {
     -_quantEcts: int
     + QuantEcts(quantityOfEcts : int)
-    + isQuantEctsValid(quantityOfEcts : int)
 }
 
 class QuantityOfSemesters <<ValueObject>> {
     -_quantityOfSemesters: int
     + QuantSemesters(quantityOfSemesters: int)
-    + isQuantityOfSemestersValid(quantityOfSemesters: int)
 }
 
 class Email <<Value Object>> {
@@ -255,10 +228,20 @@ class Email <<Value Object>> {
     + Email(email : String)
 }
 
-class InstitutionalEmail <<Value Object>> {
-    -_institutionalEmail : String
-    + InstitutionalEmail(institutionalEmail : String)
-    + generateInstitutionalEmail(uniqueNumber)
+class AccessMethodID <<Value Object>> {
+    -_accessMethodID : UUID
+    + AccessMethod(_accessMethodId : UUID)
+}
+
+
+class NameWithNumbersAndSpecialChars <<Value Object>> {
+    -_nameWithNumbersAndSpecialChars : String
+    + NameWithNumbersAndSpecialChars\n(_nameWithNumbersAndSpecialChars : String)
+}
+
+class StudentAcademicEmail <<Value Object>> {
+    -_studentAcademicEmail : String
+    + StudentAcademicEmail(institutionalEmail : String)
 }
 class Address <<Value Object>> {
         +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
@@ -271,62 +254,43 @@ class Address <<Value Object>> {
 class Street <<Value Object>> {
     -_street : String
     + Street(street : String)
-    + validStreet
 }
 
 class PostalCode <<Value Object>> {
     -_postalCode : String
     + PostalCode(postalCode : String)
-    + validPostalCode
 }
 
 class Location <<Value Object>> {
     -_location : String
     + Location(location : String)
-    + validLocation()
 }
 
 class Country <<Value Object>> {
     -_country : String
     + Country(country : String)
-    + validCountry()
-
 }
 
 class ProgrammeEnrolmentID <<Value Object>>{
-    -_id : long
-    + SchoolYearId (id: long)
-    + getId(): long
-    + equals(object: Object) : boolean
-    + hashcode(): int
-    + toString(): String
+    - _programmeEnrolmentId : UUID
+    + getProgrammeEnrolmentId() : _programmeEnrolmentId
 }
 
 class CourseEditionID <<Value Object>>{
-    -_id : long
-    + CourseEditionId (id: long)
-    + getId(): long
-    + equals(object: Object) : boolean
-    + hashcode(): int
-    + toString(): String
+    -_programmeEditionId : ProgrammeEditionID
+    -_courseInStudyPlanId : CourseInStudyPlanID
+    + CourseEditionId (programmeEditionId : ProgrammeEditionID,\n courseInStudyPlanId : CourseInStudyPlanID)
 }
 
 class ProgrammeEditionID <<Value Object>> {
-        -_id : long
-        + ProgrammeEditionId (id: long)
-        + getId(): long
-        + equals(object: Object) : boolean
-        + hashcode(): int
-        + toString(): String
+        -_programmeID : ProgrammeID
+        -_schoolYearID : SchoolYearID
+        + ProgrammeEditionId (programmeID : ProgrammeID,\n schoolYearID : SchoolYearID )
 }
 
 class SchoolYearID <<Value Object>>{
-    -_id : long
-    + SchoolYearId (id: long)
-    + getId(): long
-    + equals(object: Object) : boolean
-    + hashcode(): int
-    + toString(): String
+    -_schoolYearID : UUID
+    + SchoolYearId (schoolYearID: UUID)
     }
 
 class Date <<Value Object>> {
@@ -334,10 +298,23 @@ class Date <<Value Object>> {
      +Date (localDate : LocalDate)
 }
 
+class CourseInStudyPlanID <<Value Object>> {
+     -courseID : CourseID
+     -studyPlanID :
+     +Date (localDate : LocalDate)
+}
+
 class  EnrolmentStatus <<Value Object>> {
      -_isActive: boolean
      +EnrollmentStatus(isActive: boolean)
 }
+
+class  Description <<Value Object>> {
+     -_description: String
+     +Description(description: String)
+}
+
+
 
 'Factory
 class ProgrammeEditionEnrolmentFactoryImpl {
@@ -351,9 +328,6 @@ class ProgrammeEditionEnrolmentListFactoryImpl{
 class CourseEditionEnrolmentListFactoryImpl {
     +newArrayList(): List<CourseEditionEnrolmentID>
 }
-
-
-
 
 class CourseEditionListFactoryImpl{
     +newArrayList(CourseEditionID)
@@ -392,7 +366,7 @@ US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1"
 US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEnrolmentRepository
 
 ' Other connections
-StudentID "1" --> "1 _address" Address
+Student "1" --> "1 _address" Address
 CourseEditionRepositoryImpl "1" -u-> "_listOfCE" CourseEdition
 CourseEditionRepositoryImpl "1" --> "1" CourseEditionListFactoryImpl
 CourseEditionRepositoryImpl "1" --> "1" CourseEditionArrayList
@@ -417,6 +391,10 @@ ProgrammeRepositoryImpl ..> Programme
 ProgrammeRepositoryImpl "1" --> "1" ProgrammeArrayList
 ProgrammeArrayList "1" --> " _programme *" Programme
 
+ProgrammeEdition "1" --> ProgrammeID
+CourseEdition "1" --> "1" CourseEditionID
+CourseEdition "1" --> "1" ProgrammeEditionID
+CourseEdition "1" --> "1" CourseInStudyPlanID
 
 
 SchoolYearRepositoryImpl ..> SchoolYear
@@ -427,22 +405,30 @@ ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionEnrolmentID
 ProgrammeEdition "1" --> "1" ProgrammeEditionID
 CourseEdition "1"--> "1" CourseEditionID
 ProgrammeEdition "1" --> "1" SchoolYearID
-SchoolYearID "1" --> "1" SchoolYear
+SchoolYearID "1" <-- "1" SchoolYear
+SchoolYearID "1" <-- "1" SchoolYear
+Description "1" <-- "1" SchoolYear
+Date "1" <-- "1" SchoolYear
+
+
 CourseEditionEnrolment "1"   -u-> "1"  StudentID
 CourseEditionEnrolment "1" --> "1" CourseEditionID
 CourseEditionEnrolment "1" --> "1" CourseEditionEnrolmentID
-ProgrammeEnrolment "1" --> "1" ProgrammeID
 Programme "1" --> "1" ProgrammeID
-Programme "1" --> "1" Name
+Programme "1" --> "1" NameWithNumbersAndSpecialChars
 Programme "1" --> "1" Acronym
 Programme "1" --> "1" QuantEcts
 Programme "1" --> "1" QuantityOfSemesters
+ProgrammeEnrolment "1" --> "1" ProgrammeID
+ProgrammeEnrolment "1" --> "1" AccessMethodID
+ProgrammeEnrolment "1" --> "1" Date
+
 ProgrammeEnrolment "1" --> "1" StudentID
 ProgrammeEnrolment "1" --> "1" ProgrammeEnrolmentID
 Student "1" --> "1" StudentID
 Student "*" --> "1" Name
 Student "\n *" --> "1  " Email
-Student "\n *" --> "1   " InstitutionalEmail
+Student "\n *" --> "1   " StudentAcademicEmail
 Student "\n *" --> "1 " Phone
 Student "\n *" --> "1 " NIF
 Address "  *" ---> "1" Street
