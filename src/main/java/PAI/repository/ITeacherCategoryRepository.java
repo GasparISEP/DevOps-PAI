@@ -15,5 +15,8 @@ public interface ITeacherCategoryRepository extends IRepository<TeacherCategoryI
     boolean existsByName(Name name);
 
     List<TeacherCategory> getTeacherCategoryList();
+
     Optional<TeacherCategory> findByName(Name name);
+
+    Optional<TeacherCategoryID> getTeacherCategoryIDFromName (Name name);
 }
