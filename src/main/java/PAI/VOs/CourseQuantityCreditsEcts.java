@@ -1,9 +1,11 @@
 package PAI.VOs;
 
+import PAI.ddd.ValueObject;
+
 import java.util.Objects;
 import java.util.UUID;
 
-public class CourseQuantityCreditsEcts {
+public class CourseQuantityCreditsEcts implements ValueObject {
 
     private final double _quantityCreditsEcts;
 

@@ -42,9 +42,9 @@ public class ProgrammeEnrolmentRepository implements IProgrammeEnrolmentReposito
         return false; // Return false if no repeated enrolment is found
     }
 
-    public boolean isStudentEnrolled(Student student, Programme programme) {
+    public boolean isStudentEnrolled(StudentID studentID, ProgrammeID programmeID) {
         for (ProgrammeEnrolment existingEnrolment : _programmeEnrolmentList) {
-            if (existingEnrolment.hasSameStudent(student) && existingEnrolment.hasSameProgramme(programme)) {
+            if (existingEnrolment.hasSameStudent(studentID) && existingEnrolment.hasSameProgramme(programmeID)) {
                 return true;
             }
         }

@@ -3,32 +3,34 @@ actor ProgrammeDirector
 participant ":UI" as UI
 participant ":US23_IWantToKnowTheApprovalPercentageOfACourseEditionController" as KA
 participant ":CourseEditionRepository" as CER
-participant ":GradeStudentRepository" as GR
-participant ":GradeStudent" as GradeStudent
+participant ":StudentGradeRepository" as GR
+participant ":StudentGrade" as StudentGrade
+
+autonumber
 
 
 ProgrammeDirector -> UI ++ #application: I want to know approval percentage of Course Edition
 UI --> ProgrammeDirector -- : Course Edition?
 ProgrammeDirector -> UI ++ #application: CourseEdition1 !
-UI -> KA ++ #application : IWantToKnowTheApprovalPercentageOfACourseEdition(courseEdition1)
+UI -> KA ++ #application : CalculateApprovalPercentageOfACourseEdition(courseEdition1)
 KA -> CER ++ #application : findCourseEditionID (courseEdition1)
-CER -> CER : findIdByCourseEdition (CourseEdition1)
-CER -> KA :  ceIdVO1
+CER -> KA :  :ceIdVO1
 deactivate CER
-KA -> GR ++ #application : knowApprovalRate(ceIdVO1)
+KA -> GR ++ #application : knowApprovalRate(:ceIdVO1)
 
 
+    GR -> GR :Approval = 0
+loop for each StudentGrade in GR
+    GR -> StudentGrade : hasThisCourseEdition(:ceIdVO1)
+    activate StudentGrade #application
+    StudentGrade --> GR : True!
+    deactivate StudentGrade
 
-loop for each GradeStudent in GR
-    GR -> GradeStudent : hasThisCourseEdition(ceIdVO1)
-    activate GradeStudent
-    GradeStudent --> GR : True!
-    deactivate GradeStudent
-
-    GR -> GradeStudent : knowGrade()
-    activate GradeStudent
-    GradeStudent --> GR : grade
-    deactivate GradeStudent
+    GR -> StudentGrade : knowGrade()
+    activate StudentGrade #application
+    StudentGrade --> GR : grade
+    deactivate StudentGrade
+    GR -> GR : Calculate Approval Percentage
 end
 
 

@@ -14,10 +14,13 @@ public class PhoneNumber implements ValueObject {
         if(isCountryCodeInvalid(countryCode)){
             throw new IllegalArgumentException("Country Code is invalid");
         }
-        this._countryCode = countryCode;
-
         if(areParameterInvalid(number)){
             throw new IllegalArgumentException("Number cannot be empty");}
+
+        if(isPhoneNumberInvalid(number))
+            throw new IllegalArgumentException("Phone Number is invalid");
+
+        this._countryCode = countryCode;
         this._number = number;
     }
 
@@ -29,4 +32,7 @@ public class PhoneNumber implements ValueObject {
         return !countryCode.matches("^\\+([1-9]\\d{0,3})$");
     }
 
+    public boolean isPhoneNumberInvalid(String phoneNumber) {
+        return !phoneNumber.matches("^\\d{6,15}$");
+    }
 }
