@@ -38,13 +38,13 @@ CT --> UI -- : pL1_DTO
 UI --> ASC -- : which programme??
 
 ASC -> UI ++ #application : programme 1!
-UI -> CT ++ #application: getLatestStudyPlanId(p1_DTO)
+UI -> CT ++ #application: getCoursesInStudyPlanByProgrammeID(p1_DTO)
 ref over CT
     Convert ProgrammeDTO to ProgrammeID
 end ref
-CT -> SPR ++ #application: getLatestStudyPlanId(p1_ID)
+CT -> SPR ++ #application: getLatestStudyPlanIDByProgrammeID(p1_ID)
 SPR --> CT -- : sP1_ID
-CT -> CSPR ++ #application: getCoursesInStudyPlan(sP1_ID)
+CT -> CSPR ++ #application: getCoursesInStudyPlanByStudyPlanID(sP1_ID)
 CSPR --> CT -- : cSPL1
 ref over CT
     Convert CourseInStudyPlanList to CourseInStudyPlanDTOList
