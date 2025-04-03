@@ -1,11 +1,11 @@
 
 package PAI.controller;
 
-import PAI.VOs.DegreeTypeID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
+import PAI.domain.DegreeTypeDDD.DegreeType_2;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
 import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import PAI.repository.DegreeTypeRepoDDD.IDegreeTypeRepository_2;
 import PAI.repository.ICourseEditionRepositoryDDD;
 import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
@@ -19,13 +19,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class US19_CreateCourseEditionControllerTest {
 
     @Test
-    void shouldCreateControllerSuccessfully() throws Exception {
+    void shouldCreateControllerSuccessfully() {
         //SUT = Controller
         //Arrange
         IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
@@ -42,7 +41,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfDegreeTypeRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionIfDegreeTypeRepositoryIsNull() {
         //SUT = Controller
         //Arrange
         IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
@@ -57,7 +56,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionIfProgrammeRepositoryIsNull() {
         //SUT = Controller
         //Arrange
         IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
@@ -72,7 +71,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfStudyPlanRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionIfStudyPlanRepositoryIsNull() {
         //SUT = Controller
         //Arrange
         IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
@@ -87,7 +86,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseInStudyPlanRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionIfCourseInStudyPlanRepositoryIsNull() {
         //SUT = Controller
         //Arrange
         IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
@@ -102,7 +101,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull() {
         //SUT = Controller
         //Arrange
         IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
@@ -117,7 +116,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseEditionRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionIfCourseEditionRepositoryIsNull() {
         //SUT = Controller
         //Arrange
         IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
@@ -129,6 +128,42 @@ class US19_CreateCourseEditionControllerTest {
         //Act
         //Assert
         assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, studyPlanRepositoryDouble, courseInStudyPlanRepositoryDouble, programmeEditionRepositoryDouble, null);});
+    }
+
+    @Test
+    void shouldReturnListOfDegreeTypes() {
+        // Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+        DegreeType_2 degreeType1Double = mock(DegreeType_2.class);
+        DegreeType_2 degreeType2Double = mock(DegreeType_2.class);
+        List<DegreeType_2> expectedList = List.of(degreeType1Double, degreeType2Double);
+
+        when(degreeTypeRepositoryDouble.getAllDegreeTypes()).thenReturn(expectedList);
+
+        //SUT
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+                degreeTypeRepositoryDouble,
+                programmeRepositoryDouble,
+                studyPlanRepositoryDouble,
+                courseInStudyPlanRepositoryDouble,
+                programmeEditionRepositoryDouble,
+                courseEditionRepositoryDouble
+        );
+
+        // Act
+        List<DegreeType_2> result = controller.getAllDegreeTypes();
+
+        // Assert
+        assertEquals(expectedList, result);
+        assertTrue(result.contains(degreeType1Double));
+        assertTrue(result.contains(degreeType2Double));
+        verify(degreeTypeRepositoryDouble).getAllDegreeTypes();
     }
 
     @Test
@@ -161,7 +196,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnListOfCoursesInStudyPLanByProgrammeID() throws Exception {
+    void shouldReturnListOfCoursesInStudyPLanByProgrammeID() {
         //Arrange
         IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
         IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
@@ -190,6 +225,107 @@ class US19_CreateCourseEditionControllerTest {
         assertTrue(result.contains(courseInStudyPlan));
     }
 
+    @Test
+    void shouldReturnListOfProgrammeEditionsByProgrammeID(){
+        //SUT = Controller
+        // Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+
+        ProgrammeEditionDDD edition1Double = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD edition2Double = mock(ProgrammeEditionDDD.class);
+        List<ProgrammeEditionDDD> expectedList = List.of(edition1Double, edition2Double);
+
+        when(programmeEditionRepositoryDouble.getProgrammeEditionsByProgrammeID(programmeIDDouble)).thenReturn(expectedList);
+
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+                degreeTypeRepositoryDouble,
+                programmeRepositoryDouble,
+                studyPlanRepositoryDouble,
+                courseInStudyPlanRepositoryDouble,
+                programmeEditionRepositoryDouble,
+                courseEditionRepositoryDouble
+        );
+
+        // Act
+        List<ProgrammeEditionDDD> result = controller.getProgrammeEditionsByProgrammeID(programmeIDDouble);
+
+        // Assert
+        assertEquals(expectedList, result);
+        verify(programmeEditionRepositoryDouble).getProgrammeEditionsByProgrammeID(programmeIDDouble);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseEditionIsCreatedSuccessfully() {
+        // Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
+                .thenReturn(true);
+
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+                degreeTypeRepositoryDouble,
+                programmeRepositoryDouble,
+                studyPlanRepositoryDouble,
+                courseInStudyPlanRepositoryDouble,
+                programmeEditionRepositoryDouble,
+                courseEditionRepositoryDouble
+        );
+
+        // Act
+        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        // Assert
+        assertTrue(result);
+        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseEditionIsNotCreated() {
+        // Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
+                .thenReturn(false);
+
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+                degreeTypeRepositoryDouble,
+                programmeRepositoryDouble,
+                studyPlanRepositoryDouble,
+                courseInStudyPlanRepositoryDouble,
+                programmeEditionRepositoryDouble,
+                courseEditionRepositoryDouble
+        );
+
+        // Act
+        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        // Assert
+        assertFalse(result);
+        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+    }
 
 //
 //    //INTEGRATION TESTS
