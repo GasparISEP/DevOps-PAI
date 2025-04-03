@@ -2,13 +2,13 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 
 public class US11_DDD_RegisterProgrammeInTheSystem {
 
-    ProgrammeDDDRepositoryImpl _programmeDDDList;
+    IProgrammeDDDRepository _programmeDDDList;
 
-    public US11_DDD_RegisterProgrammeInTheSystem (ProgrammeDDDRepositoryImpl programmeDDDList) throws Exception {
+    public US11_DDD_RegisterProgrammeInTheSystem (IProgrammeDDDRepository programmeDDDList) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");
@@ -17,9 +17,9 @@ public class US11_DDD_RegisterProgrammeInTheSystem {
         _programmeDDDList = programmeDDDList;
     }
 
-    public boolean registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, Department department, TeacherID programmeDirectorID) throws Exception {
+    public boolean registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
 
-        _programmeDDDList.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
+        _programmeDDDList.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
         return true;
     }
 }

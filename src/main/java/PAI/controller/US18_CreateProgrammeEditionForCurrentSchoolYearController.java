@@ -1,40 +1,38 @@
 package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.*;
-import PAI.repository.ProgrammeEditionRepository;
-import PAI.repository.ProgrammeRepository;
-import PAI.repository.SchoolYearRepository;
+import PAI.repository.ISchoolYearRepository;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
-    private final ProgrammeEditionRepository _programmeEditionRepository;
-    private final SchoolYearRepository _schoolYearRepository;
-    private final ProgrammeRepository _programmeList;
+    private final IProgrammeEditionRepositoryDDD _programmeEditionRepository;
+    private final ISchoolYearRepository _schoolYearRepository;
+    private final IProgrammeDDDRepository _programmeRepository;
 
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository programmeEditionRepository, SchoolYearRepository schoolYearRepository, ProgrammeRepository programmeList) {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionRepositoryDDD programmeEditionRepository, ISchoolYearRepository schoolYearRepository, IProgrammeDDDRepository programmeRepository) throws Exception {
 
         _programmeEditionRepository = programmeEditionRepository;
         _schoolYearRepository = schoolYearRepository;
-        _programmeList = programmeList;
+        _programmeRepository = programmeRepository;
     }
 
     public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames(){
 
-        if (_programmeList == null)
+        /*if (_programmeRepository == null)
             return new ArrayList<>();
-        return _programmeList.getAllProgrammeNames();
+        return _programmeRepository.getAllProgrammeNames();*/
+        return null;
     }
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName){
 
-        if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
+/*        if(_programmeEditionRepository == null || _schoolYearRepository == null) return false;
 
-        Optional<Programme> programmeOpt = _programmeList.getProgrammeByName(programmeName);
+        Optional<Programme> programmeOpt = _programmeRepository.getProgrammeByName(programmeName);
         Programme programme = programmeOpt.orElse(null);
 
         SchoolYear currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
@@ -42,6 +40,7 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
         boolean isCreated = _programmeEditionRepository.createProgrammeEdition(programme, currentSchoolYear);
 
-        return isCreated;
+        return isCreated;*/
+        return false;
     }
 }
