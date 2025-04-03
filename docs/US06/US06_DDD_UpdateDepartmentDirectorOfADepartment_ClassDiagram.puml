@@ -149,6 +149,6 @@ Teacher "1" --> "1 _nif" NIF
 Teacher "1" --> "1 _phoneNumber" PhoneNumber
 Teacher "1" --> "_academicBackground" AcademicBackground
 
-ITeacherRepository <|-- TeacherRepository
+ITeacherRepository <|.. TeacherRepository
 TeacherRepository "1" --> "* _teachers" Teacher
 @enduml
