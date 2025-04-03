@@ -105,4 +105,19 @@ class ProgrammeIDTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnHashCodeFromTheProgrammeID() throws IllegalArgumentException {
+        // Arrange
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Portuguese");
+        Acronym acronym = new Acronym("POR");
+        ProgrammeID progID = new ProgrammeID(name, acronym);
+        ProgrammeID progID1 = new ProgrammeID(name, acronym);
+
+        // Act
+        int result = progID.hashCode();
+
+        // Assert
+        assertEquals(result, progID1.hashCode());
+    }
 }
