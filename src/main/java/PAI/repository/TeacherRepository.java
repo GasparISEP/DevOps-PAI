@@ -2,9 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.ddd.IRepository;
 import PAI.domain.*;
-import PAI.domain.programme.ProgrammeDDD;
 import PAI.factory.*;
 
 import java.util.List;
@@ -65,16 +63,6 @@ public class TeacherRepository implements ITeacherRepository {
         save(teacher);
 
         return Optional.of(teacher.identity());
-    }
-
-    public Optional<Teacher> getTeacherByNIF(NIF nif) {
-
-        for (Teacher existingTeacher : _teachers) {
-            if (existingTeacher.hasThisNIF(nif)) {
-                return Optional.of(existingTeacher);
-            }
-        }
-        return Optional.empty();
     }
 
     public Optional<TeacherID> findTeacherIdByTeacher (Teacher teacher) {

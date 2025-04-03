@@ -82,6 +82,21 @@ class AccessMethodTest {
     }
 
     @Test
+    void shouldReturnFalseIfAccessMethodHasDifferentId() {
+        //arrange
+        AccessMethodID accessMethodId1 = mock(AccessMethodID.class);
+        AccessMethodID accessMethodId2 = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars accessMethodName2 = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethod accessMethod1 = new AccessMethod(accessMethodId1,accessMethodName);
+        AccessMethod accessMethod2 = new AccessMethod(accessMethodId2, accessMethodName2);
+        //act
+        boolean result = accessMethod1.equals(accessMethod2);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
     void shouldReturnFalseIfAccessMethodHasDifferentNameAsOther() {
         //arrange
         AccessMethodID accessMethodId1 = mock(AccessMethodID.class);
@@ -161,6 +176,19 @@ class AccessMethodTest {
         boolean result = accessMethod.hasThisAccessMethodName(accessMethodNameToSearch);
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfGivenNameDoesNotEqualsAccessMethodName(){
+        //arrange
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars accessMethodName2Search = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
+        //act
+        boolean result = accessMethod.hasThisAccessMethodName(accessMethodName2Search);
+        //assert
+        assertFalse(result);
     }
 
     @Test

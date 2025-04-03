@@ -1,14 +1,16 @@
 package PAI.repository;
 
-import PAI.VOs.Name;
-import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.*;
 import PAI.domain.TeacherCategory;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class TeacherCategoryRepositoryImplTest {
 
@@ -54,5 +56,55 @@ class TeacherCategoryRepositoryImplTest {
 
         assertNotNull(all);
         assertTrue(all.iterator().hasNext());
+    }
+
+    @Test
+    void shouldReturnOptionalTeacherCategoryIDIfTeacherCategoryWasFound() {
+        //Arrange
+        Name nameDouble = mock(Name.class);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+
+        when(tcDouble.getName()).thenReturn(nameDouble);
+        when(tcDouble.getId()).thenReturn(tcIDDouble);
+
+        repository.save(tcDouble);
+
+        //Act
+        Optional<TeacherCategoryID> result = repository.getTeacherCategoryIDFromName(nameDouble);
+
+        //Assert
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfTeacherCategoryNotFound() {
+        //Arrange
+        Name nameDouble = mock(Name.class);
+        Name nameDouble2 = mock(Name.class);
+        TeacherCategory tcDouble = mock(TeacherCategory.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+
+        repository.save(tcDouble);
+
+        when(tcDouble.getName()).thenReturn(nameDouble2);
+
+        //Act
+        Optional<TeacherCategoryID> result = repository.getTeacherCategoryIDFromName(nameDouble);
+
+        //Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfTeacherCategoryListEmpty() {
+        //Arrange
+        Name nameDouble = mock(Name.class);
+
+        //Act
+        Optional<TeacherCategoryID> result = repository.getTeacherCategoryIDFromName(nameDouble);
+
+        //Assert
+        assertTrue(result.isEmpty());
     }
 }
