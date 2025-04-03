@@ -10,4 +10,6 @@ public interface ICourseInStudyPlanDDDRepository extends IRepository<CourseInStu
 
     boolean createCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID);
     List<CourseInStudyPlanDDD> getAllCourseInStudyPlanList_2();
+
+    List<CourseInStudyPlanDDD> getCoursesInStudyPlanByStudyPlanID(StudyPlanID studyPlanID);
 }
