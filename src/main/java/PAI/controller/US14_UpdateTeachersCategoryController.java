@@ -1,20 +1,21 @@
 package PAI.controller;
 
-import PAI.VOs.NIF;
-import PAI.VOs.Name;
+import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.domain.TeacherCategory;
-import PAI.repository.TeacherCategoryRepositoryImpl;
-import PAI.repository.TeacherRepository;
+import PAI.repository.ITeacherCareerProgressionRepository;
+import PAI.repository.ITeacherCategoryRepository;
+import PAI.repository.ITeacherRepository;
 
 import java.util.Optional;
 
 public class US14_UpdateTeachersCategoryController {
 
-    private TeacherRepository _teacherRepository;
-    private TeacherCategoryRepositoryImpl _teacherCategoryRepository;
+    private ITeacherRepository _teacherRepository;
+    private ITeacherCategoryRepository _teacherCategoryRepository;
+    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;
 
-    public US14_UpdateTeachersCategoryController(TeacherRepository teacherRepository, TeacherCategoryRepositoryImpl teacherCategoryRepository) {
+    public US14_UpdateTeachersCategoryController(ITeacherRepository teacherRepository, ITeacherCategoryRepository teacherCategoryRepository, ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
 
         if (teacherRepository == null) {
             throw new IllegalArgumentException("Teacher Repository cannot be null");
@@ -27,28 +28,45 @@ public class US14_UpdateTeachersCategoryController {
         }
 
         _teacherCategoryRepository = teacherCategoryRepository;
+
+        if (teacherCareerProgressionRepository == null) {
+            throw new IllegalArgumentException("Teacher Career Progression Repository cannot be null");
+        }
+
+        _teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
 
-    public boolean updateTeacherCategory(String date, NIF teacherNIF, String teacherCategoryName) {
-        if (date == null || date.isBlank()) {
-            throw new IllegalArgumentException("Date is invalid");
-        }
-        else if (teacherNIF == null) {
-            throw new IllegalArgumentException("Teacher NIF is invalid");
-        }
-        else if (teacherCategoryName == null || teacherCategoryName.isBlank()) {
-            throw new IllegalArgumentException("Teacher Category is invalid");
-        }
-        else {
-            Optional<Teacher> optionalTeacher = _teacherRepository.getTeacherByNIF(teacherNIF);
-            Teacher teacher = optionalTeacher.orElseThrow(() ->
-                    new IllegalArgumentException("Teacher with NIF " + teacherNIF + " not found"));
-            Name nameVO = new Name(teacherCategoryName);
-            Optional<TeacherCategory> optionalTeacherCategory = _teacherCategoryRepository.findByName(nameVO);
-            TeacherCategory teacherCategory = optionalTeacherCategory.orElseThrow(() ->
-                    new IllegalArgumentException("Teacher Category with name " + teacherCategoryName + " not found"));
+    public Iterable<Teacher> findAllTeachers() {
 
-            return true;
-        }
+        return _teacherRepository.findAll();
+    }
+
+    public Iterable<TeacherCategory> findAllTeacherCategories() {
+
+        return _teacherCategoryRepository.findAll();
+    }
+
+
+    public boolean updateTeacherCategoryInTeacherCareerProgression (String date, String teacherCategory, String teacherAcronym) throws Exception {
+
+        Date dateVO = new Date(date);
+
+        Name teacherCategoryName = new Name (teacherCategory);
+
+        Optional<TeacherCategoryID> optionalTeacherCategoryID = _teacherCategoryRepository.getTeacherCategoryIDFromName(teacherCategoryName);
+
+        if (optionalTeacherCategoryID.isEmpty())
+            return false;
+
+        TeacherCategoryID teacherCategoryID = optionalTeacherCategoryID.get();
+
+        TeacherAcronym acronymVO = new TeacherAcronym(teacherAcronym);
+
+        TeacherID teacherID = new TeacherID(acronymVO);
+
+        if(!_teacherRepository.containsOfIdentity(teacherID))
+            return false;
+
+        return _teacherCareerProgressionRepository.updateTeacherCategoryInTeacherCareerProgression(dateVO, teacherCategoryID, teacherID);
     }
 }

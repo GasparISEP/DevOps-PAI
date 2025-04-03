@@ -4,7 +4,9 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.*;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryDDDImpl;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 
 import java.util.List;
@@ -12,28 +14,28 @@ import java.util.Optional;
 
 public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
 
-    private ProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
-    private ProgrammeEditionRepositoryDDDImpl _programmeEditionRepository;
-    private ProgrammeDDDRepositoryImpl _programmeList;
-    private CourseEditionEnrolmentRepositoryImpl _courseEditionEnrolmentRepositoryImpl;
-    private CourseEditionRepositoryDDDImpl _courseEditionRepositoryImpl;
-    private SchoolYearRepository _schoolYearRepository;
-    private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
+    private IProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
+    private IProgrammeEditionRepositoryDDD _programmeEditionRepository;
+    private IProgrammeDDDRepository _programmeList;
+    private ICourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
+    private ICourseEditionRepositoryDDD _courseEditionRepository;
+    private ISchoolYearRepository _schoolYearRepository;
+    private IProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     public US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-            ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
-            ProgrammeEditionRepositoryDDDImpl programmeEditionRepository,
-            ProgrammeDDDRepositoryImpl programmeRepository,
-            CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepositoryImpl,
-            CourseEditionRepositoryDDDImpl courseEditionRepositoryImpl,
-            SchoolYearRepository schoolYearRepository,
-            ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
+            IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
+            IProgrammeEditionRepositoryDDD programmeEditionRepository,
+            IProgrammeDDDRepository programmeRepository,
+            ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository,
+            ICourseEditionRepositoryDDD courseEditionRepository,
+            ISchoolYearRepository schoolYearRepository,
+            IProgrammeEnrolmentRepository programmeEnrolmentRepository) {
 
         this._programmeEditionEnrolmentRepository= validateRepository(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
         this._programmeEditionRepository= validateRepository(programmeEditionRepository, "Programme edition repository");
         this._programmeList= validateRepository(programmeRepository, "Programme list");
-        this._courseEditionEnrolmentRepositoryImpl = validateRepository(courseEditionEnrolmentRepositoryImpl, "Course edition enrolment repository");
-        this._courseEditionRepositoryImpl= validateRepository(courseEditionRepositoryImpl, "Course edition repository");
+        this._courseEditionEnrolmentRepository = validateRepository(courseEditionEnrolmentRepository, "Course edition enrolment repository");
+        this._courseEditionRepository= validateRepository(courseEditionRepository, "Course edition repository");
         this._schoolYearRepository= validateRepository(schoolYearRepository, "School year repository");
         this._programmeEnrolmentRepository= validateRepository(programmeEnrolmentRepository, "Enrolment repository");
 
@@ -73,9 +75,9 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         // Enroll student in programmeEdition
         _programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentId, programmeEditionId);
 
-        List<CourseEditionID> courseEditions = _courseEditionRepositoryImpl.findCourseEditionsByProgrammeEdition(programmeEditionId);
+        List<CourseEditionID> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEditionId);
 
-        _courseEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeCourseEditions(studentId, courseEditions);
+        _courseEditionEnrolmentRepository.enrolStudentInProgrammeCourseEditions(studentId, courseEditions);
         return true;
     }
 

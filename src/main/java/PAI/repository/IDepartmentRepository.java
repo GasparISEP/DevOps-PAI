@@ -3,6 +3,7 @@ package PAI.repository;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;
+import PAI.VOs.TeacherID;
 import PAI.ddd.IRepository;
 import PAI.domain.Department;
 
@@ -18,4 +19,6 @@ public interface IDepartmentRepository extends IRepository<DepartmentID, Departm
     Optional<Department> findDepartmentByID(DepartmentID departmentID);
 
     boolean departmentExists(DepartmentID departmentID);
+
+    boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID teacherId);
 }

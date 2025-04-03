@@ -2,6 +2,7 @@ package PAI.repository;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
+import PAI.VOs.TeacherID;
 import PAI.domain.Department;
 import java.util.HashSet;
 import java.util.Optional;
@@ -16,9 +17,9 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
     private final IDepartmentFactory _departmentFactory;
 
     //constructor
-    public DepartmentRepositoryImpl(IDepartmentFactory IDepartmentFactory, IDepartmentListFactory IDepartmentListFactory) {
-        _departmentFactory = IDepartmentFactory;
-        _departments = IDepartmentListFactory.newDepartmentList();
+    public DepartmentRepositoryImpl(IDepartmentFactory iDepartmentFactory, IDepartmentListFactory iDepartmentListFactory) {
+        _departmentFactory = iDepartmentFactory;
+        _departments = iDepartmentListFactory.newDepartmentList();
     }
 
     public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception{
@@ -59,12 +60,21 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
         return Optional.empty();
     }
 
-//    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID furtherDirectorId) {
-//        if (furtherDirectorId.getTeacherById.isInDepartment(department.getDepartmentById(departmentId))) {
-//            departmentId.changeDirector(furtherDirectorId.identity());
-//        }
-//        return false;
-//        }
+    //US06
+    public boolean updateOfDepartmentDirector(DepartmentID departmentID, TeacherID furtherDirectorID) {
+        if (departmentID == null || furtherDirectorID == null) {
+            return false;
+        }
+
+        Optional<Department> departmentOptional = ofIdentity(departmentID);
+
+        if (departmentOptional.isPresent()) {
+            Department department = departmentOptional.get();
+            return department.changeDirector(furtherDirectorID);
+        }
+        return false;
+    }
+
 
     @Override
     public Department save(Department entity) {

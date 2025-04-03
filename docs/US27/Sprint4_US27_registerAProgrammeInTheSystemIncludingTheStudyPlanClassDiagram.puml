@@ -2,16 +2,16 @@
 
 skinparam linetype ortho
 
-class US27_RegisterAProgrammeInTheSystemIncludingStudyPlan {
-    -_programmeRepository: ProgrammeRepository
-    +US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(ProgrammeRepository programmeRepository)
-    +registerProgrammeInTheSystemIncludingStudyPlan(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, degreeType: DegreeType, department: Department, programmeDirector: Teacher,
-    programmeCourseListFactory: ProgrammeCourseListFactory, courseInStudyPlanFactory: CourseInStudyPlanFactory, studyPlanListFactory: StudyPlanFactory, studyPlanFactory: StudyPlanFactory, courseFactory: CourseFactory): boolean
-    +addCourseToStudyPlan(semester: int, curricularYear: int, course: Course, programme: Programme): boolean
+class US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan {
+    -_programmeDDDList: ProgrammeRepository
+    -_studyPlanDDDRepo: IStudyPlanDDDRepository
+    +US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan(IProgrammeDDDRepository programmeDDDList, IStudyPlanDDDRepository studyPlanDDDRepo)
+    +registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+    DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+    +createStudyPlanDDD(ProgrammeID programmeID, Date implementationDate): boolean
 }
 
 class "List<Programme>" {}
-class "List<CourseInStudyPlan>" {}
 class "List<StudyPlan>" {}
 
 class DepartmentID <<ValueObject>> {}
@@ -58,7 +58,7 @@ class DurationInYears <<ValueObject>> {
 
 package "Programme Aggregate" {
     class "<<root>>\nProgramme" {
-         + Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, DepartmentID departmentID, \nTeacherID programmeDirectorID)
+         + Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, \nDegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID)
          + equals(Object o): boolean
          + isEquals (ProgrammeID programmeID): boolean
          + newProgrammeDirector(TeacherID teacherDirectorID)
@@ -72,33 +72,47 @@ package "Programme Aggregate" {
          + getDegreeTypeID(): DegreeType_ID
          + getDepartmentID(): DepartmentID
          + getProgrammeDirectorID(): TeacherID
+         + identity(): ProgrammeID
+         + sameAs(Object object): boolean
     }
-
-
-
 }
+
 class ProgrammeRepository {
-     -_programmeFactory: ProgrammeFactory
-     -_programmeRepository: List<Programme>
-     -_programmeRepositoryListFactory: ProgrammeRepositoryListFactory
-     +ProgrammeRepository(programmeFactory: ProgrammeFactory)
-     +registerProgramme(name: String, acronym: String, quantityOfEcts: int, quantityOfSemesters: int, \ndegreeType: DegreeType; department : Department,programmeDirector: Teacher): boolean
+     -_I_programmeFactory: IProgrammeDDDFactory
+     -_programmeRepo: List<Programme>
+     -_programmeRepoListFactory: IProgrammeDDDRepositoryListFactory
+     +registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+         DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+         +changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID): boolean
+         +getAllProgrammes(): List<Programme>
+         +getProgrammeByName(NameWithNumbersAndSpecialChars name): Optional<Programme>
+         +getProgrammeByAcronym(Acronym acronym): Programme
+         +getAllProgrammeNames(): List<NameWithNumbersAndSpecialChars>
+         +save(ProgrammeDDD entity): Programme
+         +findAll(): Iterable<Programme>
+         +ofIdentity(ProgrammeID id): Optional<Programme>
+         +containsOfIdentity(ProgrammeID id): boolean
 }
 
 interface IProgrammeRepository {
-    +registerProgramme(): boolean
-    +changeProgrammeDirector(): boolean
+    +registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+    DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+    +changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID): boolean
     +getAllProgrammes(): List<Programme>
     +getProgrammeByName(NameWithNumbersAndSpecialChars name): Optional<Programme>
     +getProgrammeByAcronym(Acronym acronym): Programme
     +getAllProgrammeNames(): List<NameWithNumbersAndSpecialChars>
+    +save(ProgrammeDDD entity): Programme
+    +findAll(): Iterable<Programme>
+    +ofIdentity(ProgrammeID id): Optional<Programme>
+    +containsOfIdentity(ProgrammeID id): boolean
 }
 
 class DegreeType_ID <<ValueObject>> {}
 
 class TeacherID <<ValueObject>> {}
 
-class CourseID <<ValueObject>> {}
+
 
 class StudyPlanID <<ValueObject>> {
     -_studyPlanID: UUID
@@ -110,9 +124,12 @@ class StudyPlanID <<ValueObject>> {
 
 package "StudyPlan Aggregate" {
     class "<<root>>\nStudyPlan" {
-        +StudyPlan(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears)
-        +addEndDate(String EndDate)
-
+        +StudyPlan(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears, QuantEcts quantityOfEcts)
+        +getQuantityOfEcts(): QuantEcts
+        +getProgrammeID(): ProgrammeID
+        +equals (Object o): boolean
+        +identity(): StudyPlanID
+        +sameAs(Object object): boolean
     }
 }
 
@@ -129,79 +146,32 @@ class Date <<ValueObject>> {
 
 }
 
-class Semester <<ValueObject>> {
-    -_semester: int
-    +Semester(int semester)
-    +isSemesterValid(int semester): boolean
-    +getSemester(): int
-    +equals(Object o): boolean
-    +hashCode(): int
-}
-
-class CurricularYear <<ValueObject>> {
-        -_curricularYear: int
-        +CurricularYear(int curricularYear)
-        +isCurricularYearPositive(int curricularYear): boolean
-        +getCurricularYear(): int
-}
-
-class CourseInStudyPlanID <<ValueObject>> {
-    -_courseInStudyPlanID: UUID
-    +CourseInStudyPlanID()
-    +getCourseInStudyPlanId(): UUID
-    +equals(Object o): boolean
-    +hashCode(): int
-    +toString(): String
-}
-
-package "CourseInStudyPlan Aggregate" {
-    class "<<root>>\nCourseInStudyPlan" {
-        +CourseInStudyPlan(semester: int, curricularYear: int, course: Course, programme: Programme)
-        +equals(ObjectToCompare: Object): boolean
-        +getCourse(): Course
-        +getSemester(): int
-        +getCurricularYear(): int
-        +getProgramme(): Programme
-    }
-
-
-}
-interface ICourseInStudyPlanRepository {
-    +newArrayList(): List<CourseInStudyPlan>
-}
-
-class CourseInStudyPlanRepository {
-    -_courseInStudyPlanFactory: ICourseInStudyPlanFactory
-    -_coursesInStudyPlanList: List<CourseInStudyPlan>
-    +CourseInStudyPlanRepository(ICourseInStudyPlanFactory iCourseInStudyPlanFactory, ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory)
-    +createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID): boolean
-    +getAllCourseInStudyPlanList(): List<CourseInStudyPlan>
-    +findByCourseInStudyPlanID(CourseInStudyPlanID courseInStudyPlanID): Optional<CourseInStudyPlan>
-}
-
-interface ICourseInStudyPlanFactory{
-    +newCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, \nCourseID courseID, StudyPlanID studyPlanID): CourseInStudyPlan
-}
-
-class CourseInStudyPlanFactoryImpl{
-    +newCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, \nCourseID courseID, StudyPlanID studyPlanID): CourseInStudyPlan
-    }
-
 interface IStudyPlanRepository {
-    +newArrayList(): List<StudyPlan>
+    +StudyPlanDDDRepository(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears, QuantEcts quantityOfEcts): boolean
+    +createStudyPlan(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears)
+    +getAllStudyPlans(): List<StudyPlan>
+    +getAllStudyPlansByProgrammeId(ProgrammeID programmeID): List<StudyPlan>
+    +save(StudyPlan studyPlan): StudyPlan
+    +findAll(): Iterable<StudyPlan>
+    +ofIdentity(StudyPlanID id): Optional<StudyPlan>
+    +containsOfIdentity(StudyPlanID id): boolean
 }
 
 class StudyPlanRepository {
     -_studyPlanFactory: IStudyPlanFactory
     -_studyplanList: List<StudyPlan>
-    +StudyPlanRepository_2(IStudyPlanFactory_2 iStudyPlanFactory_2, IStudyPlanListFactory_2 iStudyPlanListFactory_2)
-    +createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears)
+    +StudyPlanDDDRepository(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears, QuantEcts quantityOfEcts): boolean
+    +createStudyPlan(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears)
     +getAllStudyPlans(): List<StudyPlan>
-    +findByStudyPlanID(StudyPlanID studyPlanID): Optional<StudyPlan>
+    +getAllStudyPlansByProgrammeId(ProgrammeID programmeID): List<StudyPlan>
+    +save(StudyPlan studyPlan): StudyPlan
+    +findAll(): Iterable<StudyPlan>
+    +ofIdentity(StudyPlanID id): Optional<StudyPlan>
+    +containsOfIdentity(StudyPlanID id): boolean
 }
 
 interface IStudyPlanListFactory {
-    +newList(): List<CourseInStudyPlan>
+    +newArrayList(): List<StudyPlan>
 }
 
 class StudyPlanListFactoryImpl {
@@ -209,44 +179,33 @@ class StudyPlanListFactoryImpl {
 }
 
 class StudyPlanFactoryImpl {
-    +newStudyPlan(String initialDate): StudyPlan
+    +newStudyPlan(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears, QuantEcts quantityOfEcts): StudyPlan
 }
 
 interface IStudyPlanFactory {
-    +newStudyPlan(String initialDate): StudyPlan
+    +newStudyPlan(ProgrammeID programmeID, Date implementationDate, \nDurationInYears durationInYears, QuantEcts quantityOfEcts): StudyPlan
 }
 
 interface IProgrammeRepositoryListFactory {
-    +copyProgrammeArrayList(List<Programme> list): List<Programme>
-    +newProgrammeArrayList(): ArrayList<Programme>
+    +newProgrammeArrayList(): List<Programme>
+    +copyProgrammeArrayList(List<ProgrammeDDD> list): List<Programme>
 }
 
 class ProgrammeRepositoryListFactoryImpl {
-    +copyProgrammeArrayList(List<Programme> list): List<Programme>
-    +newProgrammeArrayList(): ArrayList<Programme>
+    +newProgrammeArrayList(): List<Programme>
+    +copyProgrammeArrayList(List<ProgrammeDDD> list): List<Programme>
 }
 
 interface IProgrammeFactory {
-    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID)
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, \nDepartmentID departmentID, TeacherID programmeDirectorID): Programme
 }
 
 class ProgrammeFactoryImpl {
-    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, \nQuantSemesters quantityOfSemesters, DegreeType_ID degreeTypeID, Department department, TeacherID programmeDirectorID)
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, \nDepartmentID departmentID, TeacherID programmeDirectorID): Programme
 }
 
-class CourseInStudyPlanListFactoryImpl {
-    +newArrayList(): List<CourseInStudyPlan>
-}
-
-interface ICourseInStudyPlanRepositoryListFactory {
-    +newArrayList(): List<CourseInStudyPlan>
-}
-
-
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan "1" ..> "1" IProgrammeRepository
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan "1" ..> "1" ICourseInStudyPlanRepository
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan "1" ..> "1" IStudyPlanRepository
-
+US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan "1" ..> "1" IProgrammeRepository
+US27_DDD_RegisterAProgrammeInTheSystemIncludingTheStudyPlan "1" .right.> "1   " IStudyPlanRepository
 IStudyPlanRepository <|.. StudyPlanRepository
 IStudyPlanRepository ..> IStudyPlanListFactory
 IStudyPlanListFactory <|.. StudyPlanListFactoryImpl
@@ -257,21 +216,6 @@ IStudyPlanFactory <|.. StudyPlanFactoryImpl
 IStudyPlanFactory ..> "<<root>>\nStudyPlan" : "<<creates>>"
 "List<StudyPlan>" --> "<<root>>\nStudyPlan"
 "<<root>>\nStudyPlan" "*" --> "1" ProgrammeID : refers to
-
-ICourseInStudyPlanRepository <|.. CourseInStudyPlanRepository
-ICourseInStudyPlanRepository ..> ICourseInStudyPlanRepositoryListFactory
-ICourseInStudyPlanRepositoryListFactory <|.. CourseInStudyPlanListFactoryImpl
-ICourseInStudyPlanRepositoryListFactory ..> "List<CourseInStudyPlan>" : "<<creates>>"
-ICourseInStudyPlanRepository --> "List<CourseInStudyPlan>"
-ICourseInStudyPlanRepository ..> ICourseInStudyPlanFactory
-ICourseInStudyPlanFactory <|.. CourseInStudyPlanFactoryImpl
-ICourseInStudyPlanFactory ..> "<<root>>\nCourseInStudyPlan" : "<<creates>>"
-"List<CourseInStudyPlan>" --> "<<root>>\nCourseInStudyPlan"
-"<<root>>\nCourseInStudyPlan" --> CourseID: refers to
-"<<root>>\nCourseInStudyPlan" --> StudyPlanID: refers to
-"<<root>>\nCourseInStudyPlan" --> CourseInStudyPlanID: has
-
-
 IProgrammeRepository <|.. ProgrammeRepository
 IProgrammeRepository ..> IProgrammeRepositoryListFactory
 IProgrammeRepositoryListFactory <|.. ProgrammeRepositoryListFactoryImpl
@@ -289,13 +233,8 @@ IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
 "<<root>>\nProgramme" "*" --> "1" Acronym : "has"
 "<<root>>\nProgramme" "*" --> "1" NameWithNumbersAndSpecialChars : "has"
 "<<root>>\nProgramme" "*" --> "1" ProgrammeID : "has"
-
-"<<root>>\nCourseInStudyPlan" "*" --> "1" Semester : "has"
-"<<root>>\nCourseInStudyPlan" "*" --> "1" CurricularYear : "has"
-
 "<<root>>\nStudyPlan" "*" --> "1" StudyPlanID: "has"
 "<<root>>\nStudyPlan" "*" --> "1" DurationInYears: "has"
-
 "<<root>>\nStudyPlan" "*" --> "1" Date: "Is Implemented at"
 "<<root>>\nStudyPlan" "*" --> "0.1" Date: "Ends at"
 @enduml

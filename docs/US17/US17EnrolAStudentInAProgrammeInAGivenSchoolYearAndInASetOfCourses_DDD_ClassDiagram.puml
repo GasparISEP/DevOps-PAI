@@ -329,6 +329,16 @@ class SchoolYearID <<Value Object>>{
     + toString(): String
     }
 
+class Date <<Value Object>> {
+     -localDate: LocalDate
+     +Date (localDate : LocalDate)
+}
+
+class  EnrolmentStatus <<Value Object>> {
+     -_isActive: boolean
+     +EnrollmentStatus(isActive: boolean)
+}
+
 'Factory
 class ProgrammeEditionEnrolmentFactoryImpl {
     +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
@@ -439,4 +449,8 @@ Address "  *" ---> "1" Street
 Address "*                " ---> "1" PostalCode
 Address " *" ---> "1" Location
 Address " *" ---> "1" Country
+
+CourseEditionEnrolment  "1" --> "1 _status" EnrolmentStatus
+ProgrammeEditionEnrolment  " 1    " --> "1  _date " Date
+CourseEditionEnrolment "1" --> "_date 1    " Date
 @enduml
