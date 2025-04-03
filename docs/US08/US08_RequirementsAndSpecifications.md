@@ -28,7 +28,7 @@ This document specifies the requirements for User Story 08 (PAI project), includ
 
 ## 3. Functional Requirements
 **FR1:** System shall enable ASC to register a student in the system  
-**FR2:** Each student must have a unique identifier (e.g., student ID)  
+**FR2:** Each student must have a unique identifier (unique number)  
 **FR3:** System must persist successfully registered student data  
 **FR4:** System shall provide confirmation to ASC upon successful registration
 
@@ -58,7 +58,7 @@ This document specifies the requirements for User Story 08 (PAI project), includ
 3. ASC provides student information
 4. System converts student data into Value Objects (uniqueNumber, name, NIF, phone, email, street, postalCode, location, country, academicEmail)
 5. On validation success:
-    - Creates Access Method
+    - Creates Address
     - Generates a Student ID
     - Generates a Student Academic Email
     - If no duplicate is found, the new student is saved in the repository
