@@ -27,14 +27,20 @@ This document outlines the requirements for User Story 24 (PAI project), coverin
 
 ## 3. Functional Requirements
 **FR1:** The system must allow ASCs to request the number of students enrolled in the specified Course Edition. 
+
 **FR2:** Every Course Edition must be uniquely identified using a value object (CourseEditionID).
+
 **FR3:** The system must accurately retrieve and return enrolment data.  
+
 **FR4:** The response should include the total number of students enrolled.
 
 ## 4. Non-Functional Requirements
 **NFR1:** Ensure data consistency in enrolment records.  
+
 **NFR2:** Enable efficient queries even under concurrent access.  
+
 **NFR3:** Maintain clean and scalable code following best practices. 
+
 **NFR4:** Ensure quick response times, even for large datasets.
 
 ## 5. Acceptance Criteria
@@ -57,10 +63,10 @@ This document outlines the requirements for User Story 24 (PAI project), coverin
 7. The UI displays the retrieved number.
 
 ## 8. Testing and Validation
-- [ ] Unit Tests: Ensure that individual components (e.g., the controller, repository methods) are tested for expected behavior, including cases for valid and invalid Course Edition IDs.
-- [ ] Integration Tests: Validate the interaction between the controller and repository layers, ensuring that the enrolment count is correctly retrieved from the data source.
-- [ ] Error Handling Validation: Ensure that errors (such as invalid Course Edition IDs) are properly handled and communicated to the ASC with appropriate messages.
-- [ ] User Acceptance Testing (UAT): Conduct UAT with ASCs to confirm that the feature meets the practical needs and expectations of the users.
+- [ ] **Unit Tests:** Ensure that individual components (e.g., the controller, repository methods) are tested for expected behavior, including cases for valid and invalid Course Edition IDs.
+- [ ] **Integration Tests:** Validate the interaction between the controller and repository layers, ensuring that the enrolment count is correctly retrieved from the data source.
+- [ ] **Error Handling Validation:** Ensure that errors (such as invalid Course Edition IDs) are properly handled and communicated to the ASC with appropriate messages.
+- [ ] **User Acceptance Testing (UAT):** Conduct UAT with ASCs to confirm that the feature meets the practical needs and expectations of the users.
 
 ## 9. Risk Analysis
 | Risk Category  | Mitigation Strategy                     |  
