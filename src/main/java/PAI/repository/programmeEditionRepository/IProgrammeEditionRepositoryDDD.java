@@ -6,6 +6,7 @@ import PAI.VOs.SchoolYearID;
 import PAI.ddd.IRepository;
 import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IProgrammeEditionRepositoryDDD extends IRepository<ProgrammeEditionID, ProgrammeEditionDDD> {
@@ -13,4 +14,6 @@ public interface IProgrammeEditionRepositoryDDD extends IRepository<ProgrammeEdi
     public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid);
 
     public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid);
+
+    List<ProgrammeEditionDDD> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid);
 }

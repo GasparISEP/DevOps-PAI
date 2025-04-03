@@ -115,7 +115,7 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) {
         for (ProgrammeDDD existingProgramme : _programmeRepo) {
-            if (existingProgramme.equals(programme)) {
+            if (existingProgramme.sameAs(programme)) {
                 return Optional.of(programme.identity());
             }
         }
