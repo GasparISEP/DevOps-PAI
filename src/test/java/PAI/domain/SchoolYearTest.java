@@ -6,6 +6,8 @@ import PAI.VOs.SchoolYearID;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
@@ -307,5 +309,69 @@ class SchoolYearTest {
 
         // Assert
         assertEquals(expectedID, result);
+    }
+
+    // Equals Test
+    @Test
+    void shouldReturnTrueIfSchoolYearIsComparedToItSelf() {
+        // Arrange
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+
+        // Act
+        boolean result = schoolYear.equals(schoolYear);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIsComparedToNull() {
+        // Arrange
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+
+        // Act
+        boolean result = schoolYear.equals(null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIsComparedToADifferentInstance() {
+        // Arrange
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+
+        // Act
+        boolean result = schoolYear.equals(description);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIsComparedToADifferentSchoolYear() {
+        // Arrange
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate = mock(Date.class);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear2 = new SchoolYear(description, startDate1, endDate);
+
+
+        // Act
+        boolean result = schoolYear.equals(schoolYear2);
+
+        // Assert
+        assertFalse(result);
     }
 }

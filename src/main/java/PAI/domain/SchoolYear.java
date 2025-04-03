@@ -36,6 +36,15 @@ public class SchoolYear implements AggregateRoot<SchoolYearID> {
         return _startDate.equals(newSchoolYear._startDate) && _endDate.equals(newSchoolYear._endDate);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        SchoolYear schoolYear = (SchoolYear) o;
+        return _schoolYearID.equals(schoolYear._schoolYearID);
+    }
+
     public Date getEndDate() {
         Date endDate = _endDate;
         return endDate;
