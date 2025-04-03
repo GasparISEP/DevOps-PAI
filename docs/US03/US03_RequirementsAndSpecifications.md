@@ -1,4 +1,4 @@
-# System Requirements and Specifications - US03 #
+# System Requirements and Specifications—US03 #
 
 ### Table of Contents
 
@@ -8,9 +8,9 @@
 4. [Non-Functional Requirements](#4-non-functional-requirements)
 5. [Acceptance Criteria](#5-acceptance-criteria)
 6. [Business Rules](#6-business-rules)
-7. [Event Flow](#7-eventflow)
+7. [Event Flow](#7-event-flow)
 8. [Testing and Validation](#8-testing-and-validation)
-9. [Identified Risks](#9-identified-risks)
+9. [Identified Risks](#9-risk-analysis)
 10. [Conclusion](#10-conclusion)
 
 ## 1. Introduction
@@ -18,8 +18,7 @@ This document specifies the requirements for User Story 3 (PAI project), includi
 - Functional and non-functional requirements
 - Acceptance criteria
 - Business rules
-- Risk analysis  
-  Providing a complete framework for development and quality assurance.
+- Risk analysis 
 
 ## 2. User Story Description
 **Role:** Academic Services Collaborator (ASC)  
@@ -40,7 +39,7 @@ This document specifies the requirements for User Story 3 (PAI project), includi
 ## 5. Acceptance Criteria
 - [ ] ASC can add Course to a Programme
 - [ ] Course uniquely linked to a Programme 
-- [ ] System validates existence of:
+- [ ] The System validates the existence of:
     - Selected Programme
     - Selected Study Plan
     - Selected Course
@@ -54,11 +53,11 @@ This document specifies the requirements for User Story 3 (PAI project), includi
 
 ## 7. Event Flow
 1. ASC initiates asks to add a Course to a Programme
-2. System guides through selection process:
+2. System guides through a selection process:
     - Programme
     - Study Plan of chosen Programme
     - Course
-3. System validates of Course can be added to Programme
+3. System validates, of Course, can be added to the Programme
 4. System checks for existing registrations
 5. On validation success:
     - Create Course in Study Plan, which stores to which Study Plan of specified Programme the Course will belong
@@ -84,4 +83,4 @@ The solution ensures:
 ✔ Reliability via robust architecture  
 ✔ Usability with guided workflows
 
-#### Risk mitigation and thorough testing will guarantee feature success.  
+#### Risk mitigation and thorough testing will guarantee to feature success.  
