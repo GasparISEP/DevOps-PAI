@@ -214,19 +214,21 @@ class ProgrammeEditionIDTest {
 
     // HashCode Test
     @Test
-    void shouldReturnHashCode() throws Exception {
+    void shouldReturnAnImmutableHashCode() throws Exception {
         // Arrange
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+        ProgrammeID pID = mock(ProgrammeID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
 
+        int programmeIDHashCode = pID.hashCode();
+        int schoolYearIDHashCode = sYID.hashCode();
+
+        ProgrammeEditionID pEID = new ProgrammeEditionID(pID, sYID);
 
         // Act
-        int result = programmeEditionID.hashCode();
+        int result = pEID.hashCode();
 
         // Assert
-        assertEquals(result, programmeEditionID.hashCode());
-        assertNotEquals(result, programmeEditionID2.hashCode());
+        assertEquals(programmeIDHashCode + schoolYearIDHashCode, result);
+        assertNotEquals(programmeIDHashCode - schoolYearIDHashCode, result);
     }
 }
