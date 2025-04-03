@@ -1,0 +1,17 @@
+@startuml
+title US06_DDD_ConvertDepartmentIDandTeacherIDToVO
+
+autonumber
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+participant ":US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController " as controller #cyan/white
+
+activate controller
+
+controller -> "dID:DepartmentID"** : create(departmentID)
+
+controller ->"tID:TeacherID" **: create(teacherID)
+deactivate controller
+@enduml

@@ -17,6 +17,10 @@ activate UI #ddfada
 UI -> Controller: getAllDepartmentID ()
 activate Controller #ddfada
 
+ref over Controller
+    Convert departmentID to VO
+end ref
+
 Controller -> IDepartmentRepository: getDepartmentIDs ()
 activate IDepartmentRepository #ddfada
 IDepartmentRepository --> Controller: Set<DepartmentID>
@@ -36,6 +40,10 @@ Administrator -> UI: Yes!
 
 UI -> Controller :  updateOfDepartmentDirector (departmentID, teacherID)
 activate Controller #ddfada
+
+ref over Controller
+    Convert departmentID and teacherID to VO
+end ref
 
 Controller -> IDepartmentRepository: updateOfDepartmentDirector(departmentID, teacherID)
 activate IDepartmentRepository  #ddfada
