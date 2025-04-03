@@ -79,6 +79,7 @@ class NIF <<Value Object>> {
 }
 
 class PhoneNumber <<Value Object>> {
+    + PhoneNumber(countryCode: String, number: String)
     - _countryCode: String
     -_number: String
 }
@@ -89,10 +90,6 @@ class AcademicBackground <<Value Object>> {
 }
 
 class Address <<Value Object>>{
-     -_street: Street
-     -_country: Country
-     -_postalCode: PostalCode
-     -_location: Location
      +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
 }
 
