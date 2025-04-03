@@ -1,4 +1,4 @@
-package PAI.controller.US11_DDD;
+package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Department;

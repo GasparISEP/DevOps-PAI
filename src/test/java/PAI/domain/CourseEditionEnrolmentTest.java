@@ -1,5 +1,6 @@
 package PAI.domain;
 
+import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import org.junit.jupiter.api.Test;
@@ -265,5 +266,203 @@ class CourseEditionEnrolmentTest {
 
         // Assert
         assertFalse(enrollment.isEnrolmentActive(), "Enrolment should remain inactive after multiple deactivations");
+    }
+
+    @Test
+    void should_return_a_CourseEditionEnrolmentID(){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
+
+        // act
+        CourseEditionEnrolmentID result = courseEditionEnrolment.identity();
+
+        // assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void should_return_true_if_are_different_CourseEditionEnrolment(){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
+        CourseEditionEnrolment courseEditionEnrolment1 = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
+
+        // act
+        boolean result = courseEditionEnrolment.sameAs (courseEditionEnrolment1);
+
+        // assert
+        assertTrue(result);
+    }
+
+    @Test
+    void should_return_false_if_CourseEditionEnrolment_is_Null(){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
+
+        // act
+        boolean result = courseEditionEnrolment.sameAs (null);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_true_if_are_the_same_memory_reference (){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentIDDouble, courseEditionIDDouble);
+        CourseEditionEnrolment courseEditionEnrolment1 = courseEditionEnrolment;
+
+        // act
+        boolean result = courseEditionEnrolment.sameAs (courseEditionEnrolment1);
+
+        // assert
+        assertTrue(result);
+    }
+
+    @Test
+    void should_return_true_when_same_studentId_and_CourseEditionId() {
+
+        // arrange
+        StudentID studentId1 = mock(StudentID.class);
+        CourseEditionID courseEditionId1 = mock(CourseEditionID.class);
+
+        StudentID studentId2 = studentId1;
+        CourseEditionID courseEditionId2 = courseEditionId1;
+
+        CourseEditionEnrolment enrolment1 = new CourseEditionEnrolment(studentId1, courseEditionId1);
+        CourseEditionEnrolment enrolment2 = new CourseEditionEnrolment(studentId2, courseEditionId2);
+
+        // act
+        boolean result = enrolment1.sameAs(enrolment2);
+
+        // assert
+        assertTrue(result);
+    }
+
+    @Test
+    void should_return_False_if_Objects_are_not_of_the_same_instance() {
+
+        // arrange
+        StudentID studentId1 = mock(StudentID.class);
+        CourseEditionID courseEditionId1 = mock(CourseEditionID.class);
+
+        Object object =mock(Object.class);
+
+        CourseEditionEnrolment enrolment1 = new CourseEditionEnrolment(studentId1, courseEditionId1);
+
+        // act
+        boolean result = enrolment1.sameAs(object);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_if_are_not_the_same_object() {
+
+        // arrange
+        StudentID studentId1 = mock(StudentID.class);
+        CourseEditionID courseEditionId1 = mock(CourseEditionID.class);
+        StudentID studentId2 = mock(StudentID.class);
+        CourseEditionID courseEditionId2 = mock(CourseEditionID.class);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentId1, courseEditionId1);
+        CourseEditionEnrolment courseEditionEnrolment1 = new CourseEditionEnrolment(studentId2, courseEditionId2);
+
+        // act
+        boolean result = courseEditionEnrolment.sameAs(courseEditionEnrolment1);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_if_has_not_the_same_StudentID() {
+
+        // arrange
+        StudentID studentId1 = mock(StudentID.class);
+        CourseEditionID courseEditionId1 = mock(CourseEditionID.class);
+        StudentID studentId2 = mock(StudentID.class);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentId1, courseEditionId1);
+        CourseEditionEnrolment courseEditionEnrolment1 = new CourseEditionEnrolment(studentId2, courseEditionId1);
+
+        // act
+        boolean result = courseEditionEnrolment.sameAs(courseEditionEnrolment1);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_if_has_not_the_same_CourseEdition_ID() {
+
+        // arrange
+        StudentID studentId1 = mock(StudentID.class);
+        CourseEditionID courseEditionId1 = mock(CourseEditionID.class);
+        CourseEditionID courseEditionId2 = mock(CourseEditionID.class);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentId1, courseEditionId1);
+        CourseEditionEnrolment courseEditionEnrolment1 = new CourseEditionEnrolment(studentId1, courseEditionId2);
+
+        // act
+        boolean result = courseEditionEnrolment.sameAs(courseEditionEnrolment1);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_for_different_Students_in_CourseEdition_Enrollment()  {
+
+        // arrange
+        StudentID st1 = mock(StudentID.class);
+        StudentID st2 = mock(StudentID.class);
+        CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment enrollment1 = new CourseEditionEnrolment(st1, courseEditionDouble);
+
+        // act
+        boolean result = enrollment1.hasStudent(st2);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_when_Student_Id_is_null()  {
+
+        // arrange
+        StudentID st1 = mock(StudentID.class);
+        CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment enrollment1 = new CourseEditionEnrolment(st1, courseEditionDouble);
+
+        // act
+        boolean result = enrollment1.hasStudent(null);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_when_CourseEdition_Id_is_Null()  {
+
+        // arrange
+        StudentID st1 = mock(StudentID.class);
+        CourseEditionID courseEditionDouble = mock(CourseEditionID.class);
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(st1, courseEditionDouble);
+
+        // act
+        boolean result = enrollment.hasCourseEdition(null);
+
+        // assert
+        assertFalse(result);
     }
 }

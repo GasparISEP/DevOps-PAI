@@ -12,8 +12,11 @@ public class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller {
 
         this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
     }
-    public boolean removeStudentEnrolment(StudentID studentId, CourseEditionID courseEditionsId) {
+    public boolean removeStudentEnrolment(StudentID studentId, CourseEditionID courseEditionId) {
+        if (studentId == null || courseEditionId == null) {
+            return false; // Returns false immediately if any ID is null
+        }
 
-           return courseEditionEnrolmentRepository.removeEnrolment(studentId, courseEditionsId);
+        return courseEditionEnrolmentRepository.removeEnrolment(studentId, courseEditionId);
     }
 }

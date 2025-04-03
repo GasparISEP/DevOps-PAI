@@ -71,28 +71,37 @@ class ProgrammeDDDRepositoryImplTest {
         IProgrammeDDDFactory IProgrammeFactoryDouble = mock(IProgrammeDDDFactory.class);
         IProgrammeDDDRepositoryListFactory programmeListListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
 
+        // Criar uma lista simulada de programas
+        List<ProgrammeDDD> fakeRepo = new ArrayList<>();
+        when(programmeListListFactory.newProgrammeArrayList()).thenReturn(fakeRepo);
+        when(programmeListListFactory.copyProgrammeArrayList(any())).thenReturn(new ArrayList<>(fakeRepo));
+
+        // Criar instância do repositório com mocks
         ProgrammeDDDRepositoryImpl programmeList = new ProgrammeDDDRepositoryImpl(IProgrammeFactoryDouble, programmeListListFactory);
 
+        // Mocks de VO e entidades
         ProgrammeID programmeID = mock(ProgrammeID.class);
         TeacherID teacherID = mock(TeacherID.class);
         ProgrammeDDD programme = mock(ProgrammeDDD.class);
 
-        when(programme.getProgrammeID()).thenReturn((programmeID));
+        // Configurar o mock para devolver o ID quando for pedido
+        when(programme.identity()).thenReturn(programmeID);
 
+        // Adicionar o programa ao repositório "manual" usando reflexão
         Field repoField = ProgrammeDDDRepositoryImpl.class.getDeclaredField("_programmeRepo");
         repoField.setAccessible(true);
         List<ProgrammeDDD> repo = (List<ProgrammeDDD>) repoField.get(programmeList);
         repo.add(programme);
 
+        // Configurar comportamento do método de mudança de diretor
         when(programme.newProgrammeDirector(teacherID)).thenReturn(true);
 
         // Act
         boolean result = programmeList.changeProgrammeDirector(programmeID, teacherID);
 
-        // Asssert
+        // Assert
         assertTrue(result);
     }
-
 
     @Test
     void dontChangeProgrammedDirectorOfValidProgramme() throws Exception {
@@ -377,7 +386,7 @@ class ProgrammeDDDRepositoryImplTest {
         ProgrammeID programmeID = createdProgramme.getProgrammeID();
 
         // Act
-        Optional<ProgrammeDDD> result = repository.findProgrammeByID(programmeID);
+        Optional<ProgrammeDDD> result = repository.ofIdentity(programmeID);
 
         // Assert
         assertTrue(result.isPresent());
@@ -398,7 +407,7 @@ class ProgrammeDDDRepositoryImplTest {
 
         // Act
         ProgrammeID nonExistentID = new ProgrammeID(name, acronym);
-        Optional<ProgrammeDDD> foundPlan = repository.findProgrammeByID(nonExistentID);
+        Optional<ProgrammeDDD> foundPlan = repository.ofIdentity(nonExistentID);
 
         // Assert
         assertFalse(foundPlan.isPresent());

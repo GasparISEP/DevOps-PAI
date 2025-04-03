@@ -38,17 +38,26 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
 
     @Override
     public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
+        for(ProgrammeEditionDDD check : _programmeEditions) {
+            if (check.findProgrammeIDInProgrammeEdition().equals(programmeid) && check.findSchoolYearIDInProgrammeEdition().equals(schoolYearid))
+                return Optional.of(check.identity());
+        }
         return Optional.empty();
     }
 
     @Override
-    public ProgrammeEditionDDD save(ProgrammeEditionDDD entity) {
-        return null;
+    public ProgrammeEditionDDD save(ProgrammeEditionDDD programmeEdition) {
+        if (programmeEdition == null){
+            throw new IllegalArgumentException("Programme Edition cannot be null");
+        }
+        _programmeEditions.add(programmeEdition);
+
+        return programmeEdition;
     }
 
     @Override
     public Iterable<ProgrammeEditionDDD> findAll() {
-        return null;
+        return _programmeEditions;
     }
 
     @Override

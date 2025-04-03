@@ -125,6 +125,8 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
 
         US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
 
+        when(teacherRepositoryDouble.containsOfIdentity(any(TeacherID.class))).thenReturn(true);
+
         when(teacherCareerProgressionRepositoryDouble.updateWorkingPercentageInTeacherCareerProgression(
                 any(Date.class), any(WorkingPercentage.class), any(TeacherID.class))).thenReturn(false);
 

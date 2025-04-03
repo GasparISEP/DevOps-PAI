@@ -35,14 +35,6 @@ public class StudyPlanDDDRepositoryImpl implements IStudyPlanDDDRepository {
         return this._studyPlanList_2;
     }
 
-    public Optional<StudyPlanDDD> findStudyPlanByID(StudyPlanID studyPlanID) {
-        for (StudyPlanDDD studyPlanDDD : _studyPlanList_2) {
-            if (studyPlanDDD.getStudyPlanID().equals(studyPlanID));
-            return Optional.of(studyPlanDDD);
-        }
-        return Optional.empty();
-    }
-
     public List<StudyPlanDDD> getAllStudyPlansByProgrammeId(ProgrammeID programmeID) {
         List<StudyPlanDDD> studyPlanDDDList = new ArrayList<>();
         for (StudyPlanDDD studyPlanDDD : _studyPlanList_2) {

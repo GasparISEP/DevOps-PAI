@@ -11,7 +11,7 @@ public class CourseDDD implements AggregateRoot<CourseID> {
     private final CourseQuantityCreditsEcts _quantityCreditsEcts;
     private final DurationCourseInCurricularYear _duration;
 
-    protected CourseDDD(Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear){
+    public CourseDDD(Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear){
 
         if(name == null){
             throw new IllegalArgumentException("Course Name must be valid");
