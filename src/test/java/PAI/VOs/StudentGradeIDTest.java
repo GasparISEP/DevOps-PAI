@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudentGradeIDTest {
 
@@ -83,6 +84,23 @@ class StudentGradeIDTest {
         String result = studentGradeID.toString();
         //assert
         assertEquals(studentGradeID.toString(),result);
+    }
+    @Test
+    void testToStringNotEmpty() {
+        // Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+
+        when(studentIDDouble.toString()).thenReturn("MockStudentID");
+        when(courseEditionIDDouble.toString()).thenReturn("MockCourseEditionID");
+
+        StudentGradeID studentGradeID = new StudentGradeID(studentIDDouble, courseEditionIDDouble);
+
+        // Act
+        String result = studentGradeID.toString();
+
+        // Assert
+        assertFalse(result.isEmpty());
     }
 
 }
