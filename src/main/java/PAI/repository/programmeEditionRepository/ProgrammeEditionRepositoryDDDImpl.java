@@ -5,6 +5,9 @@ import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.IProgrammeEditionDDDFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionDDD;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -76,5 +79,15 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ProgrammeEditionDDD> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid) {
+        List<ProgrammeEditionDDD> programmeEditions = new ArrayList<>();
+        for (ProgrammeEditionDDD programmeEditionDDD : _programmeEditions) {
+            if (programmeEditionDDD.findProgrammeIDInProgrammeEdition().equals(programmeid))
+                programmeEditions.add(programmeEditionDDD);
+        }
+        return programmeEditions;
     }
 }
