@@ -35,4 +35,21 @@ public class PhoneNumber implements ValueObject {
     public boolean isPhoneNumberInvalid(String phoneNumber) {
         return !phoneNumber.matches("^\\d{6,15}$");
     }
+
+    @Override
+    public boolean equals(Object objectToCompare) {
+
+        if (this == objectToCompare)
+            return true;
+
+        if (objectToCompare instanceof PhoneNumber) {
+
+            PhoneNumber phoneNumberTest = (PhoneNumber) objectToCompare;
+
+            if (_countryCode.equals(phoneNumberTest._countryCode) &&
+                _number.equals(phoneNumberTest._number)){
+                return true;}
+        }
+        return false;
+    }
 }
