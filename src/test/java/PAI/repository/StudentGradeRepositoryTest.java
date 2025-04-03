@@ -510,6 +510,32 @@ class StudentGradeRepositoryTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnIdWhenStudentGradeExistsInList_WithEqualsCheck() throws Exception {
+        // Arrange
+        IStudentGradeFactory factory = mock(IStudentGradeFactory.class);
+        IStudentGradeListFactory listFactory = mock(IStudentGradeListFactory.class);
+        List<StudentGrade> list = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(list);
+
+        StudentGradeRepository repo = new StudentGradeRepository(factory, listFactory);
+
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        Grade grade = mock(Grade.class);
+        Date date =mock(Date.class);
+
+        StudentGrade studentGrade = new StudentGrade(grade,date,studentID,courseEditionID);
+
+        repo.save(studentGrade);
+
+        // Act
+        Optional<StudentGradeID> result = repo.findIdByStudent(studentGrade);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(studentGrade.identity(), result.get());
+    }
 
 
 

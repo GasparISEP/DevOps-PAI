@@ -1,7 +1,9 @@
 package PAI.repository;
 
 import PAI.VOs.*;
+import PAI.domain.Programme;
 import PAI.domain.ProgrammeEnrolment;
+import PAI.domain.Student;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.factory.IProgrammeEnrolmentListFactory;
 import org.junit.jupiter.api.Test;
@@ -134,8 +136,10 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInProgramme() {
         // Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Student studentDouble = mock(Student.class);
+        StudentID studentIdDouble = mock(StudentID.class);
+        Programme programmeDouble = mock(Programme.class);
+        ProgrammeID programmeIdDouble = mock(ProgrammeID.class);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
@@ -154,12 +158,12 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(itDouble.next()).thenReturn(programmeEnrolmentDouble);
 
-        when(programmeEnrolmentDouble.hasSameStudent(studentIDDouble)).thenReturn(true);
+        when(programmeEnrolmentDouble.hasSameStudent(studentIdDouble)).thenReturn(true);
 
-        when(programmeEnrolmentDouble.hasSameProgramme(programmeIDDouble)).thenReturn(true);
+        when(programmeEnrolmentDouble.hasSameProgramme(programmeIdDouble)).thenReturn(true);
 
         // Act
-        boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentIDDouble, programmeIDDouble);
+        boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentIdDouble, programmeIdDouble);
 
         // Assert
         assertTrue(result);
@@ -169,8 +173,10 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldReturnFalseIfStudentIsNotEnrolledInProgramme() {
         // Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Student studentDouble = mock(Student.class);
+        StudentID studentIdDouble = mock(StudentID.class);
+        Programme programmeDouble = mock(Programme.class);
+        ProgrammeID programmeIdDouble = mock(ProgrammeID.class);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
@@ -189,12 +195,12 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(itDouble.next()).thenReturn(programmeEnrolmentDouble);
 
-        when(programmeEnrolmentDouble.hasSameStudent(studentIDDouble)).thenReturn(false);
+        when(programmeEnrolmentDouble.hasSameStudent(studentIdDouble)).thenReturn(false);
 
-        when(programmeEnrolmentDouble.hasSameProgramme(programmeIDDouble)).thenReturn(false);
+        when(programmeEnrolmentDouble.hasSameProgramme(programmeIdDouble)).thenReturn(true);
 
         // Act
-        boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentIDDouble, programmeIDDouble);
+        boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentIdDouble, programmeIdDouble);
 
         // Assert
         assertFalse(result);
@@ -203,9 +209,11 @@ class ProgrammeEnrolmentRepositoryTest {
     @Test
     void shouldReturnFalseIfTheSameStudentIsEnrolledInADifferentProgramme() {
         // Arrange
-        StudentID studentIDDouble = mock(StudentID.class);
-        ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
-        ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
+        Student studentDouble = mock(Student.class);
+        StudentID studentIdDouble = mock(StudentID.class);
+        Programme programmeDouble = mock(Programme.class);
+        ProgrammeID programmeIdDouble = mock(ProgrammeID.class);
+                ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
         IProgrammeEnrolmentFactory programmeEnrolmentFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
         ArrayList<ProgrammeEnrolment> listDouble = mock(ArrayList.class);
@@ -223,12 +231,12 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(itDouble.next()).thenReturn(programmeEnrolmentDouble);
 
-        when(programmeEnrolmentDouble.hasSameStudent(studentIDDouble)).thenReturn(true);
+        when(programmeEnrolmentDouble.hasSameStudent(studentIdDouble)).thenReturn(true);
 
-        when(programmeEnrolmentDouble.hasSameProgramme(programmeIDDouble2)).thenReturn(false);
+        when(programmeEnrolmentDouble.hasSameProgramme(programmeIdDouble)).thenReturn(false);
 
         // Act
-        boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentIDDouble, programmeIDDouble2);
+        boolean result = programmeEnrolmentRepository.isStudentEnrolled(studentIdDouble, programmeIdDouble);
 
         // Assert
         assertFalse(result);

@@ -451,16 +451,16 @@ class CourseEditionRepositoryImplDDDTest {
         // Arrange
 
         CourseEditionDDD doubleCourseEdition = mock(CourseEditionDDD.class);
-        CourseEditionFactoryImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryImpl.class);
-        CourseEditionListFactoryImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryImpl.class);
+        CourseEditionFactoryDDDImpl doubleCourseEditionFactoryImpl = mock(CourseEditionFactoryDDDImpl.class);
+        CourseEditionListFactoryDDDImpl courseEditionListFactoryImplDouble = mock (CourseEditionListFactoryDDDImpl.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
 
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
 
 
-        CourseEditionRepository repository = new CourseEditionRepository(doubleCourseEditionFactoryImpl, courseEditionListFactoryImplDouble);
+        CourseEditionRepositoryDDDImpl repository = new CourseEditionRepositoryDDDImpl(doubleCourseEditionFactoryImpl, courseEditionListFactoryImplDouble);
 
-        when(doubleCourseEditionFactoryImpl.newCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition);
+        when(doubleCourseEditionFactoryImpl.newCourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition);
 
         repository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 
