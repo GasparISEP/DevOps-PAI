@@ -102,4 +102,13 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         }
         return false;
     }
+
+    public Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) {
+        for (ProgrammeDDD existingProgramme : _programmeRepo) {
+            if (existingProgramme.equals(programme)) {
+                return Optional.of(programme.identity());
+            }
+        }
+        return Optional.empty();
+    }
 }
