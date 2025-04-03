@@ -1,8 +1,10 @@
 package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
+import PAI.ddd.AggregateRoot;
+import PAI.domain.studyPlan.StudyPlanDDD;
 
-public class CourseInStudyPlanDDD {
+public class CourseInStudyPlanDDD implements AggregateRoot<CourseInStudyPlanID> {
 
     private CourseID _courseID;
     private Semester _semester;
@@ -52,7 +54,15 @@ public class CourseInStudyPlanDDD {
         return this._studyPlanID;
     }
 
-    public CourseInStudyPlanID getCourseInStudyPlanID() {
+    @Override
+    public CourseInStudyPlanID identity() {
         return this._courseInStudyPlanID;
+    }
+
+    @Override
+    public boolean sameAs(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof CourseInStudyPlanDDD courseInStudyPlanDDD)) return false;
+        return this._courseInStudyPlanID.equals(courseInStudyPlanDDD._courseInStudyPlanID);
     }
 }

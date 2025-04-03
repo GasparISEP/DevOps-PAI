@@ -34,7 +34,7 @@ class StudyPlanDDDTest {
 
         // Act
         StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
-        StudyPlanID id = studyPlan.getStudyPlanID();
+        StudyPlanID id = studyPlan.identity();
 
         // Assert
         assertNotNull(id);
@@ -57,7 +57,7 @@ class StudyPlanDDDTest {
         StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID1, implementationDate, durationInYears, quantityOfEcts);
 
         // Assert
-        assertNotEquals(studyPlan1.getStudyPlanID(), studyPlan2.getStudyPlanID());
+        assertNotEquals(studyPlan1.identity(), studyPlan2.identity());
     }
 
     @Test
@@ -77,7 +77,7 @@ class StudyPlanDDDTest {
         StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID, implementationDate1, durationInYears, quantityOfEcts);
 
         // Assert
-        assertNotEquals(studyPlan1.getStudyPlanID(), studyPlan2.getStudyPlanID());
+        assertNotEquals(studyPlan1.identity(), studyPlan2.identity());
     }
 
     @Test

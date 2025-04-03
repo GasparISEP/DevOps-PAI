@@ -9,12 +9,12 @@ public class TeacherFactoryImpl implements ITeacherFactory {
     public Teacher createTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
                                  Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
 
-        AddressVO address = createAddress(street, postalCode, location, country);
+        Address address = createAddress(street, postalCode, location, country);
 
         return new Teacher(acronym, name, email, nif, phoneNumber, academicBackground, address, departmentID);
     }
 
-    private AddressVO createAddress(Street street, PostalCode postalCode, Location location, Country country){
-        return new AddressVO(street, postalCode, location, country);
+    private Address createAddress(Street street, PostalCode postalCode, Location location, Country country){
+        return new Address(street, postalCode, location, country);
     }
 }

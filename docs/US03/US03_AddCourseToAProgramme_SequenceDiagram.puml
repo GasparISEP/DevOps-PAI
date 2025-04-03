@@ -6,7 +6,7 @@ ASC -> UI ++ #application : I want to add Course to a Programme
 
 UI -> ":AddCourseToAProgrammeController" ++ #application: getAllProgrammes()
 
-":AddCourseToAProgrammeController" -> ProgrammeRepository ++ #application: getAllProgrammes()
+":AddCourseToAProgrammeController" -> ProgrammeRepository ++ #application: findAll()
 
 ProgrammeRepository --> ":AddCourseToAProgrammeController" -- #application: programmeList
 
@@ -55,12 +55,14 @@ UI --> ASC : Which Semester?
 
 ASC -> UI #application: 1st!
 
-UI -> ":AddCourseToAProgrammeController"  #application : addCourseToProgramme (course1ID, studyPlan1ID, CurricularYear, Semester)
+UI -> ":AddCourseToAProgrammeController"  #application : addCourseToProgramme (Semester, CurricularYear, CourseDDD, StudyPlanDDD)
 
+":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController" : getCourseID()
+":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController" : getStudyPlanID()
 ":AddCourseToAProgrammeController" -> ":CourseInStudyPlanRepository" ++ #application : registerCourseInStudyPlan(course1ID, studyPlan1ID, CurricularYear, Semester)
 
 create "cisp1:CourseInStudyPlan" as CISP #lightblue
-":CourseInStudyPlanRepository" --> CISP : <create> (course1ID, studyPlan1ID, CurricularYear, Semester)
+":CourseInStudyPlanRepository" --> CISP : <create> (Semester, CurricularYear,  course1ID, studyPlan1ID)
 ":CourseInStudyPlanRepository" -> ":CourseInStudyPlanRepository": isCourseInStudyPlanInRepository()
 ":CourseInStudyPlanRepository" -> ":CourseInStudyPlanRepository": addCourseInStudyPlan(cisp1)
 ":CourseInStudyPlanRepository" --> ":AddCourseToAProgrammeController" --: true

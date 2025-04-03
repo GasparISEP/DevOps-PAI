@@ -26,10 +26,9 @@ public class Programme {
     private Teacher _programmeDirector;
     private List<Course> _courseList;
     private IProgrammeCourseListFactory _I_programmeCourseListFactory;
-    private StudyPlan _studyPlan;
 
     public Programme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
+                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory) {
 
         if (isNameInvalid(name)) {
             throw new IllegalArgumentException("Name must not be empty");
@@ -71,52 +70,6 @@ public class Programme {
 
         _courseList = _I_programmeCourseListFactory.createCourseList();
 
-        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
-    }
-
-    public Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeType degreeType, Department department,
-                     Teacher programmeDirector, IProgrammeCourseListFactory IProgrammeCourseListFactory, ICourseInStudyPlanFactory ICourseInStudyPlanFactory, IStudyPlanListFactory IStudyPlanListFactory, IStudyPlanFactory IStudyPlanFactory, ICourseFactory ICourseFactory) {
-        if(name==null) {
-            throw new IllegalArgumentException("Insert a valid Name");
-        }
-        _nameWithNumbersAndSpecialChars = name;
-
-        if (acronym == null) {
-            throw new IllegalArgumentException("Acronym must not be empty");
-        }
-        _acronymm = acronym;
-
-        if (quantityOfEcts == null) {
-            throw new IllegalArgumentException("Insert a valid number of ECTS");
-        }
-        _quantEcts = quantityOfEcts;
-
-        if (quantityOfSemesters==null) {
-            throw new IllegalArgumentException("Insert a valid number of Semesters");
-        }
-        _quantSemesters = quantityOfSemesters;
-
-        if (degreeType == null) {
-            throw new IllegalArgumentException("Insert a valid DegreeType");
-        }
-        _degreeType = degreeType;
-
-        if (department == null) {
-            throw new IllegalArgumentException("Insert a valid Department");
-        }
-        _department = department;
-
-        if (programmeDirector == null) {
-            throw new IllegalArgumentException("Insert a valid Programme Director");
-        }
-
-        _programmeDirector = programmeDirector;
-
-        _I_programmeCourseListFactory = IProgrammeCourseListFactory;
-
-        _courseList = _I_programmeCourseListFactory.createCourseList();
-
-        _studyPlan = IStudyPlanFactory.newStudyPlan(ICourseInStudyPlanFactory, IStudyPlanListFactory, ICourseFactory);
     }
 
     private boolean isNameInvalid(String name) {
@@ -188,10 +141,6 @@ public class Programme {
     }
 
     public QuantSemesters getQuantSemesters() {return _quantSemesters;}
-
-    public StudyPlan getStudyPlan() {
-        return _studyPlan;
-    }
 
     public int calculateNumberOfYears(int quantityOfSemesters) {
         int numberOfYears;

@@ -1,8 +1,6 @@
 package PAI.domain.course;
 
 import PAI.VOs.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
-import PAI.domain.accessMethodDDD.AccessMethodDDDFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

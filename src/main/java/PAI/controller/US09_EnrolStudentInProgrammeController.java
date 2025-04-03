@@ -2,24 +2,24 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.*;
-import PAI.domain.accessMethodDDD.AccessMethodDDD;
+import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
-import PAI.repository.accessMethodRepositoryDDD.AccessMethodDDDRepository;
-import PAI.repository.programmeRepo.ProgrammeDDDRepository;
+import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 
 import java.util.Optional;
 
 public class US09_EnrolStudentInProgrammeController {
     private final StudentRepository _studentRepository;
-    private final AccessMethodDDDRepository _accessMethodRepository;
-    private final ProgrammeDDDRepository _programmeRepository;
+    private final AccessMethodRepositoryImpl _accessMethodRepository;
+    private final ProgrammeDDDRepositoryImpl _programmeRepository;
     private final ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     //Constructor
-    public US09_EnrolStudentInProgrammeController(StudentRepository studentRepository, AccessMethodDDDRepository accessMethodRepository,
-                                                  ProgrammeDDDRepository programmeRepository, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
+    public US09_EnrolStudentInProgrammeController(StudentRepository studentRepository, AccessMethodRepositoryImpl accessMethodRepository,
+                                                  ProgrammeDDDRepositoryImpl programmeRepository, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
         if (studentRepository == null) {
             throw new IllegalArgumentException("studentRepository cannot be null.");
         }
@@ -43,12 +43,12 @@ public class US09_EnrolStudentInProgrammeController {
         return _studentRepository.getStudentByID(studentID);
     }
 
-    public Optional<AccessMethodDDD> getAccessMethodByName(NameWithNumbersAndSpecialChars accessMethod) {
+    public Optional<AccessMethod> getAccessMethodByName(NameWithNumbersAndSpecialChars accessMethod) {
         return _accessMethodRepository.getAccessMethodByName(accessMethod);
     }
 
-    public Optional<AccessMethodDDD> getAccessMethodByID(AccessMethodID accessMethodID) {
-        return _accessMethodRepository.getAccessMethodByID(accessMethodID);
+    public Optional<AccessMethod> getAccessMethodByID(AccessMethodID accessMethodID) {
+        return _accessMethodRepository.ofIdentity(accessMethodID);
     }
 
     public Optional<ProgrammeDDD> getProgrammeByName(NameWithNumbersAndSpecialChars programmeName) {
@@ -56,7 +56,7 @@ public class US09_EnrolStudentInProgrammeController {
     }
 
     public Optional<ProgrammeDDD> getProgrammeByID(ProgrammeID programmeID) {
-        return _programmeRepository.findProgrammeByID(programmeID);
+        return _programmeRepository.ofIdentity(programmeID);
     }
 
     public boolean enrolStudentInProgramme(StudentID s1, AccessMethodID am1, ProgrammeID p1, Date date) throws Exception {

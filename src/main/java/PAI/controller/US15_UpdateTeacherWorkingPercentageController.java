@@ -1,41 +1,45 @@
 package PAI.controller;
 
-import PAI.VOs.NIF;
+import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.repository.TeacherRepository;
-
-import java.util.Optional;
+import PAI.repository.ITeacherCareerProgressionRepository;
+import PAI.repository.ITeacherRepository;
 
 public class US15_UpdateTeacherWorkingPercentageController {
 
-    private TeacherRepository _teacherRepository;
-    private Teacher _teacher;
+    private ITeacherRepository _teacherRepository;
+    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;
+
 
     // Constructor
-    public US15_UpdateTeacherWorkingPercentageController (TeacherRepository teacherRepository) {
+    public US15_UpdateTeacherWorkingPercentageController (ITeacherRepository teacherRepository, ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
 
-        if (teacherRepository == null) {
-            throw new IllegalArgumentException("Teacher Repository cannot be null");
+        if (teacherRepository == null || teacherCareerProgressionRepository == null) {
+            throw new IllegalArgumentException("Repository cannot be null");
         }
 
         _teacherRepository = teacherRepository;
+        _teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
 
-    public Optional<Teacher> getTeacherByNIF (NIF NIF) {
+    public Iterable<Teacher> findAll() {
 
-        Optional<Teacher> optT1 = _teacherRepository.getTeacherByNIF(NIF);
-
-        if(optT1.isPresent())
-            _teacher = optT1.get();
-
-        return optT1;
+        return _teacherRepository.findAll();
     }
 
-    public boolean updateTeacherWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage) {
+    public boolean updateWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage, String teacherAcronym) throws Exception {
 
-        if(_teacher == null)
+        Date dateVO = new Date(date);
+
+        WorkingPercentage workingPercentageVO = new WorkingPercentage(workingPercentage);
+
+        TeacherAcronym acronymVO = new TeacherAcronym(teacherAcronym);
+
+        TeacherID teacherID = new TeacherID(acronymVO);
+
+        if(!_teacherRepository.containsOfIdentity(teacherID))
             return false;
 
-        return true;
+        return _teacherCareerProgressionRepository.updateWorkingPercentageInTeacherCareerProgression(dateVO, workingPercentageVO, teacherID);
     }
 }

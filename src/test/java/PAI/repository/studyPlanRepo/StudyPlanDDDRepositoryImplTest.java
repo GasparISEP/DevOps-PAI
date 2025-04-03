@@ -119,10 +119,10 @@ public class StudyPlanDDDRepositoryImplTest {
         // Act
         repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
         StudyPlanDDD createdPlan = repository.getAllStudyPlans_2().get(0);
-        StudyPlanID studyPlanID = createdPlan.getStudyPlanID();
+        StudyPlanID studyPlanID = createdPlan.identity();
 
         // Act
-        Optional<StudyPlanDDD> foundPlan = repository.findStudyPlanByID(studyPlanID);
+        Optional<StudyPlanDDD> foundPlan = repository.ofIdentity(studyPlanID);
 
         // Assert
         assertTrue(foundPlan.isPresent());
@@ -144,7 +144,7 @@ public class StudyPlanDDDRepositoryImplTest {
 
         // Act
         StudyPlanID nonExistentID = new StudyPlanID(programmeID, implementationDate);
-        Optional<StudyPlanDDD> foundPlanOpt = repository.findStudyPlanByID(nonExistentID);
+        Optional<StudyPlanDDD> foundPlanOpt = repository.ofIdentity(nonExistentID);
 
         // Assert
         assertFalse(foundPlanOpt.isPresent());
@@ -202,7 +202,6 @@ public class StudyPlanDDDRepositoryImplTest {
         StudyPlanDDD studyPlanDDD1 = mock(StudyPlanDDD.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
-        when(studyPlanDDD1.getProgrammeID()).thenReturn(programmeID);
 
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
@@ -215,17 +214,14 @@ public class StudyPlanDDDRepositoryImplTest {
 
         StudyPlanDDD saved = repository.save(studyPlanDDD1);
 
-        assertEquals(studyPlanDDD1, saved, "O método save deve devolver o objeto guardado.");
-        assertTrue(repository.containsOfIdentity(id), "O plano de estudos deve estar guardado após save.");
+        assertEquals(studyPlanDDD1, saved);
+        assertTrue(repository.containsOfIdentity(id));
     }
 
     @Test
     void testFindAllReturnsAllStudyPlans() {
         StudyPlanDDD studyPlanDDD1 = mock(StudyPlanDDD.class);
         StudyPlanDDD studyPlanDDD2 = mock(StudyPlanDDD.class);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        when(studyPlanDDD1.getProgrammeID()).thenReturn(programmeID);
 
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
@@ -237,7 +233,10 @@ public class StudyPlanDDDRepositoryImplTest {
         repository.save(studyPlanDDD1);
         repository.save(studyPlanDDD2);
 
+        //act
         List<StudyPlanDDD> all = (List<StudyPlanDDD>) repository.findAll();
+
+        //assert
         assertEquals(2, all.size());
         assertTrue(all.contains(studyPlanDDD1) && all.contains(studyPlanDDD2));
     }
@@ -247,7 +246,6 @@ public class StudyPlanDDDRepositoryImplTest {
         StudyPlanDDD studyPlanDDD1 = mock(StudyPlanDDD.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
-        when(studyPlanDDD1.getProgrammeID()).thenReturn(programmeID);
 
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
@@ -268,10 +266,8 @@ public class StudyPlanDDDRepositoryImplTest {
 
     @Test
     void testOfIdentityReturnsEmptyWhenNotFound() {
-        StudyPlanDDD studyPlanDDD1 = mock(StudyPlanDDD.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
-        when(studyPlanDDD1.getProgrammeID()).thenReturn(programmeID);
 
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
@@ -296,6 +292,7 @@ public class StudyPlanDDDRepositoryImplTest {
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
         List<StudyPlanDDD> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
+
         StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
         when(studyPlanDDD1.identity()).thenReturn(id);
@@ -307,10 +304,8 @@ public class StudyPlanDDDRepositoryImplTest {
 
     @Test
     void testContainsOfIdentityReturnsFalseWhenNotExists() {
-        StudyPlanDDD studyPlanDDD1 = mock(StudyPlanDDD.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
-        when(studyPlanDDD1.getProgrammeID()).thenReturn(programmeID);
 
         IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
         IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
@@ -318,7 +313,6 @@ public class StudyPlanDDDRepositoryImplTest {
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
         StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
-        when(studyPlanDDD1.identity()).thenReturn(id);
 
         assertFalse(repository.containsOfIdentity(id));
     }

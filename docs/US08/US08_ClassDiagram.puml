@@ -133,7 +133,7 @@ class StudentListFactoryImpl {
     + newArrayList() : List<Student>
 }
 
-class List<Student> <<Interface>> {}
+class List<Student> {}
 
 interface IStudentRepository <<Interface>> {
     +registerStudent()
