@@ -30,7 +30,9 @@ US12 -> PL :changeProgrammeDirector(:pIDVO1, :tIdVO1)
 activate PL #application
 
 PL -> PL : ofIdentity(:pIDVO1)
-
+ref over PL
+    \t \t Convert ID to programme \t
+end ref
 
 PL -> PG : newProgrammeDirector(:tIdVO1)
 activate PG #application
