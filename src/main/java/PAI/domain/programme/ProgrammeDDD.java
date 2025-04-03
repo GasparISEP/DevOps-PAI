@@ -3,9 +3,6 @@ package PAI.domain.programme;
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
 import PAI.domain.Department;
-import PAI.domain.studyPlan.StudyPlanDDD;
-
-import java.util.Objects;
 
 public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
 
@@ -60,8 +57,7 @@ public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ProgrammeDDD programme = (ProgrammeDDD) o;
-        return _quantEcts == programme._quantEcts && _quantSemesters == programme._quantSemesters &&
-                Objects.equals(_name, programme._name) && Objects.equals(_acronym, programme._acronym);
+        return this._programmeID.equals(programme._programmeID);
     }
 
     public boolean isEquals (ProgrammeID programmeID) {
@@ -99,6 +95,7 @@ public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
         return _name;
 
     }
+
     public DegreeTypeID getDegreeTypeID() {
         return _degreeTypeID;
     }
@@ -118,8 +115,12 @@ public class ProgrammeDDD implements AggregateRoot<ProgrammeID> {
 
     @Override
     public boolean sameAs(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof ProgrammeDDD programmeDDD)) return false;
-        return this._programmeID.equals(programmeDDD._programmeID);
+        if (object instanceof ProgrammeDDD) {
+            ProgrammeDDD programmeDDD = (ProgrammeDDD) object;
+
+            if (this._name.equals(programmeDDD._name) || (this._acronym.equals(programmeDDD._acronym)) )
+                return true;
+        }
+        return false;
     }
 }
