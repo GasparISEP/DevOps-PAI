@@ -12,7 +12,7 @@ public interface IProgrammeEnrolmentRepository extends IRepository<ProgrammeEnro
 
     boolean enrolStudents(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date enrolmentDate) throws Exception;
 
-    boolean isStudentEnrolled(Student student, Programme programme);
+    boolean isStudentEnrolled(StudentID studentID, ProgrammeID programmeID);
 
     ProgrammeEnrolment save(ProgrammeEnrolment enrolment);
 

@@ -19,7 +19,7 @@ autonumber
 RUC -> UI ++ #application: I want to grade a Student in a Course Edition
 UI --> RUC --: Grade, Date, CourseEdition, Student?
 RUC -> UI ++ #application: Grade, Date, CourseEdition, Student!
-UI -> ctr ++ #application : IWantToGradeStudent (Grade, Date, Student, CourseEdition)
+UI -> ctr ++ #application : Register StudentGrade (Grade, Date, Student, CourseEdition)
 create G
 ctr -> G ++ #application : <Create> new(grade)
 G -> G : isGradeValid()
@@ -32,23 +32,23 @@ D --> ctr : dateVO1
 deactivate D
 ctr -> SR ++ #application : findStudentID (Student)
 SR -> SR : findIdByStudent (Student)
-SR -> ctr :  studentIdVO1
+SR -> ctr :  studentID1
 deactivate SR
-ctr -> CER ++ #application : findCourseEditionID ()
+ctr -> CER ++ #application : findCourseEditionID (CourseEdition)
 CER -> CER : findIdByCourseEdition (CourseEdition)
-CER -> ctr :  ceIdVO1
+CER -> ctr :  courseEditionID1
 deactivate CER
 
-ctr -> CEER ++ #application : isStudentEnrolledInCourseEdition (studentIdVO1, ceIdVO1)
+ctr -> CEER ++ #application : isStudentEnrolledInCourseEdition (studentID1, courseEditionID1)
 CEER --> ctr -- : true
 
 
-ctr -> GR ++ #application : addGradeToStudent (gradeVO1,dateVO1,studentIdVO1,ceIdVO1)
-GR -> GR : !hasStudentAlreadyGradeAtThisCourseEdition(studentIdVO1,ceIdVO1)
-GR -> GSF ++ #application : newStudentGrade (gradeVO1,dateVO1,studentIdVO1,ceIdVO1)
+ctr -> GR ++ #application : addGradeToStudent (gradeVO1,dateVO1,studentID1,courseEditionID1)
+GR -> GR : !hasStudentAlreadyGradeAtThisCourseEdition(studentID1,courseEditionID1)
+GR -> GSF ++ #application : newStudentGrade (gradeVO1,dateVO1,studentID1,courseEditionID1)
 
 create GS
-GSF -> GS ++ #application : <Create> (gradeVO1,dateVO1,studentIdVO1,ceIdVO1)
+GSF -> GS ++ #application : <Create> (gradeVO1,dateVO1,studentID1,courseEditionID1)
 GS --> GSF -- : true
 GSF --> GR -- : true
 

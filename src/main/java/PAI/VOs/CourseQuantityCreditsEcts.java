@@ -1,9 +1,11 @@
 package PAI.VOs;
 
+import PAI.ddd.ValueObject;
+
 import java.util.Objects;
 import java.util.UUID;
 
-public class CourseQuantityCreditsEcts {
+public class CourseQuantityCreditsEcts implements ValueObject {
 
     private final double _quantityCreditsEcts;
 
@@ -38,9 +40,5 @@ public class CourseQuantityCreditsEcts {
     @Override
     public int hashCode() {
         return Objects.hash(_quantityCreditsEcts);
-    }
-
-    public double getCourseQuantityCreditsEcts() {
-        return _quantityCreditsEcts;
     }
 }

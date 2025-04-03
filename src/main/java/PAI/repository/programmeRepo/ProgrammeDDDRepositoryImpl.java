@@ -22,15 +22,25 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         _programmeRepoListFactory = programmeLisListFactory;
     }
 
-    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, Department department, TeacherID programmeDirectorID) throws Exception {
+    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
 
-        ProgrammeDDD programme_DDD = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
+        ProgrammeDDD programme_DDD = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
         if (_programmeRepo.contains(programme_DDD))
             return false;
 
         _programmeRepo.add(programme_DDD);
         return true;
+    }
+
+    @Override
+    public List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) {
+        List <ProgrammeDDD> programmeList = new ArrayList<>();
+        for (ProgrammeDDD programmeDDD : _programmeRepo) {
+            if (programmeDDD.getDegreeTypeID().equals(degreeTypeID))
+                programmeList.add(programmeDDD);
+        }
+        return programmeList;
     }
 
     // Change ProgrammeDirector
@@ -72,6 +82,15 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         return list;
     }
 
+    public Optional<ProgrammeDDD> findProgrammeByID(ProgrammeID programmeID) {
+        for (ProgrammeDDD programmeDDD : _programmeRepo) {
+            if (programmeDDD.getProgrammeID().equals(programmeID)) {
+                return Optional.of(programmeDDD);
+            }
+        }
+        return Optional.empty();
+    }
+
     @Override
     public ProgrammeDDD save(ProgrammeDDD entity) {
         _programmeRepo.add(entity);
@@ -101,5 +120,22 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
             }
         }
         return false;
+    }
+
+    public Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) {
+        for (ProgrammeDDD existingProgramme : _programmeRepo) {
+            if (existingProgramme.equals(programme)) {
+                return Optional.of(programme.identity());
+            }
+        }
+        return Optional.empty();
+    }
+
+    public List<ProgrammeID> getAllProgrammesIDs() {
+        List<ProgrammeID> programmeIDs = new ArrayList<>();
+        for (ProgrammeDDD programme : _programmeRepo) {
+            programmeIDs.add(programme.getProgrammeID());
+        }
+        return programmeIDs;
     }
 }

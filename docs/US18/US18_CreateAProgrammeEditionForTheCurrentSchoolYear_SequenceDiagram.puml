@@ -17,29 +17,36 @@ PR --> CPEC -- : programmeNamesList
 CPEC --> UI -- : programmeNamesList
 UI -> ASC --  : Which Programme?
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
-UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(Licenciatura Engenharia Informática)
+UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programmeName)
 
-CPEC -> PR ++ #application : getProgrammeByIDByName(Licenciatura Engenharia Informática)
+CPEC -> PR ++ #application : getProgrammeIDByName(programmeName)
 PR --> CPEC -- : programmeID
 CPEC -> SYR ++ #application : getCurrentSchoolYear()
 SYR --> CPEC : schoolYearID
 SYR --
 CPEC -> PER ++ #application : createProgrammeEdition(programmeID, schoolYearID)
 PER -> PEF ++ #application : createProgrammeEdition(programmeID, schoolYearID)
-create "programmeEdition:ProgrammeEdition" as PE
-PEF -> PE : <create> (programmeID, schoolYearID)
+
 create "programmeEditionID:ProgrammeEditionID" as PEID
-PE -> PEID : <create> ()
+PEF -> PEID : <create> ()
+create "programmeEdition:ProgrammeEdition" as PE
+PEF -> PE : <create> (programmeEditionID, programmeID, schoolYearID)
+
 PEF --> PER : programmeEdition
 PEF--
-PER -> PER : isProgrammeEditionAlreadyRegistered (programmeEdition)
-PER -> PER : add (programmeEdition)
+ref over PER
+    - verifies if ProgrammeEdition already exists in the repository.
+    - add programmeEdition to the repository.
+end ref
+'PER -> PER : isProgrammeEditionAlreadyRegistered (programmeEdition)
+'PER -> PER : add (programmeEdition)
 PER --> CPEC : true
 PER --
 CPEC --> UI : true
 CPEC --
 UI --> ASC -- : Programme Edition created for the current school year!
-participant "programmeNameList:List<String>"
+participant "programmeNameList:List<NameWithNumbersAndSpecialChars>"
+participant "programmeName:NameWithNumbersAndSpecialChars"
 participant "programmeID:ProgrammeID"
-participant "schoolYearID"
+participant "schoolYearID:SchoolYearID"
 @enduml
