@@ -1,9 +1,13 @@
 package PAI.VOs;
 
+import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeIDTest {
 
@@ -106,18 +110,42 @@ class ProgrammeIDTest {
         assertFalse(result);
     }
 
+
+    // hashCode Test - non isolated test
     @Test
-    void shouldReturnHashCodeFromTheProgrammeID() throws IllegalArgumentException {
-        // Arrange
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Portuguese");
-        Acronym acronym = new Acronym("POR");
+    void shouldReturnAnImmutableHashCode() throws Exception {
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("bacoco");//mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = new Acronym("POR");//mock(Acronym.class);
+
+        int nameHashCode = name.hashCode();
+        int acronymHashCode = acronym.hashCode();
+
         ProgrammeID progID = new ProgrammeID(name, acronym);
-        ProgrammeID progID1 = new ProgrammeID(name, acronym);
 
         // Act
         int result = progID.hashCode();
 
         // Assert
-        assertEquals(result, progID1.hashCode());
+        assertEquals(nameHashCode + acronymHashCode, result);
+        assertNotEquals(nameHashCode - acronymHashCode, result);
+    }
+
+    // hashCode Test - non isolated test
+    @Test
+    void shouldReturnAnImmutableHashCodeWithMock() throws Exception {
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+
+        int nameHashCode = name.hashCode();
+        int acronymHashCode = acronym.hashCode();
+
+        ProgrammeID progID = new ProgrammeID(name, acronym);
+
+        // Act
+        int result = progID.hashCode();
+
+        // Assert
+        assertEquals(nameHashCode + acronymHashCode, result);
+        assertNotEquals(nameHashCode - acronymHashCode, result);
     }
 }
