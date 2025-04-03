@@ -74,19 +74,7 @@ public class US19_CreateCourseEditionController {
 
     }
 
-//    public List<ProgrammeEdition> getAllProgrammeEditions() {
-//        return _programmeEditionRepository.getAllProgrammeEditions();
-//    }
-//
-//    public List<Course> getCoursesInProgramme(ProgrammeEdition programmeEdition) {
-//        Programme programme = _programmeEditionRepository.findProgrammeInProgrammeEdition(programmeEdition);
-//        return _programmeList.getCourseList(programme);
-//    }
-//
-//    public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-//            if(!_courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID))
-//                return false;
-//        _courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
-//            return true;
-//    }
+    public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+        return _courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+    }
 }

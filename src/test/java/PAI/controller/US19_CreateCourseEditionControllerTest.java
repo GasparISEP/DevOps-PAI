@@ -1,9 +1,7 @@
 
 package PAI.controller;
 
-import PAI.VOs.DegreeTypeID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 import PAI.domain.DegreeTypeDDD.DegreeType_2;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
 import PAI.domain.programme.ProgrammeDDD;
@@ -261,6 +259,72 @@ class US19_CreateCourseEditionControllerTest {
         // Assert
         assertEquals(expectedList, result);
         verify(programmeEditionRepositoryDouble).getProgrammeEditionsByProgrammeID(programmeIDDouble);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseEditionIsCreatedSuccessfully() {
+        // Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
+                .thenReturn(true);
+
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+                degreeTypeRepositoryDouble,
+                programmeRepositoryDouble,
+                studyPlanRepositoryDouble,
+                courseInStudyPlanRepositoryDouble,
+                programmeEditionRepositoryDouble,
+                courseEditionRepositoryDouble
+        );
+
+        // Act
+        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        // Assert
+        assertTrue(result);
+        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseEditionIsNotCreated() {
+        // Arrange
+        IDegreeTypeRepository_2 degreeTypeRepositoryDouble = mock(IDegreeTypeRepository_2.class);
+        IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
+        IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
+        ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
+        IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
+        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
+                .thenReturn(false);
+
+        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+                degreeTypeRepositoryDouble,
+                programmeRepositoryDouble,
+                studyPlanRepositoryDouble,
+                courseInStudyPlanRepositoryDouble,
+                programmeEditionRepositoryDouble,
+                courseEditionRepositoryDouble
+        );
+
+        // Act
+        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        // Assert
+        assertFalse(result);
+        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
     }
 
 //
