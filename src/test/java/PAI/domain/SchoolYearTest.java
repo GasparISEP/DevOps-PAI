@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -373,5 +374,22 @@ class SchoolYearTest {
 
         // Assert
         assertFalse(result);
+    }
+
+
+    // HashCode Test
+    @Test
+    void shouldReturnHashCode() {
+        // Arrange
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+
+        // Act
+        int result = schoolYear.hashCode();
+
+        // Assert
+        assertEquals(result, schoolYear.hashCode());
     }
 }

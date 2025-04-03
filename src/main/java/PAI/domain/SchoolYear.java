@@ -45,6 +45,11 @@ public class SchoolYear implements AggregateRoot<SchoolYearID> {
         return _schoolYearID.equals(schoolYear._schoolYearID);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(_schoolYearID);
+    }
+
     public Date getEndDate() {
         Date endDate = _endDate;
         return endDate;
