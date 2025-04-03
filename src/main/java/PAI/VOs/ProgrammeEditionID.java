@@ -36,6 +36,6 @@ public class ProgrammeEditionID implements DomainId {
 
     @Override
     public int hashCode() {
-        return _programmeID.hashCode();
+        return _programmeID.hashCode() + _schoolYearID.hashCode();
     }
 }
