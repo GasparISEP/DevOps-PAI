@@ -7,12 +7,12 @@ import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
+
 import java.util.HashSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -208,10 +208,10 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void shouldReturnFalseIfObjectIsDifferent_EqualsMethod() {
         // Arrange
-        Student st1 = mock(Student.class);
+
         StudentID st1Id = mock(StudentID.class);
         ProgrammeEditionID pe1Id = mock(ProgrammeEditionID.class);
-        LocalDate currentDate = LocalDate.now();
+
 
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(st1Id, pe1Id);
 
@@ -534,10 +534,10 @@ class ProgrammeEditionEnrolmentTest {
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
-        ProgrammeEditionEnrolment programmeEditionEnrolment1 = programmeEditionEnrolment;
+
 
         // act
-        boolean result = programmeEditionEnrolment.sameAs(programmeEditionEnrolment1);
+        boolean result = programmeEditionEnrolment.sameAs(programmeEditionEnrolment);
 
         // assert
         assertTrue(result);

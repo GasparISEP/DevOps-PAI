@@ -92,9 +92,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() {
         // arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        ProgrammeDDD doubleProgramme = mock(ProgrammeDDD.class);
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
         StudentID doubleStudentId = mock(StudentID.class);
         IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
@@ -197,14 +195,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() {
         // Arrange
         ProgrammeEditionEnrolmentRepositoryImpl doubleProgrammeEditionEnrolmentRepository = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-
-        ProgrammeDDD doubleProgramme = mock(ProgrammeDDD.class);
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
-        Student doubleStudent = mock(Student.class);
         StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
         IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
         IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
@@ -291,7 +284,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testGetAllProgrammes_SizeEqualsTwo() throws Exception {
+    void testGetAllProgrammes_SizeEqualsTwo()  {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
@@ -389,7 +382,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testGetAllSchoolYears_SizeEqualsTwo() throws Exception {
+    void testGetAllSchoolYears_SizeEqualsTwo()  {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
@@ -421,7 +414,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testGetAllSchoolYears_ContainsAllSchoolYears() throws Exception {
+    void testGetAllSchoolYears_ContainsAllSchoolYears()  {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
@@ -630,55 +623,20 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
         Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherAcronym tAcronym = new TeacherAcronym("ACR");
-        TeacherID teacherID = new TeacherID(tAcronym);
-        DegreeType master = new DegreeType("Master", 240);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        Name dName = new Name("Departamento Engenharia Informática");
-        Department department1 = new Department(dAcronym, dName);
-        Street street1 = new Street("Rua São Tomé Porto");
-        PostalCode postalCode = new PostalCode("4249-015");
-        Location location = new Location("Porto");
-        Country country = new Country("United States");
-        Address add1 = new Address(street1, postalCode, location, country);
-        Name tName = new Name("Joe Doe");
-        Email email = new Email("joe@doe.com");
-        Country tCountry = new Country("Portugal");
-        NIF tNIF = new NIF("123666789", tCountry);
-        PhoneNumber phoneNumber = new PhoneNumber("+351", "999999999");
-        AcademicBackground tAcademicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Teacher teacher1 = new Teacher(tAcronym, tName, email, tNIF, phoneNumber, tAcademicBackground, add1, departmentID);
+
         Description description = new Description("School Year 24/25");
         Date startDate = new Date("23-11-2024");
         Date endDate = new Date("09-12-2025");
         schoolYearRepository.addSchoolYear(description, startDate, endDate);
-        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
+
         SchoolYearID schoolYearId = new SchoolYearID();
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
+
         AccessMethodID amId = new AccessMethodID();
         StudentID studentId = new StudentID(1500000);
-        Name studentName = new Name("Joe Doe");
-        Country tCountry1 = new Country("Portugal");
-        NIF stNIF = new NIF("123666789", tCountry);
-        StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentId);
-        Student student = new Student(studentId, studentName, stNIF, phoneNumber, email, add1, studentAcademicEmail);
-
-        Course c1 = new Course("Development", "DEV", 5, 1);
-        Course c2 = new Course("Development1", "DEV1", 5, 1);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
-        QuantEcts quantEcts = new QuantEcts(5);
-        QuantSemesters quantSemesters = new QuantSemesters(5);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-        ProgrammeDDD programme1 = new ProgrammeDDD(nameWithNumbersAndSpecialChars, pAcronym, quantEcts, quantSemesters,
-                degreeTypeID, departmentID, teacherID1);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
             programmeEnrolmentRepository.enrolStudents(studentId, amId, programmeId, date);
@@ -698,10 +656,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseId2, studyPlanID2);
         CourseEditionID courseEditionId1 = new CourseEditionID(programmeEditionId, courseInStudyPlanID1);
         CourseEditionID courseEditionId2 = new CourseEditionID(programmeEditionId, courseInStudyPlanID2);
-        CourseEditionDDD courseEdition1 = new CourseEditionDDD(courseEditionId1, courseInStudyPlanID1, programmeEditionId);
-        CourseEditionDDD courseEdition2 = new CourseEditionDDD(courseEditionId2, courseInStudyPlanID1, programmeEditionId);
-        // CourseEditionID ce1Id = courseEditionRepositoryImpl.findIdByCourseEdition(courseEdition1).get();
-        //   CourseEditionID ce2Id = courseEditionRepositoryImpl.findIdByCourseEdition(courseEdition2).get();
+
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
 
@@ -751,57 +706,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherAcronym tAcronym = new TeacherAcronym("ACR");
-        TeacherID teacherID = new TeacherID(tAcronym);
-        DegreeType master = new DegreeType("Master", 240);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        Name dName = new Name("Departamento Engenharia Informática");
-        Department department1 = new Department(dAcronym, dName);
-        Street street1 = new Street("Rua São Tomé Porto");
-        PostalCode postalCode = new PostalCode("4249-015");
-        Location location = new Location("Porto");
-        Country country = new Country("United States");
-        Address add1 = new Address(street1, postalCode, location, country);
-        Name tName = new Name("Joe Doe");
-        Email email = new Email("joe@doe.com");
-        Country tCountry = new Country("Portugal");
-        NIF tNIF = new NIF("123666789", tCountry);
-        PhoneNumber phoneNumber = new PhoneNumber("+351", "999999999");
-        AcademicBackground tAcademicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Teacher teacher1 = new Teacher(tAcronym, tName, email, tNIF, phoneNumber, tAcademicBackground, add1, departmentID);
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("23-11-2024");
-        Date endDate = new Date("09-12-2025");
-        schoolYearRepository.addSchoolYear(description, startDate, endDate);
-        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
         SchoolYearID schoolYearId = new SchoolYearID();
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
-        AccessMethodID amId = new AccessMethodID();
-        StudentID studentId = new StudentID(1500000);
-        Name studentName = new Name("Joe Doe");
-        Country tCountry1 = new Country("Portugal");
-        NIF stNIF = new NIF("123666789", tCountry);
-        StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentId);
-        Student student = new Student(studentId, studentName, stNIF, phoneNumber, email, add1, studentAcademicEmail);
 
-        Course c1 = new Course("Development", "DEV", 5, 1);
-        Course c2 = new Course("Development1", "DEV1", 5, 1);
+        StudentID studentId = new StudentID(1500000);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
-        QuantEcts quantEcts = new QuantEcts(5);
-        QuantSemesters quantSemesters = new QuantSemesters(5);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-        ProgrammeDDD programme1 = new ProgrammeDDD(nameWithNumbersAndSpecialChars, pAcronym, quantEcts, quantSemesters,
-                degreeTypeID, departmentID, teacherID1);
-
 
         doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
 
@@ -848,56 +759,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         programmeEnrolmentRepository);
 
         Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherAcronym tAcronym = new TeacherAcronym("ACR");
-        TeacherID teacherID = new TeacherID(tAcronym);
-        DegreeType master = new DegreeType("Master", 240);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        Name dName = new Name("Departamento Engenharia Informática");
-        Department department1 = new Department(dAcronym, dName);
-        Street street1 = new Street("Rua São Tomé Porto");
-        PostalCode postalCode = new PostalCode("4249-015");
-        Location location = new Location("Porto");
-        Country country = new Country("United States");
-        Address add1 = new Address(street1, postalCode, location, country);
-        Name tName = new Name("Joe Doe");
-        Email email = new Email("joe@doe.com");
-        Country tCountry = new Country("Portugal");
-        NIF tNIF = new NIF("123666789", tCountry);
-        PhoneNumber phoneNumber = new PhoneNumber("+351", "999999999");
-        AcademicBackground tAcademicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Teacher teacher1 = new Teacher(tAcronym, tName, email, tNIF, phoneNumber, tAcademicBackground, add1, departmentID);
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("23-11-2024");
-        Date endDate = new Date("09-12-2025");
-        schoolYearRepository.addSchoolYear(description, startDate, endDate);
-        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
+
         SchoolYearID schoolYearId = new SchoolYearID();
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
+
         AccessMethodID amId = new AccessMethodID();
         StudentID studentId = new StudentID(1500000);
-        Name studentName = new Name("Joe Doe");
-        Country tCountry1 = new Country("Portugal");
-        NIF stNIF = new NIF("123666789", tCountry);
-        StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentId);
-        Student student = new Student(studentId, studentName, stNIF, phoneNumber, email, add1, studentAcademicEmail);
 
-
-        StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
-
-
-        QuantEcts quantEcts = new QuantEcts(5);
-        QuantSemesters quantSemesters = new QuantSemesters(5);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-        ProgrammeDDD programme1 = new ProgrammeDDD(nameWithNumbersAndSpecialChars, pAcronym, quantEcts, quantSemesters,
-                degreeTypeID, departmentID, teacherID1);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
             programmeEnrolmentRepository.enrolStudents(studentId, amId, programmeId, date);
@@ -945,56 +815,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         programmeEnrolmentRepository);
 
         Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherAcronym tAcronym = new TeacherAcronym("ACR");
-        TeacherID teacherID = new TeacherID(tAcronym);
-        DegreeType master = new DegreeType("Master", 240);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        Name dName = new Name("Departamento Engenharia Informática");
-        Department department1 = new Department(dAcronym, dName);
-        Street street1 = new Street("Rua São Tomé Porto");
-        PostalCode postalCode = new PostalCode("4249-015");
-        Location location = new Location("Porto");
-        Country country = new Country("United States");
-        Address add1 = new Address(street1, postalCode, location, country);
-        Name tName = new Name("Joe Doe");
-        Email email = new Email("joe@doe.com");
-        Country tCountry = new Country("Portugal");
-        NIF tNIF = new NIF("123666789", tCountry);
-        PhoneNumber phoneNumber = new PhoneNumber("+351", "999999999");
-        AcademicBackground tAcademicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Teacher teacher1 = new Teacher(tAcronym, tName, email, tNIF, phoneNumber, tAcademicBackground, add1, departmentID);
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("23-11-2024");
-        Date endDate = new Date("09-12-2025");
-        schoolYearRepository.addSchoolYear(description, startDate, endDate);
-        SchoolYear schoolYear = schoolYearRepository.getCurrentSchoolYear();
+
         SchoolYearID schoolYearId = new SchoolYearID();
-        IAccessMethodFactory accessMethodFactory = new AccessMethodFactoryImpl();
-        IAccessMethodListFactory accessMethodListFactory = new AccessMethodListFactoryImpl();
+
         AccessMethodID amId = new AccessMethodID();
         StudentID studentId = new StudentID(1500000);
-        Name studentName = new Name("Joe Doe");
-        Country tCountry1 = new Country("Portugal");
-        NIF stNIF = new NIF("123666789", tCountry);
-        StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentId);
-        Student student = new Student(studentId, studentName, stNIF, phoneNumber, email, add1, studentAcademicEmail);
 
-
-        StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
-
-
-        QuantEcts quantEcts = new QuantEcts(5);
-        QuantSemesters quantSemesters = new QuantSemesters(5);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-        ProgrammeDDD programme1 = new ProgrammeDDD(nameWithNumbersAndSpecialChars, pAcronym, quantEcts, quantSemesters,
-                degreeTypeID, departmentID, teacherID1);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
             programmeEnrolmentRepository.enrolStudents(studentId, amId, programmeId, date);
@@ -1126,9 +955,6 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
-        DepartmentAcronym dptAcronym = new DepartmentAcronym("DEI");
-        Name dName = new Name("Department");
-        Department department1 = new Department(dptAcronym, dName);
         Acronym acronym1 = new Acronym("CSE");
         Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
@@ -1186,9 +1012,6 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearRepository,
                         programmeEnrolmentRepository);
 
-        DepartmentAcronym dptAcronym = new DepartmentAcronym("DEI");
-        Name dName = new Name("Department");
-        Department department1 = new Department(dptAcronym, dName);
         Acronym acronym1 = new Acronym("CSE");
         Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
