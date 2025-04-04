@@ -3,13 +3,12 @@ title US08: I want to register a Student in the system
 
 
 class US08_IWantToRegisterAStudentInTheSystemController {
-    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : Phone, email : Email, address : Address) : boolean
+    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : Address) : boolean
 }
 
 class StudentRepository {
-    - _studentFactoryImpl : IStudentFactory
     - _students : List<Student>
-    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : Phone, email : Email, address : Address) : boolean
+    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : Address) : boolean
     + getStudentByID(studentID : StudentID) : Optional<Student>
     + save(student : Student) : Student
     + findAll() : Iterable<Student>
@@ -19,13 +18,6 @@ class StudentRepository {
 
 package "Student Aggregate" {
     class Student <<Root>> <<Entity>> {
-        - StudentID : StudentID
-        - _name : Name
-        - _NIF : NIF
-        - _phone : Phone
-        - _email : Email
-        - _address : AddressVO
-        - _institutionalEmail : InstitutionalEmail
         + identity() : StudentID
         + sameAs (object : Object) : boolean
         + equals(object : Object) : boolean
@@ -33,11 +25,7 @@ package "Student Aggregate" {
     }
 }
 
-class AddressVO <<Root>> <<Value Object>> {
-    - _street : Street
-    - _postalCode : PostalCode
-    - _location : Location
-    - _country : Country
+class Address <<Root>> <<Value Object>> {
     + isAttributeValid(attribute : Object)
 }
 
@@ -65,10 +53,10 @@ class NIF <<Value Object>> {
     + isNIFInvalid(NIF)
 }
 
-class Phone <<Value Object>> {
+class PhoneNumber <<Value Object>> {
     -_countryCode : String
     -_number : String
-    + Phone(phone : String)
+    + PhoneNumber(phone : String)
     + areParametersInvalid(parameter : String)
     + isCountryCodeInvalid(countryCode : String)
 }
@@ -85,7 +73,7 @@ class InstitutionalEmail <<Value Object>> {
     + InstitutionalEmail(institutionalEmail : String)
     + getStudentEmail()
     + equals(o : object)
-    + hashCode
+    + hashCode()
     + toString()
 }
 
@@ -114,7 +102,7 @@ class Country <<Value Object>> {
 }
 
 interface IStudentFactory <<Interface>> {
-    + newStudent(StudentID : StudentID, name : Name, NIF : Name, phone : Phone, email : Email, street : Street, address : AddressVO) : Student
+    + newStudent(StudentID : StudentID, name : Name, NIF : Name, phone : PhoneNumber, email : Email, street : Street, address : AddressVO) : Student
     + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : AddressVO
 }
 
@@ -153,23 +141,24 @@ interface IRepository <<Interface>> {
 US08_IWantToRegisterAStudentInTheSystemController "1" ...> "1 " IStudentRepository
 StudentRepository "1" ..> "1" IStudentFactory
 StudentRepository "1" ---> "_students\n*" Student
-StudentRepository "1" ..> "1" IStudentListFactory
+StudentRepository "1" ..> "_studentFactoryImpl \n 1" IStudentListFactory
 IStudentListFactory "1 " ..> "1  " List: <<creates>>
-Student "1" --> "1" AddressVO
+Student "1" --> "1" Address
 StudentFactoryImpl "*" ..|> "1     " IStudentFactory
 StudentListFactoryImpl "*" ..|> "1     " IStudentListFactory
 IStudentFactory "1" ..> "1" Student: <<create>>
 StudentRepository ...|> IStudentRepository
 IStudentRepository ..|> IRepository
-Student "*" ----> "1" StudentID
-Student "*" ----> "1" Name
-Student "\n *" ----> "1  " Email
-Student "\n *" ----> "1   " InstitutionalEmail
-Student "\n *" ----> "1 " Phone
-Student "\n *" ----> "1 " NIF
-AddressVO "\n *" ----> "1" Street
-AddressVO "\n *" ----> "1" PostalCode
-AddressVO "\n *" ----> "1" Location
-AddressVO "\n *" ----> "1" Country
+Student "*" ----> "_studentID \n 1" StudentID
+Student "*" ----> "_name \n 1" Name
+Student "\n *" ----> "_email \n 1  " Email
+Student "\n *" ----> "_institutionalEmail \n                1" InstitutionalEmail
+Student "\n *" ----> "_phone \n 1" PhoneNumber
+Student "\n *" ----> "_nif \n 1 " NIF
+Address "\n *" ----> "_street \n 1" Street
+Address "\n *" ----> "_postalCode \n 1" PostalCode
+Address "\n *" ----> "_location \n 1" Location
+Address "\n *" ----> "_country \n 1" Country
+NIF "1" ----> "_country \n 1" Country
 
 @enduml
