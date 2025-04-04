@@ -27,6 +27,7 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
         _programmeID = programmeID;
         _date = date;
         _peID = new ProgrammeEnrolmentID();
+
     }
 
     public boolean isDateAfter(Date date) {

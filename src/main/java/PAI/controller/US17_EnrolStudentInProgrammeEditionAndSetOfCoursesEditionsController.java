@@ -1,86 +1,92 @@
 package PAI.controller;
 
+import PAI.VOs.*;
 import PAI.domain.*;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.repository.*;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryDDDImpl;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
 
-    private ProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
-    private ProgrammeEditionRepository _programmeEditionRepository;
-    private ProgrammeRepository _programmeList;
-    private CourseEditionEnrolmentRepositoryImpl _courseEditionEnrolmentRepositoryImpl;
-    private CourseEditionRepository _courseEditionRepository;
-    private SchoolYearRepository _schoolYearRepository;
-    private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
+    private IProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
+    private IProgrammeEditionRepositoryDDD _programmeEditionRepository;
+    private IProgrammeDDDRepository _programmeList;
+    private ICourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
+    private ICourseEditionRepositoryDDD _courseEditionRepository;
+    private ISchoolYearRepository _schoolYearRepository;
+    private IProgrammeEnrolmentRepository _programmeEnrolmentRepository;
 
     public US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-            ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
-            ProgrammeEditionRepository programmeEditionRepository,
-            ProgrammeRepository programmeRepository,
-            CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepositoryImpl,
-            CourseEditionRepository courseEditionRepository,
-            SchoolYearRepository schoolYearRepository,
-            ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
+            IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
+            IProgrammeEditionRepositoryDDD programmeEditionRepository,
+            IProgrammeDDDRepository programmeRepository,
+            ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository,
+            ICourseEditionRepositoryDDD courseEditionRepository,
+            ISchoolYearRepository schoolYearRepository,
+            IProgrammeEnrolmentRepository programmeEnrolmentRepository) {
 
         this._programmeEditionEnrolmentRepository= validateRepository(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
         this._programmeEditionRepository= validateRepository(programmeEditionRepository, "Programme edition repository");
         this._programmeList= validateRepository(programmeRepository, "Programme list");
-        this._courseEditionEnrolmentRepositoryImpl = validateRepository(courseEditionEnrolmentRepositoryImpl, "Course edition enrolment repository");
+        this._courseEditionEnrolmentRepository = validateRepository(courseEditionEnrolmentRepository, "Course edition enrolment repository");
         this._courseEditionRepository= validateRepository(courseEditionRepository, "Course edition repository");
         this._schoolYearRepository= validateRepository(schoolYearRepository, "School year repository");
         this._programmeEnrolmentRepository= validateRepository(programmeEnrolmentRepository, "Enrolment repository");
 
     }
 
-    public List<Programme> getAllProgrammes() {
-        return _programmeList.getAllProgrammes();
+     public List<ProgrammeID> getAllProgrammesIDs() {
+        return _programmeList.getAllProgrammesIDs();
     }
 
-    public List<SchoolYear> getAllSchoolYears() {
-        return _schoolYearRepository.getAllSchoolYears();
+    public List<SchoolYearID> getAllSchoolYearsIDs() {
+        return _schoolYearRepository.getAllSchoolYearsIDs();
     }
 
-    // Enroll a student in a ProgrammeEdition.
-//    public boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(
-//            Student student, Programme programme, SchoolYear schoolYear ) {
-//
-//        if (!_programmeEnrolmentRepository.isStudentEnrolled(student, programme)) {
-//            return false;
-//        }
-//
-//        // Find ProgrammeEdition
-//        Optional<ProgrammeEdition> optionalProgrammeEdition =
-//                _programmeEditionRepository.findProgrammeEdition
-//                BySchoolYearAndProgramme(programme, schoolYear);
-//
-//        if (optionalProgrammeEdition.isEmpty()) {
-//            return false;
-//        }
-//
-//        ProgrammeEdition programmeEdition = optionalProgrammeEdition.get();
-//
-//        // Check if student is already enrolled
-//        if (_programmeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(student, programmeEdition)) {
-//            return false;
-//        }
-//
-//        // Enroll student in programmeEdition
-//        _programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(student, programmeEdition);
-//
-//        List<CourseEdition> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEdition);
-//
-//        _courseEditionEnrolmentRepository.enrolStudentInProgrammeCourseEditions(student, courseEditions);
-//        return true;
-//    }
+   // Enroll a student in a ProgrammeEdition.
+    public boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(
+            StudentID studentId, ProgrammeID programmeId, SchoolYearID schoolYearId ) {
 
-    private <T> T validateRepository(T repository, String name) {
+        if (!_programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
+            return false;
+        }
+
+        // Find ProgrammeEdition
+        Optional<ProgrammeEditionID> optionalProgrammeEdition =
+                _programmeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
+
+        if (optionalProgrammeEdition.isEmpty()) {
+            return false;
+        }
+
+        ProgrammeEditionID programmeEditionId = optionalProgrammeEdition.get();
+
+        // Check if student is already enrolled
+        if (_programmeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(studentId, programmeEditionId)) {
+            return false;
+        }
+
+        // Enroll student in programmeEdition
+        _programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentId, programmeEditionId);
+
+        List<CourseEditionID> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEditionId);
+
+        _courseEditionEnrolmentRepository.enrolStudentInProgrammeCourseEditions(studentId, courseEditions);
+        return true;
+    }
+
+   private <T> T validateRepository(T repository, String name) {
         if (repository == null) {
             throw new IllegalStateException(name + " cannot be null.");
-        }
-        return repository;
-    }
+            }
+       return repository;
+   }
 
 }
 

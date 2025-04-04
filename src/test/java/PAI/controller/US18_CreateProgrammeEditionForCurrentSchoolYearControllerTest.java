@@ -1,8 +1,12 @@
 package PAI.controller;
 
+import PAI.VOs.*;
+import PAI.domain.SchoolYear;
 import PAI.domain.programme.IProgrammeDDDFactory;
+import PAI.domain.programme.ProgrammeDDD;
 import PAI.domain.programme.ProgrammeDDDFactoryImpl;
 import PAI.domain.programmeEdition.IProgrammeEditionDDDFactory;
+import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import PAI.domain.programmeEdition.ProgrammeEditionDDDFactoryImpl;
 import PAI.factory.ISchoolYearFactory;
 import PAI.factory.ISchoolYearListFactory;
@@ -20,16 +24,23 @@ import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
+    //Constructor Tests
     @Test
     void shouldCreateController() throws Exception {
         // Arrange
         IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
         IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
-        IProgrammeEditionRepositoryDDD ProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
         IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
         IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
@@ -40,165 +51,412 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository, schoolYearRepository, programmeRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
         // Assert
         assertNotNull(controller);
     }
 
     @Test
-    void shouldCreateProgrammeEditionMock() {
-/*        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
+    void shouldThrowExceptionWhenProgrammeEditionRepositoryIsNull() {
         // Arrange
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+        IProgrammeEditionRepositoryDDD ProgrammeEditionRepository = null;
 
-        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
-        Programme programmeLEI = mock(Programme.class);
-        Optional<Programme> programmeOpt = mock(Optional.class);
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
-        when(programmeList.getProgrammeByName(programmeName)).thenReturn(programmeOpt);
-        when(programmeOpt.orElse(null)).thenReturn(programmeLEI);
-
-        SchoolYear currentSchoolYear = mock(SchoolYear.class);
-        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(currentSchoolYear);
-
-        when(programmeEditionRepository.createProgrammeEdition(programmeLEI, currentSchoolYear)).thenReturn(true);
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository, schoolYearRepository, programmeRepository);});
 
         // Assert
-        assertTrue(result);*/
+        assertEquals("Programme Edition Repository cannot be null", exception.getMessage());
     }
 
     @Test
-    void shouldReturnFalseIfProgrammeEditionAlreadyExists() {
-//        // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
-//        // Arrange
-//        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
-//
-//        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
-//        NameWithNumbersAndSpecialChars programmeName2 = mock(NameWithNumbersAndSpecialChars.class);
-//
-//        Programme programmeLEI = mock(Programme.class);
-//        Optional<Programme> programmeOpt = mock(Optional.class);
-//
-//        when(programmeList.getProgrammeByName(programmeName)).thenReturn(programmeOpt);
-//        when(programmeOpt.orElse(null)).thenReturn(programmeLEI);
-//
-//        SchoolYear currentSchoolYear = mock(SchoolYear.class);
-//        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(currentSchoolYear);
-//
-//        when(controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName)).thenReturn(true);
-//        when(controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName2)).thenReturn(false);
-//
-//        controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
-//
-//        // Act
-//        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName2);
-//
-//        // Assert
-//        assertFalse(result);
-//
+    void shouldThrowExceptionWhenSchoolYearIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD ProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+
+        ISchoolYearRepository schoolYearRepository = null;
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository, schoolYearRepository, programmeRepository);});
+
+        // Assert
+        assertEquals("School Year Repository cannot be null", exception.getMessage());
     }
 
     @Test
-    void shouldNotCreateProgrammeEditionIfCurrentSchoolYearIsNullMock() {
-    /*    // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
+    void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
         // Arrange
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
-        Programme programmeLEI = mock(Programme.class);
-        Optional<Programme> programmeOpt = mock(Optional.class);
-        when(programmeList.getProgrammeByName(programmeName)).thenReturn(programmeOpt);
-        when(programmeOpt.orElse(null)).thenReturn(programmeLEI);
+        IProgrammeDDDRepository programmeRepository = null;
 
-        SchoolYear currentSchoolYear = null;
-        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(currentSchoolYear);
-        when(programmeEditionRepository.createProgrammeEdition(programmeLEI, currentSchoolYear)).thenReturn(false);
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);});
 
         // Assert
-        assertFalse(result);*/
+        assertEquals("Programme Repository cannot be null", exception.getMessage());
     }
 
     @Test
-    void shouldReturnFalseIfProgrammeEditionRepositoryIsNullMock() {
-     /*   // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
+    void shouldReturnListOfNamesOfAllExistingProgrammes() throws Exception {
         // Arrange
-        programmeEditionRepository = null;
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
+
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        NameWithNumbersAndSpecialChars programmeName2 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Espacial");
+        Acronym programmeAcronym2 = new Acronym("LEE");
+        NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
+        Acronym programmeAcronym3 = new Acronym("LEA");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
         // Act
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
+        List<NameWithNumbersAndSpecialChars> listToTest = controller.getAllProgrammeNames();
 
         // Assert
-        assertFalse(result);*/
+        assertNotNull(listToTest);
+        assertEquals(3, listToTest.size());
+        assertEquals(programmeName1, listToTest.get(0));
+        assertEquals(programmeName2, listToTest.get(1));
+        assertEquals(programmeName3, listToTest.get(2));
     }
 
     @Test
-    void shouldReturnFalseIfSchoolYearRepositoryIsNullMock() {
-      /*  // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - createAProgrammeEditionInTheCurrentSchoolYear
+    void shouldReturnEmptyListOfNamesIfProgrammeRepositoryIsEmpty() throws Exception {
         // Arrange
-        schoolYearRepository = null;
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
-        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
         // Act
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName);
+        List<NameWithNumbersAndSpecialChars> listToTest = controller.getAllProgrammeNames();
 
         // Assert
-        assertFalse(result);*/
+        assertNotNull(listToTest);
+        assertEquals(0, listToTest.size());
     }
 
     @Test
-    void shouldReturnAListOfAllProgrammeNamesFromRProgrammeList () {
-      /*  // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - getAllProgrammeNames
+    void shouldReturnFalseIfThereIsNoCurrentSchoolYearInTheSystem() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeRepository programmeList = mock(ProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
-        NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        when(name1.getnameWithNumbersAndSpecialChars()).thenReturn("Licenciatura em Engenharia Informatica");
-        when(name2.getnameWithNumbersAndSpecialChars()).thenReturn("Mestrado em Engenharia Informatica");
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
 
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
-        when(programmeList.getAllProgrammeNames()).thenReturn(List.of(name1, name2));
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        NameWithNumbersAndSpecialChars programmeName2 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Espacial");
+        Acronym programmeAcronym2 = new Acronym("LEE");
+        NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
+        Acronym programmeAcronym3 = new Acronym("LEA");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        Description description1 = new Description("2023/2024");
+        Date startDate1 = new Date("01-09-2023");
+        Date endDate1 = new Date("31-08-2024");
+        Description description3 = new Description("2025/2026");
+        Date startDate3 = new Date("01-09-2025");
+        Date endDate3 = new Date("31-08-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
 
         // Act
-        List <NameWithNumbersAndSpecialChars> ListOfProgrammeNames = controller.getAllProgrammeNames();
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName2);
 
         // Assert
-        assertEquals(2, ListOfProgrammeNames.size());
-        assertEquals(name1, ListOfProgrammeNames.get(0));
-        assertEquals(name2, ListOfProgrammeNames.get(1));*/
+        assertFalse(result);
     }
 
     @Test
-    void shouldReturnAnEmptyListOfProgrammeNamesFromRepositoryIfProgrammeListIsNull() {
-      /*  // SUT = US18_CreateProgrammeEditionForCurrentSchoolYearController - getAllProgrammeNames
+    void shouldReturnFalseIfThereIsNoProgrammeInTheSystemWithTheNameGiven() throws Exception {
         // Arrange
-        ProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepository.class);
-        SchoolYearRepository schoolYearRepository = mock(SchoolYearRepository.class);
-        ProgrammeRepository programmeList = null;
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeList);
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
+
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        NameWithNumbersAndSpecialChars programmeName2 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Espacial");
+        Acronym programmeAcronym2 = new Acronym("LEE");
+        NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
+        Acronym programmeAcronym3 = new Acronym("LEA");
+        NameWithNumbersAndSpecialChars programmeName4 = new NameWithNumbersAndSpecialChars("Licenciatura em Artes Do Pensamento Inexistente");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        Description description1 = new Description("2023/2024");
+        Date startDate1 = new Date("01-09-2023");
+        Date endDate1 = new Date("31-08-2024");
+        Description description2 = new Description("2024/2025");
+        Date startDate2 = new Date("01-09-2024");
+        Date endDate2 = new Date("31-08-2025");
+        Description description3 = new Description("2025/2026");
+        Date startDate3 = new Date("01-09-2025");
+        Date endDate3 = new Date("31-08-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
 
         // Act
-        List <NameWithNumbersAndSpecialChars> ListOfProgrammeNames = controller.getAllProgrammeNames();
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName4);
 
         // Assert
-        assertEquals(0, ListOfProgrammeNames.size());
-        assertDoesNotThrow(() -> ListOfProgrammeNames.add(name)); //mutation killer*/
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfAlreadyExistAProgrammeEditionInTheCurrentSchoolYearWithProgrammeNameGiven() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
+
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        NameWithNumbersAndSpecialChars programmeName2 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Espacial");
+        Acronym programmeAcronym2 = new Acronym("LEE");
+        NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
+        Acronym programmeAcronym3 = new Acronym("LEA");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        Description description1 = new Description("2023/2024");
+        Date startDate1 = new Date("01-09-2023");
+        Date endDate1 = new Date("31-08-2024");
+        Description description2 = new Description("2024/2025");
+        Date startDate2 = new Date("01-09-2024");
+        Date endDate2 = new Date("31-08-2025");
+        Description description3 = new Description("2025/2026");
+        Date startDate3 = new Date("01-09-2025");
+        Date endDate3 = new Date("31-08-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
+
+        Optional<ProgrammeDDD> programmeOpt1= programmeRepository.getProgrammeByName(programmeName1);
+        Optional<ProgrammeDDD> programmeOpt2= programmeRepository.getProgrammeByName(programmeName2);
+        Optional<ProgrammeDDD> programmeOpt3= programmeRepository.getProgrammeByName(programmeName3);
+
+
+        ProgrammeDDD programme1 = programmeOpt1.orElse(null);
+        ProgrammeID pID1 = programme1.identity();
+
+        ProgrammeDDD programme2 = programmeOpt2.orElse(null);
+        ProgrammeID pID2 = programme2.identity();
+
+        ProgrammeDDD programme3 = programmeOpt3.orElse(null);
+        ProgrammeID pID3 = programme3.identity();
+
+
+        SchoolYear currentSY = schoolYearRepository.getCurrentSchoolYear();
+        SchoolYearID sYID = currentSY.identity();
+
+        programmeEditionRepository.createProgrammeEdition(pID1, sYID);
+        programmeEditionRepository.createProgrammeEdition(pID2, sYID);
+        programmeEditionRepository.createProgrammeEdition(pID3, sYID);
+
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName3);
+
+        // Assert
+        List<ProgrammeEditionDDD> list = StreamSupport
+                .stream(programmeEditionRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+
+        assertEquals(new HashSet<>(list), programmeEditionRepository.findAll());
+        assertEquals(3, list.size());
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTheProgrammeEditionIsCreatedInTheCurrentSchoolYearAndRegisteredInTheSystem() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionDDDFactory programmeEditionFactory = new ProgrammeEditionDDDFactoryImpl();
+        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+
+        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeDDDFactory programmeFactory = new ProgrammeDDDFactoryImpl();
+        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
+
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        NameWithNumbersAndSpecialChars programmeName2 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Espacial");
+        Acronym programmeAcronym2 = new Acronym("LEE");
+        NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
+        Acronym programmeAcronym3 = new Acronym("LEA");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        Description description1 = new Description("2023/2024");
+        Date startDate1 = new Date("01-09-2023");
+        Date endDate1 = new Date("31-08-2024");
+        Description description2 = new Description("2024/2025");
+        Date startDate2 = new Date("01-09-2024");
+        Date endDate2 = new Date("31-08-2025");
+        Description description3 = new Description("2025/2026");
+        Date startDate3 = new Date("01-09-2025");
+        Date endDate3 = new Date("31-08-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
+        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
+
+        Optional<ProgrammeDDD> programmeOpt1= programmeRepository.getProgrammeByName(programmeName1);
+        Optional<ProgrammeDDD> programmeOpt2= programmeRepository.getProgrammeByName(programmeName2);
+        Optional<ProgrammeDDD> programmeOpt3= programmeRepository.getProgrammeByName(programmeName3);
+
+
+        ProgrammeDDD programme1 = programmeOpt1.orElse(null);
+        ProgrammeID pID1 = programme1.identity();
+
+        ProgrammeDDD programme2 = programmeOpt2.orElse(null);
+        ProgrammeID pID2 = programme2.identity();
+
+        ProgrammeDDD programme3 = programmeOpt3.orElse(null);
+        ProgrammeID pID3 = programme3.identity();
+
+
+        SchoolYear currentSY = schoolYearRepository.getCurrentSchoolYear();
+        SchoolYearID sYID = currentSY.identity();
+
+        programmeEditionRepository.createProgrammeEdition(pID1, sYID);
+        programmeEditionRepository.createProgrammeEdition(pID2, sYID);
+
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeName3);
+
+        // Assert
+        List<ProgrammeEditionDDD> list = StreamSupport
+                .stream(programmeEditionRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+
+        assertEquals(new HashSet<>(list), programmeEditionRepository.findAll());
+        assertEquals(3, list.size());
+        assertTrue(result);
     }
 }

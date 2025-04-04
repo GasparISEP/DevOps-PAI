@@ -1,6 +1,6 @@
 @startuml
-skinparam ranksep 100
-skinparam nodesep 100
+skinparam linetype ortho
+
 
 title US27:  I want to register a programme in the system, including the study plan
 
@@ -8,53 +8,40 @@ class US27_RegisterAProgrammeInTheSystemIncludingStudyPlan {
    }
 
 
-package "CourseInStudyPlan Aggregate" {
-    entity "<<root>>\nCourseInStudyPlan" {
-    }
-}
+
 
 package "StudyPlan Aggregate" {
     entity "<<root>>\nStudyPlan" {
     }
 }
-
-package "DegreeType Aggregate" {
-    entity "<<root>>\nDegreeType" {
+    class DegreeTypeID <<ValueObject>> {
     }
-}
+
 
 package "Programme Aggregate" {
     entity "<<root>>\nProgramme" {
     }
 }
 
-package "Course Aggregate" {
-    entity "<<root>>\nCourse" {
-    }
+
+class TeacherID <<ValueObject>> {
 }
 
 
-package "Teacher Aggregate" {
-    entity "<<root>>\nTeacher" {
-    }
+
+entity DepartmentID <<ValueObject>> {
 }
 
-package "Department Aggregate" {
-    entity "<<root>>\nDepartment" {
-    }
-}
 
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> "<<root>>\nProgramme"
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> "<<root>>\nStudyPlan"
-US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ..> "<<root>>\nCourseInStudyPlan"
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ....> "<<root>>\nProgramme"
+US27_RegisterAProgrammeInTheSystemIncludingStudyPlan ....> "<<root>>\nStudyPlan"
 
 
 
-"<<root>>\nStudyPlan" "1" <-l- "*" "<<root>>\nCourseInStudyPlan"
 "<<root>>\nProgramme" "1" <-l- "*" "<<root>>\nStudyPlan"
-"<<root>>\nDegreeType" "1" <-- "*" "<<root>>\nProgramme"
-"<<root>>\nTeacher" "1" <-- "*" "<<root>>\nProgramme"
-"<<root>>\nCourse" "1" <-- "*" "<<root>>\nCourseInStudyPlan"
-"<<root>>\nDepartment" "1" <-- "*" "<<root>>\nProgramme"
+DegreeTypeID "1" <-right- "*" "<<root>>\nProgramme"
+TeacherID "1" <-right- "*" "<<root>>\nProgramme"
+
+DepartmentID "1" <-up- "*" "<<root>>\nProgramme"
 
 @enduml

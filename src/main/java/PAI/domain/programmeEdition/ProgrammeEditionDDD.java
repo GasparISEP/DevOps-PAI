@@ -1,9 +1,13 @@
 package PAI.domain.programmeEdition;
 
+import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.ddd.AggregateRoot;
+import PAI.domain.Department;
+import PAI.domain.Programme;
+import PAI.domain.SchoolYear;
 
 public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
 
@@ -61,5 +65,10 @@ public class ProgrammeEditionDDD implements AggregateRoot<ProgrammeEditionID> {
         if (_programmeEditionID.equals(that._programmeEditionID))
             return true;
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return _programmeEditionID.hashCode();
     }
 }

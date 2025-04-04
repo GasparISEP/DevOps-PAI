@@ -36,7 +36,6 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         this._courseEditionID = courseEditionID;
     }
 
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -81,7 +80,7 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
 
     // Method to check if the enrolment is active
     public boolean isEnrolmentActive() {
-        return _isActive.isEnrolmentActive();  // Calling the VO method to check enrolment status
+        return _isActive.isEnrolmentActive();
     }
 
     // Method to deactivate the enrolment

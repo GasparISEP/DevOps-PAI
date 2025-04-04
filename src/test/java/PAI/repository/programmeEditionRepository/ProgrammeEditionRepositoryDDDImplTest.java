@@ -8,6 +8,7 @@ import PAI.domain.programmeEdition.ProgrammeEditionDDD;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -451,5 +452,41 @@ class ProgrammeEditionRepositoryDDDImplTest {
 
         // Assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnListOfProgrammeEditionsByProgrammeID() throws Exception {
+        // Arrange
+        IProgrammeEditionDDDListFactory listFactoryDouble = mock(IProgrammeEditionDDDListFactory.class);
+        IProgrammeEditionDDDFactory programmeEditionFactoryDouble = mock(IProgrammeEditionDDDFactory.class);
+
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        ProgrammeID otherProgrammeIDDouble = mock(ProgrammeID.class);
+
+        ProgrammeEditionDDD edition1Double = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD edition2Double = mock(ProgrammeEditionDDD.class);
+        ProgrammeEditionDDD edition3Double = mock(ProgrammeEditionDDD.class);
+
+        when(edition1Double.findProgrammeIDInProgrammeEdition()).thenReturn(programmeIDDouble);
+        when(edition2Double.findProgrammeIDInProgrammeEdition()).thenReturn(programmeIDDouble);
+        when(edition3Double.findProgrammeIDInProgrammeEdition()).thenReturn(otherProgrammeIDDouble);
+
+        Set<ProgrammeEditionDDD> internalSet = new HashSet<>();
+        internalSet.add(edition1Double);
+        internalSet.add(edition2Double);
+        internalSet.add(edition3Double);
+
+        when(listFactoryDouble.createProgrammeEditionList()).thenReturn(internalSet);
+
+        ProgrammeEditionRepositoryDDDImpl repository = new ProgrammeEditionRepositoryDDDImpl(listFactoryDouble, programmeEditionFactoryDouble);
+
+        // Act
+        List<ProgrammeEditionDDD> result = repository.getProgrammeEditionsByProgrammeID(programmeIDDouble);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(edition1Double));
+        assertTrue(result.contains(edition2Double));
+        assertFalse(result.contains(edition3Double));
     }
 }

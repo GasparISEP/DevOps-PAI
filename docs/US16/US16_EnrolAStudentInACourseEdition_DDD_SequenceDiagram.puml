@@ -18,7 +18,7 @@ deactivate UI
 ASC -> UI: Enter the student!
 activate UI #E1F5FE
 participant ":US16_EnrolAStudentInACourseEditionController" as Controller
-UI -> Controller: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
+UI -> Controller: findProgrammeEditionIDsThatStudentIsEnrolled \n (studentID)
 ref over Controller
     SD Convert studentID to VO
 end ref
@@ -31,14 +31,17 @@ ref over ProgrammeEditionEnrolmentRepository
 end ref
 ProgrammeEditionEnrolmentRepository --> Controller: List<ProgrammeEditionID>
 deactivate ProgrammeEditionEnrolmentRepository
+ref over Controller
+    SD Convert VO to List<ProgrammeEditionID>
+end ref
 Controller --> UI: List<ProgrammeEditionID>
 deactivate Controller
 UI --> ASC: Here is a list of programme editions \n the student is enrolled in. \n What Programme Edition?
 deactivate UI
 
-ASC -> UI:Enter the programme edition!
+ASC -> UI:Enter the Programme Edition!
 activate UI #E1F5FE
-UI -> Controller: findCourseEditionsByProgrammeEdition \n (programmeEditionID)
+UI -> Controller: findCourseEditionIDsByProgrammeEdition \n (programmeEditionID)
 ref over Controller
     SD Convert programmeEditionID to VO
 end ref
@@ -54,12 +57,15 @@ end ref
 
 CourseEditionRepository --> Controller: List<CourseEditionID>
 deactivate CourseEditionRepository
+ref over Controller
+    SD Convert VO to List<CourseEditionID>
+end ref
 Controller --> UI: List<CourseEditionID>
 deactivate Controller
 UI --> ASC: Here is a list of Course Editions!\n What Course Edition?
 deactivate UI
 
-ASC -> UI: Enter the course edition!
+ASC -> UI: Enter the Course Edition!
 activate UI #E1F5FE
 UI --> ASC: Sure?
 deactivate UI
@@ -96,12 +102,10 @@ create "cee1ID:CourseEditionEnrolmentID"
 "cee1:CourseEditionEnrolment" -> "cee1ID:CourseEditionEnrolmentID": create (studentID, courseEditionID)
 deactivate "cee1:CourseEditionEnrolment"
 participant ":Set" as CourseEditionEnrolmentSet
-loop for each cee[i]:CourseEditionEnrolment in CourseEditionEnrolmentRepository
-    CourseEditionEnrolmentRepository -> "cee1:CourseEditionEnrolment" : sameAs(cee1)
-    activate "cee1:CourseEditionEnrolment" #E1F5FE
-    "cee1:CourseEditionEnrolment" --> CourseEditionEnrolmentRepository : False
-    deactivate "cee1:CourseEditionEnrolment"
-end
+CourseEditionEnrolmentRepository -> "cee1:CourseEditionEnrolment" : stream().anyMatch(existing -> existing.sameAs(cee1)
+activate "cee1:CourseEditionEnrolment" #E1F5FE
+"cee1:CourseEditionEnrolment" --> CourseEditionEnrolmentRepository : False
+deactivate "cee1:CourseEditionEnrolment"
 
 CourseEditionEnrolmentRepository -> CourseEditionEnrolmentSet: add (cee1)
 activate CourseEditionEnrolmentSet #E1F5FE

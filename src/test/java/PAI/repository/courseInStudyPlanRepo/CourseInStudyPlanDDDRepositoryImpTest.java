@@ -263,4 +263,143 @@ class CourseInStudyPlanDDDRepositoryImpTest {
         //act + assert
         assertFalse(repository.containsOfIdentity(id));
     }
+
+    @Test
+    void shouldReturnsListOfCourseInStudyPlanWithStudyPlanID() {
+        // Arrange
+        ICourseInStudyPlanDDDFactory courseInStudyPlanFactoryDouble = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactoryDouble = mock(ICourseInStudyPlanDDDListFactory.class);
+        StudyPlanID studyPlanIDDouble = mock(StudyPlanID.class);
+        StudyPlanID otherStudyPlanIDDouble = mock(StudyPlanID.class);
+
+        List<CourseInStudyPlanDDD> listOfCoursesInStudyPlan = new ArrayList<>();
+        when(listFactoryDouble.newArrayList()).thenReturn(listOfCoursesInStudyPlan);
+
+        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(
+                courseInStudyPlanFactoryDouble, listFactoryDouble);
+
+        CourseInStudyPlanDDD course1Double = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD course2Double = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD course3Double = mock(CourseInStudyPlanDDD.class);
+
+        when(course1Double.getStudyplanID()).thenReturn(studyPlanIDDouble);
+        when(course2Double.getStudyplanID()).thenReturn(studyPlanIDDouble);
+        when(course3Double.getStudyplanID()).thenReturn(otherStudyPlanIDDouble);
+
+        listOfCoursesInStudyPlan.add(course1Double);
+        listOfCoursesInStudyPlan.add(course2Double);
+        listOfCoursesInStudyPlan.add(course3Double);
+
+        // Act
+        List<CourseInStudyPlanDDD> result = repository.getCoursesInStudyPlanByStudyPlanID(studyPlanIDDouble);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(course1Double));
+        assertTrue(result.contains(course2Double));
+        assertFalse(result.contains(course3Double));
+    }
+
+    @Test
+    void testGetCoursesInStudyPlanByStudyPlanIDMultipleMatches() {
+        // Arrange: criar a fábrica e a lista simulada
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        List<CourseInStudyPlanDDD> courseList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(courseList);
+
+        // Criar dois objectos com o mesmo StudyPlanID e um com StudyPlanID diferente
+        StudyPlanID studyPlanIDComum = mock(StudyPlanID.class);
+        StudyPlanID studyPlanIDDiferente = mock(StudyPlanID.class);
+
+        CourseInStudyPlanDDD cip1 = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD cip2 = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD cip3 = mock(CourseInStudyPlanDDD.class);
+
+        when(cip1.getStudyplanID()).thenReturn(studyPlanIDComum);
+        when(cip2.getStudyplanID()).thenReturn(studyPlanIDComum);
+        when(cip3.getStudyplanID()).thenReturn(studyPlanIDDiferente);
+
+        // Criar o repositório e adicionar os objectos
+        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        repository.save(cip1);
+        repository.save(cip3);
+        repository.save(cip2);
+
+        // Act: obter os cursos pelo StudyPlanID comum
+        List<CourseInStudyPlanDDD> resultado = repository.getCoursesInStudyPlanByStudyPlanID(studyPlanIDComum);
+
+        // Assert: verificar que apenas os objectos com o StudyPlanID comum são retornados
+        assertEquals(2, resultado.size());
+        assertTrue(resultado.contains(cip1));
+        assertTrue(resultado.contains(cip2));
+        assertFalse(resultado.contains(cip3));
+    }
+
+    @Test
+    void testOfIdentityReturnsCorrectCourseInStudyPlanWhenMatchIsNotFirst() {
+        // Arrange: criar a fábrica e a lista simulada
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        List<CourseInStudyPlanDDD> courseList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(courseList);
+
+        // Criar três objectos com identidades diferentes
+        CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID id2 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID id3 = mock(CourseInStudyPlanID.class);
+
+        CourseInStudyPlanDDD cip1 = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD cip2 = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD cip3 = mock(CourseInStudyPlanDDD.class);
+
+        when(cip1.identity()).thenReturn(id1);
+        when(cip2.identity()).thenReturn(id2);
+        when(cip3.identity()).thenReturn(id3);
+
+        // Adicionar os objectos ao repositório na ordem: cip1, cip2, cip3
+        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        repository.save(cip1);
+        repository.save(cip2);
+        repository.save(cip3);
+
+        // Act: procurar a identidade do objecto do meio
+        Optional<CourseInStudyPlanDDD> resultado = repository.ofIdentity(id2);
+
+        // Assert: verificar que o objecto correto é retornado
+        assertTrue(resultado.isPresent());
+        assertEquals(cip2, resultado.get());
+    }
+
+    @Test
+    void testContainsOfIdentityIteratesThroughAllItems() {
+        // Arrange: criar a fábrica e a lista simulada
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        List<CourseInStudyPlanDDD> courseList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(courseList);
+
+        // Criar dois objectos com identidades específicas
+        CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID id2 = mock(CourseInStudyPlanID.class);
+
+        CourseInStudyPlanDDD cip1 = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlanDDD cip2 = mock(CourseInStudyPlanDDD.class);
+
+        when(cip1.identity()).thenReturn(id1);
+        when(cip2.identity()).thenReturn(id2);
+
+        // Criar o repositório e adicionar os objectos
+        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        repository.save(cip1);
+        repository.save(cip2);
+
+        // Act & Assert: verificar que as identidades existentes são reconhecidas e que uma identidade inexistente retorna false
+        assertTrue(repository.containsOfIdentity(id1));
+        assertTrue(repository.containsOfIdentity(id2));
+
+        CourseInStudyPlanID idInexistente = mock(CourseInStudyPlanID.class);
+        assertFalse(repository.containsOfIdentity(idInexistente));
+    }
+
 }

@@ -14,12 +14,11 @@ class AccessMethodFactoryImplTest {
     void givenMockedConstructorAccessMethodFactoryShouldCreateAccessMethod() throws InstantiationException {
         //arrange
         AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
-        AccessMethodID accessMethodID = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         try (MockedConstruction<AccessMethod> mockAccessMethod = mockConstruction(AccessMethod.class, (mock, context) ->{
         })) {
             //act
-            AccessMethod accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodID,accessMethodName);
+            AccessMethod accessMethod = accessMethodFactoryImpl.createAccessMethod(accessMethodName);
             //assert
             assertNotNull(accessMethod);
 
@@ -35,7 +34,6 @@ class AccessMethodFactoryImplTest {
     void mockingConstructorThrowingException(){
         //arrange
         AccessMethodFactoryImpl accessMethodFactoryImpl = new AccessMethodFactoryImpl();
-        AccessMethodID accessMethodID = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //Use try-with-resources to mock construction and throw an exception
         try (MockedConstruction<AccessMethod> mock = mockConstruction(AccessMethod.class,(mocked, context) ->
@@ -45,7 +43,7 @@ class AccessMethodFactoryImplTest {
         })) {
             //Act: trying to create accessMethod will throw the exception
             try {
-                accessMethodFactoryImpl.createAccessMethod(accessMethodID, accessMethodName);
+                accessMethodFactoryImpl.createAccessMethod(accessMethodName);
                 fail("Expect exception not thrown");
             } catch (Exception e) {
                 //Assertion to check if the exception is thrown
@@ -103,8 +101,7 @@ class AccessMethodFactoryImplTest {
         AccessMethodID accessMethodID = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         //act + assert
-        assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(null, accessMethodName));
-        assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(accessMethodID, null));
+        assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod( null));
     }
 
     @Test

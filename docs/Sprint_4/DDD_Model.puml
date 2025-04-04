@@ -1,6 +1,7 @@
 @startuml
-skinparam ranksep 100
-skinparam nodesep 100
+skinparam ranksep 120
+skinparam nodesep 120
+skinparam classArrowFontSize 16
 
 package "CourseInStudyPlan Aggregate" {
     entity "<<root>>\nCourseInStudyPlan" {
@@ -92,26 +93,28 @@ package "Department Aggregate" {
     }
 }
 
-"<<root>>\nStudyPlan" "1" <-- "*" "<<root>>\nCourseInStudyPlan"
-"<<root>>\nStudyPlan" "1" <-- "*" "<<root>>\nProgramme"
+"<<root>>\nStudyPlan" "*" <-r- "1" "<<root>>\nCourseInStudyPlan"
+"<<root>>\nStudyPlan" "1" --> "*" "<<root>>\nProgramme"
 "<<root>>\nProgramme" "1" <-- "*" "<<root>>\nProgrammeEdition"
 "<<root>>\nProgrammeEdition" "1" <-- "*" "<<root>>\nCourseEdition"
 "<<root>>\nCourseInStudyPlan" "1" <-- "*" "<<root>>\nCourseEdition"
 "<<root>>\nCourseEdition" "1" <-- "*" "<<root>>\nCourseEditionEnrolment"
 "<<root>>\nCourseEdition" "1" <-- "*" "<<root>>\nStudentGrade"
-"<<root>>\nCourseEditionEnrolment" "*" --> "1" "<<root>>\nStudent"
+"<<root>>\nCourseEditionEnrolment" "*" -u-> "1" "<<root>>\nStudent"
 "<<root>>\nStudent" "1" <-- "*" "<<root>>\nProgrammeEnrolment"
 "<<root>>\nProgrammeEnrolment" "1..*" --> "1" "<<root>>\nAccessMethod"
-"<<root>>\nProgrammeEditionEnrolment" "*" --> "1" "<<root>>\nStudent"
+"<<root>>\nProgrammeEditionEnrolment" "*" -u-> "1" "<<root>>\nStudent"
 "<<root>>\nProgrammeEditionEnrolment" "*" --> "1" "<<root>>\nProgrammeEdition"
-"<<root>>\nSchoolYear" "1" <-- "*" "<<root>>\nProgrammeEdition"
-"<<root>>\nDegreeType" "1" <-- "*" "<<root>>\nProgramme"
-"<<root>>\nTeacher" "0..1" <-- "*" "<<root>>\nCourseEdition"
-"<<root>>\nTeacher" "1" <-- "*" "<<root>>\nProgramme"
-"<<root>>\nTeacherCategory" "1" <-- "*" "<<root>>\nTeacherCareerProgression"
-"<<root>>\nTeacher" "1" <-- "1..*" "<<root>>\nTeacherCareerProgression"
-"<<root>>\nTeacher" "1" -u-> "1" "<<root>>\nDepartment"
+"<<root>>\nSchoolYear" "1" <-d- "*" "<<root>>\nProgrammeEdition"
+"<<root>>\nDegreeType" "1" <-d- "*" "<<root>>\nProgramme"
+"<<root>>\nTeacher" "0..1" <-d- "*" "<<root>>\nCourseEdition"
+"<<root>>\nTeacher" "1" <-d- "*" "<<root>>\nProgramme"
+"<<root>>\nTeacherCategory" "1" <-u- "*" "<<root>>\nTeacherCareerProgression"
+"<<root>>\nTeacher" "1" <-r- "1..*" "<<root>>\nTeacherCareerProgression"
+"<<root>>\nTeacher" "1" -l-> "1" "<<root>>\nDepartment"
 "<<root>>\nStudent" "1" <-- "*" "<<root>>\nStudentGrade"
-"<<root>>\nCourse" "1" <-- "*" "<<root>>\nCourseInStudyPlan"
+"<<root>>\nCourse" "1" <-d- "*" "<<root>>\nCourseInStudyPlan"
+"<<root>>\nProgrammeEnrolment" "*" --> "1" "<<root>>\nProgramme"
+"<<root>>\nProgramme" "*" --> "1" "<<root>>\nDepartment"
 
 @enduml

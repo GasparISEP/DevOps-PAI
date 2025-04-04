@@ -27,4 +27,9 @@ public class DegreeTypeRepository_2 implements IDegreeTypeRepository_2 {
 
         return degreeTypeRepository.add(degreeType);
     }
+
+    @Override
+    public List<DegreeType_2> getAllDegreeTypes() {
+        return degreeTypeRepository;
+    }
 }

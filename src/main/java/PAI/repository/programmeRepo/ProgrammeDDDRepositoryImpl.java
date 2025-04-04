@@ -105,20 +105,33 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     @Override
     public boolean containsOfIdentity(ProgrammeID id) {
-        for (ProgrammeDDD existingProgrammeDDD : _programmeRepo) {
-            if (existingProgrammeDDD.identity().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return ofIdentity(id).isPresent();
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) {
         for (ProgrammeDDD existingProgramme : _programmeRepo) {
-            if (existingProgramme.equals(programme)) {
+            if (existingProgramme.sameAs(programme)) {
                 return Optional.of(programme.identity());
             }
         }
         return Optional.empty();
+    }
+
+    public List<ProgrammeID> getAllProgrammesIDs() {
+        List<ProgrammeID> programmeIDs = new ArrayList<>();
+        for (ProgrammeDDD programme : _programmeRepo) {
+            programmeIDs.add(programme.getProgrammeID());
+        }
+        return programmeIDs;
+    }
+
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
+        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
+        for (ProgrammeDDD programme : _programmeRepo) {
+            if(programme.isInDepartment(departmentID)){
+                programmesWithDepartment.add(programme.identity());
+            }
+        }
+        return programmesWithDepartment;
     }
 }

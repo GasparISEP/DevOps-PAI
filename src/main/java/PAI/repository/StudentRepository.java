@@ -55,7 +55,7 @@ public class StudentRepository implements IStudentRepository {
 
     public Optional<StudentID> findIdByStudent(Student student) {
         for (Student existingStudent : _students) {
-            if (existingStudent.equals(student)) {
+            if (existingStudent.sameAs(student)) {
                 return Optional.of(student.identity());
             }
         }

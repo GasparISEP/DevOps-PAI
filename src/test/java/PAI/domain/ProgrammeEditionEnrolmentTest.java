@@ -1,10 +1,18 @@
 package PAI.domain;
 
+import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
+import PAI.factory.IProgrammeEditionEnrolmentFactory;
+import PAI.factory.IProgrammeEditionEnrolmentListFactory;
+import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
+
+import java.util.HashSet;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,24 +25,24 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
 
         //act + assert
-        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId,peDoubleId);
+        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId);
 
     }
 
     @Test
-    void everythingNullGenerateException () throws Exception {
+    void everythingNullGenerateException() throws Exception {
         //arrange
 
         //act + assert
-        assertThrows(Exception.class, () -> new ProgrammeEditionEnrolment(null,null));
+        assertThrows(Exception.class, () -> new ProgrammeEditionEnrolment(null, null));
     }
 
     @Test
-    void programmeNullGenerateException () throws Exception {
+    void programmeNullGenerateException() throws Exception {
         //arrange
         StudentID studentDoubleId = mock(StudentID.class);
         //act + assert
-        assertThrows(Exception.class, () -> new ProgrammeEditionEnrolment(studentDoubleId,null));
+        assertThrows(Exception.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null));
     }
 
     @Test
@@ -191,7 +199,7 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleSt1Id, doublePEId);
 
         // Act
-        StudentID studentId = enrollment.getStudentID();
+        StudentID studentId = enrollment.findStudentInProgrammeEdition();
 
         // Assert
         assertEquals(doubleSt1Id, studentId);
@@ -200,10 +208,10 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void shouldReturnFalseIfObjectIsDifferent_EqualsMethod() {
         // Arrange
-        Student st1 = mock(Student.class);
+
         StudentID st1Id = mock(StudentID.class);
         ProgrammeEditionID pe1Id = mock(ProgrammeEditionID.class);
-        LocalDate currentDate = LocalDate.now();
+
 
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(st1Id, pe1Id);
 
@@ -214,13 +222,9 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void shouldReturnFalseIfStudentsAreDifferent_EqualsMethod() {
         // Arrange
-        Student student1 = mock(Student.class);
         StudentID student1Id = mock(StudentID.class);
-        Student student2 = mock(Student.class);
         StudentID student2Id = mock(StudentID.class);
-        ProgrammeEdition edition = mock(ProgrammeEdition.class);
         ProgrammeEditionID editionId = mock(ProgrammeEditionID.class);
-        LocalDate currentDate = LocalDate.now();
 
         ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1Id, editionId);
         ProgrammeEditionEnrolment enrollment2 = new ProgrammeEditionEnrolment(student2Id, editionId);
@@ -232,9 +236,7 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void shouldReturnTrue_WhenSameStudentIsPassedAsParameter() {
         // Arrange
-        Student doubleStudent = mock(Student.class);
         StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEdition doublePE = mock(ProgrammeEdition.class);
         ProgrammeEditionID doublePEId = mock(ProgrammeEditionID.class);
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doublePEId);
 
@@ -246,7 +248,6 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void shouldReturnFalse_WhenDifferentStudentIsPassedAsParameter() {
         // Arrange
-
         StudentID doubleStudentId = mock(StudentID.class);
         StudentID doubleStudentId2 = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
@@ -260,9 +261,7 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void shouldReturnTrue_WhenSameProgrammeEditionIsPassedAsParameter() {
         // Arrange
-        Student doubleStudent = mock(Student.class);
         StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEdition doublePE = mock(ProgrammeEdition.class);
         ProgrammeEditionID doublePEId = mock(ProgrammeEditionID.class);
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doublePEId);
 
@@ -273,11 +272,8 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void shouldReturnFalse_WhenDifferentProgrammeEditionIsPassedAsParameter() {
         // Arrange
-        Student doubleStudent = mock(Student.class);
         StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEdition doubleProgrammeEdition = mock(ProgrammeEdition.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
-        ProgrammeEdition doubleProgrammeEdition1 = mock(ProgrammeEdition.class);
         ProgrammeEditionID doubleProgrammeEdition1Id = mock(ProgrammeEditionID.class);
 
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doubleProgrammeEditionId);
@@ -286,4 +282,403 @@ class ProgrammeEditionEnrolmentTest {
         assertFalse(enrollment.hasSameProgrammeEdition(doubleProgrammeEdition1Id));
     }
 
+    @Test
+    void should_return_correct_ID_when_several_exists() {
+
+        //arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        ProgrammeEditionEnrolment enrolment1 = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment enrolment2 = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment enrolment3 = mock(ProgrammeEditionEnrolment.class);
+
+        ProgrammeEditionEnrolmentID id1 = mock(ProgrammeEditionEnrolmentID.class);
+        ProgrammeEditionEnrolmentID id2 = mock(ProgrammeEditionEnrolmentID.class);
+        ProgrammeEditionEnrolmentID id3 = mock(ProgrammeEditionEnrolmentID.class);
+
+        when(enrolment1.identity()).thenReturn(id1);
+        when(enrolment2.identity()).thenReturn(id2);
+        when(enrolment3.identity()).thenReturn(id3);
+
+        repository.save(enrolment1);
+        repository.save(enrolment2);
+        repository.save(enrolment3);
+
+        //act
+        Optional<ProgrammeEditionEnrolment> idExists = repository.ofIdentity(id2);
+
+        //assert
+        assertTrue(idExists.isPresent());
+        assertEquals(enrolment2, idExists.get());
+    }
+
+    @Test
+    void testEqualsReflexivity() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        //Act + Assert
+        assertEquals(repository, repository);
+    }
+
+    @Test
+    void testEqualsSymmetry() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
+
+        //Act + Assert
+        assertNotEquals(repo1, repo2);
+    }
+
+    @Test
+    void testEqualsTransitivity() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
+
+        IProgrammeEditionEnrolmentFactory doubleIPEEF3 = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF3 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo3 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF3, doubleIPEELF3);
+
+        //Act + Assert
+        assertNotEquals(repo1, repo2);
+        assertNotEquals(repo2, repo3);
+        assertNotEquals(repo1, repo3);
+    }
+
+    @Test
+    void testEqualsConsistency() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
+
+        //Act + Assert
+        assertNotEquals(repo1, repo2);
+    }
+
+    @Test
+    void testEqualsNull() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        //Act+Assert
+        assertNotEquals(repo1, null);
+    }
+
+    @Test
+    void testEqualsDifferentClass() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        //Act
+        String differentClassObject = "string";
+
+        //Assert
+        assertNotEquals(repo1, differentClassObject);
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        //Act
+        int hash1 = repo1.hashCode();
+        int hash2 = repo1.hashCode();
+
+        //Assert
+        assertEquals(hash1, hash2);
+    }
+
+    @Test
+    void testHashCodeEquality() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
+
+        //Act + Assert
+        assertNotEquals(repo1.hashCode(), repo2.hashCode());
+    }
+
+    @Test
+    void testHashCodeInHashSet() {
+        //Arrange
+        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+
+        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
+
+        //Act
+        HashSet<ProgrammeEditionEnrolmentRepositoryImpl> set = new HashSet<>();
+        set.add(repo1);
+        set.add(repo2);
+
+        //Assert
+        assertTrue(set.contains(repo2));
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingWithNull() {
+        // Arrange
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+
+        // Act & Assert
+        assertFalse(enrolment.sameAs(null));
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingDifferentClass() {
+        // Arrange
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+
+        // Act & Assert
+        assertFalse(enrolment.sameAs("Some random string"));
+    }
+
+    @Test
+    void shouldReturnSameHashCodeForEqualObjects() {
+        // Arrange
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
+        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
+
+        // Act & Assert
+        assertEquals(enrolment1.hashCode(), enrolment2.hashCode());
+    }
+
+    @Test
+    void should_return_a_ProgrammeEditionEnrolmentID(){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+
+        // act
+        ProgrammeEditionEnrolmentID result = programmeEditionEnrolment.identity();
+
+        // assert
+        assertNotNull(result);
+    }
+    @Test
+    void should_return_true_if_are_different_ProgrammeEditionEnrolment(){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+
+        // act
+        boolean result = programmeEditionEnrolment.sameAs(programmeEditionEnrolment1);
+
+        // assert
+        assertTrue(result);
+    }
+
+    @Test
+    void should_return_false_if_ProgrammeEditionEnrolment_is_Null(){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+
+        // act
+        boolean result = programmeEditionEnrolment.sameAs(null);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_true_if_are_the_same_memory_reference (){
+
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+
+
+        // act
+        boolean result = programmeEditionEnrolment.sameAs(programmeEditionEnrolment);
+
+        // assert
+        assertTrue(result);
+    }
+
+    @Test
+    void should_return_false_if_are_not_the_same_object() {
+
+        // arrange
+        StudentID studentID1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
+        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID2);
+
+        // act
+        boolean result = programmeEditionEnrolment1.sameAs(programmeEditionEnrolment2);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_if_has_not_the_same_StudentID() {
+
+        // arrange
+        StudentID studentID1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        StudentID studentID2 = mock(StudentID.class);
+
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
+        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID1);
+
+        // act
+        boolean result = programmeEditionEnrolment1.sameAs(programmeEditionEnrolment2);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_if_has_not_the_same_ProgrammeEdition_ID() {
+
+        // arrange
+        StudentID studentID1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
+        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID2);
+
+        // act
+        boolean result = programmeEditionEnrolment1.sameAs(programmeEditionEnrolment2);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_for_different_Students_in_ProgrammeEdition_Enrollment() {
+
+        // arrange
+        StudentID student1 = mock(StudentID.class);
+        StudentID student2 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble);
+
+        // act
+        boolean result = enrollment1.hasSameStudent(student2);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_when_Student_Id_is_null() {
+
+        // arrange
+        StudentID student1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble);
+
+        // act
+        boolean result = enrollment1.hasSameStudent(null);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_false_when_ProgrammeEdition_Id_is_Null() {
+
+        // arrange
+        StudentID student1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble);
+
+        // act
+        boolean result = enrollment.hasSameProgrammeEdition(null);
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void should_return_same_hashCode_for_same_enrolmentID() {
+        // Arrange
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
+        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
+
+        // Act
+        int hash1 = enrolment1.hashCode();
+        int hash2 = enrolment2.hashCode();
+
+        // Assert
+        assertEquals(hash1, hash2);
+    }
+
+    @Test
+    void should_return_different_hashCodes_for_different_enrolmentIDs() {
+        // Arrange
+        StudentID studentID1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+
+        StudentID studentID2 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
+        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID2);
+
+        // Act
+        int hash1 = enrolment1.hashCode();
+        int hash2 = enrolment2.hashCode();
+
+        // Assert
+        assertNotEquals(hash1, hash2);
+    }
 }

@@ -4,34 +4,52 @@ autonumber
 title US06: Update Department Director Of A Department
 actor Administrator
 participant ":UI" as UI
+participant ":US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController" as Controller
+participant ":IDepartmentRepository" as IDepartmentRepository
+participant ":Department" as Department
+participant ":Teacher" as Teacher
+
 
 activate Administrator #ddfada
 Administrator -> UI: I want to update the Department Director of a Department!
 activate UI #ddfada
-participant ":US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController" as Controller
-UI -> Controller: getAllDepartmentIDs ()
+
+UI -> Controller: getAllDepartmentID ()
 activate Controller #ddfada
-participant ":IDepartmentRepository" as IDepartmentRepository
+
+ref over Controller
+    Convert departmentID to VO
+end ref
+
 Controller -> IDepartmentRepository: getDepartmentIDs ()
 activate IDepartmentRepository #ddfada
-IDepartmentRepository --> Controller: setOfDepartmentIDs
-Controller --> UI: setOfDepartmentIDs
+IDepartmentRepository --> Controller: Set<DepartmentID>
+deactivate IDepartmentRepository
+
+Controller --> UI: Set<DepartmentID>
+deactivate Controller
 
 
-UI --> Administrator: What Department?
-Administrator -> UI: Enter the Department!
+UI --> Administrator: Choose Department?
+Administrator -> UI: Department selected!
 UI --> Administrator: What Teacher?
 Administrator -> UI: Enter the Teacher!
 UI --> Administrator: Sure?
 Administrator -> UI: Yes!
 
 
-UI -> Controller : updateDepartmentDirector (departmentID, teacherID)
+UI -> Controller :  updateOfDepartmentDirector (departmentID, teacherID)
+activate Controller #ddfada
+
+ref over Controller
+    Convert departmentID and teacherID to VO
+end ref
+
 Controller -> IDepartmentRepository: updateOfDepartmentDirector(departmentID, teacherID)
-participant ":Department" as Department
+activate IDepartmentRepository  #ddfada
+
 IDepartmentRepository -> Department: changeDirector (teacherID)
 activate Department #ddfada
-participant ":Teacher" as Teacher
 Department -> Teacher: isInDepartment (departmentID)
 activate Teacher #ddfada
 Teacher --> Department: True

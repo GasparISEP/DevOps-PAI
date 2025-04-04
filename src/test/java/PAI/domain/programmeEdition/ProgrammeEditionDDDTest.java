@@ -316,4 +316,25 @@ class ProgrammeEditionDDDTest {
     }
 
 
+    // HashCode Test
+    @Test
+    void shouldReturnHashCode() throws Exception {
+        // Arrange
+        ProgrammeID pID = mock(ProgrammeID.class);
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        SchoolYearID sYID = mock(SchoolYearID.class);
+        ProgrammeEditionDDD pE = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        ProgrammeEditionDDD pE1 = new ProgrammeEditionDDD(pEID, pID, sYID);
+
+        ProgrammeEditionID pEID2 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionDDD pE2 = new ProgrammeEditionDDD(pEID2, pID, sYID);
+
+        // Act
+        int result = pE.hashCode();
+
+        // Assert
+        assertEquals(result, pE1.hashCode());
+        assertNotEquals(result, pE2.hashCode());
+    }
 }

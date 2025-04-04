@@ -5,9 +5,13 @@ import PAI.domain.Course;
 import PAI.domain.course.CourseDDD;
 import PAI.domain.course.CourseFactoryDDDImpl;
 import PAI.domain.course.ICourseFactoryDDD;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
+import PAI.domain.courseInStudyPlan.ICourseInStudyPlanDDDFactory;
 import PAI.factory.CourseFactoryImpl;
 import PAI.factory.CourseListFactoryImpl;
 import PAI.repository.CourseRepository;
+import PAI.repository.courseInStudyPlanRepo.CourseInStudyPlanDDDDDDRepositoryImpl;
+import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
