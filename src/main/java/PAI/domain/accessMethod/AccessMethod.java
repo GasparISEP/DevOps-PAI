@@ -9,14 +9,6 @@ public class AccessMethod implements AggregateRoot<AccessMethodID> {
     private final AccessMethodID _accessMethodId;
     private final NameWithNumbersAndSpecialChars _accessMethodName;
 
-    protected AccessMethod(NameWithNumbersAndSpecialChars accessMethodName){
-        if(accessMethodName == null) throw new IllegalArgumentException("Access Method name cannot be null");
-
-        this._accessMethodId = new AccessMethodID();
-        this._accessMethodName = accessMethodName;
-    }
-
-
     protected AccessMethod(AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName){
         if(accessMethodID == null) throw new IllegalArgumentException("Access Method ID cannot be null");
 

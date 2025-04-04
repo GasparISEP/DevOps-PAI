@@ -8,24 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class AccessMethodTest {
-
-    @Test
-    void shouldCreateAccessMethodOnlyWithValidName(){
-        //arrange
-        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
-        //act
-        AccessMethod accessMethod = new AccessMethod(accessMethodName);
-        //assert
-        assertNotNull(accessMethod);
-    }
-
-    @Test
-    void shouldThrowExceptionWithNullName(){
-        //arrange
-        //act + assert
-        assertThrows(Exception.class, () -> new AccessMethod(null));
-    }
-
+    
     @Test
     void shouldCreateAccessMethodWithValidName(){
         //arrange
