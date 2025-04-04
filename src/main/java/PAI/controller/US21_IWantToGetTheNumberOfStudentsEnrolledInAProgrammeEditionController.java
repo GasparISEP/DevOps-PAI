@@ -1,12 +1,9 @@
 package PAI.controller;
-
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.ProgrammeEdition;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
-import PAI.repository.ProgrammeEditionRepository;
 
-import java.util.List;
 
+//to be implemented
 /*
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
@@ -26,6 +23,11 @@ public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionContro
         _programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
  }*/
 
+/*    public List<ProgrammeEdition> getAllProgrammeEditions() {
+        return _programmeEditionRepository.getAllProgrammeEditions();
+    }
+*/
+
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
     private final IProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
@@ -39,10 +41,7 @@ public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionContro
         _programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
     }
 
-/*    public List<ProgrammeEdition> getAllProgrammeEditions() {
-        return _programmeEditionRepository.getAllProgrammeEditions();
-    }
-*/
+
     public int iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionID) {
 
         if (programmeEditionID == null) {

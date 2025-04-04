@@ -1,16 +1,12 @@
-/*package PAI.controller;
+package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.VOs.Location;
-import PAI.domain.*;
+
 import PAI.factory.*;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
-import PAI.repository.ProgrammeEditionEnrolmentRepository;
-import PAI.repository.ProgrammeEditionRepository;
-import org.junit.jupiter.api.Test;
+import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -21,7 +17,7 @@ import static org.mockito.Mockito.when;
 class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTest {
 
     @Test
-    void shouldCreateControllerWhenRepositoryIsValid() {
+    void shouldCreateControllerWhenRepositoryIsValid_Isolation_Test() {
         //SUT Controller
         //Arrange
         IProgrammeEditionEnrolmentRepository repo = mock(IProgrammeEditionEnrolmentRepository.class);
@@ -40,118 +36,78 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         assertThrows(Exception.class, () -> new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null));
     }
 
+    @Test
+    void shouldCreateIWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController_Integration_Test() {
+        // Arrange
+        //Controlador recebia programmmeEdition Repo
+//        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+//        IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+//        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
-    /*
-    class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTest {
+        // Act
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentRepository);
 
-        @Test
-        void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull_IsolatedTest(){
-            //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
-            // Arrange
-                //Doubles' instantiation
-            IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+        // Assert
+        assertNotNull(us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController);
+    }
 
-            // Act & Assert
-            assertThrows(IllegalArgumentException.class, () ->
-                    new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null, programmeEditionEnrolmentRepositoryDouble));
 
-        }
+//    @Test
+//    void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList_IsolatedTest(){
+//        //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
+//        // Arrange
+//            //Doubles' instantiation
+//        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+//        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+//        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+//
+//        ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
+//        programmeEditionList.add(programmeEditionDouble);
+//
+//            // SUT
+//        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
+//                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
+//
+//            //Instructions
+//        when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
+//
+//        // Act
+//        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
+//
+//        // Assert
+//        assertEquals(1, result.size());
+//    }
 
-        @Test
-        void shouldThrowExceptionIfProgrammeEditionEnrollmentRepositoryIsNull_IsolatedTest(){
-            //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
-            // Arrange
-                //Doubles' instantiation
-            IProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-
-            // Act & Assert
-            assertThrows(IllegalArgumentException.class, () ->
-                    new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble,null));
-
-        }
-
-        @Test
-        void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList_IsolatedTest(){
-            //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
-            // Arrange
-                //Doubles' instantiation
-            ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-            ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
-            ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
-
-            ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
-            programmeEditionList.add(programmeEditionDouble);
-
-                // SUT
-            US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                    new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
-
-                //Instructions
-            when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
-
-            // Act
-            List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
-
-            // Assert
-            assertEquals(1, result.size());
-        }
-
-        @Test
-        void shouldReturnProgrammeEditionInList_IsolatedTest(){
-            //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
-            // Arrange
-                //Doubles' instantiation
-            ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-            ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
-            ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
-
-            ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
-            programmeEditionList.add(programmeEditionDouble);
-
-                // SUT
-            US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                    new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
-
-                //Instructions
-            when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
-
-            // Act
-            List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
-
-            // Assert
-            assertEquals(1, result.size());
-            assertEquals(programmeEditionDouble, result.get(0));
-        }
-
-        @Test
-        void shouldReturnAllProgrammeEdition_IsolatedTest(){
-            //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
-            // Arrange
-                //Doubles' instantiation
-            ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-            ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
-            ProgrammeEdition programmeEdition1Double = mock(ProgrammeEdition.class);
-            ProgrammeEdition programmeEdition2Double = mock(ProgrammeEdition.class);
-
-            ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
-            programmeEditionList.add(programmeEdition1Double);
-            programmeEditionList.add(programmeEdition2Double);
-
-                // SUT
-            US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                    new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
-
-                //Instructions
-            when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
-
-            // Act
-            List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
-
-            // Assert
-            assertEquals(2, result.size());
-            assertEquals(programmeEditionList.get(0), result.get(0));
-            assertEquals(programmeEditionList.get(1), result.get(1));
-        }
+//        @Test
+//        void shouldReturnProgrammeEditionInList_IsolatedTest(){
+//            //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
+//            // Arrange
+//                //Doubles' instantiation
+//            ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
+//            ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+//            ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+//
+//            ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
+//            programmeEditionList.add(programmeEditionDouble);
+//
+//                // SUT
+//            US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
+//                    new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
+//
+//                //Instructions
+//            when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
+//
+//            // Act
+//            List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
+//
+//            // Assert
+//            assertEquals(1, result.size());
+//            assertEquals(programmeEditionDouble, result.get(0));
+//        }
 
     @Test
     void shouldReturnCorrectNumberOfStudentsEnrolledInAProgrammeEdition_IsolatedTest() throws Exception {
@@ -175,260 +131,120 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         assertEquals(1, result);
     }
 
-    @Test
-    void shouldThrowExceptionIfProgrammeEditionIsNull_IsolatedTest() {
-        //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
-        // Arrange
-            //Doubles' instantiation
-        ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
-
-            // SUT
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
-
-        // Act + Assert
-        assertThrows(Exception.class, () -> {
-            us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(null);
-        });
-    }
-
-    @Test
-    void shouldCreateIWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(){
-        // Arrange
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
-
-        // Act
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
-
-        // Assert
-        assertNotNull(us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController);
-    }
-
 
     @Test
     void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception {
         // Arrange
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+        StudentID studentID1 = new StudentID(1241924);
+        StudentID studentID2 = new StudentID(1241925);
+        StudentID studentID3 = new StudentID(1241926);
+        StudentID studentID4 = new StudentID(1241927);
 
-        StudentID studentID = new StudentID(1111111);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("123456789", country);
-        PhoneNumber phone = new PhoneNumber("+351", "221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
 
-        Student st1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("20-01-2024");
-        Date endDate = new Date("23-02-2024");
-        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
-                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(programmeName1, programmeAcronym1);
 
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        SchoolYearID schoolYearID2 = new SchoolYearID();
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
+
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentRepository);
+
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID2, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID3, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID4, programmeEditionID2);
 
         // Act
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controlador1 =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
-
-        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(st1, pe1);
-        int result = controlador1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
+        int result = controller1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID1);
 
         // Assert
-        assertEquals(1, result);
+        assertEquals(3, result);
     }
 
     @Test
     void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() throws Exception {
-        // Arrange
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("20-01-2024");
-        Date endDate = new Date("23-02-2024");
-        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
-                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
+        //Arrange
 
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
 
-        // Act
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controlador1 =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(programmeName1, programmeAcronym1);
 
-        int result = controlador1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(pe1);
+        SchoolYearID schoolYearID1 = new SchoolYearID();
 
-        // Assert
-        assertEquals(0, result);
-    }
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
 
-    @Test
-    void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() throws Exception {
-
-        // Arrange
-
-        //Address
-        Street street1 = new Street("Rua da Saudade, nº 75 2º direito");
-        PostalCode pc1 = new PostalCode("4554-565");
-        Location local1 = new Location("Porto");
-        Country country1 = new Country("Portugal");
-        Address add1 = new Address(street1, pc1, local1, country1);
-
-        //Student
-        StudentID studentID = new StudentID(1111111);
-        Name name = new Name("João Silva");
-        String countryName = "Portugal";
-        Country country = new Country(countryName);
-        NIF nif = new NIF("123456789", country);
-        PhoneNumber phone = new PhoneNumber("+351", "221234567");
-        Email email = new Email("joao123@gmail.com");
-        StudentAcademicEmail academicEmail = new StudentAcademicEmail(studentID);
-        Student st1 = new Student(studentID, name, nif, phone, email, add1, academicEmail);
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("20-01-2024");
-        Date endDate = new Date("23-02-2024");
-        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
-        DegreeType master = new DegreeType("Master", 240);
-        //Department
-        Acronym acr1 = new Acronym()
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID. ();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", date, tcID,
-                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
-
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-        ProgrammeEdition pe1 = new ProgrammeEdition(p1, sy1);
-
-        Programme p2 = new Programme("Physics", "Phy", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-
-        ProgrammeEdition pe2 = new ProgrammeEdition(p2, sy1);
-
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
-
-        // Act
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controlador1 =
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
                 new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentRepository);
 
-        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID, p1);
-        int result = controlador1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(pe2);
+        // Act
+        int result = controller1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID1);
 
         // Assert
         assertEquals(0, result);
     }
-
+//
     @Test
-    void shouldThrowExceptionIfProgrammeEditionRepositoryIsNull() throws Exception {
+    void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() throws Exception {
         // Arrange
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+        StudentID studentID1 = new StudentID(1241924);
+        StudentID studentID2 = new StudentID(1241925);
+        StudentID studentID3 = new StudentID(1241926);
+        StudentID studentID4 = new StudentID(1241927);
 
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null, programmeEditionEnrolmentRepository);
-        });
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
+
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(programmeName1, programmeAcronym1);
+
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        SchoolYearID schoolYearID2 = new SchoolYearID();
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
+
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentRepository);
+
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID2, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID3, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID4, programmeEditionID1);
+
+        // Act
+        int result = controller1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID2);
+
+        // Assert
+        assertEquals(0, result);
+        assertEquals(4, controller1.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID1));
     }
 
     @Test
-    void shouldThrowExceptionIfProgrammeEditionEnrollmentRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionIfGivenProgrammeEditionIDIsNull() throws Exception {
         // Arrange
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, null);
-        });
-    }
-
-    @Test
-    void shouldThrowExceptionIfProgrammeEditionIsNull() throws Exception {
-        // Arrange
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+        //Quando o controller implementar a lista de programmeEdition
+        //IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        //ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+        //ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentRepository);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -436,154 +252,169 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         });
     }
 
-    @Test
-    void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList() throws Exception {
-        // Arrange
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("20-01-2024");
-        Date endDate = new Date("23-02-2024");
-        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
-                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
+//Quando o controller implementar a lista de programmeEdition
+//    @Test
+//    void shouldThrowExceptionIfProgrammeEditionEnrollmentRepositoryIsNull() throws Exception {
+//        // Arrange
+//        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+//        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+//        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+//
+//        // Act + Assert
+//        assertThrows(IllegalArgumentException.class, () -> {
+//            new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, null);
+//        });
+//    }
 
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-        programmeEditionRepository.createProgrammeEdition(p1, sy1);
+//Testes para a listaProgrammeEdition
+//    @Test
+//    void shouldReturnSizeOneIfOnlyOneProgrammeEditionInList() throws Exception {
+//        // Arrange
+//        IAddressFactory addressFactory = new AddressFactoryImpl();
+//        Address add1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
+//        Description description = new Description("School Year 24/25");
+//        Date startDate = new Date("20-01-2024");
+//        Date endDate = new Date("23-02-2024");
+//        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
+//        DegreeType master = new DegreeType("Master", 240);
+//        Department CSE = new Department("CSE", "Computer Science Engineer");
+//        TeacherCategory assistantProfessor = new TeacherCategory("Assistant Professor");
+//        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+//        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+//        Date date = new Date("20-12-2010");
+//        TeacherCategoryID tcID = new TeacherCategoryID();
+//        WorkingPercentage wp = new WorkingPercentage(100);
+//        TeacherID teacherID = TeacherID.createNew();
+//        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
+//                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+//                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+//                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+//        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
+//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+//        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+//        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+//        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
+//
+//        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+//        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+//        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+//
+//        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
+//                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
+//        programmeEditionRepository.createProgrammeEdition(p1, sy1);
+//
+//        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
+//                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
+//
+//        // Act
+//        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
+//
+//        // Assert
+//        assertEquals(1, result.size());
+//    }
 
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
+//    @Test
+//    void shouldReturnProgrammeEditionInList() throws Exception {
+//        // Arrange
+//        IAddressFactory addressFactory = new AddressFactoryImpl();
+//        Description description = new Description("School Year 24/25");
+//        Date startDate = new Date("20-01-2024");
+//        Date endDate = new Date("23-02-2024");
+//        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
+//        DegreeType master = new DegreeType("Master", 240);
+//        Department CSE = new Department("CSE", "Computer Science Engineer");
+//        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+//        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+//        Date date = new Date("20-12-2010");
+//        TeacherCategoryID tcID = new TeacherCategoryID();
+//        WorkingPercentage wp = new WorkingPercentage(100);
+//        TeacherID teacherID = TeacherID.createNew();
+//        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
+//                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+//                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+//                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+//        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
+//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+//        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+//        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+//        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
+//
+//        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+//        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+//        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+//
+//        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
+//                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
+//        programmeEditionRepository.createProgrammeEdition(p1, sy1);
+//        ProgrammeEdition programmeEdition = programmeEditionRepository.getAllProgrammeEditions().get(0);
+//
+//        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
+//                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
+//
+//        // Act
+//        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
+//
+//        // Assert
+//        assertEquals(1, result.size());
+//        assertEquals(programmeEdition, result.get(0));
+//    }
 
-        // Act
-        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
-
-        // Assert
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void shouldReturnProgrammeEditionInList() throws Exception {
-        // Arrange
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("20-01-2024");
-        Date endDate = new Date("23-02-2024");
-        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
-                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
-
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
-
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-        programmeEditionRepository.createProgrammeEdition(p1, sy1);
-        ProgrammeEdition programmeEdition = programmeEditionRepository.getAllProgrammeEditions().get(0);
-
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
-
-        // Act
-        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
-
-        // Assert
-        assertEquals(1, result.size());
-        assertEquals(programmeEdition, result.get(0));
-    }
-
-    @Test
-    void shouldReturnAllProgrammeEdition() throws Exception {
-        // Arrange
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("20-01-2024");
-        Date endDate = new Date("23-01-2024");
-        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
-        DegreeType master = new DegreeType("Master", 240);
-        Department CSE = new Department("CSE", "Computer Science Engineer");
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-        Date date = new Date("20-12-2010");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
-                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
-                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
-        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
-        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
-        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
-        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
-
-        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
-        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
-
-        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-        programmeEditionRepository.createProgrammeEdition(p1, sy1);
-        Programme p2 = new Programme("Physics", "Phy", 20, 6, master, CSE, teacher,
-                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
-        programmeEditionRepository.createProgrammeEdition(p2, sy1);
-
-        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
-
-        // Act
-        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
-
-        // Assert
-        assertEquals(2, result.size());
-        assertEquals(programmeEditionRepository.getAllProgrammeEditions().get(0), result.get(0));
-        assertEquals(programmeEditionRepository.getAllProgrammeEditions().get(1), result.get(1));
-    }
-
-}*/
+//    @Test
+//    void shouldReturnAllProgrammeEdition() throws Exception {
+//        // Arrange
+//        IAddressFactory addressFactory = new AddressFactoryImpl();
+//        Description description = new Description("School Year 24/25");
+//        Date startDate = new Date("20-01-2024");
+//        Date endDate = new Date("23-01-2024");
+//        SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
+//        DegreeType master = new DegreeType("Master", 240);
+//        Department CSE = new Department("CSE", "Computer Science Engineer");
+//        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
+//        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+//        Date date = new Date("20-12-2010");
+//        TeacherCategoryID tcID = new TeacherCategoryID();
+//        WorkingPercentage wp = new WorkingPercentage(100);
+//        TeacherID teacherID = TeacherID.createNew();
+//        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
+//                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto",
+//                "4249-015", "Porto", "Portugal", addressFactory, date, tcID,
+//                wp, teacherID, CSE, teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactory);
+//        ProgrammeCourseListFactoryImpl programmeCourseListFactory = new ProgrammeCourseListFactoryImpl();
+//        CourseInStudyPlanFactoryImpl courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+//        StudyPlanListFactoryImpl studyPlanListFactory = new StudyPlanListFactoryImpl();
+//        StudyPlanFactoryImpl studyPlanFactory = new StudyPlanFactoryImpl();
+//        CourseFactoryImpl courseFactory = new CourseFactoryImpl();
+//
+//        ProgrammeEditionFactoryImpl programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+//        ProgrammeEditionListFactoryImpl programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+//        ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+//
+//        Programme p1 = new Programme("Computer Engineering", "CE", 20, 6, master, CSE, teacher,
+//                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
+//        programmeEditionRepository.createProgrammeEdition(p1, sy1);
+//        Programme p2 = new Programme("Physics", "Phy", 20, 6, master, CSE, teacher,
+//                programmeCourseListFactory, courseInStudyPlanFactory, studyPlanListFactory, studyPlanFactory, courseFactory);
+//        programmeEditionRepository.createProgrammeEdition(p2, sy1);
+//
+//        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
+//                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
+//
+//        // Act
+//        List<ProgrammeEdition> result = us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController.getAllProgrammeEditions();
+//
+//        // Assert
+//        assertEquals(2, result.size());
+//        assertEquals(programmeEditionRepository.getAllProgrammeEditions().get(0), result.get(0));
+//        assertEquals(programmeEditionRepository.getAllProgrammeEditions().get(1), result.get(1));
+//    }
+}
