@@ -8,11 +8,17 @@ import PAI.domain.Programme;
 import PAI.domain.programme.ProgrammeDDD;
 
 import java.util.List;
+
+import java.util.List;
 import java.util.Optional;
+
+import java.util.List;
 
 public interface IProgrammeDDDRepository extends IRepository <ProgrammeID, ProgrammeDDD> {
 
     boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception;
+
+    List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID);
 
     List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception;
 

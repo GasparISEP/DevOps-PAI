@@ -57,6 +57,18 @@ public class SchoolYearRepository implements ISchoolYearRepository {
         return false;
     }
 
+    public boolean schoolYearExistsByID(SchoolYearID schoolYear){
+        if(schoolYear==null){
+            return false;
+        }
+        for (SchoolYear existingSchoolYear : _schoolYearList) {
+            if (existingSchoolYear.identity().equals(schoolYear)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public SchoolYear getCurrentSchoolYear() {
 
         if (_schoolYearList.isEmpty())

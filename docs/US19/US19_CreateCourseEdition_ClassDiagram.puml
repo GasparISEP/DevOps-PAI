@@ -1,6 +1,6 @@
 @startuml
-skinparam ranksep 100
-skinparam nodesep 100
+skinparam ranksep 150
+skinparam nodesep 120
 skinparam packageBorderColor #F0B0B0
 skinparam arrowThickness 1.2
 skinparam linetype ortho
@@ -23,6 +23,18 @@ package controller{
 }
 
 package repository{
+
+    package DegreeTypeRepository{
+        interface IDegreeTypeRepository <<interface>> {}
+    }
+
+    package ProgrammeRepository{
+        interface IProgrammeRepository <<interface>> {}
+    }
+
+    package StudyPlanRepository{
+        interface IStudyPlanRepository <<interface>> {}
+    }
 
     package CourseEditionRepository{
 
@@ -55,50 +67,16 @@ package repository{
 
         interface ICourseInStudyPlanRepository <<interface>> {}
 
-        class CourseInStudyPlanRepositoryImpl <<repository>> {
-            + CourseInStudyPlanRepository_2(ICourseInStudyPlanFactory_2, ICourseInStudyPlanListFactory_2):
-            - _courseInStudyPlanFactory_2: ICourseInStudyPlanFactory_2
-            - _coursesInStudyPlanList_2: List<CourseInStudyPlan_2>
-            + createCourseInStudyPlan_2(Semester, CurricularYear, CourseID, StudyPlanID): boolean
-            + findByCourseInStudyPlanID(CourseInStudyPlanID): Optional<CourseInStudyPlan_2>
-            + getAllCourseInStudyPlanList_2(): List<CourseInStudyPlan_2>
-        }
-
-        interface ICourseInStudyPlanListFactory <<interface>> {
-            + ICourseInStudyPlanListFactory():
-            + newList()
-        }
-
-        class CourseInStudyPlanArrayListFactoryImpl {
-            + CourseInStudyPlanArrayListFactoryImpl():
-            + newList(): List<CourseInStudyPlan>
-        }
     }
 
     package ProgrammeEditionRepository {
 
         interface IProgrammeEditionRepository <<interface>> {}
 
-        class ProgrammeEditionRepositoryImpl <<repository>>{
-            +ProgrammeEditionRepositoryImpl()
-            +createProgrammeEdition(programme: Programme, schoolYear: SchoolYear)
-            +findProgrammeInProgrammeEdition(programmeEdition: ProgrammeEdition)
-            +findProgrammeEditionBySchoolYearAndProgramme(programme: Programme, schoolYear: SchoolYear)
-            +getAllProgrammeEditions()
-        }
-
-        interface IProgrammeEditionListFactory <<interface>> {
-          + IProgrammeEditionListFactory():
-          + newList()
-        }
-
-        class ProgrammeEditionArrayListFactoryImpl {
-          + ProgrammeEditionArrayListFactoryImpl():
-          + newList(): List<ProgrammeEdition>
-        }
     }
 }
 
+together{
 package domain {
 
     package CourseEditionAggregate{
@@ -145,15 +123,6 @@ package domain {
 
         class CourseInStudyPlanID <<Value Object>>{}
 
-        interface ICourseInStudyPlanFactory <<interface>> {
-            +newCourseInStudyPlan(Semester, CurricularYear, CourseID, StudyPlanID)
-            +newCourseInStudyPlan(CourseInStudyPlanID, Semester, CurricularYear, CourseID, StudyPlanID)
-        }
-
-        class CourseInStudyPlanFactoryImpl {
-            +newCourseInStudyPlan(Semester, CurricularYear, CourseID, StudyPlanID)
-            +newCourseInStudyPlan(CourseInStudyPlanID, Semester, CurricularYear, CourseID, StudyPlanID)
-        }
     }
 
     package ProgrammeEditionAggregate{
@@ -171,16 +140,8 @@ package domain {
 
         class ProgrammeEditionID <<Value Object>>{}
 
-        interface IProgrammeEditionFactory <<interface>> {
-            +newProgrammeEdition(ProgrammeID, SchoolYearID)
-            +newProgrammeEdition(ProgrammeEditionID, ProgrammeID, SchoolYearID)
-        }
-
-        class ProgrammeEditionFactoryImpl {
-            +newProgrammeEdition(ProgrammeID, SchoolYearID)
-            +newProgrammeEdition(ProgrammeEditionID, ProgrammeID, SchoolYearID)
-        }
     }
+}
 }
 }
 
@@ -188,6 +149,9 @@ package domain {
 US19_CreateCourseEditionController "1" ..> "1" ICourseEditionRepository
 US19_CreateCourseEditionController "1" ..> "1" ICourseInStudyPlanRepository
 US19_CreateCourseEditionController "1" ..> "1" IProgrammeEditionRepository
+US19_CreateCourseEditionController "1" ..> "1" IStudyPlanRepository
+US19_CreateCourseEditionController "1" ..> "1" IProgrammeRepository
+US19_CreateCourseEditionController "1" ..> "1" IDegreeTypeRepository
 
 CourseEditionFactoryImpl "1" .|> "1" ICourseEditionFactory
 CourseEditionArrayListFactoryImpl "1" .|> "1" ICourseEditionListFactory
@@ -196,27 +160,17 @@ ICourseEditionRepository "1" --down--> "1" ICourseEditionFactory
 ICourseEditionRepository "1" <|.. "0..*" CourseEditionRepositoryImpl
 ICourseEditionRepository "1" --> "_courseEditions" CourseEdition
 
-CourseInStudyPlanFactoryImpl "1" .|> "1" ICourseInStudyPlanFactory
-CourseInStudyPlanArrayListFactoryImpl "1" .|> "1" ICourseInStudyPlanListFactory
-ICourseInStudyPlanListFactory "1" <.. "1" CourseInStudyPlanRepositoryImpl
-ICourseInStudyPlanRepository "1" --down--> "1" ICourseInStudyPlanFactory
-ICourseInStudyPlanRepository "1" <|.. "0..*" CourseInStudyPlanRepositoryImpl
 ICourseInStudyPlanRepository "1" --> "_coursesInStudyPlan" CourseInStudyPlan
 
-ProgrammeEditionFactoryImpl "1" .|> "1" IProgrammeEditionFactory
-ProgrammeEditionArrayListFactoryImpl "1" .|> "1" IProgrammeEditionListFactory
-IProgrammeEditionListFactory "1" <.. "1" ProgrammeEditionRepositoryImpl
-IProgrammeEditionRepository "1" --down--> "1" IProgrammeEditionFactory
-IProgrammeEditionRepository "1" <|.. "0..*" ProgrammeEditionRepositoryImpl
 IProgrammeEditionRepository "1" --> "_programmeEditions" ProgrammeEdition
 
 CourseEdition "0..*" ..> "1" ICourseEditionFactory
 CourseEdition "*" --> "1" CourseEditionID
 
-CourseEdition "0..*" --> "1" CourseInStudyPlanID
+CourseEditionID "0..*" --> "1" CourseInStudyPlanID
 CourseInStudyPlanID "1" <-- "1" CourseInStudyPlan
 
-CourseEdition "*" --> "1" ProgrammeEditionID
+CourseEditionID "*" --> "1" ProgrammeEditionID
 ProgrammeEditionID "1" <-- "1" ProgrammeEdition
 
 @enduml

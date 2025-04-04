@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.ProgrammeEdition;
-import PAI.repository.ProgrammeEditionEnrolmentRepository;
+import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import PAI.repository.ProgrammeEditionRepository;
 
 import java.util.List;
@@ -10,19 +10,19 @@ import java.util.List;
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
     private ProgrammeEditionRepository _programmeEditionRepository;
-    private ProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
+    private ProgrammeEditionEnrolmentRepositoryImpl _programmeEditionEnrolmentRepositoryImpl;
 
-    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(ProgrammeEditionRepository programmeEditionRepository, ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository){
+    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(ProgrammeEditionRepository programmeEditionRepository, ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl){
 
         if(programmeEditionRepository == null){
             throw new IllegalArgumentException("Programme Edition Repository is null");
         }
         _programmeEditionRepository = programmeEditionRepository;
 
-        if(programmeEditionEnrolmentRepository == null){
+        if(programmeEditionEnrolmentRepositoryImpl == null){
             throw new IllegalArgumentException("Programme Edition Enrollment Repository is null");
         }
-        _programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
+        _programmeEditionEnrolmentRepositoryImpl = programmeEditionEnrolmentRepositoryImpl;
     }
 
     public List<ProgrammeEdition> getAllProgrammeEditions() {
@@ -34,6 +34,6 @@ public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionContro
         if(programmeEditionId == null){
             throw new IllegalArgumentException("Programme Edition cannot be null");
         }
-        return _programmeEditionEnrolmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionId);
+        return _programmeEditionEnrolmentRepositoryImpl.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionId);
     }
 }
