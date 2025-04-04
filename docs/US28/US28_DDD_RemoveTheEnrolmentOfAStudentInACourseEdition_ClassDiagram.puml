@@ -1,8 +1,6 @@
 @startuml
 title US28: As an ASC, I want to remove the enrolment of a student in a course edition - Class Diagram
 '!pragma layout smetana
-skinparam ranksep 110
-skinparam nodesep 110
 skinparam classBackgroundColor #E1F5FE
 skinparam titleFontSize 18
 skinparam linetype ortho
@@ -156,37 +154,37 @@ interface ICourseEditionEnrolmentListFactory{
 }
 
 
-"CourseEditionEnrolment Aggregate" "*" --> "_studentID 1" StudentID
-"CourseEditionEnrolment Aggregate" "*" --> "_courseEditionID 1    " CourseEditionID
+CourseEditionEnrolment "*" --> "_studentID 1" StudentID
+CourseEditionEnrolment "*" --> "_courseEditionID 1    " CourseEditionID
 ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
 ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
 CourseEditionEnrolmentRepositoryImpl ..> ICourseEditionEnrolmentFactory
-ICourseEditionEnrolmentFactory ..> "CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
 CourseEditionEnrolmentRepositoryImpl ..> ICourseEditionEnrolmentListFactory
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
 US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller "1" ..> "_enrolmentRepo 1" ICourseEditionEnrolmentRepository
-Date "_enrolmentDate 1" <-- "1" "CourseEditionEnrolment Aggregate"
-EnrolmentStatus "_isActive 1" <-- "1" "CourseEditionEnrolment Aggregate"
-StudentID "_studentID 1      " <-- "1" "Student Aggregate"
-AddressVO "_addressVO 1" <-- "1" "Student Aggregate"
+Date "_enrolmentDate 1" <-- "1" CourseEditionEnrolment
+EnrolmentStatus "_isActive 1" <-- "1" CourseEditionEnrolment
+StudentID "_studentID 1" <-- "1" Student
+AddressVO "_addressVO 1" <-- "1" Student
 Street "_street 1" <-- "1" AddressVO
 PostalCode "_postalCode 1" <-- "1" AddressVO
 Location "_location 1" <-- "1" AddressVO
 Country "_country 1" <-- "1" AddressVO
-Name "_name 1" <-- "1" "Student Aggregate"
-NIF "_NIF 1" <-- "1" "Student Aggregate"
-PhoneNumber "_phone 1" <-- "1" "Student Aggregate"
-Email "_email 1" <-- "1" "Student Aggregate"
-StudentAcademicEmail "_studentAcademicEmail 1" <-- "1" "Student Aggregate"
-CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *    " "CourseEditionEnrolment Aggregate"
-CourseEditionID "_courseEditionID 1" <-- "1" "CourseEdition Aggregate"
-CourseInStudyPlanID "_courseInStudyPlanID 1             " <-- "1" "CourseEdition Aggregate"
-ProgrammeEditionID "_programmeEditionID 1" <-- "1" "CourseEdition Aggregate"
-CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" "CourseEditionEnrolment Aggregate"
+Name "_name 1" <-- "1" Student
+NIF "_NIF 1" <-- "1" Student
+PhoneNumber "_phone 1" <-- "1" Student
+Email "_email 1" <-- "1" Student
+StudentAcademicEmail "_studentAcademicEmail 1" <-- "1" Student
+CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *    " CourseEditionEnrolment
+CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
+CourseInStudyPlanID "_courseInStudyPlanID 1" <-- "1" CourseEdition
+ProgrammeEditionID "_programmeEditionID 1" <-- "1" CourseEdition
+CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
 StudentID "_studentID 1" <--  CourseEditionEnrolmentID
-CourseEditionID "      _courseEditionID 1" <--  CourseEditionEnrolmentID
+CourseEditionID "_courseEditionID 1" <--  CourseEditionEnrolmentID
 CourseInStudyPlanID "_courseInStudylanID 1" <--  CourseEditionID
-ProgrammeEditionID "        _programmeEditionID 1" <--  CourseEditionID
+ProgrammeEditionID "_programmeEditionID 1" <--  CourseEditionID
 ProgrammeID "_programmeID 1" <--  ProgrammeEditionID
 SchoolYearID "_schoolYearID 1" <--  ProgrammeEditionID
 
