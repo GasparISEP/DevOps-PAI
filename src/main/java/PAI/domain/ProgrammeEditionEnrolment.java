@@ -2,7 +2,6 @@ package PAI.domain;
 
 import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.SchoolYearID;
 import PAI.VOs.StudentID;
 import PAI.ddd.AggregateRoot;
 
@@ -10,17 +9,18 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEditionEnrolmentID> {
-    private Student _student;
     private ProgrammeEditionID _programmeEditionId;
     private ProgrammeEdition _programmeEdition;
     private LocalDate _enrolmentDate;
-    private ProgrammeEditionEnrolmentID _enrolmentId;
+    private ProgrammeEditionEnrolmentID _programmeEditionEnrolmentID;
     private StudentID _studentId;
+
     //constructor
     public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId) {
         validateStudent(studentId);
         validateProgrammeEdition(programmeEditionId);
         this._enrolmentDate = LocalDate.now();
+        this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
     }
 
     private void validateStudent(StudentID studentId) {
@@ -62,21 +62,20 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(_studentId, _programmeEditionId);
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ProgrammeEditionEnrolment that = (ProgrammeEditionEnrolment) o;
+        return Objects.equals(_programmeEditionEnrolmentID, that._programmeEditionEnrolmentID);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        ProgrammeEditionEnrolment other = (ProgrammeEditionEnrolment) obj;
-        return Objects.equals(this._studentId, other._studentId) && Objects.equals(this._programmeEditionId, other._programmeEditionId);
+    public int hashCode() {
+        return Objects.hash(_programmeEditionId, _studentId);
     }
 
     @Override
     public ProgrammeEditionEnrolmentID identity() {
-        return _enrolmentId;
+        return _programmeEditionEnrolmentID;
     }
 
     @Override
