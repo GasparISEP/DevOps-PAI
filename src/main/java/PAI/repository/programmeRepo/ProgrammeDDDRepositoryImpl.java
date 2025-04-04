@@ -124,4 +124,14 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         }
         return programmeIDs;
     }
+
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
+        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
+        for (ProgrammeDDD programme : _programmeRepo) {
+            if(programme.isInDepartment(departmentID)){
+                programmesWithDepartment.add(programme.identity());
+            }
+        }
+        return programmesWithDepartment;
+    }
 }

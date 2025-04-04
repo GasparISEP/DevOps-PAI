@@ -38,4 +38,8 @@ public class ProgrammeEditionID implements DomainId {
     public int hashCode() {
         return _programmeID.hashCode() + _schoolYearID.hashCode();
     }
+
+    public boolean isSameProgrammeEdition(ProgrammeID programmeID, SchoolYearID schoolYearID){
+        return this._programmeID.equals(programmeID) && this._schoolYearID.equals(schoolYearID);
+    }
 }

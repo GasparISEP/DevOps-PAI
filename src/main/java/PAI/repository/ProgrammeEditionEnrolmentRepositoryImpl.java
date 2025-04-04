@@ -45,14 +45,13 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
     }
 
     @Override
-    public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
+    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
         Set<StudentID> studentIDs = new HashSet<>();
-
         for (ProgrammeEditionEnrolment enrollment : _programmeEditionEnrolments) {
-            if (enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
-                StudentID studentID = enrollment.getStudentID();
+            if (enrollment.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear,programmeIDS)) {
+                StudentID studentID = enrollment.findStudentInProgrammeEdition();
                 studentIDs.add(studentID);
-                }
+            }
         }
         return studentIDs.size();
     }

@@ -199,7 +199,7 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleSt1Id, doublePEId);
 
         // Act
-        StudentID studentId = enrollment.getStudentID();
+        StudentID studentId = enrollment.findStudentInProgrammeEdition();
 
         // Assert
         assertEquals(doubleSt1Id, studentId);
@@ -485,17 +485,17 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void should_return_a_ProgrammeEditionEnrolmentID(){
 
-    // arrange
-    StudentID studentIDDouble = mock(StudentID.class);
-    ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-    ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+        // arrange
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
 
-    // act
-    ProgrammeEditionEnrolmentID result = programmeEditionEnrolment.identity();
+        // act
+        ProgrammeEditionEnrolmentID result = programmeEditionEnrolment.identity();
 
-    // assert
-    assertNotNull(result);
-}
+        // assert
+        assertNotNull(result);
+    }
     @Test
     void should_return_true_if_are_different_ProgrammeEditionEnrolment(){
 
@@ -682,4 +682,3 @@ class ProgrammeEditionEnrolmentTest {
         assertNotEquals(hash1, hash2);
     }
 }
-

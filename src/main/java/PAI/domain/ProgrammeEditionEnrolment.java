@@ -1,16 +1,23 @@
 package PAI.domain;
 
+import PAI.VOs.*;
 import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.ddd.AggregateRoot;
+import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programmeEdition.ProgrammeEditionDDD;
+import PAI.factory.IProgrammeRepository;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
+import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEditionEnrolmentID> {
     private ProgrammeEditionID _programmeEditionId;
-    private ProgrammeEdition _programmeEdition;
     private LocalDate _enrolmentDate;
     private ProgrammeEditionEnrolmentID _programmeEditionEnrolmentID;
     private StudentID _studentId;
@@ -37,12 +44,13 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
         this._programmeEditionId = programmeEditionId;
     }
 
-    public boolean isEnrolmentAssociatedToDepartmentAndSchoolYear(Department department, SchoolYear schoolYear) {
-        return _programmeEdition.isEditionAssociatedToDepartmentAndSchoolYear(department, schoolYear);
-    }
-
-    public StudentID getStudentID() {
-        return _studentId;
+    public boolean isEnrolmentAssociatedToProgrammeAndSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
+        for (ProgrammeID programmeID : programmeIDS) {
+            if (_programmeEditionId.isSameProgrammeEdition(programmeID, schoolYear)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean hasSameStudent(StudentID studentId) {

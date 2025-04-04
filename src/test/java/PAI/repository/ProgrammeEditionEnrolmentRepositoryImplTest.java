@@ -128,7 +128,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         when(doubleIPEEF.newProgrammeEditionEnrolment(stId1, peId1)).thenReturn(enrolMock1);
 
-        when(enrolMock1.getStudentID()).thenReturn(stId1);
+        
+        when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(stId1);
         when(enrolMock1.hasSameStudent(stId1)).thenReturn(true);
         when(enrolMock1.hasSameProgrammeEdition(peId1)).thenReturn(true);
         when(enrolMock1.findProgrammeEditionInEnrolment()).thenReturn(peId1);
@@ -202,7 +203,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         when(mockStudent.identity()).thenReturn(stId1);
 
-        when(enrolMock1.getStudentID()).thenReturn(stId1);
+        when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(stId1);
 
         when(enrolMock1.findProgrammeEditionInEnrolment()).thenReturn(peId1);
 
@@ -217,10 +218,12 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
     @Test
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndSchoolYear() {
-
-        // arrange
         Department department1Double = mock(Department.class);
-        SchoolYear schoolYear1Double = mock(SchoolYear.class);
+        SchoolYearID schoolYear1Double = mock(SchoolYearID.class); // Changed to SchoolId
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class); //Created a Program
+        ProgrammeID programmeID2 = mock(ProgrammeID.class); //Created a Program
+        List<ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2); //Created a Program
 
         ProgrammeEditionID editionId1Double = mock(ProgrammeEditionID.class);
         ProgrammeEditionID editionId2Double = mock(ProgrammeEditionID.class);
@@ -244,17 +247,17 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolMock1 = mock(ProgrammeEditionEnrolment.class);
-        when(enrolMock1.getStudentID()).thenReturn(studentId1Double);
+        when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(studentId1Double);
         when(enrolMock1.findProgrammeEditionInEnrolment()).thenReturn(editionId1Double);
         when(doubleIPEEF.newProgrammeEditionEnrolment(studentId1Double, editionId1Double)).thenReturn(enrolMock1);
 
         ProgrammeEditionEnrolment enrolMock2 = mock(ProgrammeEditionEnrolment.class);
-        when(enrolMock2.getStudentID()).thenReturn(studentId2Double);
+        when(enrolMock2.findStudentInProgrammeEdition()).thenReturn(studentId2Double);
         when(enrolMock2.findProgrammeEditionInEnrolment()).thenReturn(editionId2Double);
         when(doubleIPEEF.newProgrammeEditionEnrolment(studentId2Double, editionId2Double)).thenReturn(enrolMock2);
 
         ProgrammeEditionEnrolment enrolMock3 = mock(ProgrammeEditionEnrolment.class);
-        when(enrolMock3.getStudentID()).thenReturn(studentId3Double);
+        when(enrolMock3.findStudentInProgrammeEdition()).thenReturn(studentId3Double);
         when(enrolMock3.findProgrammeEditionInEnrolment()).thenReturn(editionId3Double);
         when(doubleIPEEF.newProgrammeEditionEnrolment(studentId3Double, editionId3Double)).thenReturn(enrolMock3);
 
@@ -263,11 +266,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         repository.enrolStudentInProgrammeEdition(studentId2Double, editionId2Double);
         repository.enrolStudentInProgrammeEdition(studentId3Double, editionId3Double);
 
-        when(enrolMock1.isEnrolmentAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
-        when(enrolMock2.isEnrolmentAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
+        when(enrolMock1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1Double, programmeIDs)).thenReturn(true); // Changed from department to programmID
+        when(enrolMock2.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1Double, programmeIDs)).thenReturn(true); // Changed from department to programmID
 
         // act
-        int result = repository.countStudentsInProgrammesFromDepartmentInSchoolYear(department1Double, schoolYear1Double);
+        int result = repository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear1Double, programmeIDs);
 
         // assert
         assertEquals(2, result);
@@ -277,16 +280,17 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     void shouldReturnZeroWhenNoStudentsAreEnrolledInDepartmentAndSchoolYear() {
         //arrange
         Department department1Double = mock(Department.class);
-        SchoolYear schoolYear1Double = mock(SchoolYear.class);
+        SchoolYearID schoolYear1Double = mock(SchoolYearID.class);
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2);
 
         ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
         ProgrammeEdition edition2Double = mock(ProgrammeEdition.class);
 
         ProgrammeEditionID editionId1Double = mock(ProgrammeEditionID.class);
         ProgrammeEditionID editionId2Double = mock(ProgrammeEditionID.class);
-
-        when(edition1Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(false);
-        when(edition2Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(false);
 
         StudentID mockStudentID1 = mock(StudentID.class);
         StudentID mockStudentID2 = mock(StudentID.class);
@@ -303,12 +307,12 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolMock1 = mock(ProgrammeEditionEnrolment.class);
-        when(enrolMock1.getStudentID()).thenReturn(mockStudentID1);
+        when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(mockStudentID1);
         when(enrolMock1.findProgrammeEditionInEnrolment()).thenReturn(editionId1Double);
         when(doubleIPEEF.newProgrammeEditionEnrolment(mockStudentID1, editionId1Double)).thenReturn(enrolMock1);
 
         ProgrammeEditionEnrolment enrolMock2 = mock(ProgrammeEditionEnrolment.class);
-        when(enrolMock2.getStudentID()).thenReturn(mockStudentID2);
+        when(enrolMock2.findStudentInProgrammeEdition()).thenReturn(mockStudentID2);
         when(enrolMock2.findProgrammeEditionInEnrolment()).thenReturn(editionId2Double);
         when(doubleIPEEF.newProgrammeEditionEnrolment(mockStudentID2, editionId2Double)).thenReturn(enrolMock2);
 
@@ -316,7 +320,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         repository.enrolStudentInProgrammeEdition(mockStudentID2, editionId2Double);
 
         // act
-        int result = repository.countStudentsInProgrammesFromDepartmentInSchoolYear(department1Double, schoolYear1Double);
+        int result = repository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear1Double,programmeIDs);
 
         // assert
         assertEquals(0, result);
@@ -325,18 +329,20 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
     @Test
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInMultipleEditions() {
+
         // arrange
         Department department1Double = mock(Department.class);
-        SchoolYear schoolYear1Double = mock(SchoolYear.class);
+        SchoolYearID schoolYear1Double = mock(SchoolYearID.class);
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2);
 
         ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
         ProgrammeEdition edition2Double = mock(ProgrammeEdition.class);
 
         ProgrammeEditionID editionId1Double = mock(ProgrammeEditionID.class);
         ProgrammeEditionID editionId2Double = mock(ProgrammeEditionID.class);
-
-        when(edition1Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
-        when(edition2Double.isEditionAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
 
         StudentID mockStudentID = mock(StudentID.class);
 
@@ -348,24 +354,24 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolMock1 = mock(ProgrammeEditionEnrolment.class);
-        when(enrolMock1.getStudentID()).thenReturn(mockStudentID);
+        when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(mockStudentID);
         when(enrolMock1.findProgrammeEditionInEnrolment()).thenReturn(editionId1Double);
         when(doubleIPEEF.newProgrammeEditionEnrolment(studentID1Double, editionId1Double)).thenReturn(enrolMock1);
 
         ProgrammeEditionEnrolment enrollMock2 = mock(ProgrammeEditionEnrolment.class);
-        when(enrollMock2.getStudentID()).thenReturn(mockStudentID);
+        when(enrollMock2.findStudentInProgrammeEdition()).thenReturn(mockStudentID);
         when(enrollMock2.findProgrammeEditionInEnrolment()).thenReturn(editionId1Double);
         when(doubleIPEEF.newProgrammeEditionEnrolment(studentID1Double, editionId2Double)).thenReturn(enrollMock2);
 
-        when(enrolMock1.isEnrolmentAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
-        when(enrollMock2.isEnrolmentAssociatedToDepartmentAndSchoolYear(department1Double, schoolYear1Double)).thenReturn(true);
+        when(enrolMock1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1Double,programmeIDs)).thenReturn(true);
+        when(enrollMock2.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1Double,programmeIDs)).thenReturn(true);
 
 
         repository.enrolStudentInProgrammeEdition(studentID1Double, editionId1Double);
         repository.enrolStudentInProgrammeEdition(studentID1Double, editionId2Double);
 
         // act
-        int result = repository.countStudentsInProgrammesFromDepartmentInSchoolYear(department1Double, schoolYear1Double);
+        int result = repository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear1Double,programmeIDs);
 
         // assert
         assertEquals(1, result);

@@ -563,4 +563,78 @@ class SchoolYearRepositoryTest {
         // Assert
         assertFalse(result);
     }
+
+    //Testing schoolYearExistsByID method
+    @Test
+    void shouldReturnTrueWhenSchoolYearExistsByID() throws Exception {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
+        SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+
+
+        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDate1, endDate1))
+                .thenReturn(schoolYearDouble1);
+
+        repository.addSchoolYear(description1, startDate1, endDate1);
+
+        when(schoolYearDouble1.identity()).thenReturn(schoolYearID);
+
+        // Act
+        boolean result = repository.schoolYearExistsByID(schoolYearID);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenSchoolYearDoesNotExistByID() throws Exception {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
+        SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+
+
+        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDate1, endDate1))
+                .thenReturn(schoolYearDouble1);
+
+        when(schoolYearDouble1.identity()).thenReturn(schoolYearID);
+        // Act
+        boolean result = repository.schoolYearExistsByID(schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenSchoolYearIDIsNull() {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
+        SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+
+
+        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDate1, endDate1))
+                .thenReturn(schoolYearDouble1);
+
+        // Act
+        boolean result = repository.schoolYearExistsByID(null);
+
+        // Assert
+        assertFalse(result);
+    }
 }

@@ -231,4 +231,53 @@ class ProgrammeEditionIDTest {
         assertEquals(programmeIDHashCode + schoolYearIDHashCode, result);
         assertNotEquals(programmeIDHashCode - schoolYearIDHashCode, result);
     }
+
+    @Test
+    void shouldReturnTrueIfProgrammeIDAndSchoolYearIDAreEqual() throws Exception {
+
+            //Arrange
+            ProgrammeID programmeID1 = mock(ProgrammeID.class);
+            SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+            ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+
+            //act + assert
+            boolean result = programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYearID1);
+
+            assertTrue(result);
+        }
+
+
+    @Test
+    void shouldReturnFalseIfProgrammeIDIsDifferent() throws Exception {
+        //Arrange
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+
+        //act + assert
+        boolean result = programmeEditionID1.isSameProgrammeEdition(programmeID2, schoolYearID1);
+
+        assertFalse(result);
+    }
+
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIDIsDifferent() throws Exception {
+        //Arrange
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        SchoolYearID schoolYearID2 = mock(SchoolYearID.class);
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
+
+
+        //act + assert
+        boolean result = programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYearID2);
+
+        assertFalse(result);
+    }
 }
