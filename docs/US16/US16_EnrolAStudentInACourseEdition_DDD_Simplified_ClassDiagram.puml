@@ -74,7 +74,7 @@ end note
 
 package "CourseEditionDDD Aggregate" #LightBlue{
     entity "<<Root>>\n CourseEditionDDD" {
-    +CourseEditionDDD(\n programmeEditionId: ProgrammeEditionID,\n courseInStudyPlanId: CourseInStudyPlanID)
+    +CourseEditionDDD(\n programmeEditionId: ProgrammeEditionID,\n courseInStudyPlanId: CourseInStudyPlanID,\n courseEditionId: CourseEditionID)
     +getProgrammeEditionID():\n ProgrammeEditionID
     +identity(): CourseEditionID
     }
@@ -92,7 +92,7 @@ package "Student Aggregate" #LightBlue{
 }
 
 note right of "Student Aggregate"
-This is the Aggregate Root of CourseEdition.
+This is the Aggregate Root of Student.
 And has it's Value Objects and ID's represented as attributes
 end note
 
@@ -110,7 +110,7 @@ This is the Aggregate Root of ProgrammeEditionEnrolment.
 And has it's VO's and ID's represented as attributes
 end note
 
-interface CourseEditionEnrolmentSet {
+interface Set {
     +add(courseEditionEnrolment:
     CourseEditionEnrolment): boolean
 }
@@ -128,16 +128,16 @@ ICourseEditionEnrolmentRepository <|.u. CourseEditionEnrolmentRepositoryImpl
 IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
 ICourseEditionRepositoryDDD <|.. CourseEditionRepositoryDDDImpl
 
-CourseEditionEnrolmentSet "   1            " -->  "CourseEditionEnrolment Aggregate"
+Set "   1            " -->  "CourseEditionEnrolment Aggregate"
 
 ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
 ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
 
-ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " CourseEditionEnrolmentSet
+ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " Set
 ICourseEditionEnrolmentRepository"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
 ICourseEditionEnrolmentRepository "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
 CourseEditionEnrolmentRepositoryImpl "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
 ICourseEditionEnrolmentFactory "1  " ..> "1  " "CourseEditionEnrolment Aggregate"
-ICourseEditionEnrolmentListFactory "1  " .u.> "1  " CourseEditionEnrolmentSet
+ICourseEditionEnrolmentListFactory "1  " .u.> "1  " Set
 
 @enduml

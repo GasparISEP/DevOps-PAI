@@ -78,11 +78,6 @@ public class StudyPlanDDDRepositoryImpl implements IStudyPlanDDDRepository {
 
     @Override
     public boolean containsOfIdentity(StudyPlanID id) {
-        for (StudyPlanDDD existingStudyPlanDDD : _studyPlanList_2) {
-            if (existingStudyPlanDDD.identity().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return ofIdentity(id).isPresent();
     }
 }

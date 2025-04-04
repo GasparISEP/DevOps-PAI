@@ -1,0 +1,105 @@
+@startuml
+scale 0.8
+skinparam dpi 150
+skinparam ranksep 20
+skinparam nodesep 20
+skinparam linetype ortho
+skinparam classBackgroundColor #E1F5FE
+title US04:As an Administrator, i want to register a Teacher in the System.
+
+class US04_IWantToRegisterATeacherInTheSystemController #lightblue{
+    +US04_IWantToRegisterATeacherInTheSystemController\n(teacherRepository:TeacherRepository,\n DepartmentRepositoryImpl:DepartmentRepositoryImpl)
+    +registerATeacherInTheSystem\n(acronym:TeacherAcronym, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
+}
+
+class TeacherFactoryImpl #lightblue{
+    +createTeacher(acronym:TeacherAcronym,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n department:Department):Teacher
+    +createAddress(street:Street,\n postalCode:PostalCode,\n location:Location, country:Country)
+}
+
+class DepartmentRepositoryImpl #lightblue{
+    +DepartmentRepositoryImpl\n(departmentFactory:DepartmentFactory,\n departmentListFactory:DepartmentListFactory)
+    +departmentExists(departmentAcronym:DepartmentAcronym):boolean
+    +FindDepartmentByID(departementID:DepartmentID):\n Optional<Department>
+}
+
+class TeacherRepository #lightblue{
+    +TeacherRepository(_teachers:List<Teacher>,\n _teacherFactory:ITeacherFactory)
+    +registerATeacherInTheSystem(acronym:TeacherAcronym,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
+}
+
+interface ITeacherFactory #lightblue{
+    +createTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):Teacher
+}
+
+interface IDepartmentRepository #lightblue{
+    +departmentExists(department:Department):boolean
+    +FindDepartmentByID(departementID:DepartmentID):\n Optional<Department>
+}
+
+interface ITeacherRepository #lightblue{
+    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
+}
+
+package "Department Aggregates" #CornflowerBlue {
+    class "<<Root>>Department" #lightblue{
+        +Department(departmentFactory:DepartmentFactory,\n departmentListFactory:DepartmentListFactory)
+        +getDepartmentID():DepartmentID
+    }
+}
+
+package "Teacher Aggregates" #CornflowerBlue {
+    entity "<<Root>>Teacher" #lightblue{
+        +Teacher(acronym:TeacherAcronym,\n teacherID:TeacherId, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
+    }
+}
+class DepartmentID{
+-_departmentAcronym:DepartmentAcronym
+}
+class TeacherAcronym{
+-_acronym:Acronym
+}
+class Name{
+-_name:String
+}
+class Email{
+-_email:String
+}
+class AcademicBackground{
+- _description:String
+}
+class Street{
+- _street:String
+}
+class PostalCode{
+- _postalCode:String
+}
+class Country{
+- _country:String
+}
+class Location{
+- _location:String
+}
+
+US04_IWantToRegisterATeacherInTheSystemController ..> ITeacherRepository
+ITeacherRepository <|.. TeacherRepository
+US04_IWantToRegisterATeacherInTheSystemController ..> IDepartmentRepository
+IDepartmentRepository <|.. DepartmentRepositoryImpl
+US04_IWantToRegisterATeacherInTheSystemController ..> ITeacherFactory
+ITeacherFactory <|.. TeacherFactoryImpl
+"<<Root>>Teacher" ..> TeacherFactoryImpl
+
+DepartmentRepositoryImpl ..> DepartmentID
+"<<Root>>Department" -> DepartmentID
+TeacherAcronym-> "<<Root>>Teacher"
+Email -> "<<Root>>Teacher"
+Name -> "<<Root>>Teacher"
+Street -> "<<Root>>Teacher"
+PostalCode -> "<<Root>>Teacher"
+Country -> "<<Root>>Teacher"
+AcademicBackground -> "<<Root>>Teacher"
+Location -> "<<Root>>Teacher"
+
+@enduml
+
+

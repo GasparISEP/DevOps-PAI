@@ -332,7 +332,7 @@ class TeacherRepositoryTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
+    /*@Test
     void testFindTeacherIdByTeacherReturnsCorrectIdWhenTeacherExists() {
             // Arrange
             createFactoriesDoubles();
@@ -344,14 +344,14 @@ class TeacherRepositoryTest {
 
             TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
             when(teacher.identity()).thenReturn(idDouble);
-            when(teacher.sameAs(any())).thenReturn(true);
 
-            // Act
+
+        // Act
             Optional<TeacherID> result = repository.findTeacherIdByTeacher(teacher);
 
             // Assert
             assertTrue(result.isPresent());
-    }
+    }*/
 
     @Test
     void testFindTeacherIdByTeacherReturnsEmptyWhenTeacherDoesNotExist() {

@@ -41,8 +41,9 @@ activate IRepo
 IRepo -> RepoImpl : removeEnrolment\n(studentID, courseEditionID)
 activate RepoImpl
 
-RepoImpl -> RepoImpl : cee:findByStudentAndEdition\n(studentID, courseEditionID)
-
+ref over RepoImpl
+      SD  cee:findByStudentAndEdition\n(studentID, courseEditionID)
+end ref
 RepoImpl -> Enrolment : isEnrolmentActive()
 activate Enrolment
 Enrolment --> RepoImpl : true

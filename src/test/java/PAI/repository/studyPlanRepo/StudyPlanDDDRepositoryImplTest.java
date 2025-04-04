@@ -5,8 +5,10 @@ import PAI.domain.studyPlan.StudyPlanDDD;
 import PAI.domain.studyPlan.IStudyPlanDDDFactory;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -351,5 +353,90 @@ public class StudyPlanDDDRepositoryImplTest {
 
         // Assert
         assertEquals(studyPlanID2Double, result);
+    }
+
+    @Test
+    void testGetLatestStudyPlanIDByProgrammeIDSinglePlan() throws Exception {
+        // Arrange
+        IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
+        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        List<StudyPlanDDD> studyPlanList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(studyPlanList);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        // Criar um plano de estudos real para teste
+        StudyPlanDDD studyPlan = new StudyPlanDDD(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlanID expectedID = studyPlan.identity();
+
+        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
+                .thenReturn(studyPlan);
+
+        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+
+        // Act
+        repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlanID actualID = repository.getLatestStudyPlanIDByProgrammeID(programmeID);
+
+        // Assert
+        assertEquals(expectedID, actualID);
+    }
+
+    @Test
+    void testFindAllReturnsEmptyForNewRepository() {
+        // Arrange
+        IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
+        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        List<StudyPlanDDD> studyPlanList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(studyPlanList);
+
+        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+
+        // Act
+        List<StudyPlanDDD> allPlans = repository.getAllStudyPlans_2();
+
+        // Assert
+        assertTrue(allPlans.isEmpty());
+    }
+
+    @Test
+    void testOfIdentityWithMultiplePlans() throws Exception {
+        // Arrange
+        IStudyPlanDDDFactory factory = mock(IStudyPlanDDDFactory.class);
+        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        List<StudyPlanDDD> studyPlanList = new ArrayList<>();
+        when(listFactory.newArrayList()).thenReturn(studyPlanList);
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        Date implementationDate1 = mock(Date.class);
+        Date implementationDate2 = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+
+        // Criar dois planos, para diferentes programas
+        StudyPlanDDD studyPlan1 = new StudyPlanDDD(programmeID1, implementationDate1, durationInYears, quantityOfEcts);
+        StudyPlanDDD studyPlan2 = new StudyPlanDDD(programmeID2, implementationDate2, durationInYears, quantityOfEcts);
+
+        StudyPlanID expectedID = studyPlan2.identity();
+
+        when(factory.newStudyPlan_2(programmeID1, implementationDate1, durationInYears, quantityOfEcts))
+                .thenReturn(studyPlan1);
+        when(factory.newStudyPlan_2(programmeID2, implementationDate2, durationInYears, quantityOfEcts))
+                .thenReturn(studyPlan2);
+
+        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        repository.createStudyPlan_2(programmeID1, implementationDate1, durationInYears, quantityOfEcts);
+        repository.createStudyPlan_2(programmeID2, implementationDate2, durationInYears, quantityOfEcts);
+
+        // Act
+        Optional<StudyPlanDDD> foundPlan = repository.ofIdentity(expectedID);
+
+        // Assert
+        assertTrue(foundPlan.isPresent());
+        assertEquals(studyPlan2, foundPlan.get());
     }
 }

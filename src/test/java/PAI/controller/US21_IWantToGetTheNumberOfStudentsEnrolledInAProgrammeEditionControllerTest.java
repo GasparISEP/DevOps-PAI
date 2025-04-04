@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.ProgrammeEditionEnrolmentRepository;
+import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import PAI.repository.ProgrammeEditionRepository;
 import org.junit.jupiter.api.Test;
 
@@ -23,11 +23,11 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImplDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null, programmeEditionEnrolmentRepositoryDouble));
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null, programmeEditionEnrolmentRepositoryImplDouble));
 
     }
 
@@ -51,14 +51,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImplDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
 
         ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
         programmeEditionList.add(programmeEditionDouble);
 
             // SUT
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryImplDouble);
 
             //Instructions
         when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
@@ -77,14 +77,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImplDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
 
         ArrayList<ProgrammeEdition> programmeEditionList = new ArrayList<>();
         programmeEditionList.add(programmeEditionDouble);
 
             // SUT
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryImplDouble);
 
             //Instructions
         when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
@@ -103,7 +103,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // Arrange
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImplDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ProgrammeEdition programmeEdition1Double = mock(ProgrammeEdition.class);
         ProgrammeEdition programmeEdition2Double = mock(ProgrammeEdition.class);
 
@@ -113,7 +113,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
 
             // SUT
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryImplDouble);
 
             //Instructions
         when(programmeEditionRepositoryDouble.getAllProgrammeEditions()).thenReturn(programmeEditionList);
@@ -132,16 +132,16 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         //SUT = IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -> all else as Double
         // Arrange
             //Doubles' instantiation
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImplDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
         ProgrammeEditionID programmeEditionDouble = mock(ProgrammeEditionID.class);
 
             //SUT
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble , programmeEditionEnrolmentRepositoryDouble);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble , programmeEditionEnrolmentRepositoryImplDouble);
 
             //Instructions
-        when(programmeEditionEnrolmentRepositoryDouble.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble)).thenReturn(1);
+        when(programmeEditionEnrolmentRepositoryImplDouble.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble)).thenReturn(1);
 
         // Act
         int result = controller.iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionDouble);
@@ -155,11 +155,11 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // Arrange
             //Doubles' instantiation
         ProgrammeEditionRepository programmeEditionRepositoryDouble = mock(ProgrammeEditionRepository.class);
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepositoryDouble = mock(ProgrammeEditionEnrolmentRepository.class);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImplDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
 
             // SUT
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryDouble);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepositoryDouble, programmeEditionEnrolmentRepositoryImplDouble);
 
         // Act + Assert
         assertThrows(Exception.class, () -> {
@@ -175,11 +175,11 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepository(programmeEditionFactory, programmeEditionListFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactory);
 
         // Act
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionRepository, programmeEditionEnrolmentRepositoryImpl);
 
         // Assert
         assertNotNull(us21IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController);

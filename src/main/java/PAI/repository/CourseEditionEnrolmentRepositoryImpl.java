@@ -15,7 +15,6 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
 
     private final ICourseEditionEnrolmentFactory _courseEditionEnrolmentFactory;
 
-    //constructor
     public CourseEditionEnrolmentRepositoryImpl(ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory, ICourseEditionEnrolmentListFactory courseEditionEnrolmentListFactory) {
 
         _courseEditionEnrolments = courseEditionEnrolmentListFactory.getCourseEditionEnrolmentList();

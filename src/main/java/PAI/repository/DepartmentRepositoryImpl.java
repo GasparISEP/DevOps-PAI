@@ -67,12 +67,12 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
         }
 
         Optional<Department> departmentOptional = ofIdentity(departmentID);
-
-        if (departmentOptional.isPresent()) {
-            Department department = departmentOptional.get();
-            return department.changeDirector(furtherDirectorID);
+        if (!departmentOptional.isPresent()) {
+            return false;
         }
-        return false;
+
+        Department department = departmentOptional.get();
+        return department.changeDirector(furtherDirectorID);
     }
 
 
@@ -96,8 +96,7 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
 
     @Override
     public boolean containsOfIdentity(DepartmentID id) {
-        return _departments.stream()
-                .anyMatch(department -> department.identity().equals(id));
+        return ofIdentity(id).isPresent();
     }
 
 }

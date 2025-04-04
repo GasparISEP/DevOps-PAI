@@ -1,10 +1,11 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.VOs.Location;
-import PAI.domain.*;
+import PAI.domain.courseInStudyPlan.ICourseInStudyPlanDDDFactory;
 import PAI.factory.*;
 import PAI.repository.*;
+import PAI.repository.courseInStudyPlanRepo.CourseInStudyPlanDDDDDDRepositoryImpl;
+import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -284,7 +285,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -308,7 +309,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -350,7 +351,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -361,34 +362,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
-
-        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
-        Name nameTeacher = new Name ("Joe Doe");
-        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
-        Country countryTeacher = new Country("Portugal");
-        NIF nifTeacher = new NIF("123456789", countryTeacher);
-        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
-        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Street street = new Street("Rua das Flores");
-        PostalCode postalCode = new PostalCode("4444-789");
-        Location location = new Location("Porto");
-        Country country = new Country("Portugal");
-        Address address = new Address(street, postalCode, location, country);
-        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(acronym);
-        Name name= new Name("Departmento Engenharia Informática");
-        Department department = new Department(acronym, name);
-        Teacher t1 = new Teacher(
-                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, departmentID);
-
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        DegreeType degreeType = new DegreeType("Bachelor", 25);
-
-        Programme programme1 = new Programme(
-                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1
-        );
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -407,11 +380,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
-        Course course1 = new Course("Desenvolvimento de Software", "DSOFT", 30, 1);
-        Course course2 = new Course("Base de Dados", "BASDAD", 30, 1);
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
 
-        programme1.addCourseToAProgramme(course1);
-        programme1.addCourseToAProgramme(course2);
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1,2);
+
+        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
+        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID2,studyPlanID1);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID2,programmeEditionID1);
@@ -429,7 +406,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -444,39 +421,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1234367);
 
-        Course course1 = new Course ("Informatics", "INF", 6, 1);
-
-        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
-        Name nameTeacher = new Name ("Joe Doe");
-        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
-        Country countryTeacher = new Country("Portugal");
-        NIF nifTeacher = new NIF("123456789", countryTeacher);
-        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
-        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Street street = new Street("Rua das Flores");
-        PostalCode postalCode = new PostalCode("4444-789");
-        Location location = new Location("Porto");
-        Country country = new Country("Portugal");
-        Address address = new Address(street, postalCode, location, country);
-        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(acronym);
-        Name name= new Name("Departmento Engenharia Informática");
-        Department department = new Department(acronym, name);
-        Teacher t1 = new Teacher(
-                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, departmentID);
-
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        DegreeType degreeType = new DegreeType("Bachelor", 25);
-
-        Programme programme1 = new Programme(
-                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1
-        );
-
-        programme1.addCourseToAProgramme(course1);
-
-
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
         ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
@@ -489,6 +433,16 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseID courseID1 = new CourseID();
 
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
+
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1,2);
+
+        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
+
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
@@ -506,7 +460,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -519,39 +473,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         StudentID studentID1 = new StudentID(1234567);
-
-        Course course1 = new Course ("Informatics", "INF", 6, 1);
-
-        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
-        Name nameTeacher = new Name ("Joe Doe");
-        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
-        Country countryTeacher = new Country("Portugal");
-        NIF nifTeacher = new NIF("123456789", countryTeacher);
-        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
-        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Street street = new Street("Rua das Flores");
-        PostalCode postalCode = new PostalCode("4444-789");
-        Location location = new Location("Porto");
-        Country country = new Country("Portugal");
-        Address address = new Address(street, postalCode, location, country);
-        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(acronym);
-        Name name= new Name("Departmento Engenharia Informática");
-        Department department = new Department(acronym, name);
-        Teacher t1 = new Teacher(
-                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, departmentID);
-
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        DegreeType degreeType = new DegreeType("Bachelor", 25);
-
-        Programme programme1 = new Programme(
-                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1
-        );
-
-        programme1.addCourseToAProgramme(course1);
-
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -570,6 +491,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1,date2);
         CourseID courseID2 = new CourseID();
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
+
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1,2);
+
+        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
 
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
@@ -588,7 +518,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -602,40 +532,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1234568);
-
-        Course course1 = new Course ("Informatics", "INF", 6, 1);
-
-        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
-        Name nameTeacher = new Name ("Joe Doe");
-        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
-        Country countryTeacher = new Country("Portugal");
-        NIF nifTeacher = new NIF("123456789", countryTeacher);
-        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
-        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Street street = new Street("Rua das Flores");
-        PostalCode postalCode = new PostalCode("4444-789");
-        Location location = new Location("Porto");
-        Country country = new Country("Portugal");
-        Address address = new Address(street, postalCode, location, country);
-        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(acronym);
-        Name name= new Name("Departmento Engenharia Informática");
-        Department department = new Department(acronym, name);
-        Teacher t1 = new Teacher(
-                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, departmentID);
-
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-
-        DegreeType degreeType = new DegreeType("Bachelor", 25);
-
-        Programme programme1 = new Programme(
-                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1
-        );
-
-        programme1.addCourseToAProgramme(course1);
-
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -655,6 +551,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseID courseID2 = new CourseID();
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1,2);
+
+        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
+
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
@@ -672,7 +577,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //arrange
         ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepository peeRepository = new ProgrammeEditionEnrolmentRepository(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -685,39 +590,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
         StudentID studentID = new StudentID(1234567);
-
-        Course course1 = new Course ("Informatics", "INF", 6, 1);
-
-        TeacherAcronym acronymTeacher = new TeacherAcronym("ABC");
-        Name nameTeacher = new Name ("Joe Doe");
-        Email emailTeacher = new Email ("ABC@isep.ipp.pt");
-        Country countryTeacher = new Country("Portugal");
-        NIF nifTeacher = new NIF("123456789", countryTeacher);
-        PhoneNumber phoneNumberTeacher = new PhoneNumber("+351", "912345678");
-        AcademicBackground academicBackground = new AcademicBackground("Doutoramento em Engenharia Informatica, 2005, ISEP");
-        Street street = new Street("Rua das Flores");
-        PostalCode postalCode = new PostalCode("4444-789");
-        Location location = new Location("Porto");
-        Country country = new Country("Portugal");
-        Address address = new Address(street, postalCode, location, country);
-        DepartmentAcronym acronym= new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(acronym);
-        Name name= new Name("Departmento Engenharia Informática");
-        Department department = new Department(acronym, name);
-        Teacher t1 = new Teacher(
-                acronymTeacher, nameTeacher, emailTeacher, nifTeacher, phoneNumberTeacher,
-                academicBackground, address, departmentID);
-
-
-        ProgrammeCourseListFactoryImpl programmeCourseListFactoryImpl1 = new ProgrammeCourseListFactoryImpl();
-        DegreeType degreeType = new DegreeType("Bachelor", 25);
-
-        Programme programme1 = new Programme(
-                "Computer Engineering", "CE", 20, 6, degreeType, department, t1,
-                programmeCourseListFactoryImpl1
-        );
-
-        programme1.addCourseToAProgramme(course1);
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -732,6 +604,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
+
+        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1,2);
+
+        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
         ceeRepository.enrolStudentInACourseEdition(studentID,ceID1);

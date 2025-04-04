@@ -89,11 +89,17 @@ void shouldReturnFalseIfUpdateDepartmentDirectorNotSucessfull (){
     ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
 
     DepartmentID departmentIdDouble= mock(DepartmentID.class);
-    TeacherID teacherIdDouble=mock(TeacherID.class);
+
+    TeacherID teacherIdDouble = mock(TeacherID.class);
+    Teacher teacherDouble = mock(Teacher.class);
+
 
     US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
             new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentRepo,teacherRepo);
 
+
+    when(teacherRepo.ofIdentity(teacherIdDouble)).thenReturn(Optional.of(teacherDouble));
+    when(teacherDouble.isInDepartment(departmentIdDouble)).thenReturn(true);
     when(departmentRepo.updateOfDepartmentDirector(departmentIdDouble, teacherIdDouble)).thenReturn(false);
 
     //act
@@ -337,5 +343,50 @@ void shouldReturnFalseIfDepartmentIdIsNull_IntegrationTest () throws Exception {
 
     //assert
     assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherNotInDepartment_IntegrationTest () throws Exception {
+        //arrange
+        DepartmentAcronym dAcronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(dAcronym);
+        DepartmentAcronym d2Acronym= new DepartmentAcronym("DBI");
+        DepartmentID departmentID2 = new DepartmentID(d2Acronym);
+
+        TeacherAcronym tAcronym = new TeacherAcronym("POB");
+        TeacherID teacherID = new TeacherID(tAcronym);
+        Name name = new Name("John Doe");
+        Email email = new Email("john@doe.com");
+        PAI.VOs.Location location = new PAI.VOs.Location("Porto");
+        Street street = new Street("123 street");
+        PostalCode postalCode = new PostalCode("12345");
+        Country country = new Country("Portugal");
+        Address address = new Address(street, postalCode,location,country);
+
+        NIF nif = new NIF("123431123",country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
+        AcademicBackground  academicBackground= new AcademicBackground("Doctor");
+        Teacher teacher = new Teacher(tAcronym,  name,  email,  nif,  phoneNumber,  academicBackground, address,  departmentID2);
+
+        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
+        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(factory, listFactory);
+
+
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+        TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository= new TeacherRepository(teacherFactory, teacherListFactoryImpl);
+
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
+                new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentRepository, teacherRepository);
+
+        teacherRepository.save(teacher);
+        departmentRepository.registerDepartment(dAcronym,name);
+
+        //act
+        boolean result = controller.updateOfDepartmentDirector(departmentID, teacherID);
+
+        //assert
+        assertFalse(result);
     }
 }

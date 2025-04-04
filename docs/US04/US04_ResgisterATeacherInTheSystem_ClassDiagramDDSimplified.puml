@@ -1,0 +1,66 @@
+@startuml
+scale 0.8
+skinparam dpi 150
+skinparam ranksep 20
+skinparam nodesep 20
+skinparam linetype ortho
+skinparam classBackgroundColor #E1F5FE
+
+title US04:As an Administrator, i want to register a Teacher in the System.
+
+class US04_IWantToRegisterATeacherInTheSystemController #lightblue{
+    +US04_IWantToRegisterATeacherInTheSystemController\n(iTeacherRepository:ITeacherRepository,\n iDepartmentRepository:IDepartmentRepository)
+    +registerATeacherInTheSystem\n(acronym:TeacherAcronym, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
+}
+note right of US04_IWantToRegisterATeacherInTheSystemController
+This is a simplified version of the class diagram of Us04,
+following the DDD principles as such in this diagram
+ the Value Objects are represented as Attributes.
+end note
+class TeacherFactoryImpl #lightblue{
+    +createTeacher(TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n teacherCategory:TeacherCategory,\n department:Department):Teacher
+    +createAddress(street:Street,\n postalCode:PostalCode,\n location:Location, country:Country)
+}
+
+interface ITeacherFactory #lightblue{
+    +createTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n \n departmentAcronym:DepartmentAcronym):Teacher
+}
+
+interface IDepartmentRepository #lightblue{
+    +departmentExists(department:Department):boolean
+    +FindDepartmentByID(departementID:DepartmentID):\n Optional<Department>
+}
+
+interface ITeacherRepository #lightblue{
+    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
+
+}
+
+package "Teacher Aggregates" #CornflowerBlue {
+    entity "<<Root>>Teacher" #lightblue{
+        -_acronym:TeacherAcronym
+        -_name:Name
+        -_email:Email
+        -_nif:NIF
+        -_street:Street
+        -_postalCode:PostalCode
+        -_location:Location
+        -_country:Country
+        -_phoneNumber:PhoneNumber
+        -_academicBackground:AcademicBackground
+        -_departmentID:DepartmentID
+        +Teacher(acronym:TeacherAcronym,\n teacherID:TeacherId, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
+    }
+}
+
+US04_IWantToRegisterATeacherInTheSystemController ..> ITeacherRepository
+US04_IWantToRegisterATeacherInTheSystemController ..> IDepartmentRepository
+US04_IWantToRegisterATeacherInTheSystemController ..> ITeacherFactory
+ITeacherFactory <|.. TeacherFactoryImpl
+"<<Root>>Teacher" ..> TeacherFactoryImpl
+
+
+
+@enduml
+
+

@@ -9,14 +9,14 @@ import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 
 import java.util.*;
 
-public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnrolmentRepository {
+public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditionEnrolmentRepository {
 
 
     private final Set<ProgrammeEditionEnrolment> _programmeEditionEnrolments;
     private final IProgrammeEditionEnrolmentFactory _iProgrammeEditionEnrolmentFactory;
 
-    public ProgrammeEditionEnrolmentRepository(IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory,
-                                               IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory) {
+    public ProgrammeEditionEnrolmentRepositoryImpl(IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory,
+                                                   IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory) {
 
         _iProgrammeEditionEnrolmentFactory = iProgrammeEditionEnrolmentFactory;
         _programmeEditionEnrolments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment();
@@ -45,14 +45,13 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
     }
 
     @Override
-    public int countStudentsInProgrammesFromDepartmentInSchoolYear(Department department, SchoolYear schoolYear) {
+    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
         Set<StudentID> studentIDs = new HashSet<>();
-
         for (ProgrammeEditionEnrolment enrollment : _programmeEditionEnrolments) {
-            if (enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(department, schoolYear)) {
-                StudentID studentID = enrollment.getStudentID();
+            if (enrollment.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear,programmeIDS)) {
+                StudentID studentID = enrollment.findStudentInProgrammeEdition();
                 studentIDs.add(studentID);
-                }
+            }
         }
         return studentIDs.size();
     }
@@ -86,7 +85,7 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
 
     @Override
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment entity) {
-        if (entity == null || entity.identity() == null) {
+        if (entity == null ){
             throw new IllegalArgumentException("Entity cannot be null");
         }
         _programmeEditionEnrolments.add(entity);
@@ -112,5 +111,17 @@ public class ProgrammeEditionEnrolmentRepository implements IProgrammeEditionEnr
             }
             return true;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ProgrammeEditionEnrolmentRepositoryImpl that = (ProgrammeEditionEnrolmentRepositoryImpl) o;
+        return Objects.equals(_programmeEditionEnrolments, that._programmeEditionEnrolments) && Objects.equals(_iProgrammeEditionEnrolmentFactory, that._iProgrammeEditionEnrolmentFactory);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_programmeEditionEnrolments, _iProgrammeEditionEnrolmentFactory);
     }
 }
