@@ -6,14 +6,14 @@ import PAI.domain.programme.Programme;
 import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
-import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryListFactoryImpl;
-import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
-import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
-import PAI.repository.studyPlanRepo.StudyPlanDDDListFactoryImpl;
-import PAI.repository.studyPlanRepo.StudyPlanDDDRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.studyPlanRepository.IStudyPlanDDDListFactory;
+import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
+import PAI.repository.studyPlanRepository.StudyPlanDDDListFactoryImpl;
+import PAI.repository.studyPlanRepository.StudyPlanDDDRepositoryImpl;
 
 import org.junit.jupiter.api.Test;
 

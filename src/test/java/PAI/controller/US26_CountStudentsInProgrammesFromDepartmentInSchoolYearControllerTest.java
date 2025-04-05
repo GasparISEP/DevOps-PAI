@@ -4,8 +4,8 @@ import PAI.VOs.*;
 import PAI.repository.*;
 
 import PAI.repository.SchoolYearRepository;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

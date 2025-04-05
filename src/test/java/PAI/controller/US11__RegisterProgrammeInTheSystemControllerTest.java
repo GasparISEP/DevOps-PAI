@@ -3,10 +3,10 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
-import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

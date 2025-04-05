@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.repository.*;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
 
 import java.util.List;
 import java.util.Optional;

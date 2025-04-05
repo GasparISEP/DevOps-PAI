@@ -3,13 +3,13 @@ package PAI.controller;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.repository.DegreeTypeRepo.DegreeTypeRepository_2;
+import PAI.repository.DegreeTypeRepository.DegreeTypeRepository;
 
 public class US10_IWantToConfigureDegreeTypesLevelsController {
 
-    private final DegreeTypeRepository_2 degreeTypeRepository;
+    private final DegreeTypeRepository degreeTypeRepository;
 
-    public US10_IWantToConfigureDegreeTypesLevelsController(DegreeTypeRepository_2 degreeTypeRepository) {
+    public US10_IWantToConfigureDegreeTypesLevelsController(DegreeTypeRepository degreeTypeRepository) {
         this.degreeTypeRepository = degreeTypeRepository;
     }
 

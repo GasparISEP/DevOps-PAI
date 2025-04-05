@@ -18,10 +18,10 @@ import PAI.repository.programmeEditionRepository.IProgrammeEditionDDDListFactory
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionDDDListFactoryImpl;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryDDDImpl;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
-import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

@@ -1,28 +1,28 @@
 package PAI.controller;
 import PAI.VOs.*;
-import PAI.domain.DegreeTypeDDD.DegreeType_2;
+import PAI.domain.DegreeTypeDDD.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.repository.DegreeTypeRepo.IDegreeTypeRepository_2;
+import PAI.repository.DegreeTypeRepository.IDegreeTypeRepository;
 import PAI.repository.ICourseEditionRepository;
-import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanDDDRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
-import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
 
 
 import java.util.List;
 
 public class US19_CreateCourseEditionController {
-    private final IDegreeTypeRepository_2 _degreeTypeRepository;
+    private final IDegreeTypeRepository _degreeTypeRepository;
     private final IProgrammeDDDRepository _programmeRepository;
     private final IStudyPlanDDDRepository _studyPlanRepository;
     private final ICourseInStudyPlanDDDRepository _courseInStudyPlanRepository;
     private final IProgrammeEditionRepositoryDDD _programmeEditionRepository;
     private final ICourseEditionRepository _courseEditionRepository;
 
-    public US19_CreateCourseEditionController(IDegreeTypeRepository_2 degreeTypeRepository,
+    public US19_CreateCourseEditionController(IDegreeTypeRepository degreeTypeRepository,
                                               IProgrammeDDDRepository programmeRepository,
                                               IStudyPlanDDDRepository studyPlanRepository,
                                               ICourseInStudyPlanDDDRepository courseInStudyPlanRepository,
@@ -55,7 +55,7 @@ public class US19_CreateCourseEditionController {
         _courseEditionRepository = courseEditionRepository;
     }
 
-    public List<DegreeType_2> getAllDegreeTypes() {
+    public List<DegreeType> getAllDegreeTypes() {
         return _degreeTypeRepository.getAllDegreeTypes();
     }
 

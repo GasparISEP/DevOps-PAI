@@ -7,7 +7,7 @@ import PAI.VOs.TeacherID;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.repository.ITeacherRepository;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
 
 import java.util.Optional;
 

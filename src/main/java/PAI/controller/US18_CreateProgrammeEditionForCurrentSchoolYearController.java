@@ -7,7 +7,7 @@ import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
 
 import java.util.List;
 import java.util.Optional;

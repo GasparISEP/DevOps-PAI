@@ -5,7 +5,7 @@ import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.repository.*;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
 
 import java.util.List;
 import java.util.Set;

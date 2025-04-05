@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.repository.DegreeTypeRepo.DegreeTypeRepository_2;
+import PAI.repository.DegreeTypeRepository.DegreeTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,12 +13,12 @@ import static org.mockito.Mockito.*;
 
 class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
 
-    private DegreeTypeRepository_2 degreeTypeRepositoryMock;
+    private DegreeTypeRepository degreeTypeRepositoryMock;
     private US10_IWantToConfigureDegreeTypesLevelsController controller;
 
     @BeforeEach
     void setUp() {
-        degreeTypeRepositoryMock = Mockito.mock(DegreeTypeRepository_2.class);
+        degreeTypeRepositoryMock = Mockito.mock(DegreeTypeRepository.class);
         controller = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepositoryMock);
     }
 

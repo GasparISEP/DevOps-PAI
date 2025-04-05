@@ -2,8 +2,8 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
-import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
 
 import java.util.Optional;
 

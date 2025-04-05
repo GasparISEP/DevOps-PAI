@@ -4,8 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.factory.*;
 import PAI.repository.*;
-import PAI.repository.courseInStudyPlanRepo.CourseInStudyPlanDDDDDDRepositoryImpl;
-import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDListFactory;
+import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanDDDDDDRepositoryImpl;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanDDDListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

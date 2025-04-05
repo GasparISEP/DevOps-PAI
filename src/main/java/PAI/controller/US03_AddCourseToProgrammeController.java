@@ -4,10 +4,10 @@ import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.programme.Programme;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanDDDRepository;
 import PAI.repository.courseRepository.ICourseRepository;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
-import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
 
 
 public class US03_AddCourseToProgrammeController {

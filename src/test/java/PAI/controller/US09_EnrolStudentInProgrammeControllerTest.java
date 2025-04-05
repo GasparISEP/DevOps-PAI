@@ -8,7 +8,7 @@ import PAI.domain.programme.Programme;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
 import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
-import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

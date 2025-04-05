@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeDDDRepository;
 
 public class US11_RegisterProgrammeInTheSystemController {
 
