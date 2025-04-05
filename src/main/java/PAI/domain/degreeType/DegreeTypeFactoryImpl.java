@@ -1,4 +1,4 @@
-package PAI.domain.DegreeType;
+package PAI.domain.degreeType;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;

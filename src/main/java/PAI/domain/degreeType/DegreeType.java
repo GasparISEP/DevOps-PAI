@@ -1,12 +1,14 @@
-package PAI.domain.DegreeType;
+package PAI.domain.degreeType;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
+import PAI.ddd.AggregateRoot;
+import PAI.domain.studyPlan.StudyPlan;
 
 import java.util.Objects;
 
-public class DegreeType {
+public class DegreeType implements AggregateRoot<DegreeTypeID> {
 
     private final DegreeTypeID _degreeTypeID;
     private final Name _name;
@@ -20,12 +22,9 @@ public class DegreeType {
 
     @Override
     public boolean equals(Object objectToCompare) {
-        if (this == objectToCompare) return true;
-        if (!(objectToCompare instanceof DegreeType)) return false;
-        DegreeType degreeType_ = (DegreeType) objectToCompare;
-        return _degreeTypeID.sameAs(degreeType_._degreeTypeID) &&
-                _name.getName().equals(degreeType_._name.getName()) &&
-                _maxEcts.getMaxEcts() == degreeType_._maxEcts.getMaxEcts();
+        if (objectToCompare == null || getClass() != objectToCompare.getClass()) return false;
+        DegreeType degreeType = (DegreeType) objectToCompare;
+        return this._degreeTypeID.equals(degreeType._degreeTypeID);
     }
 
     @Override
@@ -43,5 +42,20 @@ public class DegreeType {
 
     public int getMaxEcts() {
         return _maxEcts.getMaxEcts();
+    }
+
+    @Override
+    public DegreeTypeID identity() {
+        return this._degreeTypeID;
+    }
+
+    @Override
+    public boolean sameAs(Object object) {
+        if (object instanceof DegreeType) {
+            DegreeType degreeType = (DegreeType) object;
+            if (this._degreeTypeID.equals(degreeType._degreeTypeID))
+                return true;
+        }
+        return false;
     }
 }

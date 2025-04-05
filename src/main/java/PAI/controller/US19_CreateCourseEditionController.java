@@ -1,10 +1,10 @@
 package PAI.controller;
 import PAI.VOs.*;
-import PAI.domain.DegreeType.DegreeType;
+import PAI.domain.degreeType.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.repository.DegreeTypeRepository.IDegreeTypeRepository;
+import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;

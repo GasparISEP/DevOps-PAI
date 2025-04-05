@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.repository.DegreeTypeRepository.DegreeTypeRepositoryImpl;
+import PAI.repository.degreeTypeRepository.DegreeTypeRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

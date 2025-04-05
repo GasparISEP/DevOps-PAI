@@ -1,7 +1,7 @@
 package PAI.factory;
 
-import PAI.domain.DegreeType.DegreeType;
-import PAI.repository.DegreeTypeRepository.DegreeTypeListFactoryImpl;
+import PAI.domain.degreeType.DegreeType;
+import PAI.repository.degreeTypeRepository.DegreeTypeListFactoryImpl;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,8 +1,8 @@
 package PAI.VOs;
 
-import PAI.ddd.ValueObject;
+import PAI.ddd.DomainId;
 
-public class DegreeTypeID implements ValueObject {
+public class DegreeTypeID implements DomainId {
 
     private final String _dtID;
 
