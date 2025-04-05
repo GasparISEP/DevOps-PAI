@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.repository.DegreeTypeRepoDDD.DegreeTypeRepository_2;
+import PAI.repository.DegreeTypeRepo.DegreeTypeRepository_2;
 
 public class US10_IWantToConfigureDegreeTypesLevelsController {
 

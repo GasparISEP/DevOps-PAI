@@ -1,4 +1,4 @@
-package PAI.repository.DegreeTypeRepoDDD;
+package PAI.repository.DegreeTypeRepo;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;

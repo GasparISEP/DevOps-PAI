@@ -5,7 +5,7 @@ import PAI.domain.course.Course;
 import PAI.domain.programme.Programme;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
-import PAI.repository.courseRepositoryDDD.ICourseRepositoryDDD;
+import PAI.repository.courseRepository.ICourseRepository;
 import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
 
@@ -13,18 +13,18 @@ import PAI.repository.studyPlanRepo.IStudyPlanDDDRepository;
 public class US03_AddCourseToProgrammeController {
 
     private final IProgrammeDDDRepository iProgrammeDDDRepository;
-    private final ICourseRepositoryDDD iCourseRepository;
+    private final ICourseRepository iCourseRepository;
     private final IStudyPlanDDDRepository iStudyPlanRepository;
     private final ICourseInStudyPlanDDDRepository iCourseInStudyPlanRepository;
 
 
     public US03_AddCourseToProgrammeController(IProgrammeDDDRepository iProgrammeDDDRepository,
-                                               ICourseRepositoryDDD iCourseRepositoryDDD, IStudyPlanDDDRepository iStudyPlanRepository,
+                                               ICourseRepository iCourseRepository, IStudyPlanDDDRepository iStudyPlanRepository,
                                                ICourseInStudyPlanDDDRepository iCourseInStudyPlanRepository) throws Exception {
         if(iProgrammeDDDRepository == null) {
             throw new IllegalArgumentException("ProgrammeList cannot be null.");
         }
-        if (iCourseRepositoryDDD == null) {
+        if (iCourseRepository == null) {
             throw new IllegalArgumentException("CourseRepository cannot be null.");
         }
         if (iStudyPlanRepository == null) {
@@ -34,7 +34,7 @@ public class US03_AddCourseToProgrammeController {
             throw new IllegalArgumentException("CourseInStudyPlanRepository cannot be null.");
         }
         this.iProgrammeDDDRepository = iProgrammeDDDRepository;
-        this.iCourseRepository = iCourseRepositoryDDD;
+        this.iCourseRepository = iCourseRepository;
         this.iStudyPlanRepository = iStudyPlanRepository;
         this.iCourseInStudyPlanRepository = iCourseInStudyPlanRepository;
     }

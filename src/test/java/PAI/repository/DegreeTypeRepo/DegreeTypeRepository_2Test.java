@@ -1,4 +1,4 @@
-package PAI.repository.DegreeTypeRepoDDD;
+package PAI.repository.DegreeTypeRepo;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -12,7 +12,7 @@ import PAI.factory.IDegreeTypeFactoryInterface_2;
 import PAI.factory.IDegreeTypeListFactory_2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+
 import java.util.ArrayList;
 import java.util.List;
 

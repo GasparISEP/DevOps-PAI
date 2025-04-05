@@ -4,7 +4,7 @@ import PAI.domain.DegreeTypeDDD.DegreeType_2;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.repository.DegreeTypeRepoDDD.IDegreeTypeRepository_2;
+import PAI.repository.DegreeTypeRepo.IDegreeTypeRepository_2;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;

@@ -1,4 +1,4 @@
-package PAI.repository.courseRepositoryDDD;
+package PAI.repository.courseRepository;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
@@ -7,20 +7,20 @@ import PAI.domain.course.ICourseFactoryDDD;
 import java.util.List;
 import java.util.Optional;
 
-public class CourseRepositoryDDDImpl implements ICourseRepositoryDDD {
+public class CourseRepositoryImpl implements ICourseRepository {
 
     private final ICourseFactoryDDD _courseFactory;
     private List<Course> courseList;
 
-    public CourseRepositoryDDDImpl(ICourseFactoryDDD iCourseFactoryDDD,ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD) {
+    public CourseRepositoryImpl(ICourseFactoryDDD iCourseFactoryDDD, ICourseRepositoryListFactory iCourseRepositoryListFactory) {
         if(iCourseFactoryDDD == null){
             throw new IllegalArgumentException("iCourseFactoryDDD cannot be null");
         }
-        if(iCourseRepositoryListFactoryDDD == null){
+        if(iCourseRepositoryListFactory == null){
             throw new IllegalArgumentException("iCourseRepositoryListFactoryDDD cannot be null");
         }
         _courseFactory = iCourseFactoryDDD;
-        courseList = iCourseRepositoryListFactoryDDD.createCourseRepositoryList();
+        courseList = iCourseRepositoryListFactory.createCourseRepositoryList();
     }
 
     public boolean registerCourse (CourseID id, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear) throws Exception {

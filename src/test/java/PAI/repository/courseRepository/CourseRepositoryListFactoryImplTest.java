@@ -1,4 +1,4 @@
-package PAI.repository.courseRepositoryDDD;
+package PAI.repository.courseRepository;
 
 import PAI.domain.course.Course;
 import org.junit.jupiter.api.Test;
