@@ -1,7 +1,7 @@
 package PAI.domain;
 
 import PAI.VOs.*;
-import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.Programme;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -229,7 +229,7 @@ class ProgrammeEnrolmentTest {
     void shouldReturnTrueIfProgrammesAreTheSameTestV2() {
         //arrange
         createDoubles();
-        ProgrammeDDD programmeDouble = mock(ProgrammeDDD.class);
+        Programme programmeDouble = mock(Programme.class);
 
         when(programmeDouble.getProgrammeID()).thenReturn(_programmeIDDouble);
 

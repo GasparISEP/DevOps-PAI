@@ -1,14 +1,11 @@
 package PAI.repository;
 
 import PAI.VOs.*;
-import PAI.domain.Programme;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.domain.Student;
+import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.factory.IProgrammeEnrolmentListFactory;
-import PAI.factory.ProgrammeEnrolmentFactoryImpl;
-import PAI.factory.ProgrammeEnrolmentListFactoryImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
 package PAI.repository.courseRepositoryDDD;
 
 import PAI.VOs.*;
-import PAI.domain.Course;
-import PAI.domain.course.CourseDDD;
+import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactoryDDD;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Optional;
 public class CourseRepositoryDDDImpl implements ICourseRepositoryDDD {
 
     private final ICourseFactoryDDD _courseFactory;
-    private List<CourseDDD> courseList;
+    private List<Course> courseList;
 
     public CourseRepositoryDDDImpl(ICourseFactoryDDD iCourseFactoryDDD,ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD) {
         if(iCourseFactoryDDD == null){
@@ -26,16 +25,16 @@ public class CourseRepositoryDDDImpl implements ICourseRepositoryDDD {
 
     public boolean registerCourse (CourseID id, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear) throws Exception {
 
-        CourseDDD courseDDD = _courseFactory.createCourse(id, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        Course course = _courseFactory.createCourse(id, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
 
-        courseDDD = save(courseDDD);
-        if(courseDDD == null)
+        course = save(course);
+        if(course == null)
             return false;
         return true;
     }
 
     @Override
-    public CourseDDD save(CourseDDD entity) {
+    public Course save(Course entity) {
         if(entity == null){
             throw new IllegalArgumentException("entity cannot be null");
         }
@@ -47,12 +46,12 @@ public class CourseRepositoryDDDImpl implements ICourseRepositoryDDD {
     }
 
     @Override
-    public Iterable<CourseDDD> findAll() {
+    public Iterable<Course> findAll() {
         return courseList;
     }
 
     @Override
-    public Optional<CourseDDD> ofIdentity(CourseID id) {
+    public Optional<Course> ofIdentity(CourseID id) {
         if(id == null) {
             return Optional.empty();
         }

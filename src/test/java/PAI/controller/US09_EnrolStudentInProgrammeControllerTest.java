@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.domain.accessMethod.AccessMethod;
-import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.Programme;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
 import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
@@ -27,7 +27,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
     private static AccessMethod _accessMethod;
     private AccessMethodID _accessMethodID;
     private ProgrammeDDDRepositoryImpl _programmeRepository;
-    private static ProgrammeDDD _programme;
+    private static Programme _programme;
     private ProgrammeID _programmeID;
     private ProgrammeEnrolmentRepository _programmeEnrolmentRepository;
     private static Date _date;
@@ -53,7 +53,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         _accessMethod = mock(AccessMethod.class);
         _accessMethodID = mock(AccessMethodID.class);
         _nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
-        _programme = mock(ProgrammeDDD.class);
+        _programme = mock(Programme.class);
         _programmeID = mock(ProgrammeID.class);
         _date = mock(Date.class);
 
@@ -198,7 +198,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getProgrammeByName(name)).thenReturn(Optional.of(_programme));
 
         //act
-        Optional<ProgrammeDDD> result = _controller.getProgrammeByName(name);
+        Optional<Programme> result = _controller.getProgrammeByName(name);
 
 
         //assert
@@ -213,7 +213,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getProgrammeByName(name)).thenReturn(Optional.empty());
 
         //act
-        Optional<ProgrammeDDD> result = _controller.getProgrammeByName(name);
+        Optional<Programme> result = _controller.getProgrammeByName(name);
 
 
         //assert
@@ -229,7 +229,7 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         when(_controller.getProgrammeByID(_programmeID)).thenReturn(Optional.of(_programme));
 
         //act
-        Optional<ProgrammeDDD> result = _controller.getProgrammeByID(_programmeID);
+        Optional<Programme> result = _controller.getProgrammeByID(_programmeID);
 
 
         //assert

@@ -3,11 +3,11 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.DegreeTypeDDD.DegreeType_2;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
-import PAI.domain.programme.ProgrammeDDD;
-import PAI.domain.programmeEdition.ProgrammeEditionDDD;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
+import PAI.domain.programme.Programme;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.DegreeTypeRepoDDD.IDegreeTypeRepository_2;
-import PAI.repository.ICourseEditionRepositoryDDD;
+import PAI.repository.ICourseEditionRepository;
 import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
 import PAI.repository.programmeRepo.IProgrammeDDDRepository;
@@ -32,7 +32,7 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         //Act
         US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble,studyPlanRepositoryDouble, courseInStudyPlanRepositoryDouble, programmeEditionRepositoryDouble, courseEditionRepositoryDouble);
@@ -48,7 +48,7 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         //Act
         //Assert
@@ -63,7 +63,7 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         //Act
         //Assert
@@ -78,7 +78,7 @@ class US19_CreateCourseEditionControllerTest {
         IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         //Act
         //Assert
@@ -93,7 +93,7 @@ class US19_CreateCourseEditionControllerTest {
         IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         //Act
         //Assert
@@ -108,7 +108,7 @@ class US19_CreateCourseEditionControllerTest {
         IProgrammeDDDRepository programmeRepositoryDouble = mock(IProgrammeDDDRepository.class);
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         //Act
         //Assert
@@ -138,7 +138,7 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         DegreeType_2 degreeType1Double = mock(DegreeType_2.class);
         DegreeType_2 degreeType2Double = mock(DegreeType_2.class);
@@ -174,21 +174,21 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
 
         DegreeTypeID degreeTypeIDDouble = mock(DegreeTypeID.class);
 
-        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        Programme programme = mock(Programme.class);
         when(programme.getDegreeTypeID()).thenReturn(degreeTypeIDDouble);
 
-        List<ProgrammeDDD> ListWithProgramme = Arrays.asList(programme);
+        List<Programme> ListWithProgramme = Arrays.asList(programme);
         when(programmeRepositoryDouble.getProgrammesByDegreeTypeID(degreeTypeIDDouble)).thenReturn(ListWithProgramme);
 
         US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, studyPlanRepositoryDouble, courseInStudyPlanRepositoryDouble, programmeEditionRepositoryDouble, courseEditionRepositoryDouble);
 
         //Act
-        List<ProgrammeDDD> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeIDDouble);
+        List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeIDDouble);
 
         //Assert
         assertEquals(1, result.size());
@@ -203,22 +203,22 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
-        CourseInStudyPlanDDD courseInStudyPlan = mock(CourseInStudyPlanDDD.class);
+        CourseInStudyPlan courseInStudyPlan = mock(CourseInStudyPlan.class);
 
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
         StudyPlanID studyPlanIDDouble = mock(StudyPlanID.class);
 
         when(studyPlanRepositoryDouble.getLatestStudyPlanIDByProgrammeID(programmeIDDouble)).thenReturn(studyPlanIDDouble);
 
-        List<CourseInStudyPlanDDD> ListOfCourseInStudyPlan = Arrays.asList(courseInStudyPlan);
+        List<CourseInStudyPlan> ListOfCourseInStudyPlan = Arrays.asList(courseInStudyPlan);
         when(courseInStudyPlanRepositoryDouble.getCoursesInStudyPlanByStudyPlanID(studyPlanIDDouble)).thenReturn(ListOfCourseInStudyPlan);
 
         US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, studyPlanRepositoryDouble, courseInStudyPlanRepositoryDouble, programmeEditionRepositoryDouble, courseEditionRepositoryDouble);
 
         //Act
-        List<CourseInStudyPlanDDD> result = us19Controller.getCoursesInStudyPlanByProgrammeID(programmeIDDouble);
+        List<CourseInStudyPlan> result = us19Controller.getCoursesInStudyPlanByProgrammeID(programmeIDDouble);
 
         //Assert
         assertEquals(1, result.size());
@@ -234,13 +234,13 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
-        ProgrammeEditionDDD edition1Double = mock(ProgrammeEditionDDD.class);
-        ProgrammeEditionDDD edition2Double = mock(ProgrammeEditionDDD.class);
-        List<ProgrammeEditionDDD> expectedList = List.of(edition1Double, edition2Double);
+        ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
+        ProgrammeEdition edition2Double = mock(ProgrammeEdition.class);
+        List<ProgrammeEdition> expectedList = List.of(edition1Double, edition2Double);
 
         when(programmeEditionRepositoryDouble.getProgrammeEditionsByProgrammeID(programmeIDDouble)).thenReturn(expectedList);
 
@@ -254,7 +254,7 @@ class US19_CreateCourseEditionControllerTest {
         );
 
         // Act
-        List<ProgrammeEditionDDD> result = controller.getProgrammeEditionsByProgrammeID(programmeIDDouble);
+        List<ProgrammeEdition> result = controller.getProgrammeEditionsByProgrammeID(programmeIDDouble);
 
         // Assert
         assertEquals(expectedList, result);
@@ -269,7 +269,7 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
@@ -302,7 +302,7 @@ class US19_CreateCourseEditionControllerTest {
         IStudyPlanDDDRepository studyPlanRepositoryDouble = mock(IStudyPlanDDDRepository.class);
         ICourseInStudyPlanDDDRepository courseInStudyPlanRepositoryDouble = mock(ICourseInStudyPlanDDDRepository.class);
         IProgrammeEditionRepositoryDDD programmeEditionRepositoryDouble = mock(IProgrammeEditionRepositoryDDD.class);
-        ICourseEditionRepositoryDDD courseEditionRepositoryDouble = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
 
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);

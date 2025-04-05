@@ -21,8 +21,8 @@ class StudyPlanFactoryDDDImplTest {
         QuantEcts quantityOfEcts = mock(QuantEcts.class);
 
         //act
-        IStudyPlanDDDFactory studyPlanFactory_2 = new StudyPlanDDDFactoryImpl();
-        StudyPlanDDD studyPlan_DDD = studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        IStudyPlanFactory studyPlanFactory_2 = new StudyPlanFactoryImpl();
+        StudyPlan studyPlan_DDD = studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         //assert
         assertNotNull(studyPlan_DDD);

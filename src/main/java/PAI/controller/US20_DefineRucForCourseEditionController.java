@@ -1,17 +1,17 @@
 package PAI.controller;
 
 import PAI.VOs.TeacherID;
-import PAI.domain.CourseEditionDDD;
+import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
-import PAI.repository.ICourseEditionRepositoryDDD;
+import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ITeacherRepository;
 
 public class US20_DefineRucForCourseEditionController {
 
-    private final ICourseEditionRepositoryDDD _iCourseEditionRepository;
+    private final ICourseEditionRepository _iCourseEditionRepository;
     private final ITeacherRepository _iTeacherRepository;
 
-    public US20_DefineRucForCourseEditionController(ICourseEditionRepositoryDDD iCourseEditionRepository, ITeacherRepository iTeacherRepository) {
+    public US20_DefineRucForCourseEditionController(ICourseEditionRepository iCourseEditionRepository, ITeacherRepository iTeacherRepository) {
         this._iCourseEditionRepository = iCourseEditionRepository;
         this._iTeacherRepository = iTeacherRepository;
     }
@@ -20,11 +20,11 @@ public class US20_DefineRucForCourseEditionController {
         return _iTeacherRepository.findAll();
     }
 
-    public Iterable<CourseEditionDDD> getAllCourseEditions() {
+    public Iterable<CourseEdition> getAllCourseEditions() {
         return _iCourseEditionRepository.findAll();
     }
 
-    public boolean defineRucForCourseEdition(CourseEditionDDD courseEdition_2, TeacherID teacherID) {
+    public boolean defineRucForCourseEdition(CourseEdition courseEdition_2, TeacherID teacherID) {
         if (courseEdition_2 == null || teacherID == null) {
             return false;
         }

@@ -1,3 +1,4 @@
+/*
 package PAI.factory;
 
 import PAI.domain.DegreeType;
@@ -10,3 +11,4 @@ public class DegreeTypeListFactoryImpl implements IDegreeTypeListFactory {
         return new ArrayList<>();
     }
 }
+*/

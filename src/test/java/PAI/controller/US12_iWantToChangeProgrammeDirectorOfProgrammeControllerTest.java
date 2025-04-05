@@ -1,28 +1,23 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.DegreeType;
-import PAI.domain.Programme;
 import PAI.domain.Teacher;
-import PAI.domain.programme.IProgrammeDDDFactory;
-import PAI.domain.programme.ProgrammeDDD;
-import PAI.domain.programme.ProgrammeDDDFactoryImpl;
+import PAI.domain.programme.IProgrammeFactory;
+import PAI.domain.programme.Programme;
+import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.factory.ITeacherFactory;
 import PAI.factory.ITeacherListFactory;
 import PAI.factory.TeacherFactoryImpl;
 import PAI.factory.TeacherListFactoryImpl;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionDDDListFactory;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionDDDListFactoryImpl;
 import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 import PAI.repository.programmeRepo.IProgrammeDDDRepositoryListFactory;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryImpl;
 import PAI.repository.programmeRepo.ProgrammeDDDRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +48,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList, teacherRepo);
         Teacher teacher = mock(Teacher.class);
-        ProgrammeDDD programme = mock(ProgrammeDDD.class);
+        Programme programme = mock(Programme.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         TeacherID teacherID = mock(TeacherID.class);
 
@@ -99,13 +94,13 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
 
 
 
-        ProgrammeDDD programmeDDD = new ProgrammeDDD(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
-        IProgrammeDDDFactory iProgrammeDDDFactory = new ProgrammeDDDFactoryImpl();
+        Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
+        IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
         ITeacherFactory iTeacherFactory = new TeacherFactoryImpl();
         ITeacherListFactory iTeacherListFactory = new TeacherListFactoryImpl();
 
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeDDDFactory,iProgrammeDDDRepositoryListFactory);
+        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeFactory,iProgrammeDDDRepositoryListFactory);
         ITeacherRepository iTeacherRepository = new TeacherRepository(iTeacherFactory,iTeacherListFactory);
 
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(iProgrammeDDDRepository,iTeacherRepository);
@@ -115,7 +110,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
 
 
         //act
-        boolean result = controller.changeProgrammeDirector(programmeDDD,teacher2);
+        boolean result = controller.changeProgrammeDirector(programme,teacher2);
         //assert
         assertTrue(result);
 

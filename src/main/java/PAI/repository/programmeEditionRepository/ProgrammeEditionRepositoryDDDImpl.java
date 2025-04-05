@@ -3,8 +3,8 @@ package PAI.repository.programmeEditionRepository;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.programmeEdition.IProgrammeEditionDDDFactory;
-import PAI.domain.programmeEdition.ProgrammeEditionDDD;
+import PAI.domain.programmeEdition.IProgrammeEditionFactory;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.Set;
 
 public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepositoryDDD{
 
-    private final Set<ProgrammeEditionDDD> _programmeEditions;
-    private final IProgrammeEditionDDDFactory _programmeEditionDDDFactory;
+    private final Set<ProgrammeEdition> _programmeEditions;
+    private final IProgrammeEditionFactory _programmeEditionDDDFactory;
 
-    public ProgrammeEditionRepositoryDDDImpl(IProgrammeEditionDDDListFactory programmeEditionDDDListFactory, IProgrammeEditionDDDFactory programmeEditionDDDFactory) throws Exception {
+    public ProgrammeEditionRepositoryDDDImpl(IProgrammeEditionDDDListFactory programmeEditionDDDListFactory, IProgrammeEditionFactory programmeEditionDDDFactory) throws Exception {
 
         if (programmeEditionDDDListFactory == null)
             throw new Exception("Programme Edition ListFactory cannot be null");
@@ -30,7 +30,7 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     @Override
     public boolean createProgrammeEdition(ProgrammeID programmeID, SchoolYearID schoolYearID) {
         try {
-            ProgrammeEditionDDD pE = _programmeEditionDDDFactory.createProgrammeEdition(programmeID, schoolYearID);
+            ProgrammeEdition pE = _programmeEditionDDDFactory.createProgrammeEdition(programmeID, schoolYearID);
             if (_programmeEditions.add(pE))
                 return true;
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
 
     @Override
     public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
-        for(ProgrammeEditionDDD check : _programmeEditions) {
+        for(ProgrammeEdition check : _programmeEditions) {
             if (check.findProgrammeIDInProgrammeEdition().equals(programmeid) && check.findSchoolYearIDInProgrammeEdition().equals(schoolYearid))
                 return Optional.of(check.identity());
         }
@@ -49,7 +49,7 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     }
 
     @Override
-    public ProgrammeEditionDDD save(ProgrammeEditionDDD programmeEdition) {
+    public ProgrammeEdition save(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null){
             throw new IllegalArgumentException("Programme Edition cannot be null");
         }
@@ -59,13 +59,13 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     }
 
     @Override
-    public Iterable<ProgrammeEditionDDD> findAll() {
+    public Iterable<ProgrammeEdition> findAll() {
         return _programmeEditions;
     }
 
     @Override
-    public Optional<ProgrammeEditionDDD> ofIdentity(ProgrammeEditionID id) {
-        for(ProgrammeEditionDDD check : _programmeEditions){
+    public Optional<ProgrammeEdition> ofIdentity(ProgrammeEditionID id) {
+        for(ProgrammeEdition check : _programmeEditions){
             if (check.identity().equals(id))
                 return Optional.of(check);
         }
@@ -74,7 +74,7 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
 
     @Override
     public boolean containsOfIdentity(ProgrammeEditionID id) {
-        for(ProgrammeEditionDDD check : _programmeEditions){
+        for(ProgrammeEdition check : _programmeEditions){
             if (check.identity().equals(id))
                 return true;
         }
@@ -82,11 +82,11 @@ public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepos
     }
 
     @Override
-    public List<ProgrammeEditionDDD> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid) {
-        List<ProgrammeEditionDDD> programmeEditions = new ArrayList<>();
-        for (ProgrammeEditionDDD programmeEditionDDD : _programmeEditions) {
-            if (programmeEditionDDD.findProgrammeIDInProgrammeEdition().equals(programmeid))
-                programmeEditions.add(programmeEditionDDD);
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid) {
+        List<ProgrammeEdition> programmeEditions = new ArrayList<>();
+        for (ProgrammeEdition programmeEdition : _programmeEditions) {
+            if (programmeEdition.findProgrammeIDInProgrammeEdition().equals(programmeid))
+                programmeEditions.add(programmeEdition);
         }
         return programmeEditions;
     }

@@ -6,9 +6,7 @@ import static org.mockito.Mockito.mockConstruction;
 
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.ProgrammeEdition;
 import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

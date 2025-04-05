@@ -1,10 +1,10 @@
 package PAI.repository.courseInStudyPlanRepo;
 
-import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 
 import java.util.List;
 
 public interface ICourseInStudyPlanDDDListFactory {
 
-    List<CourseInStudyPlanDDD> newArrayList();
+    List<CourseInStudyPlan> newArrayList();
 }

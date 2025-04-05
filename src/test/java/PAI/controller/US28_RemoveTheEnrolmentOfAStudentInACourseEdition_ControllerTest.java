@@ -26,7 +26,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         void removeExistingEnrolment_ShouldReturnTrue() {
             // Arrange
             ICourseEditionEnrolmentRepository mockRepository = mock(ICourseEditionEnrolmentRepository.class);
-            US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+            US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(mockRepository);
 
             StudentID mockStudentID = mock(StudentID.class);
             CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -47,7 +47,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(ICourseEditionEnrolmentRepository.class);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(mockRepository);
 
         CourseEditionID mockCourseEditionID1 = mock(CourseEditionID.class);
         CourseEditionID mockCourseEditionID2 = mock(CourseEditionID.class);
@@ -73,7 +73,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepositoryImpl.class);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(mockRepository);
 
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
         StudentID mockStudentID1 = mock(StudentID.class);
@@ -104,7 +104,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         void removeNonExistingEnrolment_ShouldReturnFalse() {
             // Arrange
             ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepositoryImpl.class);
-            US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+            US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(mockRepository);
 
             StudentID mockStudentID = mock (StudentID.class);
             CourseEditionID mockCourseEditionID = mock (CourseEditionID.class);
@@ -123,7 +123,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     void removeAlreadyInactiveEnrolment_ShouldReturnFalse() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepositoryImpl.class);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(mockRepository);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -148,7 +148,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepositoryImpl.class);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(mockRepository);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -175,7 +175,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     void removeEnrolment_WithNullCourseEditionOrStudent_ShouldReturnFalse() {
         // Arrange
         ICourseEditionEnrolmentRepository mockRepository = mock(CourseEditionEnrolmentRepositoryImpl.class);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(mockRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(mockRepository);
 
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
@@ -205,7 +205,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(enrolmentRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
@@ -235,7 +235,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(enrolmentRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = new StudentID(1000001);
 
@@ -280,7 +280,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(enrolmentRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = new StudentID(1000001);
         StudentID student2ID = new StudentID(1000002);
@@ -318,7 +318,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(enrolmentRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
@@ -346,7 +346,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(enrolmentRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
@@ -378,7 +378,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
-        US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEdition_Controller(enrolmentRepository);
+        US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = new StudentID(1000001);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");

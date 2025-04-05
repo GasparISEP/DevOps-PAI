@@ -1,6 +1,6 @@
 package PAI.repository.courseRepositoryDDD;
 
-import PAI.domain.course.CourseDDD;
+import PAI.domain.course.Course;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 public class CourseRepositoryListFactoryImpl implements ICourseRepositoryListFactoryDDD {
 
     @Override
-    public List<CourseDDD> createCourseRepositoryList() {
-        return new ArrayList<CourseDDD>();
+    public List<Course> createCourseRepositoryList() {
+        return new ArrayList<Course>();
     }
 }

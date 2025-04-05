@@ -1,12 +1,11 @@
 package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.DegreeTypeDDD.DegreeType_2;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
-import PAI.domain.programme.ProgrammeDDD;
-import PAI.domain.programmeEdition.ProgrammeEditionDDD;
-import PAI.domain.studyPlan.IStudyPlanDDDFactory;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
+import PAI.domain.programme.Programme;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.DegreeTypeRepoDDD.IDegreeTypeRepository_2;
-import PAI.repository.ICourseEditionRepositoryDDD;
+import PAI.repository.ICourseEditionRepository;
 import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
 import PAI.repository.programmeRepo.IProgrammeDDDRepository;
@@ -21,14 +20,14 @@ public class US19_CreateCourseEditionController {
     private final IStudyPlanDDDRepository _studyPlanRepository;
     private final ICourseInStudyPlanDDDRepository _courseInStudyPlanRepository;
     private final IProgrammeEditionRepositoryDDD _programmeEditionRepository;
-    private final ICourseEditionRepositoryDDD _courseEditionRepository;
+    private final ICourseEditionRepository _courseEditionRepository;
 
     public US19_CreateCourseEditionController(IDegreeTypeRepository_2 degreeTypeRepository,
                                               IProgrammeDDDRepository programmeRepository,
                                               IStudyPlanDDDRepository studyPlanRepository,
                                               ICourseInStudyPlanDDDRepository courseInStudyPlanRepository,
                                               IProgrammeEditionRepositoryDDD programmeEditionRepository,
-                                              ICourseEditionRepositoryDDD courseEditionRepository){
+                                              ICourseEditionRepository courseEditionRepository){
         if (degreeTypeRepository == null) {
             throw new IllegalArgumentException("degreeTypeRepository cannot be null");
         }
@@ -60,16 +59,16 @@ public class US19_CreateCourseEditionController {
         return _degreeTypeRepository.getAllDegreeTypes();
     }
 
-    public List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
+    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
         return _programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
     }
 
-    public List<CourseInStudyPlanDDD> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) {
+    public List<CourseInStudyPlan> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) {
         StudyPlanID studyPlanID = _studyPlanRepository.getLatestStudyPlanIDByProgrammeID(programmeID);
         return _courseInStudyPlanRepository.getCoursesInStudyPlanByStudyPlanID(studyPlanID);
     }
 
-    public List<ProgrammeEditionDDD> getProgrammeEditionsByProgrammeID (ProgrammeID programmeID) {
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID (ProgrammeID programmeID) {
         return _programmeEditionRepository.getProgrammeEditionsByProgrammeID(programmeID);
 
     }

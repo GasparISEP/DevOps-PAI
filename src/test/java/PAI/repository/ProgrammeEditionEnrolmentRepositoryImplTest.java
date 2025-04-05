@@ -279,15 +279,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void shouldReturnZeroWhenNoStudentsAreEnrolledInDepartmentAndSchoolYear() {
         //arrange
-        Department department1Double = mock(Department.class);
         SchoolYearID schoolYear1Double = mock(SchoolYearID.class);
 
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
         ProgrammeID programmeID2 = mock(ProgrammeID.class);
         List<ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2);
-
-        ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
-        ProgrammeEdition edition2Double = mock(ProgrammeEdition.class);
 
         ProgrammeEditionID editionId1Double = mock(ProgrammeEditionID.class);
         ProgrammeEditionID editionId2Double = mock(ProgrammeEditionID.class);
@@ -331,15 +327,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInMultipleEditions() {
 
         // arrange
-        Department department1Double = mock(Department.class);
         SchoolYearID schoolYear1Double = mock(SchoolYearID.class);
 
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
         ProgrammeID programmeID2 = mock(ProgrammeID.class);
         List<ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2);
-
-        ProgrammeEdition edition1Double = mock(ProgrammeEdition.class);
-        ProgrammeEdition edition2Double = mock(ProgrammeEdition.class);
 
         ProgrammeEditionID editionId1Double = mock(ProgrammeEditionID.class);
         ProgrammeEditionID editionId2Double = mock(ProgrammeEditionID.class);
@@ -385,7 +377,6 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         //Doubles' instantiation
         IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
         StudentID studentId1Double = mock(StudentID.class);
         StudentID studentId2Double = mock(StudentID.class);
 
@@ -441,8 +432,6 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         //Doubles' instantiation
         IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEdition programmeEdition1Double = mock(ProgrammeEdition.class);
-        ProgrammeEdition programmeEdition2Double = mock(ProgrammeEdition.class);
         StudentID studentId1Double = mock(StudentID.class);
         StudentID studentId2Double = mock(StudentID.class);
         ProgrammeEditionEnrolment programmeEditionEnrolment1Double = mock(ProgrammeEditionEnrolment.class);

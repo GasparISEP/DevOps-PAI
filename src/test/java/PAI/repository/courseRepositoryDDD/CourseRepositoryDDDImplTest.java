@@ -1,17 +1,9 @@
 package PAI.repository.courseRepositoryDDD;
 
 import PAI.VOs.*;
-import PAI.domain.Course;
-import PAI.domain.course.CourseDDD;
-import PAI.domain.course.CourseFactoryDDDImpl;
+import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactoryDDD;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
-import PAI.domain.courseInStudyPlan.ICourseInStudyPlanDDDFactory;
-import PAI.factory.CourseFactoryImpl;
-import PAI.factory.CourseListFactoryImpl;
-import PAI.repository.CourseRepository;
-import PAI.repository.courseInStudyPlanRepo.CourseInStudyPlanDDDDDDRepositoryImpl;
-import PAI.repository.courseInStudyPlanRepo.ICourseInStudyPlanDDDListFactory;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -59,7 +51,7 @@ class CourseRepositoryDDDImplTest {
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(ICourseRepositoryListFactoryDDD.class);
         CourseRepositoryDDDImpl courseRepositoryDDDImpl = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
         // act
-        Iterable<CourseDDD> list = courseRepositoryDDDImpl.findAll();
+        Iterable<Course> list = courseRepositoryDDDImpl.findAll();
         // assert
         assertNotNull(list);
     }
@@ -67,25 +59,25 @@ class CourseRepositoryDDDImplTest {
     @Test
     void shouldReturnCourseDDDIfCourseDDDSavedInRepository(){
         // arrange
-        CourseDDD courseDDD = mock(CourseDDD.class);
+        Course course = mock(Course.class);
         ICourseFactoryDDD iCourseFactoryDDD = mock(ICourseFactoryDDD.class);
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(ICourseRepositoryListFactoryDDD.class);
         CourseRepositoryDDDImpl courseRepositoryDDDImpl = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
         // act
-        CourseDDD result = courseRepositoryDDDImpl.save(courseDDD);
+        Course result = courseRepositoryDDDImpl.save(course);
         // assert
-        assertEquals(courseDDD, result);
+        assertEquals(course, result);
     }
 
     @Test
     void shouldReturnNullIfCourseIDAlreadyExistsInRepository() {
         // arrange
         CourseID courseID = mock(CourseID.class);
-        CourseDDD courseDDD = mock(CourseDDD.class);
-        when(courseDDD.identity()).thenReturn(courseID);
+        Course course = mock(Course.class);
+        when(course.identity()).thenReturn(courseID);
 
-        List<CourseDDD> list = mock(ArrayList.class);
-        when(list.stream()).thenReturn(Stream.of(courseDDD));
+        List<Course> list = mock(ArrayList.class);
+        when(list.stream()).thenReturn(Stream.of(course));
 
         ICourseFactoryDDD iCourseFactoryDDD = mock(ICourseFactoryDDD.class);
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(ICourseRepositoryListFactoryDDD.class);
@@ -94,7 +86,7 @@ class CourseRepositoryDDDImplTest {
         CourseRepositoryDDDImpl repository = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
 
         // act
-        CourseDDD result = repository.save(courseDDD);
+        Course result = repository.save(course);
 
         // assert
         assertNull(result);
@@ -114,8 +106,8 @@ class CourseRepositoryDDDImplTest {
         CourseQuantityCreditsEcts quantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
         DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
-        CourseDDD courseDDD = mock(CourseDDD.class);
-        when(iCourseFactoryDDD.createCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear)).thenReturn(courseDDD);
+        Course course = mock(Course.class);
+        when(iCourseFactoryDDD.createCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear)).thenReturn(course);
 
         //act
         boolean result = repository.registerCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
@@ -136,10 +128,10 @@ class CourseRepositoryDDDImplTest {
         CourseQuantityCreditsEcts quantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
         DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
-        CourseDDD courseDDD = mock(CourseDDD.class);
-        when(courseDDD.identity()).thenReturn(courseID);
+        Course course = mock(Course.class);
+        when(course.identity()).thenReturn(courseID);
         when(iCourseFactoryDDD.createCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear))
-                .thenReturn(courseDDD);
+                .thenReturn(course);
 
         repository.registerCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
 
@@ -164,7 +156,7 @@ class CourseRepositoryDDDImplTest {
     void shouldReturnCourseDDDOptionalIfCourseIdInRepository() {
         // arrange
         CourseID courseID = mock(CourseID.class);
-        CourseDDD courseDDD = mock(CourseDDD.class);
+        Course course = mock(Course.class);
         List courseList = mock(List.class);
         Stream stream = mock(Stream.class);
         Stream filteredStream = mock(Stream.class);
@@ -172,19 +164,19 @@ class CourseRepositoryDDDImplTest {
         ICourseFactoryDDD iCourseFactoryDDD = mock(ICourseFactoryDDD.class);
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(CourseRepositoryListFactoryImpl.class);
         when(iCourseRepositoryListFactoryDDD.createCourseRepositoryList()).thenReturn(courseList);
-        when(courseDDD.identity()).thenReturn(courseID);
+        when(course.identity()).thenReturn(courseID);
         when(courseList.stream()).thenReturn(stream);
         when(stream.filter(any())).thenReturn(filteredStream);
-        when(filteredStream.findFirst()).thenReturn(Optional.of(courseDDD));
+        when(filteredStream.findFirst()).thenReturn(Optional.of(course));
 
         CourseRepositoryDDDImpl courseRepositoryDDDImpl = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
 
         // act
-        Optional<CourseDDD> result = courseRepositoryDDDImpl.ofIdentity(courseID);
+        Optional<Course> result = courseRepositoryDDDImpl.ofIdentity(courseID);
 
         // assert
         assertTrue(result.isPresent());
-        assertEquals(courseDDD, result.get());
+        assertEquals(course, result.get());
     }
 
     @Test
@@ -194,7 +186,7 @@ class CourseRepositoryDDDImplTest {
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(CourseRepositoryListFactoryImpl.class);
         CourseRepositoryDDDImpl courseRepositoryDDDImpl = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
         // act
-        Optional<CourseDDD> result = courseRepositoryDDDImpl.ofIdentity(null);
+        Optional<Course> result = courseRepositoryDDDImpl.ofIdentity(null);
         // assert
         assertTrue(result.isEmpty());
     }
@@ -207,7 +199,7 @@ class CourseRepositoryDDDImplTest {
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(CourseRepositoryListFactoryImpl.class);
         CourseRepositoryDDDImpl courseRepositoryDDDImpl = new CourseRepositoryDDDImpl(iCourseFactoryDDD, iCourseRepositoryListFactoryDDD);
         // act
-        Optional<CourseDDD> result = courseRepositoryDDDImpl.ofIdentity(courseID);
+        Optional<Course> result = courseRepositoryDDDImpl.ofIdentity(courseID);
         // assert
         assertTrue(result.isEmpty());
     }
@@ -216,11 +208,11 @@ class CourseRepositoryDDDImplTest {
     void shouldReturnTrueIfCourseIDExistInRepository(){
         // arrange
         CourseID courseID = mock(CourseID.class);
-        CourseDDD courseDDD = mock(CourseDDD.class);
+        Course course = mock(Course.class);
         ICourseFactoryDDD iCourseFactoryDDD = mock(ICourseFactoryDDD.class);
         ICourseRepositoryListFactoryDDD iCourseRepositoryListFactoryDDD = mock(CourseRepositoryListFactoryImpl.class);
         CourseRepositoryDDDImpl courseRepositoryDDDImpl = spy(new CourseRepositoryDDDImpl(iCourseFactoryDDD,iCourseRepositoryListFactoryDDD));
-        when(courseRepositoryDDDImpl.ofIdentity(courseID)).thenReturn(Optional.of(courseDDD));
+        when(courseRepositoryDDDImpl.ofIdentity(courseID)).thenReturn(Optional.of(course));
         // act
         boolean result = courseRepositoryDDDImpl.containsOfIdentity(courseID);
         // assert

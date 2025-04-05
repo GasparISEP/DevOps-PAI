@@ -1,6 +1,6 @@
 package PAI.repository.courseRepositoryDDD;
 
-import PAI.domain.course.CourseDDD;
+import PAI.domain.course.Course;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ class CourseRepositoryListFactoryImplTest {
         // arrange
         CourseRepositoryListFactoryImpl courseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
         // act
-        List<CourseDDD> list = courseRepositoryListFactory.createCourseRepositoryList();
+        List<Course> list = courseRepositoryListFactory.createCourseRepositoryList();
         // assert
         assertNotNull(list);
         assertInstanceOf(ArrayList.class,list);

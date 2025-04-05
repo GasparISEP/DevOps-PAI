@@ -3,9 +3,6 @@ package PAI.repository;
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
 import PAI.domain.*;
-import PAI.factory.IProgrammeRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 
 import java.util.List;
 

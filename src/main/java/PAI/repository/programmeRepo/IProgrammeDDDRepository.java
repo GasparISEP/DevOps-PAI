@@ -2,35 +2,31 @@ package PAI.repository.programmeRepo;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.Department;
-import PAI.domain.Programme;
 
-import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.Programme;
 
 import java.util.List;
 
-import java.util.List;
 import java.util.Optional;
 
-import java.util.List;
 
-public interface IProgrammeDDDRepository extends IRepository <ProgrammeID, ProgrammeDDD> {
+public interface IProgrammeDDDRepository extends IRepository <ProgrammeID, Programme> {
 
     boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception;
 
     List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID);
 
-    List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception;
+    List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception;
 
-    Optional<ProgrammeID> findProgrammeIdByProgramme(ProgrammeDDD programme) throws Exception;
+    Optional<ProgrammeID> findProgrammeIdByProgramme(Programme programme) throws Exception;
 
     boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception;
 
-    List<ProgrammeDDD> getAllProgrammes();
+    List<Programme> getAllProgrammes();
 
-    Optional<ProgrammeDDD> getProgrammeByName(NameWithNumbersAndSpecialChars name);
+    Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name);
 
-    ProgrammeDDD getProgrammeByAcronym(Acronym acronym);
+    Programme getProgrammeByAcronym(Acronym acronym);
 
     List<NameWithNumbersAndSpecialChars> getAllProgrammeNames();
 

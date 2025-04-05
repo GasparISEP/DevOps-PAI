@@ -1,8 +1,8 @@
 package PAI.repository.studyPlanRepo;
 
 import PAI.VOs.*;
-import PAI.domain.studyPlan.StudyPlanDDD;
-import PAI.domain.studyPlan.IStudyPlanDDDFactory;
+import PAI.domain.studyPlan.StudyPlan;
+import PAI.domain.studyPlan.IStudyPlanFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public class StudyPlanDDDRepositoryImpl implements IStudyPlanDDDRepository {
 
-    private final IStudyPlanDDDFactory _studyPlanFactory_2;
-    private final List<StudyPlanDDD> _studyPlanList_2;
+    private final IStudyPlanFactory _studyPlanFactory_2;
+    private final List<StudyPlan> _studyPlanList_2;
 
-    public StudyPlanDDDRepositoryImpl(IStudyPlanDDDFactory iStudyPlanFactory_DDD, IStudyPlanDDDListFactory iStudyPlanDDDListFactory) {
+    public StudyPlanDDDRepositoryImpl(IStudyPlanFactory iStudyPlanFactory_DDD, IStudyPlanDDDListFactory iStudyPlanDDDListFactory) {
 
         _studyPlanFactory_2 = iStudyPlanFactory_DDD;
         _studyPlanList_2 = iStudyPlanDDDListFactory.newArrayList();
@@ -22,7 +22,7 @@ public class StudyPlanDDDRepositoryImpl implements IStudyPlanDDDRepository {
 
     public boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts) {
 
-        StudyPlanDDD studyPlan_DDD = _studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlan studyPlan_DDD = _studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         if (_studyPlanList_2.contains(studyPlan_DDD))
             return false;
@@ -31,46 +31,46 @@ public class StudyPlanDDDRepositoryImpl implements IStudyPlanDDDRepository {
         return true;
     }
 
-    public List<StudyPlanDDD> getAllStudyPlans_2() {
+    public List<StudyPlan> getAllStudyPlans_2() {
         return this._studyPlanList_2;
     }
 
     @Override
     public StudyPlanID getLatestStudyPlanIDByProgrammeID(ProgrammeID programmeID) {
-        List<StudyPlanDDD> list = getAllStudyPlansByProgrammeId(programmeID);
+        List<StudyPlan> list = getAllStudyPlansByProgrammeId(programmeID);
         StudyPlanID studyPlanID = list.getLast().identity();
 
         return studyPlanID;
     }
 
-    public List<StudyPlanDDD> getAllStudyPlansByProgrammeId(ProgrammeID programmeID) {
-        List<StudyPlanDDD> studyPlanDDDList = new ArrayList<>();
-        for (StudyPlanDDD studyPlanDDD : _studyPlanList_2) {
-            ProgrammeID programmeIDInStudyPlan = studyPlanDDD.getProgrammeID();
+    public List<StudyPlan> getAllStudyPlansByProgrammeId(ProgrammeID programmeID) {
+        List<StudyPlan> studyPlanList = new ArrayList<>();
+        for (StudyPlan studyPlan : _studyPlanList_2) {
+            ProgrammeID programmeIDInStudyPlan = studyPlan.getProgrammeID();
             if(programmeIDInStudyPlan.equals(programmeID)) {
-                studyPlanDDDList.add(studyPlanDDD);
+                studyPlanList.add(studyPlan);
             }
         }
-        return studyPlanDDDList;
+        return studyPlanList;
     }
 
     @Override
-    public StudyPlanDDD save(StudyPlanDDD studyPlanDDD) {
-        _studyPlanList_2.add(studyPlanDDD);
-        return studyPlanDDD;
+    public StudyPlan save(StudyPlan studyPlan) {
+        _studyPlanList_2.add(studyPlan);
+        return studyPlan;
     }
 
     @Override
-    public Iterable<StudyPlanDDD> findAll() {
+    public Iterable<StudyPlan> findAll() {
         return _studyPlanList_2;
     }
 
 
     @Override
-    public Optional<StudyPlanDDD> ofIdentity(StudyPlanID id) {
-        for (StudyPlanDDD existingStudyPlanDDD : _studyPlanList_2) {
-            if (existingStudyPlanDDD.identity().equals(id)) {
-                return Optional.of(existingStudyPlanDDD);
+    public Optional<StudyPlan> ofIdentity(StudyPlanID id) {
+        for (StudyPlan existingStudyPlan : _studyPlanList_2) {
+            if (existingStudyPlan.identity().equals(id)) {
+                return Optional.of(existingStudyPlan);
             }
         }
         return Optional.empty();

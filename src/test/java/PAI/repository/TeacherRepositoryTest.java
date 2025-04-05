@@ -3,10 +3,7 @@ package PAI.repository;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
-import PAI.domain.studyPlan.IStudyPlanDDDFactory;
-import PAI.domain.studyPlan.StudyPlanDDD;
 import PAI.factory.*;
-import PAI.repository.studyPlanRepo.IStudyPlanDDDListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

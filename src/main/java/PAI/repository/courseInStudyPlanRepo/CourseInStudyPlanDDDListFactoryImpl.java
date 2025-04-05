@@ -1,13 +1,13 @@
 package PAI.repository.courseInStudyPlanRepo;
 
-import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseInStudyPlanDDDListFactoryImpl implements ICourseInStudyPlanDDDListFactory {
 
-        public List<CourseInStudyPlanDDD> newArrayList() {
+        public List<CourseInStudyPlan> newArrayList() {
             return new ArrayList<>();
         }
 }

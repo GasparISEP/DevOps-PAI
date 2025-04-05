@@ -1,7 +1,7 @@
 package PAI.repository.programmeRepo;
 
 
-import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.Programme;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ class ProgrammeRepositoryListFactoryImplTest {
     void shouldCreateRepositoryListFactoryImpl(){
         ProgrammeDDDRepositoryListFactoryImpl programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
         //act
-        List<ProgrammeDDD> programmeList = programmeRepositoryListFactory.newProgrammeArrayList();
+        List<Programme> programmeList = programmeRepositoryListFactory.newProgrammeArrayList();
         //assert
         assertNotNull(programmeList);
         assertInstanceOf(ArrayList.class, programmeList);
@@ -24,15 +24,15 @@ class ProgrammeRepositoryListFactoryImplTest {
         // arrange
         ProgrammeDDDRepositoryListFactoryImpl factory = new ProgrammeDDDRepositoryListFactoryImpl();
 
-        ProgrammeDDD mockProgramme1 = mock(ProgrammeDDD.class);
-        ProgrammeDDD mockProgramme2 = mock(ProgrammeDDD.class);
+        Programme mockProgramme1 = mock(Programme.class);
+        Programme mockProgramme2 = mock(Programme.class);
 
-        List<ProgrammeDDD> originalList = new ArrayList<>();
+        List<Programme> originalList = new ArrayList<>();
         originalList.add(mockProgramme1);
         originalList.add(mockProgramme2);
 
         // act
-        List<ProgrammeDDD> copiedList = factory.copyProgrammeArrayList(originalList);
+        List<Programme> copiedList = factory.copyProgrammeArrayList(originalList);
 
         // assert
         assertNotSame(originalList, copiedList); // verifica se é uma nova instância

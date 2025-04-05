@@ -1,9 +1,9 @@
 package PAI.controller;
 
 import PAI.VOs.TeacherID;
-import PAI.domain.CourseEditionDDD;
+import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
-import PAI.repository.ICourseEditionRepositoryDDD;
+import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ITeacherRepository;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +17,11 @@ class US20_DefineRucForCourseEditionControllerTest {
     @Test
     void shouldDefineRucForCourseEdition() throws Exception {
         // Arrange
-        ICourseEditionRepositoryDDD iCourseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository iCourseEditionRepository = mock(ICourseEditionRepository.class);
         ITeacherRepository iTeacherRepository = mock(ITeacherRepository.class);
         US20_DefineRucForCourseEditionController controller = new US20_DefineRucForCourseEditionController(iCourseEditionRepository, iTeacherRepository);
 
-        CourseEditionDDD courseEdition_DDD = mock(CourseEditionDDD.class);
+        CourseEdition courseEdition_DDD = mock(CourseEdition.class);
         TeacherID teacherID = mock(TeacherID.class);
 
         when(courseEdition_DDD.setRuc(teacherID)).thenReturn(true);
@@ -37,7 +37,7 @@ class US20_DefineRucForCourseEditionControllerTest {
     @Test
     void shouldNotDefineRucForCourseEditionIfCourseEditionIsNull() throws Exception {
         // Arrange
-        ICourseEditionRepositoryDDD iCourseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository iCourseEditionRepository = mock(ICourseEditionRepository.class);
         ITeacherRepository iTeacherRepository = mock(ITeacherRepository.class);
         US20_DefineRucForCourseEditionController controller = new US20_DefineRucForCourseEditionController(iCourseEditionRepository, iTeacherRepository);
 
@@ -54,11 +54,11 @@ class US20_DefineRucForCourseEditionControllerTest {
     @Test
     void shouldNotDefineRucForCourseEditionIfTeacherIsNull() throws Exception {
         // Arrange
-        ICourseEditionRepositoryDDD iCourseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository iCourseEditionRepository = mock(ICourseEditionRepository.class);
         ITeacherRepository iTeacherRepository = mock(ITeacherRepository.class);
         US20_DefineRucForCourseEditionController controller = new US20_DefineRucForCourseEditionController(iCourseEditionRepository, iTeacherRepository);
 
-        CourseEditionDDD courseEdition_DDD = mock(CourseEditionDDD.class);
+        CourseEdition courseEdition_DDD = mock(CourseEdition.class);
 
         // Act
         boolean result = controller.defineRucForCourseEdition(courseEdition_DDD, null);
@@ -71,7 +71,7 @@ class US20_DefineRucForCourseEditionControllerTest {
     @Test
     void shouldReturnAllTeachersRegisteredInTheRepository() throws Exception {
         // Arrange
-        ICourseEditionRepositoryDDD iCourseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository iCourseEditionRepository = mock(ICourseEditionRepository.class);
         ITeacherRepository iTeacherRepository = mock(ITeacherRepository.class);
         US20_DefineRucForCourseEditionController controller = new US20_DefineRucForCourseEditionController(iCourseEditionRepository, iTeacherRepository);
 
@@ -93,19 +93,19 @@ class US20_DefineRucForCourseEditionControllerTest {
     @Test
     void shouldReturnAllCourseEditionsRegisteredInTheRepository() throws Exception {
         // Arrange
-        ICourseEditionRepositoryDDD iCourseEditionRepository = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository iCourseEditionRepository = mock(ICourseEditionRepository.class);
         ITeacherRepository iTeacherRepository = mock(ITeacherRepository.class);
         US20_DefineRucForCourseEditionController controller = new US20_DefineRucForCourseEditionController(iCourseEditionRepository, iTeacherRepository);
 
-        CourseEditionDDD courseEdition1 = mock(CourseEditionDDD.class);
-        CourseEditionDDD courseEdition2 = mock(CourseEditionDDD.class);
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
 
-        List<CourseEditionDDD> courseEditions = List.of(courseEdition1, courseEdition2);
+        List<CourseEdition> courseEditions = List.of(courseEdition1, courseEdition2);
 
         when(iCourseEditionRepository.findAll()).thenReturn(courseEditions);
 
         // Act
-        Iterable<CourseEditionDDD> result = controller.getAllCourseEditions();
+        Iterable<CourseEdition> result = controller.getAllCourseEditions();
 
         // Assert
         assertIterableEquals(courseEditions, result);

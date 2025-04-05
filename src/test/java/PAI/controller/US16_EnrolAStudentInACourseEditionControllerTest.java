@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.courseInStudyPlan.ICourseInStudyPlanDDDFactory;
+import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.factory.*;
 import PAI.repository.*;
 import PAI.repository.courseInStudyPlanRepo.CourseInStudyPlanDDDDDDRepositoryImpl;
@@ -20,7 +20,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepositoryInterfaceIsNull() {
         //arrange
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -49,7 +49,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCeRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCeRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
 
         //act
@@ -65,7 +65,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnEmptyListWhenStudentIsNull() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -82,7 +82,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -108,7 +108,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAnEmptyListWhenStudentIsNotEnrolledInAnyProgrammeEdition() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -133,7 +133,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -157,7 +157,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -179,7 +179,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -205,7 +205,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -232,7 +232,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -258,7 +258,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition() {
         //arrange
-        ICourseEditionRepositoryDDD doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepositoryDDD.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
         ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
 
@@ -291,9 +291,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
-        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
-        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -315,9 +315,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
-        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
-        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -357,9 +357,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
-        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
-        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -380,7 +380,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
-        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
         ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
         CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
 
@@ -412,9 +412,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
-        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
-        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -434,7 +434,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
 
-        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
         ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
         CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
 
@@ -466,9 +466,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
-        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
-        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -492,7 +492,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseID courseID2 = new CourseID();
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
-        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
         ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
         CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
 
@@ -524,9 +524,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
-        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
-        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -551,7 +551,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseID courseID2 = new CourseID();
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
-        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
         ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
         CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
 
@@ -583,9 +583,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(ceeFactory, ceeListFactory);
 
-        CourseEditionFactoryDDDImpl ceFactory = new CourseEditionFactoryDDDImpl();
-        CourseEditionListFactoryDDDImpl ceListFactory = new CourseEditionListFactoryDDDImpl();
-        CourseEditionRepositoryDDDImpl courseEditionRepository = new CourseEditionRepositoryDDDImpl(ceFactory, ceListFactory);
+        CourseEditionFactoryImpl ceFactory = new CourseEditionFactoryImpl();
+        CourseEditionListFactoryImpl ceListFactory = new CourseEditionListFactoryImpl();
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(ceFactory, ceListFactory);
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
@@ -605,7 +605,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
-        ICourseInStudyPlanDDDFactory factory = mock(ICourseInStudyPlanDDDFactory.class);
+        ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
         ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
         CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
 

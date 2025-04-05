@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.domain.accessMethod.AccessMethod;
-import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.Programme;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
 import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
@@ -51,11 +51,11 @@ public class US09_EnrolStudentInProgrammeController {
         return _accessMethodRepository.ofIdentity(accessMethodID);
     }
 
-    public Optional<ProgrammeDDD> getProgrammeByName(NameWithNumbersAndSpecialChars programmeName) {
+    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars programmeName) {
         return _programmeRepository.getProgrammeByName(programmeName);
     }
 
-    public Optional<ProgrammeDDD> getProgrammeByID(ProgrammeID programmeID) {
+    public Optional<Programme> getProgrammeByID(ProgrammeID programmeID) {
         return _programmeRepository.ofIdentity(programmeID);
     }
 

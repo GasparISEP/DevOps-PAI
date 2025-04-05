@@ -2,14 +2,14 @@ package PAI.repository.courseInStudyPlanRepo;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 
 import java.util.List;
 
-public interface ICourseInStudyPlanDDDRepository extends IRepository<CourseInStudyPlanID, CourseInStudyPlanDDD> {
+public interface ICourseInStudyPlanDDDRepository extends IRepository<CourseInStudyPlanID, CourseInStudyPlan> {
 
     boolean createCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID);
-    List<CourseInStudyPlanDDD> getAllCourseInStudyPlanList_2();
+    List<CourseInStudyPlan> getAllCourseInStudyPlanList_2();
 
-    List<CourseInStudyPlanDDD> getCoursesInStudyPlanByStudyPlanID(StudyPlanID studyPlanID);
+    List<CourseInStudyPlan> getCoursesInStudyPlanByStudyPlanID(StudyPlanID studyPlanID);
 }

@@ -5,16 +5,10 @@ import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.ddd.AggregateRoot;
-import PAI.domain.programme.ProgrammeDDD;
-import PAI.domain.programmeEdition.ProgrammeEditionDDD;
-import PAI.factory.IProgrammeRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeRepo.IProgrammeDDDRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEditionEnrolmentID> {
     private ProgrammeEditionID _programmeEditionId;

@@ -1,10 +1,8 @@
 package PAI.repository.programmeRepo;
 
 import PAI.VOs.*;
-import PAI.domain.*;
-import PAI.domain.programme.IProgrammeDDDFactory;
-import PAI.domain.programme.ProgrammeDDD;
-import PAI.domain.studyPlan.StudyPlanDDD;
+import PAI.domain.programme.IProgrammeFactory;
+import PAI.domain.programme.Programme;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +10,11 @@ import java.util.Optional;
 
 public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
-    private final IProgrammeDDDFactory _I_programmeFactory;
-    private final List<ProgrammeDDD> _programmeRepo;
+    private final IProgrammeFactory _I_programmeFactory;
+    private final List<Programme> _programmeRepo;
     private IProgrammeDDDRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeDDDRepositoryImpl(IProgrammeDDDFactory IProgrammeFactory, IProgrammeDDDRepositoryListFactory programmeLisListFactory) {
+    public ProgrammeDDDRepositoryImpl(IProgrammeFactory IProgrammeFactory, IProgrammeDDDRepositoryListFactory programmeLisListFactory) {
         _I_programmeFactory = IProgrammeFactory;
         _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
         _programmeRepoListFactory = programmeLisListFactory;
@@ -24,7 +22,7 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
 
-        ProgrammeDDD programme_DDD = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        Programme programme_DDD = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
         if (_programmeRepo.contains(programme_DDD))
             return false;
@@ -34,30 +32,30 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
     }
 
     @Override
-    public List<ProgrammeDDD> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) {
-        List <ProgrammeDDD> programmeList = new ArrayList<>();
-        for (ProgrammeDDD programmeDDD : _programmeRepo) {
-            if (programmeDDD.getDegreeTypeID().equals(degreeTypeID))
-                programmeList.add(programmeDDD);
+    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) {
+        List <Programme> programmeList = new ArrayList<>();
+        for (Programme programme : _programmeRepo) {
+            if (programme.getDegreeTypeID().equals(degreeTypeID))
+                programmeList.add(programme);
         }
         return programmeList;
     }
 
     // Change ProgrammeDirector
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
-        Optional<ProgrammeDDD> programmeDDD = ofIdentity(programmeID);
+        Optional<Programme> programmeDDD = ofIdentity(programmeID);
         if (programmeDDD.isPresent()) {
             return programmeDDD.get().newProgrammeDirector(newDirectorID);
         }
         return false;
     }
 
-    public List<ProgrammeDDD> getAllProgrammes() {
+    public List<Programme> getAllProgrammes() {
         return _programmeRepoListFactory.copyProgrammeArrayList(_programmeRepo);
     }
 
-    public Optional<ProgrammeDDD> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
-        for (ProgrammeDDD programme : _programmeRepo) {
+    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
+        for (Programme programme : _programmeRepo) {
             if (programme.hasThisProgrammeName(name)) {
                 return Optional.of(programme);
             }
@@ -65,8 +63,8 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         return Optional.empty();
     }
 
-    public ProgrammeDDD getProgrammeByAcronym(Acronym acronym) {
-        for (ProgrammeDDD programme : _programmeRepo) {
+    public Programme getProgrammeByAcronym(Acronym acronym) {
+        for (Programme programme : _programmeRepo) {
             if (programme.getAcronym().equals(acronym)) {
                 return programme;
             }
@@ -76,28 +74,28 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames() {
         List<NameWithNumbersAndSpecialChars> list = new ArrayList<>();
-        for (ProgrammeDDD programme : _programmeRepo) {
+        for (Programme programme : _programmeRepo) {
             list.add(programme.getProgrammeName());
         }
         return list;
     }
 
     @Override
-    public ProgrammeDDD save(ProgrammeDDD entity) {
+    public Programme save(Programme entity) {
         _programmeRepo.add(entity);
         return entity;
     }
 
     @Override
-    public Iterable<ProgrammeDDD> findAll() {
+    public Iterable<Programme> findAll() {
         return _programmeRepo;
     }
 
     @Override
-    public Optional<ProgrammeDDD> ofIdentity(ProgrammeID id) {
-        for (ProgrammeDDD existingProgrammeDDD : _programmeRepo) {
-            if (existingProgrammeDDD.identity().equals(id)) {
-                return Optional.of(existingProgrammeDDD);
+    public Optional<Programme> ofIdentity(ProgrammeID id) {
+        for (Programme existingProgramme : _programmeRepo) {
+            if (existingProgramme.identity().equals(id)) {
+                return Optional.of(existingProgramme);
             }
         }
         return Optional.empty();
@@ -108,8 +106,8 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
         return ofIdentity(id).isPresent();
     }
 
-    public Optional<ProgrammeID> findProgrammeIdByProgramme (ProgrammeDDD programme) {
-        for (ProgrammeDDD existingProgramme : _programmeRepo) {
+    public Optional<ProgrammeID> findProgrammeIdByProgramme (Programme programme) {
+        for (Programme existingProgramme : _programmeRepo) {
             if (existingProgramme.sameAs(programme)) {
                 return Optional.of(programme.identity());
             }
@@ -119,7 +117,7 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     public List<ProgrammeID> getAllProgrammesIDs() {
         List<ProgrammeID> programmeIDs = new ArrayList<>();
-        for (ProgrammeDDD programme : _programmeRepo) {
+        for (Programme programme : _programmeRepo) {
             programmeIDs.add(programme.getProgrammeID());
         }
         return programmeIDs;
@@ -127,7 +125,7 @@ public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
 
     public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
         List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
-        for (ProgrammeDDD programme : _programmeRepo) {
+        for (Programme programme : _programmeRepo) {
             if(programme.isInDepartment(departmentID)){
                 programmesWithDepartment.add(programme.identity());
             }

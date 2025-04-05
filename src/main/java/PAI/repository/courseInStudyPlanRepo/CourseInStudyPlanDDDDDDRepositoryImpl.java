@@ -1,8 +1,8 @@
 package PAI.repository.courseInStudyPlanRepo;
 
 import PAI.VOs.*;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlanDDD;
-import PAI.domain.courseInStudyPlan.ICourseInStudyPlanDDDFactory;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
+import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +10,19 @@ import java.util.Optional;
 
 public class CourseInStudyPlanDDDDDDRepositoryImpl implements ICourseInStudyPlanDDDRepository {
 
-    private final ICourseInStudyPlanDDDFactory _courseInStudyPlanFactory_2;
-    private final List<CourseInStudyPlanDDD> _coursesInStudyPlanList_2;
+    private final ICourseInStudyPlanFactory _courseInStudyPlanFactory_2;
+    private final List<CourseInStudyPlan> _coursesInStudyPlanList_2;
 
-    public CourseInStudyPlanDDDDDDRepositoryImpl(ICourseInStudyPlanDDDFactory iCourseInStudyPlanDDDFactory_, ICourseInStudyPlanDDDListFactory iCourseInStudyPlanListFactory_2) {
+    public CourseInStudyPlanDDDDDDRepositoryImpl(ICourseInStudyPlanFactory iCourseInStudyPlanFactory_, ICourseInStudyPlanDDDListFactory iCourseInStudyPlanListFactory_2) {
 
-        _courseInStudyPlanFactory_2 = iCourseInStudyPlanDDDFactory_;
+        _courseInStudyPlanFactory_2 = iCourseInStudyPlanFactory_;
         _coursesInStudyPlanList_2 = iCourseInStudyPlanListFactory_2.newArrayList();
 
     }
 
     public boolean createCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID) {
 
-        CourseInStudyPlanDDD courseInStudyPlan_DDD = _courseInStudyPlanFactory_2.newCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        CourseInStudyPlan courseInStudyPlan_DDD = _courseInStudyPlanFactory_2.newCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
 
         if (_coursesInStudyPlanList_2.contains(courseInStudyPlan_DDD))
             return false;
@@ -31,14 +31,14 @@ public class CourseInStudyPlanDDDDDDRepositoryImpl implements ICourseInStudyPlan
         return true;
     }
 
-    public List<CourseInStudyPlanDDD> getAllCourseInStudyPlanList_2() {
+    public List<CourseInStudyPlan> getAllCourseInStudyPlanList_2() {
         return _coursesInStudyPlanList_2;
     }
 
     @Override
-    public List<CourseInStudyPlanDDD> getCoursesInStudyPlanByStudyPlanID(StudyPlanID studyPlanID) {
-        List<CourseInStudyPlanDDD> listOfCoursesInStudyPlan = new ArrayList<>();
-        for (CourseInStudyPlanDDD courseInStudyPlan : _coursesInStudyPlanList_2) {
+    public List<CourseInStudyPlan> getCoursesInStudyPlanByStudyPlanID(StudyPlanID studyPlanID) {
+        List<CourseInStudyPlan> listOfCoursesInStudyPlan = new ArrayList<>();
+        for (CourseInStudyPlan courseInStudyPlan : _coursesInStudyPlanList_2) {
             if (courseInStudyPlan.getStudyplanID().equals(studyPlanID))
                 listOfCoursesInStudyPlan.add(courseInStudyPlan);
         }
@@ -46,21 +46,21 @@ public class CourseInStudyPlanDDDDDDRepositoryImpl implements ICourseInStudyPlan
     }
 
     @Override
-    public CourseInStudyPlanDDD save(CourseInStudyPlanDDD courseInStudyPlanDDD) {
-        _coursesInStudyPlanList_2.add(courseInStudyPlanDDD);
-        return courseInStudyPlanDDD;
+    public CourseInStudyPlan save(CourseInStudyPlan courseInStudyPlan) {
+        _coursesInStudyPlanList_2.add(courseInStudyPlan);
+        return courseInStudyPlan;
     }
 
     @Override
-    public Iterable<CourseInStudyPlanDDD> findAll() {
+    public Iterable<CourseInStudyPlan> findAll() {
         return _coursesInStudyPlanList_2;
     }
 
     @Override
-    public Optional<CourseInStudyPlanDDD> ofIdentity(CourseInStudyPlanID id) {
-        for (CourseInStudyPlanDDD existingCourseInStudyPlanDDD : _coursesInStudyPlanList_2) {
-            if (existingCourseInStudyPlanDDD.identity().equals(id)) {
-                return Optional.of(existingCourseInStudyPlanDDD);
+    public Optional<CourseInStudyPlan> ofIdentity(CourseInStudyPlanID id) {
+        for (CourseInStudyPlan existingCourseInStudyPlan : _coursesInStudyPlanList_2) {
+            if (existingCourseInStudyPlan.identity().equals(id)) {
+                return Optional.of(existingCourseInStudyPlan);
             }
         }
         return Optional.empty();
@@ -68,8 +68,8 @@ public class CourseInStudyPlanDDDDDDRepositoryImpl implements ICourseInStudyPlan
 
     @Override
     public boolean containsOfIdentity(CourseInStudyPlanID id) {
-        for (CourseInStudyPlanDDD existingCourseInStudyPlanDDD : _coursesInStudyPlanList_2) {
-            if (existingCourseInStudyPlanDDD.identity().equals(id)) {
+        for (CourseInStudyPlan existingCourseInStudyPlan : _coursesInStudyPlanList_2) {
+            if (existingCourseInStudyPlan.identity().equals(id)) {
                 return true;
             }
         }

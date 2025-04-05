@@ -4,7 +4,7 @@ import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
-import PAI.domain.programme.ProgrammeDDD;
+import PAI.domain.programme.Programme;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
 import PAI.repository.programmeRepo.IProgrammeDDDRepository;
@@ -39,8 +39,8 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName){
 
-        Optional<ProgrammeDDD> programmeOpt = _programmeRepository.getProgrammeByName(programmeName);
-        ProgrammeDDD programme = programmeOpt.orElse(null);
+        Optional<Programme> programmeOpt = _programmeRepository.getProgrammeByName(programmeName);
+        Programme programme = programmeOpt.orElse(null);
 
         ProgrammeID pID;
         if (programme == null)
