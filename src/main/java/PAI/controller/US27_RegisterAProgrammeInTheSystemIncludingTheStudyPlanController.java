@@ -2,18 +2,18 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.studyPlanRepository.IStudyPlanRepository;
 
 import java.util.Optional;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
 
-    IProgrammeDDDRepository _programmeDDDList;
-    IStudyPlanDDDRepository _studyPlanDDDRepo;
+    IProgrammeRepository _programmeDDDList;
+    IStudyPlanRepository _studyPlanDDDRepo;
 
-    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeDDDRepository programmeDDDList, IStudyPlanDDDRepository studyPlanDDDRepo) throws Exception {
+    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeRepository programmeDDDList, IStudyPlanRepository studyPlanDDDRepo) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");

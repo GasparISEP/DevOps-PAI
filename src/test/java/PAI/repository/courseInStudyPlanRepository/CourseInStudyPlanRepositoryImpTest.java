@@ -19,7 +19,7 @@ class CourseInStudyPlanRepositoryImpTest {
     void testCreateCourseInStudyPlanAddsNewCourse() throws Exception {
         // Arrange
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
@@ -33,7 +33,7 @@ class CourseInStudyPlanRepositoryImpTest {
         when(factory.newCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID))
                 .thenAnswer(invocation -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID));
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         boolean createdFirst = repository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
@@ -49,7 +49,7 @@ class CourseInStudyPlanRepositoryImpTest {
     public void testGetAllCourseInStudyPlanListReturnsAllCourses() throws Exception {
         // Arrange: criar mocks para as dependências
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
@@ -64,7 +64,7 @@ class CourseInStudyPlanRepositoryImpTest {
         when(factory.newCourseInStudyPlan_2(semester, curricularYear, courseID2, studyPlanID))
                 .thenAnswer(invocation -> new CourseInStudyPlan(semester, curricularYear, courseID2, studyPlanID));
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         boolean created1 = repository.createCourseInStudyPlan_2(semester, curricularYear, courseID1, studyPlanID);
@@ -81,7 +81,7 @@ class CourseInStudyPlanRepositoryImpTest {
     void testFindCourseInStudyPlanByIDFound() throws Exception {
         // Arrange
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
@@ -93,7 +93,7 @@ class CourseInStudyPlanRepositoryImpTest {
         when(factory.newCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID))
                 .thenAnswer(invocation -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID));
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         repository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
@@ -113,11 +113,11 @@ class CourseInStudyPlanRepositoryImpTest {
     void testFindCourseInStudyPlanByIDNotFound() throws Exception {
         // Arrange
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -139,11 +139,11 @@ class CourseInStudyPlanRepositoryImpTest {
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         when(courseInStudyPlan.identity()).thenReturn(courseInStudyPlanID);
 
         CourseInStudyPlan saved = repository.save(courseInStudyPlan);
@@ -160,11 +160,11 @@ class CourseInStudyPlanRepositoryImpTest {
         CourseInStudyPlan courseInStudyPlan2 = mock(CourseInStudyPlan.class);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         repository.save(courseInStudyPlan1);
         repository.save(courseInStudyPlan2);
@@ -185,11 +185,11 @@ class CourseInStudyPlanRepositoryImpTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
         when(courseInStudyPlan.identity()).thenReturn(id);
 
@@ -210,11 +210,11 @@ class CourseInStudyPlanRepositoryImpTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
 
         //act
@@ -232,11 +232,11 @@ class CourseInStudyPlanRepositoryImpTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
         when(courseInStudyPlan.identity()).thenReturn(id);
 
@@ -253,11 +253,11 @@ class CourseInStudyPlanRepositoryImpTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
 
         //act + assert
@@ -268,14 +268,14 @@ class CourseInStudyPlanRepositoryImpTest {
     void shouldReturnsListOfCourseInStudyPlanWithStudyPlanID() {
         // Arrange
         ICourseInStudyPlanFactory courseInStudyPlanFactoryDouble = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactoryDouble = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactoryDouble = mock(ICourseInStudyPlanListFactory.class);
         StudyPlanID studyPlanIDDouble = mock(StudyPlanID.class);
         StudyPlanID otherStudyPlanIDDouble = mock(StudyPlanID.class);
 
         List<CourseInStudyPlan> listOfCoursesInStudyPlan = new ArrayList<>();
         when(listFactoryDouble.newArrayList()).thenReturn(listOfCoursesInStudyPlan);
 
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(
                 courseInStudyPlanFactoryDouble, listFactoryDouble);
 
         CourseInStudyPlan course1Double = mock(CourseInStudyPlan.class);
@@ -304,7 +304,7 @@ class CourseInStudyPlanRepositoryImpTest {
     void testGetCoursesInStudyPlanByStudyPlanIDMultipleMatches() {
         // Arrange: criar a fábrica e a lista simulada
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
@@ -321,7 +321,7 @@ class CourseInStudyPlanRepositoryImpTest {
         when(cip3.getStudyplanID()).thenReturn(studyPlanIDDiferente);
 
         // Criar o repositório e adicionar os objectos
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         repository.save(cip1);
         repository.save(cip3);
         repository.save(cip2);
@@ -340,7 +340,7 @@ class CourseInStudyPlanRepositoryImpTest {
     void testOfIdentityReturnsCorrectCourseInStudyPlanWhenMatchIsNotFirst() {
         // Arrange: criar a fábrica e a lista simulada
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
@@ -358,7 +358,7 @@ class CourseInStudyPlanRepositoryImpTest {
         when(cip3.identity()).thenReturn(id3);
 
         // Adicionar os objectos ao repositório na ordem: cip1, cip2, cip3
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         repository.save(cip1);
         repository.save(cip2);
         repository.save(cip3);
@@ -375,7 +375,7 @@ class CourseInStudyPlanRepositoryImpTest {
     void testContainsOfIdentityIteratesThroughAllItems() {
         // Arrange: criar a fábrica e a lista simulada
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
         List<CourseInStudyPlan> courseList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(courseList);
 
@@ -390,7 +390,7 @@ class CourseInStudyPlanRepositoryImpTest {
         when(cip2.identity()).thenReturn(id2);
 
         // Criar o repositório e adicionar os objectos
-        CourseInStudyPlanDDDDDDRepositoryImpl repository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        CourseInStudyPlanRepositoryImpl repository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
         repository.save(cip1);
         repository.save(cip2);
 

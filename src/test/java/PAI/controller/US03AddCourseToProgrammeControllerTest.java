@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.course.CourseFactoryImpl;
-import PAI.domain.course.ICourseFactoryDDD;
+import PAI.domain.course.ICourseFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.programme.Programme;
@@ -11,22 +11,22 @@ import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
-import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanDDDDDDRepositoryImpl;
-import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanDDDListFactoryImpl;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanDDDListFactory;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanDDDRepository;
+import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanRepositoryImpl;
+import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanListFactoryImpl;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanListFactory;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import PAI.repository.courseRepository.CourseRepositoryImpl;
 import PAI.repository.courseRepository.CourseRepositoryListFactoryImpl;
 import PAI.repository.courseRepository.ICourseRepository;
 import PAI.repository.courseRepository.ICourseRepositoryListFactory;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
-import PAI.repository.studyPlanRepository.IStudyPlanDDDListFactory;
-import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
-import PAI.repository.studyPlanRepository.StudyPlanDDDListFactoryImpl;
-import PAI.repository.studyPlanRepository.StudyPlanDDDRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
+import PAI.repository.studyPlanRepository.IStudyPlanListFactory;
+import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.repository.studyPlanRepository.StudyPlanListFactoryImpl;
+import PAI.repository.studyPlanRepository.StudyPlanRepositoryImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,18 +41,18 @@ public class US03AddCourseToProgrammeControllerTest {
 
     private static final Log log = LogFactory.getLog(US03AddCourseToProgrammeControllerTest.class);
     private US03_AddCourseToProgrammeController us03AddCourseToProgrammeController;
-    private IProgrammeDDDRepository iProgrammeDDDRepository;
+    private IProgrammeRepository iProgrammeRepository;
     private ICourseRepository iCourseRepository;
-    private IStudyPlanDDDRepository iStudyPlanDDDRepository;
-    private ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository;
+    private IStudyPlanRepository iStudyPlanRepository;
+    private ICourseInStudyPlanRepository iCourseInStudyPlanRepository;
 
     @BeforeEach
     void setUp() throws Exception {
-        iProgrammeDDDRepository = mock(IProgrammeDDDRepository.class);
+        iProgrammeRepository = mock(IProgrammeRepository.class);
         iCourseRepository = mock(ICourseRepository.class);
-        iStudyPlanDDDRepository = mock(IStudyPlanDDDRepository.class);
-        iCourseInStudyPlanDDDRepository = mock(ICourseInStudyPlanDDDRepository.class);
-        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+        iStudyPlanRepository = mock(IStudyPlanRepository.class);
+        iCourseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         when(course.identity()).thenReturn(courseID);
         when(studyPlan.identity()).thenReturn(studyPlanID);
-        when(iCourseInStudyPlanDDDRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(false);
+        when(iCourseInStudyPlanRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(false);
 
         // act
         boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
@@ -87,7 +87,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         when(course.identity()).thenReturn(courseID);
         when(studyPlan.identity()).thenReturn(studyPlanID);
-        when(iCourseInStudyPlanDDDRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(true);
+        when(iCourseInStudyPlanRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(true);
         //act
         boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
         //assert
@@ -99,7 +99,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         });
     }
 
@@ -108,7 +108,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository,null, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository,null, iStudyPlanRepository, iCourseInStudyPlanRepository);
         });
     }
 
@@ -117,7 +117,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, null, iCourseInStudyPlanDDDRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, null, iCourseInStudyPlanRepository);
         });
     }
 
@@ -126,7 +126,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, null);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, null);
         });
     }
 
@@ -136,7 +136,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         List<Programme> programmeList = mock(List.class);
 
-        when(iProgrammeDDDRepository.findAll()).thenReturn(programmeList);
+        when(iProgrammeRepository.findAll()).thenReturn(programmeList);
 
         // act
         Iterable<Programme> result = us03AddCourseToProgrammeController.getAllProgrammes();
@@ -161,7 +161,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
         List<StudyPlan> studyPlanList = mock(List.class);
-        when(iStudyPlanDDDRepository.getAllStudyPlansByProgrammeId(programmeID)).thenReturn(studyPlanList);
+        when(iStudyPlanRepository.getAllStudyPlansByProgrammeId(programmeID)).thenReturn(studyPlanList);
         // act
         Iterable<StudyPlan> result = us03AddCourseToProgrammeController.getAllStudyPlansByProgrammeId(programmeID);
         // assert
@@ -225,19 +225,19 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldThrowExceptionIfCourseRepositoryNull() throws Exception {
         // arrange
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, null, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, null, iStudyPlanRepository, iCourseInStudyPlanRepository);
         });
     }
 
@@ -245,19 +245,19 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldThrowExceptionIfProgrammeRepositoryNull() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         });
     }
 
@@ -265,19 +265,19 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldThrowExceptionIfStudyPlanRepositoryNull() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, null, iCourseInStudyPlanDDDRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, null, iCourseInStudyPlanRepository);
         });
     }
 
@@ -285,19 +285,19 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldThrowExceptionIfCourseInStudyPlanRepositoryNull() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, null);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, null);
         });
     }
 
@@ -305,23 +305,23 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldCreateAddCourseToProgrammeController() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
         //act
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         //assert
         assertNotNull(US03AddCourseToProgrammeController);
     }
@@ -331,20 +331,20 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldAddCourseToProgramme_IntegrationTest() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
@@ -364,7 +364,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         //act
         boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
         // assert
@@ -375,20 +375,20 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldNotAddCourseToProgrammeIfCourseInStudyPlanAlreadyExists_IntegrationTest() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
@@ -408,7 +408,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
         //act
         boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
@@ -420,20 +420,20 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldNotThrowExceptionIfCourseIsNull_IntegrationTest() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
         Semester semester = new Semester(2);
         CurricularYear curricularYear = new CurricularYear(2, 3);
@@ -447,7 +447,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, null, studyPlan);
@@ -458,20 +458,20 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldThrowExceptionIfStudyPlanIsNull_IntegrationTest() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
@@ -483,7 +483,7 @@ public class US03AddCourseToProgrammeControllerTest {
         CurricularYear curricularYear = new CurricularYear(2, 3);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, null);
@@ -494,20 +494,20 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldThrowExceptionIfCurricularYearIsNull_IntegrationTest() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
@@ -526,7 +526,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(semester, null, course, studyPlan);
@@ -537,20 +537,20 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldThrowExceptionIfSemesterIsNull_IntegrationTest() throws Exception {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
-        ICourseFactoryDDD iCourseFactoryDDD = new CourseFactoryImpl();
-        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactoryDDD, iCourseRepositoryListFactory);
+        ICourseFactory iCourseFactory = new CourseFactoryImpl();
+        ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
         ProgrammeFactoryImpl programmeDDDFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(programmeDDDFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
         ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanDDDListFactory = new CourseInStudyPlanDDDListFactoryImpl();
-        ICourseInStudyPlanDDDRepository iCourseInStudyPlanDDDRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanDDDListFactory);
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
@@ -569,7 +569,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeDDDRepository, iCourseRepository, iStudyPlanDDDRepository, iCourseInStudyPlanDDDRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(null, curricularYear, course, studyPlan);

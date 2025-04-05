@@ -1,6 +1,6 @@
 package PAI.repository.DegreeTypeRepository;
 
-import PAI.domain.DegreeTypeDDD.DegreeType;
+import PAI.domain.DegreeType.DegreeType;
 
 import java.util.ArrayList;
 import java.util.List;

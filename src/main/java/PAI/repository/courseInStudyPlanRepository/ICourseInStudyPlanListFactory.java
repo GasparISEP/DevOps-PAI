@@ -4,7 +4,7 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 
 import java.util.List;
 
-public interface ICourseInStudyPlanDDDListFactory {
+public interface ICourseInStudyPlanListFactory {
 
     List<CourseInStudyPlan> newArrayList();
 }

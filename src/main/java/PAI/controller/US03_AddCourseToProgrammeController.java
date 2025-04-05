@@ -4,24 +4,24 @@ import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.programme.Programme;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanDDDRepository;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import PAI.repository.courseRepository.ICourseRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.studyPlanRepository.IStudyPlanRepository;
 
 
 public class US03_AddCourseToProgrammeController {
 
-    private final IProgrammeDDDRepository iProgrammeDDDRepository;
+    private final IProgrammeRepository iProgrammeRepository;
     private final ICourseRepository iCourseRepository;
-    private final IStudyPlanDDDRepository iStudyPlanRepository;
-    private final ICourseInStudyPlanDDDRepository iCourseInStudyPlanRepository;
+    private final IStudyPlanRepository iStudyPlanRepository;
+    private final ICourseInStudyPlanRepository iCourseInStudyPlanRepository;
 
 
-    public US03_AddCourseToProgrammeController(IProgrammeDDDRepository iProgrammeDDDRepository,
-                                               ICourseRepository iCourseRepository, IStudyPlanDDDRepository iStudyPlanRepository,
-                                               ICourseInStudyPlanDDDRepository iCourseInStudyPlanRepository) throws Exception {
-        if(iProgrammeDDDRepository == null) {
+    public US03_AddCourseToProgrammeController(IProgrammeRepository iProgrammeRepository,
+                                               ICourseRepository iCourseRepository, IStudyPlanRepository iStudyPlanRepository,
+                                               ICourseInStudyPlanRepository iCourseInStudyPlanRepository) throws Exception {
+        if(iProgrammeRepository == null) {
             throw new IllegalArgumentException("ProgrammeList cannot be null.");
         }
         if (iCourseRepository == null) {
@@ -33,14 +33,14 @@ public class US03_AddCourseToProgrammeController {
         if(iCourseInStudyPlanRepository == null) {
             throw new IllegalArgumentException("CourseInStudyPlanRepository cannot be null.");
         }
-        this.iProgrammeDDDRepository = iProgrammeDDDRepository;
+        this.iProgrammeRepository = iProgrammeRepository;
         this.iCourseRepository = iCourseRepository;
         this.iStudyPlanRepository = iStudyPlanRepository;
         this.iCourseInStudyPlanRepository = iCourseInStudyPlanRepository;
     }
 
     public Iterable<Programme> getAllProgrammes() {
-        return iProgrammeDDDRepository.findAll();
+        return iProgrammeRepository.findAll();
     }
 
     public Iterable<Course> getAllCourses() {

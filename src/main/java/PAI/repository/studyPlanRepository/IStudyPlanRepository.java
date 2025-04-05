@@ -6,7 +6,7 @@ import PAI.domain.studyPlan.StudyPlan;
 
 import java.util.List;
 
-public interface IStudyPlanDDDRepository extends IRepository<StudyPlanID, StudyPlan> {
+public interface IStudyPlanRepository extends IRepository<StudyPlanID, StudyPlan> {
 
     boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts);
     List<StudyPlan> getAllStudyPlansByProgrammeId(ProgrammeID programmeID);

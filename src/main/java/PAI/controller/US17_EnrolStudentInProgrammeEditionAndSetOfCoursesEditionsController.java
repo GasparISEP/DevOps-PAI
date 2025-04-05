@@ -2,8 +2,8 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +11,8 @@ import java.util.Optional;
 public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
 
     private IProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
-    private IProgrammeEditionRepositoryDDD _programmeEditionRepository;
-    private IProgrammeDDDRepository _programmeList;
+    private IProgrammeEditionRepository _programmeEditionRepository;
+    private IProgrammeRepository _programmeList;
     private ICourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
     private ICourseEditionRepository _courseEditionRepository;
     private ISchoolYearRepository _schoolYearRepository;
@@ -20,8 +20,8 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
 
     public US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
             IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
-            IProgrammeEditionRepositoryDDD programmeEditionRepository,
-            IProgrammeDDDRepository programmeRepository,
+            IProgrammeEditionRepository programmeEditionRepository,
+            IProgrammeRepository programmeRepository,
             ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository,
             ICourseEditionRepository courseEditionRepository,
             ISchoolYearRepository schoolYearRepository,

@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class StudyPlanDDDRepositoryImpl implements IStudyPlanDDDRepository {
+public class StudyPlanRepositoryImpl implements IStudyPlanRepository {
 
     private final IStudyPlanFactory _studyPlanFactory_2;
     private final List<StudyPlan> _studyPlanList_2;
 
-    public StudyPlanDDDRepositoryImpl(IStudyPlanFactory iStudyPlanFactory_DDD, IStudyPlanDDDListFactory iStudyPlanDDDListFactory) {
+    public StudyPlanRepositoryImpl(IStudyPlanFactory iStudyPlanFactory_DDD, IStudyPlanListFactory iStudyPlanListFactory) {
 
         _studyPlanFactory_2 = iStudyPlanFactory_DDD;
-        _studyPlanList_2 = iStudyPlanDDDListFactory.newArrayList();
+        _studyPlanList_2 = iStudyPlanListFactory.newArrayList();
 
     }
 

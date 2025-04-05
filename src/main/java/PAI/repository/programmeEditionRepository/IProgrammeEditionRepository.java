@@ -9,7 +9,7 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import java.util.List;
 import java.util.Optional;
 
-public interface IProgrammeEditionRepositoryDDD extends IRepository<ProgrammeEditionID, ProgrammeEdition> {
+public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditionID, ProgrammeEdition> {
 
     public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid);
 

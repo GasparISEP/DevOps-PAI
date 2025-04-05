@@ -2,17 +2,17 @@ package PAI.repository.DegreeTypeRepository;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.domain.DegreeTypeDDD.DegreeType;
-import PAI.domain.DegreeTypeDDD.IDegreeTypeFactoryInterface;
+import PAI.domain.DegreeType.DegreeType;
+import PAI.domain.DegreeType.IDegreeTypeFactory;
 
 import java.util.List;
 import java.util.Objects;
 
-public class DegreeTypeRepository implements IDegreeTypeRepository {
-    private final IDegreeTypeFactoryInterface degreeTypeFactory;
+public class DegreeTypeRepositoryImpl implements IDegreeTypeRepository {
+    private final IDegreeTypeFactory degreeTypeFactory;
     private final List<DegreeType> degreeTypeRepository;
 
-    public DegreeTypeRepository(IDegreeTypeFactoryInterface degreeTypeFactory, IDegreeTypeListFactory degreeTypeListFactory) {
+    public DegreeTypeRepositoryImpl(IDegreeTypeFactory degreeTypeFactory, IDegreeTypeListFactory degreeTypeListFactory) {
         this.degreeTypeFactory = Objects.requireNonNull(degreeTypeFactory, "Factory cannot be null");
         this.degreeTypeRepository = Objects.requireNonNull(degreeTypeListFactory, "Factory cannot be null").createDegreeType_2List();
     }

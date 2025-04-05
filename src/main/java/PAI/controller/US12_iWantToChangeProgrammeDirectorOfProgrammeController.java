@@ -7,16 +7,16 @@ import PAI.VOs.TeacherID;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.repository.ITeacherRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 
 import java.util.Optional;
 
 
 public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
-    IProgrammeDDDRepository _programmeRepo;
+    IProgrammeRepository _programmeRepo;
     ITeacherRepository _teacherRepo;
 
-    public US12_iWantToChangeProgrammeDirectorOfProgrammeController(IProgrammeDDDRepository programmeList, ITeacherRepository teacherRepo) throws Exception{
+    public US12_iWantToChangeProgrammeDirectorOfProgrammeController(IProgrammeRepository programmeList, ITeacherRepository teacherRepo) throws Exception{
         if (programmeList == null ) throw new Exception("List cannot be null");
         _programmeRepo = programmeList;
         _teacherRepo = teacherRepo;

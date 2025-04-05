@@ -10,14 +10,14 @@ import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
 import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionDDDListFactory;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionDDDListFactoryImpl;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryDDDImpl;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -37,8 +37,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -89,8 +89,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
         StudentID doubleStudentId = mock(StudentID.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -122,8 +122,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
         StudentID doubleStudentId = mock(StudentID.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -158,8 +158,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -193,8 +193,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -249,8 +249,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllProgrammes() {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -281,8 +281,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllProgrammes_SizeEqualsTwo()  {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -313,8 +313,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllProgrammes_ContainsAllProgrammes() {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -347,8 +347,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllSchoolYears_NotNull() {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -379,8 +379,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllSchoolYears_SizeEqualsTwo()  {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -411,8 +411,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllSchoolYears_ContainsAllSchoolYears()  {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -443,8 +443,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void shouldReturnExceptionIfProgrammeEditionEnrollmentRepoIsNull() {
         //arrange
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -463,7 +463,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void shouldReturnExceptionIfProgrammeEditionRepositoryIsNull() {
         //arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -483,7 +483,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void shouldReturnExceptionIfProgrammeListIsNull() {
         //arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -503,8 +503,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void shouldReturnExceptionIfCourseEditionEnrollmentRepositoryIsNull() {
         //arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
@@ -523,8 +523,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void shouldReturnExceptionIfCourseEditionRepositoryIsNull() {
         //arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
@@ -543,8 +543,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void shouldReturnExceptionIfSchoolYearRepositoryIsNull() {
         //arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
@@ -563,8 +563,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void shouldReturnExceptionIfEnrolmentRepositoryIsNull() {
         //arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = mock(IProgrammeEditionRepositoryDDD.class);
-        IProgrammeDDDRepository doubleProgrammeList = mock(IProgrammeDDDRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
@@ -585,15 +585,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success_IntegrationTest() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionRepositoryDDDImpl doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        ProgrammeEditionRepositoryImpl doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -668,15 +668,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme_IntegrationTest() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -720,15 +720,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound_IntegrationTests() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -776,15 +776,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition_IntegrationTest() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        ProgrammeDDDRepositoryImpl programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        ProgrammeRepositoryImpl programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -839,15 +839,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition_IntegrationTest() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -917,15 +917,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testGetAllProgrammes_NotNull_IntegrationTest() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -974,15 +974,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -1032,15 +1032,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testGetAllSchoolYears_NotNullList_IntegrationTest() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -1085,15 +1085,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllSchoolYears_ListSize_IntegrationTest() throws Exception {
 
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);

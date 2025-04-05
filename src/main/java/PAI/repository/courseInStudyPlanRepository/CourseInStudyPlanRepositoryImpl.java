@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CourseInStudyPlanDDDDDDRepositoryImpl implements ICourseInStudyPlanDDDRepository {
+public class CourseInStudyPlanRepositoryImpl implements ICourseInStudyPlanRepository {
 
     private final ICourseInStudyPlanFactory _courseInStudyPlanFactory_2;
     private final List<CourseInStudyPlan> _coursesInStudyPlanList_2;
 
-    public CourseInStudyPlanDDDDDDRepositoryImpl(ICourseInStudyPlanFactory iCourseInStudyPlanFactory_, ICourseInStudyPlanDDDListFactory iCourseInStudyPlanListFactory_2) {
+    public CourseInStudyPlanRepositoryImpl(ICourseInStudyPlanFactory iCourseInStudyPlanFactory_, ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory_2) {
 
         _courseInStudyPlanFactory_2 = iCourseInStudyPlanFactory_;
         _coursesInStudyPlanList_2 = iCourseInStudyPlanListFactory_2.newArrayList();

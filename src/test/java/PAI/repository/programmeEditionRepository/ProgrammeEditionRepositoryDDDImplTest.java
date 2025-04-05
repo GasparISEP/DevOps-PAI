@@ -24,11 +24,11 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldCreateProgrammeEditionRepository() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
 
         // Act
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         // Assert
         assertNotNull(pER);
@@ -37,11 +37,11 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionListFactoryIsNull() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = null;
+        IProgrammeEditionListFactory programmeEditionListFactory = null;
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory));
+        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory));
 
         // Assert
         assertEquals("Programme Edition ListFactory cannot be null", exception.getMessage());
@@ -50,11 +50,11 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionFactoryIsNull() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         IProgrammeEditionFactory programmeEditionFactory = null;
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory));
+        Exception exception = assertThrows(Exception.class, () -> new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory));
 
         // Assert
         assertEquals("Programme Edition Factory cannot be null", exception.getMessage());
@@ -65,9 +65,9 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnTrueWhenCreatingAProgrammeEditionThatDoesNotExistInTheRepository() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeID pID = mock(ProgrammeID.class);
         SchoolYearID sYID = mock(SchoolYearID.class);
@@ -82,9 +82,9 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnFalseWhenCreatingAProgrammeEditionWithANullProgrammeID() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeID pID = null;
         SchoolYearID sYID = mock(SchoolYearID.class);
@@ -100,9 +100,9 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnFalseWhenCreatingAProgrammeEditionWithANullSchoolYear() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeID pID = mock(ProgrammeID.class);
         SchoolYearID sYID = null;
@@ -118,9 +118,9 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnFalseWhenCreatingAProgrammeEditionThatAlreadyExistsInTheRepository() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeID pID = mock(ProgrammeID.class);
         SchoolYearID sYID = mock(SchoolYearID.class);
@@ -140,14 +140,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnOptionalProgrammeEditionIDWhenFindProgrammeEditionByProgrammeIDAndSchoolYearID() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         SchoolYearID sYID  = mock(SchoolYearID.class);
         ProgrammeID pID = mock(ProgrammeID.class);
@@ -175,14 +175,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnEmptyOptionalProgrammeEditionIDWhenThereIsNoProgrammeEditionWithProgrammeIDAndSchoolYearIDGiven() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         SchoolYearID sYID  = mock(SchoolYearID.class);
         ProgrammeID pID = mock(ProgrammeID.class);
@@ -207,14 +207,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnEmptyOptionalProgrammeEditionIDWhenThereIsNoProgrammeEditionWithSchoolYearIDGiven() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         SchoolYearID sYID  = mock(SchoolYearID.class);
         ProgrammeID pID = mock(ProgrammeID.class);
@@ -239,14 +239,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnEmptyOptionalProgrammeEditionIDWhenThereIsNoProgrammeEditionWithProgrammeIDGiven() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         SchoolYearID sYID  = mock(SchoolYearID.class);
         ProgrammeID pID = mock(ProgrammeID.class);
@@ -273,13 +273,13 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnProgrammeEditionWhenSave () throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE = mock(ProgrammeEdition.class);
         Set<ProgrammeEdition> programmeEditions= mock(Set.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn(programmeEditions);
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         // Act
         ProgrammeEdition pEToBeSaved = pER.save(pE);
@@ -292,13 +292,13 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionIsNull () throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE = null;
         Set<ProgrammeEdition> programmeEditions= mock(Set.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn(programmeEditions);
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         // Act
         Exception exception = assertThrows(Exception.class, () -> pER.save(pE));
@@ -312,14 +312,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnIterableWithProgrammeEditionsContainedInTheRepository() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         // Act
         Iterable<ProgrammeEdition> pERCheck = pER.findAll();
@@ -334,11 +334,11 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnEmptyIterableIfRepositoryIsEmpty() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of()));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         // Act
         Iterable<ProgrammeEdition> pERCheck = pER.findAll();
@@ -354,14 +354,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnOptionalWithProgrammeEditionThatContainsTheID() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
 
@@ -381,14 +381,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnEmptyOptionalIfThereIsNoProgrammeEditionWithTheID() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
 
@@ -407,14 +407,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnFalseWhenRepositoryDoesNotContainAProgrammeEditionWithGivenID() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
 
@@ -432,14 +432,14 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnTrueWhenRepositoryContainsAProgrammeEditionWithGivenID() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionListFactory = mock(ProgrammeEditionDDDListFactoryImpl.class);
+        IProgrammeEditionListFactory programmeEditionListFactory = mock(ProgrammeEditionListFactoryImpl.class);
         ProgrammeEdition pE1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE2 = mock(ProgrammeEdition.class);
         ProgrammeEdition pE3 = mock(ProgrammeEdition.class);
         when(programmeEditionListFactory.createProgrammeEditionList()).thenReturn((Set.of(pE1, pE2, pE3)));
 
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        ProgrammeEditionRepositoryDDDImpl pER = new ProgrammeEditionRepositoryDDDImpl(programmeEditionListFactory, programmeEditionFactory);
+        ProgrammeEditionRepositoryImpl pER = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory, programmeEditionFactory);
 
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
 
@@ -457,7 +457,7 @@ class ProgrammeEditionRepositoryDDDImplTest {
     @Test
     void shouldReturnListOfProgrammeEditionsByProgrammeID() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory listFactoryDouble = mock(IProgrammeEditionDDDListFactory.class);
+        IProgrammeEditionListFactory listFactoryDouble = mock(IProgrammeEditionListFactory.class);
         IProgrammeEditionFactory programmeEditionFactoryDouble = mock(IProgrammeEditionFactory.class);
 
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
@@ -478,7 +478,7 @@ class ProgrammeEditionRepositoryDDDImplTest {
 
         when(listFactoryDouble.createProgrammeEditionList()).thenReturn(internalSet);
 
-        ProgrammeEditionRepositoryDDDImpl repository = new ProgrammeEditionRepositoryDDDImpl(listFactoryDouble, programmeEditionFactoryDouble);
+        ProgrammeEditionRepositoryImpl repository = new ProgrammeEditionRepositoryImpl(listFactoryDouble, programmeEditionFactoryDouble);
 
         // Act
         List<ProgrammeEdition> result = repository.getProgrammeEditionsByProgrammeID(programmeIDDouble);

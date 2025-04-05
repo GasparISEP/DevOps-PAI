@@ -4,7 +4,7 @@ import PAI.domain.programme.Programme;
 
 import java.util.List;
 
-public interface IProgrammeDDDRepositoryListFactory {
+public interface IProgrammeRepositoryListFactory {
     List<Programme> newProgrammeArrayList();
     List<Programme> copyProgrammeArrayList(List<Programme> list);
 }

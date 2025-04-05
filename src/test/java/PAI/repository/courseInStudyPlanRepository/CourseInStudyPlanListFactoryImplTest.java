@@ -15,7 +15,7 @@ class CourseInStudyPlanListFactoryImplTest {
     @Test
     void shouldCreateArrayListWhenConstructorIsCalled() {
         //arrange
-        ICourseInStudyPlanDDDListFactory iCourseInStudyPlanListFactory_2 = new CourseInStudyPlanDDDListFactoryImpl();
+        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory_2 = new CourseInStudyPlanListFactoryImpl();
 
         //act
         List<CourseInStudyPlan> courseInStudyPlanList_2 = iCourseInStudyPlanListFactory_2.newArrayList();

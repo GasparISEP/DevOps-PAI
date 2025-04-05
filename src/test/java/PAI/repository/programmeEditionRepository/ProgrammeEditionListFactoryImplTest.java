@@ -13,7 +13,7 @@ class ProgrammeEditionListFactoryImplTest {
     void shouldCreateAccessMethodListFactory(){
         // Arrange
 
-        IProgrammeEditionDDDListFactory programmeEditionDDDListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
 
         // Act
         Set<ProgrammeEdition> programmeEditions = programmeEditionDDDListFactory.createProgrammeEditionList();

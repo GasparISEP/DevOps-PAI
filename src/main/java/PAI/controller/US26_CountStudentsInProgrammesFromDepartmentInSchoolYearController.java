@@ -5,7 +5,7 @@ import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.repository.*;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 
 import java.util.List;
 import java.util.Set;
@@ -14,14 +14,14 @@ public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController 
     private final IProgrammeEditionEnrolmentRepository _PEERepo;
     private final ISchoolYearRepository _schoolYearRepository;
     private final IDepartmentRepository _departmentRepository;
-    private final IProgrammeDDDRepository _programmeRepository;
+    private final IProgrammeRepository _programmeRepository;
 
 
     public US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(
             IProgrammeEditionEnrolmentRepository PEERepo,
             ISchoolYearRepository schoolYearRepository,
             IDepartmentRepository departmentRepository,
-            IProgrammeDDDRepository programmeRepository
+            IProgrammeRepository programmeRepository
     ) {
         if (PEERepo == null || schoolYearRepository == null || departmentRepository == null || programmeRepository == null){
             throw new IllegalArgumentException("Repositories cannot be null.");

@@ -11,10 +11,10 @@ import PAI.factory.TeacherFactoryImpl;
 import PAI.factory.TeacherListFactoryImpl;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 
@@ -28,7 +28,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldCreateController() throws Exception{
         //arrange
-        IProgrammeDDDRepository programmeRepo = mock(IProgrammeDDDRepository.class);
+        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeRepo, teacherRepo);
         //assert
@@ -44,7 +44,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldReturnTrueWhenDirectorIsChanged() throws Exception{
         //arrange
-        IProgrammeDDDRepository programmeList = mock(IProgrammeDDDRepository.class);
+        IProgrammeRepository programmeList = mock(IProgrammeRepository.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList, teacherRepo);
         Teacher teacher = mock(Teacher.class);
@@ -96,17 +96,17 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
 
         Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
         IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         ITeacherFactory iTeacherFactory = new TeacherFactoryImpl();
         ITeacherListFactory iTeacherListFactory = new TeacherListFactoryImpl();
 
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeFactory,iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);
         ITeacherRepository iTeacherRepository = new TeacherRepository(iTeacherFactory,iTeacherListFactory);
 
-        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(iProgrammeDDDRepository,iTeacherRepository);
+        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(iProgrammeRepository,iTeacherRepository);
         iTeacherRepository.registerTeacher(teacherAcronym2,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,departmentID);
 
-        iProgrammeDDDRepository.registerProgramme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
+        iProgrammeRepository.registerProgramme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
 
 
         //act

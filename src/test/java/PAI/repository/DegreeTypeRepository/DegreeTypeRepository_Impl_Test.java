@@ -7,19 +7,19 @@ import static org.mockito.Mockito.when;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.domain.DegreeTypeDDD.DegreeType;
-import PAI.domain.DegreeTypeDDD.IDegreeTypeFactoryInterface;
+import PAI.domain.DegreeType.DegreeType;
+import PAI.domain.DegreeType.IDegreeTypeFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class DegreeTypeRepository_Test {
+class DegreeTypeRepository_Impl_Test {
 
-    private IDegreeTypeFactoryInterface degreeTypeFactoryMock;
+    private IDegreeTypeFactory degreeTypeFactoryMock;
     private IDegreeTypeListFactory degreeTypeListFactoryMock;
-    private DegreeTypeRepository degreeTypeRepository;
+    private DegreeTypeRepositoryImpl degreeTypeRepositoryImpl;
     private DegreeTypeID degreeTypeID;
     private Name name;
     private MaxEcts maxEcts;
@@ -27,14 +27,14 @@ class DegreeTypeRepository_Test {
 
     @BeforeEach
     void setUp() {
-        degreeTypeFactoryMock = mock(IDegreeTypeFactoryInterface.class);
+        degreeTypeFactoryMock = mock(IDegreeTypeFactory.class);
         degreeTypeListFactoryMock = mock(IDegreeTypeListFactory.class);
         degreeTypeMock = mock(DegreeType.class);
 
         List<DegreeType> degreeTypeList = new ArrayList<>();
         when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
 
-        degreeTypeRepository = new DegreeTypeRepository(degreeTypeFactoryMock, degreeTypeListFactoryMock);
+        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
 
         degreeTypeID = mock(DegreeTypeID.class);
         name = mock(Name.class);
@@ -44,12 +44,12 @@ class DegreeTypeRepository_Test {
     @Test
     void testConstructor_NullFactory_ShouldThrowException() {
         Exception exception1 = assertThrows(NullPointerException.class, () ->
-                new DegreeTypeRepository(null, degreeTypeListFactoryMock)
+                new DegreeTypeRepositoryImpl(null, degreeTypeListFactoryMock)
         );
         assertEquals("Factory cannot be null", exception1.getMessage());
 
         Exception exception2 = assertThrows(NullPointerException.class, () ->
-                new DegreeTypeRepository(degreeTypeFactoryMock, null)
+                new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, null)
         );
         assertEquals("Factory cannot be null", exception2.getMessage());
     }
@@ -59,7 +59,7 @@ class DegreeTypeRepository_Test {
         when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
                 .thenReturn(degreeTypeMock);
 
-        assertTrue(degreeTypeRepository.registerDegreeType(degreeTypeID, name, maxEcts));
+        assertTrue(degreeTypeRepositoryImpl.registerDegreeType(degreeTypeID, name, maxEcts));
     }
 
     @Test
@@ -67,14 +67,14 @@ class DegreeTypeRepository_Test {
         when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
                 .thenReturn(degreeTypeMock);
 
-        degreeTypeRepository.registerDegreeType(degreeTypeID, name, maxEcts);
-        assertFalse(degreeTypeRepository.registerDegreeType(degreeTypeID, name, maxEcts));
+        degreeTypeRepositoryImpl.registerDegreeType(degreeTypeID, name, maxEcts);
+        assertFalse(degreeTypeRepositoryImpl.registerDegreeType(degreeTypeID, name, maxEcts));
     }
 
     @Test
     void shouldReturnListOfAllDegreeTypesAvailable() {
         // Arrange
-        IDegreeTypeFactoryInterface degreeTypeFactoryDouble = mock(IDegreeTypeFactoryInterface.class);
+        IDegreeTypeFactory degreeTypeFactoryDouble = mock(IDegreeTypeFactory.class);
         IDegreeTypeListFactory degreeTypeListFactoryDouble = mock(IDegreeTypeListFactory.class);
 
         DegreeType degreeType1Double = mock(DegreeType.class);
@@ -84,7 +84,7 @@ class DegreeTypeRepository_Test {
         when(degreeTypeListFactoryDouble.createDegreeType_2List()).thenReturn(expectedList);
 
             //SUT
-        DegreeTypeRepository repository = new DegreeTypeRepository(degreeTypeFactoryDouble, degreeTypeListFactoryDouble);
+        DegreeTypeRepositoryImpl repository = new DegreeTypeRepositoryImpl(degreeTypeFactoryDouble, degreeTypeListFactoryDouble);
 
         // Act
         List<DegreeType> result = repository.getAllDegreeTypes();

@@ -2,15 +2,15 @@ package PAI.factory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import PAI.domain.DegreeTypeDDD.DegreeTypeFactoryImpl;
+import PAI.domain.DegreeType.DegreeTypeFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.domain.DegreeTypeDDD.DegreeType;
+import PAI.domain.DegreeType.DegreeType;
 
-class DegreeTypeFactoryImpl_Test {
+class DegreeTypeFactoryImplTest {
 
     private DegreeTypeFactoryImpl factory;
 

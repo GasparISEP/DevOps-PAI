@@ -11,7 +11,7 @@ import static org.mockito.Mockito.*;
 class ProgrammeRepositoryListFactoryImplTest {
     @Test
     void shouldCreateRepositoryListFactoryImpl(){
-        ProgrammeDDDRepositoryListFactoryImpl programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        ProgrammeRepositoryListFactoryImpl programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         //act
         List<Programme> programmeList = programmeRepositoryListFactory.newProgrammeArrayList();
         //assert
@@ -22,7 +22,7 @@ class ProgrammeRepositoryListFactoryImplTest {
     @Test
     void whenCopyProgrammeArrayListInvoked_ThenShouldReturnNewIndependentCopy() {
         // arrange
-        ProgrammeDDDRepositoryListFactoryImpl factory = new ProgrammeDDDRepositoryListFactoryImpl();
+        ProgrammeRepositoryListFactoryImpl factory = new ProgrammeRepositoryListFactoryImpl();
 
         Programme mockProgramme1 = mock(Programme.class);
         Programme mockProgramme2 = mock(Programme.class);

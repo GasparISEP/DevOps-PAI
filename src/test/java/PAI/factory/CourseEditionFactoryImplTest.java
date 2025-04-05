@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
-class CourseEditionFactoryImpl_DDDTest {
+class CourseEditionFactoryImplTest {
 
     @Test
     void shouldCreateCourseEditionWhenConstructorIsCalled() throws Exception {

@@ -2,24 +2,24 @@ package PAI.repository.courseRepository;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
-import PAI.domain.course.ICourseFactoryDDD;
+import PAI.domain.course.ICourseFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CourseRepositoryImpl implements ICourseRepository {
 
-    private final ICourseFactoryDDD _courseFactory;
+    private final ICourseFactory _courseFactory;
     private List<Course> courseList;
 
-    public CourseRepositoryImpl(ICourseFactoryDDD iCourseFactoryDDD, ICourseRepositoryListFactory iCourseRepositoryListFactory) {
-        if(iCourseFactoryDDD == null){
+    public CourseRepositoryImpl(ICourseFactory iCourseFactory, ICourseRepositoryListFactory iCourseRepositoryListFactory) {
+        if(iCourseFactory == null){
             throw new IllegalArgumentException("iCourseFactoryDDD cannot be null");
         }
         if(iCourseRepositoryListFactory == null){
             throw new IllegalArgumentException("iCourseRepositoryListFactoryDDD cannot be null");
         }
-        _courseFactory = iCourseFactoryDDD;
+        _courseFactory = iCourseFactory;
         courseList = iCourseRepositoryListFactory.createCourseRepositoryList();
     }
 

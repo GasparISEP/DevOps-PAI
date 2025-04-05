@@ -6,14 +6,14 @@ import PAI.domain.programme.Programme;
 import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
-import PAI.repository.studyPlanRepository.IStudyPlanDDDListFactory;
-import PAI.repository.studyPlanRepository.IStudyPlanDDDRepository;
-import PAI.repository.studyPlanRepository.StudyPlanDDDListFactoryImpl;
-import PAI.repository.studyPlanRepository.StudyPlanDDDRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
+import PAI.repository.studyPlanRepository.IStudyPlanListFactory;
+import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.repository.studyPlanRepository.StudyPlanListFactoryImpl;
+import PAI.repository.studyPlanRepository.StudyPlanRepositoryImpl;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,10 +27,10 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullProgrammeRepo() throws Exception {
         //arrange
-        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = null;
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = null;
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
-        StudyPlanDDDRepositoryImpl studyPlanDDDRepo = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
+        StudyPlanRepositoryImpl studyPlanDDDRepo = new StudyPlanRepositoryImpl(factory, listFactory);
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
@@ -44,9 +44,9 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     void registerProgrammeInTheSystemControllerFailureWithNullStudyPlanRepo() throws Exception {
         //arrange
         IProgrammeFactory iProgrammeFactory = mock(IProgrammeFactory.class);
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeDDDRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
-        StudyPlanDDDRepositoryImpl studyPlanDDDRepo = null;
+        IProgrammeRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
+        StudyPlanRepositoryImpl studyPlanDDDRepo = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
@@ -61,11 +61,11 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     void registerProgrammeInTheSystemControllerCorrectly() throws Exception {
         //arrange
         IProgrammeFactory iProgrammeFactory = mock(IProgrammeFactory.class);
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeDDDRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
+        IProgrammeRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
-        StudyPlanDDDRepositoryImpl studyPlanDDDRepo = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
+        StudyPlanRepositoryImpl studyPlanDDDRepo = new StudyPlanRepositoryImpl(factory, listFactory);
 
         //act
         US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeDDDRepositoryImpl, studyPlanDDDRepo);
@@ -77,8 +77,8 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     @Test
     void createStudyPlanDDDWithSuccess() throws Exception {
         // Arrange
-        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
-        StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
+        ProgrammeRepositoryImpl programmeRepo = mock(ProgrammeRepositoryImpl.class);
+        StudyPlanRepositoryImpl studyPlanRepo = mock(StudyPlanRepositoryImpl.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
 
@@ -108,8 +108,8 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     @Test
     void createStudyPlanDDDProgrammeNotFound() throws Exception {
         // Arrange
-        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
-        StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
+        ProgrammeRepositoryImpl programmeRepo = mock(ProgrammeRepositoryImpl.class);
+        StudyPlanRepositoryImpl studyPlanRepo = mock(StudyPlanRepositoryImpl.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
 
@@ -132,8 +132,8 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     @Test
     void registerProgrammeInTheSystemWithSuccess() throws Exception {
         //arrange
-        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
-        StudyPlanDDDRepositoryImpl studyPlanRepo = mock(StudyPlanDDDRepositoryImpl.class);
+        ProgrammeRepositoryImpl programmeRepo = mock(ProgrammeRepositoryImpl.class);
+        StudyPlanRepositoryImpl studyPlanRepo = mock(StudyPlanRepositoryImpl.class);
 
         US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller =
                 new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeRepo, studyPlanRepo);
@@ -168,14 +168,14 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
         IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(iProgrammeDDDRepository, iStudyPlanDDDRepository);
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(iProgrammeRepository, iStudyPlanRepository);
 
         //act
         boolean result = controller.registerAProgrammeDDDInTheSystem(nameWithNumbersAndSpecialChars, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
@@ -200,14 +200,14 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         Date implemtationDate = new Date("21-03-2025");
 
         IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanDDDListFactory iStudyPlanDDDListFactory = new StudyPlanDDDListFactoryImpl();
-        IStudyPlanDDDRepository iStudyPlanDDDRepository = new StudyPlanDDDRepositoryImpl(iStudyPlanFactory, iStudyPlanDDDListFactory);
+        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
+        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(iProgrammeDDDRepository, iStudyPlanDDDRepository);
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(iProgrammeRepository, iStudyPlanRepository);
         controller.registerAProgrammeDDDInTheSystem(nameWithNumbersAndSpecialChars, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         //act

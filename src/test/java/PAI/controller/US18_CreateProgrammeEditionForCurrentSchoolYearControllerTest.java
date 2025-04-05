@@ -14,14 +14,14 @@ import PAI.factory.SchoolYearFactoryImpl;
 import PAI.factory.SchoolYearListFactoryImpl;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.SchoolYearRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionDDDListFactory;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionDDDListFactoryImpl;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryDDDImpl;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -38,13 +38,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldCreateController() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -60,11 +60,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionRepositoryIsNull() {
         // Arrange
-        IProgrammeEditionRepositoryDDD ProgrammeEditionRepository = null;
+        IProgrammeEditionRepository ProgrammeEditionRepository = null;
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -80,13 +80,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearIsNull() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD ProgrammeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository ProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearRepository schoolYearRepository = null;
 
@@ -100,11 +100,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepository programmeRepository = null;
+        IProgrammeRepository programmeRepository = null;
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -120,13 +120,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnListOfNamesOfAllExistingProgrammes() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -166,13 +166,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnEmptyListOfNamesIfProgrammeRepositoryIsEmpty() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -191,13 +191,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfThereIsNoCurrentSchoolYearInTheSystem() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -242,13 +242,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfThereIsNoProgrammeInTheSystemWithTheNameGiven() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -298,13 +298,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfAlreadyExistAProgrammeEditionInTheCurrentSchoolYearWithProgrammeNameGiven() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -381,13 +381,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnTrueIfTheProgrammeEditionIsCreatedInTheCurrentSchoolYearAndRegisteredInTheSystem() throws Exception {
         // Arrange
-        IProgrammeEditionDDDListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionDDDListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepositoryDDD programmeEditionRepository = new ProgrammeEditionRepositoryDDDImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory, programmeEditionFactory);
 
-        IProgrammeDDDRepositoryListFactory programmeRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepository programmeRepository = new ProgrammeDDDRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();

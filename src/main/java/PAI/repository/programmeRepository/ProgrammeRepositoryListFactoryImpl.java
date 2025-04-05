@@ -5,7 +5,7 @@ import PAI.domain.programme.Programme;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgrammeDDDRepositoryListFactoryImpl implements IProgrammeDDDRepositoryListFactory {
+public class ProgrammeRepositoryListFactoryImpl implements IProgrammeRepositoryListFactory {
     public List<Programme> newProgrammeArrayList() {
         return new ArrayList<>();
     }

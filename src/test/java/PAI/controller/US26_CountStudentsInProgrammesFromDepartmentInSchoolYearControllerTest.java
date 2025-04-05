@@ -4,8 +4,8 @@ import PAI.VOs.*;
 import PAI.repository.*;
 
 import PAI.repository.SchoolYearRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -24,7 +24,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository ProgrammeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository ProgrammeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         // Act & Assert
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
@@ -49,7 +49,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenPEERepoIsNull() {
         // arrange
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
 
@@ -64,7 +64,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearRepoIsNull() {
         // arrange
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
 
@@ -79,7 +79,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 @Test
     void shouldThrowExceptionWhenDepartmentRepoIsNull() {
         // arrange
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
 
@@ -99,7 +99,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
         List<ProgrammeID> programmeIDs = mock(List.class);
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
@@ -126,7 +126,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
@@ -147,7 +147,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
@@ -168,7 +168,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
         List<ProgrammeID> programmeIDs = mock(List.class);
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(false);
@@ -196,7 +196,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
         List<ProgrammeID> programmeIDs = mock(List.class);
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
@@ -221,7 +221,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
@@ -238,7 +238,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
@@ -258,7 +258,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
@@ -275,7 +275,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
@@ -292,7 +292,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
@@ -309,7 +309,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeDDDRepository programmeDDDRepository = mock(ProgrammeDDDRepositoryImpl.class);
+        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
                 new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
 

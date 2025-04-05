@@ -1,12 +1,12 @@
 package PAI.factory;
 
-import PAI.domain.DegreeTypeDDD.DegreeType;
+import PAI.domain.DegreeType.DegreeType;
 import PAI.repository.DegreeTypeRepository.DegreeTypeListFactoryImpl;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-class DegreeTypeListFactoryImpl_Test {
+class DegreeTypeListFactoryImplTest {
 
     @Test
     void testCreateDegreeType_2List() {

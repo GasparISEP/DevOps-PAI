@@ -4,8 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.factory.*;
 import PAI.repository.*;
-import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanDDDDDDRepositoryImpl;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanDDDListFactory;
+import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanRepositoryImpl;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -381,8 +381,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
-        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
+        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1,2);
@@ -435,8 +435,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
-        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
+        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1,2);
@@ -493,8 +493,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
-        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
+        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1,2);
@@ -552,8 +552,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
-        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
+        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1,2);
@@ -606,8 +606,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
         ICourseInStudyPlanFactory factory = mock(ICourseInStudyPlanFactory.class);
-        ICourseInStudyPlanDDDListFactory listFactory = mock(ICourseInStudyPlanDDDListFactory.class);
-        CourseInStudyPlanDDDDDDRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanDDDDDDRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanListFactory listFactory = mock(ICourseInStudyPlanListFactory.class);
+        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1,2);

@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProgrammeDDDRepositoryImpl implements IProgrammeDDDRepository {
+public class ProgrammeRepositoryImpl implements IProgrammeRepository {
 
     private final IProgrammeFactory _I_programmeFactory;
     private final List<Programme> _programmeRepo;
-    private IProgrammeDDDRepositoryListFactory _programmeRepoListFactory;
+    private IProgrammeRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeDDDRepositoryImpl(IProgrammeFactory IProgrammeFactory, IProgrammeDDDRepositoryListFactory programmeLisListFactory) {
+    public ProgrammeRepositoryImpl(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeLisListFactory) {
         _I_programmeFactory = IProgrammeFactory;
         _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
         _programmeRepoListFactory = programmeLisListFactory;

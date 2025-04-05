@@ -1,4 +1,4 @@
-package PAI.domain.DegreeTypeDDD;
+package PAI.domain.DegreeType;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DegreeType_Test {
+class DegreeTypeTest {
 
     @Test
     void shouldCreateValidDegreeType() throws Exception {

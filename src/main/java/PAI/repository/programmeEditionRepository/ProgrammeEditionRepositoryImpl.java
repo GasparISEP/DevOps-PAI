@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class ProgrammeEditionRepositoryDDDImpl implements IProgrammeEditionRepositoryDDD{
+public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionRepository {
 
     private final Set<ProgrammeEdition> _programmeEditions;
     private final IProgrammeEditionFactory _programmeEditionDDDFactory;
 
-    public ProgrammeEditionRepositoryDDDImpl(IProgrammeEditionDDDListFactory programmeEditionDDDListFactory, IProgrammeEditionFactory programmeEditionDDDFactory) throws Exception {
+    public ProgrammeEditionRepositoryImpl(IProgrammeEditionListFactory programmeEditionDDDListFactory, IProgrammeEditionFactory programmeEditionDDDFactory) throws Exception {
 
         if (programmeEditionDDDListFactory == null)
             throw new Exception("Programme Edition ListFactory cannot be null");

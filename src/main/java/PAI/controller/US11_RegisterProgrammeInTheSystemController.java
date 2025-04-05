@@ -1,13 +1,13 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 
 public class US11_RegisterProgrammeInTheSystemController {
 
-    IProgrammeDDDRepository _programmeDDDList;
+    IProgrammeRepository _programmeDDDList;
 
-    public US11_RegisterProgrammeInTheSystemController(IProgrammeDDDRepository programmeDDDList) throws Exception {
+    public US11_RegisterProgrammeInTheSystemController(IProgrammeRepository programmeDDDList) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");

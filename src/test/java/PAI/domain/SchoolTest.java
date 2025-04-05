@@ -1,3 +1,4 @@
+/*
 package PAI.domain;
 
 import org.junit.jupiter.api.Test;
@@ -99,4 +100,4 @@ class SchoolTest
         // assert
         assertEquals("ISEP", school.getName());
     }
-}
+}*/

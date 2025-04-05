@@ -6,19 +6,19 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
 import PAI.repository.ISchoolYearRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepositoryDDD;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
-    private final IProgrammeEditionRepositoryDDD _programmeEditionRepository;
+    private final IProgrammeEditionRepository _programmeEditionRepository;
     private final ISchoolYearRepository _schoolYearRepository;
-    private final IProgrammeDDDRepository _programmeRepository;
+    private final IProgrammeRepository _programmeRepository;
 
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionRepositoryDDD programmeEditionRepository, ISchoolYearRepository schoolYearRepository, IProgrammeDDDRepository programmeRepository) throws Exception {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionRepository programmeEditionRepository, ISchoolYearRepository schoolYearRepository, IProgrammeRepository programmeRepository) throws Exception {
 
         if (programmeEditionRepository == null)
             throw new Exception("Programme Edition Repository cannot be null");

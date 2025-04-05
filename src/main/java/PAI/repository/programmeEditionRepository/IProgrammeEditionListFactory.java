@@ -4,7 +4,7 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 
 import java.util.Set;
 
-public interface IProgrammeEditionDDDListFactory {
+public interface IProgrammeEditionListFactory {
 
     Set<ProgrammeEdition> createProgrammeEditionList();
 }

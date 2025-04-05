@@ -18,7 +18,7 @@ public class StudyPlanRepositoryImplTest {
     void testCreateStudyPlanNewPlan() throws Exception {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
@@ -31,7 +31,7 @@ public class StudyPlanRepositoryImplTest {
         when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
                 .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts));
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         boolean created = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -45,7 +45,7 @@ public class StudyPlanRepositoryImplTest {
     void testCreateStudyPlanDuplicatePlan() throws Exception {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
@@ -54,7 +54,7 @@ public class StudyPlanRepositoryImplTest {
         DurationInYears durationInYears = mock(DurationInYears.class);
         QuantEcts quantityOfEcts = mock(QuantEcts.class);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         boolean createdFirstStudyPlan = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -70,7 +70,7 @@ public class StudyPlanRepositoryImplTest {
     void testGetAllStudyPlansReturnsMultiplePlans() throws Exception {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
@@ -85,7 +85,7 @@ public class StudyPlanRepositoryImplTest {
         when(factory.newStudyPlan_2(programmeID2, implementationDate, durationInYears, quantityOfEcts))
                 .thenAnswer(invocation -> new StudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts));
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         boolean created1 = repository.createStudyPlan_2(programmeID1, implementationDate, durationInYears, quantityOfEcts);
@@ -102,7 +102,7 @@ public class StudyPlanRepositoryImplTest {
     void testFindByStudyPlanIDFound() throws Exception {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
@@ -114,7 +114,7 @@ public class StudyPlanRepositoryImplTest {
         when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
                 .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts));
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -133,14 +133,14 @@ public class StudyPlanRepositoryImplTest {
     void testFindByStudyPlanIDNotFound() throws Exception {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         StudyPlanID nonExistentID = new StudyPlanID(programmeID, implementationDate);
@@ -158,12 +158,12 @@ public class StudyPlanRepositoryImplTest {
         when(studyPlan1.getProgrammeID()).thenReturn(programmeID);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
         studyPlanList.add(studyPlan1);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // act
         List<StudyPlan> listStudyPlansByProgrammeID = repository.getAllStudyPlansByProgrammeId(programmeID);
@@ -183,12 +183,12 @@ public class StudyPlanRepositoryImplTest {
 
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
         studyPlanList.add(studyPlan1);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // act
         List<StudyPlan> listStudyPlansByProgrammeID = repository.getAllStudyPlansByProgrammeId(programmeID2);
@@ -204,11 +204,11 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
         when(studyPlan1.identity()).thenReturn(id);
 
@@ -224,11 +224,11 @@ public class StudyPlanRepositoryImplTest {
         StudyPlan studyPlan2 = mock(StudyPlan.class);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         repository.save(studyPlan1);
         repository.save(studyPlan2);
@@ -248,11 +248,11 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
         when(studyPlan1.identity()).thenReturn(id);
 
@@ -270,10 +270,10 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
 
         Optional<StudyPlan> found = repository.ofIdentity(id);
@@ -289,11 +289,11 @@ public class StudyPlanRepositoryImplTest {
         when(studyPlan1.getProgrammeID()).thenReturn(programmeID);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
         when(studyPlan1.identity()).thenReturn(id);
 
@@ -308,10 +308,10 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
 
         assertFalse(repository.containsOfIdentity(id));
@@ -322,13 +322,13 @@ public class StudyPlanRepositoryImplTest {
     void shouldReturnStudyPlanIDFromLastStudyPlanByProgrammeID() {
         // Arrange
         IStudyPlanFactory studyPlanFactoryDouble = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactoryDouble = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactoryDouble = mock(IStudyPlanListFactory.class);
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
         List<StudyPlan> listOfStudyPlan = new ArrayList<>();
         when(listFactoryDouble.newArrayList()).thenReturn(listOfStudyPlan);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(studyPlanFactoryDouble, listFactoryDouble);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(studyPlanFactoryDouble, listFactoryDouble);
 
         StudyPlan studyPlan1Double = mock(StudyPlan.class);
         StudyPlan studyPlan2Double = mock(StudyPlan.class);
@@ -357,7 +357,7 @@ public class StudyPlanRepositoryImplTest {
     void testGetLatestStudyPlanIDByProgrammeIDSinglePlan() throws Exception {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
@@ -373,7 +373,7 @@ public class StudyPlanRepositoryImplTest {
         when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
                 .thenReturn(studyPlan);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -387,11 +387,11 @@ public class StudyPlanRepositoryImplTest {
     void testFindAllReturnsEmptyForNewRepository() {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
         List<StudyPlan> allPlans = repository.getAllStudyPlans_2();
@@ -404,7 +404,7 @@ public class StudyPlanRepositoryImplTest {
     void testOfIdentityWithMultiplePlans() throws Exception {
         // Arrange
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanDDDListFactory listFactory = mock(IStudyPlanDDDListFactory.class);
+        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
         List<StudyPlan> studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
 
@@ -426,7 +426,7 @@ public class StudyPlanRepositoryImplTest {
         when(factory.newStudyPlan_2(programmeID2, implementationDate2, durationInYears, quantityOfEcts))
                 .thenReturn(studyPlan2);
 
-        StudyPlanDDDRepositoryImpl repository = new StudyPlanDDDRepositoryImpl(factory, listFactory);
+        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
         repository.createStudyPlan_2(programmeID1, implementationDate1, durationInYears, quantityOfEcts);
         repository.createStudyPlan_2(programmeID2, implementationDate2, durationInYears, quantityOfEcts);
 

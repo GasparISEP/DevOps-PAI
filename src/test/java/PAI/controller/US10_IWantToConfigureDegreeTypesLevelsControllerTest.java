@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.repository.DegreeTypeRepository.DegreeTypeRepository;
+import PAI.repository.DegreeTypeRepository.DegreeTypeRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,13 +13,13 @@ import static org.mockito.Mockito.*;
 
 class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
 
-    private DegreeTypeRepository degreeTypeRepositoryMock;
+    private DegreeTypeRepositoryImpl degreeTypeRepositoryImplMock;
     private US10_IWantToConfigureDegreeTypesLevelsController controller;
 
     @BeforeEach
     void setUp() {
-        degreeTypeRepositoryMock = Mockito.mock(DegreeTypeRepository.class);
-        controller = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepositoryMock);
+        degreeTypeRepositoryImplMock = Mockito.mock(DegreeTypeRepositoryImpl.class);
+        controller = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepositoryImplMock);
     }
 
     @Test
@@ -33,12 +33,12 @@ class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
         Name name = new Name("Bachelor");
         MaxEcts maxEcts = new MaxEcts(180);
 
-        when(degreeTypeRepositoryMock.registerDegreeType(id, name, maxEcts)).thenReturn(true);
+        when(degreeTypeRepositoryImplMock.registerDegreeType(id, name, maxEcts)).thenReturn(true);
 
         boolean result = controller.registerDegreeType(id, name, maxEcts);
 
         assertTrue(result);
-        verify(degreeTypeRepositoryMock, times(1)).registerDegreeType(id, name, maxEcts);
+        verify(degreeTypeRepositoryImplMock, times(1)).registerDegreeType(id, name, maxEcts);
     }
 
     @Test
@@ -47,12 +47,12 @@ class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
         Name name = new Name("Bachelor");
         MaxEcts maxEcts = new MaxEcts(180);
 
-        when(degreeTypeRepositoryMock.registerDegreeType(id, name, maxEcts)).thenReturn(false);
+        when(degreeTypeRepositoryImplMock.registerDegreeType(id, name, maxEcts)).thenReturn(false);
 
         boolean result = controller.registerDegreeType(id, name, maxEcts);
 
         assertFalse(result);
-        verify(degreeTypeRepositoryMock, times(1)).registerDegreeType(id, name, maxEcts);
+        verify(degreeTypeRepositoryImplMock, times(1)).registerDegreeType(id, name, maxEcts);
     }
 
     @Test
@@ -61,11 +61,11 @@ class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
         Name name = new Name("Bachelor");
         MaxEcts maxEcts = new MaxEcts(180);
 
-        when(degreeTypeRepositoryMock.registerDegreeType(id, name, maxEcts)).thenThrow(new Exception("Repository error"));
+        when(degreeTypeRepositoryImplMock.registerDegreeType(id, name, maxEcts)).thenThrow(new Exception("Repository error"));
 
         Exception exception = assertThrows(Exception.class, () -> controller.registerDegreeType(id, name, maxEcts));
 
         assertEquals("Repository error", exception.getMessage());
-        verify(degreeTypeRepositoryMock, times(1)).registerDegreeType(id, name, maxEcts);
+        verify(degreeTypeRepositoryImplMock, times(1)).registerDegreeType(id, name, maxEcts);
     }
 }

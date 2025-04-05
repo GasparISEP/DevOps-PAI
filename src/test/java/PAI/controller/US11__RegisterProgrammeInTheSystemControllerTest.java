@@ -3,10 +3,10 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
-import PAI.repository.programmeRepository.IProgrammeDDDRepository;
-import PAI.repository.programmeRepository.IProgrammeDDDRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryImpl;
-import PAI.repository.programmeRepository.ProgrammeDDDRepositoryListFactoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
+import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +17,7 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullProgrammeRepo() throws Exception {
         //arrange
-        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = null;
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = null;
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
@@ -31,8 +31,8 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
     void registerProgrammeInTheSystemControllerFailureWithNullStudyPlanRepo() throws Exception {
         //arrange
         IProgrammeFactory iProgrammeFactory = mock(IProgrammeFactory.class);
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeDDDRepositoryListFactory.class);
-        ProgrammeDDDRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeDDDRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
+        IProgrammeRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
 
         //act
         US11_RegisterProgrammeInTheSystemController controller = new US11_RegisterProgrammeInTheSystemController(programmeDDDRepositoryImpl);
@@ -44,7 +44,7 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
     @Test
     void registerProgrammeInTheSystemWithSuccess() throws Exception {
         //arrange
-        ProgrammeDDDRepositoryImpl programmeRepo = mock(ProgrammeDDDRepositoryImpl.class);
+        ProgrammeRepositoryImpl programmeRepo = mock(ProgrammeRepositoryImpl.class);
 
         US11_RegisterProgrammeInTheSystemController controller =
                 new US11_RegisterProgrammeInTheSystemController(programmeRepo);
@@ -79,10 +79,10 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
         IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeDDDRepositoryListFactory iProgrammeDDDRepositoryListFactory = new ProgrammeDDDRepositoryListFactoryImpl();
-        IProgrammeDDDRepository iProgrammeDDDRepository = new ProgrammeDDDRepositoryImpl(iProgrammeFactory,iProgrammeDDDRepositoryListFactory);
+        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);
 
-        US11_RegisterProgrammeInTheSystemController controller = new US11_RegisterProgrammeInTheSystemController(iProgrammeDDDRepository);
+        US11_RegisterProgrammeInTheSystemController controller = new US11_RegisterProgrammeInTheSystemController(iProgrammeRepository);
 
         //act
         boolean result = controller.registerAProgrammeDDDInTheSystem(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface IProgrammeDDDRepository extends IRepository <ProgrammeID, Programme> {
+public interface IProgrammeRepository extends IRepository <ProgrammeID, Programme> {
 
     boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception;
 
