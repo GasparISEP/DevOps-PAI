@@ -617,6 +617,23 @@ class SchoolYearRepositoryTest {
     }
 
     @Test
+    void shouldReturnFalseIfSchoolYearRepoIsEmpty() throws Exception {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
+        SchoolYearRepository repository = new SchoolYearRepository(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+
+        when(schoolYearDouble1.identity()).thenReturn(schoolYearID);
+        // Act
+        boolean result = repository.schoolYearExistsByID(schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
     void shouldReturnFalseWhenSchoolYearIDIsNull() {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);

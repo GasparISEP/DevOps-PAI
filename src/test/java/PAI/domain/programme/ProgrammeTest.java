@@ -5,6 +5,7 @@ import PAI.domain.Department;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 class ProgrammeTest {
@@ -43,24 +44,23 @@ class ProgrammeTest {
         assertFalse(result);
     }
 
-//    @Test
-//    void shouldReturnTrueWhenProgrammeIsInDepartment() throws IllegalArgumentException {
-//        // arrange
-//        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-//        Acronym acronym = mock(Acronym.class);
-//        QuantEcts qtyEcts = mock(QuantEcts.class);
-//        QuantSemesters qtySemesters = mock(QuantSemesters.class);
-//        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-//        DepartmentID department1 = mock(DepartmentID.class);
-//        DepartmentID department = mock(DepartmentID.class);
-//        TeacherID programmeDirectorID = mock(TeacherID.class);
-//        ProgrammeDDD programme = new ProgrammeDDD(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
-//        when(department.equals(department1)).thenReturn(true);
-//        // act
-//        boolean result = programme.isInDepartment(department);
-//        // assert
-//        assertTrue(result);
-//    }
+    @Test
+    void shouldReturnTrueWhenProgrammeIsInDepartment() throws IllegalArgumentException {
+        // arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID department = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department, programmeDirectorID);
+
+        // act
+        boolean result = programme.isInDepartment(department);
+        // assert
+        assertTrue(result);
+    }
 
     @Test
     void shouldNotCreateProgrammeIfNameIsNull() throws IllegalArgumentException {
