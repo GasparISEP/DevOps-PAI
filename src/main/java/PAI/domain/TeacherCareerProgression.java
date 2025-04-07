@@ -65,7 +65,7 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
 
     public boolean isDateAfter (TeacherCareerProgression TCP) {
 
-        return _date.getLocalDate().isAfter(TCP._date.getLocalDate());
+        return _date.getLocalDate().isAfter(TCP.getDate().getLocalDate());
     }
 
     @Override
