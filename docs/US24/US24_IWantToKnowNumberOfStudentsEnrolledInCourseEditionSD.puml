@@ -6,7 +6,7 @@ actor AcademicServiceCollaborator as ASC #Purple/White
 participant ":UI" as UI #application
 participant ":US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController" as C #lightgreen
 participant "courseEditionIDVO1:CourseEditionIDVO" as courseEditionVO1
-participant "ceer[i]:CourseEditionEnrolmentRepository" as CEER #application
+participant "ceer[i]:CourseEditionEnrolmentRepositoryImpl" as CEER #application
 participant "ce1:CourseEditionEnrolment" as CEE
 
 ASC -> UI : I want to know the number of students enrolled in a Course Edition
