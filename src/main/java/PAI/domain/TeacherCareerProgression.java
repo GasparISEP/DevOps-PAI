@@ -63,6 +63,11 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
         return !_date.getLocalDate().isAfter(newDate.getLocalDate());
     }
 
+    public boolean isDateAfter (TeacherCareerProgression TCP) {
+
+        return _date.getLocalDate().isAfter(TCP._date.getLocalDate());
+    }
+
     @Override
     public TeacherCareerProgressionID identity() {
         return _tcpID;

@@ -186,6 +186,61 @@ class TeacherCareerProgressionTest {
         assertFalse(result);
     }
 
+    //isDateAfter
+    @Test
+    void shouldReturnTrueIfNewTCPDateIsAfterLastTCPDate() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        Date dateDouble2 = mock(Date.class);
+        LocalDate localDateDouble1 = mock(LocalDate.class);
+        LocalDate localDateDouble2 = mock(LocalDate.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+        TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        when(dateDouble.getLocalDate()).thenReturn(localDateDouble1);
+        when(tcpDouble.getDate()).thenReturn(dateDouble2);
+        when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
+
+        when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(true);
+
+        //act
+        boolean result = TCP.isDateAfter(tcpDouble);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfNewTCPDateIsBeforeLastTCPDate() {
+        //arrange
+        Date dateDouble = mock(Date.class);
+        Date dateDouble2 = mock(Date.class);
+        LocalDate localDateDouble1 = mock(LocalDate.class);
+        LocalDate localDateDouble2 = mock(LocalDate.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        TeacherID tIDDouble = mock(TeacherID.class);
+        TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
+
+        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+
+        when(dateDouble.getLocalDate()).thenReturn(localDateDouble1);
+        when(tcpDouble.getDate()).thenReturn(dateDouble2);
+        when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
+
+        when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(false);
+
+        //act
+        boolean result = TCP.isDateAfter(tcpDouble);
+
+        //assert
+        assertFalse(result);
+    }
+
     //sameAs
     @Test
     void shouldReturnFalseIfObjectsAreNotOfTheSameInstance() {
