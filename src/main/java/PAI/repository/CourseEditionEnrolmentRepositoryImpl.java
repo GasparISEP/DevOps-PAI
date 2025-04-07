@@ -25,20 +25,11 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
         try {
             CourseEditionEnrolment cee1 = _courseEditionEnrolmentFactory.createCourseEditionEnrolment(studentId, courseEditionId);
 
-            if (isStudentAlreadyEnrolledInCourseEdition(cee1)){
-                return false;
-            }
-
             return _courseEditionEnrolments.add(cee1);
 
         } catch (Exception e) {
             return false;
         }
-    }
-
-    private boolean isStudentAlreadyEnrolledInCourseEdition (CourseEditionEnrolment newEnrolment){
-
-        return _courseEditionEnrolments.stream().anyMatch(existing -> existing.sameAs(newEnrolment));
     }
 
     public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {

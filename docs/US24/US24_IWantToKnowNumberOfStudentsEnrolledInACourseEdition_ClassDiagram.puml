@@ -8,7 +8,7 @@
         +getNumberOfStudentsEnrolled(CourseEditionID courseEditionId)
     }
 
-    class "CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository {
+    class "CourseEditionEnrolmentRepositoryImpl" as CourseEditionEnrolmentRepository {
         -_courseEditionEnrolments: List<CourseEditionEnrolment>
         +CourseEditionEnrolmentRepository()
         +numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId)

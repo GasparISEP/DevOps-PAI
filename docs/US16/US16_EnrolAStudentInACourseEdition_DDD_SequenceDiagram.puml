@@ -102,10 +102,6 @@ create "cee1ID:CourseEditionEnrolmentID"
 "cee1:CourseEditionEnrolment" -> "cee1ID:CourseEditionEnrolmentID": create (studentID, courseEditionID)
 deactivate "cee1:CourseEditionEnrolment"
 participant ":Set" as CourseEditionEnrolmentSet
-CourseEditionEnrolmentRepository -> "cee1:CourseEditionEnrolment" : stream().anyMatch(existing -> existing.sameAs(cee1)
-activate "cee1:CourseEditionEnrolment" #E1F5FE
-"cee1:CourseEditionEnrolment" --> CourseEditionEnrolmentRepository : False
-deactivate "cee1:CourseEditionEnrolment"
 
 CourseEditionEnrolmentRepository -> CourseEditionEnrolmentSet: add (cee1)
 activate CourseEditionEnrolmentSet #E1F5FE

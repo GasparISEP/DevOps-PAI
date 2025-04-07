@@ -22,13 +22,15 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleCeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, doubleCeeListFactory);
+        Set<CourseEditionEnrolment> doubleEnrolmentset = mock(Set.class);
+
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
         CourseEditionEnrolment doubleCee1 = mock(CourseEditionEnrolment.class);
 
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee1);
-        when(doubleCee1.sameAs(doubleCee1)).thenReturn(false);
+        when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
 
         //act
         boolean result = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
@@ -50,7 +52,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
 
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStudentId, doubleCourseEditionId)).thenReturn(enrolment);
         when(doubleCeeListFactory.getCourseEditionEnrolmentList()).thenReturn(doubleEnrolmentSet);
-        when(doubleEnrolmentSet.add(enrolment)).thenReturn(false);    // simulate failure to add
+        when(doubleEnrolmentSet.add(enrolment)).thenReturn(false);
 
         CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, doubleCeeListFactory);
 
@@ -67,6 +69,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleCeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, doubleCeeListFactory);
+        Set<CourseEditionEnrolment> doubleEnrolmentset = mock(Set.class);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -79,15 +82,17 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionEnrolment doubleCee2 = mock(CourseEditionEnrolment.class);
 
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID2, doubleCeID1)).thenReturn(doubleCee2);
-        when(doubleCee1.sameAs(doubleCee2)).thenReturn(false);
+
+        when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
+        when(doubleEnrolmentset.add(doubleCee2)).thenReturn(true);
+
+        repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
         //act
-        boolean result1 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
-        boolean result2 = repository.enrolStudentInACourseEdition(doubleStID2, doubleCeID2);
+        boolean result = repository.enrolStudentInACourseEdition(doubleStID2, doubleCeID2);
 
         //assert
-        assertEquals(true, result1);
-        assertEquals(true, result2);
+        assertEquals(true, result);
     }
 
     @Test
@@ -96,6 +101,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleCeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, doubleCeeListFactory);
+        Set<CourseEditionEnrolment> doubleEnrolmentset = mock(Set.class);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -107,15 +113,17 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionEnrolment doubleCee2 = mock(CourseEditionEnrolment.class);
 
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID2, doubleCeID1)).thenReturn(doubleCee2);
-        when(doubleCee1.sameAs(doubleCee2)).thenReturn(false);
+
+        when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
+        when(doubleEnrolmentset.add(doubleCee2)).thenReturn(true);
+
+        repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
         //act
-        boolean result1 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
-        boolean result2 = repository.enrolStudentInACourseEdition(doubleStID2, doubleCeID1);
+        boolean result = repository.enrolStudentInACourseEdition(doubleStID2, doubleCeID1);
 
         //assert
-        assertEquals(true, result1);
-        assertEquals(true, result2);
+        assertEquals(true, result);
     }
 
     @Test
@@ -124,6 +132,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleCeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, doubleCeeListFactory);
+        Set<CourseEditionEnrolment> doubleEnrolmentset = mock(Set.class);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -135,15 +144,17 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionEnrolment doubleCee2 = mock(CourseEditionEnrolment.class);
 
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID2)).thenReturn(doubleCee2);
-        when(doubleCee1.sameAs(doubleCee2)).thenReturn(false);
+
+        when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
+        when(doubleEnrolmentset.add(doubleCee2)).thenReturn(true);
+
+        repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
         //act
-        boolean result1 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
-        boolean result2 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID2);
+        boolean result = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID2);
 
         //assert
-        assertEquals(true, result1);
-        assertEquals(true, result2);
+        assertEquals(true, result);
     }
 
     @Test
@@ -152,6 +163,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionEnrolmentListFactory doubleCeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
         CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeFactory, doubleCeeListFactory);
+        Set<CourseEditionEnrolment> doubleEnrolmentSet = mock (Set.class);
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
@@ -160,10 +172,10 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionEnrolment doubleCee2 = mock(CourseEditionEnrolment.class);
 
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee1);
-        repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee2);
-        when(doubleCee1.sameAs(doubleCee2)).thenReturn(true);
+        when(doubleEnrolmentSet.add(doubleCee2)).thenReturn(false);
+        repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
 
         //act
         boolean result2 = repository.enrolStudentInACourseEdition(doubleStID1, doubleCeID1);
