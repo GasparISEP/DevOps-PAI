@@ -72,10 +72,10 @@ activate TRepo
 loop
     TRepo -> teacher : teacher.identity().equals(teacherIdVO1)
     activate teacher
-    teacher --> TRepo : True
+    teacher --> TRepo : true
     deactivate teacher
 end
-TRepo --> Controller : True
+TRepo --> Controller : true
 deactivate TRepo
 
 
@@ -86,10 +86,14 @@ TCPRepo -> TCPRepo : optionalTCP = findLastTCPFromTeacherID(teacherIdVO1)
 TCPRepo -> TCPRepo : lastTCP = optionalTCP.get()
 TCPRepo -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate(dateVO1)
 activate TCP
-TCP --> TCPRepo: True
+TCP --> TCPRepo: true
+deactivate TCP
 TCPRepo -> TCP : lastTCP.getTeacherCategoryID()
+activate TCP
 TCP --> TCPRepo : teacherCategoryIdVO1
+deactivate TCP
 TCPRepo -> TCP : lastTCP.getWorkingPercentage()
+activate TCP
 TCP --> TCPRepo : lastWorkingPercentage
 deactivate TCP
 TCPRepo -> TCPRepo : validate if lastWorkingPercentage \nis different than workingPercentageVO1
@@ -104,10 +108,10 @@ TCPf --> TCPRepo : tcp1
 deactivate TCPf
 TCPRepo -> TCPRepo : isTeacherCareerProgressionDuplicated(tcp1)
 TCPRepo -> TCPRepo: save(tcp1)
-TCPRepo --> Controller : True
+TCPRepo --> Controller : true
 deactivate TCPRepo
 
-Controller --> UI : True
+Controller --> UI : true
 deactivate Controller
 UI --> HRC : Success
 deactivate UI
