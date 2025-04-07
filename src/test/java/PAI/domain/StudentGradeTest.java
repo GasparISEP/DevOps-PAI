@@ -201,7 +201,7 @@ class StudentGradeTest {
     void shouldReturnFalseWhenFromDifferentInstances() throws Exception{
         //arrange
         StudentID student1 = mock(StudentID.class);
-        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);;
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
         Teacher teacher = mock(Teacher.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);

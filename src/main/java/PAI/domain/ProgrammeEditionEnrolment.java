@@ -39,11 +39,12 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
     }
 
     public boolean isEnrolmentAssociatedToProgrammeAndSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
+        if(programmeIDS != null && schoolYear != null) {
         for (ProgrammeID programmeID : programmeIDS) {
             if (_programmeEditionId.isSameProgrammeEdition(programmeID, schoolYear)) {
                 return true;
             }
-        }
+        }}
         return false;
     }
 

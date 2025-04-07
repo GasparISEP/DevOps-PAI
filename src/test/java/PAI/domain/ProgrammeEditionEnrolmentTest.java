@@ -1,14 +1,14 @@
 package PAI.domain;
 
-import PAI.VOs.ProgrammeEditionEnrolmentID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
+import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -681,4 +681,90 @@ class ProgrammeEditionEnrolmentTest {
         // Assert
         assertNotEquals(hash1, hash2);
     }
+
+    @Test
+    void shouldReturnTrueIfEnrolmentIsAssociatedToProgrammeAndSchoolYear() {
+        //arrange
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        SchoolYearID schoolYear1 = mock(SchoolYearID.class);
+        StudentID student1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        List<ProgrammeID> programmeIDs = List.of(programmeID1);
+        //act
+        boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfEnrolmentIsNotAssociatedToProgrammeAndSchoolYear() {
+        //arrange
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        SchoolYearID schoolYear1 = mock(SchoolYearID.class);
+        StudentID student1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(false);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        List<ProgrammeID> programmeIDs = List.of(programmeID1);
+        //act
+        boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeListIsEmpty() {
+        //arrange
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        SchoolYearID schoolYear1 = mock(SchoolYearID.class);
+        StudentID student1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        List<ProgrammeID> programmeIDs = List.of();
+        //act
+        boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeListIsNull() {
+        //arrange
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        SchoolYearID schoolYear1 = mock(SchoolYearID.class);
+        StudentID student1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        List<ProgrammeID> programmeIDs = null;
+        //act
+        boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIsNull() {
+        //arrange
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        SchoolYearID schoolYear1 = null;
+        StudentID student1 = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        List<ProgrammeID> programmeIDs = List.of(programmeID1);
+        //act
+        boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
+
+        //assert
+        assertFalse(result);
+    }
+
 }

@@ -1,6 +1,9 @@
 package PAI.controller;
 import PAI.VOs.*;
 
+import PAI.domain.Department;
+import PAI.factory.TeacherCareerProgressionFactoryImpl;
+import PAI.factory.TeacherFactoryImpl;
 import PAI.repository.*;
 
 import PAI.repository.SchoolYearRepository;
@@ -76,7 +79,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     }
 
     //test when DepartmentRepo is null
-@Test
+    @Test
     void shouldThrowExceptionWhenDepartmentRepoIsNull() {
         // arrange
         IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
@@ -100,7 +103,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
         IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        List<ProgrammeID> programmeIDs = mock(List.class);
+        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
         when(departmentRepoDouble.departmentExists(departmentDouble)).thenReturn(true);
@@ -169,7 +172,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
         IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        List<ProgrammeID> programmeIDs = mock(List.class);
+        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(false);
         when(departmentRepoDouble.departmentExists(departmentDouble)).thenReturn(true);
@@ -197,7 +200,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
         IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        List<ProgrammeID> programmeIDs = mock(List.class);
+        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
         when(departmentRepoDouble.departmentExists(departmentDouble)).thenReturn(false);
@@ -305,7 +308,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     }
 
     @Test
-    void testGetAllDepartments_IsNotEmptyList() throws Exception {
+    void testGetAllDepartments_IsNotEmptyList() {
         IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepository.class);
         IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
@@ -324,18 +327,19 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         assertTrue(doubleDepartment.size() == 2);
     }
 }
-/*
+
+    /*
     //Integration Tests
+     */
     //test that ensures that the method returns a positive int when there are students enrolled in Programmes from specified department and school year
-    @Test
+    /*@Test
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndSchoolYear() throws Exception {
         // arrange
-        Department department = new Department("CSE", "Computer Science Engineer");
-
+        Department department = new Department(new DepartmentAcronym("CSE"),new Name("Computer Science Engineer"),new TeacherID(new TeacherAcronym("PP")))
         Date date = new Date("25-12-2024");
         TeacherCategoryID tcID = new TeacherCategoryID();
         WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = TeacherID.createNew();
+        TeacherID teacherID = new TeacherFactoryImpl().createTeacher(new TeacherAcronym("pp"),n)
         TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
         ITeacherCareerProgressionListFactory teacherCareerProgressionListFactoryImpl = new TeacherCareerProgressionListFactoryImpl();
         IAddressFactory addressFactory = new AddressFactoryImpl();
