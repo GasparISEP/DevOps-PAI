@@ -21,11 +21,11 @@ public class CourseEditionID implements DomainId {
         _courseInStudyPlanID = courseInStudyPlanID;
     }
 
-    @Override
-    public String toString() {
-        String courseEditionID = STR."CourseEditionID{_programmeEditionID=\{_programmeEditionID}, _courseInStudyPlanID=\{_courseInStudyPlanID}}";
-        return courseEditionID;
-    }
+//    @Override
+//    public String toString() {
+//        String courseEditionID = STR."CourseEditionID{_programmeEditionID=\{_programmeEditionID}, _courseInStudyPlanID=\{_courseInStudyPlanID}}";
+//        return courseEditionID;
+//    }
 
 
     @Override
