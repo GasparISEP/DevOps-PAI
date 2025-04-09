@@ -1,0 +1,26 @@
+@startuml
+participant ":IProgrammeRepository" as ProgrammeRepository
+activate ProgrammeRepository
+participant ":ProgrammeDDDRepositoryImpl" as ProgrammeDDDRepositoryImpl
+ProgrammeRepository -> ProgrammeDDDRepositoryImpl : getAllProgrammesIDs()
+activate ProgrammeDDDRepositoryImpl
+
+create ":ProgrammeArrayList"
+ProgrammeDDDRepositoryImpl -> ":ProgrammeArrayList": create()
+participant ":ProgrammeDDD" as ProgrammeDDD
+loop for each "prog[i]:ProgrammeDDDRepositoryImpl" as ProgrammeDDDRepositoryImpl
+ProgrammeDDDRepositoryImpl -> ProgrammeDDD :  getProgrammesID()
+participant ":ProgrammeDDD" as ProgrammeDDD
+activate ProgrammeDDD
+ProgrammeDDD --> ProgrammeDDDRepositoryImpl : progID
+deactivate ProgrammeDDD
+ProgrammeDDDRepositoryImpl -> ":ProgrammeArrayList" :  add()
+activate ":ProgrammeArrayList"
+":ProgrammeArrayList" --> ProgrammeDDDRepositoryImpl: True
+deactivate ":ProgrammeArrayList"
+end
+
+ProgrammeDDDRepositoryImpl --> ProgrammeRepository : listOfProgrammesIDs
+deactivate ProgrammeDDDRepositoryImpl
+deactivate ProgrammeRepository
+@enduml

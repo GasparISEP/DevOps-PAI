@@ -23,8 +23,7 @@ public class CourseEditionID implements DomainId {
 
     @Override
     public String toString() {
-        String courseEditionID = STR."CourseEditionID{_programmeEditionID=\{_programmeEditionID}, _courseInStudyPlanID=\{_courseInStudyPlanID}}";
-        return courseEditionID;
+        return _programmeEditionID.toString()+"-"+_courseInStudyPlanID.toString();
     }
 
 

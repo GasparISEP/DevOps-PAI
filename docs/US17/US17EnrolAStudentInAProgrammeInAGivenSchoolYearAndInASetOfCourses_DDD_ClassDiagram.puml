@@ -314,6 +314,22 @@ class  Description <<Value Object>> {
      +Description(description: String)
 }
 
+class TeacherID <<Value Object>> {
+     + TeacherID (teacherAcronym: TeacherAcronym)
+     + equals(obj: Object): boolean
+     }
+
+class DepartmentID <<Value Object>> {
+    + DepartmentID(acronym: DepartmentAcronym)
+    + getAcronym(): DepartmentAcronym
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+class DegreeTypeID <<Value Object>> {
+    - String _dtID
+    + DegreeTypeID(String dtID)
+}
 
 
 'Factory
@@ -439,4 +455,10 @@ Address " *" ---> "1" Country
 CourseEditionEnrolment  "1" --> "1 _status" EnrolmentStatus
 ProgrammeEditionEnrolment  " 1    " --> "1  _date " Date
 CourseEditionEnrolment "1" --> "_date 1    " Date
+
+DepartmentID "1" <-- "1" Programme
+DegreeTypeID "1" <-- "1" Programme
+TeacherID "1" <-- "1" Programme
+
+
 @enduml
