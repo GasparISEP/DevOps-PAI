@@ -1,0 +1,16 @@
+@startuml
+participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
+activate Controller
+participant ":IProgrammeEditionRepository" as ProgrammeEditionRepository
+Controller -> ProgrammeEditionRepository : findProgrammeEditionIDProgrammeIDAndSchoolYearID(programmeID, schoolYearID)
+activate ProgrammeEditionRepository
+participant ":ProgrammeEdition" as ProgrammeEdition
+loop for each "pe[i]:ProgrammeEditionRepository" as ProgrammeEditionRepository
+ProgrammeEditionRepository -> ProgrammeEdition : programmeEditionID : findProgrammeIDInProgrammeEdition(programmeID)
+ProgrammeEditionRepository -> ProgrammeEdition : programmeEditionID : findSchoolYearIDInProgrammeEdition(schoolYearID)
+ProgrammeEdition --> ProgrammeEditionRepository : peID
+end
+ProgrammeEditionRepository --> Controller :  peID
+deactivate ProgrammeEditionRepository
+deactivate Controller
+@enduml
