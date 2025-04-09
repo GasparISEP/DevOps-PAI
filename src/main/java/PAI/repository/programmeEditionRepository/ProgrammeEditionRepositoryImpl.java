@@ -90,4 +90,8 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
         }
         return programmeEditions;
     }
+
+    public SchoolYearID getSchoolYearIDByProgrammeEdition (ProgrammeEdition programmeEdition) {
+        return programmeEdition.findSchoolYearIDInProgrammeEdition();
+    }
 }

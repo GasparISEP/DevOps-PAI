@@ -18,4 +18,6 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
     Optional<ProgrammeEdition> ofIdentity(ProgrammeEditionID id);
 
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid);
+
+    SchoolYearID getSchoolYearIDByProgrammeEdition (ProgrammeEdition programmeEdition);
 }

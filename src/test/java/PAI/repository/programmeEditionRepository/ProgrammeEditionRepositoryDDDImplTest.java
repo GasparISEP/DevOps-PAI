@@ -489,4 +489,21 @@ class ProgrammeEditionRepositoryDDDImplTest {
         assertTrue(result.contains(edition2Double));
         assertFalse(result.contains(edition3Double));
     }
+
+    @Test
+    void shouldReturnSchoolYearIDByProgrammeEdition() throws Exception {
+        //arrange
+        // Arrange
+        IProgrammeEditionListFactory listFactoryDouble = mock(IProgrammeEditionListFactory.class);
+        IProgrammeEditionFactory programmeEditionFactoryDouble = mock(IProgrammeEditionFactory.class);
+        ProgrammeEditionRepositoryImpl repository = new ProgrammeEditionRepositoryImpl(listFactoryDouble, programmeEditionFactoryDouble);
+
+        ProgrammeEdition programmeEditionDouble = mock(ProgrammeEdition.class);
+        SchoolYearID schoolYearIDDouble = mock(SchoolYearID.class);
+        when(programmeEditionDouble.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearIDDouble);
+
+        SchoolYearID result = repository.getSchoolYearIDByProgrammeEdition(programmeEditionDouble);
+
+        assertEquals(schoolYearIDDouble,result);
+    }
 }
