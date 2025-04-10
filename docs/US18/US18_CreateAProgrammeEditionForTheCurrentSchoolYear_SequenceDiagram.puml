@@ -5,17 +5,26 @@ Actor ASC
 
 participant ":UI" as UI
 participant ":CreateAProgrammeEditionForTheCurrentSchoolYearController" as CPEC
+participant ":ProgrammeService" as PS
 participant ":ProgrammeRepository" as PR
 participant ":SchoolYearRepository" as SYR
 participant ":ProgrammeEditionRepository" as PER
 participant ":ProgrammeEditionFactory" as PEF
 
+'get all programmes name
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
 UI -> CPEC ++ #application : getAllProgrammeNames()
-CPEC -> PR ++ #application : getAllProgrammeNames()
-PR --> CPEC -- : programmeNamesList
+CPEC -> PS ++ #application : getAllProgrammeNames()
+PS -> PR ++ #application : getAllProgrammeNames()
+ref over PR
+    convert DataModel to Domain
+end ref
+PR --> PS -- : programmeNamesList
+PS --> CPEC -- : programmeNamesList
 CPEC --> UI -- : programmeNamesList
 UI -> ASC --  : Which Programme?
+'''''''''''''''''''''''''''''''''''''''''
+
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
 UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programmeName)
 

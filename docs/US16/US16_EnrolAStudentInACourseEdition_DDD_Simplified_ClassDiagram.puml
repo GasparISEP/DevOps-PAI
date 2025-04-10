@@ -13,6 +13,13 @@ class US16_EnrolAStudentInACourseEditionController {
     +findCourseEditionIDsByProgrammeEdition\n(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
 }
 
+note right of "US16_EnrolAStudentInACourseEditionController"
+This is Controller Of US16_EnrolAStudentInACourseEditionController
+And in this Diagram,
+Value Objects and ID's are represented as attributes of the Aggregates
+end note
+
+
 interface ICourseEditionEnrolmentRepository {
     +enrolStudentInACourseEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): boolean
 }
@@ -59,7 +66,12 @@ class CourseEditionEnrolmentFactoryImpl{
 }
 
 package "CourseEditionEnrolment Aggregate" #LightBlue {
-    entity "<<Root>>\n CourseEditionEnrolment" {
+    class CourseEditionEnrolment <<Root>> <<Entity>> {
+             -_courseEditionEnrolmentId: CourseEditionEnrolmentID
+             -_enrolmentDate: Date
+             -_isActive: EnrolmentStatus
+             -_studentId: StudentID
+             -_courseEditionId: CourseEditionID
              +CourseEditionEnrolment(studentId:StudentID,\n courseEditionId: CourseEditionID)
              +equals (obj: Object): boolean
              +hashCode(): int
@@ -67,48 +79,33 @@ package "CourseEditionEnrolment Aggregate" #LightBlue {
     }
 }
 
-note right of "CourseEditionEnrolment Aggregate"
-This is the Aggregate Root of CourseEditionEnrolment.
-And has it's Value Objects and ID's represented as attributes
-end note
 
-package "CourseEditionDDD Aggregate" #LightBlue{
-    entity "<<Root>>\n CourseEditionDDD" {
+package "CourseEdition Aggregate" #LightBlue{
+    class CourseEdition <<Root>> <<Entity>> {
+    -_courseEditionId: CourseEditionID
+    -_courseInStudyPlanId: CourseInStudyPlanID
+    -_programmeEditionId: ProgrammeEditionID
+    -_ruc: TeacherID
     +CourseEditionDDD(\n programmeEditionId: ProgrammeEditionID,\n courseInStudyPlanId: CourseInStudyPlanID,\n courseEditionId: CourseEditionID)
     +getProgrammeEditionID():\n ProgrammeEditionID
     +identity(): CourseEditionID
     }
 }
 
-note right of "CourseEditionDDD Aggregate"
-This is the Aggregate Root of CourseEdition.
-And has it's Values Objects and ID's represented as attributes.
-end note
-
-package "Student Aggregate" #LightBlue{
-    entity "<<Root>>\n Student" {
-    +Student(studentID: StudentID,\n name: Name,\n NIF: NIF,\n phone: PhoneNumber,\n email: Email,\n address: Address,\n academicEmail: StudentAcademicEmail)
-    }
-}
-
-note right of "Student Aggregate"
-This is the Aggregate Root of Student.
-And has it's Value Objects and ID's represented as attributes
-end note
 
 package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
-    entity "<<Root>>\n ProgrammeEditionEnrolment" {
-    +ProgrammeEditionEnrolment(\nstudentId: StudentID,
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
+    -_programmeEditionId: ProgrammeEditionID
+    -_enrolmentDate: LocalDate
+    -_programmeEditionEnrolmentId: ProgrammeEditionEnrolmentID
+    -_studentId: StudentID
+    +ProgrammeEditionEnrolment(\n studentId: StudentID,
     programmeEditionId: ProgrammeEditionID)
     +findStudentInProgrammeEdition(): StudentID
     +findProgrammeEditionInEnrolment(): ProgrammeEditionID
     }
 }
 
-note right of "ProgrammeEditionEnrolment Aggregate"
-This is the Aggregate Root of ProgrammeEditionEnrolment.
-And has it's VO's and ID's represented as attributes
-end note
 
 interface Set {
     +add(courseEditionEnrolment:
@@ -120,24 +117,24 @@ US16_EnrolAStudentInACourseEditionController "1   ".u.> "1    " ICourseEditionRe
 US16_EnrolAStudentInACourseEditionController "1  "..> "1       " IProgrammeEditionEnrolmentRepository
 US16_EnrolAStudentInACourseEditionController "1   "..> "  1    " ICourseEditionEnrolmentRepository
 
-"CourseEditionDDD Aggregate" "_listOfCE * " <-- "1   " CourseEditionRepositoryDDDImpl
+CourseEdition "_listOfCE * " <-- "1   " CourseEditionRepositoryDDDImpl
 
-"ProgrammeEditionEnrolment Aggregate" " *    " <-- "1   " ProgrammeEditionEnrolmentRepositoryImpl
+ProgrammeEditionEnrolment " *    " <-- "1   " ProgrammeEditionEnrolmentRepositoryImpl
 
 ICourseEditionEnrolmentRepository <|.u. CourseEditionEnrolmentRepositoryImpl
 IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
 ICourseEditionRepositoryDDD <|.. CourseEditionRepositoryDDDImpl
 
-Set "   1            " -->  "CourseEditionEnrolment Aggregate"
+Set "   1            " -->  CourseEditionEnrolment
 
 ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
 ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
 
 ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " Set
-ICourseEditionEnrolmentRepository"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentRepository"   1  " ..> " *   "CourseEditionEnrolment
 ICourseEditionEnrolmentRepository "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
 CourseEditionEnrolmentRepositoryImpl "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
-ICourseEditionEnrolmentFactory "1  " ..> "1  " "CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentFactory "1  " ..> "1  " CourseEditionEnrolment
 ICourseEditionEnrolmentListFactory "1  " .u.> "1  " Set
 
 @enduml

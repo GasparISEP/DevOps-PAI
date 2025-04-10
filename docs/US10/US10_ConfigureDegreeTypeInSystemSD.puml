@@ -1,44 +1,32 @@
 @startuml
 actor Administrator as Adm
 participant "US10_IWantToConfigureDegreeTypesLevelsController" as Controller #lightcoral
-participant "Name <<Value Object>>" as N #orange
-participant "MaxECTS <<Value Object>>" as MAX #orange
-participant "DegreeTypeID <<Value Object>>" as DTID #orange
-participant "DegreeTypeRepository" as DTR #lightgreen
+participant "DegreeTypeService" as S #lightgrey
 participant "DegreeTypeFactoryInterface" as DTF #lightblue
 
 
-Adm -> Controller : registerDegreeType(name, maxEcts, DegreeTypeID)
+
+
+Adm -> Controller : registerDegreeType(name, maxEcts)
 activate Controller
-activate N
-Controller -> N : <create> new(name)
-N -> N : IsNameValid
-N -> Controller : nameVO1
-deactivate N
-activate MAX
-Controller -> MAX : <create> new(maxEcts)
-MAX -> MAX : IsMaxEctsValueValid
-MAX -> Controller : MaxEctsVO1
-deactivate MAX
-activate DTID
-Controller -> DTID : <create> new(DegreeTypeID)
-DTID -> DTID : isDegreeTypeIDValid
-DTID -> Controller : "DegreeTypeIDVO1
-deactivate DTID
-Controller -> DTR : registerDegreeType(nameVO1, MaxEctsVO1, DegreeTypeIDVO1)
-activate DTR
-DTR -> DTF : addNewDegreeType(nameVO1, MaxEctsVO1, DegreeTypeIDVO1)
+Controller -> S : registerDegreeType(name, maxEcts, DegreeTypeID)
+activate S
+S -> DTF : registerDegreeType(name, maxEcts)
 activate DTF
+S -> DTF : addNewDegreeType(name, maxEcts)
 create "DT1:DegreeType" as DT #yellow
-DTF -> DT : Create DegreeType (nameVO1, MaxEctsVO1, DegreeTypeIDVO1)
+DTF -> DT : Create DegreeType (name, maxEcts)
 activate DT
-DT --> DTF : DegreeType Object
+DT --> DTF : DT1
 deactivate DT
-DTF --> DTR : DegreeType Object
+participant "DegreeTypeRepository" as DTR #lightgreen
+DTF --> S : DT1
 deactivate DTF
-DTR -> DTR : add DegreeType to Repository
-DTR --> Controller : Registration Successful
+S -> DTR : add DT1 to Repository
+DTR --> S : Registration Successful
 deactivate DTR
+S --> Controller : Registration Successful
+deactivate S
 Controller --> Adm : Registration Successful
 deactivate Controller
 @enduml
