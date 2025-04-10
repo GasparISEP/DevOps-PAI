@@ -32,7 +32,7 @@ class StudentGradeService {
         +containsOfIdentity(StudentGradeID id)
 }
 
-
+/'
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: CourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: CourseEditionEnrolmentListFactory)
     +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
@@ -72,7 +72,7 @@ entity "<<root>>\nCourseEditionEnrolment"  {
 
     }
     }
-
+    '/
 
 
 package "StudentGrade" {
@@ -210,13 +210,13 @@ IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
 IStudentGradeFactory  <|..  StudentGradeFactoryImpl
 
 
-CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
-ICourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
+/' CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
+/' ICourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
 "<<root>>\nCourseEditionEnrolment" --> "1" CourseEditionEnrolmentId
 US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " ICourseEditionEnrolmentRepository
 "<<root>>\nCourseEditionEnrolment" "*" -up-> "1" CourseEditionId
- "<<root>>\nCourseEditionEnrolment" --> "1" LocalDate
+ "<<root>>\nCourseEditionEnrolment" --> "1" LocalDate '/
 "<<root>>\nGradeStudent" --> "1" StudentGradeId
 "<<root>>\nCourseEdition" --> "1" CourseEditionId
 "<<root>>\nStudent" --> "1" StudentId
