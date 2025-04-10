@@ -57,6 +57,7 @@ class Teacher <<root>> {
 }
 
 interface ITeacherRepository {
+ofIdentity(id: Optional<Teacher>): Optional<Teacher>
 }
 
 class TeacherRepository {
@@ -119,6 +120,7 @@ class TeacherID <<Value Object>> {
      }
 
 US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1          " IDepartmentRepository
+US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1          " ITeacherRepository
 IDepartmentRepository <|.. DepartmentRepositoryImpl
 
 
