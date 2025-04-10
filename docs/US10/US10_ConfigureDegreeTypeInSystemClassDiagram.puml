@@ -2,16 +2,17 @@
 title US10: Configure a DegreeType in System
 
 class US10_IWantToConfigureDegreeTypesLevelsController {
-    -_degreeTypeRepository: DegreeTypeRepository
-    +US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepository : DegreeTypeRepository, degreeTypeFactory : DegreeTypeFactory)
+     +US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeService : DegreeTypeService)
+}
+
+class DegreeTypeService {
+    +DegreeTypeService(degreeTypeRepository : DegreeTypeRepository, degreeTypeFactory : DegreeTypeFactory)
     +registerDegreeType(name: String, maxEcts: int): boolean
+    +addNewDegreeType(degreeType :
 }
 
 package "DegreeType" {
 entity "<<root>>\nDegreeType"  {
-    -degreeTypeId: DegreeTypeID
-    -name: Name
-    -maxEcts: MaxECTS
     + nameIsInvalid(): boolean
     + maxEctsIsInvalid(): boolean
 
@@ -31,8 +32,6 @@ class MaxECTS <<ValueObject>> {
                 }
 
 class DegreeTypeRepository {
-    -_degreeTypeFactoryInterface: DegreeTypeListFactoryInterface
-    -_degreeTypeRepository: List<DegreeType>
     +DegreeTypeRepository()
     +registerDegreeType(name: String, maxEcts: int): boolean
 }
@@ -45,30 +44,16 @@ class DegreeTypeFactoryImpl {
     +addNewDegreeType(name: String, maxEcts: int): DegreeType
 }
 
-interface DegreeTypeFactoryInterface {
+interface IDegreeTypeFactory {
     +addNewDegreeType (name: String, maxEcts: int): DegreeType
     }
 
-class List<DegreeType> {}
 
-interface DegreeTypeListFactoryInterface {
-    +createDegreeTypeList(): List<DegreeType>
-    }
-
-class DegreeTypeListFactoryImpl {
-    +createDegreeTypeList(): List<DegreeType>
-    }
-
-US10_IWantToConfigureDegreeTypesLevelsController "1" ..> "1\n_degreeTypeRepository    " IDegreeTypeRepository
-DegreeType "degreeTypesList *      " <.. "1" IDegreeTypeRepository
-DegreeTypeListFactoryInterface "1" ..> "1" List
-IDegreeTypeRepository "1" ..> "1" DegreeTypeFactoryInterface
-DegreeTypeFactoryInterface "1" <|.. "1" DegreeTypeFactoryImpl
-DegreeType "1" <.. "1" DegreeTypeFactoryInterface
-List "1" --> "*" DegreeType
-IDegreeTypeRepository "1" --> "1" List
-IDegreeTypeRepository "1" ..> "1" DegreeTypeListFactoryInterface
-DegreeTypeListFactoryImpl "1" ..|> "1" DegreeTypeListFactoryInterface
+US10_IWantToConfigureDegreeTypesLevelsController "1" ..> "1" DegreeTypeService
+DegreeTypeService "1" ..> "1" IDegreeTypeRepository
+DegreeTypeService "1" ..> "1" IDegreeTypeFactory
+IDegreeTypeFactory "1" ..> "1" DegreeType
+IDegreeTypeFactory "1" <|.. "1" DegreeTypeFactoryImpl
 DegreeTypeRepository "1" ..|> "1" IDegreeTypeRepository
 "<<root>>\nDegreeType" --> "1" DegreeTypeID
 "<<root>>\nDegreeType" --> "1" Name
