@@ -12,7 +12,7 @@ participant ":UI" as UI #LightBlue/White
 participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
 participant ":IDepartmentRepo" as IDepartmentRepo #LightBlue/White
 participant ":ISchoolYearRepo" as ISchoolYearRepo #LightBlue/White
-participant ":IProgrammeDDDRepo" as IProgrammeDDDRepo #LightBlue/White
+participant ":IProgrammeRepo" as IProgrammeRepo #LightBlue/White
 
 
 
@@ -53,27 +53,27 @@ deactivate ISchoolYearRepo
 Controller -> IDepartmentRepo: departmentExists(departmentID)
 IDepartmentRepo-->Controller: true
 deactivate IDepartmentRepo
-Controller -> IProgrammeDDDRepo: findProgrammeByDepartment(departmentID)
-activate IProgrammeDDDRepo
+Controller -> IProgrammeRepo: findProgrammeByDepartment(departmentID)
+activate IProgrammeRepo
 
 create ":ProgrammesWithDepartment" #LightBlue/White
-IProgrammeDDDRepo -> ":ProgrammesWithDepartment"** : new List <ProgrammeID>()
+IProgrammeRepo -> ":ProgrammesWithDepartment"** : new List <ProgrammeID>()
 activate ":ProgrammesWithDepartment"
-participant ":ProgrammeDDD" as ProgrammeDDD #LightBlue/White
-loop for each ProgrammeDDD[i] in IProgrammeDDDRepo
-IProgrammeDDDRepo -> ProgrammeDDD: isInDepartment
-ProgrammeDDD --> IProgrammeDDDRepo: True
+participant ":Programme" as Programme #LightBlue/White
+loop for each Programme[i] in IProgrammeRepo
+IProgrammeRepo -> Programme: isInDepartment
+Programme --> IProgrammeRepo: True
 alt isInDepartment
 
-IProgrammeDDDRepo -> ProgrammeDDD: identity()
-ProgrammeDDD --> IProgrammeDDDRepo: ProgrammeID
-IProgrammeDDDRepo -> ":ProgrammesWithDepartment": add(ProgrammeID)
+IProgrammeRepo -> Programme: identity()
+Programme --> IProgrammeRepo: ProgrammeID
+IProgrammeRepo -> ":ProgrammesWithDepartment": add(ProgrammeID)
 end
 end
-":ProgrammesWithDepartment" --> IProgrammeDDDRepo: List <ProgrammeID> ProgrammesWithDepartment
+":ProgrammesWithDepartment" --> IProgrammeRepo: List <ProgrammeID> ProgrammesWithDepartment
 deactivate ":ProgrammesWithDepartment"
-IProgrammeDDDRepo --> Controller: List <ProgrammeID> ProgrammesWithDepartment
-deactivate IProgrammeDDDRepo
+IProgrammeRepo --> Controller: List <ProgrammeID> ProgrammesWithDepartment
+deactivate IProgrammeRepo
 participant ":IProgrammeEditionEnrolmentRepo" as IProgrammeEditionEnrolRepo #LightBlue/White
 participant "pee[i]:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment #LightBlue/White
 participant ":studentIDs" as StudentIDs #LightBlue/White

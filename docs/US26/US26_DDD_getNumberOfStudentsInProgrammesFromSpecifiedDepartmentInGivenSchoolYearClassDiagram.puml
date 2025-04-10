@@ -22,11 +22,11 @@ class DepartmentRepositoryImpl {
     +findDepartmentByID(DepartmentID department) :Optional <Department>
 }
 
-interface IProgrammeDDDRepository {
+interface IProgrammeRepository {
     +findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
 }
 
-class ProgrammeDDDRepositoryImpl {
+class ProgrammeRepositoryImpl {
      +findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
 }
 
@@ -47,8 +47,8 @@ class SchoolYearRepository {
 
 'Aggregates'
 
-package "ProgrammeDDD Aggregate" #LightBlue{
-    class ProgrammeDDD <<Root>> <<Entity>> {
+package "Programme Aggregate" #LightBlue{
+    class Programme <<Root>> <<Entity>> {
     +isInDepartment ( departmentID: DepartmentID): boolean
     +identity (): ProgrammeID
     }
@@ -123,12 +123,12 @@ class LocalDate <<Value Object>> {
  ProgrammeEditionEnrolment "1" --> "1" StudentID
  ProgrammeEditionEnrolment "1" --> "1" LocalDate
 
-ProgrammeDDD "1" --> "1" NameWithNumbersAndSpecialChars
-ProgrammeDDD "1" --> "1" QuantSemesters
-ProgrammeDDD "1" --> "1" QuantEcts
-ProgrammeDDD "1" --> "1" Acronym
-ProgrammeDDD "1" --> "1" DegreeTypeID
-ProgrammeDDD "1" --> "1 _programmeDirectorID" TeacherID
+Programme "1" --> "1" NameWithNumbersAndSpecialChars
+Programme "1" --> "1" QuantSemesters
+Programme "1" --> "1" QuantEcts
+Programme "1" --> "1" Acronym
+Programme "1" --> "1" DegreeTypeID
+Programme "1" --> "1 _programmeDirectorID" TeacherID
 
 Department "1" --> "1" Name
 Department "1" --> "1 _director" TeacherID
@@ -141,15 +141,15 @@ SchoolYearRepository "1" --> "1..*" SchoolYear
 SchoolYear "1" --> "1 _schoolYearID" SchoolYearID
 Department "1" --> "1 _departmentID" DepartmentID
 DepartmentRepositoryImpl "1" --> "1..*" Department
-ProgrammeDDDRepositoryImpl "1" --> "1..*" ProgrammeDDD
-ProgrammeDDD "1" --> "1 _departmentID" DepartmentID
-ProgrammeDDD "1" -u-> "1 _programmeID" ProgrammeID
+ProgrammeRepositoryImpl "1" --> "1..*" Programme
+Programme "1" --> "1 _departmentID" DepartmentID
+Programme "1" -u-> "1 _programmeID" ProgrammeID
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _departmentRepository" "IDepartmentRepository"
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _peeRepo" "IProgrammeEditionEnrolmentRepository"
-US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _pDDDRepo" "IProgrammeDDDRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _pRepo" "IProgrammeRepository"
 US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController "1" ..> "1 _schoolYearRepository"  "ISchoolYearRepository"
 IDepartmentRepository <|.. DepartmentRepositoryImpl
-IProgrammeDDDRepository <|.. ProgrammeDDDRepositoryImpl
+IProgrammeRepository <|.. ProgrammeRepositoryImpl
 IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepository
 ISchoolYearRepository <|.. SchoolYearRepository
 
