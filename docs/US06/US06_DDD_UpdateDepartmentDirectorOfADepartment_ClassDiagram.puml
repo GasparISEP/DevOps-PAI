@@ -64,10 +64,6 @@ class TeacherRepository {
   ofIdentity(id: Optional<Teacher>): Optional<Teacher>
 }
 
-class Name <<Value Object>> {
-    -_name: String
-    + Name (name: String)
-}
 
 class Email <<Value Object>> {
     -_email: String
