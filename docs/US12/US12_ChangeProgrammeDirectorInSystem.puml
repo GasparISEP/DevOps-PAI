@@ -1,50 +1,116 @@
 @startuml
-actor ASC
+actor ACS
 participant ":UI" as UI
-participant ":US12_ChangeProgrammeDirectorInSystem" as US12
-participant ":TeacherRepository" as TR
-participant ":ProgrammeRepository" as PL #lightgreen
+participant ":ProgrammeController" as Controller
+participant ":ProgrammeService" as Service
+participant ":ITeacherRepository" as TR
+participant ":IProgrammeRepository" as PR #lightgreen
 participant ":Programme" as PG #yellow
+participant ":Database" as DB #gray
+participant ":DataModel" as DM #lightblue
 autonumber
 
-ASC -> UI : I want to change Programme Director
+' Primeira interação: Solicitar lista de Programmes
+ACS -> UI : Show list of Programmes
 activate UI #application
-UI --> ASC : Programme? Teacher?
+UI -> Controller : getAllProgrammes()
+activate Controller #application
+Controller -> Service : getAllProgrammes()
+activate Service #application
+Service -> PR : getAllProgrammes()
+activate PR #application
+PR -> DB : fetchAllProgrammes()
+activate DB #application
+DB -> DM : toDataModel(Programmes)
+activate DM #application
+DM --> DB : DataModel<Programmes>
+deactivate DM
+DB --> PR : DataModel<Programmes>
+deactivate DB
+PR --> Service : DataModel<Programmes>
+deactivate PR
+Service --> Controller : DataModel<Programmes>
+deactivate Service
+Controller --> UI : List of Programmes
+deactivate Controller
+UI --> ACS : Display Programmes
 deactivate UI
 
-ASC -> UI : Programme1! Teacher1!
+' ACS escolhe um Programme
+ACS -> UI : Select Programme1ID
 activate UI #application
-UI -> US12 : changeProgrammeDirector(Programme1, Teacher1)
-activate US12 #application
+UI --> ACS : Programme Selected
+deactivate UI
 
-US12 -> TR : getTeacherId(Teacher1)
+' Segunda interação: Solicitar lista de Teachers
+ACS -> UI : Show list of Teachers
+activate UI #application
+UI -> Controller : getAllTeachers()
+activate Controller #application
+Controller -> Service : getAllTeachers()
+activate Service #application
+Service -> TR : getAllTeachers()
 activate TR #application
-TR -> US12 : :tIdVO1
+TR -> DB : fetchAllTeachers()
+activate DB #application
+DB -> DM : toDataModel(Teachers)
+activate DM #application
+DM --> DB : DataModel<Teachers>
+deactivate DM
+DB --> TR : DataModel<Teachers>
+deactivate DB
+TR --> Service: DataModel <Teachers>
 deactivate TR
-US12 -> PL : getProgrammeId(Programme1)
-activate PL #application
-PL -> US12 : :pIDVO1
-deactivate PL
-
-US12 -> PL :changeProgrammeDirector(:pIDVO1, :tIdVO1)
-activate PL #application
-
-PL -> PL : ofIdentity(:pIDVO1)
-ref over PL
-    \t \t Convert ID to programme \t
-end ref
-
-PL -> PG : newProgrammeDirector(:tIdVO1)
-activate PG #application
-PG -> PG : validates if teacher is not Null
-
-PG --> PL : true
-deactivate PG
-PL->US12 : true
-deactivate PL
-US12 --> UI : true
-deactivate US12
-
-UI --> ASC : Success!
+Service --> Controller : DataModel<Teachers>
+deactivate Service
+Controller --> UI : List of Teachers
+deactivate Controller
+UI --> ACS : Display Teachers
 deactivate UI
+
+' ACS escolhe um Teacher
+ACS -> UI : Select Teacher1ID
+activate UI #application
+UI --> ACS : Teacher Selected
+deactivate UI
+
+' Terceira interação: Mudar o director do programa
+ACS -> UI : Change Programme Director
+activate UI #application
+UI -> Controller : changeProgrammeDirector("Programme1ID", "Teacher1ID")
+activate Controller #application
+
+Controller -> Service : changeProgrammeDirector("Programme1ID", "Teacher1ID")
+activate Service #application
+
+
+
+Service -> PG : newProgrammeDirector(Teacher1)  ' Passa o Teacher para o Programme
+activate PG #application
+PG --> Service : true
+deactivate PG
+
+
+Service -> PR : updateProgrammeDirector
+activate PR #application
+PR -> DB : updateProgrammeDirector
+activate DB #application
+DB -> DM : toDataModel(Programme1)
+activate DM #application
+DM --> DB : DataModel<Programme1WithNewDirector>
+deactivate DM
+DB --> PR : true
+deactivate DB
+PR --> Service : true
+deactivate PR
+
+
+Service --> Controller : true
+deactivate Service
+
+Controller --> UI : Success!
+deactivate Controller
+UI --> ACS : Success!
+deactivate UI
+
 @enduml
