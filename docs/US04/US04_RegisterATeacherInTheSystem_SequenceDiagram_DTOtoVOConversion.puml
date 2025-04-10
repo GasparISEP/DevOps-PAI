@@ -1,0 +1,17 @@
+@startuml
+autonumber
+title US04: Register a Teacher in the System
+participant ":US04_IWantToRegisterATeacherInTheSystemController" as Controller #LightBlue/White
+Controller -> TeacherAcronym**: **createAcronym**(acronym)
+Controller -> Email**: **createEmail**(email)
+Controller -> Name**: **createName**(name)
+Controller -> Nif**: **createNif**(nif)
+Controller-> PhoneNumber**: **createPhoneNumber**(phoneNumber)
+Controller -> AcademicBackground**: **createAcademicBackground**(academicBackground)
+Controller -> Street**: **createPhoneStreet**(street)
+Controller -> PostalCode**: **createPostalCode**(postalCode)
+Controller -> Country**: **createCountry**(country)
+Controller -> DepartmentID**: **createDepartmentID**(departmentID)
+
+
+@enduml

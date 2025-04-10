@@ -1,0 +1,236 @@
+@startuml
+title US22: I want to grade a student in a CourseEdition
+'left to right direction
+
+class US22_IWantToGradeAStudentInACourseEdition {
+    +US22_IWantToGradeAStudentInACourseEdition(gradeStudentRepository : GradeStudentRepository, courseEditionEnrolmentRepository : CourseEditionEnrolmentRepository)
+    +isStudentEnrolledInCourseEdition(courseEdition : CourseEdition, student : Student): boolean
+    +iWantToGradeAStudent(grade : int, date : String student : Student, courseEdition : CourseEdition): GradeStudent
+    +findStudentIdByStudent(Student student)
+    +findStudentIdByCourseEdition(Course Edition)
+}
+
+interface IStudentGradeService {
+        +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
+        +knowAverageGrade(CourseEditionID)
+        +knowApprovalRate(CourseEditionID)
+        +findIdByStudent (StudentGrade studentGrade)
+        +save(StudentGrade entity)
+        +findAll()
+        +ofIdentity(StudentGradeID id)
+        +containsOfIdentity(StudentGradeID id)
+}
+
+class StudentGradeService {
+        +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
+        +knowAverageGrade(CourseEditionID)
+        +knowApprovalRate(CourseEditionID)
+        +findIdByStudent (StudentGrade studentGrade)
+        +save(StudentGrade entity)
+        +findAll()
+        +ofIdentity(StudentGradeID id)
+        +containsOfIdentity(StudentGradeID id)
+}
+
+/'
+class CourseEditionEnrolmentRepository {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: CourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: CourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition): CourseEditionEnrolment
+    +numberOfStudentsEnrolledInCourseEdition (CourseEdition : CourseEdition): int
+    +removeEnrolment (student : Student): boolean
+    +enrolStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: CourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: CourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +isStudentEnrolledInCourseEdition (student: Student, courseEdition: CourseEdition): boolean
+    +findByStudentAndEdition (student: Student, courseEdition: CourseEdition): CourseEditionEnrolment
+    +numberOfStudentsEnrolledInCourseEdition (CourseEdition : CourseEdition): int
+    +removeEnrolment (student : Student): boolean
+    +enrolStudentInProgrammeCourseEdition(student : Student, List<CourseEdition> courseEdition)
+}
+
+
+ class CourseEditionEnrolmentId <<ValueObject>> {
+-StudentID
+-CourseEditionID
++equals()
++hashCode()
++toString()
+        }
+
+package "CourseEditionEnrolment" {
+entity "<<root>>\nCourseEditionEnrolment"  {
+         +CourseEditionEnrolment(student:Student, courseEdition: CourseEdition)
+         +equals (obj: Object): boolean
+         +knowStudent(): Student
+         +knowCourseEdition(): CourseEdition
+         +deactivateEnrollment()
+
+    }
+    }
+    '/
+
+
+package "StudentGrade" {
+entity "<<root>>\nGradeStudent"  {
+    +hasThisCourseEdition(CourseEdition : CourseEdition)
+    +knowCourseEdition()
+    +get_student()
+    +get_courseEdition()
+    +equals (objectToCompare: Object)
+
+    }
+
+}
+class Grade <<ValueObject>> {
+        -grade: double
+        +knowGrade()
+    }
+    class LocalDate <<ValueObject>> {
+            -date: String
+            +isDateValid(String date)
+            +get_date()
+        }
+
+ class StudentGradeId <<ValueObject>> {
+    -courseEditionID
+    -studentID
+    +equals()
+    +toString()
+        }
+
+class StudentGradeRepository {
+    +addGradeToStudent(Grade, Date, student, CourseEdition)
+    +knowAverageGrade(Course Edition)
+    +knowApprovalRate(Course Edition)
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+}
+
+interface IStudentGradeRepositoryInterface {
+   +addGradeToStudent(Grade, Date, student, CourseEdition)
+   +knowAverageGrade(Course Edition)
+   +knowApprovalRate(Course Edition)
+   +findIdByStudent (StudentGrade studentGrade)
+       +save(StudentGrade entity)
+       +findAll()
+       +ofIdentity(StudentGradeID id)
+       +containsOfIdentity(StudentGradeID id)
+}
+
+interface IStudentGradeFactory {
+    +newGradeStudent()
+}
+
+
+class StudentGradeFactoryImpl {
+    +newGradeStudent()
+}
+
+
+
+class StudentId <<ValueObject>> {
+uniqueNumber: int
++equals()
++getUniqueNumber()
++isEquals()
+            }
+
+package "Student" {
+entity "<<root>>\nStudent"  {
+        +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+         +isStudentRepeated(students: List<Student>)
+         +hasSameUniqueNumber(Student student)
+         +hasSameNIF (Student student)
+         +getUniqueNumber(): String
+         +hasThisUniqueNumber(String uniqueNumber)
+
+    }
+
+    }
+    class Name <<ValueObject>> {
+                    -Name : String
+                    +getName()
+                    +equals()
+                    +hashCode()
+                }
+        class NIF <<ValueObject>> {
+                     -NIF : String
+                }
+        class Phone <<ValueObject>> {
+                         -CountryCode: String
+                         -Number: String
+                    }
+        class Email <<ValueObject>> {
+                         -Email: String
+                        }
+         class Address <<ValueObject>> {
+                         -Street
+                         -PostalCode
+                         -Location
+                         -Country
+                            }
+class CourseEditionId <<ValueObject>> {
+-ProgrammeEdiitionID
+-CourseInStudyPlanID
++toString()
++equals()
+            }
+
+
+package "CourseEdition" {
+entity "<<root>>\nCourseEdition"  {
+        +Equals(objectToCompare: Object)
+      +setRuc(Teacher: ruc)
+      +whatProgrammeEditionBelongsThisCourseEdition ()
+      +getCourse()
+
+    }
+    }
+
+
+"<<root>>\nStudent" "*" --> "1" Name
+"<<root>>\nStudent" "*" --> "1" NIF
+"<<root>>\nStudent" "*" --> "1" Email
+"<<root>>\nStudent" "*" --> "1" Phone
+"<<root>>\nStudent" "*" --> "1" Address
+"<<root>>\nGradeStudent" "*" --> "1" Grade
+"<<root>>\nGradeStudent" "*" --> "1" LocalDate
+"<<root>>\nGradeStudent" --> "1" StudentId: belongs
+"<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
+IStudentGradeService "1" ....> IStudentGradeFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+IStudentGradeFactory  <|..  StudentGradeFactoryImpl
+
+
+/' CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
+/' ICourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
+"<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
+"<<root>>\nCourseEditionEnrolment" --> "1" CourseEditionEnrolmentId
+US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " ICourseEditionEnrolmentRepository
+"<<root>>\nCourseEditionEnrolment" "*" -up-> "1" CourseEditionId
+ "<<root>>\nCourseEditionEnrolment" --> "1" LocalDate '/
+"<<root>>\nGradeStudent" --> "1" StudentGradeId
+"<<root>>\nCourseEdition" --> "1" CourseEditionId
+"<<root>>\nStudent" --> "1" StudentId
+IStudentGradeService <|..StudentGradeService
+IStudentGradeRepositoryInterface <|..StudentGradeRepository
+
+
+
+IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
+
+
+
+
+IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
+US22_IWantToGradeAStudentInACourseEdition "*" ..> "1" IStudentGradeService
+
+@enduml
