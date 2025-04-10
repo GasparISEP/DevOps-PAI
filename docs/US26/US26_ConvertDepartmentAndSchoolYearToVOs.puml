@@ -1,0 +1,17 @@
+@startuml
+title US26_DDD_ConvertDepartmentAndSchoolYearToVOs
+
+autonumber
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+participant ":US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController" as controller #cyan/white
+
+activate controller
+
+controller -> "dID:DepartmentID"** : create(departmentID)
+
+controller ->"syID:SchoolYearID" **: create(SchoolYearID)
+deactivate controller
+@enduml
