@@ -103,7 +103,7 @@ class Grade <<ValueObject>> {
     +toString()
         }
 
-class GradeStudentRepository {
+class StudentGradeRepository {
     +addGradeToStudent(Grade, Date, student, CourseEdition)
     +knowAverageGrade(Course Edition)
     +knowApprovalRate(Course Edition)
@@ -114,7 +114,7 @@ class GradeStudentRepository {
     +containsOfIdentity(StudentGradeID id)
 }
 
-interface IGradeStudentRepositoryInterface {
+interface IStudentGradeRepositoryInterface {
    +addGradeToStudent(Grade, Date, student, CourseEdition)
    +knowAverageGrade(Course Edition)
    +knowApprovalRate(Course Edition)
@@ -125,12 +125,12 @@ interface IGradeStudentRepositoryInterface {
        +containsOfIdentity(StudentGradeID id)
 }
 
-interface IGradeStudentFactory {
+interface IStudentGradeFactory {
     +newGradeStudent()
 }
 
 
-class GradeStudentFactoryImpl {
+class StudentGradeFactoryImpl {
     +newGradeStudent()
 }
 
@@ -205,9 +205,9 @@ entity "<<root>>\nCourseEdition"  {
 "<<root>>\nGradeStudent" "*" --> "1" LocalDate
 "<<root>>\nGradeStudent" --> "1" StudentId: belongs
 "<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
-IStudentGradeService "1" ....> IGradeStudentFactory
-IGradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
-IGradeStudentFactory  <|..  GradeStudentFactoryImpl
+IStudentGradeService "1" ....> IStudentGradeFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+IStudentGradeFactory  <|..  StudentGradeFactoryImpl
 
 
 /' CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
@@ -221,7 +221,7 @@ US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " ICourseEditionEn
 "<<root>>\nCourseEdition" --> "1" CourseEditionId
 "<<root>>\nStudent" --> "1" StudentId
 IStudentGradeService <|..StudentGradeService
-IGradeStudentRepositoryInterface <|..GradeStudentRepository
+IStudentGradeRepositoryInterface <|..StudentGradeRepository
 
 
 
@@ -230,7 +230,7 @@ IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
 
 
 
-IStudentGradeService "1" ..|> IGradeStudentRepositoryInterface
+IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
 US22_IWantToGradeAStudentInACourseEdition "*" ..> "1" IStudentGradeService
 
 @enduml
