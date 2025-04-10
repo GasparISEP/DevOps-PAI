@@ -1,197 +1,87 @@
 @startuml
 !pragma layout smetana
 
+'===============================
+' CONTROLLER
+'===============================
 class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
-    -_programmeList: ProgrammeRepository
-    +US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList : ProgrammeRepository)
-    +changeProgrammeDirector(programme : Programme, teacher : Teacher): boolean
+    +US12_iWantToChangeProgrammeDirectorOfProgrammeController(service : IProgrammeService)
+    +changeProgrammeDirector() : boolean
 }
 
-package "Programme" {
-class "<<root>>\nProgramme" {
-     -_name: Name
-     -_acronym: Acronym
-     -_quantityOfEcts: QuantityOfEcts
-     -_quantityOfSemesters: QuantityOfSemesters
-     -_programmeID: ProgrammeID
-     -_degreeTypeID: DegreeTypeID
-     -_departmentID: DepartmentID
-     -_programmeDirector: TeacherID
-     -_courseList: List <Course>
-     -_programmeCourseListFactory: IProgrammeCourseListFactory
-     -_studyPlanID: StudyPlanID
-     +equals(o: Object): boolean
-     +isEquals(programme: Programme): boolean
-     +addCourseToProgramme (course: Course): boolean
-     +newProgrammeDirector(teacherDirector: Teacher): boolean
-     +isInDepartment(department: Department): boolean
-     +getCourseList(): List<Course>
-     +getQuantityOfSemester(): int
-     +getQuantityOfEcts(): int
-     +getAcronym(): String
-     +getProgrammeName(): String
-     +calculateNumberOfYears(quantityOfSemesters : int): int
-     +hasThisProgrammeName(String : name): boolean
-     }
+'===============================
+' SERVICE
+'===============================
+class ProgrammeService {
+    +changeProgrammeDirector: boolean
 }
 
-class Name <<ValueObject>> {
-     -_name: String
-}
-
-class Acronym <<ValueObject>> {
-     -_acronym: String
-}
-
-class QuantityOfSemesters <<ValueObject>> {
-    -_quantityOfSemesters: int
-}
-
-class QuantityOfEcts <<ValueObject>> {
-    -_quantityOfEcts: int
-}
-
-class ProgrammeID <<ValueObject>> {
-    -_programmeID: Long
-}
-
-class ProgrammeRepository {
-     -_programmeFactory: IProgrammeFactory
-     -_programmeList: List<Programme>
-     -_programmeListArrayListFactory: IProgrammeRepositoryListFactory
-     +registerProgramme(name : String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
-                            courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory): boolean
-     +changeProgrammeDirector(Programme programme, Teacher newDirector): boolean
-     +getAllProgrammes(): List<Programme>
-     +getCourseList(programme: Programme): List<Course>
-     +getProgrammeByName(String : name): Optional<Programme>
-     +getProgrammeByAcronym(String : acronym) Programme
-     +getAllProgrammeNames(): List<String>
-}
-
+'===============================
+' REPOSITORY
+'===============================
 interface IProgrammeRepository {
-     -_programmeFactory: IProgrammeFactory
-     -_programmeList: List<Programme>
-     -_programmeListArrayListFactory: IProgrammeRepositoryListFactory
-     +registerProgramme(name : String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : ProgrammeCourseListFactory,
-     courseInStudyPlanFactory : CourseInStudyPlanFactory, studyPlanArrayListFactory : StudyPlanArrayListFactory, studyPlanFactory : StudyPlanFactory, courseFactory : CourseFactory)
-     +changeProgrammeDirector(Programme programme, Teacher newDirector)
-     +getAllProgrammes()
-     +getCourseList(programme: Programme)
-     +getProgrammeByName(String : name)
-     +getProgrammeByAcronym(String : acronym)
-     +getAllProgrammeNames()
+    +getProgrammeById(programmeId : ProgrammeId): DataModel <Programme>
+    +changeProgrammeDirector(programme: Programme, newDirector: TeacherId): boolean
 }
 
-class ProgrammeFactoryImpl {
-    +registerProgramme(name: String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : IProgrammeCourseListFactory,
-                            courseInStudyPlanFactory : ICourseInStudyPlanFactory, studyPlanArrayListFactory : IStudyPlanArrayListFactory, studyPlanFactory : IStudyPlanFactory, courseFactory : ICourseFactory): Programme
+class ProgrammeRepositoryImpl {
+    +getProgrammeById(programmeId : ProgrammeId): DataModel <Programme>
+    +changeProgrammeDirector(programme: Programme, newDirector: TeacherId): boolean
+}
+
+interface ITeacherRepository {
+    +getTeacherById(teacherId : TeacherId): DataModel <Teacher>
+}
+
+class TeacherRepositoryImpl {
+    +getTeacherById(teacherId : TeacherId): DataModel <Teacher>
 }
 
 interface IProgrammeFactory {
-    +registerProgramme(name: String, acronym : String, quantityOfEcts : int, quantityOfSemesters : int, degreeType : DegreeType, department : Department, programmeDirector : Teacher, programmeCourseListFactory : IProgrammeCourseListFactory,
-                           courseInStudyPlanFactory : ICourseInStudyPlanFactory, studyPlanArrayListFactory : IStudyPlanArrayListFactory, studyPlanFactory : IStudyPlanFactory, courseFactory : ICourseFactory): Programme
+    +registerProgramme(...): Programme
 }
 
-class ProgrammeRepositoryListImpl {
-    +newProgrammeArrayList()
-    +copyProgrammeArrayList(list: List<Programme>): List<Programme>
-}
-
-interface IProgrammeRepositoryListFactory {
-    +newProgrammeArrayList()
-    +copyProgrammeArrayList(list: List<Programme>): List<Programme>
-}
-
-class List<Programme> {
-}
-
-package "Teacher" {
-class "<<root>>\nTeacher" {
-     -_name: Name
-     -_acronym: Acronym
-     -_email: Email
-     -_nif: NIF
-     -_phoneNumber: PhoneNumber
-     -_academicBackground: AcademicBackground
-     -_address: Address
-     -_addressFactory: IAddressFactory
-     -_department: DepartmentID
-     -_teacherCareerProgressionList: List<TeacherCareerProgression>
-     -_teacherCareerProgressionFactory: ITeacherCareerProgressionFactory
-     +Teacher(acronym: Acronym, name: Name, email: Email, nif: NIF, phoneNumber: PhoneNumber,
-                        academicBackground: AcademicBackground, street: String, postalCode: String, location: String, country: String,
-                        date: String, category: TeacherCategory, workingPercentage: int, department: Department)
-     +hasSameAcronym(teacher: Teacher): boolean
-     +hasSameNif(teacher: Teacher): boolean
-     +isInDepartment(department: Department): boolean
-     +hasThisNIF(NIF: String): boolean
-     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int): boolean
-     +updateTeacherCategoryInTeacherCareerProgression(date: String, teacherCategory: TeacherCategory): boolean
+'===============================
+' DOMAIN PACKAGES
+'===============================
+package "Programme" {
+    class "<<root>>\nProgramme" {
+        -_name
+        -_acronym
+        -_quantityOfEcts
+        -_quantityOfSemesters
+        -_programmeID
+        -_degreeTypeID
+        -_departmentID
+        +equals(o: Object): boolean
+        +isEquals(programme: Programme): boolean
+        +newProgrammeDirector(teacherDirectorId: TeacherId): boolean
+        +isInDepartment(department: Department): boolean
+        +getQuantityOfSemester(): int
+        +getQuantityOfEcts(): int
+        +getAcronym(): String
+        +getProgrammeName(): String
+        +calculateNumberOfYears(quantityOfSemesters : int): int
+        +hasThisProgrammeName(String : name): boolean
     }
 }
 
-class Name <<ValueObject>> {
-    -_name: String
+class "TeacherId" {
+    -_teacherId: String
 }
 
-class Acronym <<ValueObject>> {
-    -_acronym: String
-}
+'===============================
+' RELATIONS
+'===============================
+US12_iWantToChangeProgrammeDirectorOfProgrammeController --> ProgrammeService
+ProgrammeService --> IProgrammeRepository
+ProgrammeService --> IProgrammeFactory
+ProgrammeService --> ITeacherRepository
 
-class Email <<ValueObject>> {
-    -_email: String
-}
+ProgrammeRepositoryImpl ..|> IProgrammeRepository
+TeacherRepositoryImpl ..|> ITeacherRepository
+IProgrammeFactory ..> "<<root>>\nProgramme"
 
-class NIF <<ValueObject>> {
-    -_nif: String
-}
-
-class PhoneNumber <<ValueObject>> {
-    -_phoneNumber: String
-}
-
-class AcademicBackground <<ValueObject>> {
-    -_academicBackground: String
-}
-
-class Address <<ValueObject>> {
-    -_address: String
-}
-
-"<<root>>\nProgramme" "*" --> "1" Name
-"<<root>>\nProgramme" "*" --> "1" Acronym
-"<<root>>\nProgramme" "*" --> "1" QuantityOfSemesters
-"<<root>>\nProgramme" "*" --> "1" QuantityOfEcts
-"<<root>>\nProgramme" --> "1" TeacherID : has a Programme Director
-"<<root>>\nProgramme" --> "1" DepartmentID
-"<<root>>\nProgramme" --> "1" DegreeTypeID
-"<<root>>\nProgramme" --> "1" Course
-"<<root>>\nProgramme" --> "1" StudyPlanID
-"<<root>>\nProgramme" --> "1" IProgrammeCourseListFactory
-"<<root>>\nProgramme" --> "1" ProgrammeID: belongs
-"<<root>>\nTeacher" "*" --> "1" Name
-"<<root>>\nTeacher" "*" --> "1" Acronym
-"<<root>>\nTeacher" "*" --> "1" Email
-"<<root>>\nTeacher" "*" --> "1" NIF
-"<<root>>\nTeacher" "*" --> "1" PhoneNumber
-"<<root>>\nTeacher" "*" --> "1" AcademicBackground
-"<<root>>\nTeacher" "*" --> "1" Address
-"<<root>>\nTeacher" --> "1" DepartmentID
-"<<root>>\nTeacher" --> "1" IAddressFactory
-"<<root>>\nTeacher" --> "1" TeacherCareerProgression
-"<<root>>\nTeacher" --> "1" ITeacherCareerProgressionFactory
-"<<root>>\nTeacher" --> "1" TeacherID: belongs
-IProgrammeFactory "1" <|.. "1" ProgrammeFactoryImpl
-IProgrammeRepositoryListFactory "1" <|.. "1" ProgrammeRepositoryListImpl
-List --> Programme
-IProgrammeRepositoryListFactory ..> List : <<creates>>
-IProgrammeFactory ..> Programme : <<creates>>
-IProgrammeRepository "1" ....> IProgrammeFactory
-IProgrammeRepository "1" ....>  IProgrammeRepositoryListFactory
-ProgrammeRepository <|.. IProgrammeRepository
-List <-- IProgrammeRepository
-
-US12_iWantToChangeProgrammeDirectorOfProgrammeController "1  " ..> "1  " IProgrammeRepository
+"<<root>>\nProgramme" --> TeacherId : <<Programme Director>>
 
 @enduml
