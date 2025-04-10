@@ -59,7 +59,7 @@ class CourseEditionEnrolmentFactoryImpl{
 }
 
 package "CourseEditionEnrolment Aggregate" #LightBlue {
-    entity "<<Root>>\n CourseEditionEnrolment" {
+    class CourseEditionEnrolment <<Root>> <<Entity>> {
              +CourseEditionEnrolment(studentId:StudentID,
               courseEditionId: CourseEditionID)
              +equals (obj: Object): boolean
@@ -83,7 +83,7 @@ class "<<Value Object>>\n CourseEditionEnrolmentID" {
 }
 
 package "CourseEditionDDD Aggregate" #LightBlue{
-    entity "<<Root>>\n CourseEditionDDD" {
+    class CourseEditionDDD <<Root>> <<Entity>> {
     +CourseEditionDDD(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
     +getProgrammeEditionID() : ProgrammeEditionID
     +identity(): CourseEditionID
@@ -98,7 +98,7 @@ class "<<Value Object>>\n CourseEditionID" {
 }
 
 package "Student Aggregate" #LightBlue{
-    entity "<<Root>>\n Student" {
+    class Student <<Root>> <<Entity>> {
     +Student(studentID: StudentID, name: Name,
     NIF: NIF, phone: PhoneNumber, email: Email, address: Address,
     academicEmail: StudentAcademicEmail)
@@ -165,7 +165,7 @@ class "<<Value Object>>\n Date" {
 }
 
 package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
-    entity "<<Root>>\n ProgrammeEditionEnrolment" {
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
     +ProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
     +findStudentInProgrammeEdition () : StudentID
     +findProgrammeEditionInEnrolment () : ProgrammeEditionID
@@ -191,30 +191,30 @@ US16_EnrolAStudentInACourseEditionController "1   ".u.> "1    " ICourseEditionRe
 US16_EnrolAStudentInACourseEditionController "1  "..> "1       " IProgrammeEditionEnrolmentRepository
 US16_EnrolAStudentInACourseEditionController "1   "..> "  1    " ICourseEditionEnrolmentRepository
 
-"CourseEditionDDD Aggregate" "_listOfCE * " <-- "1   " CourseEditionRepositoryDDDImpl
+CourseEditionDDD "_listOfCE *" <-- "1       " CourseEditionRepositoryDDDImpl
 
-"Student Aggregate" "1" --> "1 _studentID" "<<Value Object>>\n StudentID"
-"Student Aggregate" "1" --> "1 _name" "<<Value Object>>\n Name"
-"Student Aggregate" "1" --> "1 _NIF" "<<Value Object>>\n NIF"
-"Student Aggregate" "1" --> "1 _email" "<<Value Object>>\n Email"
-"Student Aggregate" "1" --> "1 _phoneNumber" "<<Value Object>>\n PhoneNumber"
-"Student Aggregate" "1" -l-> "1 _address" "<<Value Object>>\n Address"
+Student "1" --> "1 _studentID" "<<Value Object>>\n StudentID"
+Student "1" --> "1 _name" "<<Value Object>>\n Name"
+Student "1" --> "1 _NIF" "<<Value Object>>\n NIF"
+Student "1" --> "1 _email" "<<Value Object>>\n Email"
+Student "1" --> "1 _phoneNumber" "<<Value Object>>\n PhoneNumber"
+Student "1" -l-> "1 _address" "<<Value Object>>\n Address"
 
 "<<Value Object>>\n Address" "1" -u-> "1 _street" "<<Value Object>>\n Street"
 "<<Value Object>>\n Address" "1" --> "1 _postalCode" "<<Value Object>>\n PostalCode"
 "<<Value Object>>\n Address" "1" --> "1 _location" "<<Value Object>>\n Location"
 "<<Value Object>>\n Address" "1" --> "1 _country" "<<Value Object>>\n Country"
 
-"ProgrammeEditionEnrolment Aggregate" "      *  " -u-> "_studentID 1    ""<<Value Object>>\n StudentID"
-"ProgrammeEditionEnrolment Aggregate" " *    " <-- "1   " ProgrammeEditionEnrolmentRepositoryImpl
-"ProgrammeEditionEnrolment Aggregate" " 1    " --> "1  _date " "<<Value Object>>\n Date"
-"ProgrammeEditionEnrolment Aggregate" " 1    " --> "1  _peeID " "<<Value Object>>\n ProgrammeEditionEnrolmentID"
+ProgrammeEditionEnrolment "      *  " -u-> "_studentID 1    ""<<Value Object>>\n StudentID"
+ProgrammeEditionEnrolment " *    " <-- "1   " ProgrammeEditionEnrolmentRepositoryImpl
+ProgrammeEditionEnrolment " 1    " --> "1  _date " "<<Value Object>>\n Date"
+ProgrammeEditionEnrolment " 1    " --> "1  _peeID " "<<Value Object>>\n ProgrammeEditionEnrolmentID"
 
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
 IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
 ICourseEditionRepositoryDDD <|.. CourseEditionRepositoryDDDImpl
 
-Set "   1            " -->  "CourseEditionEnrolment Aggregate"
+Set "   1            " -->  CourseEditionEnrolment
 
 ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
 ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
@@ -223,16 +223,16 @@ ICourseEditionEnrolmentRepository " 1  " -u-> "_setOfCee  1       " Set
 ICourseEditionEnrolmentRepository"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
 ICourseEditionEnrolmentRepository "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
 CourseEditionEnrolmentRepositoryImpl "1  " ..> "_ceeFactory  1      " ICourseEditionEnrolmentFactory
-ICourseEditionEnrolmentFactory "1  " ..> "1  " "CourseEditionEnrolment Aggregate"
+ICourseEditionEnrolmentFactory "1  " ..> "1  " CourseEditionEnrolment
 ICourseEditionEnrolmentListFactory "1  " .u.> "1  " Set
 
-"CourseEditionEnrolment Aggregate" "1" --> "1 _ceeID""<<Value Object>>\n CourseEditionEnrolmentID"
-"CourseEditionEnrolment Aggregate" "1" --> "                                1 _status      ""<<Value Object>>\n EnrolmentStatus"
-"CourseEditionEnrolment Aggregate" "1" --> "_date 1    ""<<Value Object>>\n Date"
-"CourseEditionEnrolment Aggregate" "1" -u-> "1 _studentID" "<<Value Object>>\n StudentID"
-"CourseEditionEnrolment Aggregate" "1" --> "_ceID 1    " "<<Value Object>>\n CourseEditionID"
+CourseEditionEnrolment "1" --> "1 _ceeID""<<Value Object>>\n CourseEditionEnrolmentID"
+CourseEditionEnrolment "1" --> "  1_status  ""<<Value Object>>\n EnrolmentStatus"
+CourseEditionEnrolment "1" --> "_date 1    ""<<Value Object>>\n Date"
+CourseEditionEnrolment "1" -u-> "1 _studentID" "<<Value Object>>\n StudentID"
+CourseEditionEnrolment "1" --> "_ceID 1    " "<<Value Object>>\n CourseEditionID"
 
-"CourseEditionDDD Aggregate" "1" --> "_ceID  1" "<<Value Object>>\n CourseEditionID"
+CourseEditionDDD "1" --> "_ceID  1" "<<Value Object>>\n CourseEditionID"
 
 
 @enduml

@@ -16,4 +16,6 @@ public interface ICourseEditionRepository extends IRepository <CourseEditionID, 
      List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId);
 
      Optional<CourseEditionID> findIdByCourseEdition (CourseEdition courseEdition2);
+
+     ProgrammeEditionID findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition courseEdition) throws Exception;
 }

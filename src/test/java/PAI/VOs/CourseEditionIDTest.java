@@ -50,17 +50,21 @@ class CourseEditionIDTest {
 
     @Test
     void shouldReturnCorrectToString() {
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        // Arrange
+        ProgrammeEditionID mockProgrammeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID mockCourseInStudyPlanID = mock(CourseInStudyPlanID.class);
 
-        when(programmeEditionID.toString()).thenReturn("ProgrammeEditionID{123}");
-        when(courseInStudyPlanID.toString()).thenReturn("CourseInStudyPlanID{456}");
+        when(mockProgrammeEditionID.toString()).thenReturn("PE123");
+        when(mockCourseInStudyPlanID.toString()).thenReturn("CSP456");
 
-        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
-        String expected = "CourseEditionID{_programmeEditionID=ProgrammeEditionID{123}, _courseInStudyPlanID=CourseInStudyPlanID{456}}";
+        CourseEditionID courseEditionID = new CourseEditionID(mockProgrammeEditionID, mockCourseInStudyPlanID);
 
-        assertEquals(expected, courseEditionID.toString());
-    }
+        // Act
+        String result = courseEditionID.toString();
+
+        // Assert
+        assertEquals("PE123-CSP456", result);
+}
 
     @Test
     void shouldReturnsEqualsIfObjectsAreEqual() {
