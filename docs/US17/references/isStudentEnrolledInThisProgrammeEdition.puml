@@ -1,0 +1,16 @@
+@startuml
+participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
+participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+Controller -> ProgrammeEditionEnrolmentRepository : isStudentEnrolledInThisProgrammeEdition(studentID, peID)
+activate ProgrammeEditionEnrolmentRepository
+participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
+loop for each "pee[i]:ProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+participant ":Student" as Student
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: ProgrammeEditionEnrolment: hasSameProgrammeEdition(programmeEditionID)
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: ProgrammeEditionEnrolment: hasSameStudent(studentID)
+participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
+end
+ProgrammeEditionEnrolmentRepository --> Controller : False
+deactivate "ProgrammeEditionEnrolmentRepository"
+deactivate Controller
+@enduml
