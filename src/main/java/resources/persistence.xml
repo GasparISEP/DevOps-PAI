@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+  <persistence-unit name="pai2425">
+
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+    <!--  LOCAL PARA POR DATAMODELS COM EXEMPLO ABAIXO -->
+    <!--  <class>pt.isep.incenzzo.persistence.jpa.datamodel.TipoAlojamentoDataModel</class> -->
+
+        <properties>
+          <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+
+          <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/~/pai"/>
+    <!--      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:~/incenzzo"/>-->
+
+      <property name="jakarta.persistence.jdbc.user" value="sa"/>
+      <property name="jakarta.persistence.jdbc.password" value=""/>
+
+<!--      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+    </properties>
+
+  </persistence-unit>
+</persistence>
