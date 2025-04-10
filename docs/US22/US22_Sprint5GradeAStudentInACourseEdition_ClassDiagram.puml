@@ -32,6 +32,7 @@ class StudentGradeService {
         +containsOfIdentity(StudentGradeID id)
 }
 
+/'
 class CourseEditionEnrolmentRepository {
     +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: CourseEditionEnrolmentFactory, courseEditionEnrolmentListFactory: CourseEditionEnrolmentListFactory)
     +enrolStudentInACourseEdition (student: Student, courseEdition: CourseEdition): boolean
@@ -71,6 +72,7 @@ entity "<<root>>\nCourseEditionEnrolment"  {
 
     }
     }
+    '/
 
 
 package "StudentGrade" {
@@ -102,8 +104,6 @@ class Grade <<ValueObject>> {
         }
 
 class GradeStudentRepository {
-    -gradeStudentList: List<GradeStudent>
-    - _gradeStudentFactory: GradeStudentFactory
     +addGradeToStudent(Grade, Date, student, CourseEdition)
     +knowAverageGrade(Course Edition)
     +knowApprovalRate(Course Edition)
@@ -129,13 +129,6 @@ interface IGradeStudentFactory {
     +newGradeStudent()
 }
 
-interface IGradeStudentListFactory {
-    +newArrayList()
-}
-
-class GradeStudentListFactoryImpl {
-    +newArrayList()
-}
 
 class GradeStudentFactoryImpl {
     +newGradeStudent()
@@ -202,7 +195,7 @@ entity "<<root>>\nCourseEdition"  {
     }
     }
 
-"<<root>>\nCourseEditionEnrolment" --> "1" LocalDate
+
 "<<root>>\nStudent" "*" --> "1" Name
 "<<root>>\nStudent" "*" --> "1" NIF
 "<<root>>\nStudent" "*" --> "1" Email
@@ -212,31 +205,32 @@ entity "<<root>>\nCourseEdition"  {
 "<<root>>\nGradeStudent" "*" --> "1" LocalDate
 "<<root>>\nGradeStudent" --> "1" StudentId: belongs
 "<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
-IGradeStudentRepositoryInterface "1" ....> IGradeStudentFactory
+IStudentGradeService "1" ....> IGradeStudentFactory
 IGradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
-IGradeStudentRepositoryInterface "1" ....>  IGradeStudentListFactory
-GradeStudentListFactoryImpl ..|>  IGradeStudentListFactory
 IGradeStudentFactory  <|..  GradeStudentFactoryImpl
 
 
-CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
-ICourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
+/' CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
+/' ICourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
+"<<root>>\nCourseEditionEnrolment" --> "1" CourseEditionEnrolmentId
+US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " ICourseEditionEnrolmentRepository
 "<<root>>\nCourseEditionEnrolment" "*" -up-> "1" CourseEditionId
+ "<<root>>\nCourseEditionEnrolment" --> "1" LocalDate '/
 "<<root>>\nGradeStudent" --> "1" StudentGradeId
 "<<root>>\nCourseEdition" --> "1" CourseEditionId
 "<<root>>\nStudent" --> "1" StudentId
-"<<root>>\nCourseEditionEnrolment" --> "1" CourseEditionEnrolmentId
 IStudentGradeService <|..StudentGradeService
+IGradeStudentRepositoryInterface <|..GradeStudentRepository
 
 
 
-IGradeStudentRepositoryInterface "1" ....> "*" "<<root>>\nGradeStudent"
-IStudentGradeService "1" ....> "1" IGradeStudentFactory
+IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
 
 
-US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " ICourseEditionEnrolmentRepository
+
+
 IStudentGradeService "1" ..|> IGradeStudentRepositoryInterface
-US22_IWantToGradeAStudentInACourseEdition "1" ..> "1" IStudentGradeService
+US22_IWantToGradeAStudentInACourseEdition "*" ..> "1" IStudentGradeService
 
 @enduml
