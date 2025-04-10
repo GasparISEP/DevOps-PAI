@@ -73,10 +73,6 @@ entity "<<root>>\nCourseEditionEnrolment"  {
     }
 
 
-class List<GradeStudent> {
-
-}
-
 package "StudentGrade" {
 entity "<<root>>\nGradeStudent"  {
     +hasThisCourseEdition(CourseEdition : CourseEdition)
@@ -221,9 +217,8 @@ IGradeStudentFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
 IGradeStudentRepositoryInterface "1" ....>  IGradeStudentListFactory
 GradeStudentListFactoryImpl ..|>  IGradeStudentListFactory
 IGradeStudentFactory  <|..  GradeStudentFactoryImpl
-IGradeStudentListFactory ..|> List
-"<<root>>\nGradeStudent" <-- List
-List <-- IGradeStudentRepositoryInterface
+
+
 CourseEditionEnrolmentRepository ..|> ICourseEditionEnrolmentRepository
 ICourseEditionEnrolmentRepository "1" --> "*" CourseEditionEnrolmentId
 "<<root>>\nCourseEditionEnrolment" "*" --> "1" StudentId
