@@ -1,0 +1,128 @@
+@startuml
+title US25: I Want to Know the Average Grade of a Course Edition
+
+class US25_IWantToKnowTheAverageGradeOfACourseEdition {
+    +US25_IWantToKnowTheAverageGradeOfACourseEdition(studentGradeList: IStudentGradeRepository, courseEditionRepo: ICourseEditionRepository)
+    +IWantToKnowTheAvgGrade(courseEditionID : CourseEditionID): Double
+    +findCourseEditionIDByCourseEdition(courseEdition : CourseEdition): Optional<CourseEditionID>
+}
+
+interface IStudentGradeService {
+    +addGradeToStudent(grade: Grade,date: Date,studentID: StudentID,courseEditionID: CourseEditionID)
+    +knowAverageGrade(courseEditionID: CourseEditionID)
+    +knowApprovalRate(courseEditionID: CourseEditionID)
+    +findIdByStudent(studentGrade: StudentGrade)
+    +save(studentGradeID: StudentGradeID)
+    +findAll()
+    +ofIdentity(studentGradeID: StudentGradeID)
+    +containsOfIdentity(studentGradeID: StudentGradeID)
+}
+
+class StudentGradeService {
+    +addGradeToStudent(grade: Grade, date: Date, studentID: StudentID, courseEditionID: CourseEditionID)
+    +knowAverageGrade(courseEditionID: CourseEditionID)
+    +knowApprovalRate(courseEditionID: CourseEditionID)
+    +findIdByStudent (studentGrade: StudentGrade)
+    +save(studentGrade: StudentGrade)
+    +findAll()
+    +ofIdentity(studentGradeID: StudentGradeID)
+    +containsOfIdentity(studentGradeID: StudentGradeID)
+}
+
+class StudentGradeRepository {
+    +addGradeToStudent(grade: Grade, date: LocalDate, studentID: StudentID, courseEditionID: CourseEditionID): boolean
+    +knowAverageGrade(courseEditionID: CourseEditionID): Double
+    +knowApprovalRate(courseEditionID: CourseEditionID): double
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+}
+
+package "StudentGrade" {
+entity "<<root>>\nStudentGrade" {
+    +StudentGrade(grade: Grade, date: Date, studentID: StudentID, studentGradeID: StudentGradeID, courseEditionID: CourseEditionID)
+    +get_grade(): Grade
+    +hasThisCourseEdition(courseEditionID : CourseEditionID): boolean
+    +hasThisStudentID(student: StudentID): boolean
+    +KnowCourseEditionID(): CourseEditionID
+    +identity(): StudentGradeID
+    +get_date(): Date
+    +get_studentID(): StudentID
+    +get_courseEditionID(): CourseEditionID
+    +equals(o: Object): boolean
+    +sameAs(object: Object): boolean
+    +knowGrade(): double
+    }
+}
+
+    class Grade <<ValueObject>> {
+        -grade: double
+        +knowGrade()
+    }
+
+    class Date <<ValueObject>> {
+        -date: String
+        +isDateValid(String date)
+        +get_date()
+    }
+
+    class StudentGradeId <<ValueObject>> {
+        -courseEditionID
+        -studentID
+        +equals()
+        +toString()
+    }
+
+
+interface IStudentGradeRepositoryInterface {
+   +addGradeToStudent(Grade, Date, student, CourseEdition)
+   +knowAverageGrade(Course Edition)
+   +knowApprovalRate(Course Edition)
+   +findIdByStudent (StudentGrade studentGrade)
+   +save(StudentGrade entity)
+   +findAll()
+   +ofIdentity(StudentGradeID id)
+   +containsOfIdentity(StudentGradeID id)
+}
+
+interface IStudentGradeFactory {
+    +newGradeStudent()
+}
+
+
+class StudentGradeFactoryImpl {
+    +newGradeStudent()
+}
+
+class StudentId <<ValueObject>> {
+    -uniqueNumber: int
+    +equals()
+    +getUniqueNumber()
+    +isEquals()
+}
+
+class CourseEditionId <<ValueObject>> {
+    -_programmeEditionID: ProgrammeEditionID
+    -_courseInStudyPlanID: CourseInStudyPlanID
+    +toString()
+    +equals()
+}
+
+"<<root>>\nStudentGrade" --> "1" StudentGradeId
+"<<root>>\nStudentGrade" --> "1" CourseEditionId
+"<<root>>\nStudentGrade" --> "1" StudentId
+"<<root>>\nStudentGrade" --> "1" Grade
+"<<root>>\nStudentGrade" --> "1" Date
+IStudentGradeService "1" ....> IStudentGradeFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nStudentGrade"
+IStudentGradeFactory  <|..  StudentGradeFactoryImpl
+IStudentGradeService <|..StudentGradeService
+IStudentGradeRepositoryInterface <|..StudentGradeRepository
+StudentGradeRepository "1" ..> "_studentGrade *" StudentGrade
+IStudentGradeService "1" ....> "*" "<<root>>\nStudentGrade"
+IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
+US25_IWantToKnowTheAverageGradeOfACourseEdition "*" ..> "1 " IStudentGradeService
+
+@enduml
