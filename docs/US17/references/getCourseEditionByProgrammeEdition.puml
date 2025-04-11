@@ -1,0 +1,23 @@
+@startuml
+participant ":ICourseEditionRepository" as CourseEditionRepository
+participant ":CourseEdition" as CourseEdition
+activate CourseEditionRepository
+participant ":CourseEditionListFactory" as CourseEditionListFactory
+CourseEditionRepository -> CourseEditionListFactory: newArrayList()
+activate CourseEditionListFactory
+create "ce[i]:CourseEditionIDArrayList"
+CourseEditionListFactory -> "ce[i]:CourseEditionIDArrayList": newArrayList ()
+deactivate CourseEditionListFactory
+loop for each "ce[i]:CourseEditionRepository" as CourseEditionRepository
+CourseEditionRepository -> CourseEdition :  getProgrammeEditionID()
+activate CourseEdition
+CourseEdition --> CourseEditionRepository : ceID
+deactivate CourseEdition
+participant ":CourseEditionArrayList" as CourseEditionArrayList
+CourseEditionRepository -> "ce[i]:CourseEditionIDArrayList" :  add(ceID)
+activate "ce[i]:CourseEditionIDArrayList"
+"ce[i]:CourseEditionIDArrayList" --> CourseEditionRepository: True
+deactivate "ce[i]:CourseEditionIDArrayList"
+deactivate CourseEditionRepository
+end
+@enduml
