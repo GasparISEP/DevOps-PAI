@@ -82,9 +82,9 @@ class "<<Value Object>>\n CourseEditionEnrolmentID" {
      +toString(): String
 }
 
-package "CourseEditionDDD Aggregate" #LightBlue{
-    class CourseEditionDDD <<Root>> <<Entity>> {
-    +CourseEditionDDD(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
+package "CourseEdition Aggregate" #LightBlue{
+    class CourseEdition <<Root>> <<Entity>> {
+    +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
     +getProgrammeEditionID() : ProgrammeEditionID
     +identity(): CourseEditionID
     }
@@ -191,7 +191,7 @@ US16_EnrolAStudentInACourseEditionController "1   ".u.> "1    " ICourseEditionRe
 US16_EnrolAStudentInACourseEditionController "1  "..> "1       " IProgrammeEditionEnrolmentRepository
 US16_EnrolAStudentInACourseEditionController "1   "..> "  1    " ICourseEditionEnrolmentRepository
 
-CourseEditionDDD "_listOfCE *" <-- "1       " CourseEditionRepositoryDDDImpl
+CourseEdition "_listOfCE *" <-- "1       " CourseEditionRepositoryDDDImpl
 
 Student "1" --> "1 _studentID" "<<Value Object>>\n StudentID"
 Student "1" --> "1 _name" "<<Value Object>>\n Name"
@@ -232,7 +232,7 @@ CourseEditionEnrolment "1" --> "_date 1    ""<<Value Object>>\n Date"
 CourseEditionEnrolment "1" -u-> "1 _studentID" "<<Value Object>>\n StudentID"
 CourseEditionEnrolment "1" --> "_ceID 1    " "<<Value Object>>\n CourseEditionID"
 
-CourseEditionDDD "1" --> "_ceID  1" "<<Value Object>>\n CourseEditionID"
+CourseEdition "1" --> "_ceID  1" "<<Value Object>>\n CourseEditionID"
 
 
 @enduml
