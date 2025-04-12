@@ -1,0 +1,35 @@
+@startuml
+actor RUC
+participant ":UI" as ui
+participant ":US22_iWantToGradeAStudentInACourseEditionController" as ctr
+participant ":StudentGradeService" as sr
+participant ":CourseEditionEnrolmentRepository" as ceer
+participant ":CourseEditionEnrolmentMapper" as ceemp
+participant ":StudentGradeFactory" as sgf
+participant "gs1:StudentGrade" as gs
+participant "gs1:StudentGradeRepository" as sgr
+participant ":StudentGradeMapper" as sgmp
+autonumber
+RUC -> ui ++ #application: I want to grade a Student in a Course Edition
+ui --> RUC --: Grade, Date, CourseEditionID, StudentID?
+RUC -> ui ++ #application: Grade, Date, CourseEditionID, StudentID!
+ui -> ctr ++ #application : Register StudentGrade (Grade, Date, StudentID, CourseEditionID)
+ctr -> sr ++ #application : Register StudentGrade (Grade, Date, StudentID, CourseEditionID)
+sr -> ceer ++ #application :  isStudentEnrolledInCourseEdition (studentID, courseEditionID)
+ceer -> ceer: findAll
+ceer -> ceemp ++ #application :  DataModel CEE
+ceemp --> ceer -- : List <CEE>
+ceer --> sr -- : true
+sr -> sgf ++#application : addGrade (Grade,Date, StudentID, CourseEditionID)
+create gs
+sgf -> gs ++ #application : <Create> (Grade,Date, StudentID, CourseEditionID)
+gs --> sgf -- : sg1
+sgf --> sr -- : sg1
+sr -> sgr ++#application : save (sg1)
+sgr -> sgmp ++#application : dataModel
+sgmp --> sgr -- : true
+sgr --> sr -- : true
+sr --> ctr -- : true
+ctr --> ui -- : true
+ui --> RUC : Success !
+@enduml
