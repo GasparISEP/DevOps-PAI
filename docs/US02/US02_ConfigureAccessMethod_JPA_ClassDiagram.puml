@@ -1,0 +1,67 @@
+@startuml
+
+skinparam ranksep 180
+skinparam nodesep 180
+
+package "AccessMethod Aggregate" {
+    entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
+    + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)
+    + Equals(Object objectToCompare)
+    }
+    class "<<Value Object>>\n NameWithNumbersAndSpecialChars" as VOName{
+        - accessMethodName: String
+        + Equals(Object objectToCompare)
+    }
+
+    class "<<Value Object>>\n AccessMethodId" as VOId{
+        - id: String
+        + Equals(Object objectToCompare)
+    }
+}
+
+'uses
+AME "1" --> "uses 1" VOName
+AME "1" --> "uses 1" VOId
+
+
+
+interface IAccessMethodFactory {
+    createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+class AccessMethodFactoryImpl {
+     +createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+interface IAccessMethodService {
+  + registerAccessMethod (accessMethod1: AccessMethod)
+}
+
+class AccessMethodServiceImpl {
+}
+
+interface JpaRepository{
+}
+
+'extends
+IAccessMethodRepository --|> JpaRepository : extends
+
+
+'implements
+
+'uses
+
+class US02_ConfigureAccessMethod_Controller {
+    +US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
+    +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+'creates
+IAccessMethodFactory "1" ..> "1..*" AME : creates
+'dependency
+US02_ConfigureAccessMethod_Controller --> IAccessMethodService: uses
+AccessMethodServiceImpl ..> IAccessMethodService: implements
+AccessMethodFactoryImpl ..|> IAccessMethodFactory: implements
+IAccessMethodService -> IAccessMethodFactory: uses
+IAccessMethodService -down-> JpaRepository: uses
+@enduml
