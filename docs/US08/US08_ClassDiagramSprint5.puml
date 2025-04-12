@@ -9,8 +9,7 @@ class US08_IWantToRegisterAStudentInTheSystemController {
     + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : Address) : boolean
 }
 
-class StudentRepository {
-    - _students : List<Student>
+class StudentRepositoryJPA {
     + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : Address) : boolean
     + getStudentByID(studentID : StudentID) : Optional<Student>
     + save(student : Student) : Student
@@ -25,6 +24,12 @@ package "Student Aggregate" {
         + sameAs (object : Object) : boolean
         + equals(object : Object) : boolean
         + isEquals(student : Student) : boolean
+        + getNIF () : NIF
+        + getStudentPhoneNumber () : PhoneNumber
+        + getStudentEmail () : Email
+        + getStudentAcademicEmail () : StudentAcademicEmail
+        + getStudentAddress () : StudentAddress
+        + getStudentName () : StudentName
     }
 }
 
@@ -54,6 +59,7 @@ class NIF <<Value Object>> {
     + NIF(NIF : String)
     + equals(nif : String)
     + isNIFInvalid(NIF)
+    + getNIFNumber()
 }
 
 class PhoneNumber <<Value Object>> {
@@ -62,12 +68,14 @@ class PhoneNumber <<Value Object>> {
     + PhoneNumber(phone : String)
     + areParametersInvalid(parameter : String)
     + isCountryCodeInvalid(countryCode : String)
+    + getStudentPhoneNumber () : PhoneNumber
 }
 
 class Email <<Value Object>> {
     -_email : String
     + Email(email : String)
     + isEmailInvalid(email : String)
+    + getStudentEmail () : Email
 }
 
 class InstitutionalEmail <<Value Object>> {
@@ -114,24 +122,15 @@ class StudentFactoryImpl {
     + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : AddressVO
 }
 
-interface IStudentListFactory <<Interface>> {
-    + newArrayList() : List<Student>
-}
-
-class StudentListFactoryImpl {
-    + newArrayList() : List<Student>
-}
-
-class List<Student> {}
 
 interface IStudentRepository <<Interface>> {
-    +registerStudent()
     +getStudentByID()
     + findIdByStudent(student : Student)
     + save(student : Student)
     + findAll()
     + ofIdentity(studentID : StudentID)
     + containsOfIdentity(studentID : StudentID)
+    + existsByIDAndNIFNumber(ID, NIFNumber)
 }
 
 interface IRepository <<Interface>> {
@@ -141,16 +140,49 @@ interface IRepository <<Interface>> {
     + containsOfIdentity(object : Object)
 }
 
-US08_IWantToRegisterAStudentInTheSystemController "1" ...> "1 " IStudentRepository
-StudentRepository "1" ..> "1" IStudentFactory
-StudentRepository "1" ---> "_students\n*" Student
-StudentRepository "1" ..> "_studentFactoryImpl \n 1" IStudentListFactory
-IStudentListFactory "1 " ..> "1  " List: <<creates>>
+class StudentService {
+    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, street : Street, postalCode : PostalCode, location : Location, country : Country,
+                      institutionalEmail : InstitutionalEmail) : Student
+}
+
+class StudentMapper {
+    + toDataModel(student : Student) : StudentDataModel
+}
+
+class StudentDataModel {
+    - studentID : int
+    - name : String
+    - nif : DataModel
+    - phone : DataModel
+    - email : String
+    - institutionalEmail : DataModel
+    - address : DataModel
+}
+
+interface IStudentRepositorySpringData{
+}
+
+interface IStudentService {
+}
+
+
+IStudentRepositorySpringData --> StudentRepositoryJPA
+US08_IWantToRegisterAStudentInTheSystemController "1" ..> "1" IStudentService
+IStudentService <|.. StudentService
+StudentService "1" ..> "1" IStudentFactory
+StudentService "1" ..> "1" IStudentRepository
+StudentRepositoryJPA "1" ..> "1" StudentMapper
+
+StudentMapper --> StudentDataModel
+
+StudentRepositoryJPA "1" ..> "1" IStudentFactory
+StudentRepositoryJPA "1" ---> "_students\n*" Student
+
+
 Student "1" --> "1" Address
 StudentFactoryImpl "*" ..|> "1     " IStudentFactory
-StudentListFactoryImpl "*" ..|> "1     " IStudentListFactory
 IStudentFactory "1" ..> "1" Student: <<create>>
-StudentRepository ...|> IStudentRepository
+StudentRepositoryJPA ...|> IStudentRepository
 IStudentRepository ..|> IRepository
 Student "*" ----> "_studentID \n 1" StudentID
 Student "*" ----> "_name \n 1" Name
