@@ -40,28 +40,31 @@ interface IAccessMethodService {
 class AccessMethodServiceImpl {
 }
 
-interface JpaRepository{
+interface JpaRepository<AccessMethodDataModel, AccessMethodDataModelID>{
 }
 
-'extends
-IAccessMethodRepository --|> JpaRepository : extends
+class AccessMethodDataModel {
+    + toDomain()
+    + toDataModel()
+}
 
 
-'implements
+interface IAccessMethodRepository {
+}
 
-'uses
 
 class US02_ConfigureAccessMethod_Controller {
     +US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
     +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
-'creates
 IAccessMethodFactory "1" ..> "1..*" AME : creates
-'dependency
-US02_ConfigureAccessMethod_Controller --> IAccessMethodService: uses
-AccessMethodServiceImpl ..> IAccessMethodService: implements
-AccessMethodFactoryImpl ..|> IAccessMethodFactory: implements
-IAccessMethodService -> IAccessMethodFactory: uses
-IAccessMethodService -down-> JpaRepository: uses
+US02_ConfigureAccessMethod_Controller -down-> IAccessMethodService: uses
+AccessMethodServiceImpl .left.|> IAccessMethodService: implements
+AccessMethodFactoryImpl .right.|> IAccessMethodFactory: implements
+IAccessMethodService -down-> IAccessMethodFactory: uses
+IAccessMethodRepository -down-> AccessMethodDataModel: saves
+IAccessMethodRepository --|> JpaRepository : extends
+AccessMethodDataModel ..> AccessMethod: transforms to/from
+IAccessMethodService --> IAccessMethodRepository: uses
 @enduml
