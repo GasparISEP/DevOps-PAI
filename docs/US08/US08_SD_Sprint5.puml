@@ -1,0 +1,70 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+title US08: I want to register a Student in the system
+
+actor ASC
+participant ":UI" as UI #implementation
+participant "ctrl1:RegisterStudentInSystemController" as ctrl #lightyellow
+participant "service1:StudentService" as service #lightblue
+participant "sf1:StudentFactory" as SF #technology
+participant "address1:Address" as A #physical
+participant "s1:Student" as s1 #strategy
+participant "sr1:StudentRepository" as SR #lightcyan
+participant "m1:StudentMapper" as mapper
+
+ASC -> UI: I want to register a student in the system
+activate UI
+UI --> ASC: What is the Student's information?
+deactivate UI
+ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country
+activate UI
+UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country)
+activate ctrl
+
+ref over ctrl
+    Create uniqueNumber, name, NIF, phone, email,
+    street, postalCode, location, country, academicEmail Value Objects
+end ref
+
+ctrl -> service: registerStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO, academicEmailVO)
+activate service
+
+service -> SF: createStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO, academicEmailVO)
+activate SF
+
+SF --> A**: createAddress \n (streetVO, postalCodeVO, locationVO, countryVO)
+activate A
+
+A --> SF: address1
+deactivate A
+
+SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, address1, academicEmailVO)
+activate s1
+s1 --> SF: s1
+deactivate s1
+SF -> SF: ID = s1.identity().getUniqueNumber()
+SF -> SF: NIFNumber = s1.getNIF().getNIFNumber()
+SF -> SR: existsByIDAndNIFNumber(ID, NIFNumber)
+activate SR
+SR --> SF: False
+deactivate SR
+SF --> service: s1
+deactivate SF
+
+service -> SR: save(s1)
+activate SR
+SR -> mapper: toDataModel(s1)
+activate mapper
+mapper --> SR: s1DataModel
+deactivate mapper
+SR --> service: s1
+deactivate SR
+service --> ctrl: s1
+deactivate service
+ctrl --> UI: True
+deactivate ctrl
+UI --> ASC: Success!
+deactivate UI
+
+@enduml
