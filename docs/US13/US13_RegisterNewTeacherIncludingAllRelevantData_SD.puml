@@ -20,6 +20,7 @@ participant "teacherIDVO1 :TeacherID" as TeacherID #Yellow/silver
 participant ":ITeacherCareerProgressionRepository" as TeacherCareerProgressionRepository <<Interface>> #Cyan/Silver
 participant ":TeacherCareerProgressionFactoryImpl" as TeacherCareerProgressionFactory #Yellow/Silver
 participant "tcp1 :TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
+participant "TeacherAcademicEmailVO1 : TeacherAcademicEmail" as TeacherAcademicEmail #Yellow/Silver
 
 activate HRC
 HRC -> UI: I want to register a new teacher including\n all relevant data.
@@ -104,6 +105,13 @@ activate TeacherID
 TeacherID --> Teacher: TeacherIDVO1
 deactivate TeacherID
 Teacher --> TeacherFactory: \t t1
+
+Teacher -> TeacherAcademicEmail **: **createTeacherAcademicEmail**(teacherAcronymVO)
+activate TeacherAcademicEmail
+|||
+TeacherAcademicEmail --> Teacher: TeacherAcademicEmailVO1
+deactivate TeacherAcademicEmail
+Teacher --> TeacherFactory: \t TeacherAcademicEmailVO1
 deactivate Teacher
 
 TeacherFactory --> TeacherRepository: t1

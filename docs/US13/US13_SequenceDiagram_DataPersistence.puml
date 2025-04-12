@@ -1,0 +1,152 @@
+@startuml
+
+title US13 : I want to register a Teacher and all relevant data
+skinparam sequenceMessageAlign center
+autonumber
+
+actor HRC as HRC #application
+participant UI as UI #business
+participant ":US13_Controller" as controller #implementation
+participant ":TeacherCategoryService" as tcService #motivation
+participant ":TeacherCategoryRepository" as tcRepo #physical
+participant ":TeacherCategoryMapper" as tcMapper #strategy
+participant ":ITeacherCategoryFactory" as tcFactory #technology
+participant ":TeacherCategory" as tc #application
+participant ":DepartmentService" as dptService #business
+participant ":IDepartmentRepository" as dptRepo #implementation
+participant ":DepartmentMapper" as dptMapper #motivation
+participant ":IDepartmentFactory" as dptFactory #physical
+participant ":Department" as dpt #strategy
+participant ":TeacherService" as tService #technology
+participant "ITeacherFactory" as teacherFactory #application
+participant ":Address" as addr #business
+participant ":Teacher" as t #implementation
+participant ":TeacherID" as tID #motivation
+participant ":ITeacherCareerProgressionRepository" as tcpRepository #physical
+participant ":TeacherCareerProgressionMapper" as tcpMapper #strategy
+participant ":ITeacherCareerProgressionFactory" as tcpFactory #technology
+participant ":TeacherCareerProgression" as TCP #application
+participant ":TeacherCategory1" as tc1 #business
+participant ":TeacherRepositoryJPA" as tRepoJPA #implementation
+participant ":TeacherMapper" as tMapper #motivation
+participant ":TeacherDataModel" as teacherDM #physical
+
+
+HRC -> UI : I want to register a Teacher in the System \n Including All Relevant Data
+activate UI
+UI --> HRC : What are the Teacher's attributes?
+HRC -> UI : acronym, name, email, NIF, phoneNumber, academicBackground, street, postalCode, location, country
+UI -> controller : getCategoriesList()
+activate controller
+controller -> tcService : findAll()
+activate tcService
+tcService -> tcRepo : findAll()
+activate tcRepo
+tcRepo -> tcMapper : toDomain(tcDataModel)
+activate tcMapper
+tcMapper -> tcFactory : createTeacherCategory(name)
+activate tcFactory
+tcFactory -> tc** : new Teacher Category
+activate tc
+tc --> tcFactory : tc[i]
+deactivate tc
+tcFactory --> tcMapper : tc[i]
+deactivate tcFactory
+tcMapper --> tcRepo : tc[i]
+deactivate tcMapper
+tcRepo -> tcRepo : save(tc[i])
+tcRepo --> tcService : tcList
+deactivate tcRepo
+tcService --> controller : tcList
+deactivate tcService
+controller --> UI : Which Category?
+deactivate controller
+
+
+
+UI -> controller : getDepartmentsList()
+activate controller
+controller -> dptService : findAll()
+activate dptService
+dptService -> dptRepo : findAll()
+activate dptRepo
+dptRepo -> dptMapper : toDomain(dptDataModel)
+activate dptMapper
+dptMapper -> dptFactory : createDepartment(acronym, name)
+activate dptFactory
+dptFactory -> dpt** : new Department
+activate dpt
+dpt --> dptFactory : dptID[i]
+deactivate dpt
+dptFactory --> dptMapper : dptID[i]
+deactivate dptFactory
+dptMapper --> dptRepo : dptID
+deactivate dptMapper
+dptRepo -> dptRepo : save(dpt[i])
+dptRepo --> dptService : dptList
+deactivate dptRepo
+dptService --> controller : dptList
+deactivate dptService
+controller --> UI : Which Department?
+deactivate controller
+
+
+
+UI -> controller : registerTeacher (acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+activate controller
+controller -> tService : registerTeacher (acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+activate tService
+tService -> teacherFactory : createTeacher(acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+activate teacherFactory
+teacherFactory -> addr** : createAddress(street, postalCode, location, country)
+activate addr
+addr --> teacherFactory : addr
+deactivate addr
+teacherFactory -> t** : new Teacher (acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+activate t
+t -> tID** : new TeacherID (acronym)
+activate tID
+tID --> t : tID1
+deactivate tID
+t --> teacherFactory : t1
+deactivate t
+teacherFactory --> tService : t1
+deactivate teacherFactory
+
+loop
+    tService -> tRepoJPA : containsOfIdentity(t1.identity())
+    activate tRepoJPA
+end
+    tRepoJPA --> tService : false
+    deactivate tRepoJPA
+
+tService -> tcpFactory : createTeacherCareerProgression \n (tID1, tc, workingPercentage, date)
+activate tcpFactory
+tcpFactory -> TCP** : new TeacherCareerProgression \n (tID1, tcID, workingPercentage, date)
+activate TCP
+TCP --> tc1** : new Teacher Category \n (tcID1, name)
+activate tc1
+tc1 --> TCP : tc
+deactivate tc1
+TCP --> tcpFactory : tcp1
+deactivate TCP
+tcpFactory --> tService : tcp1
+deactivate tcpFactory
+tService -> tRepoJPA : saveTeacher
+activate tRepoJPA
+tRepoJPA -> tMapper : toDataModel(t1)
+activate tMapper
+tMapper -> teacherDM** : new Teacher Data Model
+activate teacherDM
+teacherDM --> tMapper : teacherDataModel
+deactivate teacherDM
+tMapper --> tRepoJPA : teacherDataModel
+deactivate tMapper
+tRepoJPA -> tRepoJPA : save(teacherDataModel)
+tRepoJPA --> tService : true
+deactivate tRepoJPA
+tService --> controller : true
+deactivate tService
+controller --> UI : Success!
+
+@enduml
