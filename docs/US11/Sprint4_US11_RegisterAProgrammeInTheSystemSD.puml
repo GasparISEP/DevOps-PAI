@@ -1,7 +1,7 @@
 @startuml
 autonumber
 
-title US27: As an ASC, I want to register a programme in the system, including the study plan.
+title US27: As an ASC, I want to register a programme in the system.
 
 actor ASC as Admin
 
