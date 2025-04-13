@@ -1,0 +1,136 @@
+@startuml
+title US11: I want to register a programme in the system
+
+skinparam linetype ortho
+
+class US11_RegisterAProgrammeInTheSystemController {
+    -_programmeDDDList: ProgrammeRepository
+    -_studyPlanDDDRepo: IStudyPlanDDDRepository
+    +US11_DDD_RegisterAProgrammeInTheSystem(IProgrammeDDDRepository programmeDDDList, IStudyPlanDDDRepository studyPlanDDDRepo)
+    +registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+    DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+}
+
+interface IProgrammeService {}
+
+class ProgrammeServiceImpl {}
+
+class DepartmentID <<ValueObject>> {}
+
+class Acronym <<ValueObject>> {
+    -Acronym: String
+    +Acronym(String acronym)
+    +isAcronymInvalid(String acronym)
+}
+
+class NameWithNumbersAndSpecialChars <<ValueObject>> {
+    -NameWithNumbersAndSpecialChars: String
+    +NameWithNumbersAndSpecialChars(String nameWithNumbersAndSpecialChars)
+    +isNameInvalid (String name): boolean
+    +equals(Object o): boolean
+    +getnameWithNumbersAndSpecialChars(): String
+}
+
+class ProgrammeID <<ValueObject>> {
+    -_progID: String
+    +ProgrammeID()
+    +getProgrID(): String
+    +equals(Object o): boolean
+}
+
+class quantEcts <<ValueObject>> {
+    -quantityOfEcts: int
+    +QuantEcts(int quantityOfEcts)
+    +isQuantEctsInvalid(int quantityOfEcts)
+    +getQuantEcts()
+}
+
+class QuantSemesters <<ValueObject>> {
+    -_quantSemesters: int
+    +isQuantityOfSemestersValid(int quantityOfSemesters)
+    +getQuantityOfSemesters()
+}
+
+package "Programme Aggregate" {
+    class "<<root>>\nProgramme" {
+         + Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, \nDegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID)
+         + equals(Object o): boolean
+         + isEquals (ProgrammeID programmeID): boolean
+         + newProgrammeDirector(TeacherID teacherDirectorID)
+         + isInDepartment(departmentID: DepartmentID): boolean
+         + getProgrammeID(): ProgrammeID
+         + getQuantEcts(): QuantEcts
+         + getQuantSemesters(): QuantSemesters
+         + hasThisProgrammeName(NameWithNumbersAndSpecialChars name): boolean
+         + getAcronym(): Acronym
+         + getProgrammeName(): NameWithNumbersAndSpecialChars
+         + getDegreeTypeID(): DegreeType_ID
+         + getDepartmentID(): DepartmentID
+         + getProgrammeDirectorID(): TeacherID
+         + identity(): ProgrammeID
+         + sameAs(Object object): boolean
+    }
+}
+
+class ProgrammeRepository {
+     -_I_programmeFactory: IProgrammeDDDFactory
+     -_programmeRepo: List<Programme>
+     -_programmeRepoListFactory: IProgrammeDDDRepositoryListFactory
+     +registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+         DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+         +changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID): boolean
+         +getAllProgrammes(): List<Programme>
+         +getProgrammeByName(NameWithNumbersAndSpecialChars name): Optional<Programme>
+         +getProgrammeByAcronym(Acronym acronym): Programme
+         +getAllProgrammeNames(): List<NameWithNumbersAndSpecialChars>
+         +save(ProgrammeDDD entity): Programme
+         +findAll(): Iterable<Programme>
+         +ofIdentity(ProgrammeID id): Optional<Programme>
+         +containsOfIdentity(ProgrammeID id): boolean
+}
+
+interface IProgrammeRepository {
+    +registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters,
+    DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): boolean
+    +changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID): boolean
+    +getAllProgrammes(): List<Programme>
+    +getProgrammeByName(NameWithNumbersAndSpecialChars name): Optional<Programme>
+    +getProgrammeByAcronym(Acronym acronym): Programme
+    +getAllProgrammeNames(): List<NameWithNumbersAndSpecialChars>
+    +save(ProgrammeDDD entity): Programme
+    +findAll(): Iterable<Programme>
+    +ofIdentity(ProgrammeID id): Optional<Programme>
+    +containsOfIdentity(ProgrammeID id): boolean
+}
+
+class DegreeType_ID <<ValueObject>> {}
+
+class TeacherID <<ValueObject>> {}
+
+
+interface IProgrammeFactory {
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, \nDepartmentID departmentID, TeacherID programmeDirectorID): Programme
+}
+
+class ProgrammeFactoryImpl {
+    registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, \nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, \nDepartmentID departmentID, TeacherID programmeDirectorID): Programme
+}
+
+US11_RegisterAProgrammeInTheSystemController "*" ..> "1" IProgrammeService
+IProgrammeService <|.. ProgrammeServiceImpl
+IProgrammeService ..> IProgrammeRepository
+IProgrammeRepository <|.. ProgrammeRepository
+IProgrammeService ..> IProgrammeFactory
+IProgrammeService ..> "<<root>>\nProgramme"
+IProgrammeFactory <|.. ProgrammeFactoryImpl
+IProgrammeFactory ..> "<<root>>\nProgramme" : "<<creates>>"
+
+"<<root>>\nProgramme" "*" --> "1" TeacherID : "is directed"
+"<<root>>\nProgramme" "*" --> "1" DepartmentID : "belongs to"
+"<<root>>\nProgramme" "*" --> "1" DegreeType_ID : "has"
+"<<root>>\nProgramme" "*" --> "1" QuantSemesters : "has"
+"<<root>>\nProgramme" "*" --> "1" quantEcts : "has"
+"<<root>>\nProgramme" "*" --> "1" Acronym : "has"
+"<<root>>\nProgramme" "*" --> "1" NameWithNumbersAndSpecialChars : "has"
+"<<root>>\nProgramme" "*" --> "1" ProgrammeID : "has"
+@enduml
