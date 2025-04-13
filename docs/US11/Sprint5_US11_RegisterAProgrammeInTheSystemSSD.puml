@@ -5,7 +5,7 @@ autonumber
 
 Admin -> System  : I Want to register a Programme in the System.
 
-System --> Admin : Which a Degree Type, a Department and a Teacher?
+System --> Admin : Choose a Degree Type, a Department and a Teacher?
 
 Admin -> System  : Degree Type, Department and Programme Director chosen.
 
