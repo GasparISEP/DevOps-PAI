@@ -38,6 +38,7 @@ interface IAccessMethodService {
 }
 
 class AccessMethodServiceImpl {
+  + registerAccessMethod (accessMethod1: AccessMethod)
 }
 
 interface JpaRepository<AccessMethodDataModel, AccessMethodDataModelID>{
@@ -63,7 +64,7 @@ US02_ConfigureAccessMethod_Controller -down-> IAccessMethodService: uses
 AccessMethodServiceImpl .left.|> IAccessMethodService: implements
 AccessMethodFactoryImpl .right.|> IAccessMethodFactory: implements
 IAccessMethodService -down-> IAccessMethodFactory: uses
-IAccessMethodRepository -down-> AccessMethodDataModel: saves
+IAccessMethodRepository -down-> AccessMethodDataModel: persist
 IAccessMethodRepository --|> JpaRepository : extends
 AccessMethodDataModel ..> AccessMethod: transforms to/from
 IAccessMethodService --> IAccessMethodRepository: uses
