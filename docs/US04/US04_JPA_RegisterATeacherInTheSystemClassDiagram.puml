@@ -25,6 +25,10 @@ class TeacherServiceImpl{
    + DepartmentExists(department:Department)
    +FindDepartmentByID(departementID:DepartmentID):Optional <Department>
 }
+class TeacherMapper{
++ ToDomain(teacherDataModel:TeacherDataModel)Teacher
++toDataModel(teacher:Teacher)TeacherDataModel
+}
 class TeacherDataModel{
 -_acronym:TeacherAcronym
         -_name:String
@@ -60,7 +64,6 @@ interface ITeacherService{
    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
 }
 interface ITeacherRepositorySpringData{
-+addTeacher(acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
 }
 interface JPARepository{}
 package "Teacher Aggregates" #CornflowerBlue {
@@ -87,15 +90,15 @@ ITeacherService ..|>"Implements" TeacherServiceImpl
 TeacherServiceImpl ..> ITeacherRepository
 TeacherServiceImpl ..> IDepartmentRepository
 
-TeacherServiceImpl ..> ITeacherFactory
-ITeacherFactory <|.. TeacherFactoryImpl
-"<<Root>>Teacher" ..> TeacherFactoryImpl
+TeacherServiceImpl"1" ..>"1" ITeacherFactory
+ITeacherFactory <|..TeacherFactoryImpl
+"<<Root>>Teacher" "1"..>"1" TeacherFactoryImpl
 ITeacherRepositorySpringData ..|> "extends"JPARepository
-TeacherRepositorySpringDataImpl ..|> ITeacherRepositorySpringData
+TeacherRepositorySpringDataImpl "1"..|> ITeacherRepositorySpringData
 ITeacherRepositorySpringData <|.. ITeacherRepository
 
-ITeacherRepository ..> TeacherDataModel
-ITeacherRepositorySpringData ..> TeacherDataModel
+TeacherRepositorySpringDataImpl"1" ->"*" TeacherDataModel
+TeacherMapper "1"..> "1"TeacherRepositorySpringDataImpl
 
 
 
