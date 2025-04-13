@@ -1,0 +1,506 @@
+@startuml
+'!pragma layout smetana
+'left to right direction
+
+skinparam ranksep 30
+skinparam nodesep 30
+skinparam classBackgroundColor #E1F5FE
+skinparam linetype ortho
+
+class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
+    +US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrolmentService: IProgrammeEditionEnrolmentService)
+    +getAllProgrammesIDs(): List<ProgrammeID>
+    +getAllSchoolYearsIDs(): List<SchoolYearID>
+    +enrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(studentId: StudentID, programmeId: ProgrammeID, schoolYearId: SchoolYearID)
+}
+
+
+' Service Interfaces
+interface IProgrammeEditionEnrolmentService{
+    +ProgrammeEditionEnrolmentService(programmeEditionEnrolmentRepository: IProgrammeEditionEnrolmentRepository, \n programmeEditionRepository: IProgrammeEditionRepository, programmeRepository: IProgrammeRepository, \n courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository, courseEditionRepository: ICourseEditionRepository, \n schoolYearRepository: ISchoolYearRepository, programmeEnrolmentRepository: IProgrammeEnrolmentRepository
+    +enrolStudentImProgrammeEditionAndSetOfCoursesEditions(studentId: StudentID, programmeId: ProgrammeID, schoolYearId: SchoolYearID
+    +getAllProgrammesIDs(): List<ProgrammeID>
+    +getAllSchoolYearsIDs(): List<SchoolYearID>
+    }
+
+'Repository Interfaces
+interface IProgrammeEditionEnrolmentRepository {
+    +enrolStudentInProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
+    +isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
+}
+
+interface IProgrammeEditionRepository {
+    +findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
+}
+
+interface IProgrammeRepository {
+    +getAllProgrammesIDs() : List<ProgrammeID>
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID) : boolean
+    +findByStudentAndEdition (studentId: StudentID, courseEditionId: CourseEditionID) : Optional<CourseEditionEnrolment>
+    +enrolStudentInProgrammeEditionCoursesEditions (studentId: StudentID, courseEditionsId: List<CourseEditionID>) : void
+}
+
+interface ICourseEditionRepository {
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionId>
+}
+
+interface ISchoolYearRepository {
+    +getAllSchoolYearsIDs() : List<SchoolYearID>
+}
+
+interface IProgrammeEnrolmentRepository {
+    +isStudentEnrolled(studentId: StudentID, programmeId: ProgrammeID) : boolean
+}
+
+interface IProgrammeEditionEnrolmentFactory{
+    +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
+}
+
+interface IProgrammeEditionEnrolmentListFactory{
+    +newProgrammeEditionEnrolmentList(): Set<ProgrammeEditionEnrolmentId>
+}
+
+' Services
+class ProgrammeEditionEnrolmentServiceImpl {
+    +ProgrammeEditionEnrolmentService(programmeEditionEnrolmentRepository: IProgrammeEditionEnrolmentRepository, \n programmeEditionRepository: IProgrammeEditionRepository, programmeRepository: IProgrammeRepository, \n courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository, courseEditionRepository: ICourseEditionRepository, \n schoolYearRepository: ISchoolYearRepository, programmeEnrolmentRepository: IProgrammeEnrolmentRepository
+    +enrolStudentImProgrammeEditionAndSetOfCoursesEditions(studentId: StudentID, programmeId: ProgrammeID, schoolYearId: SchoolYearID
+    +getAllProgrammesIDs(): List<ProgrammeID>
+    +getAllSchoolYearsIDs(): List<SchoolYearID>
+}
+
+'Repositories
+class ProgrammeEditionEnrolmentRepositoryImpl {
+    +ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory,
+          programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
+    +enrolStudentInProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
+    +isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
+}
+
+class ProgrammeEditionRepositoryImpl {
+    +ProgrammeEditionRepositoryImpl(programmeEditionFactory: ProgrammeEditionFactory)
+    +findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
+}
+
+class ProgrammeRepositoryImpl {
+    +ProgrammeRepositoryImpl(programmeFactory: ProgrammeFactory)
+    +getAllProgrammesIDs() : List<ProgrammeID>
+}
+
+class CourseEditionEnrolmentRepositoryImpl {
+    +CourseEditionEnrolmentRepositoryImpl ()
+    +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID) : boolean
+    +findByStudentAndEdition(studentId: StudentID, courseEditionId: CourseEditionID) : Optional<CourseEditionEnrolment>
+    +enrolStudentInProgrammeEditionCoursesEditions(studentId: StudentID, courseEditions: List<CourseEditionID>) : void
+}
+
+class CourseEditionRepositoryImpl {
+    +CourseEditionRepositoryImpl(courseEditionFactory: CourseEditionFactory)
+    +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<CourseEditionID>
+}
+
+class SchoolYearRepositoryImpl {
+    +SchoolYearRepositoryImpl(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
+    +getAllSchoolYearsIDs() : List<SchoolYearID>
+}
+
+class ProgrammeEnrolmentRepositoryImpl {
+    +ProgrammeEnrolmentRepositoryImpl()
+    +isStudentEnrolled(studentId: ProgrammeEnrolmentRepositoryStudentID, programmeId: ProgrammeID) : boolean
+}
+
+
+
+
+'Aggregates
+package "CourseEditionEnrolment Aggregate" #Lightblue {
+    class CourseEditionEnrolment <<Root>> <<Entity>> {
+    +CourseEditionEnrolment(studentId:StudentID, courseEditionId: CourseEditionID)
+    +hasStudent (studentId: StudentID) : boolean
+    +hasCourseEdition (courseEditionId: CourseEditionID) : boolean
+    }
+}
+
+package "ProgrammeEditionEnrolment Aggregate" #Lightblue {
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
+    +ProgrammeEditionEnrolment(studentId:StudentID, programmeEditionId: ProgrammeEditionID)
+    +hasSameStudent(studentId:StudentID) : StudentID
+    +equals (obj: Object) : boolean
+    +hasSameProgrammeEdition (programmeEdition: ProgrammeEdition) : ProgrammeEditionID
+    }
+}
+
+package "Programme Aggregate" #Lightblue{
+    class Programme <<Root>> <<Entity>>  {
+     + Programme(name : NameWithNumbersAndSpecialChars, acronym : Acronym,\n quantityOfEcts: QuantEcts, quantityOfSemesters : QuantSemesters,
+          degreeTypeID : DegreeTypeID, departmentID : DepartmentID, programmeDirectorID : TeacherID)
+     +getProgrammesID() : ProgrammeID
+    }
+ }
+
+ package "Student Aggregate" #Lightblue{
+     class Student <<Root>> <<Entity>> {
+         +Student(studentId: StudentID, name: Name, NIF: NIF, phone: Phone,
+         email: Email, address: Address, academicEmail  : StudentAcademicEmail)
+     }
+ }
+
+ package "ProgrammeEdition Aggregate" #Lightblue{
+     class ProgrammeEdition <<Root>> <<Entity>> {
+         +ProgrammeEdition(programmeId: ProgrammeID, schoolYearId: SchoolYearID)
+         +findProgrammeIDInProgrammeEdition() : ProgrammeID
+         +findSchoolYearIDInProgrammeEdition() : SchoolYearID
+     }
+ }
+
+ package "CourseEdition Aggregate" #Lightblue{
+     class CourseEdition <<Root>> <<Entity>> {
+         +CourseEdition(programmeEditionId: ProgrammeEditionID,\n courseInStudyPlanID: CourseInStudyPlanID, courseEditionId: CourseEditionID)
+         +whatProgrammeEditionBelongsThisCourseEdition() : ProgrammeEditionID
+     }
+ }
+
+ package "SchoolYear Aggregate" #Lightblue{
+     class SchoolYear <<Root>> <<Entity>>  {
+        +SchoolYear(description: Description, startDate: Date, endDate: Date)
+    }
+ }
+
+package "ProgrammeEnrolment Aggregate" #Lightblue{
+    class ProgrammeEnrolment <<Root>> <<Entity>> {
+        +ProgrammeEnrolment(studentId: StudentID, accessMethod: AccessMethod,\n programmeID: ProgrammeID, date: Date)
+        +hasSameStudent() : StudentID
+        +hasSameProgramme() : ProgrammeID
+    }
+}
+
+
+'Value Objects
+
+class CourseEditionEnrolmentID <<Value Object>>{
+    -_studentID: StudentID
+    - _courseEditionID : CourseEditionID
+    + CourseEditionEnrolmentID (studentId: StudentID, courseEditionID : CourseEditionID)
+}
+
+class ProgrammeEditionEnrolmentID <<Value Object>> {
+    - _programmeEditionId : ProgrammeEditionID
+    -_studentID: StudentID
+    -_schoolYearId: SchoolYearID
+    + ProgrammeEditionEnrolmentID (programmeEditionId : ProgrammeEditionID,\n studentID: StudentID, schoolYearId: SchoolYearID )
+}
+
+class ProgrammeID <<Value Object>> {
+    -_name : NameWithNumbersAndSpecialChars
+    -_acronym : Acronym
+    + ProgrammeID (name : NameWithNumbersAndSpecialChars,acronym : Acronym)
+}
+
+class StudentID <<Value Object>> {
+    -_uniqueNumber : int
+    + StudentID(uniqueNumber : int)
+}
+
+class Name <<Value Object>> {
+    -_name : String
+    + Name(name : String)
+}
+
+class NIF <<Value Object>> {
+    -_NIF : String
+    + NIF(NIF : String)
+}
+
+class Phone <<Value Object>> {
+    -_phone : String
+    + Phone(phone : String)
+}
+
+class Acronym <<Value Object>> {
+     -_acronym : String
+     + Acronym(acronym : String)
+}
+
+class QuantEcts <<ValueObject>> {
+    -_quantEcts: int
+    + QuantEcts(quantityOfEcts : int)
+}
+
+class QuantityOfSemesters <<ValueObject>> {
+    -_quantityOfSemesters: int
+    + QuantSemesters(quantityOfSemesters: int)
+}
+
+class Email <<Value Object>> {
+    -_email : String
+    + Email(email : String)
+}
+
+class AccessMethodID <<Value Object>> {
+    -_accessMethodID : UUID
+    + AccessMethod(_accessMethodId : UUID)
+}
+
+
+class NameWithNumbersAndSpecialChars <<Value Object>> {
+    -_nameWithNumbersAndSpecialChars : String
+    + NameWithNumbersAndSpecialChars\n(_nameWithNumbersAndSpecialChars : String)
+}
+
+class StudentAcademicEmail <<Value Object>> {
+    -_studentAcademicEmail : String
+    + StudentAcademicEmail(institutionalEmail : String)
+}
+class Address <<Value Object>> {
+        +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
+        + getStreet() : Street
+        + getPostalCode() : PostalCode
+        + getLocation() : Location
+        + getCountry() : Country
+    }
+
+class Street <<Value Object>> {
+    -_street : String
+    + Street(street : String)
+}
+
+class PostalCode <<Value Object>> {
+    -_postalCode : String
+    + PostalCode(postalCode : String)
+}
+
+class Location <<Value Object>> {
+    -_location : String
+    + Location(location : String)
+}
+
+class Country <<Value Object>> {
+    -_country : String
+    + Country(country : String)
+}
+
+class ProgrammeEnrolmentID <<Value Object>>{
+    - _programmeEnrolmentId : UUID
+    + getProgrammeEnrolmentId() : _programmeEnrolmentId
+}
+
+class CourseEditionID <<Value Object>>{
+    -_programmeEditionId : ProgrammeEditionID
+    -_courseInStudyPlanId : CourseInStudyPlanID
+    + CourseEditionId (programmeEditionId : ProgrammeEditionID,\n courseInStudyPlanId : CourseInStudyPlanID)
+}
+
+class ProgrammeEditionID <<Value Object>> {
+        -_programmeID : ProgrammeID
+        -_schoolYearID : SchoolYearID
+        + ProgrammeEditionId (programmeID : ProgrammeID,\n schoolYearID : SchoolYearID )
+}
+
+class SchoolYearID <<Value Object>>{
+    -_schoolYearID : UUID
+    + SchoolYearId (schoolYearID: UUID)
+    }
+
+class Date <<Value Object>> {
+     -localDate: LocalDate
+     +Date (localDate : LocalDate)
+}
+
+class CourseInStudyPlanID <<Value Object>> {
+     -courseID : CourseID
+     -studyPlanID :
+     +Date (localDate : LocalDate)
+}
+
+class  EnrolmentStatus <<Value Object>> {
+     -_isActive: boolean
+     +EnrollmentStatus(isActive: boolean)
+}
+
+class  Description <<Value Object>> {
+     -_description: String
+     +Description(description: String)
+}
+
+class TeacherID <<Value Object>> {
+     + TeacherID (teacherAcronym: TeacherAcronym)
+     + equals(obj: Object): boolean
+     }
+
+class DepartmentID <<Value Object>> {
+    + DepartmentID(acronym: DepartmentAcronym)
+    + getAcronym(): DepartmentAcronym
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+class DegreeTypeID <<Value Object>> {
+    - String _dtID
+    + DegreeTypeID(String dtID)
+}
+
+
+'Factory
+class ProgrammeEditionEnrolmentFactoryImpl {
+    +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
+}
+
+class ProgrammeEditionEnrolmentListFactoryImpl{
++newProgrammeEditionEnrolmentList(): Set<ProgrammeEditionEnrolmentID>
+}
+
+class CourseEditionEnrolmentListFactoryImpl {
+    +newArrayList(): List<CourseEditionEnrolmentID>
+}
+
+class CourseEditionListFactoryImpl{
+    +newArrayList(CourseEditionID)
+}
+
+
+'Others
+
+class HashSet{
+    + add(): boolean
+}
+
+class ProgrammeArrayList {
+    +add(): boolean
+}
+
+class ProgrammeEditionEnrolmentArrayList{
+     +add(programmeEditionEnrolment: ProgrammeEditionEnrolment): boolean
+}
+
+class SchoolYearArrayList {
+    +add(): boolean
+}
+
+class CourseEditionArrayList{
+     +add(): boolean
+}
+
+' Controller - IService
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEditionEnrolmentService
+
+' IService - Service
+IProgrammeEditionEnrolmentService "1" <|... "1" ProgrammeEditionEnrolmentServiceImpl
+
+
+
+
+
+
+ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeEditionRepository
+ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeRepository
+ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" ICourseEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" ICourseEditionRepository
+ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" ISchoolYearRepository
+ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeEnrolmentRepository
+
+
+' Repository -> interface
+IProgrammeEditionEnrolmentRepository <|... ProgrammeEditionEnrolmentRepositoryImpl
+IProgrammeEditionRepository <|.. ProgrammeEditionRepositoryImpl
+IProgrammeRepository <|.. ProgrammeRepositoryImpl
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
+ICourseEditionRepository <|.. CourseEditionRepositoryImpl
+ISchoolYearRepository <|.. SchoolYearRepositoryImpl
+IProgrammeEnrolmentRepository <|.. ProgrammeEnrolmentRepositoryImpl
+
+
+' Service -> InterfaceFactory
+ProgrammeEditionEnrolmentServiceImpl ..> IProgrammeEditionEnrolmentListFactory
+ProgrammeEditionEnrolmentServiceImpl ..> IProgrammeEditionEnrolmentFactory
+
+' Other connections
+
+Student "1" --> "1 _address" Address
+CourseEditionRepositoryImpl "1" -u-> "_listOfCE" CourseEdition
+CourseEditionRepositoryImpl "1" --> "1" CourseEditionListFactoryImpl
+'CourseEditionRepositoryImpl "1" --> "1" CourseEditionArrayList
+CourseEditionArrayList "1" <.. "1" CourseEditionListFactoryImpl
+CourseEditionArrayList "1 arrayOfCourseEdition" <.u. "*" CourseEdition
+CourseEditionEnrolment " " ..> " " ICourseEditionEnrolmentRepository
+'CourseEditionEnrolmentRepositoryImpl "1" --> "1" CourseEditionEnrolmentListFactoryImpl
+CourseEditionEnrolmentRepositoryImpl "1" --> "1" HashSet
+HashSet "1" <.. "1" CourseEditionEnrolmentListFactoryImpl
+HashSet "1" <.. "*" SchoolYear
+'ProgrammeEditionEnrolmentRepositoryImpl "1" --> "1" ProgrammeEditionEnrolmentArrayList
+
+ProgrammeEditionEnrolmentArrayList "1" ..> "*" ProgrammeEditionEnrolment
+'ProgrammeEditionEnrolmentRepositoryImpl "1" ..> "1" ProgrammeEditionEnrolmentListFactoryImpl
+
+IProgrammeEditionEnrolmentListFactory ..> ProgrammeEditionEnrolmentArrayList
+IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
+IProgrammeEditionEnrolmentListFactory <|.. ProgrammeEditionEnrolmentListFactoryImpl
+ProgrammeEnrolmentRepositoryImpl "1" --> "*" ProgrammeEnrolment
+ProgrammeRepositoryImpl ..> Programme
+'ProgrammeRepositoryImpl "1" --> "1" ProgrammeArrayList
+ProgrammeArrayList "1" --> " _programme *" Programme
+
+ProgrammeEdition "1" --> "1" SchoolYearID
+ProgrammeEdition "1" --> ProgrammeID
+ProgrammeEdition "1" --> "1" ProgrammeEditionID
+
+CourseEdition "1" --> "1" CourseEditionID
+CourseEdition "1" --> "1" ProgrammeEditionID
+CourseEdition "1" --> "1" CourseInStudyPlanID
+
+SchoolYearRepositoryImpl ..> SchoolYear
+'SchoolYearRepositoryImpl "1" --> "1" SchoolYearArrayList
+SchoolYearArrayList "1" --> " _schoolYear *" SchoolYear
+
+ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionID
+ProgrammeEditionEnrolment"1" --> "1" StudentID
+ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionEnrolmentID
+
+SchoolYear "1" --> "1" SchoolYearID
+SchoolYear "1" --> "1" Description
+SchoolYear "1" --> "1" Date
+
+ProgrammeEditionEnrolment  " 1    " --> "1  _date " Date
+
+CourseEditionEnrolment  "1" --> "1 _status" EnrolmentStatus
+CourseEditionEnrolment "1" --> "_date 1    " Date
+CourseEditionEnrolment "1"   -u-> "1"  StudentID
+CourseEditionEnrolment "1" --> "1" CourseEditionID
+CourseEditionEnrolment "1" --> "1" CourseEditionEnrolmentID
+
+Programme "1" --> "1" ProgrammeID
+Programme "1" --> "1" NameWithNumbersAndSpecialChars
+Programme "1" --> "1" Acronym
+Programme "1" --> "1" QuantEcts
+Programme "1" --> "1" QuantityOfSemesters
+Programme "1" --> "1" DepartmentID
+Programme "1" --> "1" DegreeTypeID
+Programme "1" --> "1" TeacherID
+
+ProgrammeEnrolment "1" --> "1" ProgrammeID
+ProgrammeEnrolment "1" --> "1" AccessMethodID
+ProgrammeEnrolment "1" --> "1" Date
+ProgrammeEnrolment "1" --> "1" StudentID
+ProgrammeEnrolment "1" --> "1" ProgrammeEnrolmentID
+
+Student "1" --> "1" StudentID
+Student "*" --> "1" Name
+Student "\n *" --> "1  " Email
+Student "\n *" --> "1   " StudentAcademicEmail
+Student "\n *" --> "1 " Phone
+Student "\n *" --> "1 " NIF
+Student "1" --> "1 _address" Address
+
+Address "  *" ---> "1" Street
+Address "*                " ---> "1" PostalCode
+Address " *" ---> "1" Location
+Address " *" ---> "1" Country
+
+
+
+
+
+
+@enduml

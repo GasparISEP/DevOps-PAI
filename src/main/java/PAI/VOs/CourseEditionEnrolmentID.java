@@ -32,8 +32,8 @@ public class CourseEditionEnrolmentID implements DomainId {
         return Objects.hash(_studentID, _courseEditionID);
     }
 
-//    @Override
-//    public String toString() {
-//        return STR."CourseEditionEnrolmentID =\{_studentID}\{_courseEditionID}";
-//    }
+    @Override
+    public String toString() {
+        return "CourseEditionEnrolmentID =" + _studentID + _courseEditionID;
+    }
 }

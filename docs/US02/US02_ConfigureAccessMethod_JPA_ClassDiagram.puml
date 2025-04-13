@@ -1,0 +1,71 @@
+@startuml
+
+skinparam ranksep 180
+skinparam nodesep 180
+
+package "AccessMethod Aggregate" {
+    entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
+    + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)
+    + Equals(Object objectToCompare)
+    }
+    class "<<Value Object>>\n NameWithNumbersAndSpecialChars" as VOName{
+        - accessMethodName: String
+        + Equals(Object objectToCompare)
+    }
+
+    class "<<Value Object>>\n AccessMethodId" as VOId{
+        - id: String
+        + Equals(Object objectToCompare)
+    }
+}
+
+'uses
+AME "1" --> "uses 1" VOName
+AME "1" --> "uses 1" VOId
+
+
+
+interface IAccessMethodFactory {
+    createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+class AccessMethodFactoryImpl {
+     +createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+interface IAccessMethodService {
+  + registerAccessMethod (accessMethod1: AccessMethod)
+}
+
+class AccessMethodServiceImpl {
+  + registerAccessMethod (accessMethod1: AccessMethod)
+}
+
+interface JpaRepository<AccessMethodDataModel, AccessMethodDataModelID>{
+}
+
+class AccessMethodDataModel {
+    + toDomain()
+    + toDataModel()
+}
+
+
+interface IAccessMethodRepository {
+}
+
+
+class US02_ConfigureAccessMethod_Controller {
+    +US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
+    +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+IAccessMethodFactory "1" ..> "1..*" AME : creates
+US02_ConfigureAccessMethod_Controller -down-> IAccessMethodService: uses
+AccessMethodServiceImpl .left.|> IAccessMethodService: implements
+AccessMethodFactoryImpl .right.|> IAccessMethodFactory: implements
+IAccessMethodService -down-> IAccessMethodFactory: uses
+IAccessMethodRepository -down-> AccessMethodDataModel: persist
+IAccessMethodRepository --|> JpaRepository : extends
+AccessMethodDataModel ..> AccessMethod: transforms to/from
+IAccessMethodService --> IAccessMethodRepository: uses
+@enduml

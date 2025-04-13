@@ -55,7 +55,7 @@ activate country
 country --> ASC : Country VO
 deactivate country
 
-ASC --> academicEmail : create StudentAcademicEmail VO (academicEmail)
+ASC --> academicEmail : create StudentAcademicEmail VO (uniqueNumber)
 activate academicEmail
 academicEmail --> ASC : StudentAcademicEmail VO
 deactivate academicEmail

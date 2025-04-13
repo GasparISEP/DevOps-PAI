@@ -24,7 +24,7 @@ AME "1" --> "uses 1" VOName
 AME "1" --> "uses 1" VOId
 
 
-Interface IAccessMethodFactory {
+interface IAccessMethodFactory {
     createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
 }
 

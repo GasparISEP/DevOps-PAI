@@ -174,21 +174,21 @@ class CourseEditionEnrolmentIDTest {
     }
 
     //testing toString method
-//    @Test
-//    void shouldReturnAStringWithTheID() {
-//        //Arrange
-//        StudentID doubleStudentID = mock (StudentID.class);
-//        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
-//
-//        when (doubleStudentID.toString()).thenReturn("1");
-//        when (doubleCourseEditionID.toString()).thenReturn("2");
-//
-//        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
-//
-//        //Act
-//        String ceeString = courseEditionEnrolmentID.toString();
-//
-//        //Assert
-//        assertEquals("CourseEditionEnrolmentID =12", ceeString);
-//    }
+    @Test
+    void shouldReturnAStringWithTheID() {
+        //Arrange
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        when (doubleStudentID.toString()).thenReturn("1");
+        when (doubleCourseEditionID.toString()).thenReturn("2");
+
+        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
+
+        //Act
+        String ceeString = courseEditionEnrolmentID.toString();
+
+        //Assert
+        assertEquals("CourseEditionEnrolmentID =12", ceeString);
+    }
 }
