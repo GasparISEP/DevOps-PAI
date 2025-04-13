@@ -66,6 +66,6 @@ AccessMethodFactoryImpl .right.|> IAccessMethodFactory: implements
 IAccessMethodService -down-> IAccessMethodFactory: uses
 IAccessMethodRepository -down-> AccessMethodDataModel: persist
 IAccessMethodRepository --|> JpaRepository : extends
-AccessMethodDataModel ..> AccessMethod: transforms to/from
+AccessMethodDataModel ..> "AccessMethod Aggregate": transforms to/from
 IAccessMethodService --> IAccessMethodRepository: uses
 @enduml
