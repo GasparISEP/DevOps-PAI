@@ -1,0 +1,104 @@
+@startuml
+scale 0.8
+skinparam ranksep 20
+skinparam nodesep 150
+skinparam linetype ortho
+skinparam classBackgroundColor #E1F5FE
+
+title US04:As an Administrator, i want to register a Teacher in the System.
+
+class US04_IWantToRegisterATeacherInTheSystemController #lightblue{
+    +US04_IWantToRegisterATeacherInTheSystemController\n(iTeacherRepository:ITeacherRepository,\n iDepartmentRepository:IDepartmentRepository)
+    +registerATeacherInTheSystem\n(acronym:TeacherAcronym, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
+}
+note right of US04_IWantToRegisterATeacherInTheSystemController
+This is a simplified version of the class diagram of Us04,
+following the DDD principles as such in this diagram
+ the Value Objects are represented as Attributes.
+end note
+class TeacherFactoryImpl #lightblue{
+    +createTeacher(TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n teacherCategory:TeacherCategory,\n department:Department):Teacher
+    +createAddress(street:Street,\n postalCode:PostalCode,\n location:Location, country:Country)
+}
+class TeacherServiceImpl{
+   +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
+   + DepartmentExists(department:Department)
+   +FindDepartmentByID(departementID:DepartmentID):Optional <Department>
+}
+class TeacherDataModel{
+-_acronym:TeacherAcronym
+        -_name:String
+        -_email:String
+        -_nif:String
+        -_street:String
+        -_postalCode:PostalCode
+        -_location:Location
+        -_country:Country
+        -_phoneNumber:PhoneNumber
+        -_academicBackground:AcademicBackground
+        -_departmentID:DepartmentID
+}
+class TeacherRepositorySpringDataImpl{
++addTeacher(acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
+
+}
+
+interface ITeacherFactory #lightblue{
+    +createTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n \n departmentAcronym:DepartmentAcronym):Teacher
+}
+
+interface IDepartmentRepository #lightblue{
+    +departmentExists(department:Department):boolean
+    +FindDepartmentByID(departementID:DepartmentID):\n Optional<Department>
+}
+
+interface ITeacherRepository #lightblue{
+    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
+
+}
+interface ITeacherService{
+   +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
+}
+interface ITeacherRepositorySpringData{
++addTeacher(acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
+}
+interface JPARepository{}
+package "Teacher Aggregates" #CornflowerBlue {
+    entity "<<Root>>Teacher" #lightblue{
+        -_acronym:TeacherAcronym
+        -_name:Name
+        -_email:Email
+        -_nif:NIF
+        -_street:Street
+        -_postalCode:PostalCode
+        -_location:Location
+        -_country:Country
+        -_phoneNumber:PhoneNumber
+        -_academicBackground:AcademicBackground
+        -_departmentID:DepartmentID
+        +Teacher(acronym:TeacherAcronym,\n teacherID:TeacherId, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
+    }
+}
+
+
+
+US04_IWantToRegisterATeacherInTheSystemController ..> ITeacherService
+ITeacherService ..|>"Implements" TeacherServiceImpl
+TeacherServiceImpl ..> ITeacherRepository
+TeacherServiceImpl ..> IDepartmentRepository
+
+TeacherServiceImpl ..> ITeacherFactory
+ITeacherFactory <|.. TeacherFactoryImpl
+"<<Root>>Teacher" ..> TeacherFactoryImpl
+ITeacherRepositorySpringData ..|> "extends"JPARepository
+TeacherRepositorySpringDataImpl ..|> ITeacherRepositorySpringData
+ITeacherRepositorySpringData <|.. ITeacherRepository
+
+ITeacherRepository ..> TeacherDataModel
+ITeacherRepositorySpringData ..> TeacherDataModel
+
+
+
+@enduml
+
+
