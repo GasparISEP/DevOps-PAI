@@ -1,0 +1,147 @@
+@startuml
+autonumber
+
+title US11: As an ASC, I want to register a programme in the system.
+
+actor ASC as Admin
+
+participant ":UI" as UI #lightgrey
+participant ":ControllerUS11" as C #lightgrey
+
+participant ":DegreeTypeService" as DTS #lightgrey
+participant ":DegreeTypeRepository" as DTR #lightgrey
+participant ":DegreeTypeFactory" as DTF #lightgrey
+
+participant ":DepartmentService" as DPS #lightgrey
+participant ":DepartmentRepository" as DPR #lightgrey
+participant ":DepartmentFactory" as DPF #lightgrey
+
+participant ":TeacherService" as TS #lightgrey
+participant ":TeacherRepository" as TR #lightgrey
+participant ":TeacherFactory" as TF #lightgrey
+
+participant ":ProgrammeService" as PS #lightgrey
+participant ":ProgrammeFactory" as PF #lightgrey
+participant ":ProgrammeRepository" as PR #lightgrey
+participant "P1:Programme" as P #lightgrey
+participant "PId1:ProgrammeId" as PID #lightgrey
+
+activate Admin
+Admin -> UI ++ : I want to register a Programme in the System.
+
+UI -> C ++: getAllDegreeType
+
+C -> DTS ++: getAllDegreeType
+
+DTS -> DTR ++: getAllDegreeType
+
+|||
+ref over DTR
+          Get data from Data Base
+    \t \t Convert DataModel to Domain \t
+end ref
+
+DTR --> DTS --: List<DegreeType>
+
+DTS --> C --: List<DegreeType>
+
+C --> UI --: List<DegreeType>
+
+UI --> Admin: Choose a Degree Type from the list.
+
+Admin -> UI: Degree Type chosen.
+
+UI -> C ++: getAllDepartments
+
+C -> DPS ++: getAllDepartments
+
+DPS -> DPR ++: getAllDepartments
+
+|||
+ref over DPR
+          Get data from Data Base
+    \t \t Convert DataModel to Domain \t
+end ref
+
+DPR --> DPS --: List<Department>
+
+DPS --> C --: List<Department>
+
+C --> UI --: List<Department>
+
+UI --> Admin: Choose a Department from the list.
+
+Admin -> UI: Department chosen.
+
+UI -> C ++: getAllTeachers
+
+C -> TS ++: getAllTeachers
+
+TS -> TR ++: getAllTeachers
+
+|||
+ref over TR
+          Get data from Data Base
+    \t \t Convert DataModel to Domain \t
+end ref
+
+TR --> TS --: List<Teacher>
+
+TS --> C --: List<Teacher>
+
+C --> UI --: List<Teacher>
+
+UI --> Admin: Choose a Programme Director from the list.
+
+Admin -> UI: Programme Director chosen.
+
+UI --> Admin: Name? Acronym? Quantity of Ects credits\nper Semester? Quantity of Semesters?
+
+Admin -> UI: Name! Acronym! Quantity of Ects credits\nper Semester! Quantity of Semesters!
+
+UI -> C ++: registerAProgrammeInTheSystem(name, acronym, quantityOfEcts,\nquantityOfSemesters, degreeType, department, teacher)
+
+C -> PS ++: registerAProgrammeInTheSystem(name, acronym, quantityOfEcts,\nquantityOfSemesters, degreeType, department, teacher)
+
+|||
+ref over PS
+    Convert Primitives to VO
+end ref
+|||
+
+PS -> PF ++: registerProgramme(name, acronym, quantityOfEcts,\nquantityOfSemesters, degreeTypeId, departmentId, teacherId)
+
+PF -> P **: Programme(name, acronym, quantityOfEcts,\nquantityOfSemesters, degreeTypeId, departmentId, teacherId)
+activate P
+|||
+
+P -> PID **: ProgrammeID(name, acronym)
+activate PID
+|||
+PID --> P --: \t PId1
+
+P --> PF --: \t P1
+
+
+PF -> PR ++: saveProgramme(P1)
+
+|||
+ref over PR
+    Convert Domain to DataModel
+    Get All Programmes from DB
+    Check if P1 already exits
+    Update DB
+end ref
+|||
+
+PR --> PF --: \tTrue
+
+PF --> PS --: \tTrue
+
+PS --> C --: \tTrue
+
+C --> UI --: \tTrue
+
+UI --> Admin --: Programme registered successfully!
+
+@enduml

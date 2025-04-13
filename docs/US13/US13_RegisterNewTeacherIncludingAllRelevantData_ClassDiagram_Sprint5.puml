@@ -1,0 +1,308 @@
+@startuml
+top to bottom direction
+title US13 - Teacher Registration Class Diagram
+skinparam ranksep 150
+skinparam nodesep 100
+
+
+interface IRepository {
+    save(entity : Entity);
+    findAll();
+    ofIdentity(ID id);
+    containsOfIdentity(ID id);
+}
+
+'=== 1. CONTROLLER ==='
+class US13_RegisterTeacherAndRelevantDataController {
+  +getTeacherCategoryList()
+  +getDepartmentList()
+  +registerTeacher(...)
+}
+
+'=== 2. SERVICES ==='
+class TeacherCategoryService {
+  +findAll(): List<TeacherCategory>
+}
+
+class DepartmentService {
+  +findAll(): Set<Department>
+}
+
+class TeacherService {
+  +registerTeacher(...): boolean
+}
+
+'=== 3. REPOSITORY INTERFACES ==='
+interface ITeacherCategoryRepository {
+  +findAll(): List<TeacherCategory>
+}
+
+interface IDepartmentRepository {
+  +findAll(): Set<Department>
+}
+
+interface ITeacherRepository {
+  +registerTeacher(...): boolean
+  +containsOfIdentity(TeacherID): boolean
+}
+
+class TeacherRepository {
+    +registerTeacher(...): boolean
+    +containsOfIdentity(TeacherID): boolean
+}
+
+interface ITeacherRepositoryJPA {
+}
+
+interface jpaRepository {
+}
+
+
+interface ITeacherCareerProgressionRepository {
+  +saveTeacherCareerProgression(TeacherCareerProgression)
+}
+
+'=== 4. REPOSITORY IMPLEMENTATIONS ==='
+class TeacherCategoryRepositoryImpl {
+  +findAll(): List<TeacherCategory>
+}
+
+class DepartmentRepositoryImpl {
+  +findAll(): Set<Department>
+}
+
+class TeacherRepositoryJPA {
+  +save(Teacher)
+  +containsOfIdentity(TeacherID)
+}
+
+class TeacherCareerProgressionRepository {
+  +saveTeacherCareerProgression(TeacherCareerProgression)
+}
+
+'=== 5. FACTORIES ==='
+interface ITeacherCategoryFactory {
+  +createTeacherCategory(Name): TeacherCategory
+}
+
+class TeacherCategoryFactoryImpl {
+  +createTeacherCategory(Name): TeacherCategory
+}
+
+interface IDepartmentFactory {
+  +createDepartment(Name): Department
+}
+
+class DepartmentFactoryImpl {
+  +createDepartment(Name): Department
+}
+
+interface ITeacherFactory {
+  +createTeacher(...): Teacher
+}
+
+class TeacherFactoryImpl {
+  +createTeacher(...): Teacher
+}
+
+interface ITeacherCareerProgressionFactory {
+  +createTeacherCareerProgression(...): TeacherCareerProgression
+}
+
+class TeacherCareerProgressionFactoryImpl {
+  +createTeacherCareerProgression(...): TeacherCareerProgression
+}
+
+'=== 6. AGGREGATES ==='
+package "Teacher Aggregate" {
+  class Teacher <<Root>> {
+
+  }
+}
+
+package "TeacherCareerProgression Aggregate" {
+  class TeacherCareerProgression <<Root>> {
+  }
+}
+
+package "TeacherCategory Aggregate" {
+  class TeacherCategory <<Root>> {}
+}
+
+package "Department Aggregate" {
+  class Department <<Root>> {
+  }
+}
+
+class TeacherIDDataModel {
+    -_teacherIDDataModel : String
+    +getAcronym()
+}
+
+class NIFDataModel {
+    -_nif : String
+    -_country : String
+    +getNIF()
+    +getCountry()
+}
+
+class PhoneNumberDataModel {
+    -_countryCode : String
+    -_phoneNumber : String
+    +getCountry()
+    +getPhoneNumber()
+}
+
+class AddressDataModel {
+    -_street : String
+    -_postalCode : String
+    -_location : String
+    -_country : String
+    +getStreet()
+    +getPostalCode()
+    +getLocation()
+    +getCountry()
+}
+
+class TeacherAcademicEmailDataModel {
+    -_emailDomain : String
+    -_teacherAcademicEmail : String
+    +getEmailDomain()
+    +getTeacherAcademicEmail()
+}
+
+'=== 7. VALUE OBJECTS ==='
+class TeacherID <<VO>> {}
+class TeacherAcronym <<VO>> {}
+class DepartmentID <<VO>> {}
+class Name <<VO>> {}
+class Email <<VO>> {}
+class NIF <<VO>> {}
+class PhoneNumber <<VO>> {}
+class Street <<VO>> {}
+class PostalCode <<VO>> {}
+class Location <<VO>> {}
+class Country <<VO>> {}
+class AcademicBackground <<VO>> {}
+class WorkingPercentage <<VO>> {}
+class Date <<VO>> {}
+class DepartmentID <<VO>> {}
+class TeacherCategoryID <<VO>> {}
+class Address <<VO>> {
+}
+
+'=== 8. MAPPERS ==='
+class TeacherCategoryMapper {
+  +toDomain(teacherCategoryDataModel)
+}
+
+class DepartmentMapper {
+  +toDomain(departmentDataModel)
+}
+
+class TeacherMapper {
+  +toDataModel(Teacher): TeacherDataModel
+}
+
+class TeacherDataModel {
+  -_name : String
+  -_email : String
+  -_academicBackground : String
+  +getName()
+  +getEmail()
+  +getNIF()
+  +getPhoneNumber()
+  +getAcademicBackground()
+  +getAddress()
+  +getTeacherAcademicEmail()
+}
+
+'=== 9. CONNECTIONS WITH MULTIPLICITIES ==='
+'Controller Layer'
+US13_RegisterTeacherAndRelevantDataController "1" ..> "1" TeacherCategoryService
+US13_RegisterTeacherAndRelevantDataController "1" ..> "1" DepartmentService
+US13_RegisterTeacherAndRelevantDataController "1" ..> "1" TeacherService
+
+'TeacherCategory Flow'
+TeacherCategoryService "1" --> ITeacherCategoryRepository
+TeacherCategoryRepositoryImpl .up.|> ITeacherCategoryRepository
+ITeacherCategoryRepository --> "1" TeacherCategoryMapper
+TeacherCategoryMapper "1" --> ITeacherCategoryFactory
+TeacherCategoryFactoryImpl .up.|> ITeacherCategoryFactory
+ITeacherCategoryFactory ..> "1" TeacherCategory : <<create>>
+ITeacherCategoryRepository ..|> IRepository : <<extends>>
+
+
+'Department Flow'
+DepartmentService "1" --> IDepartmentRepository
+DepartmentRepositoryImpl .up.|> IDepartmentRepository
+IDepartmentRepository  --> "1" DepartmentMapper
+DepartmentMapper "1" -->  IDepartmentFactory
+DepartmentFactoryImpl .up.|> IDepartmentFactory
+IDepartmentFactory  ..> "1" Department : <<create>>
+IDepartmentRepository ..|> IRepository : <<extends>>
+
+
+'Teacher Registration Flow'
+TeacherService "1" -->  ITeacherRepository
+TeacherService "1" -->  ITeacherFactory
+TeacherService "1" -->  ITeacherCareerProgressionFactory
+TeacherRepository "1" ..|> ITeacherRepository : <<implements>>
+TeacherRepositoryJPA .up.|> ITeacherRepository : <<implements>>
+ITeacherRepository "1" --> "*" Teacher
+ITeacherRepositoryJPA  ..|> "\n 1   " TeacherRepositoryJPA : <<extends>>
+TeacherRepositoryJPA "1" ..> "_teacherMapper" TeacherMapper
+TeacherMapper "1" --> "1" TeacherDataModel
+ITeacherRepository ..|> IRepository : <<extends>>
+jpaRepository "\n 1 " <|.. ITeacherRepositoryJPA : <<extends>>
+
+
+
+'Factory Creation'
+TeacherFactoryImpl .up.|> ITeacherFactory
+ITeacherFactory "1" ..> "1" Teacher : <<create>>
+ITeacherFactory "1" ..> "1" Address : <<create>>
+
+'Value Object Composition'
+Teacher "1" --> "_teacherID" TeacherID
+Teacher "1" --> "_name" Name
+Teacher "1" --> "_teacherAcronym" TeacherAcronym
+Teacher "1" --> "_email" Email
+Teacher "1" --> "_nif" NIF
+Teacher "1" --> "_phoneNumber" PhoneNumber
+Teacher "1" --> "_academicBackground" AcademicBackground
+Teacher "1" --> "_address" Address
+Teacher "1" --> "_departmentID" DepartmentID
+'TeacherAcronym "1" <-- TeacherID
+Department "1" -> "_teacherID" TeacherID
+Department "1" ---> "_name" Name
+Department "1" ---> "_departmentID" DepartmentID
+
+TeacherCategory "1" --> "_name" Name
+
+Address "1" --> "_street" Street
+Address "1" --> "_postalCode" PostalCode
+Address "1" --> "_location" Location
+Address "1" --> "_country" Country
+
+'Career Progression Flow'
+TeacherCareerProgressionRepository .up.|> ITeacherCareerProgressionRepository : <<implements>>
+TeacherCareerProgressionFactoryImpl .up.|> ITeacherCareerProgressionFactory: <<implements>>
+ITeacherCareerProgressionFactory "1" ..> "1" TeacherCareerProgression : <<create>>
+
+'Career Progression Relationships'
+TeacherCareerProgression "1" --> "_date" Date
+TeacherCareerProgression "1" --> "_teacherCategoryID" TeacherCategoryID
+TeacherCareerProgression "1" --> "_teacherID" TeacherID
+TeacherCareerProgression "1" --> "_workingPercentage" WorkingPercentage
+TeacherCareerProgression "1" --> "_teacher" Teacher
+TeacherCategory "1" --> "_teacherCategoryID" TeacherCategoryID
+ITeacherCareerProgressionRepository ..|> IRepository : <<extends>>
+
+'Data Model Relationships
+TeacherDataModel ---> "_teacherIDDataModel" TeacherIDDataModel
+TeacherDataModel ---> "_nifDataModel" NIFDataModel
+TeacherDataModel ---> "_phoneNumberDataModel" PhoneNumberDataModel
+TeacherDataModel ---> "_addressDataModel" AddressDataModel
+TeacherDataModel ---> "_teacherAcademicEmailDataModel" TeacherAcademicEmailDataModel
+@enduml
