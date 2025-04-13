@@ -1,0 +1,160 @@
+@startuml
+title US05: Register a Department in the System
+'left to right direction'
+
+class US05_RegisterADepartmentController #ccffcc {
+    +US05_RegisterADepartmentController(departmentService: IDepartmentService)
+    +registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
+}
+
+interface IDepartmentService #lightcyan {
+        + registerDepartment(acronym: DepartmentAcronym, name: Name)
+}
+
+class DepartmentServiceImpl #lightcyan {
+      + DepartmentService(departmentFactory: IDepartmentFactory, departmentRepo: IDepartmentRepository)
+      + registerDepartment(acronym: DepartmentAcronym, name: Name)
+}
+
+interface IDepartmentRepository #lightyellow {
+    + registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
+}
+
+class DepartmentRepositoryMem #lightyellow {
+    + save (entity: Department): Department
+    + findAll(): Iterable<Department>
+    + ofIdentity (id: DepartmentID): Optional<Department>
+    + containsOfIdentity(id: DepartmentID): boolean
+}
+
+class DepartmentFactoryImpl #dddddd {
+    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
+}
+
+interface IDepartmentFactory #dddddd {
+    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
+}
+
+class DepartmentListFactoryImpl #dddddd{
+    +newDepartmentList: HashSet<Department>
+}
+
+interface IDepartmentListFactory #dddddd {
+    + newDepartmentList(): HashSet<Department>
+}
+
+interface Set {
+    +add(): boolean
+}
+
+package "Department Aggregate" {
+
+class Department <<root>> {
+    +Department(acronym: DepartmentAcronym , name: Name)
+    +hashCode(): int
+    +identity(): DepartmentAcronym
+    +equals(obj: Object): boolean
+    +sameAs(obj: Object): boolean
+    +getName(): Name
+    +getAcronym(): DepartmentAcronym
+    +getVersion(): Long
+}
+}
+
+class Name <<Value Object >> {
+    -_name: String
+    + Name(name: String)
+    + getName(): String
+}
+
+class DepartmentAcronym <<Value Object>> {
+    -_acronym: String
+    + DepartmentAcronym(acronym: String)
+    + getAcronym(): String
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+class DepartmentID <<Value Object>> {
+    + DepartmentID(acronym: DepartmentAcronym)
+    + getAcronym(): DepartmentAcronym
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+class Version <<Value Object>> {
+    -_version: Long
+    + Version(version: Long)
+    + getVersion(): Version
+}
+
+US05_RegisterADepartmentController "*" ..> "_departmentService 1" IDepartmentService
+
+IDepartmentService <|.. DepartmentServiceImpl
+DepartmentServiceImpl "1" ..> "_departmentFactory 1" IDepartmentFactory
+DepartmentServiceImpl "1"..> "_departmentRepo 1" IDepartmentRepository
+
+DepartmentRepositoryMem "1" ..> "*" Department
+DepartmentRepositoryMem "1" -> "_departments   1" Set
+DepartmentRepositoryMem "1" ..> "_departmentsList 1" IDepartmentListFactory
+IDepartmentRepository <|.. DepartmentRepositoryMem
+
+IDepartmentListFactory  <|..  DepartmentListFactoryImpl
+IDepartmentListFactory  ..>  Set
+IDepartmentFactory  <|..  DepartmentFactoryImpl
+IDepartmentFactory "1" <.. "1"  DepartmentRepositoryMem
+
+Department "1" <- "1" Set
+Department "1" <.. "1" IDepartmentFactory
+Name "_departmentName 1" <-- "1" Department
+Department "1" --> "1 _departmentId" DepartmentID
+DepartmentID "1" --> "1 _departmentAcronym" DepartmentAcronym
+Department "1" ..> "1" DepartmentAcronym
+Department "1" --> "1" Version
+
+
+'JPA
+package "JPA Department Aggregate" {
+
+class DepartmentDataModel #ffe6ec {
+    - acronym: String
+    - name: String
+    - directorID: private
+    - version: Long
+    + DepartmentDataModel()
+    + DepartmentDataModel(acronym: String, name: String, directorID: String, version: Long)
+    + getAcronym(): String
+    + setAcronym(acronym: String): void
+    + getName(): String
+    + setName(name: String): void
+    + getDirectorId(): String
+    + setDirectorId(directorId: String): void
+    + getVersion(): Long
+    + setVersion(version: Long): void
+}
+}
+
+interface IDepartmentRepositorySpringData #ffe6ec{
+
+}
+
+class DepartmentRepositorySpringData #ffe6ec {
+   + DepartmentRepositorySpringData(repositorySpringData: IRepositorySpringData, mapper: DepartmentMapper, departmentFactory: IDepartmentFactory ) {
+   + save (entity: Department): Department
+   + findAll(): Iterable<Department>
+   + ofIdentity (id: DepartmentID): Optional<Department>
+   + containsOfIdentity(id: DepartmentID): boolean
+}
+
+class DepartmentMapper #ffe6ec {
+    + toDomain(dataModel: DepartmentDataModel): Department
+    + toDataModel(domain: Department): DepartmentDataModel
+}
+
+DepartmentRepositorySpringData "1" --> "1" DepartmentDataModel
+DepartmentRepositorySpringData "1" --> "_repositorySpringData 1" IDepartmentRepositorySpringData
+DepartmentRepositorySpringData "1" --> "_departmentFactory 1" IDepartmentFactory
+DepartmentRepositorySpringData ..|>  IDepartmentRepository
+DepartmentRepositorySpringData "1" ..> "1 _mapper" DepartmentMapper
+
+@enduml
