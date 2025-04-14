@@ -42,6 +42,10 @@ interface ICourseEditionEnrolmentRepository <<Interface>> {
 class CourseEditionEnrolmentRepositoryMemImpl {
     +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
+    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
 class CourseEditionEnrolmentRepositorySpringDataImpl{
