@@ -1,0 +1,334 @@
+@startuml
+skinparam ranksep 60
+skinparam nodesep 60
+skinparam linetype ortho
+skinparam classBackgroundColor #E1F5FE
+
+
+class US16_EnrolAStudentInACourseEditionController {
+    +US16_EnrolAStudentInACourseEditionController(_ceeRepositoryInterface: ICourseEditionEnrolmentRepository,
+    peeRepositoryInterface: IProgrammeEditionEnrolmentRepository , courseEditionRepositoryInterface: ICourseEditionRepository)
+    +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+    +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
+}
+
+interface ICourseEditionEnrolmentService {
+    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
+    +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEdition>
+    +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+class CourseEditionEnrolmentServiceImpl {
+    +CourseEditionEnrolmentServiceImpl (courseEditionEnrolmentFactory : ICourseEditionEnrolmentFactory, courseEditionEnrolmentRepositoryInterface : ICourseEditionEnrolmentRepository,
+    programmeEditionEnrolmentRepositoryInterface : IProgrammeEditionEnrolmentRepository, courseEditionRepositoryInterface : ICourseEditionRepository)
+    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
+    +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEdition>
+    +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+class CourseEditionEnrolmentRepositoryImpl {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
+    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+class CourseEditionEnrolmentRepositorySpringDataJPAImpl {
+    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    courseEditionEnrolmentSpringDataJPAInterface: ICourseEditionEnrolmentRepositorySpringDataJPA)
+    +enrolStudentInACourseEdition (courseEditionEnrolment: CourseEditionEnrolment): boolean
+}
+
+interface ICourseEditionEnrolmentRepositorySpringDataJPA {
+}
+
+interface IProgrammeEditionEnrolmentRepository {
+     +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+}
+
+class ProgrammeEditionEnrolmentRepositoryImpl {
+    +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory,
+    programmeEditionEnrolmentListFactory: IProgrammeEditionEnrolmentListFactory)
+    +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+}
+
+class ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl {
+    +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory, programmeEditionEnrolmentSpringJPAInterface: IProgrammeEditionSpringDataJPA)
+    +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
+}
+
+interface IProgrammeEditionEnrolmentRepositorySpringDataJPA {
+}
+
+
+interface ICourseEditionRepository {
+     +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEditionID>
+}
+
+class CourseEditionRepositoryImpl {
+    +CourseEditionRepository(courseEditionFactory: ICourseEditionFactoryDDD, courseEditionListFactory: ICourseEditionListFactoryDDD)
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEditionID>
+}
+
+class CourseEditionRepositorySpringDataJPAImpl {
+    +CourseEditionRepository(courseEditionFactory: ICourseEditionFactory, courseEditionSpringDataJPAInterface: ICourseEditionSpringDataJPA)
+    +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
+}
+
+interface ICourseEditionRepositorySpringDataJPA {
+}
+
+interface ICourseEditionEnrolmentListFactory{
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+}
+
+class CourseEditionEnrolmentListFactoryImpl {
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+}
+
+interface ICourseEditionEnrolmentFactory{
+    +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentFactoryImpl{
+    +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+}
+
+package "CourseEditionEnrolment Aggregate" #LightBlue {
+    class CourseEditionEnrolment <<Root>> <<Entity>> {
+             +CourseEditionEnrolment(studentId:StudentID,
+              courseEditionId: CourseEditionID)
+             +equals (obj: Object): boolean
+             +hashCode(): int
+             +sameAs(obj: Object): boolean
+    }
+}
+
+class "<<Value Object>>\n EnrolmentStatus" {
+     -_isActive: boolean
+     +EnrollmentStatus(isActive: boolean)
+}
+
+class "<<Value Object>>\n CourseEditionEnrolmentID" {
+     -_courseEditionId: CourseEditionID
+     -_studentId: StudentID
+     +CourseEditionEnrolmentID(studentId: StudentID, courseEditionId: CourseEditionID))
+     +equals (obj: Object) : boolean
+     +hashCode(): int
+     +toString(): String
+}
+
+package "CourseEdition Aggregate" #LightBlue{
+    class CourseEdition <<Root>> <<Entity>> {
+    +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
+    +getProgrammeEditionID() : ProgrammeEditionID
+    +identity(): CourseEditionID
+    }
+}
+
+class "<<Value Object>>\n CourseEditionID" {
+     -_programmeEditionID: ProgrammeEditionID
+     -_courseInStudyPlanID: CourseInStudyPlanID
+     +CourseEditionID(programmeEditionId: ProgrammeEditionID,
+     courseInStudyPlanId: CourseInStudyPlanID)
+}
+
+package "Student Aggregate" #LightBlue{
+    class Student <<Root>> <<Entity>> {
+    +Student(studentID: StudentID, name: Name,
+    NIF: NIF, phone: PhoneNumber, email: Email, address: Address,
+    academicEmail: StudentAcademicEmail)
+    }
+}
+
+class "<<Value Object>>\n StudentID" {
+     -_uniqueNumber: int
+     +StudentID (uniqueNumber: int)
+}
+
+class "<<Value Object>>\n Name" {
+     -_name: String
+     +Name (name: String)
+}
+
+class "<<Value Object>>\n NIF" {
+     -_NIF: String
+     -_country: Country
+     +NIF (nif: String, country: Country)
+}
+
+class "<<Value Object>>\n Email" {
+     -_email: String
+     +Email (email: String)
+}
+
+class "<<Value Object>>\n PhoneNumber" {
+     -_countryCode: String
+     -_number: String
+     +PhoneNumber (countryCode: String, number: String)
+}
+
+class "<<Value Object>>\n Address" {
+     -_street: Street
+     -_country: Country
+     -_postalCode: PostalCode
+     -_location: Location
+     +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
+}
+
+class "<<Value Object>>\n Street" {
+     -_street: String
+     +Street(street: String)
+}
+
+class "<<Value Object>>\n PostalCode" {
+     -_postalCode: String
+     +PostalCode(postalCode: String)
+}
+
+class "<<Value Object>>\n Location" {
+     -_locationName: String
+     +Location(locationName: String)
+}
+
+class "<<Value Object>>\n Country" {
+     -_country: String
+     +Country(country: String)
+}
+class "<<Value Object>>\n Date" {
+     -localDate: LocalDate
+     +Date (localDate : LocalDate)
+}
+
+package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
+    +ProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
+    +findStudentInProgrammeEdition () : StudentID
+    +findProgrammeEditionInEnrolment () : ProgrammeEditionID
+    }
+}
+
+class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
+     -_programmeEditionId: ProgrammeEditionID
+     -_studentId: StudentID
+     -_schoolYearId: SchoolYearID
+     +ProgrammeEditionEnrolmentID(programmeEditionId: ProgrammeEditionID,studentId: StudentID, schoolYearId: SchoolYearID)
+     +equals (obj: Object): boolean
+     +hashCode (): int
+     +toString (): String
+}
+
+interface Set {
+    +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
+}
+
+'Controller
+
+US16_EnrolAStudentInACourseEditionController "1   ".u.> "1    " ICourseEditionEnrolmentService
+
+'Service
+
+ICourseEditionEnrolmentService "1   ".u.> "1    " ICourseEditionRepository
+ICourseEditionEnrolmentService "1  "..> "1       " IProgrammeEditionEnrolmentRepository
+ICourseEditionEnrolmentService "1   "..> "  1    " ICourseEditionEnrolmentRepository
+ICourseEditionEnrolmentService "1   "..> "  1    " ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentServiceImpl ..|> ICourseEditionEnrolmentService
+
+'Course Edition Enrolment Repository
+
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDataJPAImpl
+
+CourseEditionEnrolmentRepositorySpringDataJPAImpl --> ICourseEditionEnrolmentRepositorySpringDataJPA
+CourseEditionEnrolmentRepositorySpringDataJPAImpl --> ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentRepositorySpringDataJPAImpl ..> CourseEditionEnrolmentDataModel
+CourseEditionEnrolmentRepositorySpringDataJPAImpl ..> CourseEditionEnrolment
+CourseEditionEnrolmentRepositorySpringDataJPAImpl --> CourseEditionEnrolmentMapper
+ICourseEditionEnrolmentRepositorySpringDataJPA ..> CourseEditionEnrolmentDataModel
+
+CourseEditionEnrolmentRepositoryImpl " 1  " -u-> "_setOfCee  1       " Set
+Set "   1            " -->  CourseEditionEnrolment
+CourseEditionEnrolmentRepositoryImpl"   1  " ..> " *   ""CourseEditionEnrolment Aggregate"
+CourseEditionEnrolmentRepositoryImpl "1  " .u.> "1  " ICourseEditionEnrolmentListFactory
+CourseEditionEnrolmentRepositoryImpl "1  " -u-> "1  " ICourseEditionEnrolmentFactory
+
+'ProgrammeEditionEnrolmentRepository
+
+IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
+IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl
+
+IProgrammeEditionEnrolmentRepositorySpringDataJPA --|> JPARepository
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl --> ProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolmentDataModel
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl --> IProgrammeEditionEnrolmentFactory
+IProgrammeEditionEnrolmentRepositorySpringDataJPA ..> ProgrammeEditionEnrolmentDataModel
+IProgrammeEditionEnrolmentRepositorySpringDataJPA <-- ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl
+
+ProgrammeEditionEnrolment " *    " <.. "1   " ProgrammeEditionEnrolmentRepositoryImpl
+ProgrammeEditionEnrolmentMapper ..> IProgrammeEditionEnrolmentFactory
+ProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
+
+'CourseEdition Repository
+
+ICourseEditionRepository <|.. CourseEditionRepositoryImpl
+ICourseEditionRepository <|.. CourseEditionRepositorySpringDataJPAImpl
+CourseEdition "_listOfCE *" <-- "1       " CourseEditionRepositoryImpl
+ICourseEditionRepositorySpringDataJPA --|> JPARepository
+ICourseEditionRepositorySpringDataJPA ..> CourseEditionDataModel
+ICourseEditionRepositorySpringDataJPA <-- CourseEditionRepositorySpringDataJPAImpl
+CourseEditionRepositorySpringDataJPAImpl --> CourseEditionMapper
+CourseEditionRepositorySpringDataJPAImpl ..> CourseEdition
+CourseEditionRepositorySpringDataJPAImpl ..> CourseEditionDataModel
+CourseEditionMapper ..> ICourseEditionFactory
+CourseEditionMapper ..> CourseEdition
+CourseEditionMapper ..> CourseEditionDataModel
+
+'Factory
+
+ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
+ICourseEditionEnrolmentListFactory <|.. CourseEditionEnrolmentListFactoryImpl
+
+ICourseEditionEnrolmentFactory "1  " ..> "1  " CourseEditionEnrolment
+ICourseEditionEnrolmentListFactory "1  " .u.> "1  " Set
+
+IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
+IProgrammeEditionEnrolmentFactory "1"..> "1" ProgrammeEditionEnrolment
+
+ICourseEditionFactory <|.. CourseEditionFactoryImpl
+ICourseEditionFactory "1"..> "1"CourseEdition
+
+
+'Domain Aggregates
+
+Student "1" --> "1 _studentID" "<<Value Object>>\n StudentID"
+Student "1" --> "1 _name" "<<Value Object>>\n Name"
+Student "1" --> "1 _NIF" "<<Value Object>>\n NIF"
+Student "1" --> "1 _email" "<<Value Object>>\n Email"
+Student "1" --> "1 _phoneNumber" "<<Value Object>>\n PhoneNumber"
+Student "1" -l-> "1 _address" "<<Value Object>>\n Address"
+
+"<<Value Object>>\n Address" "1" -u-> "1 _street" "<<Value Object>>\n Street"
+"<<Value Object>>\n Address" "1" --> "1 _postalCode" "<<Value Object>>\n PostalCode"
+"<<Value Object>>\n Address" "1" --> "1 _location" "<<Value Object>>\n Location"
+"<<Value Object>>\n Address" "1" --> "1 _country" "<<Value Object>>\n Country"
+
+ProgrammeEditionEnrolment "      *  " -u-> "_studentID 1    ""<<Value Object>>\n StudentID"
+ProgrammeEditionEnrolment " *    " <-- "1   " ProgrammeEditionEnrolmentRepositoryImpl
+ProgrammeEditionEnrolment " 1    " --> "1  _date " "<<Value Object>>\n Date"
+ProgrammeEditionEnrolment " 1    " --> "1  _peeID " "<<Value Object>>\n ProgrammeEditionEnrolmentID"
+
+CourseEditionEnrolment "1" --> "1 _ceeID""<<Value Object>>\n CourseEditionEnrolmentID"
+CourseEditionEnrolment "1" --> "  1_status  ""<<Value Object>>\n EnrolmentStatus"
+CourseEditionEnrolment "1" --> "_date 1    ""<<Value Object>>\n Date"
+CourseEditionEnrolment "1" -u-> "1 _studentID" "<<Value Object>>\n StudentID"
+CourseEditionEnrolment "1" --> "_ceID 1    " "<<Value Object>>\n CourseEditionID"
+
+CourseEdition "1" --> "_ceID  1" "<<Value Object>>\n CourseEditionID"
+
+@enduml
