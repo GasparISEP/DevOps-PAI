@@ -21,7 +21,7 @@ import PAI.repository.courseRepository.ICourseRepository;
 import PAI.repository.courseRepository.ICourseRepositoryListFactory;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.ProgrammeRepositoryImpl;
 import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
 import PAI.repository.studyPlanRepository.IStudyPlanListFactory;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
