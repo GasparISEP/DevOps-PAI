@@ -1,7 +1,6 @@
 @startuml
 
-skinparam ranksep 180
-skinparam nodesep 180
+skinparam linetype ortho
 
 package "AccessMethod Aggregate" {
     entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
@@ -23,7 +22,11 @@ package "AccessMethod Aggregate" {
 AME "1" --> "uses 1" VOName
 AME "1" --> "uses 1" VOId
 
+interface IRepository {
+}
 
+class AccessMethodSpringDataImpl {
+}
 
 interface IAccessMethodFactory {
     createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
@@ -45,12 +48,21 @@ interface JpaRepository<AccessMethodDataModel, AccessMethodDataModelID>{
 }
 
 class AccessMethodDataModel {
-    + toDomain()
-    + toDataModel()
 }
 
 
 interface IAccessMethodRepository {
+}
+
+interface IAccessMethodMapper{
+    + toDomain()
+    + toDataModel()
+}
+
+class AccessMethodMapperImpl {
+}
+
+interface IAccessMethodRepositorySpringData{
 }
 
 
@@ -59,13 +71,20 @@ class US02_ConfigureAccessMethod_Controller {
     +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
+
+IAccessMethodService -down-> IAccessMethodMapper: uses
+AccessMethodMapperImpl -right..|> IAccessMethodMapper: implements
+AccessMethodSpringDataImpl -down-> IAccessMethodRepositorySpringData: uses
+IAccessMethodRepositorySpringData --|> JpaRepository : extends
+AccessMethodSpringDataImpl ..|> IAccessMethodRepository: implements
+IAccessMethodRepository -up..|> IRepository: implements
 IAccessMethodFactory "1" ..> "1..*" AME : creates
 US02_ConfigureAccessMethod_Controller -down-> IAccessMethodService: uses
 AccessMethodServiceImpl .left.|> IAccessMethodService: implements
 AccessMethodFactoryImpl .right.|> IAccessMethodFactory: implements
 IAccessMethodService -down-> IAccessMethodFactory: uses
 IAccessMethodRepository -down-> AccessMethodDataModel: persist
-IAccessMethodRepository --|> JpaRepository : extends
-AccessMethodDataModel ..> "AccessMethod Aggregate": transforms to/from
+IAccessMethodMapper ..> "AccessMethod Aggregate": transforms to/from
+IAccessMethodMapper ..> AccessMethodDataModel: transforms to/from
 IAccessMethodService --> IAccessMethodRepository: uses
 @enduml

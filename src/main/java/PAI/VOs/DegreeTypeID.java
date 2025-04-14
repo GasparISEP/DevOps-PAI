@@ -2,18 +2,24 @@ package PAI.VOs;
 
 import PAI.ddd.DomainId;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class DegreeTypeID implements DomainId {
 
     private final String _dtID;
 
-    public DegreeTypeID(String dtID) throws Exception {
-        if (!isDegreeTypeIDValid(dtID)) throw new  Exception("Id cannot be null or empty");
-        this._dtID = dtID;
+    // Construtor que gera automaticamente um UUID
+    public DegreeTypeID() {
+        this._dtID = UUID.randomUUID().toString();
     }
 
-    private boolean isDegreeTypeIDValid(String id) {
-        if (id == null || id.isBlank()) return false;
-        return true;
+    // Construtor que aceita um ID explícito (por ex., ao reconstruir do repositório)
+    public DegreeTypeID(String dtID) {
+        if (dtID == null || dtID.isBlank()) {
+            throw new IllegalArgumentException("ID cannot be null or blank.");
+        }
+        this._dtID = dtID;
     }
 
     public String getDTID() {
@@ -23,5 +29,22 @@ public class DegreeTypeID implements DomainId {
     public boolean sameAs(DegreeTypeID other) {
         if (other == null) return false;
         return this._dtID.equals(other._dtID);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DegreeTypeID that)) return false;
+        return _dtID.equals(that._dtID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_dtID);
+    }
+
+    @Override
+    public String toString() {
+        return "DegreeTypeID{" + "_dtID='" + _dtID + '\'' + '}';
     }
 }

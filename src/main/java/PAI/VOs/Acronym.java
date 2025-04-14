@@ -16,4 +16,8 @@ public class Acronym implements ValueObject {
     private boolean isAcronymInvalid(String acronym) {
         return acronym == null || acronym.isBlank() || !acronym.matches("^[A-Z]+[0-9]*$");
     }
+
+    public String getAcronym() {
+        return _acronym;
+    }
 }

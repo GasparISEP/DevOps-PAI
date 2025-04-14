@@ -7,15 +7,17 @@ participant ":UI" as UI
 participant ":CreateAProgrammeEditionForTheCurrentSchoolYearController" as CPEC
 participant ":ProgrammeService" as PS
 participant ":ProgrammeRepository" as PR
+participant ":SchoolYearService" as SYS
 participant ":SchoolYearRepository" as SYR
-participant ":ProgrammeEditionRepository" as PER
+participant ":ProgrammeEditionService" as PES
 participant ":ProgrammeEditionFactory" as PEF
+participant ":ProgrammeEditionRepository" as PER
 
 'get all programmes name
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
 UI -> CPEC ++ #application : getAllProgrammeNames()
 CPEC -> PS ++ #application : getAllProgrammeNames()
-PS -> PR ++ #application : getAllProgrammeNames()
+PS -> PR ++ #application : findAllProgrammeNames()
 ref over PR
     convert DataModel to Domain
 end ref
@@ -28,31 +30,47 @@ UI -> ASC --  : Which Programme?
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
 UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programmeName)
 
-CPEC -> PR ++ #application : getProgrammeIDByName(programmeName)
-PR --> CPEC -- : programmeID
-CPEC -> SYR ++ #application : getCurrentSchoolYear()
-SYR --> CPEC : schoolYearID
-SYR --
-CPEC -> PER ++ #application : createProgrammeEdition(programmeID, schoolYearID)
-PER -> PEF ++ #application : createProgrammeEdition(programmeID, schoolYearID)
+'get programmeID by name
+CPEC -> PS ++ #application : getProgrammeIdByName(programmeName)
+PS -> PR ++ #application : getProgrammeIdByName(programmeName)
+ref over PR
+    convert DataModel to Domain
+end ref
+PR --> PS -- : programmeID
+PS --> CPEC -- : programmeID
+'''''''''''''''''''''''''''''
+
+'get current School Year
+CPEC -> SYS ++ #application : getCurrentSchoolYear()
+SYS -> SYR ++ #application : getCurrentSchoolYear()
+ref over SYR
+    convert DataModel to Domain
+end ref
+SYR --> SYS -- : schoolYearID
+SYS --> CPEC -- : schoolYearID
+'''''''''''''''''''''''''''
+
+'create programmeEdition for current School Year
+CPEC -> PES ++ #application :createProgrammeEdition(programmeID, schoolYearID)
+PES -> PEF ++ #application : createProgrammeEdition(programmeID, schoolYearID)
 
 create "programmeEditionID:ProgrammeEditionID" as PEID
 PEF -> PEID : <create> ()
 create "programmeEdition:ProgrammeEdition" as PE
 PEF -> PE : <create> (programmeEditionID, programmeID, schoolYearID)
 
-PEF --> PER : programmeEdition
-PEF--
+PEF --> PES -- : programmeEdition
+PES --> PER ++ #application : saveProgrammeEdition
 ref over PER
-    - verifies if ProgrammeEdition already exists in the repository.
-    - add programmeEdition to the repository.
+    verifies if ProgrammeEdition already exists in the repository
+    convert Domain to DataModel
+    saves programmeEdition DataModel
 end ref
 'PER -> PER : isProgrammeEditionAlreadyRegistered (programmeEdition)
 'PER -> PER : add (programmeEdition)
-PER --> CPEC : true
-PER --
-CPEC --> UI : true
-CPEC --
+PER --> PES -- : programmeEditionSaved
+PES --> CPEC -- : programmeEditionSaved
+CPEC --> UI : programmeEditionSaved
 UI --> ASC -- : Programme Edition created for the current school year!
 participant "programmeNameList:List<NameWithNumbersAndSpecialChars>"
 participant "programmeName:NameWithNumbersAndSpecialChars"
