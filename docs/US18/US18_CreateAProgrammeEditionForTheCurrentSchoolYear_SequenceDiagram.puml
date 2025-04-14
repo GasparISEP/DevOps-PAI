@@ -15,7 +15,7 @@ participant ":ProgrammeEditionFactory" as PEF
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
 UI -> CPEC ++ #application : getAllProgrammeNames()
 CPEC -> PS ++ #application : getAllProgrammeNames()
-PS -> PR ++ #application : getAllProgrammeNames()
+PS -> PR ++ #application : findAllProgrammeNames()
 ref over PR
     convert DataModel to Domain
 end ref
@@ -28,8 +28,16 @@ UI -> ASC --  : Which Programme?
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
 UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programmeName)
 
-CPEC -> PR ++ #application : getProgrammeIDByName(programmeName)
-PR --> CPEC -- : programmeID
+'get programmeID by name
+CPEC -> PS ++ #application : getProgrammeIdByName(programmeName)
+PS -> PR ++ #application : getProgrammeIdByName(programmeName)
+ref over PR
+    convert DataModel to Domain
+end ref
+PR --> PS -- : programmeID
+PS --> CPEC -- : programmeID
+'''''''''''''''''''''''''''''
+
 CPEC -> SYR ++ #application : getCurrentSchoolYear()
 SYR --> CPEC : schoolYearID
 SYR --
