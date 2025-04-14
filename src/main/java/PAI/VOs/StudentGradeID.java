@@ -6,29 +6,17 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class StudentGradeID implements DomainId {
-    private  final StudentID _studentID;
-    private final CourseEditionID _courseEdition;
+    private final  UUID _studentGradeId;
 
-    public StudentGradeID(StudentID studentID, CourseEditionID courseEditionID) {
-        this._studentID = studentID;
-        this._courseEdition = courseEditionID;
+    public StudentGradeID() {
+        this._studentGradeId = UUID.randomUUID();
     }
-
-    //equals
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StudentGradeID that)) return false;
-        return Objects.equals(_studentID, that._studentID) && Objects.equals(_courseEdition, that._courseEdition);
+        return Objects.equals(_studentGradeId, that._studentGradeId);
     }
 
-    @Override
-    public String toString() {
-        return "StudentGradeID{" +
-                "_studentID=" + _studentID +
-                ", _courseEdition=" + _courseEdition +
-                '}';
-    }
 }
