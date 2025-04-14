@@ -17,13 +17,14 @@ ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : crea
 create "ac1:AccessMethod" as AccessMethod
 AccessMethodFactory -> AccessMethod  ++ #application  : <create> (accessMethodNameVO)
 AccessMethodFactory --> ":AccessMethodService" -- : ac1
-":AccessMethodService" -> ":AccessMethodDataModel" ++ #application: toDataModel(ac1)
+":AccessMethodService" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)
 create "ac1DM: AccessMethodDataModel" as AccessMethodDataModel
-":AccessMethodDataModel" -> AccessMethodDataModel ++ #application: <create>
-":AccessMethodDataModel" --> ":AccessMethodService" : ac1DM
+":AccessMethodMapper" -> AccessMethodDataModel ++ #application: <create>
+":AccessMethodMapper" --> ":AccessMethodService" : ac1DM
 ":AccessMethodService" -> ":AccessMethodRepository" ++ #application: save(ac1DM)
-":AccessMethodRepository" --> ":AccessMethodService": Optional<ac1DM>
-":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1DM>
+":AccessMethodRepository" -> ":AccessMethodRepository": toDomain(ac1DM)
+":AccessMethodRepository" --> ":AccessMethodService" --: Optional<ac1>
+":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1>
 ConfigureAccessMethodController --> UI: true
 UI --> admin: true
 @enduml
