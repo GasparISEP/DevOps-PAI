@@ -34,4 +34,12 @@ public class ProgrammeID implements DomainId {
     public int hashCode() {
         return _name.hashCode() + _acronym.hashCode();
     }
+
+    public NameWithNumbersAndSpecialChars getName() {
+        return _name;
+    }
+
+    public Acronym getAcronym() {
+        return _acronym;
+    }
 }
