@@ -7,6 +7,7 @@ participant ":UI" as UI
 participant ":CreateAProgrammeEditionForTheCurrentSchoolYearController" as CPEC
 participant ":ProgrammeService" as PS
 participant ":ProgrammeRepository" as PR
+participant ":SchoolYearService" as SYS
 participant ":SchoolYearRepository" as SYR
 participant ":ProgrammeEditionRepository" as PER
 participant ":ProgrammeEditionFactory" as PEF
@@ -38,9 +39,16 @@ PR --> PS -- : programmeID
 PS --> CPEC -- : programmeID
 '''''''''''''''''''''''''''''
 
-CPEC -> SYR ++ #application : getCurrentSchoolYear()
-SYR --> CPEC : schoolYearID
-SYR --
+'get current School Year
+CPEC -> SYS ++ #application : getCurrentSchoolYear()
+SYS -> SYR ++ #application : getCurrentSchoolYear()
+ref over SYR
+    convert DataModel to Domain
+end ref
+SYR --> SYS -- : schoolYearID
+SYS --> CPEC -- : schoolYearID
+'''''''''''''''''''''''''''
+
 CPEC -> PER ++ #application : createProgrammeEdition(programmeID, schoolYearID)
 PER -> PEF ++ #application : createProgrammeEdition(programmeID, schoolYearID)
 
