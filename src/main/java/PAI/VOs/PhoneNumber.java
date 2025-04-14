@@ -57,4 +57,12 @@ public class PhoneNumber implements ValueObject {
     public String toString() {
         return "Country Code = " + this._countryCode + " " + "PhoneNumber = " + this._number;
     }
+
+    public String getCountryCode() {
+        return _countryCode;
+    }
+
+    public String getNumber() {
+        return _number;
+    }
 }

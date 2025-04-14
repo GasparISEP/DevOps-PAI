@@ -403,4 +403,44 @@ class StudentTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void getStudentPhoneNumberShouldReturnPhoneNumber() {
+        //arrange
+        Address addressDouble = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+
+        //act
+        PhoneNumber phoneNumber = student1.getStudentPhoneNumber();
+
+        //assert
+        assertEquals(phoneDouble, phoneNumber);
+    }
+
+    @Test
+    void getStudentNameShouldReturnName() {
+        //arrange
+        Address addressDouble = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+
+        //act
+        Name name = student1.getStudentName();
+
+        //assert
+        assertEquals(nameDouble, name);
+    }
 }
