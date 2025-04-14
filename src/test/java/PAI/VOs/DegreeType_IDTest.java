@@ -1,44 +1,91 @@
 package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class DegreeType_IDTest {
+class DegreeTypeIDTest {
 
     @Test
-    void shouldStoreProvidedID() throws Exception {
-        String customID = "123e4567-e89b-12d3-a456-426614174000";
-        DegreeTypeID id = new DegreeTypeID(customID);
-        assertEquals(customID, id.getDTID(), "The stored ID does not match the expected one.");
+    void shouldCreateWithGeneratedID() {
+        DegreeTypeID id1 = new DegreeTypeID();
+        DegreeTypeID id2 = new DegreeTypeID();
+        assertNotNull(id1.getDTID(), "Generated ID should not be null");
+        assertNotEquals(id1.getDTID(), id2.getDTID(), "Generated IDs should be unique");
     }
 
     @Test
-    void shouldThrowExceptionForNullOrEmptyID() {
-        assertThrows(Exception.class, () -> new DegreeTypeID(null), "Should throw exception for a null ID.");
-        assertThrows(Exception.class, () -> new DegreeTypeID(""), "Should throw exception for a blank ID.");
-        assertThrows(Exception.class, () -> new DegreeTypeID("   "), "Should throw exception for an ID with blank spaces.");
+    void shouldStoreProvidedID() {
+        String expected = "abc-123";
+        DegreeTypeID id = new DegreeTypeID(expected);
+        assertEquals(expected, id.getDTID(), "Provided ID should be stored correctly");
     }
 
     @Test
-    void shouldRecognizeEqualIDsUsingSameAs() throws Exception {
-        String sharedID = "550e8400-e29b-41d4-a716-446655440000";
-        DegreeTypeID id1 = new DegreeTypeID(sharedID);
-        DegreeTypeID id2 = new DegreeTypeID(sharedID);
-
-        assertTrue(id1.sameAs(id2), "The objects must be considered equal.");
+    void shouldThrowExceptionWhenIDIsNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new DegreeTypeID(null));
+        assertEquals("ID cannot be null or blank.", exception.getMessage());
     }
 
     @Test
-    void shouldReturnFalseForDifferentIDsUsingSameAs() throws Exception {
-        DegreeTypeID id1 = new DegreeTypeID("123e4567-e89b-12d3-a456-426614174000");
-        DegreeTypeID id2 = new DegreeTypeID("550e8400-e29b-41d4-a716-446655440000");
-
-        assertFalse(id1.sameAs(id2), "Objects with different IDs must not be considered equal.");
+    void shouldThrowExceptionWhenIDIsBlank() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new DegreeTypeID("  "));
+        assertEquals("ID cannot be null or blank.", exception.getMessage());
     }
 
     @Test
-    void shouldReturnFalseForNullSameAs() throws Exception {
-        DegreeTypeID id = new DegreeTypeID("123e4567-e89b-12d3-a456-426614174000");
-        assertFalse(id.sameAs(null), "The comparison with null should return false.");
+    void shouldRecognizeEqualObjects() {
+        DegreeTypeID id1 = new DegreeTypeID("same-id");
+        DegreeTypeID id2 = new DegreeTypeID("same-id");
+        assertEquals(id1, id2, "Objects with same ID should be equal");
+        assertEquals(id1.hashCode(), id2.hashCode(), "Equal objects must have same hash code");
+    }
+
+    @Test
+    void shouldRecognizeDifferentObjects() {
+        DegreeTypeID id1 = new DegreeTypeID("id-1");
+        DegreeTypeID id2 = new DegreeTypeID("id-2");
+        assertNotEquals(id1, id2, "Objects with different IDs should not be equal");
+        assertNotEquals(id1.hashCode(), id2.hashCode(), "Different objects may have different hash codes");
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingWithNullInEquals() {
+        DegreeTypeID id = new DegreeTypeID("some-id");
+        assertNotEquals(null, id, "Object should not be equal to null");
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingWithDifferentType() {
+        DegreeTypeID id = new DegreeTypeID("type-id");
+        assertNotEquals(id, "some string", "Object should not be equal to a different type");
+    }
+
+    @Test
+    void shouldBeSameAsAnotherWithSameID() {
+        DegreeTypeID id1 = new DegreeTypeID("shared-id");
+        DegreeTypeID id2 = new DegreeTypeID("shared-id");
+        assertTrue(id1.sameAs(id2), "sameAs should return true for same ID");
+    }
+
+    @Test
+    void shouldNotBeSameAsWithDifferentID() {
+        DegreeTypeID id1 = new DegreeTypeID("id1");
+        DegreeTypeID id2 = new DegreeTypeID("id2");
+        assertFalse(id1.sameAs(id2), "sameAs should return false for different IDs");
+    }
+
+    @Test
+    void shouldNotBeSameAsNull() {
+        DegreeTypeID id = new DegreeTypeID("id");
+        assertFalse(id.sameAs(null), "sameAs should return false when compared with null");
+    }
+
+    @Test
+    void toStringShouldContainID() {
+        DegreeTypeID id = new DegreeTypeID("visible-id");
+        String str = id.toString();
+        assertTrue(str.contains("visible-id"), "toString should include the ID");
+        assertTrue(str.contains("DegreeTypeID"), "toString should contain class name");
     }
 }

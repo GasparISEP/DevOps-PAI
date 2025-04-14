@@ -29,9 +29,9 @@ PD <-- UI --: Which Teacher?
 PD -> UI ++ #application: t1
 UI -> C : getAllCourseEditions()
 activate C #application
-C -> TR : findAll()
-activate TR #application
-TR --> C -- : ceL1
+C -> CER : findAll()
+activate CER #application
+CER --> C -- : ceL1
 C --> UI : ceL1
 
 deactivate C
