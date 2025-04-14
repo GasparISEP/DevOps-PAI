@@ -1,4 +1,4 @@
-package PAI.repository.degreeTypeRepository;
+package PAI.factory.DegreeTypeFactory;
 
 import java.util.List;
 import PAI.domain.degreeType.DegreeType;

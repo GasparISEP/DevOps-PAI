@@ -8,7 +8,8 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
-import PAI.domain.degreeType.IDegreeTypeFactory;
+import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
+import PAI.factory.DegreeTypeFactory.IDegreeTypeListFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
