@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel;
 
-import PAI.VOs.CourseEditionID;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -28,6 +28,26 @@ public class StudentGradeDM {
  }
 
  public StudentGradeDM() {
+ }
+
+ public long getId() {
+  return id;
+ }
+
+ public double get_grade() {
+  return _grade;
+ }
+
+ public LocalDate get_date() {
+  return _date;
+ }
+
+ public String getCourseEditionID() {
+  return courseEditionID;
+ }
+
+ public int getStudentId() {
+  return StudentId;
  }
 
 }
