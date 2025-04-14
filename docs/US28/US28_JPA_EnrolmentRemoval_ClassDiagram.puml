@@ -1,0 +1,173 @@
+@startuml
+title As an ASC, I want to remove the enrolment of a student in a course edition \n Class Diagram \n Sprint 5 - Spring Data JPA
+
+' ========== SETTINGS ==========
+skinparam classBackgroundColor #E1F5FE
+skinparam titleFontSize 18
+skinparam linetype ortho
+skinparam LegendBackgroundColor white
+skinparam LegendBorderColor white
+skinparam classFontSize 14
+skinparam classAttributeIconSize 0
+skinparam shadowing true
+skinparam rectangle {
+  RoundCorner 20
+}
+skinparam classBorderColor Black
+
+
+' ========== CONTROLLER LAYER ==========
+class EnrolmentRemoval_Controller #F5EEF8{
+    +EnrolmentRemoval_Controller (ceeService: ICourseEditionEnrolmentService)
+    +removeStudentEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
+}
+
+
+' ========== SERVICE LAYER ==========
+interface ICourseEditionEnrolmentService <<Interface>> {
+    +removeStudentEnrolment (studentID: StudentID,\n courseEditionID: CourseEditionID) : boolean
+}
+
+class CourseEditionEnrolmentServiceImpl {
+    +removeStudentEnrolment (studentID: StudentID, \ncourseEditionID: CourseEditionID) : boolean
+}
+
+
+' ========== REPOSITORY LAYER ==========
+interface ICourseEditionEnrolmentRepository <<Interface>> {
+    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
+    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+}
+
+class CourseEditionEnrolmentRepositoryMemImpl {
+    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
+    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+}
+
+class CourseEditionEnrolmentRepositorySpringDataImpl{
+    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
+    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
+    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
+}
+
+interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
+}
+
+
+' ========== FACTORY LAYER ==========
+interface ICourseEditionEnrolmentFactory <<Interface>> {
+    +createCourseEditionEnrolment(studentID: StudentID,\n courseEditionID: CourseEditionID)
+}
+
+class CourseEditionEnrolmentFactoryImpl {
+    +createCourseEditionEnrolment(studentID: StudentID, \ncourseEditionID: CourseEditionID)
+}
+
+
+' ========== MAPPING LAYER ==========
+class CourseEditionEnrolmentMapper {
+    +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
+    +toEntity(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
+}
+
+
+' ========== DATA MODEL ==========
+class CourseEditionEnrolmentDataModel {
+    -studentID: int
+    -courseEditionID: int
+    -enrolmentDate: localDate
+    -isActive: boolean
+}
+
+class CourseEditionEnrolmentIDDataModel {
+    - studentID: int
+    - courseEditionID: int
+}
+
+
+' ========== DOMAIN: COURSE ENROLMENT AGGREGATE ==========
+package "CourseEditionEnrolment Aggregate" #LightYellow{
+class CourseEditionEnrolment <<Root>> <<Entity>>{
+    -enrolmentDate: Date <<VO>>
+    -isActive: EnrolmentStatus <<VO>>
+    +CourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
+    +hasStudent() : boolean
+    +hasCourseEdition() : boolean
+    +isEnrolmentActive(): boolean
+    +deactivateEnrolment(): void
+}
+}
+
+class CourseEditionEnrolmentID <<Value Object>> {
+    + CourseEditionEnrolmentID\n(id : int)
+    + equals(object: Object) : boolean
+}
+
+
+' ========== DOMAIN: STUDENT AGGREGATE ==========
+package "Student Aggregate" #LightYellow{
+class Student <<Root>> <<Entity>>{
+    -_name:Name
+    -_NIF:NIF
+    -_phone:PhoneNumber
+    -_email:Email
+    -_address:AddressVO
+    -_studentAcademicEmail:StudentAcademicEmail
+    + Student(uniqueNumber: StudentID, name: Name, \n NIF: NIF, phone: PhoneNumber, email: Email, \n address: AddressVO, studentAcademicEmail: StudentAcademicEmail)
+}
+}
+
+class StudentID <<Value Object>> {
+    -_uniqueNumber : int
+    + StudentID(uniqueNumber : int)
+    + isUniqueNumberValid(uniqueNumber: int): boolean
+}
+
+
+' ========== DOMAIN: COURSE EDITION AGGREGATE ==========
+package "CourseEdition Aggregate" #LightYellow{
+class CourseEdition <<Root>> <<Entity>>{
+    -_courseInStudyPlanID: CourseInStudyPlanID
+    -_programmeEditionID: ProgrammeEditionID
+}
+}
+
+class CourseEditionID <<Value Object>> {
+    -_courseInStudyPlanID: CourseInStudyPlanID
+    -_programmeEditionID: ProgrammeEditionID
+    + CourseEditionID(programmeEditionID: ProgrammeEditionID, \ncourseInStudyPlanID: CourseInStudyPlanID)
+}
+
+
+' ========== RELATIONSHIPS ==========
+EnrolmentRemoval_Controller ..> ICourseEditionEnrolmentService
+ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentServiceImpl
+CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentFactory
+
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryMemImpl
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDataImpl
+CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentDataModel
+CourseEditionEnrolmentRepositorySpringDataImpl "1" ..> "*" CourseEditionEnrolment
+CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentMapper : uses
+CourseEditionEnrolmentMapper ..> CourseEditionEnrolment : maps to
+CourseEditionEnrolmentMapper ..> CourseEditionEnrolmentDataModel : maps to
+CourseEditionEnrolmentDataModel --> CourseEditionEnrolmentIDDataModel
+CourseEditionEnrolmentRepositorySpringDataImpl ..|> ICourseEditionEnrolment\nRepositorySpringData
+
+CourseEditionEnrolment "*" --> "_studentID 1" StudentID
+CourseEditionEnrolment "*" --> "_courseEditionID 1" CourseEditionID
+StudentID "_studentID 1" <-- "1" Student
+CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
+CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
+StudentID "_studentID 1" <-- "*" CourseEditionEnrolmentID
+CourseEditionID "_courseEditionID 1" <-- "*" CourseEditionEnrolmentID
+CourseEditionEnrolmentRepositoryMemImpl "1"..> "_courseEditionEnrolments *" CourseEditionEnrolment
+
+ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
+ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
+
+@enduml
