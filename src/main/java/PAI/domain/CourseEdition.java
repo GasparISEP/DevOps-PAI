@@ -12,21 +12,6 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
     private final ProgrammeEditionID _programmeEditionID;
     private TeacherID _ruc;
 
-    public CourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-
-        if (programmeEditionID == null) {
-            throw new IllegalArgumentException ("ProgrammeEdition must be valid");
-        }
-
-        if (courseInStudyPlanID == null) {
-            throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
-        }
-
-        _courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
-        _courseInStudyPlanID = courseInStudyPlanID;
-        _programmeEditionID = programmeEditionID;
-    }
-
 
     public CourseEdition(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         if (courseEditionID == null) {
