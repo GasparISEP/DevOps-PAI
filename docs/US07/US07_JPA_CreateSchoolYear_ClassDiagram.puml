@@ -1,0 +1,132 @@
+@startuml
+
+left to right direction
+skinparam ranksep 20
+skinparam nodesep 20
+skinparam classBackgroundColor #E1F5FE
+skinparam linetype ortho
+
+class US07_IWantToCreateASchoolYearController {
+   +US07_IWantToCreateASchoolYearController(schoolYearService: ISchoolYearService)
+   +addSchoolYear(descriptionInfo: String, startDateInfo: String, endDateInfo: String): boolean
+   }
+
+' aggregate
+package  "SchoolYear Aggregate" #Lightblue  {
+    class SchoolYear <<Root>> <<Entity>> {
+        +isSameSchoolYear(otherSchoolYear(description: DescriptionVO,\n startDate : dateVO, endDate : dateVO)SchoolYear: SchoolYear)
+        +equals(Object: o)
+    }
+}
+
+' interfaces
+interface ISchoolYearListFactory <<interface>> {
+   +newArrayList(): List<SchoolYear>
+}
+
+interface ISchoolYearFactory <<interface>> {
+   +createSchoolYear(descriptionVO,\n startDate : dateVO, endDate : dateVO): SchoolYear
+}
+
+interface ISchoolYearRepository <<interface>> {
+    +addSchoolYear(description: DescriptionVO,\n startDate : dateVO, endDate : dateVO)
+}
+
+interface ISchoolYearService <<interface>> {
+    +addSchoolYear(description: DescriptionVO,\n startDate: DateVO, endDate: DateVO)
+}
+
+interface ISchoolYearRepositorySpringDataJPA <<interface>> {
+}
+
+' service
+class SchoolYearServiceImpl {
+    +SchoolYearServiceImpl(schoolYearRepositorySpringData:\n ISchoolYearRepositorySpringDataImpl)
+    +addSchoolYear(description: DescriptionVO,\n startDate: DateVO, endDate: DateVO)
+}
+
+' repos
+class SchoolYearRepositoryMemoImpl {
+    +schoolYearRepository()
+    +addSchoolYear(description: DescriptionVO,\n startDate : DateVO, endDate : DateVO)
+    +schoolYearExists(schoolYear: SchoolYear)
+    +getLatestSchoolYear(): SchoolYear
+    +getAllSchoolYears(): List<SchoolYear>
+}
+
+class SchoolYearRepositorySpringDataJPAImpl {
+    +addSchoolYear(description: DescriptionVO, startDate : DateVO, endDate : DateVO)
+    +save(schoolYear: SchoolYear)
+    +findById(id: Long): Optional<SchoolYear>
+    +findAll(): List<SchoolYear>
+}
+
+' factory
+class SchoolYearListFactoryImpl {
+   +newArrayList(): List<SchoolYear>
+}
+
+class SchoolYearFactoryImpl {
+   +createSchoolYear(description: DescriptionVO,\n startDate : DateVO, endDate : DateVO): SchoolYear
+}
+
+' Mapper
+class SchoolYearMapper {
+    +toDomain(dataModel: SchoolYearDataModel): SchoolYear
+    +toEntity(domain: SchoolYear): SchoolYearDataModel
+}
+
+' Data Model (JPA Entity)
+class SchoolYearDataModel <<DataModel>> {
+   - id: Long
+   - description: String
+   - startDate: LocalDate
+   - endDate: LocalDate
+}
+
+' Value Objects
+class DescriptionVO  <<Value Object>> {
+    -_description : String
+}
+
+class DateVO  <<Value Object>> {
+    -date: LocalDate
+}
+
+class SchoolYearID <<Value Object>> {
+    -_schoolYearID : UUID
+    + SchoolYearId(schoolYearID: UUID)
+}
+
+
+US07_IWantToCreateASchoolYearController  ..>  ISchoolYearService
+
+SchoolYearServiceImpl  ...|> ISchoolYearService
+SchoolYearServiceImpl --> ISchoolYearRepository
+SchoolYearServiceImpl --> ISchoolYearFactory
+SchoolYearServiceImpl --> ISchoolYearListFactory
+
+SchoolYearRepositoryMemoImpl --> SchoolYear
+SchoolYearRepositoryMemoImpl ...|> ISchoolYearRepository
+
+SchoolYearRepositorySpringDataJPAImpl ...|> ISchoolYearRepository
+SchoolYearRepositorySpringDataJPAImpl --> ISchoolYearRepositorySpringDataJPA
+SchoolYearRepositorySpringDataJPAImpl --> SchoolYearMapper
+SchoolYearRepositorySpringDataJPAImpl --> SchoolYear
+SchoolYearRepositorySpringDataJPAImpl --> SchoolYearDataModel
+
+
+SchoolYearFactoryImpl ...|> ISchoolYearFactory
+SchoolYearListFactoryImpl ...|> ISchoolYearListFactory
+
+ISchoolYearFactory ..> SchoolYear
+ISchoolYearListFactory ..> SchoolYear
+
+SchoolYear "1"--> "1" SchoolYearID
+SchoolYear "1"--> "1" DescriptionVO
+SchoolYear "1"--> "1" DateVO
+
+SchoolYearMapper ..> SchoolYear
+SchoolYearMapper ..> SchoolYearDataModel
+
+@enduml
