@@ -1,0 +1,100 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+autonumber
+
+actor Admin
+participant ":UI" as UI
+participant "ctrl:US07_IWantToCreateASchoolYearController" as ctrl #lightpink
+participant "service:ISchoolYearService" as service #lightgreen
+participant "factory:SchoolYearFactoryImpl" as factory #lightblue
+participant "descriptionVO:DescriptionV0" as descriptionVO
+participant "dateVO:DateVO" as dateVO1
+participant "repo:ISchoolYearRepository" as repo #lightgreen
+participant "repoImpl:SYRepoSpringDataImpl" as repoImpl #lightgrey
+participant "mapper:SchoolYearMapper" as mapper
+participant "dataModel: SchoolYearDataModel" as dataModel
+participant "springDataRepo:ISchoolYearSpringData" as springDataRepo
+participant "schoolYear:SchoolYear" as schoolYear
+
+
+Admin -> UI : I want to create a School Year in the System
+activate UI
+UI --> Admin : description?
+Admin -> UI : description!
+UI --> Admin : startDate?
+Admin -> UI : startDate!
+UI --> Admin : endDate?
+Admin -> UI : endDate!
+
+UI -> ctrl : I want to create a School Year in the System \n (description, startDate, endDate)
+activate ctrl
+
+ctrl -> service : I want to create a SchoolYear in the System \n (description, startDate, endDate)
+activate service
+
+service -> factory : I want to create a SchoolYear in the System \n (description, startDate, endDate)
+activate factory
+
+
+factory -> descriptionVO** : createDescriptionVO(description)
+activate descriptionVO
+descriptionVO -> descriptionVO : isDescriptionValid()
+descriptionVO --> factory : descriptionVO
+deactivate descriptionVO
+
+factory -> dateVO1** : createStartDateVO(date)
+activate dateVO1
+dateVO1 -> dateVO1 : isDateValid()
+dateVO1 --> factory : startDateVO1
+deactivate dateVO1
+
+factory -> dateVO1** : createEndDateVO(date)
+activate dateVO1
+dateVO1 -> dateVO1 : isDateValid()
+dateVO1 --> factory : endDateVO1
+deactivate dateVO1
+
+'esta linha representa a criação do agregado SchoolYear, é opcional mas argumentar para ver se deixa-se ou não
+factory -> schoolYear** : new(descVO, startDateVO, endDateVO)
+
+factory -> service: schoolYear
+
+deactivate factory
+service -> repo : save(schoolYear)
+activate repo
+
+loop for each SchoolYear in repo
+    repo -> repo : schoolYearExists(SchoolYear)
+end
+
+repo -> repoImpl : save(schoolYear)
+activate repoImpl
+
+repoImpl -> mapper : convertMapFromAggregate(schoolYear)
+activate mapper
+mapper -> repoImpl: schoolYearDataModel
+deactivate mapper
+
+repoImpl -> springDataRepo: save (schoolYearDataModel)
+activate springDataRepo
+
+springDataRepo -> repoImpl: true
+deactivate springDataRepo
+
+repoImpl -> repo: true
+deactivate repoImpl
+
+repo -> service: true
+deactivate repo
+
+service -> ctrl: true
+deactivate service
+
+ctrl -> UI: true
+deactivate ctrl
+
+UI-> Admin: Success
+deactivate UI
+
+@enduml
