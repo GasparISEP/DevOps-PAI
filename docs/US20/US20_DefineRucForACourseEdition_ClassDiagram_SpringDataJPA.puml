@@ -1,0 +1,89 @@
+@startuml
+
+skinparam linetype ortho
+skinparam ranksep 50
+skinparam nodesep 100
+
+' Presentation Layer
+class US20_DefineRucForCourseEditionController {
+  - service: CourseEditionApplicationService
+  + getTeachers()
+  + getCourseEditions()
+  + defineRucForCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID)
+}
+
+' Application Layer
+class CourseEditionApplicationService {
+  - courseEditionRepository: ICourseEditionRepository
+  - teacherRepository: ITeacherRepository
+  + assignRucToCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID): boolean
+}
+
+' Domain Layer
+interface ICourseEditionRepository {
+  + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
+  + save(courseEdition: CourseEdition): CourseEdition
+}
+
+interface ITeacherRepository {
+  + ofIdentity(id: TeacherID): Optional<Teacher>
+}
+
+class CourseEdition {
+  - id: CourseEditionID
+  - ruc: Teacher
+  + setRuc(teacher: Teacher): boolean
+}
+
+class Teacher {
+  - id: TeacherID
+}
+
+' Infrastructure Layer
+class CourseEditionRepositoryImpl {
+  - springDataRepo: SpringCourseEditionJpaRepository
+  - mapper: CourseEditionMapper
+  + save(...)
+  + ofIdentity(...)
+}
+
+class TeacherRepositoryImpl {
+  - springDataRepo: SpringTeacherJpaRepository
+  - mapper: TeacherMapper
+  + ofIdentity(...)
+}
+
+interface SpringCourseEditionJpaRepository <<JpaRepository>>
+interface SpringTeacherJpaRepository <<JpaRepository>>
+
+class CourseEditionJpa <<JPA Entity>>
+class TeacherJpa <<JPA Entity>>
+
+class CourseEditionMapper
+class TeacherMapper
+
+' Associations
+US20_DefineRucForCourseEditionController --> CourseEditionApplicationService
+CourseEditionApplicationService --> ICourseEditionRepository
+CourseEditionApplicationService --> ITeacherRepository
+
+ICourseEditionRepository <|.. CourseEditionRepositoryImpl
+ITeacherRepository <|.. TeacherRepositoryImpl
+
+CourseEditionRepositoryImpl --> CourseEditionMapper
+TeacherRepositoryImpl --> TeacherMapper
+
+CourseEditionRepositoryImpl --> SpringCourseEditionJpaRepository
+TeacherRepositoryImpl --> SpringTeacherJpaRepository
+
+SpringCourseEditionJpaRepository --> CourseEditionJpa
+SpringTeacherJpaRepository --> TeacherJpa
+
+CourseEditionMapper --> CourseEditionJpa
+TeacherMapper --> TeacherJpa
+
+ICourseEditionRepository ..> CourseEdition
+ITeacherRepository ..> Teacher
+CourseEdition --> Teacher
+
+@enduml
