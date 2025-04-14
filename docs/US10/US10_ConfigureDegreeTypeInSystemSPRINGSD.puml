@@ -1,0 +1,38 @@
+@startuml
+actor Administrator as Adm
+participant ":US10_IWantToConfigureDegreeTypesLevelsController" as Controller #lightcoral
+participant ":DegreeTypeService" as S #lightgrey
+participant ":DegreeTypeFactoryInterface" as DTF #lightblue
+
+
+
+
+Adm -> Controller : registerDegreeType(name, maxEcts)
+activate Controller
+Controller -> S : registerDegreeType(name, maxEcts)
+activate S
+S -> DTF : registerDegreeType(name, maxEcts)
+activate DTF
+create ":DT1:DegreeType" as DT #yellow
+DTF -> DT : Create DegreeType (name, maxEcts)
+activate DT
+DT --> DTF : DT1
+deactivate DT
+participant ":DegreeTypeRepository" as DTR #lightgreen
+DTF --> S : DT1
+deactivate DTF
+S -> DTR : save DT1
+activate DTR
+participant ":DegreeTypeJPARepository" as DTJPAR #lawngreen
+DTR -> DTJPAR : Domain to Datamodel and Check Duplicity
+activate DTJPAR
+DTJPAR -> DTJPAR : save
+DTJPAR -> DTR : Done
+deactivate DTJPAR
+DTR -> S : Done
+deactivate DTR
+S --> Controller : Registration Successful
+deactivate S
+Controller --> Adm : Registration Successful
+deactivate Controller
+@enduml

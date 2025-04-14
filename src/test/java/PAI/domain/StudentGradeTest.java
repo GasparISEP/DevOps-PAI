@@ -371,7 +371,7 @@ class StudentGradeTest {
 
         Field idField = StudentGrade.class.getDeclaredField("_studentGrade_id");
         idField.setAccessible(true);
-        StudentGradeID sharedId = new StudentGradeID(studentIDDouble,courseEditionIDDouble);
+        StudentGradeID sharedId = new StudentGradeID();
 
         idField.set(grade1, sharedId);
         idField.set(grade2, sharedId);

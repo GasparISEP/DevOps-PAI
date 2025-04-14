@@ -222,7 +222,7 @@ US22_IWantToGradeAStudentInACourseEdition "1" ..left..> "1    " ICourseEditionEn
 "<<root>>\nStudent" --> "1" StudentId
 IStudentGradeService <|..StudentGradeService
 IStudentGradeRepositoryInterface <|..StudentGradeRepository
-
+IStudentGradeRepositoryInterface ....> IStudentGradeFactory
 
 
 IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"

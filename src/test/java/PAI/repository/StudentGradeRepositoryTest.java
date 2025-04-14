@@ -321,7 +321,7 @@ class StudentGradeRepositoryTest {
         when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
                 .thenReturn(studentGrade2);
 
-        StudentGradeID studentGradeId = new StudentGradeID(studentIDDouble,courseEditionIDDouble);
+        StudentGradeID studentGradeId = new StudentGradeID();
         when(studentGrade1.identity()).thenReturn(studentGradeId);
 
         boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);

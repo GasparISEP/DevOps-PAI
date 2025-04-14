@@ -16,7 +16,7 @@ import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl
 import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.ProgrammeRepositoryImpl;
 import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
