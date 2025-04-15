@@ -20,5 +20,11 @@ public class StudentGradeRepositorySpringData  {
         this.iStudentGradeFactory = iStudentGradeFactory;
         this.studentGradeMapper = studentGradeMapper;
     }
-
+    public boolean addGradeToStudent(Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
+        StudentGrade sg1 = iStudentGradeFactory.newGradeStudent(grade,date,student,courseEditionID);
+        StudentGradeDM studentGradeDM = studentGradeMapper.toData(sg1);
+        if (iStudentGradeRepositorySpringData.existsById(studentGradeDM.getId())) return false;
+        iStudentGradeRepositorySpringData.save(studentGradeDM);
+        return true;
+    }
 }
