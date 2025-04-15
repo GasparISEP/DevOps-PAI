@@ -7,28 +7,25 @@ import java.io.Serializable;
 
 @Embeddable
 public class CourseIDDataModel implements Serializable {
-    private String _id;
+    private String _courseDomainID;
 
 
     public CourseIDDataModel() {
     }
 
     public CourseIDDataModel(CourseID courseID) {
-        _id = courseID.toString();
+        _courseDomainID = courseID.toString();
     }
 
     public String getId() {
-        return _id;
+        return _courseDomainID;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CourseIDDataModel)) return false;
-        CourseIDDataModel that = (CourseIDDataModel) o;
-        return _id.equals(that._id);
+    public boolean equals(Object objectToCompare) {
+        if (this == objectToCompare) return true;
+        if (!(objectToCompare instanceof CourseIDDataModel)) return false;
+        CourseIDDataModel courseIDDataModel = (CourseIDDataModel) objectToCompare;
+        return _courseDomainID.equals(courseIDDataModel._courseDomainID);
     }
-
-
-
 }
