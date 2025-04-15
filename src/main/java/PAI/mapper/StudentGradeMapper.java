@@ -1,4 +1,4 @@
-package PAI.mapper;
+/*package PAI.mapper;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
@@ -30,4 +30,4 @@ public class StudentGradeMapper {
     }
 
 
-}
+}*/

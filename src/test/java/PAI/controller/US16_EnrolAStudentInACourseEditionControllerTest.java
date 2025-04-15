@@ -323,7 +323,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        StudentID studentID1 = new StudentID(1234567);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
 
         SchoolYearID schoolYearID2 = new SchoolYearID();
 
@@ -337,11 +339,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ProgrammeID programmeID2 = new ProgrammeID(name2, acronym2);
         ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID2, schoolYearID2);
 
-        peeRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID1);
-        peeRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID2);
+        peeRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionID1);
+        peeRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionID2);
 
         //act
-        List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(studentID1);
+        List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(studentID);
 
         //assert
         assertEquals(2, result.size());
@@ -420,8 +422,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        StudentID studentID1 = new StudentID(1234567);
-        StudentID studentID2 = new StudentID(1234367);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        NIF nifDouble2 = mock(NIF.class);
+        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -451,7 +458,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ceeRepository.enrolStudentInACourseEdition(studentID2,ceID1);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(studentID1,ceID1);
+        boolean result = controller.enrolStudentInCourseEdition(studentID,ceID1);
 
         //assert
         assertTrue(result);
@@ -474,7 +481,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        StudentID studentID1 = new StudentID(1234567);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -506,10 +515,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
-        ceeRepository.enrolStudentInACourseEdition(studentID1,ceID1);
+        ceeRepository.enrolStudentInACourseEdition(studentID,ceID1);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(studentID1,ceID2);
+        boolean result = controller.enrolStudentInCourseEdition(studentID,ceID2);
 
         //assert
         assertTrue(result);
@@ -532,8 +541,13 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        StudentID studentID1 = new StudentID(1234567);
-        StudentID studentID2 = new StudentID(1234568);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        NIF nifDouble2 = mock(NIF.class);
+        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -565,7 +579,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
-        ceeRepository.enrolStudentInACourseEdition(studentID1,ceID1);
+        ceeRepository.enrolStudentInACourseEdition(studentID,ceID1);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID2);
@@ -591,7 +605,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        StudentID studentID = new StudentID(1234567);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
