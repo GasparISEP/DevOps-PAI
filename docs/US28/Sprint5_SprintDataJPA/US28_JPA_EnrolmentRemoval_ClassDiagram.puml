@@ -16,13 +16,16 @@ skinparam classBorderColor Black
 
 
 ' ========== CONTROLLER LAYER ==========
-class EnrolmentRemoval_Controller #F5EEF8{
-    +EnrolmentRemoval_Controller (ceeService: ICourseEditionEnrolmentService)
+package Controller #F5EEF8{
+class US28_EnrolmentRemovalController <<Controller>> {
+    +US28_EnrolmentRemovalController (ceeService: ICourseEditionEnrolmentService)
     +removeStudentEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
+}
 }
 
 
 ' ========== SERVICE LAYER ==========
+package Service {
 interface ICourseEditionEnrolmentService <<Interface>> {
     +removeStudentEnrolment (studentID: StudentID,\n courseEditionID: CourseEditionID) : boolean
 }
@@ -30,15 +33,17 @@ interface ICourseEditionEnrolmentService <<Interface>> {
 class CourseEditionEnrolmentServiceImpl {
     +removeStudentEnrolment (studentID: StudentID, \ncourseEditionID: CourseEditionID) : boolean
 }
+}
 
 
 ' ========== REPOSITORY LAYER ==========
+package Repository {
 interface ICourseEditionEnrolmentRepository <<Interface>> {
     +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
 }
 
-class CourseEditionEnrolmentRepositoryMemImpl {
+class CourseEditionEnrolmentRepositoryImpl {
     +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
@@ -58,9 +63,11 @@ class CourseEditionEnrolmentRepositorySpringDataImpl{
 
 interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
 }
+}
 
 
 ' ========== FACTORY LAYER ==========
+package Factory {
 interface ICourseEditionEnrolmentFactory <<Interface>> {
     +createCourseEditionEnrolment(studentID: StudentID,\n courseEditionID: CourseEditionID)
 }
@@ -68,16 +75,20 @@ interface ICourseEditionEnrolmentFactory <<Interface>> {
 class CourseEditionEnrolmentFactoryImpl {
     +createCourseEditionEnrolment(studentID: StudentID, \ncourseEditionID: CourseEditionID)
 }
+}
 
 
 ' ========== MAPPING LAYER ==========
+package Mapper {
 class CourseEditionEnrolmentMapper {
     +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
     +toEntity(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
 }
+}
 
 
 ' ========== DATA MODEL ==========
+package "Data Model" {
 class CourseEditionEnrolmentDataModel {
     -studentID: int
     -courseEditionID: int
@@ -88,6 +99,7 @@ class CourseEditionEnrolmentDataModel {
 class CourseEditionEnrolmentIDDataModel {
     - studentID: int
     - courseEditionID: int
+}
 }
 
 
@@ -146,12 +158,12 @@ class CourseEditionID <<Value Object>> {
 
 
 ' ========== RELATIONSHIPS ==========
-EnrolmentRemoval_Controller ..> ICourseEditionEnrolmentService
+US28_EnrolmentRemovalController ..> ICourseEditionEnrolmentService
 ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentServiceImpl
 CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentRepository
 CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentFactory
 
-ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryMemImpl
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDataImpl
 CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentDataModel
 CourseEditionEnrolmentRepositorySpringDataImpl "1" ..> "*" CourseEditionEnrolment
@@ -168,7 +180,7 @@ CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
 CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
 StudentID "_studentID 1" <-- "*" CourseEditionEnrolmentID
 CourseEditionID "_courseEditionID 1" <-- "*" CourseEditionEnrolmentID
-CourseEditionEnrolmentRepositoryMemImpl "1"..> "_courseEditionEnrolments *" CourseEditionEnrolment
+CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *" CourseEditionEnrolment
 
 ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
 ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
