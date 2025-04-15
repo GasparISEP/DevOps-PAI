@@ -15,7 +15,7 @@ participant ":UI" as UI #E1F5FE
 participant ":US28_EnrolmentRemoval\nController" as Controller #E1F5FE
 participant ":ICourseEditionEnrolment\nService" as Service #E1F5FE
 participant ":ICourseEditionEnrolment\nRepository" as Repository #E1F5FE
-participant ":ICourseEditionEnrolment\nRepositorySpringData" as SpringDataRepo #E1F5FE
+participant ":CourseEditionEnrolment\nRepositorySpringDataImpl" as SpringDataRepo #E1F5FE
 participant ":CourseEditionEnrolment\nMapper" as Mapper #E1F5FE
 
 ' Step 1: ASC triggers removal
@@ -30,9 +30,6 @@ deactivate UI
 ASC -> UI : Course edition ID!
 activate UI #HoneyDew
 UI -> Controller: removeStudentEnrolment\n(studentID, courseEditionID)
-ref over Controller
-    SD Convert IDs to VOs
-end ref
 activate Controller #HoneyDew
 
 ' Step 2: Delegate to service
@@ -40,7 +37,7 @@ Controller -> Service: removeStudentEnrolment\n(studentID, courseEditionID)
 activate Service #HoneyDew
 
 ' Step 3: Check if enrolment exists
-Service -> Repository: findByStudentAndEdition\n(studentID, courseEditionID)
+Service -> Repository: findByStudentAndCourseEditionId\n(studentID, courseEditionID)
 activate Repository #HoneyDew
 Repository -> SpringDataRepo: findByStudentIdAndCourseEditionId\n(studentID, courseEditionID)
 activate SpringDataRepo #HoneyDew
