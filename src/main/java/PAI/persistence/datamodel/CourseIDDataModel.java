@@ -2,13 +2,12 @@ package PAI.persistence.datamodel;
 
 import PAI.VOs.CourseID;
 import jakarta.persistence.Embeddable;
-
 import java.io.Serializable;
 
 @Embeddable
 public class CourseIDDataModel implements Serializable {
-    private String _courseDomainID;
 
+    private String _courseDomainID;
 
     public CourseIDDataModel() {
     }
@@ -27,5 +26,10 @@ public class CourseIDDataModel implements Serializable {
         if (!(objectToCompare instanceof CourseIDDataModel)) return false;
         CourseIDDataModel courseIDDataModel = (CourseIDDataModel) objectToCompare;
         return _courseDomainID.equals(courseIDDataModel._courseDomainID);
+    }
+
+    @Override
+    public int hashCode() {
+        return _courseDomainID.hashCode();
     }
 }

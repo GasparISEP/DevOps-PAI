@@ -135,4 +135,18 @@ class CourseIDDataModelTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnHashCodeNotNull() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+
+        // Act
+        int result = CourseIDDataModel.hashCode();
+
+        // Assert
+        assertNotNull(result);
+    }
+
 }
