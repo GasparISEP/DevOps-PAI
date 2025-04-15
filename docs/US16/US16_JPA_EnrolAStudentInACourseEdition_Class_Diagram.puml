@@ -6,8 +6,7 @@ skinparam classBackgroundColor #E1F5FE
 
 
 class US16_EnrolAStudentInACourseEditionController {
-    +US16_EnrolAStudentInACourseEditionController(_ceeRepositoryInterface: ICourseEditionEnrolmentRepository,
-    peeRepositoryInterface: IProgrammeEditionEnrolmentRepository , courseEditionRepositoryInterface: ICourseEditionRepository)
+    +US16_EnrolAStudentInACourseEditionController(_courseEditionEnrolmentService: ICourseEditionEnrolmentService)
     +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
     +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
     +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
@@ -224,6 +223,12 @@ class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
 
 interface Set {
     +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
+}
+
+class CourseEditionEnrolmentDataModel {
+    -id: CourseEditionEnrolmentID
+    +CourseEditionEnrolmentDataModel\n(courseEditionEnrolment: CourseEditionEnrolment))
+    +getId(): id
 }
 
 'Controller
