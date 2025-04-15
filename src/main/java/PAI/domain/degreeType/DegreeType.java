@@ -4,7 +4,6 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.ddd.AggregateRoot;
-import PAI.domain.studyPlan.StudyPlan;
 
 import java.util.Objects;
 
@@ -20,16 +19,14 @@ public class DegreeType implements AggregateRoot<DegreeTypeID> {
         this._maxEcts = Objects.requireNonNull(maxEcts, "MaxEcts cannot be null");
     }
 
-    @Override
-    public boolean equals(Object objectToCompare) {
-        if (objectToCompare == null || getClass() != objectToCompare.getClass()) return false;
-        DegreeType degreeType = (DegreeType) objectToCompare;
-        return this._degreeTypeID.equals(degreeType._degreeTypeID);
+
+    public static DegreeType create(Name name, MaxEcts maxEcts) {
+        return new DegreeType(new DegreeTypeID(), name, maxEcts);
     }
 
     @Override
-    public int hashCode() {
-        return 31 * _degreeTypeID.getDTID().hashCode() + _name.getName().hashCode() + _maxEcts.getMaxEcts();
+    public DegreeTypeID identity() {
+        return this._degreeTypeID;
     }
 
     public String getId() {
@@ -45,17 +42,22 @@ public class DegreeType implements AggregateRoot<DegreeTypeID> {
     }
 
     @Override
-    public DegreeTypeID identity() {
-        return this._degreeTypeID;
+    public boolean sameAs(Object object) {
+        if (object instanceof DegreeType degreeType) {
+            return this._degreeTypeID.equals(degreeType._degreeTypeID);
+        }
+        return false;
     }
 
     @Override
-    public boolean sameAs(Object object) {
-        if (object instanceof DegreeType) {
-            DegreeType degreeType = (DegreeType) object;
-            if (this._degreeTypeID.equals(degreeType._degreeTypeID))
-                return true;
-        }
-        return false;
+    public boolean equals(Object objectToCompare) {
+        if (objectToCompare == null || getClass() != objectToCompare.getClass()) return false;
+        DegreeType degreeType = (DegreeType) objectToCompare;
+        return this._degreeTypeID.equals(degreeType._degreeTypeID);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * _degreeTypeID.hashCode() + _name.hashCode() + _maxEcts.hashCode();
     }
 }

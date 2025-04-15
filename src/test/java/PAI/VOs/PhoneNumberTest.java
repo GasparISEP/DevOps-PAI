@@ -299,4 +299,28 @@ class PhoneNumberTest {
         //asert
         assertEquals(expected, phoneNumberAttributtes);
     }
+
+    @Test
+    void getCountryCodeShouldReturnCountryCode() throws Exception {
+        //arrange
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+
+        //act
+        String result = phoneNumber.getCountryCode();
+
+        //assert
+        assertEquals("+351", result);
+    }
+
+    @Test
+    void getNumberShouldReturnNumber() throws Exception {
+        //arrange
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+
+        //act
+        String result = phoneNumber.getNumber();
+
+        //assert
+        assertEquals("912345678", result);
+    }
 }

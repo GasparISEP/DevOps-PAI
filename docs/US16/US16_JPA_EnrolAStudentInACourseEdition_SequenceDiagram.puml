@@ -1,0 +1,183 @@
+@startuml
+title US16: Enrol a student in a course edition
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+
+actor ASC
+participant ":UI" as UI
+ASC -> UI: I want to enrol a student in a \n course edition!
+activate UI #E1F5FE
+UI --> ASC: What Student?
+deactivate UI
+
+' findProgrammeEditionThatStudentIsEnrolled
+
+ASC -> UI: Enter the student!
+activate UI #E1F5FE
+participant ":US16_EnrolAStudentInACourseEditionController" as Controller
+UI -> Controller: findProgrammeEditionIDsThatStudentIsEnrolled \n (studentID)
+ref over Controller
+    SD Convert studentID to VO
+end ref
+activate Controller #E1F5FE
+participant ":ICourseEditionEnrolmentService" as CourseEditionEnrolmentService
+Controller -> CourseEditionEnrolmentService: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
+activate CourseEditionEnrolmentService #E1F5FE
+participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+CourseEditionEnrolmentService -> ProgrammeEditionEnrolmentRepository: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
+activate ProgrammeEditionEnrolmentRepository #E1F5FE
+
+participant ":IProgrammeEditionEnrolmentSpringDataJPA" as IPEESpringDataJPA
+ProgrammeEditionEnrolmentRepository -> IPEESpringDataJPA: findByStudentId (studentID.toString())
+activate IPEESpringDataJPA #E1F5FE
+IPEESpringDataJPA --> ProgrammeEditionEnrolmentRepository: List<ProgrammeEditionDataModel>
+deactivate IPEESpringDataJPA
+
+
+ref over ProgrammeEditionEnrolmentRepository
+    SD Convert List<ProgrammeEditionDataModel>
+    to List<ProgrammeEditionID>
+end ref
+
+ProgrammeEditionEnrolmentRepository --> CourseEditionEnrolmentService: List<ProgrammeEditionID>
+deactivate ProgrammeEditionEnrolmentRepository
+CourseEditionEnrolmentService --> Controller: List<ProgrammeEditionID>
+deactivate CourseEditionEnrolmentService
+ref over Controller
+    SD Convert VO to List<ProgrammeEditionID>
+end ref
+Controller --> UI: List<ProgrammeEditionID>
+deactivate Controller
+UI --> ASC: Here is a list of programme editions \n the student is enrolled in. \n What Programme Edition?
+deactivate UI
+
+' findCourseEditionByProgrammeEdition Method
+
+ASC -> UI:Enter the Programme Edition!
+activate UI #E1F5FE
+UI -> Controller: findCourseEditionsByProgrammeEdition \n (programmeEditionID)
+ref over Controller
+    SD Convert programmeEditionID to VO
+end ref
+activate Controller #E1F5FE
+participant ":ICourseEditionRepository" as CourseEditionRepository
+Controller -> CourseEditionEnrolmentService: findCourseEditionIDsByProgrammeEdition \n (programmeEditionID)
+activate CourseEditionEnrolmentService #E1F5FE
+CourseEditionEnrolmentService -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEditionID)
+activate CourseEditionRepository #E1F5FE
+
+participant ":ICourseEditionSpringDataJPA" as ceJPAInterface
+CourseEditionRepository -> ceJPAInterface : findCourseEditionsByProgrammeEdition \n (programmeEditionID)
+activate ceJPAInterface #E1F5FE
+ceJPAInterface --> CourseEditionRepository : List<CourseEditionDataModel>
+deactivate ceJPAInterface
+
+ref over CourseEditionRepository
+    SD Convert List<CourseEditionDataModel>
+    to List<CourseEditionID>
+end ref
+
+CourseEditionRepository --> CourseEditionEnrolmentService: List<CourseEditionID>
+deactivate CourseEditionRepository
+CourseEditionEnrolmentService --> Controller: List<CourseEditionID>
+deactivate CourseEditionEnrolmentService
+
+
+ref over Controller
+    SD Convert VO to List<CourseEditionID>
+end ref
+Controller --> UI: List<CourseEditionID>
+deactivate Controller
+UI --> ASC: Here is a list of Course Editions!\n What Course Edition?
+deactivate UI
+
+' enrolAStudentInACourseEdition Method
+
+ASC -> UI: Enter the Course Edition!
+activate UI #E1F5FE
+UI --> ASC: Sure?
+deactivate UI
+ASC -> UI: Yes!
+activate UI #E1F5FE
+
+UI -> Controller: enrolStudentInACourseEdition \n (studentID, courseEditionID)
+ref over Controller
+    SD Convert studentID and courseEditionID to VO
+end ref
+activate Controller #E1F5FE
+
+Controller -> CourseEditionEnrolmentService: enrolStudentInACourseEdition \n (studentID, courseEditionID)
+activate CourseEditionEnrolmentService #E1F5FE
+
+' course edition enrolment creation
+
+participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactoryInterface
+CourseEditionEnrolmentService -> CourseEditionEnrolmentFactoryInterface : create (studentID, courseEditionID)
+activate CourseEditionEnrolmentFactoryInterface #E1F5FE
+
+' then factory will create course edition enrolment
+
+create "cee:CourseEditionEnrolment"
+CourseEditionEnrolmentFactoryInterface -> "cee:CourseEditionEnrolment" : create \n (studentID, courseEditionID)
+activate "cee:CourseEditionEnrolment" #E1F5FE
+
+create "date: Date"
+deactivate CourseEditionEnrolmentFactoryInterface
+"cee:CourseEditionEnrolment" -> "date: Date" : create (LocalDate.now())
+
+create "status: EnrolmentStatus"
+"cee:CourseEditionEnrolment" -> "status: EnrolmentStatus" : create (true)
+
+create "ceeID:CourseEditionEnrolmentID"
+"cee:CourseEditionEnrolment" -> "ceeID:CourseEditionEnrolmentID": create (studentID, courseEditionID)
+deactivate "cee:CourseEditionEnrolment"
+
+' verify if already exists
+
+participant ":ICourseEditionEnrolmentRepository" as ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: checkIfAlreadyExists (new CourseEditionEnrolment (studentID, courseEditionID)
+activate ICourseEditionEnrolmentRepository #E1F5FE
+ICourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: False
+deactivate ICourseEditionEnrolmentRepository
+
+' course edition enrolment persistence
+
+CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: enrolStudentInACourseEdition (cee)
+activate ICourseEditionEnrolmentRepository #E1F5FE
+
+
+' convert domain to dataModel
+participant ":CourseEditionEnrolmentMapper" as ceeMapper
+ICourseEditionEnrolmentRepository -> ceeMapper: toDataModel (cee)
+activate ceeMapper #E1F5FE
+
+create "ceeDataModel: CourseEditionEnrolmentDataModel"
+ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel" :create (cee)
+deactivate ceeMapper
+
+' database persistence
+
+participant ":ICourseEditionEnrolmentSpringDataJPA" as ceeJPAInterface
+ICourseEditionEnrolmentRepository -> ceeJPAInterface: save (ceeDataModel)
+activate ceeJPAInterface #E1F5FE
+
+' persistence confirmation
+
+ceeJPAInterface --> ICourseEditionEnrolmentRepository: True
+deactivate ceeJPAInterface
+
+ICourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: True
+deactivate ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentService --> Controller: True
+deactivate CourseEditionEnrolmentService
+Controller --> UI: True
+deactivate Controller
+UI --> ASC: OK!
+deactivate UI
+
+@enduml

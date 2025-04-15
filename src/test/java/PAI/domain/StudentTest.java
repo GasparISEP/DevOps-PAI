@@ -158,23 +158,22 @@ class StudentTest {
     void shouldReturnTrueIfTwoStudentsHaveTheSameID() {
         // Arrange
         Address addressDouble = mock(Address.class);
-        StudentID mockStudentID = mock(StudentID.class);
-        Name nameDouble = mock(Name.class);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
         NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID2 = new StudentID(uniqueNumberDouble, nifDouble);
+        Name nameDouble = mock(Name.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+        Student student1 = new Student(studentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
-        when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
-
-        Student student2 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
-
-        when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
+        Student student2 = new Student(studentID2, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student1.equals(student2);
+
 
         // Assert
         assertTrue(result);
@@ -402,5 +401,45 @@ class StudentTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void getStudentPhoneNumberShouldReturnPhoneNumber() {
+        //arrange
+        Address addressDouble = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+
+        //act
+        PhoneNumber phoneNumber = student1.getStudentPhoneNumber();
+
+        //assert
+        assertEquals(phoneDouble, phoneNumber);
+    }
+
+    @Test
+    void getStudentNameShouldReturnName() {
+        //arrange
+        Address addressDouble = mock(Address.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+
+        //act
+        Name name = student1.getStudentName();
+
+        //assert
+        assertEquals(nameDouble, name);
     }
 }

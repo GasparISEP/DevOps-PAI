@@ -94,7 +94,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
 
         // Assert
-        assertEquals("Student's unique number is invalid!", exception.getMessage());
+        assertEquals("Invalid unique number", exception.getMessage());
     }
 
     @Test

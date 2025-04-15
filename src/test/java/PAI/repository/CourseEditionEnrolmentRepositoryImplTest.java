@@ -785,7 +785,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
-        StudentID studentID = new StudentID(1000001);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -814,7 +816,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
-        StudentID studentID = new StudentID(1000001);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
@@ -858,8 +862,13 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
-        StudentID studentID = new StudentID(1000001);
-        StudentID student2ID = new StudentID(1000002);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        NIF nifDouble2 = mock(NIF.class);
+        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -872,11 +881,11 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
-        enrolmentRepository.enrolStudentInACourseEdition(student2ID, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(studentID2, courseEditionID);
 
         // Act
         boolean firstRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
-        boolean secondRemoval = enrolmentRepository.removeEnrolment(student2ID, courseEditionID);
+        boolean secondRemoval = enrolmentRepository.removeEnrolment(studentID2, courseEditionID);
 
         // Assert
         assertTrue(firstRemoval, "First student's enrolment should be removed successfully.");
@@ -895,7 +904,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
-        StudentID studentID = new StudentID(1000001);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -922,7 +933,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
-        StudentID studentID = new StudentID(1000001);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -953,7 +966,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
 
-        StudentID studentID = new StudentID(1000001);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);

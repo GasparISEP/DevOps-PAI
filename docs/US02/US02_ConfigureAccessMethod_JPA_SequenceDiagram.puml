@@ -10,20 +10,22 @@ admin -> UI ++ #application :(accessMethodNameVO)
 UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (accessMethodNameVO)
 
 
-ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : createAccessMethod (accessMethodNameVO)
-":AccessMethodService" -> ":AccessMethodRepository" ++ #application:  findAccessMethodByName(accessMethodNameVO)
-":AccessMethodRepository" --> ":AccessMethodService" -- #application: false
+ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : configureAccessMethod (accessMethodNameVO)
+":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application:  findAccessMethodByName(accessMethodNameVO)
+":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService" -- #application: false
 ":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application: createAccessMethod(accessMethodNameVO)
 create "ac1:AccessMethod" as AccessMethod
 AccessMethodFactory -> AccessMethod  ++ #application  : <create> (accessMethodNameVO)
-AccessMethodFactory --> ":AccessMethodService" -- : ac1
-":AccessMethodService" -> ":AccessMethodDataModel" ++ #application: toDataModel(ac1)
+AccessMethodFactory --> ":AccessMethodService" -- : Optional<ac1>
+":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application: save(ac1)
+":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)
 create "ac1DM: AccessMethodDataModel" as AccessMethodDataModel
-":AccessMethodDataModel" -> AccessMethodDataModel ++ #application: <create>
-":AccessMethodDataModel" --> ":AccessMethodService" : ac1DM
-":AccessMethodService" -> ":AccessMethodRepository" ++ #application: save(ac1DM)
-":AccessMethodRepository" --> ":AccessMethodService": Optional<ac1DM>
-":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1DM>
+":AccessMethodMapper" -> AccessMethodDataModel ++ #application: <create>
+":AccessMethodMapper" --> ":AccessMethodRepositorySpringDataImpl": Optional<ac1DM>
+":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodRepositorySpringDataImpl": save(ac1DM)
+":AccessMethodMapper" --> ":AccessMethodRepositorySpringDataImpl": Optional<ac1>
+":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService": Optional<ac1>
+":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1>
 ConfigureAccessMethodController --> UI: true
 UI --> admin: true
 @enduml

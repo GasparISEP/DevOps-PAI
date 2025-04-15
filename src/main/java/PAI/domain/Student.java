@@ -97,4 +97,12 @@ public class Student implements AggregateRoot<StudentID> {
     public boolean isEquals (Student student) {
         return this.equals(student);
     }
+
+    public PhoneNumber getStudentPhoneNumber() {
+        return _phone;
+    }
+
+    public Name getStudentName() {
+        return _name;
+    }
 }
