@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 class SchoolYearDataModelTest {
 
     @Test
@@ -16,8 +18,8 @@ class SchoolYearDataModelTest {
     void testConstrutorWithAllArguments() {
         String id = "uuid-123";
         String description = "2024/2025";
-        String startDate = "2024-09-01";
-        String endDate = "2025-06-30";
+        LocalDate startDate = LocalDate.of(2024, 9, 1);
+        LocalDate endDate = LocalDate.of(2025, 6, 30);
 
         SchoolYearDataModel schoolYear = new SchoolYearDataModel(id, description, startDate, endDate);
 
@@ -28,8 +30,8 @@ class SchoolYearDataModelTest {
     void testFullConstructorAndGetters() {
         String id = "uuid-123";
         String description = "2024/2025";
-        String startDate = "2024-09-01";
-        String endDate = "2025-06-30";
+        LocalDate startDate = LocalDate.of(2024, 9, 1);
+        LocalDate endDate = LocalDate.of(2025, 6, 30);
 
         SchoolYearDataModel schoolYear = new SchoolYearDataModel(id, description, startDate, endDate);
 
@@ -41,9 +43,9 @@ class SchoolYearDataModelTest {
 
     @Test
     void testEqualsAndHashCode() {
-        SchoolYearDataModel schoolYear1 = new SchoolYearDataModel("uuid-123", "2024/2025", "2024-09-01", "2025-06-30");
-        SchoolYearDataModel schoolYear2 = new SchoolYearDataModel("uuid-123", "2024/2025", "2024-09-01", "2025-06-30");
-        SchoolYearDataModel schoolYear3 = new SchoolYearDataModel("uuid-456", "2025/2026", "2025-09-01", "2026-06-30");
+        SchoolYearDataModel schoolYear1 = new SchoolYearDataModel("uuid-123", "2024/2025", LocalDate.of(2024, 9, 1), LocalDate.of(2025, 6, 30));
+        SchoolYearDataModel schoolYear2 = new SchoolYearDataModel("uuid-123", "2024/2025", LocalDate.of(2024, 9, 1), LocalDate.of(2025, 6, 30));
+        SchoolYearDataModel schoolYear3 = new SchoolYearDataModel("uuid-456", "2025/2026", LocalDate.of(2024, 9, 1), LocalDate.of(2025, 6, 30));
 
         assertEquals(schoolYear1, schoolYear2);
         assertEquals(schoolYear1.hashCode(), schoolYear2.hashCode());
@@ -54,7 +56,7 @@ class SchoolYearDataModelTest {
 
     @Test
     void testEqualsWithNullAndDifferentClass() {
-        SchoolYearDataModel schoolYear = new SchoolYearDataModel("uuid-123", "2024/2025", "2024-09-01", "2025-06-30");
+        SchoolYearDataModel schoolYear = new SchoolYearDataModel("uuid-123", "2024/2025", LocalDate.of(2024, 9, 1), LocalDate.of(2025, 6, 30));
 
         assertNotEquals(null, schoolYear);
         assertNotEquals("some string", schoolYear);

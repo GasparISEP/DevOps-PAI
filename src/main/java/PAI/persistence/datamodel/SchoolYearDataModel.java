@@ -1,6 +1,8 @@
 package PAI.persistence.datamodel;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -11,12 +13,12 @@ public class SchoolYearDataModel {
     private String id;
 
     private String description;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public SchoolYearDataModel() {}
 
-    public SchoolYearDataModel(String id, String description, String startDate, String endDate) {
+    public SchoolYearDataModel(String id, String description, LocalDate startDate, LocalDate endDate) {
         this.id = id;
         this.description = description;
         this.startDate = startDate;
@@ -32,11 +34,11 @@ public class SchoolYearDataModel {
         return description;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -46,11 +48,14 @@ public class SchoolYearDataModel {
         if (this == o) return true;
         if (!(o instanceof SchoolYearDataModel)) return false;
         SchoolYearDataModel that = (SchoolYearDataModel) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(id, that.id) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, description, startDate, endDate);
     }
 }
