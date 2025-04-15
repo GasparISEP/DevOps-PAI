@@ -1,8 +1,7 @@
 @startuml
 title US05: Register a Department in the System
-'left to right direction'
 
-class US05_RegisterADepartmentController #ccffcc {
+class US05_RegisterADepartmentController #lightcyan {
     +US05_RegisterADepartmentController(departmentService: IDepartmentService)
     +registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
 }
@@ -11,7 +10,7 @@ interface IDepartmentService #lightcyan {
         + registerDepartment(acronym: DepartmentAcronym, name: Name)
 }
 
-class DepartmentServiceImpl #lightcyan {
+class DepartmentServiceImpl #ffe6ec{
       + DepartmentService(departmentFactory: IDepartmentFactory, departmentRepo: IDepartmentRepository)
       + registerDepartment(acronym: DepartmentAcronym, name: Name)
 }
@@ -20,36 +19,36 @@ interface IDepartmentRepository #lightyellow {
     + registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
 }
 
-class DepartmentRepositoryMem #lightyellow {
+class DepartmentRepositoryMem #lightcyan {
     + save (entity: Department): Department
     + findAll(): Iterable<Department>
     + ofIdentity (id: DepartmentID): Optional<Department>
     + containsOfIdentity(id: DepartmentID): boolean
 }
 
-class DepartmentFactoryImpl #dddddd {
+class DepartmentFactoryImpl #lightyellow {
     +newDepartment(acronym: DepartmentAcronym, name: Name): Department
 }
 
-interface IDepartmentFactory #dddddd {
+interface IDepartmentFactory #lightyellow {
     +newDepartment(acronym: DepartmentAcronym, name: Name): Department
 }
 
-class DepartmentListFactoryImpl #dddddd{
+class DepartmentListFactoryImpl #lightyellow {
     +newDepartmentList: HashSet<Department>
 }
 
-interface IDepartmentListFactory #dddddd {
+interface IDepartmentListFactory #lightyellow {
     + newDepartmentList(): HashSet<Department>
 }
 
-interface Set {
+interface Set #ccffcc {
     +add(): boolean
 }
 
 package "Department Aggregate" {
 
-class Department <<root>> {
+class Department <<root>> #lightyellow{
     +Department(acronym: DepartmentAcronym , name: Name)
     +hashCode(): int
     +identity(): DepartmentAcronym
@@ -61,13 +60,13 @@ class Department <<root>> {
 }
 }
 
-class Name <<Value Object >> {
+class Name <<Value Object >> #lightyellow {
     -_name: String
     + Name(name: String)
     + getName(): String
 }
 
-class DepartmentAcronym <<Value Object>> {
+class DepartmentAcronym <<Value Object>> #lightyellow {
     -_acronym: String
     + DepartmentAcronym(acronym: String)
     + getAcronym(): String
@@ -75,17 +74,11 @@ class DepartmentAcronym <<Value Object>> {
     + hashCode(): int
 }
 
-class DepartmentID <<Value Object>> {
+class DepartmentID <<Value Object>> #lightyellow {
     + DepartmentID(acronym: DepartmentAcronym)
     + getAcronym(): DepartmentAcronym
     + equals(obj: Object): boolean
     + hashCode(): int
-}
-
-class Version <<Value Object>> {
-    -_version: Long
-    + Version(version: Long)
-    + getVersion(): Version
 }
 
 US05_RegisterADepartmentController "*" ..> "_departmentService 1" IDepartmentService
@@ -102,7 +95,6 @@ IDepartmentRepository <|.. DepartmentRepositoryMem
 IDepartmentListFactory  <|..  DepartmentListFactoryImpl
 IDepartmentListFactory  ..>  Set
 IDepartmentFactory  <|..  DepartmentFactoryImpl
-IDepartmentFactory "1" <.. "1"  DepartmentRepositoryMem
 
 Department "1" <- "1" Set
 Department "1" <.. "1" IDepartmentFactory
@@ -110,13 +102,12 @@ Name "_departmentName 1" <-- "1" Department
 Department "1" --> "1 _departmentId" DepartmentID
 DepartmentID "1" --> "1 _departmentAcronym" DepartmentAcronym
 Department "1" ..> "1" DepartmentAcronym
-Department "1" --> "1" Version
 
 
 'JPA
 package "JPA Department Aggregate" {
 
-class DepartmentDataModel #ffe6ec {
+class DepartmentDataModel #lightcyan {
     - acronym: String
     - name: String
     - directorID: private
@@ -134,27 +125,43 @@ class DepartmentDataModel #ffe6ec {
 }
 }
 
-interface IDepartmentRepositorySpringData #ffe6ec{
+interface IDepartmentRepositorySpringData #ccffcc{
 
 }
 
-class DepartmentRepositorySpringData #ffe6ec {
-   + DepartmentRepositorySpringData(repositorySpringData: IRepositorySpringData, mapper: DepartmentMapper, departmentFactory: IDepartmentFactory ) {
+class DepartmentRepositorySpringData #lightcyan {
+   + DepartmentRepositorySpringData(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapper) {
    + save (entity: Department): Department
    + findAll(): Iterable<Department>
    + ofIdentity (id: DepartmentID): Optional<Department>
    + containsOfIdentity(id: DepartmentID): boolean
 }
 
-class DepartmentMapper #ffe6ec {
+class DepartmentMapper #lightcyan {
     + toDomain(dataModel: DepartmentDataModel): Department
     + toDataModel(domain: Department): DepartmentDataModel
 }
 
-DepartmentRepositorySpringData "1" --> "1" DepartmentDataModel
+DepartmentRepositorySpringData "1" ..> "1" DepartmentDataModel
+DepartmentRepositorySpringData "1" ..> "*" Department
 DepartmentRepositorySpringData "1" --> "_repositorySpringData 1" IDepartmentRepositorySpringData
-DepartmentRepositorySpringData "1" --> "_departmentFactory 1" IDepartmentFactory
 DepartmentRepositorySpringData ..|>  IDepartmentRepository
-DepartmentRepositorySpringData "1" ..> "1 _mapper" DepartmentMapper
+DepartmentRepositorySpringData "1" --> "1 _mapper" DepartmentMapper
+
+DepartmentMapper "1" ..> "1 _departmentFactory" IDepartmentFactory
+DepartmentMapper "1" ..> "*" Department
+DepartmentMapper "1" ..> "*" DepartmentDataModel
+
+note as n1 #lightgrey
+   This diagram illustrates the Clean Architecture structure, organized into four concentric layers, by colours:
+
+   - Frameworks & Drivers (green): External interfaces.
+   - Interface Adapters (cyan): Components responsible for transforming data between the external world and the application's internal structure.
+   - Application Services (pink): Orchestrates the execution of use cases, containing application-specific business rules.
+   - Domain (yellow): Encapsulates the core business logic and entities, remaining independent of external concerns and frameworks.
+
+end note
+
+
 
 @enduml

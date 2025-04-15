@@ -626,7 +626,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID schoolYearId = new SchoolYearID();
 
         AccessMethodID amId = new AccessMethodID();
-        StudentID studentId = new StudentID(1500000);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
@@ -702,7 +704,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         SchoolYearID schoolYearId = new SchoolYearID();
 
-        StudentID studentId = new StudentID(1500000);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
@@ -757,7 +761,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID schoolYearId = new SchoolYearID();
 
         AccessMethodID amId = new AccessMethodID();
-        StudentID studentId = new StudentID(1500000);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
@@ -813,7 +819,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID schoolYearId = new SchoolYearID();
 
         AccessMethodID amId = new AccessMethodID();
-        StudentID studentId = new StudentID(1500000);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
@@ -875,7 +883,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Date date = new Date("20-12-2010");
         SchoolYearID schoolYearId = new SchoolYearID();
         AccessMethodID amId = new AccessMethodID();
-        StudentID studentId = new StudentID(1500000);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");

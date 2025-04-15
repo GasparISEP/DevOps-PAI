@@ -158,23 +158,22 @@ class StudentTest {
     void shouldReturnTrueIfTwoStudentsHaveTheSameID() {
         // Arrange
         Address addressDouble = mock(Address.class);
-        StudentID mockStudentID = mock(StudentID.class);
-        Name nameDouble = mock(Name.class);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
         NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID2 = new StudentID(uniqueNumberDouble, nifDouble);
+        Name nameDouble = mock(Name.class);
         PhoneNumber phoneDouble = mock(PhoneNumber.class);
         Email emailDouble = mock(Email.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        Student student1 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+        Student student1 = new Student(studentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
-        when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
-
-        Student student2 = new Student(mockStudentID, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
-
-        when(mockStudentID.getUniqueNumber()).thenReturn(1234567);
+        Student student2 = new Student(studentID2, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
 
         // Act
         boolean result = student1.equals(student2);
+
 
         // Assert
         assertTrue(result);

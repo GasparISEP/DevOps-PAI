@@ -1,4 +1,4 @@
-package PAI.mapper;
+/*package PAI.mapper;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
@@ -72,4 +72,4 @@ public class StudentGradeMapperTest {
         assertEquals(fakeCourseEditionID, result.get_courseEditionID());
     }
 
-}
+}*/

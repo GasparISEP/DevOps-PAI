@@ -8,7 +8,6 @@ skinparam linetype ortho
 skinparam LegendBackgroundColor white
 skinparam LegendBorderColor white
 skinparam classFontSize 14
-skinparam classAttributeIconSize 0
 skinparam shadowing true
 skinparam rectangle {
   RoundCorner 20

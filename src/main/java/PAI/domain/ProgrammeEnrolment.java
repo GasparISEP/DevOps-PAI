@@ -26,7 +26,7 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
         _accessMethodID = accessMethodID;
         _programmeID = programmeID;
         _date = date;
-        _peID = new ProgrammeEnrolmentID();
+        _peID = new ProgrammeEnrolmentID(studentID, programmeID);
 
     }
 

@@ -1,7 +1,5 @@
 @startuml
 
-skinparam linetype ortho
-
 package "AccessMethod Aggregate" {
     entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
     + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)
@@ -72,10 +70,10 @@ class US02_ConfigureAccessMethod_Controller {
 }
 
 
-IAccessMethodService -down-> IAccessMethodMapper: uses
+IAccessMethodRepositorySpringData -down-> IAccessMethodMapper: uses
 AccessMethodMapperImpl -right..|> IAccessMethodMapper: implements
 AccessMethodSpringDataImpl -down-> IAccessMethodRepositorySpringData: uses
-IAccessMethodRepositorySpringData --|> JpaRepository : extends
+IAccessMethodRepositorySpringData -up-|> JpaRepository : extends
 AccessMethodSpringDataImpl ..|> IAccessMethodRepository: implements
 IAccessMethodRepository -up..|> IRepository: implements
 IAccessMethodFactory "1" ..> "1..*" AME : creates
