@@ -39,4 +39,18 @@ public class SchoolYearDataModel {
     public String getEndDate() {
         return endDate;
     }
+
+    // Equals and hashCode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SchoolYearDataModel)) return false;
+        SchoolYearDataModel that = (SchoolYearDataModel) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
