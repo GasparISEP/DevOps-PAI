@@ -78,7 +78,7 @@ class SchoolYearMapper {
 
 ' Data Model (JPA Entity)
 class SchoolYearDataModel <<DataModel>> {
-   - id: Long
+   - id: String
    - description: String
    - startDate: LocalDate
    - endDate: LocalDate
