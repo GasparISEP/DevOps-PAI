@@ -105,12 +105,14 @@ class ProgrammeEnrolmentIDTest {
 
     @Test
     public void testEquals_SameValues() {
-        StudentID studentID1 = new StudentID(1241204);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
         ProgrammeID programmeID1 = new ProgrammeID(new NameWithNumbersAndSpecialChars("name"), new Acronym("ACR"));
 
 
-        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentID1, programmeID1);
-        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentID1, programmeID1);
+        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentID, programmeID1);
+        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentID, programmeID1);
 
         assertEquals(id1, id2);
     }

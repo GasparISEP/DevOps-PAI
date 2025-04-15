@@ -33,5 +33,10 @@ public class Country {
         return this._country;
     }
 
+    @Override
+    public String toString() {
+        return _country;
+    }
+
 
 }

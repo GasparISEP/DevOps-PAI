@@ -117,4 +117,17 @@ class CountryTest {
         //assert
         assertEquals(country, result);
     }
+
+    @Test
+    void toStringShouldReturnCountryName() {
+        // Arrange
+        String expected = "Portugal";
+        Country country = new Country(expected);
+
+        // Act
+        String result = country.toString();
+
+        // Assert
+        assertEquals(expected, result);
+    }
 }

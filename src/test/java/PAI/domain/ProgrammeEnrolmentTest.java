@@ -430,8 +430,14 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnHashCodeProgrammeEnrolmentTest() {
         //Arrange
-        StudentID studentID = new StudentID(1241204);
-        StudentID studentID2 = new StudentID(1234567);
+
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        NIF nifDouble = mock(NIF.class);
+        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        NIF nifDouble2 = mock(NIF.class);
+        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+
         AccessMethodID accessMethodID = new AccessMethodID();
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("ola");
         Acronym acronym = new Acronym("HI");
