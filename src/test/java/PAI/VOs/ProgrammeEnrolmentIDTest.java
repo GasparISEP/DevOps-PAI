@@ -105,9 +105,7 @@ class ProgrammeEnrolmentIDTest {
 
     @Test
     public void testEquals_SameValues() {
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
         ProgrammeID programmeID1 = new ProgrammeID(new NameWithNumbersAndSpecialChars("name"), new Acronym("ACR"));
 
 
