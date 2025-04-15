@@ -43,4 +43,110 @@ class CourseIDDataModelTest {
         // Assert
         assertEquals(courseIDDouble.toString(), CourseIDDataModel.getId());
     }
+
+    @Test
+    void shouldReturnTrueIfObjectsAreEquals() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        Object CourseIDDataModel2 = CourseIDDataModel;
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseIDDataModelEquals() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(courseIDDouble);
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseIDDataModelNotEquals() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        CourseID CourseIDDouble2 = mock(CourseID.class);;
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(CourseIDDouble2);
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseIDDataModelNotEqualsWithNull() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = null;
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseIDDataModelNotEqualsWithDifferentClass() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        Object CourseIDDataModel2 = new Object();
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseIDDataModelNotEqualsWithDifferentObject() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel();
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnHashCodeNotNull() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+
+        // Act
+        int result = CourseIDDataModel.hashCode();
+
+        // Assert
+        assertNotNull(result);
+    }
+
 }

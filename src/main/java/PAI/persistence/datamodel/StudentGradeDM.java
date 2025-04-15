@@ -19,14 +19,16 @@ public class StudentGradeDM {
 
  @Embedded
  private CourseEditionID courseEditionID; // To change after it is done
- private int StudentId;
 
- public StudentGradeDM(long id, double _grade, LocalDate _date, CourseEditionID courseEditionID, int studentId) {
+ @Embedded
+ private StudentIDDataModel StudentId;
+
+ public StudentGradeDM(long id, double _grade, LocalDate _date, CourseEditionID courseEditionID, StudentIDDataModel studentId) {
   this.id = id;
   this._grade = _grade;
   this._date = _date;
   this.courseEditionID = courseEditionID;
-  StudentId = studentId;
+  this.StudentId = studentId;
  }
 
  public StudentGradeDM() {
@@ -48,8 +50,7 @@ public class StudentGradeDM {
   return courseEditionID;
  }
 
- public int getStudentId() {
+ public StudentIDDataModel getStudentId() {
   return StudentId;
  }
-
 }

@@ -471,4 +471,18 @@ class NIFTest {
         // Assert
         assertEquals(stringNIF, result);
     }
+
+    @Test
+    void shouldReturnCountry (){
+        //Arrange
+        Country country = mock(Country.class);
+        String stringNIF = "123456789";
+        NIF nif = new NIF(stringNIF, country);
+
+        //Act
+        Country result = nif.getCountry();
+
+        //Arrange
+        assertEquals(country, result);
+    }
 }

@@ -1,34 +1,28 @@
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
-import PAI.repository.ICourseEditionRepository;
-import PAI.repository.ITeacherRepository;
+import PAI.service.CourseEditionApplicationService;
 
 public class US20_DefineRucForCourseEditionController {
 
-    private final ICourseEditionRepository _iCourseEditionRepository;
-    private final ITeacherRepository _iTeacherRepository;
+    private final CourseEditionApplicationService service;
 
-    public US20_DefineRucForCourseEditionController(ICourseEditionRepository iCourseEditionRepository, ITeacherRepository iTeacherRepository) {
-        this._iCourseEditionRepository = iCourseEditionRepository;
-        this._iTeacherRepository = iTeacherRepository;
+    public US20_DefineRucForCourseEditionController(CourseEditionApplicationService service) {
+        this.service = service;
     }
 
     public Iterable<Teacher> getAllTeachers() {
-        return _iTeacherRepository.findAll();
+        return service.getAllTeachers();
     }
 
     public Iterable<CourseEdition> getAllCourseEditions() {
-        return _iCourseEditionRepository.findAll();
+        return service.getAllCourseEditions();
     }
 
-    public boolean defineRucForCourseEdition(CourseEdition courseEdition_2, TeacherID teacherID) {
-        if (courseEdition_2 == null || teacherID == null) {
-            return false;
-        }
-
-        return courseEdition_2.setRuc(teacherID);
+    public boolean defineRucForCourseEdition(CourseEditionID courseEditionID, TeacherID teacherID) {
+        return service.assignRucToCourseEdition(teacherID, courseEditionID);
     }
 }

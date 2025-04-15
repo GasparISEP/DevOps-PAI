@@ -10,8 +10,11 @@ participant "service1:StudentService" as service #lightblue
 participant "sf1:StudentFactory" as SF #technology
 participant "address1:Address" as A #physical
 participant "s1:Student" as s1 #strategy
-participant "sr1:StudentRepository" as SR #lightcyan
+participant "sr1:StudentRepositoryJPA" as SR #lightcyan
+participant "s1IDDataModel:StudentIDDataModel" as siddm
 participant "m1:StudentMapper" as mapper
+participant "s1:Student" as s2 #strategy
+participant "s1DataModel:StudentDataModel" as sdm #strategy
 
 ASC -> UI: I want to register a student in the system
 activate UI
@@ -23,7 +26,7 @@ UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, N
 activate ctrl
 
 ref over ctrl
-    Create uniqueNumber, name, NIF, phone, email,
+    Create StudentID, name, NIF, phone, email,
     street, postalCode, location, country, academicEmail Value Objects
 end ref
 
@@ -43,26 +46,48 @@ SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, addre
 activate s1
 s1 --> SF: s1
 deactivate s1
-SF -> SF: ID = s1.identity().getUniqueNumber()
-SF -> SF: NIFNumber = s1.getNIF().getNIFNumber()
-SF -> SR: existsByIDAndNIFNumber(ID, NIFNumber)
-activate SR
-SR --> SF: False
-deactivate SR
 SF --> service: s1
 deactivate SF
 
+service -> SR: studentExists(s1)
+activate SR
+SR -> siddm**: new StudentIDDataModel
+activate siddm
+siddm --> SR: s1IDDataModel
+deactivate siddm
+SR -> : existsByID(s1IDDataModel)
+SR <-- : false
+SR --> service: False
+deactivate SR
+
 service -> SR: save(s1)
 activate SR
-SR -> mapper: toDataModel(s1)
+SR -> mapper: domainToDataModel(s1)
 activate mapper
+mapper -> sdm**: new StudentDataModel(s1)
+activate sdm
+sdm --> mapper : s1DataModel
+deactivate sdm
 mapper --> SR: s1DataModel
 deactivate mapper
+SR -> : save
+SR <-- :s1DataModel
+SR -> mapper: dataModelToDomain(s1DataModel)
+activate mapper
+mapper -> s2**: newStudent(s1DataModel)
+activate s2
+s2 --> mapper: s1
+deactivate s2
+mapper --> SR: s1
+deactivate mapper
+
+
+
 SR --> service: s1
 deactivate SR
 service --> ctrl: s1
 deactivate service
-ctrl --> UI: True
+ctrl --> UI: s1
 deactivate ctrl
 UI --> ASC: Success!
 deactivate UI

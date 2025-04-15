@@ -356,8 +356,10 @@ class ProgrammeEnrolmentRepositoryTest {
 
         IProgrammeEnrolmentFactory factory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory listFactory = mock(IProgrammeEnrolmentListFactory.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
         ProgrammeEnrolmentRepository repository = new ProgrammeEnrolmentRepository(factory, listFactory);
-        ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID();
+        ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
         ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
 
         when(programmeEnrolment.identity()).thenReturn(peID);
@@ -376,14 +378,18 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory factory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory listFactory = mock(IProgrammeEnrolmentListFactory.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        StudentID studentIDDouble2 = mock(StudentID.class);
+        ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
         ProgrammeEnrolmentRepository repository = new ProgrammeEnrolmentRepository(factory, listFactory);
-        ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID();
+        ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
         ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
 
         when(programmeEnrolment.identity()).thenReturn(peID);
         repository.save(programmeEnrolment);
 
-        ProgrammeEnrolmentID nonMatchingID = new ProgrammeEnrolmentID();
+        ProgrammeEnrolmentID nonMatchingID = new ProgrammeEnrolmentID(studentIDDouble2, programmeIDDouble2);
 
         // Act
         Optional<ProgrammeEnrolment> result = repository.ofIdentity(nonMatchingID);
