@@ -1,0 +1,35 @@
+@startuml
+participant ":US13_Controller" as controller #implementation
+participant ":IDepartmentService" as IdptService #business
+participant ":IDepartmentRepositoryJPA" as IdptRepoJPA #implementation
+participant ":DepartmentDataModel" as dptDataModel #technology
+participant ":DepartmentMapper" as dptMapper #motivation
+participant ":IDepartmentFactory" as dptFactory #physical
+participant "dpt:Department" as dpt #strategy
+
+
+controller -> IdptService : findAll()
+activate IdptService
+IdptService -> IdptRepoJPA : findAll()
+activate IdptRepoJPA
+IdptRepoJPA -> dptDataModel : dptDataModels
+activate dptDataModel
+dptDataModel --> IdptRepoJPA : dptDataModel
+deactivate dptDataModel
+IdptRepoJPA -> dptMapper : toDomain(dptDataModel)
+activate dptMapper
+dptMapper -> dptFactory : createDepartment(acronym, name)
+activate dptFactory
+dptFactory -> dpt** : new Department
+activate dpt
+dpt --> dptFactory : dpt[i]
+deactivate dpt
+dptFactory --> dptMapper : dpt[i]
+deactivate dptFactory
+dptMapper --> IdptRepoJPA : dpt
+deactivate dptMapper
+IdptRepoJPA -> IdptRepoJPA : save(dpt[i])
+IdptRepoJPA --> IdptService : dptList
+deactivate IdptRepoJPA
+IdptService --> controller : dptList
+@enduml
