@@ -43,4 +43,35 @@ class CourseIDDataModelTest {
         // Assert
         assertEquals(courseIDDouble.toString(), CourseIDDataModel.getId());
     }
+
+    @Test
+    void shouldReturnCourseIDDataModelEquals() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(courseIDDouble);
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnCourseIDDataModelNotEquals() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        CourseID CourseIDDouble2 = mock(CourseID.class);;
+        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(CourseIDDouble2);
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
 }
