@@ -1,0 +1,98 @@
+@startuml
+
+title As an ASC, I want to remove the enrolment of a student in a course edition \n Sequence Diagram \n Sprint 5 - Spring Data JPA
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC #Orange/White
+participant ":UI" as UI #E1F5FE
+participant ":US28_EnrolmentRemoval\nController" as Controller #E1F5FE
+participant ":ICourseEditionEnrolment\nService" as Service #E1F5FE
+participant ":ICourseEditionEnrolment\nRepository" as Repository #E1F5FE
+participant ":ICourseEditionEnrolment\nRepositorySpringData" as SpringDataRepo #E1F5FE
+participant ":CourseEditionEnrolment\nMapper" as Mapper #E1F5FE
+
+' Step 1: ASC triggers removal
+ASC -> UI : I want to remove the enrolment\n of a student in a course edition
+activate UI #HoneyDew
+UI --> ASC : What is the student ID?
+deactivate UI
+ASC -> UI : Student ID!
+activate UI #HoneyDew
+UI --> ASC : What is the course edition ID?
+deactivate UI
+ASC -> UI : Course edition ID!
+activate UI #HoneyDew
+UI -> Controller: removeStudentEnrolment\n(studentID, courseEditionID)
+ref over Controller
+    SD Convert IDs to VOs
+end ref
+activate Controller #HoneyDew
+
+' Step 2: Delegate to service
+Controller -> Service: removeStudentEnrolment\n(studentID, courseEditionID)
+activate Service #HoneyDew
+
+' Step 3: Check if enrolment exists
+Service -> Repository: findByStudentAndEdition\n(studentID, courseEditionID)
+activate Repository #HoneyDew
+Repository -> SpringDataRepo: findByStudentIdAndCourseEditionId\n(studentID, courseEditionID)
+activate SpringDataRepo #HoneyDew
+SpringDataRepo --> Repository: Optional<CourseEditionEnrolmentDataModel>
+deactivate SpringDataRepo
+
+' Step 4: Map to domain entity
+Repository -> Mapper: toEntity(CourseEditionEnrolmentDataModel)
+activate Mapper #HoneyDew
+Mapper --> Repository: CourseEditionEnrolment
+deactivate Mapper
+Repository --> Service: Optional<CourseEditionEnrolment>
+deactivate Repository
+
+' Step 5: Deactivate Enrolment
+participant "cee:CourseEditionEnrolment" as Enrolment #E1F5FE
+Service -> Enrolment : isEnrolmentActive()
+activate Enrolment #HoneyDew
+Enrolment --> Service : true
+deactivate Enrolment
+Service -> Enrolment : deactivateEnrolment()
+activate Enrolment #HoneyDew
+participant ":EnrolmentStatus" as Status #E1F5FE
+Enrolment -> Status : new EnrolmentStatus(false)
+activate Status #HoneyDew
+Status --> Enrolment : EnrolmentStatus(false)
+deactivate Status
+Enrolment --> Service : Enrolment status set to inactive
+deactivate Enrolment
+
+' Step 6: Persist updated enrolment
+Service -> Repository: save(courseEditionEnrolment)
+activate Repository #HoneyDew
+Repository -> Mapper: toDataModel(courseEditionEnrolment)
+activate Mapper #HoneyDew
+Mapper --> Repository: CourseEditionEnrolmentDataModel
+deactivate Mapper
+
+Repository -> SpringDataRepo: save(CourseEditionEnrolmentDataModel)
+activate SpringDataRepo #HoneyDew
+SpringDataRepo --> Repository: saved
+deactivate SpringDataRepo
+Repository --> Service: saved
+deactivate Repository
+
+' Step 7: Response flow back
+Service --> Controller: true
+deactivate Service
+Controller --> UI: true
+deactivate Controller
+UI --> ASC: Enrolment removed!
+deactivate UI
+
+
+@enduml
