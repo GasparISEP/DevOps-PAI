@@ -1,0 +1,151 @@
+@startuml
+!pragma layout smetana
+skinparam ranksep 120
+skinparam nodesep 120
+
+class US15_UpdateTeacherWorkingPercentageController {
+    +US15_UpdateTeacherWorkingPercentageController(teacherCareerProgressionService: ITeacherCareerProgressionService)
+    +findAll()
+    +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int, acronym: String, NIF : String, country: String)
+}
+
+class TeacherCareerProgressionService {
+    +TeacherCareerProgressionService(teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, teacherRepository: ITeacherRepository)
+    +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO, teacherIDVO: TeacherIDVO)
+}
+
+interface ITeacherCareerProgressionService {
+    +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO, teacherIDVO: TeacherIDVO)
+}
+
+package "Teacher Aggregate" {
+    entity "<<Root>>\n <<Entity>>\n Teacher" {
+    +identity()
+    }
+}
+
+class "<<Value Object>>\n TeacherIDVO" {
+        -teacherAcronym: TeacherAcronym
+        -nif: NIF
+    }
+
+package "TeacherCareerProgression Aggregate" {
+    entity "<<Root>>\n <<Entity>>\nTeacherCareerProgression" {
+        +TeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO)
+        +isLastDateEqualOrBeforeNewDate(dateVO: DateVO)
+        +getTeacherCategoryID()
+        +getWorkingPercentage()
+        +getDate()
+        +isDateAfter()
+    }
+}
+
+    class "<<Value Object>>\n TeacherCareerProgressionIDVO" {
+          -ID: UUID
+    }
+
+    class "<<Value Object>>\n DateVO" {
+          -date: LocalDate
+    }
+
+    class "<<Value Object>>\n WorkingPercentageVO" {
+              -workingPercentage: int
+   }
+
+class TeacherCareerProgressionRepository {
+    +TeacherCareerProgressionRepository(teacherCareerProgressionFactory : TeacherCareerProgressionFactory, teacherCareerProgressionMapper : TeacherCareerProgressionMapper)
+    +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
+}
+
+class TeacherRepository {
+    +findAll()
+    +containsOfIdentity()
+}
+
+package "TeacherCategory Aggregate" {
+    entity "<<Root>>\n <<Entity>>\nTeacherCategory" {
+    }
+}
+
+interface ITeacherCareerProgressionRepository {
+    +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
+}
+
+interface ITeacherRepository {
+    +findAll()
+    +containsOfIdentity()
+}
+
+class "<<Value Object>>\n TeacherCategoryIDVO" {
+                -id: UUID
+}
+
+class TeacherCareerProgressionFactoryImpl {
+    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
+                                        teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+}
+
+interface ITeacherCareerProgressionFactory {
+    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
+                                        teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+}
+
+class TeacherCareerProgressionMapper {
+    +toDomain(teacherCareerProgressionFactory : ITeacherCareerProgressionFactory, teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel)
+    +toDataModel(teacherCareerProgression :TeacherCareerProgression)
+}
+
+interface ITeacherCareerProgressionMapper {
+    +toDomain(teacherCareerProgressionFactory : ITeacherCareerProgressionFactory, teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel)
+    +toDataModel(teacherCareerProgression :TeacherCareerProgression)
+}
+
+
+class TeacherCareerProgressionDataModel {
+    -teacherCareerProgressionID : UUID
+    -date : localDate
+    -teacherCategoryID : UUID
+    -workingPercentage : int
+    -teacherAcronym : String
+    -NIF : String
+    -Country : String
+}
+
+class TeacherService {
+    +findAll()
+}
+
+interface ITeacherService {
+    +findAll()
+}
+
+interface ITeacherCareerProgressionRepositorySpringData {
+    +save()
+    +findTopByTeacherIDOrderByDateDesc()
+}
+
+US15_UpdateTeacherWorkingPercentageController "1" --> "_TeacherService \n 1" ITeacherService
+US15_UpdateTeacherWorkingPercentageController "1" --> "_TeacherCareerProgressionService \n 1" ITeacherCareerProgressionService
+ITeacherService "1" <|.. "1" TeacherService
+ITeacherCareerProgressionService "1" <|.. "1" TeacherCareerProgressionService
+ITeacherService "1" --> "_teacherRepository \n 1" ITeacherRepository
+ITeacherCareerProgressionService "1" --> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
+"<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <---- "1" ITeacherRepository
+TeacherCareerProgressionRepository "1" --> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
+TeacherCareerProgressionRepository "1" --> "_teacherCareerProgressionMapper \n1" ITeacherCareerProgressionMapper
+ITeacherCareerProgressionMapper "1" <|.. "1" TeacherCareerProgressionMapper
+ITeacherCareerProgressionMapper "1" ..> "1" TeacherCareerProgressionDataModel
+ITeacherCareerProgressionMapper "1" ..> "1" ITeacherCareerProgressionFactory
+"<<Value Object>>\n TeacherIDVO" "1  " <-- "\n 1..*     " "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
+ITeacherCareerProgressionFactory "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
+TeacherCareerProgressionFactoryImpl ..|> ITeacherCareerProgressionFactory
+"<<Root>>\n <<Entity>>\n Teacher" "1" --> "1" "<<Value Object>>\n TeacherIDVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCareerProgressionIDVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n DateVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n WorkingPercentageVO"
+"<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
+"<<Value Object>>\n TeacherCategoryIDVO" "1" <-u- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
+ITeacherCareerProgressionRepository "1" <|.. "1"  TeacherCareerProgressionRepository
+ITeacherRepository "1"  <|.. "1" TeacherRepository
+ITeacherCareerProgressionRepositorySpringData "1" <.. "1" TeacherCareerProgressionRepository
+@enduml

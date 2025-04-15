@@ -1,0 +1,156 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
+
+actor HRC
+participant ":UI" as UI
+participant "ctrl:UpdateTeacherWorkingPercentageController" as Controller #lightgreen
+participant "service1:TeacherCareerProgressionService" as service #lightblue
+participant "teacherRepo:TeacherRepository" as TRepo
+participant "ITeacherRepoSpringData" as teacherSpringData #lightpink
+participant "teacherIdVO1:TeacherIdVO" as teacherIdVO1
+participant "workingPercentageVO1:WorkingPercentageVO" as wpVO1
+participant "tcpRepo: TeacherCareerProgressionRepository" as TCPRepo #lightblue
+participant "ITeacherCareerProgressionRepoSpringData" as TCPRepoSpringData #lightpink
+participant "lastTCP:TeacherCareerProgression" as TCP #lightpink
+participant "tcpF:ITCPfactory" as TCPf #burlywood
+participant "tcp1:TeacherCareerProgression" as TCP1
+'participant "tcpMapper: TeacherCareerProgressionMapper" as TCPMapper #thistle
+'participant "tcpDM:TeacherCareerProgressionDataModel" as TCPDM
+
+HRC -> UI : I want to update Teacher's working percentage
+activate HRC
+activate UI
+UI -> Controller : findAll()
+activate Controller
+Controller -> service : findAll()
+activate service
+service -> TRepo : findAll()
+activate TRepo
+TRepo --> service : teachersList
+deactivate TRepo
+service --> Controller :teachersList
+deactivate service
+Controller --> UI : teachersList
+deactivate Controller
+UI --> HRC : Which Teacher?
+deactivate UI
+HRC -> UI: Teacher's acronym and NIF
+activate UI
+UI --> HRC: What working percentage?
+deactivate UI
+HRC -> UI: Working percentage
+activate UI
+UI --> HRC: What date?
+deactivate UI
+HRC -> UI: Date
+activate UI
+UI -> Controller : updateTeacherWorkingPercentage \n (teacherAcronym, date, workingPercentage)
+activate Controller
+
+|||
+ref over Controller
+    \t \t \t \t \t \t  Create teacherAcronym, NIF, teacherID, date, \t
+     \t \t \t \t  workingPercentage Value Objects \t
+
+end ref
+|||
+Controller -> service : updateTeacherWorkingPercentage(dateVO1,\n workingPercentageVO1, teacherIdVO1)
+activate service
+service -> TRepo : containsOfIdentity(teacherIdVO1)
+activate TRepo
+
+|||
+ref over TRepo
+    \t \t \t \t   Create teacherID Data Model \t
+end ref
+|||
+
+TRepo -> teacherSpringData : existsById(teacherIdDataModel)
+activate teacherSpringData
+teacherSpringData --> TRepo : true
+deactivate teacherSpringData
+
+TRepo --> service : true
+deactivate TRepo
+|||
+service -> TCPRepo : findLastTCPFromTeacherID(teacherIdVO1)
+activate TCPRepo
+|||
+ref over TCPRepo
+    \t \t \t \t \t \t  Create teacherID Data Model \t
+end ref
+|||
+TCPRepo -> TCPRepoSpringData : \t findTopByTeacherIDOrderByDateDesc(teacherIdDataModel) \t
+activate TCPRepoSpringData
+TCPRepoSpringData --> TCPRepo : lastTeacherCareerProgressionDataModel
+deactivate TCPRepoSpringData
+|||
+ref over TCPRepo
+    \t \t \t \t \t \t  Create Teacher Career Progression Domain Object from Data Model \t
+    \t \t \t \t \t (lastTCP)
+
+end ref
+TCPRepo --> service : lastTCP
+deactivate TCPRepo
+|||
+service -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate(dateVO1)
+activate TCP
+TCP -> service : true
+deactivate TCP
+|||
+service -> TCP : lastTCP.getTeacherCategoryID()
+activate TCP
+TCP --> service : teacherCategoryIdVO1
+deactivate TCP
+|||
+service -> TCP : lastTCP.hasSameWorkingPercentage (workingPercentageVO1)
+activate TCP
+TCP --> service : true
+deactivate TCP
+
+service -> TCPf : updateWorkingPercentageInTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherIdVO1)
+deactivate TCPRepo
+
+activate TCPf
+TCPf -> TCP1** : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1, teacherCategoryIdVO1, teacherIdVO1)
+activate TCP1
+TCP1 --> TCPf : tcp1
+deactivate TCP1
+TCPf --> service : tcp1
+deactivate TCPf
+service -> service : isTeacherCareerProgressionDuplicated(tcp1)
+service -> TCPRepo: save(tcp1)
+activate TCPRepo
+
+
+'TCPRepo -> TCPMapper : toDataModel(tcp1)
+
+ref over TCPRepo
+    \t \t \t \t \t \t  Convert Teacher Career Progression Domain Object to Data Model \t
+end ref
+|||
+TCPRepo -> TCPRepoSpringData : save (tcpDM)
+activate TCPRepoSpringData
+'activate TCPMapper
+'TCPMapper -> TCPDM : create(tcp1)
+'TCPMapper --> TCPRepo : tcpDataModel
+'deactivate TCPMapper
+
+TCPRepoSpringData --> TCPRepo : tcpDM
+deactivate TCPRepoSpringData
+
+TCPRepo --> service : tcp1
+deactivate TCPRepo
+
+service --> Controller : true
+deactivate service
+
+Controller --> UI : true
+deactivate Controller
+UI --> HRC : Success!
+deactivate UI
+deactivate HRC
+
+@enduml
