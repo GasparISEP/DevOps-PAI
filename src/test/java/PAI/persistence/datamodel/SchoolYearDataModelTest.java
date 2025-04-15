@@ -23,4 +23,19 @@ class SchoolYearDataModelTest {
 
         assertNotNull(schoolYear);
     }
+
+    @Test
+    void testFullConstructorAndGetters() {
+        String id = "uuid-123";
+        String description = "2024/2025";
+        String startDate = "2024-09-01";
+        String endDate = "2025-06-30";
+
+        SchoolYearDataModel schoolYear = new SchoolYearDataModel(id, description, startDate, endDate);
+
+        assertEquals(id, schoolYear.getId());
+        assertEquals(description, schoolYear.getDescription());
+        assertEquals(startDate, schoolYear.getStartDate());
+        assertEquals(endDate, schoolYear.getEndDate());
+    }
 }

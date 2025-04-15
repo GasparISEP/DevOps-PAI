@@ -22,4 +22,21 @@ public class SchoolYearDataModel {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    // Getters
+    public String getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
 }
