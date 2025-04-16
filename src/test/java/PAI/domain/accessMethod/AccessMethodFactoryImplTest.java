@@ -112,4 +112,33 @@ class AccessMethodFactoryImplTest {
         assertThrows(Exception.class, () -> accessMethodFactory.createAccessMethod(null));
     }
 
+    @Test
+    void shouldCreateAccessMethodWithInputIdAndName(){
+        // arrange
+        AccessMethodFactoryImpl accessMethodFactory = new AccessMethodFactoryImpl();
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethodID accessMethodID = mock(AccessMethodID.class);
+        // act
+        AccessMethod accessMethod = accessMethodFactory.createAccessMethod(accessMethodID, accessMethodName);
+        // assert
+        assertNotNull(accessMethod);
+    }
+
+    @Test
+    void shouldNotCreateAccessMethodWithInputIdAndNameIfIdNull(){
+        // arrange
+        AccessMethodFactoryImpl accessMethodFactory = new AccessMethodFactoryImpl();
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> accessMethodFactory.createAccessMethod(null, accessMethodName));
+    }
+
+    @Test
+    void shouldNotCreateAccessMethodWithInputIdAndNameIfNameNull(){
+        // arrange
+        AccessMethodFactoryImpl accessMethodFactory = new AccessMethodFactoryImpl();
+        AccessMethodID accessMethodID = mock(AccessMethodID.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> accessMethodFactory.createAccessMethod(accessMethodID, null));
+    }
 }
