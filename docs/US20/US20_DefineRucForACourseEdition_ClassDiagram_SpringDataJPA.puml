@@ -6,17 +6,25 @@ skinparam nodesep 100
 
 ' Presentation Layer
 class US20_DefineRucForCourseEditionController {
-  - service: CourseEditionApplicationService
+  - service: ICourseEditionApplicationService
   + getTeachers()
   + getCourseEditions()
   + defineRucForCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID)
 }
 
 ' Application Layer
+interface ICourseEditionApplicationService {
+  + assignRucToCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID): boolean
+  + getAllTeachers(): Iterable<Teacher>
+  + getAllCourseEditions(): Iterable<CourseEdition>
+}
+
 class CourseEditionApplicationService {
   - courseEditionRepository: ICourseEditionRepository
   - teacherRepository: ITeacherRepository
   + assignRucToCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID): boolean
+  + getAllTeachers(): Iterable<Teacher>
+  + getAllCourseEditions(): Iterable<CourseEdition>
 }
 
 ' Domain Layer
@@ -27,12 +35,13 @@ interface ICourseEditionRepository {
 
 interface ITeacherRepository {
   + ofIdentity(id: TeacherID): Optional<Teacher>
+  + findAll(): Iterable<Teacher>
 }
 
 class CourseEdition {
   - id: CourseEditionID
   - ruc: Teacher
-  + setRuc(teacher: Teacher): boolean
+  + setRuc(teacher: TeacherID): boolean
 }
 
 class Teacher {
@@ -51,6 +60,7 @@ class TeacherRepositoryImpl {
   - springDataRepo: SpringTeacherJpaRepository
   - mapper: TeacherMapper
   + ofIdentity(...)
+  + findAll()
 }
 
 interface SpringCourseEditionJpaRepository <<JpaRepository>>
@@ -63,7 +73,9 @@ class CourseEditionMapper
 class TeacherMapper
 
 ' Associations
-US20_DefineRucForCourseEditionController --> CourseEditionApplicationService
+US20_DefineRucForCourseEditionController --> ICourseEditionApplicationService
+ICourseEditionApplicationService <|.. CourseEditionApplicationService
+
 CourseEditionApplicationService --> ICourseEditionRepository
 CourseEditionApplicationService --> ITeacherRepository
 

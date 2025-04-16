@@ -2,12 +2,12 @@
 
 autonumber
 
-title US20 - Define RUC for a Course Edition (Final, Clean, Left-to-Right)
+title US20 - Define RUC for a Course Edition (Using ICourseEditionApplicationService)
 
 actor PD
 participant UI
 participant Controller
-participant Service
+participant ICourseEditionApplicationService as Service
 participant TeacherRepo
 participant CourseRepo
 participant SpringTeacherRepo
@@ -32,10 +32,14 @@ TeacherMapper --> TeacherRepo : List<Teacher>
 TeacherRepo --> Service : List<Teacher>
 Service --> Controller : List<Teacher>
 Controller --> UI : List<Teacher>
+deactivate Service
+deactivate Controller
 
 == Load All Course Editions ==
 UI -> Controller : getAllCourseEditions()
+activate Controller
 Controller -> Service : getAllCourseEditions()
+activate Service
 Service -> CourseRepo : findAll()
 CourseRepo -> SpringCourseRepo : findAll()
 SpringCourseRepo --> CourseRepo : List<CourseEditionJpa>
@@ -44,10 +48,15 @@ CourseMapper --> CourseRepo : List<CourseEdition>
 CourseRepo --> Service : List<CourseEdition>
 Service --> Controller : List<CourseEdition>
 Controller --> UI : List<CourseEdition>
+deactivate Service
+deactivate Controller
 
 == Assign RUC to Course Edition ==
 UI -> Controller : defineRucForCourseEdition(courseEditionID, teacherID)
+activate Controller
 Controller -> Service : assignRucToCourseEdition(courseEditionID, teacherID)
+activate Service
+
 Service -> CourseRepo : ofIdentity(courseEditionID)
 CourseRepo -> SpringCourseRepo : findById(courseEditionID)
 SpringCourseRepo --> CourseRepo : CourseEditionJpa
@@ -62,7 +71,7 @@ TeacherRepo -> TeacherMapper : toDomain()
 TeacherMapper --> TeacherRepo : Teacher
 TeacherRepo --> Service : Teacher
 
-Service -> CourseEdition : setRuc(Teacher)
+Service -> CourseEdition : setRuc(TeacherID)
 CourseEdition --> Service : success
 Service -> CourseRepo : save(CourseEdition)
 CourseRepo -> CourseMapper : toJpa()
@@ -72,7 +81,10 @@ SpringCourseRepo --> CourseRepo : CourseEditionJpa
 CourseRepo -> CourseMapper : toDomain()
 CourseMapper --> CourseRepo : CourseEdition
 CourseRepo --> Service : CourseEdition
+
 Service --> Controller : success
 Controller --> UI : RUC defined
+deactivate Service
+deactivate Controller
 
 @enduml
