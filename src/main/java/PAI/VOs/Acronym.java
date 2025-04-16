@@ -20,4 +20,11 @@ public class Acronym implements ValueObject {
     public String getAcronym() {
         return _acronym;
     }
+
+    @Override
+    public boolean equals(Object objectToCompare) {
+        if (this == objectToCompare) return true;
+        if (!(objectToCompare instanceof Acronym other)) return false;
+        return _acronym.equals(other._acronym);
+    }
 }
