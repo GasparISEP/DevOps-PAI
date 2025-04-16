@@ -1,0 +1,24 @@
+@startuml
+title "REF 1 | FindAll() ProgrammeDataModel"
+
+participant ":ServiceProgramme" as Service
+participant "ProgrammeRepositorySpringData" as Repository
+participant "Mapper" as PDM
+skinparam sequenceLifeLineBackgroundColor #application
+|||
+
+Service-> Repository++: findAll()
+Service ++
+|||
+Repository --> Service --: List<ProgrammeDataModel>
+|||
+Service -> PDM ++: toDomain(_factoryProgramme, lstProgrammeDataModelSaved)
+|||
+PDM --> Service --: Iterable<Programme>
+Service --
+|||
+
+
+participant "listDomain : Iterable<Programme>" as DomainList #application
+
+@enduml

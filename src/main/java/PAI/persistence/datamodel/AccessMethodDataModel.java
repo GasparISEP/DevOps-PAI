@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Access Method")
+@Table(name = "access_method")
 public class AccessMethodDataModel {
 
     @Id

@@ -5,8 +5,6 @@ import PAI.VOs.CourseID;
 import PAI.VOs.Name;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -245,4 +243,40 @@ class CourseIDDataModelTest {
         assertNotNull(result);
     }
 
+    @Test
+    void shouldReturnAcronymForGetAcronymMethod() {
+        // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+
+        // Act
+        String result = CourseIDDataModel.getAcronym();
+
+        // Assert
+        assertNotNull(result);
+    }
+
+
+    @Test
+    void shouldReturnAcronymForGetNameMethod() {
+        // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+
+        // Act
+        String result = CourseIDDataModel.getName();
+
+        // Assert
+        assertNotNull(result);
+    }
 }

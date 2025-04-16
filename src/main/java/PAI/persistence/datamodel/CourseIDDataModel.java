@@ -35,4 +35,12 @@ public class CourseIDDataModel implements Serializable {
     public int hashCode() {
         return _acronym.hashCode() + _name.hashCode();
     }
+
+    public String getAcronym() {
+        return _acronym;
+    }
+
+    public String getName() {
+        return _name;
+    }
 }
