@@ -1,0 +1,31 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title Diagram Referenced in US15_SequenceDiagram
+
+participant ":TeacherCareerProgressionRepo" as TCPRepo
+participant ":TeacherMapper" as TMapper
+participant ":TeacherID" as TID
+participant ":TeacherAcronym" as TAVO
+participant ":TeacherDataModel" as TDM
+
+TCPRepo -> TMapper : teacherIDtoDataModel(teacherID)
+activate TCPRepo
+TMapper -> TID : getTeacherAcronym()
+activate TID
+TID --> TMapper : teacherAcronym
+deactivate TID
+TMapper -> TAVO : getAcronym()
+activate TAVO
+TAVO --> TMapper :acronym
+deactivate TAVO
+TMapper ->TDM : createDataModel (teacherID)
+activate TDM
+
+
+TDM --> TMapper : teacherIDDataModel
+deactivate TDM
+TMapper --> TCPRepo :teacherIDDataModel
+deactivate TCPRepo
+@enduml

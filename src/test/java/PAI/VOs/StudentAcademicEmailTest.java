@@ -3,12 +3,17 @@ package PAI.VOs;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudentAcademicEmailTest {
 
     @Test
     void shouldCreateValidStudentEmail() {
-        StudentID studentID = new StudentID(1234567);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        StudentID studentID = mock(StudentID.class);
+        when(uniqueNumberDouble.toString()).thenReturn("1234567");
+        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
         StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentID);
 
         assertEquals("1234567@isep.ipp.pt", studentAcademicEmail.getStudentEmail());
@@ -25,10 +30,11 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldBeEqualIfEmailsAreTheSame() {
-        StudentID studentID1 = new StudentID(1234567);
-        StudentID studentID2 = new StudentID(1234567);
 
-        StudentAcademicEmail email1 = new StudentAcademicEmail(studentID1);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+
+        StudentAcademicEmail email1 = new StudentAcademicEmail(studentID);
         StudentAcademicEmail email2 = new StudentAcademicEmail(studentID2);
 
         assertEquals(email1, email2);
@@ -37,10 +43,16 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldNotBeEqualIfEmailsAreDifferent() {
-        StudentID studentID1 = new StudentID(1234567);
-        StudentID studentID2 = new StudentID(1654321);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        StudentID studentID = mock(StudentID.class);
+        when(uniqueNumberDouble.toString()).thenReturn("1234567");
+        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
+        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        StudentID studentID2 = mock(StudentID.class);
+        when(uniqueNumberDouble2.toString()).thenReturn("1234568");
+        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble2);
 
-        StudentAcademicEmail email1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail email1 = new StudentAcademicEmail(studentID);
         StudentAcademicEmail email2 = new StudentAcademicEmail(studentID2);
 
         assertNotEquals(email1, email2);
@@ -49,7 +61,10 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldReturnCorrectStringRepresentation() {
-        StudentID studentID = new StudentID(1234567);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        StudentID studentID = mock(StudentID.class);
+        when(uniqueNumberDouble.toString()).thenReturn("1234567");
+        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
         StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentID);
 
         assertEquals("1234567@isep.ipp.pt", studentAcademicEmail.toString());
@@ -57,19 +72,26 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldGenerateEmailForDifferentStudentIDs() {
-        StudentID studentID1 = new StudentID(1111111);
-        StudentID studentID2 = new StudentID(1234567);
+        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+        StudentID studentID = mock(StudentID.class);
+        when(uniqueNumberDouble.toString()).thenReturn("1234567");
+        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
+        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        StudentID studentID2 = mock(StudentID.class);
+        when(uniqueNumberDouble2.toString()).thenReturn("7654321");
+        when(studentID2.getUniqueNumber()).thenReturn(uniqueNumberDouble2);
 
-        StudentAcademicEmail email1 = new StudentAcademicEmail(studentID1);
+        StudentAcademicEmail email1 = new StudentAcademicEmail(studentID);
         StudentAcademicEmail email2 = new StudentAcademicEmail(studentID2);
 
-        assertEquals("1111111@isep.ipp.pt", email1.toString());
-        assertEquals("1234567@isep.ipp.pt", email2.toString());
+        assertEquals("1234567@isep.ipp.pt", email1.toString());
+        assertEquals("7654321@isep.ipp.pt", email2.toString());
     }
 
     @Test
     void shouldBeImmutableAfterCreation() {
-        StudentID studentID = new StudentID(1234567);
+
+        StudentID studentID = mock(StudentID.class);
         StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentID);
 
         String emailBefore = studentAcademicEmail.getStudentEmail();

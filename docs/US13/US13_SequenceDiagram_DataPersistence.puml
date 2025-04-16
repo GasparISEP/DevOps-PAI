@@ -7,146 +7,119 @@ autonumber
 actor HRC as HRC #application
 participant UI as UI #business
 participant ":US13_Controller" as controller #implementation
-participant ":TeacherCategoryService" as tcService #motivation
-participant ":TeacherCategoryRepository" as tcRepo #physical
-participant ":TeacherCategoryMapper" as tcMapper #strategy
-participant ":ITeacherCategoryFactory" as tcFactory #technology
-participant ":TeacherCategory" as tc #application
-participant ":DepartmentService" as dptService #business
-participant ":IDepartmentRepository" as dptRepo #implementation
-participant ":DepartmentMapper" as dptMapper #motivation
-participant ":IDepartmentFactory" as dptFactory #physical
-participant ":Department" as dpt #strategy
-participant ":TeacherService" as tService #technology
-participant "ITeacherFactory" as teacherFactory #application
-participant ":Address" as addr #business
-participant ":Teacher" as t #implementation
-participant ":TeacherID" as tID #motivation
-participant ":ITeacherCareerProgressionRepository" as tcpRepository #physical
-participant ":TeacherCareerProgressionMapper" as tcpMapper #strategy
-participant ":ITeacherCareerProgressionFactory" as tcpFactory #technology
-participant ":TeacherCareerProgression" as TCP #application
-participant ":TeacherCategory1" as tc1 #business
-participant ":TeacherRepositoryJPA" as tRepoJPA #implementation
+'Ref#1 : get Teacher Category's list.
+'Ref#2 : get Department's list.
+participant ":ITeacherService" as IteacherService #technology
+participant ":ITeacherFactory" as IteacherFactory #application
+participant "addr:Address" as addr #business
+participant "t1:Teacher" as t #implementation
+participant "t1ID:TeacherID" as tID #strategy
+'Ref#3 : create Teacher Career Progression tcp1.
+participant ":ITeacherRepositoryJPA" as IteacherRepoJPA #implementation
+participant ":Teacher" as teacher
 participant ":TeacherMapper" as tMapper #motivation
+participant ":TeacherID" as teacherID
 participant ":TeacherDataModel" as teacherDM #physical
+
 
 
 HRC -> UI : I want to register a Teacher in the System \n Including All Relevant Data
 activate UI
 UI --> HRC : What are the Teacher's attributes?
+deactivate UI
 HRC -> UI : acronym, name, email, NIF, phoneNumber, academicBackground, street, postalCode, location, country
+activate UI
 UI -> controller : getCategoriesList()
+
 activate controller
-controller -> tcService : findAll()
-activate tcService
-tcService -> tcRepo : findAll()
-activate tcRepo
-tcRepo -> tcMapper : toDomain(tcDataModel)
-activate tcMapper
-tcMapper -> tcFactory : createTeacherCategory(name)
-activate tcFactory
-tcFactory -> tc** : new Teacher Category
-activate tc
-tc --> tcFactory : tc[i]
-deactivate tc
-tcFactory --> tcMapper : tc[i]
-deactivate tcFactory
-tcMapper --> tcRepo : tc[i]
-deactivate tcMapper
-tcRepo -> tcRepo : save(tc[i])
-tcRepo --> tcService : tcList
-deactivate tcRepo
-tcService --> controller : tcList
-deactivate tcService
+ref over controller : Ref#1 \n\n  \t\t\t gets Teacher Category's List
 controller --> UI : Which Category?
 deactivate controller
+deactivate UI
 
 
 
-UI -> controller : getDepartmentsList()
+UI -> controller : getDepartmentList()
+activate UI
 activate controller
-controller -> dptService : findAll()
-activate dptService
-dptService -> dptRepo : findAll()
-activate dptRepo
-dptRepo -> dptMapper : toDomain(dptDataModel)
-activate dptMapper
-dptMapper -> dptFactory : createDepartment(acronym, name)
-activate dptFactory
-dptFactory -> dpt** : new Department
-activate dpt
-dpt --> dptFactory : dptID[i]
-deactivate dpt
-dptFactory --> dptMapper : dptID[i]
-deactivate dptFactory
-dptMapper --> dptRepo : dptID
-deactivate dptMapper
-dptRepo -> dptRepo : save(dpt[i])
-dptRepo --> dptService : dptList
-deactivate dptRepo
-dptService --> controller : dptList
-deactivate dptService
+
+ref over controller : \t Ref#2 : \n\n  \t\t\t gets Department's list
+
 controller --> UI : Which Department?
 deactivate controller
+deactivate UI
 
 
 
-UI -> controller : registerTeacher (acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+UI -> controller : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+
+ref over controller : \t\t Ref#3 : \n\n  \t\t\t convert DTO to VO
+activate UI
 activate controller
-controller -> tService : registerTeacher (acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
-activate tService
-tService -> teacherFactory : createTeacher(acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
-activate teacherFactory
-teacherFactory -> addr** : createAddress(street, postalCode, location, country)
+controller -> IteacherService : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+activate IteacherService
+IteacherService -> IteacherFactory : createTeacher(teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+activate IteacherFactory
+IteacherFactory -> addr** : createAddress(street, postalCode, location, country)
 activate addr
-addr --> teacherFactory : addr
+addr --> IteacherFactory : addr
 deactivate addr
-teacherFactory -> t** : new Teacher (acronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+IteacherFactory -> t** : new Teacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, addr, departmentID)
 activate t
-t -> tID** : new TeacherID (acronym)
+t -> tID** : new TeacherID (teacherAcronym, NIF)
 activate tID
-tID --> t : tID1
+tID --> t : t1ID
 deactivate tID
-t --> teacherFactory : t1
+t --> IteacherFactory : t1
 deactivate t
-teacherFactory --> tService : t1
-deactivate teacherFactory
+IteacherFactory -> IteacherFactory : t1ID = t1.identity()
+IteacherFactory -> IteacherRepoJPA : containsOfIdentity(t1ID)
+activate IteacherRepoJPA
 
-loop
-    tService -> tRepoJPA : containsOfIdentity(t1.identity())
-    activate tRepoJPA
+loop for each Teacher in TeacherRepositoryJPA
+    IteacherRepoJPA -> teacher : identity()
+    activate teacher
+    teacher -> teacherID : equals()
+    activate teacherID
+    teacherID --> teacher : false
+    deactivate teacherID
 end
-    tRepoJPA --> tService : false
-    deactivate tRepoJPA
+    teacher --> IteacherRepoJPA : False
+    deactivate teacher
+IteacherRepoJPA --> IteacherFactory : false
+deactivate IteacherRepoJPA
 
-tService -> tcpFactory : createTeacherCareerProgression \n (tID1, tc, workingPercentage, date)
-activate tcpFactory
-tcpFactory -> TCP** : new TeacherCareerProgression \n (tID1, tcID, workingPercentage, date)
-activate TCP
-TCP --> tc1** : new Teacher Category \n (tcID1, name)
-activate tc1
-tc1 --> TCP : tc
-deactivate tc1
-TCP --> tcpFactory : tcp1
-deactivate TCP
-tcpFactory --> tService : tcp1
-deactivate tcpFactory
-tService -> tRepoJPA : saveTeacher
-activate tRepoJPA
-tRepoJPA -> tMapper : toDataModel(t1)
+
+IteacherFactory --> IteacherService : t1
+
+ref over IteacherService : Ref#4 \n\n  \t\t\tcreate Teacher Career Progression tcp1(t1ID, tcID, workingPercentage, date)
+
+
+deactivate IteacherFactory
+deactivate IteacherService
+
+
+deactivate IteacherService
+IteacherService -> IteacherRepoJPA : save(t1)
+activate IteacherService
+activate IteacherRepoJPA
+IteacherRepoJPA -> tMapper : toDataModel(t1)
 activate tMapper
 tMapper -> teacherDM** : new Teacher Data Model
 activate teacherDM
 teacherDM --> tMapper : teacherDataModel
 deactivate teacherDM
-tMapper --> tRepoJPA : teacherDataModel
+tMapper --> IteacherRepoJPA : teacherDataModel
 deactivate tMapper
-tRepoJPA -> tRepoJPA : save(teacherDataModel)
-tRepoJPA --> tService : true
-deactivate tRepoJPA
-tService --> controller : true
-deactivate tService
-controller --> UI : Success!
+IteacherRepoJPA ->  : insert(teacherDataModel)
+IteacherRepoJPA <-- : teacherDataModel
+IteacherRepoJPA --> IteacherService : teacherDataModel
+deactivate IteacherRepoJPA
+IteacherService --> controller : true
+deactivate IteacherService
+controller --> UI : true
+deactivate controller
+UI --> HRC : Success!
+deactivate UI
 
 @enduml

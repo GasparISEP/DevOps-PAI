@@ -207,7 +207,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
-        StudentID studentID = new StudentID(1000001);
+        StudentID studentID = mock(StudentID.class);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -237,7 +237,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
-        StudentID studentID = new StudentID(1000001);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
@@ -282,8 +282,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
-        StudentID studentID = new StudentID(1000001);
-        StudentID student2ID = new StudentID(1000002);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -296,11 +297,11 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
         enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
-        enrolmentRepository.enrolStudentInACourseEdition(student2ID, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(studentID2, courseEditionID);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
-        boolean secondRemoval = controller.removeStudentEnrolment(student2ID, courseEditionID);
+        boolean secondRemoval = controller.removeStudentEnrolment(studentID2, courseEditionID);
 
         // Assert
         assertTrue(firstRemoval, "First student's enrolment should be removed successfully.");
@@ -320,7 +321,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
-        StudentID studentID = new StudentID(1000001);
+        StudentID studentID = mock(StudentID.class);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -348,7 +349,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
-        StudentID studentID = new StudentID(1000001);
+        StudentID studentID = mock(StudentID.class);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
@@ -380,7 +381,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
-        StudentID studentID = new StudentID(1000001);
+        StudentID studentID = mock(StudentID.class);
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Software Development");
         Acronym acronym = new Acronym("SWD");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);

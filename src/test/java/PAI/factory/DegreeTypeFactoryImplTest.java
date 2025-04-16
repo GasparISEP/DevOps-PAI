@@ -2,7 +2,7 @@ package PAI.factory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import PAI.domain.degreeType.DegreeTypeFactoryImpl;
+import PAI.factory.DegreeTypeFactory.DegreeTypeFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import PAI.VOs.DegreeTypeID;

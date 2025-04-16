@@ -4,23 +4,22 @@ import PAI.ddd.DomainId;
 
 public class StudentID implements DomainId {
 
-    private final int _uniqueNumber;
+    private final UniqueNumber _uniqueNumber;
+    private final NIF _nif;
 
-    public StudentID (int uniqueNumber) throws IllegalArgumentException {
+    public StudentID (UniqueNumber uniqueNumber, NIF nif) throws IllegalArgumentException {
 
-        if (isUniqueNumberValid(uniqueNumber))
-            _uniqueNumber = uniqueNumber;
-        else
-            throw new IllegalArgumentException("Student's unique number is invalid!");
+        if (uniqueNumber == null)
+            throw new IllegalArgumentException("Student's unique number cannot be null!");
+
+        _uniqueNumber = uniqueNumber;
+
+        if (nif == null)
+            throw new IllegalArgumentException("NIF cannot be null!");
+
+        _nif = nif;
     }
 
-    private boolean isUniqueNumberValid (int uniqueNumber) {
-
-        if (uniqueNumber <= 1000000 || uniqueNumber >= 2000000)
-            return false;
-        else
-            return true;
-    }
 
     @Override
     public boolean equals(Object object) {
@@ -31,15 +30,17 @@ public class StudentID implements DomainId {
         if (object instanceof StudentID) {
             StudentID studentID = (StudentID) object;
 
-            if (this._uniqueNumber == studentID._uniqueNumber)
+            if (this._uniqueNumber == studentID._uniqueNumber && this._nif == studentID._nif)
                 return true;
         }
         return false;
     }
 
-    public int getUniqueNumber () {
+    public UniqueNumber getUniqueNumber () {
         return _uniqueNumber;
     }
+
+    public NIF getNIF () { return _nif; }
 
     public boolean isEquals (StudentID studentID) {
         return this.equals(studentID);

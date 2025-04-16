@@ -97,4 +97,32 @@ public class Student implements AggregateRoot<StudentID> {
     public boolean isEquals (Student student) {
         return this.equals(student);
     }
+
+    public StudentID getStudentID() {
+        return _studentID;
+    }
+
+    public Name getStudentName() {
+        return _name;
+    }
+
+    public NIF getStudentNIF() {
+        return _NIF;
+    }
+
+    public PhoneNumber getStudentPhoneNumber() {
+        return _phone;
+    }
+
+    public Email getStudentEmail() {
+        return _email;
+    }
+
+    public Address getStudentAddress() {
+        return _address;
+    }
+
+    public StudentAcademicEmail getStudentAcademicEmail() {
+        return _institutionalEmail;
+    }
 }

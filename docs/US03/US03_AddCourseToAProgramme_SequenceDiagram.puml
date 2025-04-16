@@ -1,75 +1,81 @@
 @startuml
 actor ASC
+participant UI
+participant ":AddCourseToAProgramme\nController" as CTRL
+participant ":ServiceProgramme" as SP
+participant ":ProgrammeRepository" as PR
+participant ":ServiceStudyPlan" as SSP
+participant ":StudyPlanRepository" as SPR
+participant ":ServiceCourse" as SC
+participant ":CourseRepository" as CR
+participant ":ServiceCourseInStudyPlan" as SCSP
+participant ":Course InStudyPlanRepository" as CSPR
+participant ":FactoryCourseInStudyPlan" as FCSP
+skinparam sequenceLifeLineBackgroundColor #application
 autonumber
 
-ASC -> UI ++ #application : I want to add Course to a Programme
-
-UI -> ":AddCourseToAProgrammeController" ++ #application: getAllProgrammes()
-
-":AddCourseToAProgrammeController" -> ProgrammeRepository ++ #application: findAll()
-
-ProgrammeRepository --> ":AddCourseToAProgrammeController" -- #application: programmeList
-
-":AddCourseToAProgrammeController" --> UI --:  programmeList
+ASC -> UI ++  : I want to add Course to a Programme
+UI -> CTRL ++ : getAllProgrammes()
+CTRL -> SP ++ : findAll()
+SP -> PR ++ : findAll()
+ref over PR
+end ref
+PR --> SP -- : programmeList
+SP --> CTRL -- : programmeList
+ref over CTRL
+end ref
+CTRL --> UI --:  programmeList
 
 UI --> ASC : Which Programme?
+ASC -> UI : p1_ID!
 
-ASC -> UI  #application: programme1!
-
-UI -> ":AddCourseToAProgrammeController" ++  #application:  getAllStudyPlansByProgrammeID(programme1ID)
-
-":AddCourseToAProgrammeController" -> StudyPlanRepository ++ #application: getAllStudyPlansByProgrammeID(programme1ID)
-
-StudyPlanRepository --> ":AddCourseToAProgrammeController" -- #application: studyPlanList
-
-":AddCourseToAProgrammeController" --> UI -- : studyPlanList
-
-UI --> ASC: Which Study Plan?
-
-ASC -> UI: studyPlan1!
-
-
-
-UI -> ":AddCourseToAProgrammeController" ++ #application: getAllCourses()
-
-":AddCourseToAProgrammeController" -> CourseRepository ++ #application: findAll()
-
-CourseRepository --> ":AddCourseToAProgrammeController" -- #application: courseList
-
-":AddCourseToAProgrammeController" --> UI  -- : courseList
+UI -> CTRL ++ : getAllCourses()
+ref over CTRL
+end ref
+CTRL -> SC ++ : findAll()
+SC -> CR ++ : findAll()
+ref over CR
+end ref
+CR --> SC -- : courseList
+SC --> CTRL  -- : courseList
+ref over CTRL
+end ref
+CTRL --> UI  -- : courseList
 
 UI --> ASC : Which Course?
-
-ASC -> UI #application: course1!
-
+ASC -> UI : course1!
 UI --> ASC : Which Curricular Year?
-
-ASC -> UI #application: 2nd!
-
+ASC -> UI : 2nd!
 UI --> ASC : Which Semester?
+ASC -> UI : 1st!
 
-ASC -> UI #application: 1st!
-
-UI -> ":AddCourseToAProgrammeController" ++ #application : addCourseToProgramme (Semester, CurricularYear, CourseDDD, StudyPlanDDD)
-
-":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController" : getCourseID()
-":AddCourseToAProgrammeController" -> ":AddCourseToAProgrammeController" : getStudyPlanID()
-":AddCourseToAProgrammeController" -> ":CourseInStudyPlanRepository" ++ #application : registerCourseInStudyPlan(course1ID, studyPlan1ID, CurricularYear, Semester)
+UI -> CTRL ++: addCourseToProgramme\n(Semester, CurricularYear, CourseID,p1_ID)
+ref over CTRL
+end ref
+CTRL -> SSP ++: getLatestStudyPlanIDByProgrammeID(p1_ID)
+SSP -> SPR ++: getLatestStudyPlanIDByProgrammeID(p1_ID)
+ref over SPR
+end ref
+SPR -> SSP --: sP1_ID
+SSP -> CTRL --: sP1_ID
+CTRL-> SCSP ++  : registerCourseInStudyPlan\n(c1_ID, sp_1ID, CurricularYear, Semester)
+SCSP -> FCSP ++  : registerCourseInStudyPlan\n(c1_ID, sp_1ID, CurricularYear, Semester)
 
 create "cisp1:CourseInStudyPlan" as CISP #lightblue
-":CourseInStudyPlanRepository" --> CISP : <create> (Semester, CurricularYear,  course1ID, studyPlan1ID)
-":CourseInStudyPlanRepository" -> ":CourseInStudyPlanRepository": isCourseInStudyPlanInRepository()
-":CourseInStudyPlanRepository" -> ":CourseInStudyPlanRepository": addCourseInStudyPlan(cisp1)
-":CourseInStudyPlanRepository" --> ":AddCourseToAProgrammeController" --: true
+FCSP --> CISP : <create> (Semester, CurricularYear, c1_ID, sp_1ID)
+FCSP --> SCSP --:
+SCSP --> CSPR ++ : save((cisp1)
+ref over CSPR
+end ref
+CSPR --> SCSP -- : saved(cisp1)
 
-":AddCourseToAProgrammeController" --> UI -- : true
+SCSP --> CTRL--: saved(cisp1)
+ref over CTRL
+end ref
+CTRL --> UI -- : saved(cisp1)
 
-UI --> ASC: true
-
-participant "programmeList:List<Programme>"
-participant "courseList:List<Course>"
-participant "studyPlanList:List<StudyPlan>"
 participant "programme1:Programme"
 participant "studyPlan1:StudyPlan"
 participant "course1:Course"
+
 @enduml

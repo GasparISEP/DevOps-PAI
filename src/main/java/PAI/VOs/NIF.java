@@ -33,4 +33,6 @@ public class NIF implements ValueObject {
     public String getNIF(){
         return _NIF;
     }
+
+    public Country getCountry(){ return _country; }
 }

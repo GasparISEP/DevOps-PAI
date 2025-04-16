@@ -5,7 +5,7 @@ import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.ProgrammeRepositoryImpl;
 import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 

@@ -15,7 +15,6 @@ participant ":DepartmentRepo" as DepartmentRepo #LightBlue/White
 participant ":ProgrammeEditionEnrolmentRepo" as ProgrammeEditionEnrolRepo #LightBlue/White
 participant "pee[i]:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment #LightBlue/White
 participant ":Student" as Student #LightBlue/White
-participant ":studentUniqueNumbers" as StudentUniqueNumbers #LightBlue/White
 participant ":ProgrammeEdition" as ProgrammeEdition #LightBlue/White
 participant ":SchoolYear" as SchoolYear #LightBlue/White
 participant ":Programme" as Programme #LightBlue/White
@@ -41,9 +40,9 @@ DepartmentRepo-->Controller: true
 deactivate DepartmentRepo
 Controller -> ProgrammeEditionEnrolRepo: countStudentsInProgrammesFromDepartmentInSchoolYear(d1,sy1)
 activate ProgrammeEditionEnrolRepo
-
-ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: new HashSet<>()
-activate StudentUniqueNumbers
+create ":StudentUniqueNumbers" #LightBlue/White
+ProgrammeEditionEnrolRepo -> ":StudentUniqueNumbers"** : new HashSet<>()
+activate ":StudentUniqueNumbers"
 loop for each ProgrammeEditionEnrolment[i] in ProgrammeEditionEnrolRepo
 ProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrolmentAssociatedToDepartmentAndSchoolYear(d1,sy1)
 activate ProgrammeEditionEnrolment
@@ -70,11 +69,11 @@ Student -->ProgrammeEditionEnrolment: uniqueNumber
 deactivate Student
 ProgrammeEditionEnrolment --> ProgrammeEditionEnrolRepo: uniqueNumber
 deactivate ProgrammeEditionEnrolment
-ProgrammeEditionEnrolRepo -> StudentUniqueNumbers: add(uniqueNumber)
+ProgrammeEditionEnrolRepo -> ":StudentUniqueNumbers": add(uniqueNumber)
 end
 end
-StudentUniqueNumbers --> ProgrammeEditionEnrolRepo: studentUniqueNumbers.size()
-deactivate StudentUniqueNumbers
+":StudentUniqueNumbers" --> ProgrammeEditionEnrolRepo: studentUniqueNumbers.size()
+deactivate ":StudentUniqueNumbers"
 ProgrammeEditionEnrolRepo-->Controller: studentUniqueNumbers.size()
 deactivate ProgrammeEditionEnrolRepo
 Controller --> UI:  studentUniqueNumbers.size()

@@ -76,13 +76,14 @@ IProgrammeRepo --> Controller: List <ProgrammeID> ProgrammesWithDepartment
 deactivate IProgrammeRepo
 participant ":IProgrammeEditionEnrolmentRepo" as IProgrammeEditionEnrolRepo #LightBlue/White
 participant "pee[i]:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment #LightBlue/White
-participant ":studentIDs" as StudentIDs #LightBlue/White
+
 participant ":ProgrammeEditionID" as ProgrammeEditionID #LightBlue/White
 
 Controller -> IProgrammeEditionEnrolRepo: countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID, programmesWithDepartment)
 activate IProgrammeEditionEnrolRepo
-IProgrammeEditionEnrolRepo -> StudentIDs: new HashSet<>()
-activate StudentIDs
+create ":StudentIDs" #LightBlue/White
+IProgrammeEditionEnrolRepo -> ":StudentIDs"** : new HashSet<>()
+activate ":StudentIDs"
 loop for each ProgrammeEditionEnrolment[i] in IProgrammeEditionEnrolRepo
 IProgrammeEditionEnrolRepo ->ProgrammeEditionEnrolment :isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID, programmesWithDepartment)
 activate ProgrammeEditionEnrolment
@@ -96,13 +97,13 @@ ProgrammeEditionEnrolment -> IProgrammeEditionEnrolRepo: True
 IProgrammeEditionEnrolRepo -> ProgrammeEditionEnrolment: findStudentInProgrammeEdition ()
 ProgrammeEditionEnrolment --> IProgrammeEditionEnrolRepo: studentID
 deactivate ProgrammeEditionEnrolment
-IProgrammeEditionEnrolRepo -> StudentIDs: add(studentID)
+IProgrammeEditionEnrolRepo -> ":StudentIDs": add(studentID)
 
 end
 end
 end
-StudentIDs --> IProgrammeEditionEnrolRepo: studentIDs.size()
-deactivate StudentIDs
+":StudentIDs" --> IProgrammeEditionEnrolRepo: studentIDs.size()
+deactivate ":StudentIDs"
 IProgrammeEditionEnrolRepo-->Controller: studentIDs.size()
 deactivate IProgrammeEditionEnrolRepo
 Controller --> UI:  studentIDs.size()

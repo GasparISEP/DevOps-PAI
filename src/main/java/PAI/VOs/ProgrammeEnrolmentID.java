@@ -3,35 +3,41 @@ package PAI.VOs;
 import PAI.ddd.DomainId;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class ProgrammeEnrolmentID implements DomainId {
 
-    private final UUID _programmeEnrolmentId;
+    private final StudentID _studentId;
+    private final ProgrammeID _programmeId;
 
-    public ProgrammeEnrolmentID() {
-        this._programmeEnrolmentId = UUID.randomUUID();
+    public ProgrammeEnrolmentID (StudentID studentID, ProgrammeID programmeId) {
+        _studentId = studentID;
+        _programmeId = programmeId;
     }
 
-    public UUID getProgrammeEnrolmentId() {
-        return _programmeEnrolmentId;
+    public String getProgrammeEnrolmentId() {
+        return _studentId.toString() + "-" + _programmeId.toString();
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ProgrammeEnrolmentID)) return false;
         ProgrammeEnrolmentID that = (ProgrammeEnrolmentID) o;
-        return _programmeEnrolmentId.equals(that._programmeEnrolmentId);
+        return Objects.equals(_studentId, that._studentId) &&
+                Objects.equals(_programmeId, that._programmeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_programmeEnrolmentId);
+        return Objects.hash(_studentId, _programmeId);
     }
 
     @Override
     public String toString() {
-        return _programmeEnrolmentId.toString();
+        return "ProgrammeEnrolmentID{" +
+                "studentID=" + _studentId +
+                ", programmeID=" + _programmeId +
+                '}';
     }
 }
