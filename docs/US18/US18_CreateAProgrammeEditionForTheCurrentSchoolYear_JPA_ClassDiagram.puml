@@ -117,16 +117,31 @@ interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
 
         package "Programme Aggregate" {
             entity "<<Root>>\n<<Entity>>\nProgramme" {
-                +Programme(name : Name, acronym : Acronym, quantityOfEcts : QuantityOfEcts (...))
-                +getEndDate() : Date
-                +getStartDate() : Date
-                +equals(object : Object) : boolean
+                - _name: NameWithNumbersAndSpecialChars
+                - _quantSemesters: QuantSemesters
+                - _quantEcts: QuantEcts
+                - _acronym: Acronym
+                - _degreeTypeID: DegreeTypeID
+                - _department: DepartmentID
+                - _programmeDirectorID: TeacherID
+                - _programmeID: ProgrammeID
+                +Programme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, \n quantityOfEcts: QuantEcts,  quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, \n departmentID: DepartmentID, programmeDirectorID: TeacherID)
+                +equals(o: Object): boolean
+                +isEquals(programmeID: ProgrammeID): boolean
+                +newProgrammeDirector(teacherDirectorID: TeacherID): boolean
+                +isInDepartment(departmentID: DepartmentID): boolean
+                +hasThisProgrammeName(name: NameWithNumbersAndSpecialChars): boolean
             }
 
             class "<<Value Object>>\nProgrammeID" {
-                    - programmeID : int
-                    + getProgrammeEditionID() : int
-                    + equals() : boolean
+                     - _name: NameWithNumbersAndSpecialChars
+                        - _acronym: Acronym
+
+                        +ProgrammeID(name: NameWithNumbersAndSpecialChars, acronym: Acronym)
+                        +equals(object: Object): boolean
+                        +hashCode(): int
+                        +getName(): NameWithNumbersAndSpecialChars
+                        +getAcronym(): Acronym
             }
         }
 
