@@ -1,0 +1,264 @@
+@startuml
+top to bottom direction
+skinparam ranksep 180
+skinparam nodesep 20
+skinparam linetype ortho
+
+class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
+    + US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentRepository: IDepartmentRepository, teacherRepository: ITeacherRepository)
+    + getAllDepartmentID(): Set<DepartmentID>
+    + updateDepartmentDirector (departmentID: DepartmentID, teacherID: TeacherID) : boolean
+}
+
+interface IDepartmentRepository {
+   + getDepartmentIDs(): Set<DepartmentID>
+   + updateOfDepartmentDirector(departmentId: DepartmentID, teacherId: TeacherID): boolean
+}
+
+interface IDepartmentService{
+   + getDepartmentIDs(): Set<DepartmentID>
+   + updateOfDepartmentDirector(departmentId: DepartmentID, teacherId: TeacherID): boolean
+}
+
+class DepartmentServiceImpl {
+    + getDepartmentIDs(): Set<DepartmentID>
+    + updateOfDepartmentDirector(departmentID: DepartmentID, furtherDirectorID: TeacherID): boolean
+}
+
+class DepartmentRepositorySpringData {
+    + findAll(): Iterable<Department>
+    + getDepartmentIDs(): Set<DepartmentID>
+    + updateOfDepartmentDirector(departmentID: DepartmentID, furtherDirectorID: TeacherID): boolean
+}
+
+
+class DepartmentRepositorySpringData {
+   + DepartmentRepositorySpringData(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapper) {
+   + save (entity: Department): Department
+   + findAll(): Iterable<Department>
+   + ofIdentity (id: DepartmentID): Optional<Department>
+   + containsOfIdentity(id: DepartmentID): boolean
+}
+
+
+package "Department Aggregate" {
+class Department <<root>> {
+     + Department(acronym: DepartmentAcronym, name: Name, teacherDirector: TeacherID)
+     + changeDirector(furtherDirectorID: TeacherID): boolean
+     + identity(): DepartmentID
+    }
+}
+
+package "JPA Department Aggregate" {
+class DepartmentDataModel <<root>> {
+         - acronym: String
+         - name: String
+         - directorID: private
+         - version: Long
+         + getAcronym(): String
+         + setAcronym(acronym: String): void
+         + DepartmentDataModel()
+         + DepartmentDataModel(acronym: String, name: String, directorID: String, version: Long)
+         + getDirectorId(): String
+         + setDirectorId(directorId: String): void
+         + getVersion(): Long
+         + setVersion(version: Long): void
+     }}
+    }
+}
+
+
+class DepartmentMapper {
+    + toDomain(dataModel: DepartmentDataModel): Department
+    + toDataModel(department: Department): DepartmentDataModel
+}
+
+class DepartmentFactoryImpl {
+    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
+}
+
+interface IDepartmentFactory {
+    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
+}
+
+
+class DepartmentAcronym <<Value Object>> {
+    -_acronym: String
+    + DepartmentAcronym(acronym: String)
+}
+
+class DepartmentID <<Value Object>> {
+    + DepartmentID(acronym: DepartmentAcronym)
+    + getAcronym(): DepartmentAcronym
+    + equals(obj: Object): boolean
+    + hashCode(): int
+}
+
+package "Teacher Aggregate" {
+class Teacher <<root>> {
+    +Teacher(acronym: TeacherAcronym, name: Name, email: Email , nif: NIF, phoneNumber: PhoneNumber, academicBackground: AcademicBackground,
+                            address: Address, departmentID: DepartmentID) {
+    +isInDepartment(departmentID: DepartmentID) :boolean
+}
+}
+
+package "JPA Teacher Aggregate" {
+class TeacherDataModel <<root>> {
+        -_acronym:TeacherAcronym
+        -_name:String
+        -_email:String
+        -_nif:String
+        -_street:String
+        -_postalCode:PostalCode
+        -_location:Location
+        -_country:Country
+        -_phoneNumber:PhoneNumber
+        -_academicBackground:AcademicBackground
+        -_departmentID:DepartmentID
+}
+}
+
+class TeacherMapper{
++ ToDomain(teacherDataModel:TeacherDataModel)Teacher
++toDataModel(teacher:Teacher)TeacherDataModel
+}
+
+class TeacherRepositorySpringDataImpl{
++isInDepartment(departmentID: DepartmentID) :boolean
+}
+
+
+
+interface ITeacherFactory {
+  +createTeacher(...): Teacher
+}
+
+class TeacherFactoryImpl {
+  +createTeacher(...): Teacher
+}
+
+interface ITeacherService {
++ofIdentity(id: Optional<Teacher>): Optional<Teacher>
+}
+
+class TeacherServiceImpl {
++ofIdentity(id: Optional<Teacher>): Optional<Teacher>
++isInDepartment(departmentID: DepartmentID) :boolean
+}
+
+interface ITeacherRepository {
++ofIdentity(id: Optional<Teacher>): Optional<Teacher>
+}
+
+class TeacherRepositoryMem {
+  +ofIdentity(id: Optional<Teacher>): Optional<Teacher>
+}
+
+class Name <<Value Object>> {
+    -_name: String
+    + Name (name: String)
+}
+
+class Email <<Value Object>> {
+    -_email: String
+    + Email (email: String)
+}
+
+class NIF <<Value Object>> {
+    -_nif: String
+    + NIF (NIF: String, country: Country)
+}
+
+class PhoneNumber <<Value Object>> {
+    + PhoneNumber(countryCode: String, number: String)
+    - _countryCode: String
+    -_number: String
+}
+
+class AcademicBackground <<Value Object>> {
+    -_description: String
+    + AcademicBackground(description: String)
+}
+
+class Address <<Value Object>>{
+     +Address(street: Street, postalCode: PostalCode, location: Location, country: Country)
+}
+
+class Street <<Value Object>> {
+     -_street: String
+     +Street(street: String)
+}
+
+class PostalCode  <<Value Object>> {
+     -_postalCode: String
+     +PostalCode(postalCode: String)
+}
+
+class Location  <<Value Object>>  {
+     -_locationName: String
+     +Location(locationName: String)
+}
+
+class Country  <<Value Object>>{
+     -_country: String
+     +Country(country: String)
+}
+
+class TeacherID <<Value Object>> {
+     + TeacherID (teacherAcronym: TeacherAcronym)
+     + equals(obj: Object): boolean
+     }
+
+US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1" IDepartmentService
+US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1" ITeacherService
+IDepartmentService <|.. DepartmentServiceImpl
+ITeacherService <|.. TeacherServiceImpl
+TeacherServiceImpl "1" ..> "1" ITeacherRepository
+IDepartmentRepository <|.. DepartmentRepositorySpringData
+
+
+
+
+DepartmentDataModel "_listDepartment *         " <-- "1" DepartmentRepositorySpringData
+Department "1" --> "1 _name" Name
+Department "1" --> "1 _departmentDirector" TeacherID
+Department "1" --> "1 _departmentId" DepartmentID
+DepartmentID "1" --> "1 _departmentAcronym" DepartmentAcronym
+Department "1" ..> "1" DepartmentAcronym
+DepartmentFactoryImpl --> Department
+DepartmentMapper --> DepartmentDataModel
+DepartmentMapper --> IDepartmentFactory
+DepartmentMapper --> Department
+
+Teacher "1" --> "1 _teacherID" TeacherID
+Teacher "*" --> "1 _departmentID" DepartmentID
+Teacher "1" --> "1 _address" Address
+TeacherMapper --> TeacherServiceImpl
+TeacherMapper --> ITeacherRepository
+TeacherMapper --> TeacherDataModel
+TeacherMapper --> Teacher
+TeacherMapper --> ITeacherFactory
+
+Address "1" -u-> "1 _street" Street
+Address "1" --> "1 _postalCode" PostalCode
+Address "1" --> "1 _location" Location
+Address "1" --> "1 _country" Country
+
+NIF "1" --> "1 _country" Country
+Teacher "1" --> "1 _name" Name
+Teacher "1" --> "1 _email" Email
+Teacher "1" --> "1 _nif" NIF
+Teacher "1" --> "1 _phoneNumber" PhoneNumber
+Teacher "1" --> "_academicBackground" AcademicBackground
+
+DepartmentRepositorySpringData -> DepartmentMapper
+TeacherRepositorySpringDataImpl "1" --> "*" TeacherDataModel
+DepartmentServiceImpl "1" --> "1_departmentRepo" IDepartmentRepository
+DepartmentServiceImpl "1" --> "_departmentFactory 1" IDepartmentFactory
+ITeacherRepository <|.. TeacherRepositoryMem
+ITeacherRepository <|.. TeacherRepositorySpringDataImpl
+TeacherRepositoryMem "1" --> "* _teachers" Teacher
+ITeacherFactory <|.. TeacherFactoryImpl
+ITeacherFactory --> Teacher
+IDepartmentFactory <|.. DepartmentFactoryImpl
+@enduml
