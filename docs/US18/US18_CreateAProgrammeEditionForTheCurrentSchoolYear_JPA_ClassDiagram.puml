@@ -147,21 +147,28 @@ interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
 
         package "ProgrammeEdition Aggregate" {
                 entity "<<Root>>\n<<Entity>>\nProgrammeEdition" {
-                    + ProgrammeEdition(programmeID : ProgrammeID,  schoolYearID : SchoolYearID)
-                    + equals (object : Object) : boolean
-                    + findProgrammeInProgrammeEdition() : ProgrammeID
-                    + findSchoolYearInProgrammeEdition() : SchoolYearID
-                    + isEditionAssociatedToDepartmentAndSchoolYear(departmentID : DepartmentID, schoolYearID : SchoolYearID) : boolean
+                    - _programmeEditionID: ProgrammeEditionID
+                    - _programmeID: ProgrammeID
+                    - _schoolYearID: SchoolYearID
+
+                    +ProgrammeEdition(pEID: ProgrammeEditionID, pID: ProgrammeID, sYID: SchoolYearID)
+                    +identity(): ProgrammeEditionID
+                    +sameAs(object: Object): boolean
+                    +equals(object: Object): boolean
+                    +hashCode(): int
+                    +findProgrammeIDInProgrammeEdition(): ProgrammeID
+                    +findSchoolYearIDInProgrammeEdition(): SchoolYearID
                 }
 
                 class "<<Value Object>>\nProgrammeEditionID" {
-                        - _programmeID : ProgrammeID
-                        - _schoolYearID : SchoolYearID
-                        + ProgrammeEditionID(ProgrammeID, SchoolYearID)
-                        + equals() : boolean
-                        + toString() : String
-                        + hashCode() : int
-                        + isSameProgrammeEdition() : boolean
+                        - _programmeID: ProgrammeID
+                        - _schoolYearID: SchoolYearID
+
+                        +ProgrammeEditionID(programmeID: ProgrammeID, schoolYearID: SchoolYearID)
+                        +equals(o: Object): boolean
+                        +toString(): String
+                        +hashCode(): int
+                        +isSameProgrammeEdition(programmeID: ProgrammeID, schoolYearID: SchoolYearID): boolean
                 }
 
                 interface IProgrammeEditionFactory <<interface>> {
