@@ -1,14 +1,12 @@
 package PAI.persistence.datamodel;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "Teacher_Career_Progression")
 public class TeacherCareerProgressionDataModel {
 
     @EmbeddedId
@@ -35,4 +33,23 @@ public class TeacherCareerProgressionDataModel {
         this.teacherId = teacherId;
     }
 
+    public TeacherCareerProgressionIDDataModel getId() {
+        return id;
+    }
+
+    public UUID getTeacherCategoryId() {
+        return teacherCategoryId;
+    }
+
+    public int getWorkingPercentage() {
+        return workingPercentage;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
 }
