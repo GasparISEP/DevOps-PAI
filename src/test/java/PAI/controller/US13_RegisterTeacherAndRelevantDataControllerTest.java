@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.TeacherCareerProgressionRepository;
@@ -122,10 +123,10 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        when(_departmentRepoDouble.getDepartmentIDs()).thenThrow(new IllegalStateException("Department list is empty."));
+        when(_departmentRepoDouble.findAll()).thenThrow(new IllegalStateException("Department list is empty."));
 
         // Act + Assert
-        assertThrows(IllegalStateException.class, () -> controllerUS13Double.getDepartmentIDList());
+        assertThrows(IllegalStateException.class, () -> controllerUS13Double.getDepartmentList());
     }
 
     @Test
@@ -134,15 +135,12 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        DepartmentID dptDouble = mock(DepartmentID.class);
-        Set<DepartmentID> dptListDouble = new HashSet<>();
+        Iterable<Department> dptListDouble = new HashSet<>();
 
-        dptListDouble.add(dptDouble);
-
-        when(_departmentRepoDouble.getDepartmentIDs()).thenReturn(dptListDouble);
+        when(_departmentRepoDouble.findAll()).thenReturn(dptListDouble);
 
         // Act
-        Set<DepartmentID> result = controllerUS13Double.getDepartmentIDList();
+        Iterable<Department> result = controllerUS13Double.getDepartmentList();
         // Assert
         assertEquals(dptListDouble, result);
     }
