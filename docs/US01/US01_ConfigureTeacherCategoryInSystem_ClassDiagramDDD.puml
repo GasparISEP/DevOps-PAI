@@ -16,32 +16,34 @@ package "PAI" {
   ' ======= AGGREGATE =======
   package "domain" {
     entity "<<Root>>\n<<Aggregate>>\nTeacherCategory" as TCA {
-        + TeacherCategory(id: TeacherCategoryID, name: Name)
-        + getId(): TeacherCategoryID
-        + getName(): Name
-        + getIdValue(): UUID
-        + getNameValue(): String
-        + identity(): TeacherCategoryID
-        + sameAs(Object obj): boolean
-        + equals(Object obj): boolean
-        + hashCode(): int
+      + TeacherCategory(id: TeacherCategoryID, name: Name)
+      + getId(): TeacherCategoryID
+      + getName(): Name
+      + getIdValue(): UUID
+      + getNameValue(): String
+      + identity(): TeacherCategoryID
+      + sameAs(Object obj): boolean
+      + equals(Object obj): boolean
+      + hashCode(): int
     }
   }
 
+  ' ======= VALUE OBJECTS =======
   package "VOs" {
     class "<<Value Object>>\nName" as VOName {
-        - name: String
-        + getName(): String
-        + equals(Object obj): boolean
+      - _name: String
+      + Name(String name)
+      + getName(): String
+      + equals(Object obj): boolean
+      + hashCode(): int
     }
 
     class "<<Value Object>>\nTeacherCategoryID" as VOId {
-        - id: UUID
-        + TeacherCategoryID()
-        + TeacherCategoryID(UUID id)
-        + getValue(): UUID
-        + equals(Object obj): boolean
-        + hashCode(): int
+      - value: UUID
+      + TeacherCategoryID(UUID value)
+      + getValue(): UUID
+      + equals(Object obj): boolean
+      + hashCode(): int
     }
 
     VOId ..|> IDomainId
@@ -58,68 +60,71 @@ package "PAI" {
   ' ======= FACTORY =======
   package "factory" {
     interface "<<Factory>>\nITeacherCategoryFactory" as IFactory {
-        + createTeacherCategory(name: Name): TeacherCategory
+      + createTeacherCategory(name: Name): TeacherCategory
     }
 
     class "TeacherCategoryFactoryImpl" as FactoryImpl {
-        + createTeacherCategory(name: Name): TeacherCategory
+      + createTeacherCategory(name: Name): TeacherCategory
     }
 
-    IFactory <|.. FactoryImpl : implements
+    IFactory <|.. FactoryImpl
     FactoryImpl --> TCA : creates
     FactoryImpl --> VOName : uses
     FactoryImpl --> VOId : generates
 
     interface "<<List Factory>>\nITeacherCategoryListFactory" as IListFactory {
-        + getTeacherCategoryList(): List<TeacherCategory>
+      + getTeacherCategoryList(): List<TeacherCategory>
     }
 
     class "TeacherCategoryListFactoryImpl" as ListFactoryImpl {
-        + getTeacherCategoryList(): List<TeacherCategory>
+      + getTeacherCategoryList(): List<TeacherCategory>
     }
 
-    IListFactory <|.. ListFactoryImpl : implements
+    IListFactory <|.. ListFactoryImpl
   }
 
   ' ======= REPOSITORY =======
   package "repository" {
     interface "<<Repository>>\nITeacherCategoryRepository" as IRepo {
-        + save(category: TeacherCategory): TeacherCategory
-        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
-        + containsOfIdentity(id: TeacherCategoryID): boolean
-        + findAll(): Iterable<TeacherCategory>
-        + existsByName(name: Name): boolean
-        + getTeacherCategoryList(): List<TeacherCategory>
-        + findByName(name: Name): Optional<TeacherCategory>
+      + save(category: TeacherCategory): TeacherCategory
+      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
+      + containsOfIdentity(id: TeacherCategoryID): boolean
+      + findAll(): Iterable<TeacherCategory>
+      + existsByName(name: Name): boolean
+      + registerTeacherCategory(name: Name): boolean
+      + getTeacherCategoryList(): List<TeacherCategory>
+      + findByName(name: Name): Optional<TeacherCategory>
+      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
     }
 
     class "TeacherCategoryRepositoryImpl" as RepoImpl {
-        + save(category: TeacherCategory): TeacherCategory
-        + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
-        + containsOfIdentity(id: TeacherCategoryID): boolean
-        + findAll(): Iterable<TeacherCategory>
-        + existsByName(name: Name): boolean
-        + getTeacherCategoryList(): List<TeacherCategory>
-        + findByName(name: Name): Optional<TeacherCategory>
+      + save(category: TeacherCategory): TeacherCategory
+      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
+      + containsOfIdentity(id: TeacherCategoryID): boolean
+      + findAll(): Iterable<TeacherCategory>
+      + existsByName(name: Name): boolean
+      + registerTeacherCategory(name: Name): boolean
+      + getTeacherCategoryList(): List<TeacherCategory>
+      + findByName(name: Name): Optional<TeacherCategory>
+      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
     }
 
-    IRepository <|.. IRepo : extends
-    IRepo <|.. RepoImpl : implements
+    IRepository <|.. IRepo
+    IRepo <|.. RepoImpl
 
     RepoImpl --> TCA : stores
     RepoImpl --> VOId : looks up
+    RepoImpl --> IFactory : uses
+    RepoImpl --> IListFactory : uses
   }
 
   ' ======= CONTROLLER =======
   package "controller" {
     class "US01_ConfigureTeacherCategoryController" as Controller {
-        + configureTeacherCategory(categoryName: String): boolean
+      + configureTeacherCategory(categoryName: String): boolean
     }
 
-    Controller --> IRepo : uses
-    Controller --> IFactory : uses
-    Controller ..> TCA : creates
-    Controller ..> VOName : uses
+    Controller --> IRepo : registerTeacherCategory(name)
   }
 }
 
