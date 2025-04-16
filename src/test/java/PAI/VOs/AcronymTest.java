@@ -1,5 +1,6 @@
 package PAI.VOs;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -51,5 +52,27 @@ class AcronymTest {
 
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> new Acronym(acronym));
+    }
+
+    @Test
+    void shouldReturnTrueIfAcronymsAreEqual() {
+        //arrange
+        Acronym acronym1 = new Acronym("APROG");
+        Acronym acronym2 = new Acronym("APROG");
+        //act
+        boolean result = acronym1.equals(acronym2);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfAcronymsAreNotEqual() {
+        //arrange
+        Acronym acronym1 = new Acronym("APROG");
+        Acronym acronym2 = new Acronym("APROG1");
+        //act
+        boolean result = acronym1.equals(acronym2);
+        //assert
+        assertFalse(result);
     }
 }

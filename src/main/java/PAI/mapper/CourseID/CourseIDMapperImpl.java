@@ -1,4 +1,4 @@
-package PAI.mapper;
+package PAI.mapper.CourseID;
 
 import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
