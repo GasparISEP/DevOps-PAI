@@ -1,4 +1,5 @@
 package PAI.repository.degreeTypeRepository;
+
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
@@ -16,16 +17,15 @@ public class DegreeTypeRepositoryImpl implements IDegreeTypeRepository {
 
     public DegreeTypeRepositoryImpl(IDegreeTypeFactory degreeTypeFactory, IDegreeTypeListFactory degreeTypeListFactory) {
         this.degreeTypeFactory = Objects.requireNonNull(degreeTypeFactory, "Factory cannot be null");
-        this.degreeTypeRepository = Objects.requireNonNull(degreeTypeListFactory, "Factory cannot be null").createDegreeType_2List();
+        this.degreeTypeRepository = Objects.requireNonNull(degreeTypeListFactory, "Factory cannot be null").createEmptyList();
     }
 
-    public boolean registerDegreeType(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception {
-        DegreeType degreeType = degreeTypeFactory.addNewDegreeType_2(degreeTypeID, name, maxEcts);
-
+    @Override
+    public boolean registerDegreeType(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) {
+        DegreeType degreeType = new DegreeType(degreeTypeID, name, maxEcts);
         if (degreeTypeRepository.contains(degreeType)) {
             return false;
         }
-
         return degreeTypeRepository.add(degreeType);
     }
 
@@ -47,12 +47,9 @@ public class DegreeTypeRepositoryImpl implements IDegreeTypeRepository {
 
     @Override
     public Optional<DegreeType> ofIdentity(DegreeTypeID id) {
-        for (DegreeType existingDegreeType : degreeTypeRepository) {
-            if (existingDegreeType.identity().equals(id)) {
-                return Optional.of(existingDegreeType);
-            }
-        }
-        return Optional.empty();
+        return degreeTypeRepository.stream()
+                .filter(dt -> dt.identity().equals(id))
+                .findFirst();
     }
 
     @Override

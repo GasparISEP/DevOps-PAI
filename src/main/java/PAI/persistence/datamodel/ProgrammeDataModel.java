@@ -63,4 +63,7 @@ public class ProgrammeDataModel {
         return _programmeDirectorID;
     }
 
+    public ProgrammeIDDataModel getprogrammeID() {
+        return _programmeID;
+    }
 }

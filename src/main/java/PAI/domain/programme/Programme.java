@@ -117,7 +117,7 @@ public class Programme implements AggregateRoot<ProgrammeID> {
         if (object instanceof Programme) {
             Programme programme = (Programme) object;
 
-            if (this._name.equals(programme._name) || (this._acronym.equals(programme._acronym)) )
+            if (this._name.equals(programme._name) && (this._acronym.equals(programme._acronym)) )
                 return true;
         }
         return false;

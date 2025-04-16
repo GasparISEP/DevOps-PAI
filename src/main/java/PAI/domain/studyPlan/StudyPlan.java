@@ -9,9 +9,9 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
     private DurationInYears _durationInYears;
     private ProgrammeID _programmeID;
     private StudyPlanID _studyPlanID;
-    private QuantEcts _quantityOfEcts;
+    private MaxEcts _quantityOfEcts;
 
-    public StudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, QuantEcts quantityOfEcts) {
+    public StudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts) {
 
         this._implementationDate = implementationDate;
         this._durationInYears = durationInYears;
@@ -20,7 +20,7 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
         this._studyPlanID = new StudyPlanID(programmeID, implementationDate);
     }
 
-    public QuantEcts getQuantityOfEcts() {
+    public MaxEcts getQuantityOfEcts() {
         return this._quantityOfEcts;
     }
 
