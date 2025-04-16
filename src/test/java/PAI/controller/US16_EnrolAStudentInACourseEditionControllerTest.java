@@ -378,8 +378,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1,date2);
 
-        CourseID courseID1 = new CourseID();
-        CourseID courseID2 = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseID2 = new CourseID(acronym2, name2);
+        Acronym acronym3 = new Acronym("LABPROJ");
+        Name name3 = new Name("Project Lab");
+        CourseID courseID1 = new CourseID(acronym3, name3);
 
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
@@ -439,7 +443,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Date date1 = new Date ("12-12-2023");
         StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
 
-        CourseID courseID1 = new CourseID();
+        Acronym acronym = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID1 = new CourseID(acronym, name);
 
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
 
@@ -493,14 +499,18 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         Date date1 = new Date ("12-12-2023");
         StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
-        CourseID courseID1 = new CourseID();
+        Acronym acronym = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID1 = new CourseID(acronym, name);
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
 
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
         Date date2 = new Date ("12-12-2024");
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1,date2);
-        CourseID courseID2 = new CourseID();
+        Acronym acronym2 = new Acronym("LABPROJ");
+        Name name2 = new Name("Project Lab");
+        CourseID courseID2 = new CourseID(acronym2, name2);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
         CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
@@ -557,14 +567,19 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         Date date1 = new Date ("12-12-2023");
         StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
-        CourseID courseID1 = new CourseID();
+        Acronym acronym3 = new Acronym("LABPROJ");
+        Name name3 = new Name("Project Lab");
+        CourseID courseID1 = new CourseID(acronym3, name3);
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
 
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
         Date date2 = new Date ("12-12-2024");
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1,date2);
-        CourseID courseID2 = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseID2 = new CourseID(acronym2, name2);
+
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
         CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
@@ -618,7 +633,9 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         Date date1 = new Date ("12-12-2023");
         StudyPlanID studyPlanID1 = new StudyPlanID(programmeID1,date1);
 
-        CourseID courseID1 = new CourseID();
+        Acronym acronym = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID1 = new CourseID(acronym, name);
 
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);

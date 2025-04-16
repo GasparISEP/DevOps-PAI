@@ -129,7 +129,7 @@ class CourseEditionIDTest {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
-        CourseID courseID = new CourseID();
+        CourseID courseID = mock(CourseID.class);
         //Act
         boolean result = courseEditionID.equals(courseID);
         //Assert
