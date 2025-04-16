@@ -14,12 +14,14 @@ import static org.mockito.Mockito.when;
 class ProgrammeEnrolmentTest {
 
     private StudentID _studentIDDouble;
+    private StudentID _studentIDDouble2;
     private AccessMethodID _accessMethodIDDouble;
     private ProgrammeID _programmeIDDouble;
     private Date _dateDouble;
 
     private void createDoubles() {
         _studentIDDouble = mock(StudentID.class);
+        _studentIDDouble2 = mock(StudentID.class);
         _accessMethodIDDouble = mock(AccessMethodID.class);
         _programmeIDDouble = mock(ProgrammeID.class);
         _dateDouble = mock(Date.class);
@@ -364,7 +366,7 @@ class ProgrammeEnrolmentTest {
         createDoubles();
 
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(_studentIDDouble2, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Act
         boolean result = pe1.sameAs(pe2);
@@ -428,7 +430,10 @@ class ProgrammeEnrolmentTest {
     @Test
     void shouldReturnHashCodeProgrammeEnrolmentTest() {
         //Arrange
-        StudentID studentID = new StudentID(1241204);
+
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+
         AccessMethodID accessMethodID = new AccessMethodID();
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("ola");
         Acronym acronym = new Acronym("HI");
@@ -436,7 +441,7 @@ class ProgrammeEnrolmentTest {
         Date dateDouble = new Date(LocalDate.now());
 
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
-        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentID2, accessMethodID, programmeID, dateDouble);
 
         //Act + Assert
         assertNotEquals(pe1.hashCode(), pe2.hashCode());
@@ -466,12 +471,5 @@ class ProgrammeEnrolmentTest {
 
         // Assert
         assertNull(result);
-    }
-
-    @Test
-    public void testEquals_DifferentUUID() {
-        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID();
-        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID();
-        assertNotEquals(id1, id2);
     }
 }

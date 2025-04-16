@@ -19,17 +19,42 @@ public class ProgrammeIDDataModelTest {
     }
 
     @Test
-    public void createProgrammeID() {
-        //Arrange
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
-        Acronym acronym = new Acronym("EI");
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+    public void testConstructor() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Ola");
+        Acronym acronym = new Acronym("OLA");
+        ProgrammeID progID = new ProgrammeID(name, acronym);
 
-        //Act
-        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(programmeID);
+        //act
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(progID);
 
+        //assert
         assertNotNull(dataModel);
-
     }
 
+    @Test
+    public void testGetName() {
+        //arrange
+
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel();
+
+        //act
+        String res = dataModel.getName();
+
+        //assert
+        assertEquals(res,dataModel.getName());
+    }
+
+    @Test
+    public void testGetAcronym() {
+        //arrange
+
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel();
+
+        //act
+        String res = dataModel.getAcronym();
+
+        //assert
+        assertEquals(res,dataModel.getAcronym());
+    }
 }

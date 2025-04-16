@@ -135,10 +135,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception {
         // Arrange
-        StudentID studentID1 = new StudentID(1241924);
-        StudentID studentID2 = new StudentID(1241925);
-        StudentID studentID3 = new StudentID(1241926);
-        StudentID studentID4 = new StudentID(1241927);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        StudentID studentID3= mock(StudentID.class);
+        StudentID studentID4 = mock(StudentID.class);
 
         IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -157,7 +157,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
                 new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentRepository);
 
-        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionID1);
         programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID2, programmeEditionID1);
         programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID3, programmeEditionID1);
         programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID4, programmeEditionID2);
@@ -198,10 +198,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() throws Exception {
         // Arrange
-        StudentID studentID1 = new StudentID(1241924);
-        StudentID studentID2 = new StudentID(1241925);
-        StudentID studentID3 = new StudentID(1241926);
-        StudentID studentID4 = new StudentID(1241927);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        StudentID studentID3= mock(StudentID.class);
+        StudentID studentID4 = mock(StudentID.class);
 
         IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -220,7 +220,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
                 new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentRepository);
 
-        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID1, programmeEditionID1);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionID1);
         programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID2, programmeEditionID1);
         programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID3, programmeEditionID1);
         programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID4, programmeEditionID1);

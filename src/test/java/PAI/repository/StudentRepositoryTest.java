@@ -236,11 +236,11 @@ class StudentRepositoryTest {
 
         StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
 
-        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID = mock(StudentID.class);
 
         Student student = mock(Student.class);
         repository.save(student);
-        when(student.identity()).thenReturn(studentID1);
+        when(student.identity()).thenReturn(studentID);
 
         when(student.sameAs(any())).thenReturn(true);
 
@@ -264,10 +264,10 @@ class StudentRepositoryTest {
 
         StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
 
-        StudentID studentID1 = new StudentID(1234567);
+        StudentID studentID = mock(StudentID.class);
 
         Student student = mock(Student.class);
-        when(student.identity()).thenReturn(studentID1);
+        when(student.identity()).thenReturn(studentID);
         when(student.isEquals(any())).thenReturn(false);
         when(student.sameAs(any())).thenReturn(false);
 

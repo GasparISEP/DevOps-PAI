@@ -7,34 +7,20 @@ autonumber
 actor HRC as HRC #application
 participant UI as UI #business
 participant ":US13_Controller" as controller #implementation
-participant ":ITeacherCategoryService" as ItcService #motivation
-participant ":ITeacherCategoryRepositoryJPA" as ItcRepoJPA #physical
-participant ":TeacherCategoryDataModel" as tcDataModel #application
-participant ":TeacherCategoryMapper" as tcMapper #strategy
-participant ":ITeacherCategoryFactory" as ItcFactory #technology
-participant "tc:TeacherCategory" as tc #application
-participant ":IDepartmentService" as IdptService #business
-participant ":IDepartmentRepositoryJPA" as IdptRepoJPA #implementation
-participant ":DepartmentDataModel" as dptDataModel #technology
-participant ":DepartmentMapper" as dptMapper #motivation
-participant ":IDepartmentFactory" as dptFactory #physical
-participant "dpt:Department" as dpt #strategy
+'Ref#1 : get Teacher Category's list.
+'Ref#2 : get Department's list.
 participant ":ITeacherService" as IteacherService #technology
 participant ":ITeacherFactory" as IteacherFactory #application
 participant "addr:Address" as addr #business
 participant "t1:Teacher" as t #implementation
 participant "t1ID:TeacherID" as tID #strategy
-participant ":ITeacherCareerProgressionRepositoryJPA" as ItcpRepositoryJPA #physical
-participant ":TeacherCareerProgressionMapper" as tcpMapper #strategy
-participant ":ITeacherCareerProgressionFactory" as tcpFactory #technology
-participant ":TeacherCareerProgression" as careerProgression
-participant "tcp1:TeacherCareerProgression" as TCP #application
-participant ":TeacherCategory1" as tc1 #business
+'Ref#3 : create Teacher Career Progression tcp1.
 participant ":ITeacherRepositoryJPA" as IteacherRepoJPA #implementation
 participant ":Teacher" as teacher
 participant ":TeacherMapper" as tMapper #motivation
 participant ":TeacherID" as teacherID
 participant ":TeacherDataModel" as teacherDM #physical
+
 
 
 HRC -> UI : I want to register a Teacher in the System \n Including All Relevant Data
@@ -44,66 +30,21 @@ deactivate UI
 HRC -> UI : acronym, name, email, NIF, phoneNumber, academicBackground, street, postalCode, location, country
 activate UI
 UI -> controller : getCategoriesList()
+
 activate controller
-controller -> ItcService : findAll()
-activate ItcService
-ItcService -> ItcRepoJPA : findAll()
-activate ItcRepoJPA
-ItcRepoJPA -> tcDataModel : tcDataModels
-activate tcDataModel
-tcDataModel --> ItcRepoJPA : tcDataModel
-deactivate tcDataModel
-ItcRepoJPA -> tcMapper : toDomain(tcDataModel)
-activate tcMapper
-tcMapper -> ItcFactory : createTeacherCategory(name)
-activate ItcFactory
-ItcFactory -> tc** : new Teacher Category (name)
-activate tc
-tc --> ItcFactory : tc[i]
-deactivate tc
-ItcFactory --> tcMapper : tc[i]
-deactivate ItcFactory
-tcMapper --> ItcRepoJPA : tc[i]
-deactivate tcMapper
-ItcRepoJPA -> ItcRepoJPA : save(tc[i])
-ItcRepoJPA --> ItcService : tcList
-deactivate ItcRepoJPA
-ItcService --> controller : tcList
-deactivate ItcService
+ref over controller : Ref#1 \n\n  \t\t\t gets Teacher Category's List
 controller --> UI : Which Category?
 deactivate controller
 deactivate UI
 
 
 
-UI -> controller : getDepartmentsList()
+UI -> controller : getDepartmentList()
 activate UI
 activate controller
-controller -> IdptService : findAll()
-activate IdptService
-IdptService -> IdptRepoJPA : findAll()
-activate IdptRepoJPA
-IdptRepoJPA -> dptDataModel : dptDataModels
-activate dptDataModel
-dptDataModel --> IdptRepoJPA : dptDataModel
-deactivate dptDataModel
-IdptRepoJPA -> dptMapper : toDomain(dptDataModel)
-activate dptMapper
-dptMapper -> dptFactory : createDepartment(acronym, name)
-activate dptFactory
-dptFactory -> dpt** : new Department
-activate dpt
-dpt --> dptFactory : dpt[i]
-deactivate dpt
-dptFactory --> dptMapper : dpt[i]
-deactivate dptFactory
-dptMapper --> IdptRepoJPA : dpt
-deactivate dptMapper
-IdptRepoJPA -> IdptRepoJPA : save(dpt[i])
-IdptRepoJPA --> IdptService : dptList
-deactivate IdptRepoJPA
-IdptService --> controller : dptList
-deactivate IdptService
+
+ref over controller : \t Ref#2 : \n\n  \t\t\t gets Department's list
+
 controller --> UI : Which Department?
 deactivate controller
 deactivate UI
@@ -111,6 +52,8 @@ deactivate UI
 
 
 UI -> controller : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
+
+ref over controller : \t\t Ref#3 : \n\n  \t\t\t convert DTO to VO
 activate UI
 activate controller
 controller -> IteacherService : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
@@ -133,7 +76,6 @@ IteacherFactory -> IteacherFactory : t1ID = t1.identity()
 IteacherFactory -> IteacherRepoJPA : containsOfIdentity(t1ID)
 activate IteacherRepoJPA
 
-
 loop for each Teacher in TeacherRepositoryJPA
     IteacherRepoJPA -> teacher : identity()
     activate teacher
@@ -149,33 +91,14 @@ deactivate IteacherRepoJPA
 
 
 IteacherFactory --> IteacherService : t1
+
+ref over IteacherService : Ref#4 \n\n  \t\t\tcreate Teacher Career Progression tcp1(t1ID, tcID, workingPercentage, date)
+
+
 deactivate IteacherFactory
 deactivate IteacherService
 
 
-IteacherService -> ItcpRepositoryJPA : createTeacherCareerProgression \n (tID1, tc, workingPercentage, date)
-activate IteacherService
-activate ItcpRepositoryJPA
-ItcpRepositoryJPA -> tcpFactory : createTeacherCareerProgression \n (tID1, tcID, workingPercentage, date)
-activate tcpFactory
-tcpFactory -> TCP** : new TeacherCareerProgression \n (tID1, tcID, workingPercentage, date)
-activate TCP
-TCP --> tc1** : new Teacher Category \n (tcID, name)
-activate tc1
-tc1 --> TCP : tc
-deactivate tc1
-TCP --> tcpFactory : tcp1
-deactivate TCP
-tcpFactory --> ItcpRepositoryJPA : tcp1
-deactivate tcpFactory
-ItcpRepositoryJPA -> ItcpRepositoryJPA : isTeacherCareerProgressionDuplicate(tcp1)
-ItcpRepositoryJPA -> careerProgression : sameAs(tcp1)
-activate careerProgression
-careerProgression --> ItcpRepositoryJPA : false
-deactivate careerProgression
-ItcpRepositoryJPA -> ItcpRepositoryJPA : save(tcp1)
-ItcpRepositoryJPA --> IteacherService : true
-deactivate ItcpRepositoryJPA
 deactivate IteacherService
 IteacherService -> IteacherRepoJPA : save(t1)
 activate IteacherService

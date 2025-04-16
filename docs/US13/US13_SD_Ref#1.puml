@@ -1,0 +1,41 @@
+@startuml
+title Ref#1 : Retrieve Teacher Category's list.
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":US13_Controller" as controller #implementation
+participant ":ITeacherCategoryService" as ItcService #motivation
+participant ":ITeacherCategoryRepositoryJPA" as ItcRepoJPA #physical
+participant ":TeacherCategoryDataModel" as tcDataModel #application
+participant ":TeacherCategoryMapper" as tcMapper #strategy
+participant ":ITeacherCategoryFactory" as ItcFactory #technology
+participant "tc:TeacherCategory" as tc #application
+
+
+
+activate controller
+controller -> ItcService : findAll()
+activate ItcService
+ItcService -> ItcRepoJPA : findAll()
+activate ItcRepoJPA
+ItcRepoJPA -> tcDataModel : tcDataModels
+activate tcDataModel
+tcDataModel --> ItcRepoJPA : tcDataModel
+deactivate tcDataModel
+ItcRepoJPA -> tcMapper : toDomain(tcDataModel)
+activate tcMapper
+tcMapper -> ItcFactory : createTeacherCategory(name)
+activate ItcFactory
+ItcFactory -> tc** : new Teacher Category (name)
+activate tc
+tc --> ItcFactory : tc[i]
+deactivate tc
+ItcFactory --> tcMapper : tc[i]
+deactivate ItcFactory
+tcMapper --> ItcRepoJPA : tc[i]
+deactivate tcMapper
+ItcRepoJPA -> ItcRepoJPA : save(tc[i])
+ItcRepoJPA --> ItcService : tcList
+deactivate ItcRepoJPA
+ItcService --> controller : tcList
+@enduml

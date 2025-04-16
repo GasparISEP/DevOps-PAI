@@ -1,0 +1,40 @@
+@startuml
+title Ref#1 : Retrieve Teacher Category's list.
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ITeacherService" as IteacherService #technology
+participant ":ITeacherCareerProgressionRepositoryJPA" as ItcpRepositoryJPA #physical
+participant ":TeacherCareerProgressionMapper" as tcpMapper #strategy
+participant ":ITeacherCareerProgressionFactory" as tcpFactory #technology
+participant ":TeacherCareerProgression" as careerProgression
+participant "tcp1:TeacherCareerProgression" as TCP #application
+participant ":TeacherCategory1" as tc1 #business
+
+
+
+
+
+IteacherService -> ItcpRepositoryJPA : createTeacherCareerProgression \n (tID1, tc, workingPercentage, date)
+activate IteacherService
+activate ItcpRepositoryJPA
+ItcpRepositoryJPA -> tcpFactory : createTeacherCareerProgression \n (tID1, tcID, workingPercentage, date)
+activate tcpFactory
+tcpFactory -> TCP** : new TeacherCareerProgression \n (tID1, tcID, workingPercentage, date)
+activate TCP
+TCP --> tc1** : new Teacher Category \n (tcID, name)
+activate tc1
+tc1 --> TCP : tc
+deactivate tc1
+TCP --> tcpFactory : tcp1
+deactivate TCP
+tcpFactory --> ItcpRepositoryJPA : tcp1
+deactivate tcpFactory
+ItcpRepositoryJPA -> ItcpRepositoryJPA : isTeacherCareerProgressionDuplicate(tcp1)
+ItcpRepositoryJPA -> careerProgression : sameAs(tcp1)
+activate careerProgression
+careerProgression --> ItcpRepositoryJPA : false
+deactivate careerProgression
+ItcpRepositoryJPA -> ItcpRepositoryJPA : save(tcp1)
+ItcpRepositoryJPA --> IteacherService : true
+@enduml
