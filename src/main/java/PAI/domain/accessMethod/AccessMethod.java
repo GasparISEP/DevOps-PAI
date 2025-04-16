@@ -24,6 +24,10 @@ public class AccessMethod implements AggregateRoot<AccessMethodID> {
         return this._accessMethodId;
     }
 
+    public NameWithNumbersAndSpecialChars getAccessMethodName(){
+        return this._accessMethodName;
+    }
+
     @Override
     public boolean equals (Object object){
 
