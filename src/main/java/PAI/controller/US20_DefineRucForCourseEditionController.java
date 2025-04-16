@@ -4,13 +4,13 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
-import PAI.service.CourseEditionApplicationService;
+import PAI.service.ICourseEditionApplicationService;
 
 public class US20_DefineRucForCourseEditionController {
 
-    private final CourseEditionApplicationService service;
+    private final ICourseEditionApplicationService service;
 
-    public US20_DefineRucForCourseEditionController(CourseEditionApplicationService service) {
+    public US20_DefineRucForCourseEditionController(ICourseEditionApplicationService service) {
         this.service = service;
     }
 

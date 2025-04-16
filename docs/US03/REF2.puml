@@ -1,0 +1,24 @@
+@startuml
+title "REF 1 | FindAll() CourseDataModel"
+
+participant ":ServiceCourse" as Service
+participant "CourseRepositorySpringData" as Repository
+participant "Mapper" as PDM
+skinparam sequenceLifeLineBackgroundColor #application
+|||
+
+Service-> Repository++: findAll()
+Service ++
+|||
+Repository --> Service --: List<CourseDataModel>
+|||
+Service -> PDM ++: toDomain(_factoryCourse, lstCourseDataModelSaved)
+|||
+PDM --> Service --: Iterable<Course>
+Service --
+|||
+
+
+participant "listDomain : Iterable<Course>" as DomainList #application
+
+@enduml
