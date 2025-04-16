@@ -2,7 +2,10 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class AccessMethodIDTest {
 
@@ -57,5 +60,25 @@ class AccessMethodIDTest {
         assertEquals(id, accessMethodID.toString());
     }
 
+    @Test
+    void shouldCreateAccessMethodIDWithUUIDinput(){
+        // arrange
+        UUID uuid = mock(UUID.class);
+        // act
+        AccessMethodID accessMethodID = new AccessMethodID(uuid);
+        // assert
+        assertNotNull(accessMethodID);
+    }
+
+    @Test
+    void shouldGetUUID(){
+        // arrange
+        UUID uuid = mock(UUID.class);
+        AccessMethodID accessMethodID = new AccessMethodID(uuid);
+        // act
+        UUID result = accessMethodID.getAccessMethodID();
+        // assert
+        assertEquals(uuid, result);
+    }
 
 }

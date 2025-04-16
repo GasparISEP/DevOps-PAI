@@ -11,6 +11,10 @@ public class AccessMethodID implements DomainId {
         this._accessMethodId = UUID.randomUUID();
     }
 
+    public AccessMethodID(UUID accessMethodId) {
+        this._accessMethodId = accessMethodId;
+    }
+
     @Override
     public boolean equals (Object objectToCompare){
         if (this == objectToCompare) return true;
@@ -27,5 +31,8 @@ public class AccessMethodID implements DomainId {
         return this._accessMethodId.toString();
     }
 
+    public UUID getAccessMethodID() {
+        return _accessMethodId;
+    }
 
 }
