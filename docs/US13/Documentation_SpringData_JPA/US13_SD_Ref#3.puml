@@ -1,0 +1,100 @@
+@startuml
+
+title US13 : to VO conversion
+skinparam sequenceMessageAlign center
+autonumber
+
+actor ASC
+participant "tID1:TeacherID" as teacherID #application
+participant "name1:Name" as name #business
+participant "email1:Email" as email #implementation
+participant "nif1:NIF" as NIF #motivation
+participant "phone1:PhoneNumber" as phoneNumber #physical
+participant "ab1:AcademicBackground" as academicBackground #strategy
+participant "street1:Street" as street #technology
+participant "pc1:PostalCode" as postalCode #application
+participant "l1:Location" as location #business
+participant "c1:Country" as country #implementation
+participant "dptID1:DepartmentID" as dptID #motivation
+participant "aE1:AcademicEmail" as academicEmail #strategy
+participant "d1:Date" as date #technology
+participant "tcID1:TeacherCategoryID" as tcID #application
+participant "wp1:WorkingPercentage" as wp #business
+
+
+ASC -> teacherID** : new TeacherID (acronym)
+activate teacherID
+teacherID --> ASC : TeacherID VO
+deactivate teacherID
+
+ASC -> name** : new Name VO (name)
+activate name
+name --> ASC : Name VO
+deactivate name
+
+ASC -> email** : new Email VO (email)
+activate email
+email --> ASC : Email VO
+deactivate email
+
+ASC -> NIF** : new NIF VO (NIF, country)
+activate NIF
+NIF --> ASC : NIF VO
+deactivate NIF
+
+ASC -> phoneNumber** : new PhoneNumber VO (countryCode, phoneNumber)
+activate phoneNumber
+phoneNumber --> ASC : PhoneNumber VO
+deactivate phoneNumber
+
+ASC -> academicBackground** : new AcademicBackground VO (academicBackground)
+activate academicBackground
+academicBackground --> ASC : AcademicBackground VO
+deactivate academicBackground
+
+ASC -> street** : new Street VO (street)
+activate street
+street --> ASC : Street VO
+deactivate street
+
+ASC -> postalCode** : new PostalCode VO (postalCode)
+activate postalCode
+postalCode --> ASC : PostalCode VO
+deactivate postalCode
+
+ASC -> location** : new Location VO (location)
+activate location
+location --> ASC : Location VO
+deactivate location
+
+ASC -> country** : new Country VO (country)
+activate country
+country --> ASC : Country VO
+deactivate country
+
+ASC -> dptID** : new DepartmentID VO (acronym)
+activate dptID
+dptID --> ASC : PostalCode VO
+deactivate dptID
+
+ASC -> academicEmail** : new AcademicEmail VO (academicEmail)
+activate academicEmail
+academicEmail --> ASC : AcademicEmail VO
+deactivate academicEmail
+
+ASC -> date** : new Date VO (date)
+activate date
+date --> ASC : Date VO
+deactivate date
+
+ASC -> tcID** : new TeacherCategoryID VO (teacherCategoryID_UUID)
+activate tcID
+date --> ASC : TeacherCategoryID VO
+deactivate tcID
+
+ASC -> wp** : new WorkingPercentage VO (workingPercentage)
+activate wp
+wp --> ASC : WorkingPercentage VO
+deactivate wp
+
+@enduml

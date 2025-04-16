@@ -27,7 +27,7 @@ public class ProgrammeID implements DomainId {
             return false;
         ProgrammeID programmeID = (ProgrammeID) object;
         return _name.equals(programmeID._name)
-                && _acronym.equals(programmeID._acronym);
+                || _acronym.equals(programmeID._acronym);
     }
 
     @Override
