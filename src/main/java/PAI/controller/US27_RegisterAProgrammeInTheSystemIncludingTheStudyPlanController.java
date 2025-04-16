@@ -1,7 +1,10 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
+import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
+import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
 
@@ -10,10 +13,11 @@ import java.util.Optional;
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
 
+    IDegreeTypeRepository _degreeTypeRepo;
     IProgrammeRepository _programmeDDDList;
     IStudyPlanRepository _studyPlanDDDRepo;
 
-    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeRepository programmeDDDList, IStudyPlanRepository studyPlanDDDRepo) throws Exception {
+    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeRepository programmeDDDList, IStudyPlanRepository studyPlanDDDRepo, IDegreeTypeRepository degreeTypeRepository) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");
@@ -26,6 +30,13 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         }
 
         _studyPlanDDDRepo = studyPlanDDDRepo;
+
+
+        if (degreeTypeRepository == null) {
+            throw new Exception("Degree Type Repository cannot be null.");
+        }
+
+        _degreeTypeRepo = degreeTypeRepository;
     }
 
     public boolean registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
@@ -45,13 +56,24 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
             return false;
         }
 
+        DegreeTypeID degreeTypeID = programme.getDegreeTypeID();
+        DegreeType degreeType;
+
+        try {
+            Optional<DegreeType> optionalDegreeType = _degreeTypeRepo.ofIdentity(degreeTypeID);
+            degreeType = optionalDegreeType.orElseThrow(() -> new IllegalArgumentException("Degree Type with ID " + degreeTypeID + " not found"));
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+
+
         int quantSemester = programme.getQuantSemesters().getQuantityOfSemesters();
         DurationInYears durationInYears = new DurationInYears(quantSemester);
 
-        int quantityOfEcts = programme.getQuantEcts().getQuantEcts();
-        QuantEcts quantityOfEctsFromProgramme = new QuantEcts(quantityOfEcts);
+        int quantityOfEcts = degreeType.getMaxEcts();
+        MaxEcts quantityOfEctsDegreeType = new MaxEcts(quantityOfEcts);
 
-        _studyPlanDDDRepo.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEctsFromProgramme);
+        _studyPlanDDDRepo.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
         return true;
     }
 }

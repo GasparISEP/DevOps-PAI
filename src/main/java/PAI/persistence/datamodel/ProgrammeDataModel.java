@@ -26,13 +26,13 @@ public class ProgrammeDataModel {
         ProgrammeID id = programme.getProgrammeID();
         _programmeID = new ProgrammeIDDataModel(id);
 
-        _name = programme.getProgrammeName().toString();
-        _acronym = programme.getAcronym().toString();
+        _name = programme.getProgrammeName().getnameWithNumbersAndSpecialChars();
+        _acronym = programme.getAcronym().getAcronym();
         _quantSemesters = programme.getQuantSemesters().getQuantityOfSemesters();
         _quantEcts = programme.getQuantEcts().getQuantEcts();
-        _degreeTypeID = programme.getDegreeTypeID().toString();
-        _departmentID = programme.getDepartment().toString();
-        _programmeDirectorID = programme.getProgrammeDirectorID().toString();
+        _degreeTypeID = programme.getDegreeTypeID().getDTID();
+        _departmentID = programme.getDepartment().getAcronym().getAcronym();
+        _programmeDirectorID = programme.getProgrammeDirectorID().getTeacherAcronym().getAcronym();
     }
 
     public String getName(){

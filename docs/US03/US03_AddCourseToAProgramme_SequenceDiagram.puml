@@ -15,12 +15,14 @@ skinparam sequenceLifeLineBackgroundColor #application
 autonumber
 
 ASC -> UI ++  : I want to add Course to a Programme
+|||
 UI -> CTRL ++ : getAllProgrammes()
+|||
 CTRL -> SP ++ : findAll()
 SP -> PR ++ : findAll()
 ref over PR
-Create DataModel
 end ref
+
 PR --> SP -- : listDomain
 SP --> CTRL -- : listDomain
 |||
@@ -39,7 +41,7 @@ UI -> CTRL ++ : getAllCourses()
 CTRL -> SC ++ : findAll()
 SC -> CR ++ : findAll()
 ref over CR
-CreateConvert listDomain to listDTO
+
 end ref
 CR --> SC -- : listDomain
 SC --> CTRL  -- : listDomain

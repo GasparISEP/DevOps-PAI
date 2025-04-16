@@ -5,10 +5,7 @@ import PAI.domain.Department;
 import PAI.domain.TeacherCareerProgression;
 import PAI.domain.TeacherCategory;
 import PAI.factory.*;
-import PAI.repository.DepartmentRepositoryImpl;
-import PAI.repository.TeacherCareerProgressionRepository;
-import PAI.repository.TeacherCategoryRepositoryImpl;
-import PAI.repository.TeacherRepository;
+import PAI.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,17 +19,17 @@ import static org.mockito.Mockito.when;
 class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     // Arrange
-    private TeacherCategoryRepositoryImpl _teacherCategoryRepoDouble;
-    private DepartmentRepositoryImpl _departmentRepoDouble;
-    private TeacherRepository _teacherRepoDouble;
-    private TeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
+    private ITeacherCategoryRepository _teacherCategoryRepoDouble;
+    private IDepartmentRepository _departmentRepoDouble;
+    private ITeacherRepository _teacherRepoDouble;
+    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
 
     @BeforeEach
     void factoryDoublesSetup(){
-        _teacherCategoryRepoDouble = mock(TeacherCategoryRepositoryImpl.class);
-        _departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        _teacherRepoDouble = mock(TeacherRepository.class);
-        _teacherCareerProgressionRepoDouble = mock(TeacherCareerProgressionRepository.class);
+        _teacherCategoryRepoDouble = mock(ITeacherCategoryRepository.class);
+        _departmentRepoDouble = mock(IDepartmentRepository.class);
+        _teacherRepoDouble = mock(ITeacherRepository.class);
+        _teacherCareerProgressionRepoDouble = mock(ITeacherCareerProgressionRepository.class);
     }
 
 
@@ -116,17 +113,6 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         assertEquals(tcListDouble, result);
     }
 
-    @Test
-    void shouldReturnExceptionIfDepartmentsListIsEmpty() throws IllegalStateException {
-        // Arrange
-        US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
-
-        when(_departmentRepoDouble.getDepartmentIDs()).thenThrow(new IllegalStateException("Department list is empty."));
-
-        // Act + Assert
-        assertThrows(IllegalStateException.class, () -> controllerUS13Double.getDepartmentIDList());
-    }
 
     @Test
     void shouldReturnDepartmentListWithRegisteredDepartments() {
@@ -134,15 +120,16 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
-        DepartmentID dptDouble = mock(DepartmentID.class);
-        Set<DepartmentID> dptListDouble = new HashSet<>();
+        Department dptDouble = mock(Department.class);
+        Set<Department> dptListDouble = new HashSet<>();
 
         dptListDouble.add(dptDouble);
 
-        when(_departmentRepoDouble.getDepartmentIDs()).thenReturn(dptListDouble);
+        when(controllerUS13Double.getDepartmentList()).thenReturn(dptListDouble);
 
         // Act
-        Set<DepartmentID> result = controllerUS13Double.getDepartmentIDList();
+        Iterable<Department> result = controllerUS13Double.getDepartmentList();
+
         // Assert
         assertEquals(dptListDouble, result);
     }
