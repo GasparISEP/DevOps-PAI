@@ -1,0 +1,117 @@
+@startuml
+autonumber
+title US06: Update Department Director Of A Department
+actor Administrator
+participant ":UI" as UI
+participant ":US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController" as Controller
+participant ":IDepartmentService" as IDepartmentService
+participant ":DepartmentServiceImpl" as DepartmentServiceImpl
+participant ":IDepartmentRepository" as IDepartmentRepository
+participant ":DepartmentRepositorySpringData" as DepartmentRepositorySpringData
+
+participant ":ITeacherService" as ITeacherService
+participant ":TeacherServiceImpl" as TeacherServiceImpl
+participant ":ITeacherRepositorySpringData" as ITeacherRepositorySpringData
+participant ":TeacherRepositorySpringDataImpl" as TeacherRepositorySpringDataImpl
+
+
+activate Administrator #ddfada
+Administrator -> UI: I want to update the Department Director of a Department!
+activate UI #ddfada
+
+UI -> Controller: getAllDepartmentID ()
+activate Controller #ddfada
+
+ref over Controller
+    Convert departmentID to VO
+end ref
+
+Controller -> IDepartmentService: getDepartmentIDs()
+activate IDepartmentService #ddfada
+ref over DepartmentServiceImpl
+Domain to DataModel
+end ref
+IDepartmentService->DepartmentServiceImpl :getDepartmentIDs()
+activate DepartmentServiceImpl #ddfada
+DepartmentServiceImpl -> IDepartmentRepository :getDepartmentIDs()
+activate IDepartmentRepository #ddfada
+IDepartmentRepository -> DepartmentRepositorySpringData :getDepartmentIDs()
+activate DepartmentRepositorySpringData #ddfada
+DepartmentRepositorySpringData -> IDepartmentRepository  :Set<DepartmentID>
+deactivate DepartmentRepositorySpringData #ddfada
+IDepartmentRepository ->DepartmentServiceImpl :Set<DepartmentID>
+deactivate IDepartmentRepository #ddfada
+DepartmentServiceImpl -> IDepartmentService :Set<DepartmentID>
+deactivate DepartmentServiceImpl #ddfada
+ref over DepartmentServiceImpl
+DataModel to Domain
+end ref
+IDepartmentService --> Controller: Set<DepartmentID>
+deactivate IDepartmentService #ddfada
+
+Controller --> UI: Set<DepartmentID>
+deactivate Controller #ddfada
+
+
+UI --> Administrator: Choose Department?
+Administrator -> UI: Department selected!
+UI --> Administrator: What Teacher?
+Administrator -> UI: Enter the Teacher!
+UI --> Administrator: Sure?
+Administrator -> UI: Yes!
+
+UI -> Controller :  updateOfDepartmentDirector (departmentID, teacherID)
+activate Controller #ddfada
+
+ref over Controller
+    Convert departmentID and teacherID to VO
+end ref
+   Controller -> ITeacherService: IsTeacherInDepartment(teacherID)
+   activate ITeacherService #ddfada
+   ITeacherService -> TeacherServiceImpl: IsTeacherInDepartment(teacherID)
+   activate TeacherServiceImpl #ddfada
+   TeacherServiceImpl -> ITeacherRepositorySpringData : IsTeacherInDepartment(teacherID)
+   activate ITeacherRepositorySpringData #ddfada
+   ITeacherRepositorySpringData -> TeacherRepositorySpringDataImpl : IsTeacherInDepartment(teacherID)
+   activate TeacherRepositorySpringDataImpl #ddfada
+   TeacherRepositorySpringDataImpl --> ITeacherRepositorySpringData : True
+   deactivate TeacherRepositorySpringDataImpl
+   ITeacherRepositorySpringData --> TeacherServiceImpl : True
+      deactivate ITeacherRepositorySpringData
+   TeacherServiceImpl --> ITeacherService : True
+      deactivate TeacherServiceImpl
+   ITeacherService --> Controller : True
+            deactivate ITeacherService
+
+Controller -> IDepartmentService: updateOfDepartmentDirector(departmentID, teacherID)
+activate IDepartmentService #ddfada
+ref over DepartmentServiceImpl
+Domain to DataModel
+end ref
+IDepartmentService -> DepartmentServiceImpl : updateOfDepartmentDirector(departmentID, teacherID)
+activate DepartmentServiceImpl #ddfada
+DepartmentServiceImpl -> IDepartmentRepository: updateOfDepartmentDirector(departmentID, teacherID)
+activate IDepartmentRepository  #ddfada
+IDepartmentRepository -> DepartmentRepositorySpringData :changeDirector (teacherID)
+activate DepartmentRepositorySpringData #ddfada
+DepartmentRepositorySpringData --> IDepartmentRepository : True
+deactivate DepartmentRepositorySpringData #ddfada
+IDepartmentRepository --> DepartmentServiceImpl :True
+deactivate IDepartmentRepository #ddfada
+DepartmentServiceImpl --> IDepartmentService: True
+deactivate DepartmentServiceImpl #ddfada
+ref over DepartmentServiceImpl
+Domain to DataModel
+end ref
+IDepartmentService--> Controller: True
+deactivate IDepartmentService #ddfada
+
+Controller --> UI: True
+deactivate Controller #ddfada
+
+
+UI --> Administrator: OK!
+deactivate UI
+deactivate Administrator
+
+@enduml
