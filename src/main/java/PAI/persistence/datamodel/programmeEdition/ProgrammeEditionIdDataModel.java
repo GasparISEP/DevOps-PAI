@@ -8,13 +8,17 @@ import jakarta.persistence.Embeddable;
 public class ProgrammeEditionIdDataModel {
     private String _programmeName;
     private String _programmeAcronym;
-    private String _schoolYearIDd;
+    private String _schoolYearId;
 
     public ProgrammeEditionIdDataModel() {}
 
     public ProgrammeEditionIdDataModel(Programme programme, SchoolYear schoolYear) {
         this._programmeName = programme.getProgrammeName().toString();
         this._programmeAcronym = programme.getAcronym().toString();
-        this._schoolYearIDd = schoolYear.identity().toString();
+        this._schoolYearId = schoolYear.identity().toString();
+    }
+
+    public String getProgrammeName() {
+        return this._programmeName;
     }
 }
