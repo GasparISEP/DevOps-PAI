@@ -4,7 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
-import PAI.service.CourseEditionApplicationService;
+import PAI.service.ICourseEditionApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +15,12 @@ import static org.mockito.Mockito.*;
 
 class US20_DefineRucForCourseEditionControllerTest {
 
-    private CourseEditionApplicationService service;
+    private ICourseEditionApplicationService service;
     private US20_DefineRucForCourseEditionController controller;
 
     @BeforeEach
     void setUp() {
-        service = mock(CourseEditionApplicationService.class);
+        service = mock(ICourseEditionApplicationService.class);
         controller = new US20_DefineRucForCourseEditionController(service);
     }
 

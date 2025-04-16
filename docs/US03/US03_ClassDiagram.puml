@@ -1,130 +1,147 @@
 @startuml
 'https://plantuml.com/class-diagram
-skinparam packageBorderColor #F0B0B0
+skinparam packageBorderColor  #F0B0B0
 skinparam arrowThickness 1.2
 skinparam linetype ortho
-top to bottom direction
+
+
+package together {
 
 title US03addCourseToProgramme
 
-package Controller {
-     class US03addCourseToProgrammeController {
-        - courseRepository: CourseRepository
-        - studyPlanRepository: StudyPlanRepository
-        - courseInStudyPlanRepository: CourseInStudyPlanRepository
-        + getAllProgrammes(): List<Programme>
-        + getAllCourses(): List<Course>
-        + getAllStudyPlans(): List<StudyPlan>
-        + addCourseToProgramme(studyPlanID: StudyPlanID, courseID: CourseID, semester: Semester, curricularYear: CurricularYear): boolean
-    }
+        package Controller {
+             class US03addCourseToProgrammeController {
+                - courseRepository: CourseRepository
+                - studyPlanRepository: StudyPlanRepository
+                - courseInStudyPlanRepository: CourseInStudyPlanRepository
+                + getAllProgrammes(): List<Programme>
+                + getAllCourses(): List<Course>
+                + getAllStudyPlans(): List<StudyPlan>
+                + addCourseToProgramme(studyPlanID: StudyPlanID, courseID: CourseID, semester: Semester, curricularYear: CurricularYear): boolean
+            }
+
+        }
+
+        package Service {
+
+            package ServiceStudyPlan{
+                class ServiceStudyPlanImpl
+                interface IServiceStudyPlan <<interface>> {}
+            }
+
+            package ServiceCourse{
+                class ServiceCourseImpl
+                interface IServiceCourse <<interface>> {}
+            }
+
+            package ServiceCourseInStudyPlan{
+                class ServiceCourseInStudyPlanImpl
+                interface IServiceCourseInStudyPlan <<interface>> {}
+            }
+        }
+
+        package Repository {
+
+
+
+                class StudyPlanRepositorySpringDataImpl {
+                    - _studyPlanRepository
+                    + getAllStudyPlans()
+                }
+                interface "IStudyPlanRepository <<interface>>"  {}
+                interface "IStudyPlanRepositorySpringData<<interface>>"
+
+
+
+
+                class CourseRepositorySpringDataImpl {
+                    - _courseFactory: CourseFactory
+                    -_courseRepository:ArrayList<Course>
+                    +registerCourse (courseName: Name, acronym: Acronym, quantityCreditsECTS: QuantityCreditsEcts, durationCourseInCurricularYear: DurationCourseInCurricularYear)
+                    +isCourseRegistered (course: Course)
+                    +getAllCourses()
+                }
+                interface "ICourseRepositorySpringData<<interface>>"
+                interface "ICourseRepository <<interface>>" {}
+
+
+
+                class CourseInStudyPlanRepositorySpringDataImpl {
+                     + registerCourseInStudyPlan(semester: Semester, curricularYear: CurricularYear, course: CourseID, studyPlanID:  StudyPlanID)
+                }
+                interface "ICourseInStudyPlanRepository <<interface>>" {}
+                interface "ICourseInStudyPlanRepositorySpringData<<interface>>"
+
+        }
+           'interface "IRepository <<interface>>" {}
+
+
+
+package Domain{
+
+        package "StudyPlan Aggregate" {
+
+             class StudyPlanID <<ValueObject>> {
+                    - uuid: UUID
+             }
+        }
+
+        package "Course Aggregate" {
+             class CourseID <<ValueObject>> {
+                    - uuid: UUID
+             }
+        }
+
+        package "CourseInStudyPlan Aggregate" {
+
+            class "<<root>>\nCourseInStudyPlan" {
+                - courseInStudyPlanID: CourseInStudyPlanID
+                - studyPlanID: StudyPlanID
+                - courseID: CourseID
+                - curricularYear: CurricularYear
+                - semester: Semester
+                +CourseInStudyPlan(semester: Semester,
+                curricularYear: CurricularYear, course: CourseID,
+                studyPlanID:  StudyPlanID)
+                +equals(ObjectToCompare: Object): boolean
+                +getCourse(): Course
+                +getSemester(): Semester
+                +getCurricularYear(): CurricularYear
+            }
+
+            class Semester <<ValueObject>> {
+                -_semester: int
+                +isSemesterValid(int semester): boolean
+                +getSemester(): int
+            }
+
+            class CurricularYear <<ValueObject>> {
+                    -_curricularYear: int
+                    +CurricularYear(int curricularYear)
+                    +isCurricularYearPositive(int curricularYear): boolean
+                    +getCurricularYear(): int
+            }
+
+            class CourseInStudyPlanID <<ValueObject>> {
+                - uuid: UUID
+            }
+
+            interface ICourseInStudyPlanFactory <<interface>> {}
+
+            class CourseInStudyPlanFactoryImpl {
+             + newCourseInStudyPlan();
+            }
+        }
 
 
 }
-package Service {
-
-    package ServiceStudyPlan{
-        class ServiceStudyPlanImpl
-        interface IServiceStudyPlan <<interface>> {}
-    }
-
-    package ServiceCourse{
-        class ServiceCourseImpl
-        interface IServiceCourse <<interface>> {}
-    }
-
-    package ServiceCourseInStudyPlan{
-        class ServiceCourseInStudyPlanImpl
-        interface IServiceCourseInStudyPlan <<interface>> {}
-    }
-}
-
-
-
-package Repository {
-
-    class StudyPlanRepositorySpringDataImpl {
-        - _studyPlanRepository
-        + getAllStudyPlans()
-    }
-
-    class CourseRepositorySpringDataImpl {
-        - _courseFactory: CourseFactory
-        -_courseRepository:ArrayList<Course>
-        +registerCourse (courseName: Name, acronym: Acronym, quantityCreditsECTS: QuantityCreditsEcts, durationCourseInCurricularYear: DurationCourseInCurricularYear)
-        +isCourseRegistered (course: Course)
-        +getAllCourses()
-    }
-
-    class CourseInStudyPlanRepositorySpringDataImpl {
-         + registerCourseInStudyPlan(semester: Semester, curricularYear: CurricularYear, course: CourseID, studyPlanID:  StudyPlanID)
-    }
-
-    'interface "IRepository <<interface>>" {}
-    interface "IStudyPlanRepository <<interface>>"  {}
-    interface "ICourseRepository <<interface>>" {}
-    interface "ICourseInStudyPlanRepository <<interface>>" {}
-
-    interface "IStudyPlanRepositorySpringData<<interface>>"
-    interface "ICourseRepositorySpringData<<interface>>"
-    interface "ICourseInStudyPlanRepositorySpringData<<interface>>"
 
 }
 
 
-package Domain {
-
-package "CourseInStudyPlan Aggregate" {
-    class "<<root>>\nCourseInStudyPlan" {
-        - courseInStudyPlanID: CourseInStudyPlanID
-        - studyPlanID: StudyPlanID
-        - courseID: CourseID
-        - curricularYear: CurricularYear
-        - semester: Semester
-        +CourseInStudyPlan(semester: Semester,
-        curricularYear: CurricularYear, course: CourseID,
-        studyPlanID:  StudyPlanID)
-        +equals(ObjectToCompare: Object): boolean
-        +getCourse(): Course
-        +getSemester(): Semester
-        +getCurricularYear(): CurricularYear
-    }
-    class Semester <<ValueObject>> {
-        -_semester: int
-        +isSemesterValid(int semester): boolean
-        +getSemester(): int
-    }
-
-    class CurricularYear <<ValueObject>> {
-            -_curricularYear: int
-            +CurricularYear(int curricularYear)
-            +isCurricularYearPositive(int curricularYear): boolean
-            +getCurricularYear(): int
-    }
-
-    class CourseInStudyPlanID <<ValueObject>> {
-        - uuid: UUID
-    }
-
-    class CourseID <<ValueObject>> {
-        - uuid: UUID
-    }
-
-    class StudyPlanID <<ValueObject>> {
-        - uuid: UUID
-    }
-
-
-    interface ICourseInStudyPlanFactory <<interface>> {}
-
-    class CourseInStudyPlanFactoryImpl {
-     + newCourseInStudyPlan();
-    }
-
-}
-}
-Controller -down- Service #F0B0B0
-Service -down----- Repository #F0B0B0
-Repository -down----- Domain #F0B0B0
+Controller ---> Service #F0B0B0
+Service ----> Repository #F0B0B0
+Repository ------> Domain #F0B0B0
 
 
 
@@ -132,9 +149,9 @@ US03addCourseToProgrammeController "1" .down..> "*" IServiceCourse: uses
 US03addCourseToProgrammeController "1" .down..> "*" IServiceStudyPlan: uses
 US03addCourseToProgrammeController "1" .down..> "*" IServiceCourseInStudyPlan: uses
 
-IServiceCourse " " <|.. " " ServiceCourseImpl: implements
-IServiceStudyPlan  " " <|.. " " ServiceStudyPlanImpl: implements
-IServiceCourseInStudyPlan  " " <|.. " " ServiceCourseInStudyPlanImpl: implements
+IServiceCourse " " <|... " " ServiceCourseImpl: implements
+IServiceStudyPlan  " " <|... " " ServiceStudyPlanImpl: implements
+IServiceCourseInStudyPlan  " " <|... " " ServiceCourseInStudyPlanImpl: implements
 
 IServiceCourse  "1" ..> "*" "ICourseRepository <<interface>>"
 IServiceStudyPlan  "1" ..> "*" "IStudyPlanRepository <<interface>>"
@@ -144,13 +161,17 @@ CourseInStudyPlanRepositorySpringDataImpl ..|> "ICourseInStudyPlanRepository <<i
 CourseRepositorySpringDataImpl ..|> "ICourseRepository <<interface>>" : implements
 StudyPlanRepositorySpringDataImpl ..|> "IStudyPlanRepository <<interface>>" : implements
 
-"ICourseInStudyPlanRepository <<interface>>" ..|> "ICourseInStudyPlanRepositorySpringData<<interface>>"
-"IStudyPlanRepository <<interface>>" ..|> "IStudyPlanRepositorySpringData<<interface>>"
-"ICourseRepository <<interface>>" ..|> "ICourseRepositorySpringData<<interface>>"
+CourseInStudyPlanRepositorySpringDataImpl ..|> "ICourseInStudyPlanRepositorySpringData<<interface>>"
+CourseRepositorySpringDataImpl ..|> "ICourseRepositorySpringData<<interface>>"
+StudyPlanRepositorySpringDataImpl ..|> "IStudyPlanRepositorySpringData<<interface>>"
 
 'ICourseInStudyPlanRepository -down--|> IRepository: extends
 'ICourseRepository -down--|> IRepository: extends
 'IStudyPlanRepository -down--|> IRepository: extends
+
+StudyPlanRepositorySpringDataImpl --> StudyPlanID
+CourseRepositorySpringDataImpl --> CourseID
+CourseInStudyPlanRepositorySpringDataImpl --> CourseInStudyPlanID
 
 IServiceCourseInStudyPlan "1" --> "1" ICourseInStudyPlanFactory: uses
 CourseInStudyPlanFactoryImpl ..|> ICourseInStudyPlanFactory: implements
