@@ -24,4 +24,8 @@ public class ProgrammeEditionIdDataModel {
     public String getProgrammeAcronym() {
         return this._programmeAcronym;
     }
+
+    public String getSchoolYearId() {
+        return this._schoolYearId;
+    }
 }
