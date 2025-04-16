@@ -25,7 +25,7 @@ public class StudyPlanRepositoryImplTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
 
         when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
@@ -52,7 +52,7 @@ public class StudyPlanRepositoryImplTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
@@ -78,7 +78,7 @@ public class StudyPlanRepositoryImplTest {
         ProgrammeID programmeID2 = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         when(factory.newStudyPlan_2(programmeID1, implementationDate, durationInYears, quantityOfEcts))
                 .thenAnswer(invocation -> new StudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts));
@@ -109,7 +109,7 @@ public class StudyPlanRepositoryImplTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
                 .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts));
@@ -364,7 +364,7 @@ public class StudyPlanRepositoryImplTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         // Criar um plano de estudos real para teste
         StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -413,7 +413,7 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate1 = mock(Date.class);
         Date implementationDate2 = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         // Criar dois planos, para diferentes programas
         StudyPlan studyPlan1 = new StudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts);

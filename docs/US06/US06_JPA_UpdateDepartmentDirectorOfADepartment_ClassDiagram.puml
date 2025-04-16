@@ -25,21 +25,20 @@ class DepartmentServiceImpl {
     + updateOfDepartmentDirector(departmentID: DepartmentID, furtherDirectorID: TeacherID): boolean
 }
 
-class DepartmentRepositorySpringData {
+class DepartmentRepositorySpringDataImpl {
     + findAll(): Iterable<Department>
     + getDepartmentIDs(): Set<DepartmentID>
     + updateOfDepartmentDirector(departmentID: DepartmentID, furtherDirectorID: TeacherID): boolean
 }
 
 
-class DepartmentRepositorySpringData {
-   + DepartmentRepositorySpringData(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapper) {
+interface IDepartmentRepositorySpringData {
+ + DepartmentRepositorySpringDataImpl(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapper) {
    + save (entity: Department): Department
    + findAll(): Iterable<Department>
    + ofIdentity (id: DepartmentID): Optional<Department>
    + containsOfIdentity(id: DepartmentID): boolean
 }
-
 
 package "Department Aggregate" {
 class Department <<root>> {
@@ -123,6 +122,9 @@ class TeacherMapper{
 +toDataModel(teacher:Teacher)TeacherDataModel
 }
 
+interface ITeacherRepositorySpringData {
++isInDepartment(departmentID: DepartmentID) :boolean
+}
 class TeacherRepositorySpringDataImpl{
 +isInDepartment(departmentID: DepartmentID) :boolean
 }
@@ -214,12 +216,10 @@ US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController "1" ..> "1" ITeac
 IDepartmentService <|.. DepartmentServiceImpl
 ITeacherService <|.. TeacherServiceImpl
 TeacherServiceImpl "1" ..> "1" ITeacherRepository
-IDepartmentRepository <|.. DepartmentRepositorySpringData
+IDepartmentRepository <|.. DepartmentRepositorySpringDataImpl
 
 
-
-
-DepartmentDataModel "_listDepartment *         " <-- "1" DepartmentRepositorySpringData
+DepartmentDataModel "_listDepartment *         " <-- "1" DepartmentRepositorySpringDataImpl
 Department "1" --> "1 _name" Name
 Department "1" --> "1 _departmentDirector" TeacherID
 Department "1" --> "1 _departmentId" DepartmentID
@@ -251,7 +251,7 @@ Teacher "1" --> "1 _nif" NIF
 Teacher "1" --> "1 _phoneNumber" PhoneNumber
 Teacher "1" --> "_academicBackground" AcademicBackground
 
-DepartmentRepositorySpringData -> DepartmentMapper
+DepartmentRepositorySpringDataImpl -> DepartmentMapper
 TeacherRepositorySpringDataImpl "1" --> "*" TeacherDataModel
 DepartmentServiceImpl "1" --> "1_departmentRepo" IDepartmentRepository
 DepartmentServiceImpl "1" --> "_departmentFactory 1" IDepartmentFactory
@@ -261,4 +261,6 @@ TeacherRepositoryMem "1" --> "* _teachers" Teacher
 ITeacherFactory <|.. TeacherFactoryImpl
 ITeacherFactory --> Teacher
 IDepartmentFactory <|.. DepartmentFactoryImpl
+IDepartmentRepositorySpringData <|.. DepartmentRepositorySpringDataImpl
+ITeacherRepositorySpringData <|.. TeacherRepositorySpringDataImpl
 @enduml
