@@ -1,43 +1,56 @@
 @startuml
-
 actor admin
+autonumber
+title US01 - Configure TeacherCategory (DDD) V2
 
-participant ":UI" as UI #application
-participant "US01_ConfigureTeacherCategoryController" as Controller #application
-participant "TeacherCategoryFactoryImpl" as Factory
-participant "TeacherCategoryRepositoryImpl" as Repository
-participant "TeacherCategory" as Aggregate
-participant "Name" as VOName
-participant "TeacherCategoryID" as VOId
+participant ":UI" as UI <<application>>
+participant US01_ConfigureTeacherCategoryController as Controller <<application>>
+participant ITeacherCategoryRepository as Repository <<domain/infrastructure>>
+participant Name as VOName <<domain>>
+participant TeacherCategoryFactoryImpl as Factory <<domain>>
+participant TeacherCategory as TC <<domain>>
 
 ' Step 1: Admin interacts with UI
-admin -> UI ++ : I want to configure TeacherCategory
-UI --> admin -- : Enter categoryName?
+admin -> UI : I want to configure a new Teacher Category
+UI --> admin : Please provide category name
 
-admin -> UI ++ : (categoryName)
-UI -> Controller ++ : configureTeacherCategory(categoryName)
+admin -> UI : (categoryName)
+UI -> Controller : configureTeacherCategory(categoryName)
 
-' Step 2: Controller creates Name VO and delegates to Factory
-Controller -> VOName ++ : new Name(categoryName)
-VOName --> Controller -- : nameVO
+' Step 2: Controller delegates VO creation & persistence to Repository
+activate Controller
+Controller -> Repository : registerTeacherCategory(categoryName : String)
+deactivate Controller
 
-Controller -> Factory ++ : createTeacherCategory(nameVO)
+' Step 3: Repository creates Name VO
+activate Repository
+Repository -> VOName : new Name(categoryName)
+VOName --> Repository : nameVO
 
-' Step 3: Factory creates ID and Aggregate
-Factory -> VOId ++ : new TeacherCategoryID()
-VOId --> Factory -- : idVO
+' Step 4: Repository checks duplicates
+Repository -> Repository : existsByName(nameVO)
+alt not exists
+    ' Step 5: Repository creates aggregate via Factory
+    Repository -> Factory : createTeacherCategory(nameVO)
+    activate Factory
+    Factory -> TC : «create»(TeacherCategoryID, nameVO)
+    Factory --> Repository : TeacherCategory
+    deactivate Factory
 
-Factory -> Aggregate ++ : new TeacherCategory(idVO, nameVO)
-Aggregate --> Factory -- : tcAggregate
+    ' Step 6: Repository saves the aggregate
+    Repository -> Repository : save(TeacherCategory)
+    Repository --> Controller : true
+else exists
+    Repository --> Controller : false
+end
+deactivate Repository
 
-Factory --> Controller -- : tcAggregate
-
-' Step 4: Controller persists aggregate through repository
-Controller -> Repository ++ : save(tcAggregate)
-Repository --> Controller -- : tcAggregate
-
-' Step 5: Return to UI and admin
-Controller --> UI -- : success (true)
-UI --> admin -- : success
-
+' Step 7: Controller handles result
+activate Controller
+alt false
+    Controller --> UI : throw Exception("Category already exists…")
+else true
+    Controller --> UI : return true
+end
+deactivate Controller
 @enduml
