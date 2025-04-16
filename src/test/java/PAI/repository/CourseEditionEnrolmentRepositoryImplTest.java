@@ -793,7 +793,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name2);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
@@ -823,7 +825,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym3 = new Acronym("DSOFT");
+        Name name3 = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym3, name3);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
@@ -834,7 +838,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionID programmeEdition2ID = new ProgrammeEditionID(programme2ID, schoolYear2ID);
         Date implementationDate2 = new Date("21-03-2022");
         StudyPlanID studyPlanID2 = new StudyPlanID(programme2ID, implementationDate2);
-        CourseID courseID2 = new CourseID();
+        Acronym acronym4 = new Acronym("DSOFT");
+        Name name4 = new Name("Software Development");
+        CourseID courseID2 = new CourseID(acronym4, name4);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseID2, studyPlanID2);
         CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID, courseInStudyPlanID2);
 
@@ -868,7 +874,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name2);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
@@ -904,7 +912,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name2);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
@@ -931,7 +941,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name2);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
@@ -962,7 +974,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name2);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
