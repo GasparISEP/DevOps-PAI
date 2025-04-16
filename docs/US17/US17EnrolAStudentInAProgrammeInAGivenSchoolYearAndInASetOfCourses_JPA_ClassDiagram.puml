@@ -1,9 +1,10 @@
 @startuml
 '!pragma layout smetana
 'left to right direction
+'top to bottom direction
 
-skinparam ranksep 30
-skinparam nodesep 30
+skinparam ranksep 25
+skinparam nodesep 25
 skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
@@ -63,6 +64,27 @@ interface IProgrammeEditionEnrolmentListFactory{
     +newProgrammeEditionEnrolmentList(): Set<ProgrammeEditionEnrolmentId>
 }
 
+interface IProgrammeEditionEnrolmentRepositorySpringDataJPA {
+}
+
+interface IProgrammeRepositorySpringDataJPA {
+}
+
+interface IProgrammeEditionRepositorySpringDataJPA {
+}
+
+interface IProgrammeEnrolmentRepositorySpringDataJPA {
+}
+
+interface ICourseEditionEnrolmentRepositorySpringDataJPA {
+}
+
+interface ICourseEditionRepositorySpringDataJPA {
+}
+
+interface ISchoolYearRepositorySpringDataJPA {
+}
+
 ' Services
 class ProgrammeEditionEnrolmentServiceImpl {
     +ProgrammeEditionEnrolmentService(programmeEditionEnrolmentRepository: IProgrammeEditionEnrolmentRepository, \n programmeEditionRepository: IProgrammeEditionRepository, programmeRepository: IProgrammeRepository, \n courseEditionEnrolmentRepository: ICourseEditionEnrolmentRepository, courseEditionRepository: ICourseEditionRepository, \n schoolYearRepository: ISchoolYearRepository, programmeEnrolmentRepository: IProgrammeEnrolmentRepository
@@ -79,12 +101,29 @@ class ProgrammeEditionEnrolmentRepositoryImpl {
     +isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
 }
 
+class ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl {
+    +ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl(programmeEditionEnrolmentFactory: ProgrammeEditionEnrolmentFactory,
+          programmeEditionEnrolmentListFactory: ProgrammeEditionEnrolmentListFactory)
+    +enrolStudentInProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
+    +isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
+}
+
 class ProgrammeEditionRepositoryImpl {
     +ProgrammeEditionRepositoryImpl(programmeEditionFactory: ProgrammeEditionFactory)
     +findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
 }
 
+class ProgrammeEditionRepositorySpringDataJPAImpl {
+    +ProgrammeEditionRepositoryImpl(programmeEditionFactory: ProgrammeEditionFactory)
+    +findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId: ProgrammeID, schoolYearId: SchoolYearID) : Optional<ProgrammeEditionID>
+}
+
 class ProgrammeRepositoryImpl {
+    +ProgrammeRepositoryImpl(programmeFactory: ProgrammeFactory)
+    +getAllProgrammesIDs() : List<ProgrammeID>
+}
+
+class ProgrammeRepositorySpringDataJPAImpl {
     +ProgrammeRepositoryImpl(programmeFactory: ProgrammeFactory)
     +getAllProgrammesIDs() : List<ProgrammeID>
 }
@@ -96,7 +135,19 @@ class CourseEditionEnrolmentRepositoryImpl {
     +enrolStudentInProgrammeEditionCoursesEditions(studentId: StudentID, courseEditions: List<CourseEditionID>) : void
 }
 
+class CourseEditionEnrolmentRepositorySpringDataJPAImpl {
+    +CourseEditionEnrolmentRepositoryImpl ()
+    +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID) : boolean
+    +findByStudentAndEdition(studentId: StudentID, courseEditionId: CourseEditionID) : Optional<CourseEditionEnrolment>
+    +enrolStudentInProgrammeEditionCoursesEditions(studentId: StudentID, courseEditions: List<CourseEditionID>) : void
+}
+
 class CourseEditionRepositoryImpl {
+    +CourseEditionRepositoryImpl(courseEditionFactory: CourseEditionFactory)
+    +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<CourseEditionID>
+}
+
+class CourseEditionRepositorySpringDataJPAImpl {
     +CourseEditionRepositoryImpl(courseEditionFactory: CourseEditionFactory)
     +findCourseEditionsByProgrammeEdition(programmeEdition: ProgrammeEdition) : List<CourseEditionID>
 }
@@ -106,12 +157,20 @@ class SchoolYearRepositoryImpl {
     +getAllSchoolYearsIDs() : List<SchoolYearID>
 }
 
+class SchoolYearRepositorySpringDataJPAImpl {
+    +SchoolYearRepositoryImpl(schoolYearFactory: SchoolYearFactory, schoolYearListFactory: SchoolYearListFactory)
+    +getAllSchoolYearsIDs() : List<SchoolYearID>
+}
+
 class ProgrammeEnrolmentRepositoryImpl {
     +ProgrammeEnrolmentRepositoryImpl()
     +isStudentEnrolled(studentId: ProgrammeEnrolmentRepositoryStudentID, programmeId: ProgrammeID) : boolean
 }
 
-
+class ProgrammeEnrolmentRepositorySpringDataJPAImpl {
+    +ProgrammeEnrolmentRepositoryImpl()
+    +isStudentEnrolled(studentId: ProgrammeEnrolmentRepositoryStudentID, programmeId: ProgrammeID) : boolean
+}
 
 
 'Aggregates
@@ -176,6 +235,31 @@ package "ProgrammeEnrolment Aggregate" #Lightblue{
     }
 }
 
+'DataModel
+
+class ProgrammeEditionEnrolmentIDDataModel {
+      - _studentId: String
+      - _programmeEditionId: String
+      + ProgrammeEditionEnrolmentIDDataModel()
+      + ProgrammeEditionEnrolmentIDDataModel(studentId: String, programmeEditionId: String)
+      + equals(obj: Object): boolean
+      + hashCode(): int
+}
+
+class ProgrammeEditionEnrolmentDataModel{
+      - _id: ProgrammeEditionEnrolmentIDDataModel
+      - version: Long
+      + ProgrammeEditionEnrolmentDataModel()
+      + ProgrammeEditionEnrolmentDataModel(studentId: String, programmeEditionId: String)
+      }
+
+'Mapper
+class ProgrammeEditionEnrolmentMapper{
+      - programmeEditionEnrolmentFactory IProgrammeEditionEnrolmentFactory
+      + ProgrammeEditionEnrolmentMapper(programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory)
+      + toDomain(peeDataModel ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
+      + toDataModel(peeDomain ProgrammeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+}
 
 'Value Objects
 
@@ -342,6 +426,7 @@ class DegreeTypeID <<Value Object>> {
 }
 
 
+
 'Factory
 class ProgrammeEditionEnrolmentFactoryImpl {
     +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
@@ -383,23 +468,18 @@ class CourseEditionArrayList{
 }
 
 ' Controller - IService
-US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController "1" ..> "1" IProgrammeEditionEnrolmentService
+US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController  ..>  IProgrammeEditionEnrolmentService
 
 ' IService - Service
-IProgrammeEditionEnrolmentService "1" <|... "1" ProgrammeEditionEnrolmentServiceImpl
+IProgrammeEditionEnrolmentService  <|...  ProgrammeEditionEnrolmentServiceImpl
 
-
-
-
-
-
-ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeEditionEnrolmentRepository
-ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeEditionRepository
-ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeRepository
-ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" ICourseEditionEnrolmentRepository
-ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" ICourseEditionRepository
-ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" ISchoolYearRepository
-ProgrammeEditionEnrolmentServiceImpl "1" ..> "1" IProgrammeEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl  ..>  IProgrammeEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl  ..>  IProgrammeEditionRepository
+ProgrammeEditionEnrolmentServiceImpl  ..>  IProgrammeRepository
+ProgrammeEditionEnrolmentServiceImpl  ..>  ICourseEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl  ..>  ICourseEditionRepository
+ProgrammeEditionEnrolmentServiceImpl  ..>  ISchoolYearRepository
+ProgrammeEditionEnrolmentServiceImpl  ..>  IProgrammeEnrolmentRepository
 
 
 ' Repository -> interface
@@ -411,6 +491,14 @@ ICourseEditionRepository <|.. CourseEditionRepositoryImpl
 ISchoolYearRepository <|.. SchoolYearRepositoryImpl
 IProgrammeEnrolmentRepository <|.. ProgrammeEnrolmentRepositoryImpl
 
+' Repository -> Aggregates
+ProgrammeRepositoryImpl ..> Programme
+CourseEditionEnrolmentRepositoryImpl ..> CourseEditionEnrolment
+ProgrammeEditionEnrolmentRepositoryImpl ..> ProgrammeEditionEnrolment
+ProgrammeEditionRepositoryImpl ..> ProgrammeEdition
+CourseEditionRepositoryImpl ..> CourseEdition
+SchoolYearRepositoryImpl ..> SchoolYear
+ProgrammeEnrolmentRepositoryImpl ..> ProgrammeEnrolment
 
 ' Service -> InterfaceFactory
 ProgrammeEditionEnrolmentServiceImpl ..> IProgrammeEditionEnrolmentListFactory
@@ -418,13 +506,11 @@ ProgrammeEditionEnrolmentServiceImpl ..> IProgrammeEditionEnrolmentFactory
 
 ' Other connections
 
-Student "1" --> "1 _address" Address
-CourseEditionRepositoryImpl "1" -u-> "_listOfCE" CourseEdition
-CourseEditionRepositoryImpl "1" --> "1" CourseEditionListFactoryImpl
+CourseEditionRepositoryImpl "1       " --> "1" CourseEditionListFactoryImpl
 'CourseEditionRepositoryImpl "1" --> "1" CourseEditionArrayList
 CourseEditionArrayList "1" <.. "1" CourseEditionListFactoryImpl
 CourseEditionArrayList "1 arrayOfCourseEdition" <.u. "*" CourseEdition
-CourseEditionEnrolment " " ..> " " ICourseEditionEnrolmentRepository
+
 'CourseEditionEnrolmentRepositoryImpl "1" --> "1" CourseEditionEnrolmentListFactoryImpl
 CourseEditionEnrolmentRepositoryImpl "1" --> "1" HashSet
 HashSet "1" <.. "1" CourseEditionEnrolmentListFactoryImpl
@@ -438,7 +524,7 @@ IProgrammeEditionEnrolmentListFactory ..> ProgrammeEditionEnrolmentArrayList
 IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
 IProgrammeEditionEnrolmentListFactory <|.. ProgrammeEditionEnrolmentListFactoryImpl
 ProgrammeEnrolmentRepositoryImpl "1" --> "*" ProgrammeEnrolment
-ProgrammeRepositoryImpl ..> Programme
+
 'ProgrammeRepositoryImpl "1" --> "1" ProgrammeArrayList
 ProgrammeArrayList "1" --> " _programme *" Programme
 
@@ -450,7 +536,6 @@ CourseEdition "1" --> "1" CourseEditionID
 CourseEdition "1" --> "1" ProgrammeEditionID
 CourseEdition "1" --> "1" CourseInStudyPlanID
 
-SchoolYearRepositoryImpl ..> SchoolYear
 'SchoolYearRepositoryImpl "1" --> "1" SchoolYearArrayList
 SchoolYearArrayList "1" --> " _schoolYear *" SchoolYear
 
@@ -498,9 +583,32 @@ Address "*                " ---> "1" PostalCode
 Address " *" ---> "1" Location
 Address " *" ---> "1" Country
 
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..|> IProgrammeEditionEnrolmentRepository
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> IProgrammeEditionEnrolmentRepositorySpringDataJPA
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolment
+ProgrammeRepositorySpringDataJPAImpl ..|> IProgrammeRepository
+ProgrammeRepositorySpringDataJPAImpl ..> IProgrammeRepositorySpringDataJPA
+ProgrammeRepositorySpringDataJPAImpl ..> Programme
+ProgrammeEditionRepositorySpringDataJPAImpl ..|> IProgrammeEditionRepository
+ProgrammeEditionRepositorySpringDataJPAImpl ..> IProgrammeEditionRepositorySpringDataJPA
+ProgrammeEditionRepositorySpringDataJPAImpl ..> ProgrammeEdition
+ProgrammeEnrolmentRepositorySpringDataJPAImpl ..|> IProgrammeEnrolmentRepository
+ProgrammeEnrolmentRepositorySpringDataJPAImpl ..> IProgrammeEnrolmentRepositorySpringDataJPA
+ProgrammeEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEnrolment
+CourseEditionEnrolmentRepositorySpringDataJPAImpl ..|> ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentRepositorySpringDataJPAImpl ..> ICourseEditionEnrolmentRepositorySpringDataJPA
+CourseEditionEnrolmentRepositorySpringDataJPAImpl ..> CourseEditionEnrolment
+CourseEditionRepositorySpringDataJPAImpl ...|> ICourseEditionRepository
+CourseEditionRepositorySpringDataJPAImpl ..> ICourseEditionRepositorySpringDataJPA
+CourseEditionRepositorySpringDataJPAImpl ..> CourseEdition
+SchoolYearRepositorySpringDataJPAImpl ..|> ISchoolYearRepository
+SchoolYearRepositorySpringDataJPAImpl ..> ISchoolYearRepositorySpringDataJPA
+SchoolYearRepositorySpringDataJPAImpl ..> SchoolYear
 
-
-
-
+ProgrammeEditionEnrolmentMapper ..> IProgrammeEditionEnrolmentFactory
+ProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolmentDataModel
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentDataModel --> ProgrammeEditionEnrolmentIDDataModel
 
 @enduml
