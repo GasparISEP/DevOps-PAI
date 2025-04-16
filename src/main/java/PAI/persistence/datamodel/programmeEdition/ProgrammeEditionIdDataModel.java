@@ -21,4 +21,7 @@ public class ProgrammeEditionIdDataModel {
     public String getProgrammeName() {
         return this._programmeName;
     }
+    public String getProgrammeAcronym() {
+        return this._programmeAcronym;
+    }
 }
