@@ -41,7 +41,9 @@ class CourseEditionApplicationServiceTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
         // CourseInStudyPlanID dependencies
-        CourseID courseID = new CourseID(); // uses default constructor
+        Acronym courseAcronym = new Acronym("SE");
+        Name courseName = new Name("Software Engineering");
+        CourseID courseID = new CourseID(courseAcronym, courseName); // uses default constructor
         PAI.VOs.Date studyPlanDate = new PAI.VOs.Date(java.time.LocalDate.now());
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
         CourseInStudyPlanID coursePlanID = new CourseInStudyPlanID(courseID, studyPlanID);
