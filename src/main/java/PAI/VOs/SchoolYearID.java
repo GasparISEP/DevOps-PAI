@@ -11,6 +11,12 @@ public class SchoolYearID implements DomainId {
     public SchoolYearID() {
         this._schoolYearID = UUID.randomUUID();
     }
+    public SchoolYearID(UUID schoolYearID) {
+        if (schoolYearID == null){
+            throw new IllegalArgumentException("School Year ID cannot be null");
+        }
+        this._schoolYearID = schoolYearID;
+    }
 
     public UUID getSchoolYearID() {
         return _schoolYearID;
