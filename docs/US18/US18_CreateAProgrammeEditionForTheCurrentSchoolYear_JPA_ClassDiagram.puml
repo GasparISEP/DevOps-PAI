@@ -10,12 +10,12 @@ top to bottom direction
 package controller{
     class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         + US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository : ProgrammeEditionRepository, schoolYearRepository : SchoolYearRepository, programmeList : ProgrammeList)
-        + getAllProgrammeNames() : List<String>
-        + createAProgrammeEditionForTheCurrentSchoolYear(programmeName : ProgrammeName) : boolean
+        + getAllProgrammeNames() : List<NameWithNumbersAndSpecialChars>
+        + createAProgrammeEditionForTheCurrentSchoolYear(programmeName : NameWithNumbersAndSpecialChars) : boolean
     }
 }
 
-interface IRepository{}
+interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
 
 
     package repository{
@@ -42,17 +42,23 @@ interface IRepository{}
 
         package ProgrammeRepository{
 
-            interface IProgrammeRepository {
-                    + registerProgramme(name : Name, acronym : Acronym, quantEcts : QuantEcts, (...))
-                    + changeProgrammeDirector(programmeID : ProgrammeID, teacherID : TeacherID)
-                    + getAllProgrammes() : List<Programme>
-                    + getAllProgrammeEditions() : List<ProgrammeEdition>
-                    + getProgrammeByName(name : Name) : Optional<Programme>
-                    + getProgrammeByAcronym(acronym : Acronym) : Programme
-                    + getAllProgrammeNames() : List <String>
+            interface IProgrammeRepository <<interface>> {
+                    + registerProgramme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, quantityOfEcts: QuantEcts, \n quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID, \n programmeDirectorID: TeacherID) : boolean
+                    +findProgrammeByDepartment(departmentID: DepartmentID) : List<ProgrammeID>
+                    +getProgrammesByDegreeTypeID(degreeTypeID: DegreeTypeID) : List<Programme>
+                    +findProgrammeIdByProgramme(programme: Programme) : Optional<ProgrammeID>
+                    +changeProgrammeDirector(programmeID: ProgrammeID, newDirectorID: TeacherID) : boolean
+                    +getAllProgrammes() : List<Programme>
+                    +getProgrammeByName(name: NameWithNumbersAndSpecialChars) : Optional<Programme>
+                    +getProgrammeByAcronym(acronym: Acronym) : Programme
+                    +getAllProgrammeNames() : List<NameWithNumbersAndSpecialChars>
+                    +getAllProgrammesIDs() : List<ProgrammeID>
             }
 
-            class ProgrammeRepositoryImpl {
+            class ProgrammeRepositoryImpl <<repository>> {
+                - _I_programmeFactory: IProgrammeFactory
+                - _programmeRepo: List<Programme>
+                - _programmeRepoListFactory: IProgrammeRepositoryListFactory
                 + ProgrammeRepositoryImpl(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeLisListFactory)
                 + registerProgramme(name : Name, acronym : Acronym, quantEcts : QuantEcts, (...))
                 + changeProgrammeDirector(programmeID : ProgrammeID, teacherID : TeacherID)
