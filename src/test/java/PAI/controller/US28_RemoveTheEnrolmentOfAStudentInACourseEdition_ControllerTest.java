@@ -215,7 +215,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
@@ -246,7 +248,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym3 = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym3, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
@@ -257,7 +261,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ProgrammeEditionID programmeEdition2ID = new ProgrammeEditionID(programme2ID,schoolYear2ID);
         Date implementationDate2 = new Date("21-03-2022");
         StudyPlanID studyPlanID2 = new StudyPlanID(programme2ID, implementationDate2);
-        CourseID courseID2 = new CourseID();
+        Acronym acronym4 = new Acronym("CENG");
+        Name name2 = new Name("Civil Engineering");
+        CourseID courseID2 = new CourseID(acronym4, name2);
         CourseInStudyPlanID courseInStudyPlan2ID = new CourseInStudyPlanID(courseID2, studyPlanID2);
         CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID,courseInStudyPlan2ID);
 
@@ -292,7 +298,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
@@ -329,7 +337,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
@@ -357,7 +367,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
@@ -389,7 +401,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
         Date implementationDate = new Date("21-03-2022");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
-        CourseID courseID = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name = new Name("Software Development");
+        CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
 
