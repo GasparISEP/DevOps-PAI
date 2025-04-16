@@ -19,9 +19,26 @@ class CourseIDTest {
         //assert
         assertNotNull(id);
     }
+    @Test
+    void shouldThrowExceptionIfAcronymIsNull() {
+        //Arrange
+        Acronym acronymDouble = null;
+        Name nameDouble = mock(Name.class);
+        //Act+Assert
+        assertThrows(NullPointerException.class, () -> {new CourseID(acronymDouble, nameDouble);});
+    }
 
     @Test
-    void shouldReturnsEqualsIfObjectsAreEqual() {
+    void shouldThrowExceptionIfNameIsNull() {
+        //Arrange
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = null;
+        //Act+Assert
+        assertThrows(NullPointerException.class, () -> {new CourseID(acronymDouble, nameDouble);});
+    }
+
+    @Test
+    void shouldReturnEqualsIfObjectsAreEqual() {
         //Arrange
         Acronym acronymDouble = mock(Acronym.class);
         Name nameDouble = mock(Name.class);
@@ -54,7 +71,7 @@ class CourseIDTest {
     }
 
     @Test
-    void shouldReturnNotEqualsIfCourseIDsHaveDifferentUUIDs() {
+    void shouldReturnNotEqualsIfCourseIDsHaveDifferentAcronymsAndNames() {
         //Arrange
         Acronym acronymDouble = mock(Acronym.class);
         Name nameDouble = mock(Name.class);
@@ -64,6 +81,30 @@ class CourseIDTest {
         CourseID courseID2 = new CourseID(acronymDouble2, nameDouble2);
         //Act+Assert
         assertNotEquals(courseID, courseID2);
+    }
+
+    @Test
+    void shouldReturnEqualsIfAcronymsAreEqualButNamesAreDifferent() {
+        //Arrange
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        Name nameDouble2 = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
+        CourseID courseID2 = new CourseID(acronymDouble, nameDouble2);
+        //Act+Assert
+        assertEquals(courseID, courseID2);
+    }
+
+    @Test
+    void shouldReturnEqualsIfAcronymsAreDifferentButNamesAreEqual() {
+        //Arrange
+        Acronym acronymDouble = mock(Acronym.class);
+        Acronym acronymDouble2 = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
+        CourseID courseID2 = new CourseID(acronymDouble2, nameDouble);
+        //Act+Assert
+        assertEquals(courseID, courseID2);
     }
 
     @Test

@@ -28,7 +28,7 @@ public class CourseID implements DomainId {
         if (!(object instanceof CourseID))
             return false;
         CourseID courseIDTest = (CourseID) object;
-        return _acronym.equals(courseIDTest._acronym) &&
+        return _acronym.equals(courseIDTest._acronym) ||
                 _name.equals(courseIDTest._name);
     }
 
