@@ -1,14 +1,19 @@
 package PAI.repository;
 
-import PAI.VOs.*;
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import PAI.domain.TeacherCategory;
-
+import PAI.factory.ITeacherCategoryFactory;
+import PAI.factory.ITeacherCategoryListFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,12 +23,31 @@ class TeacherCategoryRepositoryImplTest {
 
     @BeforeEach
     void setUp() {
-        repository = new TeacherCategoryRepositoryImpl();
+        // Provide an inline implementation for ITeacherCategoryFactory:
+        ITeacherCategoryFactory teacherCategoryFactory = new ITeacherCategoryFactory() {
+            @Override
+            public TeacherCategory createTeacherCategory(Name name) {
+                // Create a new TeacherCategory with a random UUID as the ID.
+                return new TeacherCategory(new TeacherCategoryID(UUID.randomUUID()), name);
+            }
+        };
+
+        // Provide an inline implementation for ITeacherCategoryListFactory:
+        ITeacherCategoryListFactory teacherCategoryListFactory = new ITeacherCategoryListFactory() {
+            @Override
+            public List<TeacherCategory> getTeacherCategoryList() {
+                // Return a new empty ArrayList to act as our in-memory store.
+                return new ArrayList<>();
+            }
+        };
+
+        repository = new TeacherCategoryRepositoryImpl(teacherCategoryFactory, teacherCategoryListFactory);
     }
 
     @Test
     void shouldSaveAndRetrieveCategoryById() {
-        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), new Name("Professor Associado"));
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(UUID.randomUUID()),
+                new Name("Professor Associado"));
         repository.save(category);
 
         Optional<TeacherCategory> result = repository.ofIdentity(category.getId());
@@ -34,14 +58,14 @@ class TeacherCategoryRepositoryImplTest {
 
     @Test
     void shouldReturnFalseIfCategoryIdNotFound() {
-        boolean exists = repository.containsOfIdentity(new TeacherCategoryID());
+        boolean exists = repository.containsOfIdentity(new TeacherCategoryID(UUID.randomUUID()));
         assertFalse(exists);
     }
 
     @Test
     void shouldDetectExistingCategoryByName() {
         Name name = new Name("Professor Catedrático");
-        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), name);
+        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(UUID.randomUUID()), name);
         repository.save(category);
 
         assertTrue(repository.existsByName(name));
@@ -49,8 +73,8 @@ class TeacherCategoryRepositoryImplTest {
 
     @Test
     void shouldReturnAllCategories() {
-        repository.save(new TeacherCategory(new TeacherCategoryID(), new Name("Professor A")));
-        repository.save(new TeacherCategory(new TeacherCategoryID(), new Name("Professor B")));
+        repository.save(new TeacherCategory(new TeacherCategoryID(UUID.randomUUID()), new Name("Professor A")));
+        repository.save(new TeacherCategory(new TeacherCategoryID(UUID.randomUUID()), new Name("Professor B")));
 
         Iterable<TeacherCategory> all = repository.findAll();
 
@@ -60,7 +84,7 @@ class TeacherCategoryRepositoryImplTest {
 
     @Test
     void shouldReturnOptionalTeacherCategoryIDIfTeacherCategoryWasFound() {
-        //Arrange
+        // Arrange using Mockito mocks for Name, TeacherCategory and TeacherCategoryID
         Name nameDouble = mock(Name.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
@@ -70,16 +94,16 @@ class TeacherCategoryRepositoryImplTest {
 
         repository.save(tcDouble);
 
-        //Act
+        // Act
         Optional<TeacherCategoryID> result = repository.getTeacherCategoryIDFromName(nameDouble);
 
-        //Assert
+        // Assert
         assertTrue(result.isPresent());
     }
 
     @Test
     void shouldReturnOptionalEmptyIfTeacherCategoryNotFound() {
-        //Arrange
+        // Arrange
         Name nameDouble = mock(Name.class);
         Name nameDouble2 = mock(Name.class);
         TeacherCategory tcDouble = mock(TeacherCategory.class);
@@ -89,22 +113,22 @@ class TeacherCategoryRepositoryImplTest {
 
         when(tcDouble.getName()).thenReturn(nameDouble2);
 
-        //Act
+        // Act
         Optional<TeacherCategoryID> result = repository.getTeacherCategoryIDFromName(nameDouble);
 
-        //Assert
+        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldReturnOptionalEmptyIfTeacherCategoryListEmpty() {
-        //Arrange
+        // Arrange
         Name nameDouble = mock(Name.class);
 
-        //Act
+        // Act
         Optional<TeacherCategoryID> result = repository.getTeacherCategoryIDFromName(nameDouble);
 
-        //Assert
+        // Assert
         assertTrue(result.isEmpty());
     }
 }
