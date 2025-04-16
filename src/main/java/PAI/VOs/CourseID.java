@@ -3,7 +3,6 @@ package PAI.VOs;
 import PAI.ddd.DomainId;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class CourseID implements DomainId {
 
@@ -40,5 +39,13 @@ public class CourseID implements DomainId {
     @Override
     public int hashCode() {
         return Objects.hash(_acronym, _name);
+    }
+
+    public Acronym getAcronym() {
+        return _acronym;
+    }
+
+    public Name getName() {
+        return _name;
     }
 }

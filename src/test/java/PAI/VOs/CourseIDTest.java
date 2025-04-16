@@ -2,8 +2,6 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
@@ -130,5 +128,45 @@ class CourseIDTest {
         int hash2 = courseID.hashCode();
         //Assert
         assertEquals(hash1,hash2);
+    }
+
+    @Test
+    void shouldReturnNotEqualsHashCode() {
+        //Arrange
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        Acronym acronymDouble2 = mock(Acronym.class);
+        Name nameDouble2 = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
+        CourseID courseID2 = new CourseID(acronymDouble2, nameDouble2);
+        //Act
+        int hash1 = courseID.hashCode();
+        int hash2 = courseID2.hashCode();
+        //Assert
+        assertNotEquals(hash1,hash2);
+    }
+
+    @Test
+    void shouldReturnAcronym() {
+        //Arrange
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
+        //Act
+        Acronym result = courseID.getAcronym();
+        //Assert
+        assertEquals(acronymDouble, result);
+    }
+
+    @Test
+    void shouldReturnName() {
+        //Arrange
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
+        //Act
+        Name result = courseID.getName();
+        //Assert
+        assertEquals(nameDouble, result);
     }
 }
