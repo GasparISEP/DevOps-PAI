@@ -323,9 +323,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         SchoolYearID schoolYearID2 = new SchoolYearID();
 
@@ -426,12 +424,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
-        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
-        NIF nifDouble2 = mock(NIF.class);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
 
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
@@ -487,9 +481,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
@@ -551,12 +543,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
-        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
-        NIF nifDouble2 = mock(NIF.class);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
 
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
@@ -620,9 +608,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeRepository, peeRepository, courseEditionRepository);
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");

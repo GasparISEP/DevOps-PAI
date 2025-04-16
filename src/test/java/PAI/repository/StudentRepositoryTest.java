@@ -236,9 +236,7 @@ class StudentRepositoryTest {
 
         StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         Student student = mock(Student.class);
         repository.save(student);
@@ -266,9 +264,7 @@ class StudentRepositoryTest {
 
         StudentRepository repository = new StudentRepository(studentFactory, studentListFactory);
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         Student student = mock(Student.class);
         when(student.identity()).thenReturn(studentID);

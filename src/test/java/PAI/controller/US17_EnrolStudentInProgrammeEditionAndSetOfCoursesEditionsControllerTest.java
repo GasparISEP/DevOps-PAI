@@ -626,16 +626,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID schoolYearId = new SchoolYearID();
 
         AccessMethodID amId = new AccessMethodID();
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
 
-        if (!programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
-            programmeEnrolmentRepository.enrolStudents(studentId, amId, programmeId, date);
+        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
+            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
         }
         Date date1 = new Date("01-04-2023");
         Date date2 = new Date("01-04-2024");
@@ -661,9 +659,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
 
         // Act
-        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId);
-        boolean result2 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentId, courseEditionId1);
-        boolean result3 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentId, courseEditionId2);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
+        boolean result2 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentID, courseEditionId1);
+        boolean result3 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentID, courseEditionId2);
 
         // Assert
         assertTrue(result, "The student is enrolled in the ProgrammeEdition.");
@@ -708,9 +706,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         SchoolYearID schoolYearId = new SchoolYearID();
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
@@ -719,7 +715,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
 
         // Act
-        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
 
         //Assert
         assertFalse(result);
@@ -765,19 +761,17 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID schoolYearId = new SchoolYearID();
 
         AccessMethodID amId = new AccessMethodID();
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
 
-        if (!programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
-            programmeEnrolmentRepository.enrolStudents(studentId, amId, programmeId, date);
+        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
+            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
         }
         // Act
-        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
 
         assertFalse(result);
     }
@@ -823,25 +817,23 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         SchoolYearID schoolYearId = new SchoolYearID();
 
         AccessMethodID amId = new AccessMethodID();
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
 
-        if (!programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
-            programmeEnrolmentRepository.enrolStudents(studentId, amId, programmeId, date);
+        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
+            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
         }
 
         doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
         Optional<ProgrammeEditionID> peOptional = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
         ProgrammeEditionID programmeEditionId = peOptional.get();
-        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentId, programmeEditionId);
+        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionId);
 
         // Act
-        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId);
+        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
 
         //assert
         assertFalse(result);
@@ -887,16 +879,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Date date = new Date("20-12-2010");
         SchoolYearID schoolYearId = new SchoolYearID();
         AccessMethodID amId = new AccessMethodID();
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentId = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
         ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
 
-        if (!programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
-            programmeEnrolmentRepository.enrolStudents(studentId, amId, programmeId, date);
+        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
+            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
         }
         Date date1 = new Date("01-04-2023");
         Date date2 = new Date("01-04-2024");
@@ -924,11 +914,11 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
         courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
 
-        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentId, courseEditionId1);
-        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentId, courseEditionId2);
+        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentID, courseEditionId1);
+        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentID, courseEditionId2);
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> {
-            controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId);
+            controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
         });
     }
 

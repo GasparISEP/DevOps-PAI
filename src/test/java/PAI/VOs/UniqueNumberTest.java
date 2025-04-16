@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class UniqueNumberTest {
 
@@ -11,9 +12,7 @@ class UniqueNumberTest {
     void validUniqueNumberCreatesStudentID () {
 
         // Arrange
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID = mock(StudentID.class);
 
         // Assert
         assertNotNull(studentID);
@@ -23,12 +22,11 @@ class UniqueNumberTest {
     void nullUniqueNumberDoesNotCreateStudentID() {
 
         // Arrange
-        UniqueNumber uniqueNumberDouble = null;
         NIF nifDouble = mock(NIF.class);
 
         //Act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new StudentID(uniqueNumberDouble, nifDouble);
+            new StudentID(null, nifDouble);
         });
 
         //Assert
@@ -38,9 +36,9 @@ class UniqueNumberTest {
     @Test
     void shouldGetUniqueNumber () {
         // Arrange
+        StudentID studentID = mock(StudentID.class);
         UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
 
         // Act
         UniqueNumber result = studentID.getUniqueNumber();

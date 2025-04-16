@@ -135,18 +135,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception {
         // Arrange
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
-        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
-        NIF nifDouble2 = mock(NIF.class);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
-        UniqueNumber uniqueNumberDouble3= mock(UniqueNumber.class);
-        NIF nifDouble3 = mock(NIF.class);
-        StudentID studentID3 = new StudentID(uniqueNumberDouble3, nifDouble3);
-        UniqueNumber uniqueNumberDouble4= mock(UniqueNumber.class);
-        NIF nifDouble4 = mock(NIF.class);
-        StudentID studentID4 = new StudentID(uniqueNumberDouble4, nifDouble4);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        StudentID studentID3= mock(StudentID.class);
+        StudentID studentID4 = mock(StudentID.class);
 
         IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
@@ -206,18 +198,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() throws Exception {
         // Arrange
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
-        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
-        NIF nifDouble2 = mock(NIF.class);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
-        UniqueNumber uniqueNumberDouble3= mock(UniqueNumber.class);
-        NIF nifDouble3 = mock(NIF.class);
-        StudentID studentID3 = new StudentID(uniqueNumberDouble3, nifDouble3);
-        UniqueNumber uniqueNumberDouble4= mock(UniqueNumber.class);
-        NIF nifDouble4 = mock(NIF.class);
-        StudentID studentID4 = new StudentID(uniqueNumberDouble4, nifDouble4);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        StudentID studentID3= mock(StudentID.class);
+        StudentID studentID4 = mock(StudentID.class);
 
         IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();

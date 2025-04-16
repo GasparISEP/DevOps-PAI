@@ -6,16 +6,17 @@ title: US02_Sequence Diagram_Configure Access Method in System (Happy Path)
 
 admin -> UI ++ #application : I want to configure access method
 UI --> admin -- : access method name?
-admin -> UI ++ #application :(accessMethodNameVO)
-UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (accessMethodNameVO)
+admin -> UI ++ #application :(NameWithNumbersAndSpecialChars)
+    UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (NameWithNumbersAndSpecialChars)
 
 
-ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : configureAccessMethod (accessMethodNameVO)
-":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application:  findAccessMethodByName(accessMethodNameVO)
+ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : configureAccessMethod (NameWithNumbersAndSpecialChars)
+":AccessMethodService" -> ":AccessMethodService": getnameWithNumbersAndSpecialChars()
+":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application:  findAccessMethodByName(name)
 ":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService" -- #application: false
-":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application: createAccessMethod(accessMethodNameVO)
+":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application: createAccessMethod(NameWithNumbersAndSpecialChars)
 create "ac1:AccessMethod" as AccessMethod
-AccessMethodFactory -> AccessMethod  ++ #application  : <create> (accessMethodNameVO)
+AccessMethodFactory -> AccessMethod  ++ #application  : <create> (NameWithNumbersAndSpecialChars)
 AccessMethodFactory --> ":AccessMethodService" -- : Optional<ac1>
 ":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application: save(ac1)
 ":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)

@@ -431,12 +431,8 @@ class ProgrammeEnrolmentTest {
     void shouldReturnHashCodeProgrammeEnrolmentTest() {
         //Arrange
 
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
-        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
-        NIF nifDouble2 = mock(NIF.class);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
 
         AccessMethodID accessMethodID = new AccessMethodID();
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("ola");
