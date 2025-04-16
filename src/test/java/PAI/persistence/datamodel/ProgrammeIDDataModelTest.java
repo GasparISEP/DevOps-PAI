@@ -17,4 +17,19 @@ public class ProgrammeIDDataModelTest {
         //Assert
         assertNotNull(dataModel);
     }
+
+    @Test
+    public void createProgrammeID() {
+        //Arrange
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
+        Acronym acronym = new Acronym("EI");
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+
+        //Act
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(programmeID);
+
+        assertNotNull(dataModel);
+
+    }
+
 }
