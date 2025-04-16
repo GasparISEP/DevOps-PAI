@@ -199,4 +199,17 @@ class AccessMethodTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnAccessMethodName(){
+        // arrange
+        AccessMethodID accessMethodId = mock(AccessMethodID.class);
+        NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
+        // act
+        NameWithNumbersAndSpecialChars result = accessMethod.getAccessMethodName();
+        // assert
+        assertEquals(result, accessMethodName);
+    }
+
 }

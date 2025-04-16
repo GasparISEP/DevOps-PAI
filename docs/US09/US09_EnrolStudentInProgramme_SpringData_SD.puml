@@ -1,0 +1,110 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
+actor ASC
+participant ":UI" as UI
+participant "ctrl1 : EnrolAStudentInProgrammeController" as CTRL #lightgreen
+participant "peService : ProgrammeEnrolmentService" as PEService #silver
+participant "stdRepoJPA : <<Interface>>IStudentRepository" as StudentRepo #lightyellow
+participant "amRepoJPA : <<Interface>>IAccessMethodRepository" as AMRepo #lightyellow
+participant "pRepoJPA : <<Interface>>IProgrammeRepository" as ProgrammeRepo #lightyellow
+participant "peRepoJPA : <<Interface>>IProgrammeEnrolmentRepository" as PERepo #lightyellow
+participant "pef : ProgrammeEnrolmentFactoryImpl" as PEFactory
+participant "ProgrammeEnrolmentMapper" as PEMapper
+participant "pe : ProgrammeEnrolment" as ProgrammeEnrolment
+participant "peDataModel : ProgrammeEnrolmentDataModel" as PEDataModel
+
+ASC -> UI : I want to enrol a student in a programme.
+activate UI
+UI --> ASC : Student?
+deactivate UI
+ASC -> UI : uniqueNumber
+activate UI
+UI --> ASC : AccessMethod?
+deactivate UI
+ASC -> UI : accessMethodName
+activate UI
+UI --> ASC : Programme?
+deactivate UI
+ASC -> UI : programmeAcronym
+activate UI
+UI --> ASC : Date?
+deactivate UI
+ASC -> UI : enrolmentDate
+activate UI
+UI -> CTRL : enrolStudentInProgramme \n (uniqueNumberDTO, accessMethodNameDTO,\n programmeAcronymDTO, enrolmentDateDTO)
+activate CTRL
+CTRL -> PEService : enrolStudentInProgramme \n (uniqueNumberDTO, accessMethodNameDTO,\n programmeAcronymDTO, enrolmentDateDTO)
+activate PEService
+|||
+ref over PEService
+    \t \t \t \t \t Convert DTO to VO \t
+end ref
+|||
+
+PEService -> StudentRepo : getStudentIDFromUniqueNumber(uniqueNumberVO)
+activate StudentRepo
+StudentRepo -> : findByStudentIdUniqueNumber(uniqueNumber: String);
+StudentRepo <-- : studentIDVO
+StudentRepo --> PEService : studentIDVO
+deactivate StudentRepo
+
+PEService -> AMRepo : getAccessMethodIDFromName(accessMethodNameVO)
+activate AMRepo
+AMRepo -> : findByAccessMethodIDUuid(accessMethodNameID: UUID)
+AMRepo <--  : amIDVO
+AMRepo --> PEService : amIDVO
+deactivate AMRepo
+
+PEService -> ProgrammeRepo : getProgrammeIDFromAcronym(programmeAcronymVO)
+activate ProgrammeRepo
+ProgrammeRepo -> : findByProgrammeIDAcronym(programmeAcronym: String)
+ProgrammeRepo <-- : pIDVO
+ProgrammeRepo --> PEService : pIDVO
+deactivate ProgrammeRepo
+
+PEService -> PERepo: enrolStudent(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
+activate PERepo
+PERepo -> PEFactory: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
+activate PEFactory
+PEFactory -> ProgrammeEnrolment**: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
+
+activate ProgrammeEnrolment
+ProgrammeEnrolment -> ProgrammeEnrolment : validateAndFormatDate(date)
+ProgrammeEnrolment --> PEFactory: pe
+deactivate ProgrammeEnrolment
+PEFactory --> PERepo: pe
+deactivate PEFactory
+
+PERepo -> ProgrammeEnrolment : getProgrammeEnrolmentID(programmeEnrolment)
+activate ProgrammeEnrolment
+ProgrammeEnrolment -> PERepo : peID
+deactivate ProgrammeEnrolment
+
+PERepo -> : existsByID(peID)
+PERepo <-- : false
+
+PERepo -> PEMapper : toDataModel(pe)
+activate PEMapper
+PEMapper -> PEDataModel : createPEDataModel(pe)
+activate PEDataModel
+PEDataModel -> PEMapper : peDataModel
+deactivate PEDataModel
+PEMapper -> PERepo : peDataModel
+deactivate PEMapper
+
+PERepo -> : save(peDataModel)
+
+PERepo --> PEService: True
+deactivate PERepo
+
+PEService -> CTRL : True
+
+CTRL --> UI : True
+deactivate CTRL
+UI --> ASC : Success
+deactivate UI
+Deactivate PERepo
+
+@enduml

@@ -1,6 +1,8 @@
 package PAI.persistence.datamodel;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
+import PAI.VOs.Name;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -23,7 +25,11 @@ class CourseIDDataModelTest {
     @Test
     void shouldCreateCourseIDDataModelWithCourseID() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
         // Act
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
 
@@ -32,23 +38,14 @@ class CourseIDDataModelTest {
     }
 
     @Test
-    void shouldReturnCourseIDToString() {
-        // Arrange
-        CourseID courseIDDouble = mock(CourseID.class);
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
-
-        // Act
-        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
-
-        // Assert
-        assertEquals(courseIDDouble.toString(), CourseIDDataModel.getId());
-    }
-
-    @Test
     void shouldReturnTrueIfObjectsAreEquals() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
         Object CourseIDDataModel2 = CourseIDDataModel;
 
@@ -60,10 +57,33 @@ class CourseIDDataModelTest {
     }
 
     @Test
+    void shouldReturnID() {
+        // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+
+        // Act
+        String result = CourseIDDataModel.getId();
+
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
     void shouldReturnTrueIfCourseIDDataModelEquals() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
         CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(courseIDDouble);
 
@@ -77,9 +97,18 @@ class CourseIDDataModelTest {
     @Test
     void shouldReturnFalseIfCourseIDDataModelNotEquals() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
-        CourseID CourseIDDouble2 = mock(CourseID.class);;
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+        Acronym acronym2 = mock(Acronym.class);
+        Name name2 = mock(Name.class);
+        CourseID CourseIDDouble2 = mock(CourseID.class);
+        when(CourseIDDouble2.getAcronym()).thenReturn(acronym2);
+        when(CourseIDDouble2.getName()).thenReturn(name2);
+
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
         CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(CourseIDDouble2);
 
@@ -93,8 +122,12 @@ class CourseIDDataModelTest {
     @Test
     void shouldReturnFalseIfCourseIDDataModelNotEqualsWithNull() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
         CourseIDDataModel CourseIDDataModel2 = null;
 
@@ -108,8 +141,13 @@ class CourseIDDataModelTest {
     @Test
     void shouldReturnFalseIfCourseIDDataModelNotEqualsWithDifferentClass() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
         Object CourseIDDataModel2 = new Object();
 
@@ -121,10 +159,64 @@ class CourseIDDataModelTest {
     }
 
     @Test
+    void shouldReturnTrueIfCourseIDDataModelEqualsWithSameAcronym() {
+        // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+        Name name2 = mock(Name.class);
+        CourseID courseIDDouble2 = mock(CourseID.class);
+        when(courseIDDouble2.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble2.getName()).thenReturn(name2);
+
+
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(courseIDDouble2);
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseIDDataModelEqualsWithSameName() {
+        // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
+        Acronym acronym2 = mock(Acronym.class);
+        CourseID courseIDDouble2 = mock(CourseID.class);
+        when(courseIDDouble2.getAcronym()).thenReturn(acronym2);
+        when(courseIDDouble2.getName()).thenReturn(name);
+
+
+        CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
+        CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel(courseIDDouble2);
+
+        // Act
+        boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
     void shouldReturnFalseIfCourseIDDataModelNotEqualsWithDifferentObject() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
         CourseIDDataModel CourseIDDataModel2 = new CourseIDDataModel();
 
@@ -138,8 +230,12 @@ class CourseIDDataModelTest {
     @Test
     void shouldReturnHashCodeNotNull() {
         // Arrange
+        Acronym acronym = mock(Acronym.class);
+        Name name = mock(Name.class);
         CourseID courseIDDouble = mock(CourseID.class);
-        when(courseIDDouble.toString()).thenReturn(UUID.randomUUID().toString());
+        when(courseIDDouble.getAcronym()).thenReturn(acronym);
+        when(courseIDDouble.getName()).thenReturn(name);
+
         CourseIDDataModel CourseIDDataModel = new CourseIDDataModel(courseIDDouble);
 
         // Act

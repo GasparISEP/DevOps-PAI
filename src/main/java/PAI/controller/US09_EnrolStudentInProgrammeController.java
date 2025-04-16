@@ -21,16 +21,16 @@ public class US09_EnrolStudentInProgrammeController {
     public US09_EnrolStudentInProgrammeController(StudentRepository studentRepository, AccessMethodRepositoryImpl accessMethodRepository,
                                                   ProgrammeRepositoryImpl programmeRepository, ProgrammeEnrolmentRepository programmeEnrolmentRepository) {
         if (studentRepository == null) {
-            throw new IllegalArgumentException("studentRepository cannot be null.");
+            throw new IllegalArgumentException("Student Repository cannot be null.");
         }
         if (accessMethodRepository == null) {
-            throw new IllegalArgumentException("accessMethodRepository cannot be null.");
+            throw new IllegalArgumentException("Access Method Repository cannot be null.");
         }
         if (programmeRepository == null) {
-            throw new IllegalArgumentException("programmeList cannot be null.");
+            throw new IllegalArgumentException("Programme List cannot be null.");
         }
         if (programmeEnrolmentRepository == null) {
-            throw new IllegalArgumentException("enrolmentRepository cannot be null.");
+            throw new IllegalArgumentException("Enrolment Repository cannot be null.");
         }
 
         this._studentRepository = studentRepository;

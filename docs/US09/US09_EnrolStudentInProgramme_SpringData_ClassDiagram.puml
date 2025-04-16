@@ -1,0 +1,181 @@
+@startuml
+
+skinparam ranksep 100
+skinparam nodesep 100
+
+package "Student Aggregate" as S {
+entity "<<root>>\nStudent" {
+equals(studentIDVO: StudentID)
+}
+}
+
+class "<<VO>>\nStudentID" {
+-uniqueNumber: Integer
+-NIF: Integer
+}
+
+package "AccessMethod Aggregate" as AM {
+class "<<root>>\nAccessMethod" {
++equals(amIDVO: AccessMethodID)
+}
+}
+
+class "<<VO>>\nAccessMethodID" {
+-amIDVO: UUID
+}
+
+package "Programme Aggregate" as P {
+entity "<<root>>\nProgramme" {
+equals(ProgrammeIDVO: ProgrammeID)
+}
+}
+
+class "<<VO>>\nProgrammeID" {
+-nameVO: NameWithNumbersAndSpecialCharacters
+-acronymVO: Acronym
+}
+
+package "ProgrammeEnrolment Aggregate" as PE {
+entity "<<root>>\nProgrammeEnrolment" {
+-enrolmentDate: Date
++ProgrammeEnrolment(studentIDVO: StudentID, amIDVO: AccessMethodID, programmeIDVO: ProgrammeID, dateVO: Date)
++hasSameStudent(studentIDVO: StudentID)
++hasSameEnrolment(programmeEnrolment: ProgrammeEnrolment)
++hasSameProgramme(programmeIDVO: ProgrammeID)
+}
+}
+
+class US09_EnrolStudentInProgrammeController {
++US09_EnrolStudentInProgrammeController(programmeEnrolmentService: ProgrammeEnrolmentService)
+}
+
+class ProgrammeEnrolmentService {
++ProgrammeEnrolmentService(studentRepository: IStudentRepository, accessMethodRepository: IAccessMethodRepository, programmeList: IProgrammeRepository, programmeEnrolmentRepository: IProgrammeEnrolmentRepository)
++getStudentIDFromUniqueNumber(uniqueNumber: Int)
++getAccessMethodIDFromName(accessMethodName: String)
++getProgrammeIDFromName(programmeName: String)
++enrolStudent(studentIDVO: StudentID, amIDVO: NameVO, programmeIDVO: ProgrammeID, date: Date)
+}
+
+interface IStudentRepository {
++getStudentIDFromUniqueNumber(uniqueNumber: String)
+}
+
+class StudentRepository {
++getStudentIDFromUniqueNumber(uniqueNumber: String)
+}
+
+interface IAccessMethodRepository {
++getAccessMethodIDFromName(nameVO: NameWithNumbersAndSpecialCharacters)
+}
+
+class AccessMethodRepository {
++getAccessMethodIDFromName(nameVO: NameWithNumbersAndSpecialCharacters)
+}
+
+interface IProgrammeRepository {
++getProgrammeIDFromAcronym(acronymVO: Acronym)
+}
+
+class ProgrammeRepository {
+getProgrammeIDFromAcronym(acronymVO: Acronym)
+}
+
+class ProgrammeEnrolmentRepository {
+-programmeEnrolmentFactory: ProgrammeEnrolmentFactory
+-programmeEnrolmentList: ProgrammeEnrolmentListFactory
++ProgrammeEnrolmentRepository(programmeEnrolmentFactory: ProgrammeEnrolmentFactoryImpl, programmeEnrolmentRepositoryListFactory ProgrammeEnrolmentRepositoryList)
++enrolStudents(studentIDVO: StudentID, amIDVO: AccessMethodID, programmeIDVO: ProgrammeID, enrolmentDate: Date)
+}
+
+interface IProgrammeEnrolmentRepository {
++ save(pe: ProgrammeEnrolment);
+}
+
+class ProgrammeEnrolmentFactoryImpl {
++createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
+}
+
+interface IProgrammeEnrolmentFactory {
++createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
+}
+
+class ProgrammeEnrolmentMapper {
++toDomain(peDataModel: ProgrammeEnrolmentDataModel, peFactory: ProgrammeEnrolmentFactory)
++toDataModel(pe: ProgrammeEnrolment)
+}
+
+class ProgrammeEnrolmentDataModel {
++ProgrammeEnrolmentDataModel(pe: ProgrammeEnrolment)
++createProgrammeEnrolmentDomain(peDataModel: ProgrammeEnrolmentDataModel)
+}
+
+interface IStudentRepositorySpringData {
++findByStudentIdUniqueNumber(uniqueNumber: String);
+}
+
+interface IAccessMethodRepositorySpringData {
++findByAccessMethodIDUuid(uuid: UUID)
+}
+
+interface IProgrammeRepositorySpringData {
++findByProgrammeIDAcronym(acronym: String)
+}
+
+interface IProgrammeEnrolmentRepositorySpringData {
++save(peDataModel: ProgrammeEnrolmentDataModel)
+}
+
+interface IMapper {
++toDomain(peDataModel: ProgrammeEnrolmentDataModel, peFactory: ProgrammeEnrolmentFactory)
++toDataModel(pe: ProgrammeEnrolment)
+}
+
+interface IProgrammeEnrolmentService {
++getStudentIDFromUniqueNumber(uniqueNumber: Int)
++getAccessMethodIDFromName(accessMethodName: String)
++getProgrammeIDFromName(programmeName: String)
++enrolStudent(studentIDVO: StudentID, amIDVO: NameVO, programmeIDVO: ProgrammeID, date: Date)
+}
+
+US09_EnrolStudentInProgrammeController "1" -l> "1..*" IProgrammeEnrolmentService
+ProgrammeEnrolmentService -u.|> IProgrammeEnrolmentService
+
+ProgrammeEnrolmentService "1" -r-> "1..*" IStudentRepository
+StudentRepository -.|> IStudentRepository
+StudentRepository -l.> IStudentRepositorySpringData
+
+ProgrammeEnrolmentService "1" --> "1..*" IAccessMethodRepository
+AccessMethodRepository -u.|> IAccessMethodRepository
+AccessMethodRepository -d.> IAccessMethodRepositorySpringData
+
+ProgrammeEnrolmentService "1" -d-> "1..*" IProgrammeRepository
+ProgrammeRepository -d.|> IProgrammeRepository
+ProgrammeRepository -d.> IProgrammeRepositorySpringData
+
+ProgrammeEnrolmentService "1" -l-> "1..*" IProgrammeEnrolmentRepository
+IProgrammeEnrolmentRepository <|.d. ProgrammeEnrolmentRepository
+ProgrammeEnrolmentRepository -u.> IProgrammeEnrolmentRepositorySpringData
+
+
+"<<root>>\nStudent" "1" --> "1" "<<VO>>\nStudentID"
+"<<root>>\nAccessMethod" "1" --> "1" "<<VO>>\nAccessMethodID"
+"<<root>>\nProgramme" "1" --> "1" "<<VO>>\nProgrammeID"
+
+IStudentRepository "1" -d.> "*" "<<root>>\nStudent"
+IAccessMethodRepository "1" -.> "*" "<<root>>\nAccessMethod"
+IProgrammeRepository "1" -.> "*" "<<root>>\nProgramme"
+IProgrammeEnrolmentFactory "1..*" .l.> "*\ncreates" "<<root>>\nProgrammeEnrolment"
+ProgrammeEnrolmentRepository "1" -.> "1" IProgrammeEnrolmentFactory
+IProgrammeEnrolmentFactory <|.. ProgrammeEnrolmentFactoryImpl
+
+"<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nStudentID"
+"<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nProgrammeID"
+"<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nAccessMethodID"
+
+ProgrammeEnrolmentRepository "1" -d.> "1" IMapper
+ProgrammeEnrolmentMapper -.|> IMapper
+IMapper "1" -d.> "1" ProgrammeEnrolmentDataModel
+IMapper "*" -r.> "1" IProgrammeEnrolmentFactory
+
+@enduml

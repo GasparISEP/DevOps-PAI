@@ -643,8 +643,12 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
         ProgrammeEditionID pe1 = pe1Opt.get();
 
-        CourseID courseId2 = new CourseID();
-        CourseID courseId1 = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseId2 = new CourseID(acronym2, name2);
+        Acronym acronym3 = new Acronym("LABPROJ");
+        Name name3 = new Name("Project Lab");
+        CourseID courseId1 = new CourseID(acronym3, name3);
         ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID(courseId1, studyPlanID1);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseId2, studyPlanID2);
@@ -892,8 +896,12 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
         ProgrammeEditionID pe1 = pe1Opt.get();
 
-        CourseID courseId2 = new CourseID();
-        CourseID courseId1 = new CourseID();
+        Acronym acronym2 = new Acronym("DSOFT");
+        Name name2 = new Name("Software Development");
+        CourseID courseId2 = new CourseID(acronym2, name2);
+        Acronym acronym3 = new Acronym("LABPROJ");
+        Name name3 = new Name("Project Lab");
+        CourseID courseId1 = new CourseID(acronym3, name3);
         ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID(courseId1, studyPlanID1);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseId2, studyPlanID2);

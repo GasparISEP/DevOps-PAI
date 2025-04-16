@@ -26,7 +26,7 @@ public class Course implements AggregateRoot<CourseID> {
             throw new IllegalArgumentException("Course Duration must be valid");
         }
 
-        this._courseID = new CourseID();
+        this._courseID = new CourseID(acronym, name);
         this._name = name;
         this._acronym = acronym;
         this._quantityCreditsEcts = quantityCreditsEcts;

@@ -7,17 +7,19 @@ import java.io.Serializable;
 @Embeddable
 public class CourseIDDataModel implements Serializable {
 
-    private String _courseDomainID;
+    private String _acronym;
+    private String _name;
 
     public CourseIDDataModel() {
     }
 
     public CourseIDDataModel(CourseID courseID) {
-        _courseDomainID = courseID.toString();
+        _acronym = courseID.getAcronym().toString();
+        _name = courseID.getName().toString();
     }
 
     public String getId() {
-        return _courseDomainID;
+        return _acronym + "-" + _name;
     }
 
     @Override
@@ -25,11 +27,12 @@ public class CourseIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof CourseIDDataModel)) return false;
         CourseIDDataModel courseIDDataModel = (CourseIDDataModel) objectToCompare;
-        return _courseDomainID.equals(courseIDDataModel._courseDomainID);
+        return _acronym.equals(courseIDDataModel._acronym) ||
+                _name.equals(courseIDDataModel._name);
     }
 
     @Override
     public int hashCode() {
-        return _courseDomainID.hashCode();
+        return _acronym.hashCode() + _name.hashCode();
     }
 }
