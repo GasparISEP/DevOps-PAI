@@ -41,4 +41,12 @@ public class CourseID implements DomainId {
     public int hashCode() {
         return Objects.hash(_acronym, _name);
     }
+
+    public Acronym getAcronym() {
+        return _acronym;
+    }
+
+    public Name getName() {
+        return _name;
+    }
 }
