@@ -7,8 +7,8 @@ skinparam arrowThickness 1.2
 skinparam linetype ortho
 top to bottom direction
 
-package controller{
-    class US18_CreateProgrammeEditionForCurrentSchoolYearController {
+package controller {
+    class US18_CreateProgrammeEditionForCurrentSchoolYearController <<controller>> {
         + US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository : ProgrammeEditionRepository, schoolYearRepository : SchoolYearRepository, programmeList : ProgrammeList)
         + getAllProgrammeNames() : List<NameWithNumbersAndSpecialChars>
         + createAProgrammeEditionForTheCurrentSchoolYear(programmeName : NameWithNumbersAndSpecialChars) : boolean
@@ -23,14 +23,14 @@ interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
         package SchoolYearRepository {
 
 
-                    interface ISchoolYearRepository {
+                    interface ISchoolYearRepository <<interface>> {
                             + addSchoolYear(description : Description, date : Date, date : Date) : boolean
                             + schoolYearExists(schoolYearID : SchoolYearID) : boolean
                             + getCurrentSchoolYearID() : SchoolYearID
                             + getAllSchoolYears() : List<SchoolYear>
                     }
 
-                    class SchoolYearRepositoryImpl {
+                    class SchoolYearRepositoryImpl <<repository>> {
                         + SchoolYearRepositoryImpl(ISchoolYearFactory schoolYearFactory, ISchoolYearListFactory schoolYearListFactory)
                         + addSchoolYear(description : Description, date : Date, date : Date) : boolean
                         + schoolYearExists(schoolYearID : SchoolYearID) : boolean
@@ -72,20 +72,20 @@ interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
 
         package ProgrammeEditionRepository{
 
-            interface IProgrammeEditionRepository {
+            interface IProgrammeEditionRepository <<interface>> {
                     + createProgrammeEdition(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : boolean
                     + findProgrammeEditionBySchoolYearAndProgramme(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : Optional <ProgrammeEdition>
                     + getAllProgrammeEditions() : List<ProgrammeEdition>
             }
 
-            class ProgrammeEditionRepositoryImpl {
+            class ProgrammeEditionRepositoryImpl <<repository>> {
                     + ProgrammeEditionRepositoryImpl (IProgrammeEditionFactory iProgrammeEditionFactory, IProgrammeEditionListFactory iProgrammeEditionListFactory)
                     + createProgrammeEdition(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : boolean
                     + findProgrammeEditionBySchoolYearAndProgramme(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : Optional <ProgrammeEdition>
                     + getAllProgrammeEditions() : List<ProgrammeEdition>
             }
 
-            Interface IProgrammeEditionListFactory {
+            Interface IProgrammeEditionListFactory <<interface>> {
                     createProgrammeEditionList() : List<ProgrammeEdition>
             }
 
