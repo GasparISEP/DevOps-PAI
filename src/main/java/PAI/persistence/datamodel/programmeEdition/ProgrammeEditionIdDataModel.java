@@ -1,4 +1,4 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.programmeEdition;
 
 import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
