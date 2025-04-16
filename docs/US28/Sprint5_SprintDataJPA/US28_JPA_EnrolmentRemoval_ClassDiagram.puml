@@ -28,10 +28,18 @@ class US28_EnrolmentRemovalController <<Controller>> {
 package Service {
 interface ICourseEditionEnrolmentService <<Interface>> {
     +removeStudentEnrolment (studentID: StudentID,\n courseEditionID: CourseEditionID) : boolean
+    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
+    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
 class CourseEditionEnrolmentServiceImpl {
     +removeStudentEnrolment (studentID: StudentID, \ncourseEditionID: CourseEditionID) : boolean
+    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
+    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 }
 
@@ -100,6 +108,12 @@ class CourseEditionEnrolmentIDDataModel {
     - studentID: int
     - courseEditionID: int
 }
+
+    note right of CourseEditionEnrolmentDataModel
+        This class contains
+        an embedded ID
+        ceeIDDataModel.
+    end note
 }
 
 
