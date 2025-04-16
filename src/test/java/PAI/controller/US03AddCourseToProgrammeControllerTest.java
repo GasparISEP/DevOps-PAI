@@ -358,7 +358,7 @@ public class US03AddCourseToProgrammeControllerTest {
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts quantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         DurationInYears durationInYears = new DurationInYears(6);
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
@@ -402,7 +402,7 @@ public class US03AddCourseToProgrammeControllerTest {
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts quantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         DurationInYears durationInYears = new DurationInYears(6);
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
@@ -441,7 +441,7 @@ public class US03AddCourseToProgrammeControllerTest {
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts quantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         DurationInYears durationInYears = new DurationInYears(6);
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
@@ -520,7 +520,7 @@ public class US03AddCourseToProgrammeControllerTest {
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts quantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         DurationInYears durationInYears = new DurationInYears(6);
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
@@ -563,7 +563,7 @@ public class US03AddCourseToProgrammeControllerTest {
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts quantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         DurationInYears durationInYears = new DurationInYears(6);
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
