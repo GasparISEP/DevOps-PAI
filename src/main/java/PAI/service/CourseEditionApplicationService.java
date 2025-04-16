@@ -9,7 +9,7 @@ import PAI.repository.ITeacherRepository;
 
 import java.util.Optional;
 
-public class CourseEditionApplicationService {
+public class CourseEditionApplicationService implements ICourseEditionApplicationService {
 
     private final ICourseEditionRepository courseEditionRepository;
     private final ITeacherRepository teacherRepository;

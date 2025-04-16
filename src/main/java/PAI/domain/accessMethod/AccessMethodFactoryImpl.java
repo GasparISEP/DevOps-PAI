@@ -9,4 +9,15 @@ public class AccessMethodFactoryImpl implements IAccessMethodFactory {
         AccessMethodID accessMethodId = new AccessMethodID();
         return new AccessMethod(accessMethodId, accessMethodName);
     }
+
+    @Override
+    public AccessMethod createAccessMethod(AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName) {
+        if(accessMethodID == null){
+            throw new IllegalArgumentException("AccessMethodID cannot be null");
+        }
+        if(accessMethodName == null){
+            throw new IllegalArgumentException("AccessMethodName cannot be null");
+        }
+        return new AccessMethod(accessMethodID, accessMethodName);
+    }
 }

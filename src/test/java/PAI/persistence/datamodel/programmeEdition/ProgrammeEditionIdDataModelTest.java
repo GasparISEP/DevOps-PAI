@@ -1,8 +1,6 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.programmeEdition;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.SchoolYearID;
+import PAI.VOs.*;
 import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
 import org.junit.jupiter.api.Test;
@@ -16,7 +14,7 @@ import static org.mockito.Mockito.when;
 class ProgrammeEditionIdDataModelTest {
 
     @Test
-    void shouldCreateProgrammeEditionIdDataModel() {
+    void shouldCreateProgrammeEditionIdDataModelIsolationTest() {
         //arrange
         //act
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel();
@@ -25,7 +23,7 @@ class ProgrammeEditionIdDataModelTest {
     }
 
     @Test
-    void shouldCreateProgrammeEditionIdDataModelWithParameters() {
+    void shouldCreateProgrammeEditionIdDataModelWithParametersIsolationTest() {
         //arrange
         Programme doubleProgramme = mock(Programme.class);
         SchoolYear doubleSchoolYear = mock(SchoolYear.class);
@@ -44,6 +42,28 @@ class ProgrammeEditionIdDataModelTest {
         //act
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear);
         //assert
+        assertNotNull(programmeEditionIdDataModel);
+    }
+
+    @Test
+    void shouldCreateProgrammeEditionIdDataModelWithParameters() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID department1 = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
+
+        Description description = new Description("School Year 23/24");
+        Date startDate = new Date("01-09-2023");
+        Date endDate = new Date("31-08-2024");
+        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
+        //act
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programme, schoolYear);
+        //arrange
         assertNotNull(programmeEditionIdDataModel);
     }
 
