@@ -3,6 +3,8 @@ package PAI.mapper;
 import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
 import PAI.VOs.Name;
+import PAI.mapper.CourseID.CourseIDMapperImpl;
+import PAI.mapper.CourseID.ICourseIDMapper;
 import PAI.persistence.datamodel.CourseIDDataModel;
 import org.junit.jupiter.api.Test;
 
