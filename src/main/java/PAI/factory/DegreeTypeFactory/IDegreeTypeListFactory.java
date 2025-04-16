@@ -1,8 +1,9 @@
 package PAI.factory.DegreeTypeFactory;
 
-import java.util.List;
 import PAI.domain.degreeType.DegreeType;
+import java.util.List;
 
 public interface IDegreeTypeListFactory {
-    List<DegreeType> createDegreeType_2List();
+    List<DegreeType> createEmptyList();
+    List<DegreeType> createFromExisting(List<DegreeType> existing);
 }

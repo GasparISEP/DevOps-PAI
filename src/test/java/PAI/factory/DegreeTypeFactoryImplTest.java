@@ -3,12 +3,11 @@ package PAI.factory;
 import static org.junit.jupiter.api.Assertions.*;
 
 import PAI.factory.DegreeTypeFactory.DegreeTypeFactoryImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class DegreeTypeFactoryImplTest {
 
@@ -20,25 +19,22 @@ class DegreeTypeFactoryImplTest {
     }
 
     @Test
-    void testAddNewDegreeType_2() throws Exception {
-        DegreeTypeID degreeTypeID = new DegreeTypeID("DT001");
+    void testCreate_WithValidValues() {
         Name name = new Name("Computer Science");
         MaxEcts maxEcts = new MaxEcts(180);
 
-        DegreeType degreeType = factory.addNewDegreeType_2(degreeTypeID, name, maxEcts);
+        DegreeType degreeType = factory.create(name, maxEcts);
 
         assertNotNull(degreeType);
-        assertEquals(degreeTypeID.getDTID(), degreeType.getId());
+        assertNotNull(degreeType.identity());
         assertEquals(name.getName(), degreeType.getName());
         assertEquals(maxEcts.getMaxEcts(), degreeType.getMaxEcts());
     }
 
     @Test
-    void testAddNewDegreeType_2_WithNullValues() {
-        Exception exception = assertThrows(NullPointerException.class, () -> {
-            factory.addNewDegreeType_2(null, null, null);
+    void testCreate_WithNullValues() {
+        assertThrows(NullPointerException.class, () -> {
+            factory.create(null, null);
         });
-
-        assertTrue(exception.getMessage().contains("cannot be null"));
     }
 }

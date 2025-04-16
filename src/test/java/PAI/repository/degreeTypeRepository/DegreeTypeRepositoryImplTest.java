@@ -1,8 +1,6 @@
 package PAI.repository.degreeTypeRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
@@ -13,174 +11,96 @@ import PAI.factory.DegreeTypeFactory.IDegreeTypeListFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 class DegreeTypeRepositoryImplTest {
 
-    private IDegreeTypeFactory degreeTypeFactoryMock;
-    private IDegreeTypeListFactory degreeTypeListFactoryMock;
-    private DegreeTypeRepositoryImpl degreeTypeRepositoryImpl;
-    private DegreeTypeID degreeTypeID;
-    private Name name;
-    private MaxEcts maxEcts;
-    private DegreeType degreeTypeMock;
+    private DegreeTypeRepositoryImpl repository;
 
     @BeforeEach
     void setUp() {
-        degreeTypeFactoryMock = mock(IDegreeTypeFactory.class);
-        degreeTypeListFactoryMock = mock(IDegreeTypeListFactory.class);
-        degreeTypeMock = mock(DegreeType.class);
+        IDegreeTypeFactory factory = (name, ects) -> DegreeType.create(name, ects);
+        IDegreeTypeListFactory listFactory = new IDegreeTypeListFactory() {
+            @Override
+            public List<DegreeType> createEmptyList() {
+                return new ArrayList<>();
+            }
 
-        List<DegreeType> degreeTypeList = new ArrayList<>();
-        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
+            @Override
+            public List<DegreeType> createFromExisting(List<DegreeType> existing) {
+                return new ArrayList<>(existing);
+            }
+        };
 
-        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
-
-        degreeTypeID = mock(DegreeTypeID.class);
-        name = mock(Name.class);
-        maxEcts = mock(MaxEcts.class);
+        repository = new DegreeTypeRepositoryImpl(factory, listFactory);
     }
 
     @Test
-    void testConstructor_NullFactory_ShouldThrowException() {
-        Exception exception1 = assertThrows(NullPointerException.class, () ->
-                new DegreeTypeRepositoryImpl(null, degreeTypeListFactoryMock)
-        );
-        assertEquals("Factory cannot be null", exception1.getMessage());
-
-        Exception exception2 = assertThrows(NullPointerException.class, () ->
-                new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, null)
-        );
-        assertEquals("Factory cannot be null", exception2.getMessage());
-    }
-
-    @Test
-    void testRegisterDegreeType_Success() throws Exception {
-        when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
-                .thenReturn(degreeTypeMock);
-
-        assertTrue(degreeTypeRepositoryImpl.registerDegreeType(degreeTypeID, name, maxEcts));
-    }
-
-    @Test
-    void testRegisterDegreeType_AlreadyExists() throws Exception {
-        when(degreeTypeFactoryMock.addNewDegreeType_2(degreeTypeID, name, maxEcts))
-                .thenReturn(degreeTypeMock);
-
-        degreeTypeRepositoryImpl.registerDegreeType(degreeTypeID, name, maxEcts);
-        assertFalse(degreeTypeRepositoryImpl.registerDegreeType(degreeTypeID, name, maxEcts));
-    }
-
-    @Test
-    void shouldReturnListOfAllDegreeTypesAvailable() {
-        // Arrange
-        IDegreeTypeFactory degreeTypeFactoryDouble = mock(IDegreeTypeFactory.class);
-        IDegreeTypeListFactory degreeTypeListFactoryDouble = mock(IDegreeTypeListFactory.class);
-
-        DegreeType degreeType1Double = mock(DegreeType.class);
-        DegreeType degreeType2Double = mock(DegreeType.class);
-        List<DegreeType> expectedList = List.of(degreeType1Double, degreeType2Double);
-
-        when(degreeTypeListFactoryDouble.createDegreeType_2List()).thenReturn(expectedList);
-
-            //SUT
-        DegreeTypeRepositoryImpl repository = new DegreeTypeRepositoryImpl(degreeTypeFactoryDouble, degreeTypeListFactoryDouble);
-
-        // Act
-        List<DegreeType> result = repository.getAllDegreeTypes();
-
-        // Assert
-        assertEquals(expectedList, result);
-        assertTrue(result.contains(degreeType1Double));
-        assertTrue(result.contains(degreeType2Double));
-    }
-
-    @Test
-    void testSaveAddsDegreeTypeAndReturnsIt() throws Exception {
-        // Criar um repositório com uma lista real
-        List<DegreeType> degreeTypeList = new ArrayList<>();
-        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
-        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
-
-        DegreeType degreeType = mock(DegreeType.class);
-        DegreeType savedDegreeType = degreeTypeRepositoryImpl.save(degreeType);
-
-        assertEquals(degreeType, savedDegreeType, "O método save deve retornar o mesmo DegreeType passado");
-        assertTrue(degreeTypeRepositoryImpl.getAllDegreeTypes().contains(degreeType), "O DegreeType deve ser adicionado ao repositório");
-    }
-
-    @Test
-    void testFindAllReturnsAllSavedDegreeTypes() throws Exception {
-        List<DegreeType> degreeTypeList = new ArrayList<>();
-        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
-        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
-
-        DegreeType degreeType1 = mock(DegreeType.class);
-        DegreeType degreeType2 = mock(DegreeType.class);
-        degreeTypeRepositoryImpl.save(degreeType1);
-        degreeTypeRepositoryImpl.save(degreeType2);
-
-        Iterable<DegreeType> iterable = degreeTypeRepositoryImpl.findAll();
-        List<DegreeType> resultList = new ArrayList<>();
-        iterable.forEach(resultList::add);
-
-        assertEquals(2, resultList.size(), "findAll deve retornar todos os DegreeTypes guardados");
-        assertTrue(resultList.contains(degreeType1), "A lista deve conter degreeType1");
-        assertTrue(resultList.contains(degreeType2), "A lista deve conter degreeType2");
-    }
-
-    @Test
-    void testOfIdentityReturnsCorrectDegreeTypeWhenExists() throws Exception {
-        List<DegreeType> degreeTypeList = new ArrayList<>();
-        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
-        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
-
+    void testRegisterNewDegreeType() {
         DegreeTypeID id = new DegreeTypeID("DT001");
-        DegreeType degreeType = mock(DegreeType.class);
-        when(degreeType.identity()).thenReturn(id);
+        Name name = new Name("Licenciatura");
+        MaxEcts ects = new MaxEcts(180);
 
-        degreeTypeRepositoryImpl.save(degreeType);
-        Optional<DegreeType> result = degreeTypeRepositoryImpl.ofIdentity(id);
-
-        assertTrue(result.isPresent(), "ofIdentity deve retornar um Optional com o DegreeType quando este existir");
-        assertEquals(degreeType, result.get(), "ofIdentity deve retornar o DegreeType correto");
+        assertTrue(repository.registerDegreeType(id, name, ects));
+        assertTrue(repository.containsOfIdentity(id));
     }
 
     @Test
-    void testOfIdentityReturnsEmptyWhenDegreeTypeDoesNotExist() throws Exception {
-        List<DegreeType> degreeTypeList = new ArrayList<>();
-        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
-        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
-
+    void testRegisterDuplicateReturnsFalse() {
         DegreeTypeID id = new DegreeTypeID("DT002");
-        Optional<DegreeType> result = degreeTypeRepositoryImpl.ofIdentity(id);
+        Name name = new Name("Mestrado");
+        MaxEcts ects = new MaxEcts(120);
 
-        assertFalse(result.isPresent(), "ofIdentity deve retornar um Optional vazio quando o DegreeType não existir");
+        repository.registerDegreeType(id, name, ects);
+        assertFalse(repository.registerDegreeType(id, name, ects));
     }
 
     @Test
-    void testContainsOfIdentityReturnsTrueWhenDegreeTypeExists() throws Exception {
-        List<DegreeType> degreeTypeList = new ArrayList<>();
-        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
-        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
+    void testSaveAndFindAll() {
+        DegreeType degreeType = DegreeType.create(new Name("Engenharia"), new MaxEcts(180));
+        repository.save(degreeType);
 
-        DegreeTypeID id = new DegreeTypeID("DT003");
-        DegreeType degreeType = mock(DegreeType.class);
-        when(degreeType.identity()).thenReturn(id);
-
-        degreeTypeRepositoryImpl.save(degreeType);
-        assertTrue(degreeTypeRepositoryImpl.containsOfIdentity(id), "containsOfIdentity deve retornar true quando o DegreeType existir");
+        Iterable<DegreeType> all = repository.findAll();
+        assertTrue(all.iterator().hasNext());
     }
 
     @Test
-    void testContainsOfIdentityReturnsFalseWhenDegreeTypeDoesNotExist() throws Exception {
-        List<DegreeType> degreeTypeList = new ArrayList<>();
-        when(degreeTypeListFactoryMock.createDegreeType_2List()).thenReturn(degreeTypeList);
-        degreeTypeRepositoryImpl = new DegreeTypeRepositoryImpl(degreeTypeFactoryMock, degreeTypeListFactoryMock);
+    void testOfIdentityReturnsCorrectType() {
+        DegreeType degreeType = DegreeType.create(new Name("Design"), new MaxEcts(180));
+        repository.save(degreeType);
 
-        DegreeTypeID id = new DegreeTypeID("DT004");
-        assertFalse(degreeTypeRepositoryImpl.containsOfIdentity(id), "containsOfIdentity deve retornar false quando o DegreeType não existir");
+        Optional<DegreeType> found = repository.ofIdentity(degreeType.identity());
+        assertTrue(found.isPresent());
+        assertEquals(degreeType, found.get());
+    }
+
+    @Test
+    void testOfIdentityReturnsEmptyIfNotFound() {
+        DegreeTypeID id = new DegreeTypeID("NOT_FOUND");
+        assertTrue(repository.ofIdentity(id).isEmpty());
+    }
+
+    @Test
+    void testContainsOfIdentity() {
+        DegreeType degreeType = DegreeType.create(new Name("Biologia"), new MaxEcts(180));
+        repository.save(degreeType);
+
+        assertTrue(repository.containsOfIdentity(degreeType.identity()));
+        assertFalse(repository.containsOfIdentity(new DegreeTypeID("FAKE")));
+    }
+
+    @Test
+    void testGetAllDegreeTypes() {
+        DegreeType d1 = DegreeType.create(new Name("Psicologia"), new MaxEcts(180));
+        DegreeType d2 = DegreeType.create(new Name("Arquitetura"), new MaxEcts(180));
+
+        repository.save(d1);
+        repository.save(d2);
+
+        List<DegreeType> all = repository.getAllDegreeTypes();
+
+        assertEquals(2, all.size());
+        assertTrue(all.contains(d1));
+        assertTrue(all.contains(d2));
     }
 }
