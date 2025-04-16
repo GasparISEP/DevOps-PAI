@@ -15,8 +15,16 @@ public class ProgrammeIDDataModel {
 
 
     public ProgrammeIDDataModel(ProgrammeID programmeID) {
-        _name = programmeID.getName().toString();
-        _acronym = programmeID.getAcronym().toString();
+        _name = programmeID.getName().getnameWithNumbersAndSpecialChars();
+        _acronym = programmeID.getAcronym().getAcronym();
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public String getAcronym() {
+        return _acronym;
     }
 
 }

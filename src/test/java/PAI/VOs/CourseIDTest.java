@@ -11,8 +11,11 @@ class CourseIDTest {
 
     @Test
     void shouldCreateCourseID() {
-        //arrange + act
-        CourseID id = new CourseID();
+        //arrange
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        // act
+        CourseID id = new CourseID(acronymDouble, nameDouble);
         //assert
         assertNotNull(id);
     }
@@ -20,7 +23,9 @@ class CourseIDTest {
     @Test
     void shouldReturnsEqualsIfObjectsAreEqual() {
         //Arrange
-        CourseID courseID = new CourseID();
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
         CourseID courseID2 = courseID;
         //Act+Assert
         assertEquals(courseID, courseID2);
@@ -29,7 +34,9 @@ class CourseIDTest {
     @Test
     void shouldReturnNotEqualsIfComparingWithNull() {
         //Arrange
-        CourseID courseID = new CourseID();
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
         CourseID courseID2 = null;
         //Act+Assert
         assertNotEquals(courseID, courseID2);
@@ -38,7 +45,9 @@ class CourseIDTest {
     @Test
     void shouldReturnNotEqualsIfObjectsAreNotFromSameClass() {
         //Arrange
-        CourseID courseID = new CourseID();
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         //Act+Assert
         assertNotEquals(courseID, courseEditionID);
@@ -47,26 +56,34 @@ class CourseIDTest {
     @Test
     void shouldReturnNotEqualsIfCourseIDsHaveDifferentUUIDs() {
         //Arrange
-        CourseID courseID = new CourseID();
-        CourseID courseID2 = new CourseID();
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        Acronym acronymDouble2 = mock(Acronym.class);
+        Name nameDouble2 = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
+        CourseID courseID2 = new CourseID(acronymDouble2, nameDouble2);
         //Act+Assert
         assertNotEquals(courseID, courseID2);
     }
 
     @Test
-    void shouldReturnCorrectUUIDString() {
+    void shouldReturnCorrectIDToString() {
         //Arrange
-        CourseID courseID = new CourseID();
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
         //Act
-        UUID uuid = UUID.fromString(courseID.toString());
+        String result = courseID.toString();
         //Assert
-        assertEquals(courseID.toString(), uuid.toString());
+        assertEquals(courseID.toString(), result);
     }
 
     @Test
     void shouldReturnEqualsHashCode() {
         //Arrange
-        CourseID courseID = new CourseID();
+        Acronym acronymDouble = mock(Acronym.class);
+        Name nameDouble = mock(Name.class);
+        CourseID courseID = new CourseID(acronymDouble, nameDouble);
         //Act
         int hash1 = courseID.hashCode();
         int hash2 = courseID.hashCode();

@@ -1,0 +1,39 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title Diagram Referenced in US15_SequenceDiagram
+
+participant ":Controller" as Controller
+participant "teacherAcronym1:TeacherAcronym" as Acronym #lightpink
+participant "NIF1:NIF" as NIF #cyan
+participant "teacherID1:TeacherID" as TeacherID #lightgreen
+participant "date1:Date" as Date #lightyellow
+participant "workingPercentage1:WorkingPercentage" as WorkingPercentage #lightblue
+
+Controller -> Acronym : create teacherAcronymVO (acronym)
+activate Acronym
+Acronym --> Controller : acronym1
+deactivate Acronym
+
+Controller -> NIF : create NIFVO (NIF)
+activate NIF
+NIF --> Controller: NIF1
+deactivate NIF
+
+Controller -> TeacherID : create teacherID (acronym1, NIF1)
+activate TeacherID
+TeacherID --> Controller : teacherID1
+deactivate TeacherID
+
+Controller -> Date : create DateVO (date)
+activate Date
+Date --> Controller : date1
+deactivate Date
+
+Controller -> WorkingPercentage : create workingPercentageVO (workingPercentage)
+activate WorkingPercentage
+WorkingPercentage --> Controller : workingPercentage1
+deactivate WorkingPercentage
+
+@enduml

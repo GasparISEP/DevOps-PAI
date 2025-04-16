@@ -1,0 +1,79 @@
+@startuml
+
+title US05: Register a Department in the System
+
+autonumber
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+actor "Administrator" as Administrator #LightBlue/White
+participant ":UI" as UI #LightBlue/white
+participant ":US05_RegisterADepartmentInTheSystemController" as Controller #LightBlue/white
+participant ":IDepartmentService" as Service #LightBlue/white
+participant ":IDepartmentRepository" as DepartmentRepository #LightBlue/white
+participant ":IDepartmentFactory" as DepartmentFactory #LightBlue/white
+participant "d1:Department" as Department #LightYellow/white
+participant ":DepartmentMapper" as Mapper #LightBlue/White
+participant "ddm1: DepartmentDataModel" as departmentDataModel #LightYellow/White
+participant ":IDepartmentRepositorySpringData" as departmentRepoSpringData #LightBlue/White
+
+Administrator -> UI: I want to register a department in the system.
+activate UI
+UI --> Administrator: Please provide the acronym.
+Administrator -> UI: Enter acronym.
+UI --> Administrator: Please provide the name.
+Administrator -> UI: Enter name.
+UI --> Administrator: Sure?
+Administrator -> UI: Yes!
+
+UI -> Controller: registerDepartment(acronym, name)
+activate Controller
+
+ref over Controller
+    Convert acronym and name to VO
+end ref
+
+Controller -> Service: registerDepartment(acronymVO, nameVO)
+activate Service
+
+
+Service -> DepartmentFactory: createDepartment(acronymVO, nameVO)
+activate DepartmentFactory
+DepartmentFactory -> Department **: createDepartment (acronymVO, nameVO)
+deactivate DepartmentFactory
+
+Service -> DepartmentRepository: isDepartmentRegistered(d1)
+activate DepartmentRepository
+DepartmentRepository -> Service: false
+deactivate DepartmentRepository
+
+Service -> DepartmentRepository: register department(d1)
+activate DepartmentRepository
+DepartmentRepository -> Mapper: toDataModel(d1)
+activate Mapper
+
+Mapper -> departmentDataModel **: createDataModel(d1)
+deactivate Mapper
+
+DepartmentRepository -> departmentRepoSpringData: save (ddm1)
+activate departmentRepoSpringData
+
+departmentRepoSpringData -> DepartmentRepository: true
+deactivate departmentRepoSpringData
+
+
+DepartmentRepository -> Service: true
+deactivate DepartmentRepository
+
+
+Service --> Controller: True
+deactivate Service
+
+Controller --> UI: True
+deactivate Controller
+UI --> Administrator: Department registered
+deactivate UI
+
+@enduml
