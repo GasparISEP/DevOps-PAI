@@ -22,53 +22,67 @@ class StudentIDTest {
     void validUniqueNumberCreatesStudentID () {
 
         // Arrange
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        int uniqueNumber = 1234567;
+        StudentID studentID = new StudentID(uniqueNumber);
 
         // Assert
         assertNotNull(studentID);
     }
 
     @Test
-    void nullUniqueNumberDoesNotCreateStudentID() {
+    void InvalidUniqueNumberDoesNotCreateStudentID() {
 
         // Arrange
-        UniqueNumber uniqueNumberDouble = null;
-        NIF nifDouble = mock(NIF.class);
+        int uniqueNumber = 0;
 
         //Act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new StudentID(uniqueNumberDouble, nifDouble);
+            new StudentID(uniqueNumber);
         });
 
         //Assert
-        assertEquals("Student's unique number cannot be null!", exception.getMessage());
+        assertEquals("Invalid unique number", exception.getMessage());
     }
 
     @Test
-    void nullNIFDoesNotCreateStudentID() {
+    void InvalidUniqueNumberDoesNotCreateStudentID2() {
 
         // Arrange
-        UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-        NIF nifDouble = null;
+        int uniqueNumber = 200000000;
 
         //Act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new StudentID(uniqueNumberDouble, nifDouble);
+            new StudentID(uniqueNumber);
         });
 
         //Assert
-        assertEquals("NIF cannot be null!", exception.getMessage());
+        assertEquals("Invalid unique number", exception.getMessage());
     }
+
+    @Test
+    void InvalidUniqueNumberDoesNotCreateStudentID3() {
+
+        // Arrange
+        int uniqueNumber = 2134567;
+
+        //Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new StudentID(uniqueNumber);
+        });
+
+        //Assert
+        assertEquals("Invalid unique number", exception.getMessage());
+    }
+
+
 
     @Test
     void equalsMethodIsEqual () {
-       UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-       NIF nifDouble = mock(NIF.class);
+        int uniqueNumber = 1234567;
+
         // Arrange
-        StudentID studentID1 = new StudentID(uniqueNumberDouble, nifDouble);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble, nifDouble);
+        StudentID studentID1 = new StudentID(uniqueNumber);
+        StudentID studentID2 = new StudentID(uniqueNumber);
 
         // Act
         boolean result = studentID1.equals(studentID2);
@@ -80,13 +94,12 @@ class StudentIDTest {
     @Test
     void equalsMethodIsNotEqual () {
         // Arrange
-       UniqueNumber uniqueNumberDouble1 = mock(UniqueNumber.class);
-       UniqueNumber uniqueNumberDouble2 = mock(UniqueNumber.class);
-       NIF nifDouble1 = mock(NIF.class);
-       NIF nifDouble2 = mock(NIF.class);
+        int uniqueNumber = 1234567;
+        int uniqueNumber2 = 1234568;
 
-        StudentID studentID1 = new StudentID(uniqueNumberDouble1, nifDouble1);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+
+        StudentID studentID1 = new StudentID(uniqueNumber);
+        StudentID studentID2 = new StudentID(uniqueNumber2);
 
         // Act
         boolean result = studentID1.equals(studentID2);
@@ -98,9 +111,8 @@ class StudentIDTest {
     @Test
     void shouldReturnTrueIfObjectsAreTheSame() {
         //arrange
-        UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID id = new StudentID(uniqueNumberDouble, nifDouble);
+        int uniqueNumber = 1234567;
+        StudentID id = new StudentID(uniqueNumber);
 
         //act
         boolean result = id.equals(id);
@@ -112,9 +124,8 @@ class StudentIDTest {
     @Test
     void shouldReturnFalseIfObjectToCompareIsNotAStudentID () {
         //arrange
-        UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID id = new StudentID(uniqueNumberDouble, nifDouble);
+        int uniqueNumber = 1234567;
+        StudentID id = new StudentID(uniqueNumber);
         Object object = mock(Object.class);
 
         //act
@@ -127,25 +138,23 @@ class StudentIDTest {
     @Test
     void shouldGetUniqueNumber () {
         // Arrange
-        UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
+        int uniqueNumber = 1234567;
+        StudentID studentID = new StudentID(uniqueNumber);
 
         // Act
-        UniqueNumber result = studentID.getUniqueNumber();
+        int result = studentID.getUniqueNumber();
 
         //Assert
-        assertEquals(uniqueNumberDouble, result);
+        assertEquals(1234567, result);
     }
 
     @Test
     void isEqualsMethodShouldReturnTrue () {
 
         // Arrange
-        UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID1 = new StudentID(uniqueNumberDouble, nifDouble);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble, nifDouble);
+        int uniqueNumber = 1234567;
+        StudentID studentID1 = new StudentID(uniqueNumber);
+        StudentID studentID2 = new StudentID(uniqueNumber);
 
         // Act
         boolean result = studentID1.isEquals(studentID2);
@@ -158,13 +167,11 @@ class StudentIDTest {
     void isEqualsMethodShouldReturnFalse () {
 
         // Arrange
-        UniqueNumber uniqueNumberDouble1 = mock(UniqueNumber.class);
-        UniqueNumber uniqueNumberDouble2 = mock(UniqueNumber.class);
-        NIF nifDouble1 = mock(NIF.class);
-        NIF nifDouble2 = mock(NIF.class);
+        int uniqueNumber = 1234567;
+        int uniqueNumber2 = 1234568;
 
-        StudentID studentID1 = new StudentID(uniqueNumberDouble1, nifDouble1);
-        StudentID studentID2 = new StudentID(uniqueNumberDouble2, nifDouble2);
+        StudentID studentID1 = new StudentID(uniqueNumber);
+        StudentID studentID2 = new StudentID(uniqueNumber2);
 
         // Act
         boolean result = studentID1.isEquals(studentID2);
@@ -172,19 +179,6 @@ class StudentIDTest {
         // Assert
         assertFalse(result);
     }
+}
 
-    @Test
-    void getNIF() {
 
-       // Arrange
-        UniqueNumber uniqueNumberDouble = mock(UniqueNumber.class);
-        NIF nifDouble = mock(NIF.class);
-        StudentID studentID = new StudentID(uniqueNumberDouble, nifDouble);
-
-        // Act
-        NIF result = studentID.getNIF();
-
-        //Assert
-        assertEquals(nifDouble, result);
-        }
-    }

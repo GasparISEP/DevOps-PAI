@@ -102,8 +102,8 @@ class ProgrammeEnrolmentIDDataModelTest {
     public void testHashCodeConsistency() {
 
         //arrange
-        StudentIDDataModel studentID1 = new StudentIDDataModel(1234567, "123456789", "PT");
-        StudentIDDataModel studentID2 = new StudentIDDataModel(1234567, "123456789", "PT");
+        StudentIDDataModel studentID1 = new StudentIDDataModel(1234567);
+        StudentIDDataModel studentID2 = new StudentIDDataModel(1234567);
 
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Nuno");
         Acronym acronym = new Acronym("NUN");

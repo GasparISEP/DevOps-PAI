@@ -10,10 +10,8 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldCreateValidStudentEmail() {
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
         StudentID studentID = mock(StudentID.class);
-        when(uniqueNumberDouble.toString()).thenReturn("1234567");
-        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
+        when(studentID.getUniqueNumber()).thenReturn(1234567);
         StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentID);
 
         assertEquals("1234567@isep.ipp.pt", studentAcademicEmail.getStudentEmail());
@@ -43,14 +41,12 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldNotBeEqualIfEmailsAreDifferent() {
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+
         StudentID studentID = mock(StudentID.class);
-        when(uniqueNumberDouble.toString()).thenReturn("1234567");
-        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
-        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        when(studentID.getUniqueNumber()).thenReturn(1234567);
+
         StudentID studentID2 = mock(StudentID.class);
-        when(uniqueNumberDouble2.toString()).thenReturn("1234568");
-        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble2);
+        when(studentID.getUniqueNumber()).thenReturn(1234568);
 
         StudentAcademicEmail email1 = new StudentAcademicEmail(studentID);
         StudentAcademicEmail email2 = new StudentAcademicEmail(studentID2);
@@ -61,10 +57,9 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldReturnCorrectStringRepresentation() {
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+
         StudentID studentID = mock(StudentID.class);
-        when(uniqueNumberDouble.toString()).thenReturn("1234567");
-        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
+        when(studentID.getUniqueNumber()).thenReturn(1234567);
         StudentAcademicEmail studentAcademicEmail = new StudentAcademicEmail(studentID);
 
         assertEquals("1234567@isep.ipp.pt", studentAcademicEmail.toString());
@@ -72,14 +67,11 @@ class StudentAcademicEmailTest {
 
     @Test
     void shouldGenerateEmailForDifferentStudentIDs() {
-        UniqueNumber uniqueNumberDouble= mock(UniqueNumber.class);
+
         StudentID studentID = mock(StudentID.class);
-        when(uniqueNumberDouble.toString()).thenReturn("1234567");
-        when(studentID.getUniqueNumber()).thenReturn(uniqueNumberDouble);
-        UniqueNumber uniqueNumberDouble2= mock(UniqueNumber.class);
+        when(studentID.getUniqueNumber()).thenReturn(1234567);
         StudentID studentID2 = mock(StudentID.class);
-        when(uniqueNumberDouble2.toString()).thenReturn("7654321");
-        when(studentID2.getUniqueNumber()).thenReturn(uniqueNumberDouble2);
+        when(studentID2.getUniqueNumber()).thenReturn(7654321);
 
         StudentAcademicEmail email1 = new StudentAcademicEmail(studentID);
         StudentAcademicEmail email2 = new StudentAcademicEmail(studentID2);

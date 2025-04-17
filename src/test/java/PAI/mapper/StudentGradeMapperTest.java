@@ -21,19 +21,15 @@ public class StudentGradeMapperTest {
         StudentGradeMapper mapper = new StudentGradeMapper();
 
         StudentID studentID = mock(StudentID.class);
-        UniqueNumber uniqueNumber = new UniqueNumber(1000001);
+        int uniqueNumber = 1000001;
         Grade grade = mock(Grade.class);
         Date date = mock(Date.class);
-        NIF nif = mock(NIF.class);
-        Country country = mock(Country.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
 
 
         when(studentGradeID.toString()).thenReturn("mocked-uuid");
         when(studentID.getUniqueNumber()).thenReturn(uniqueNumber);
-        when(studentID.getNIF()).thenReturn(nif);
-        when(nif.getCountry()).thenReturn(country);
         when(grade.knowGrade()).thenReturn(17.5);
         when(date.getLocalDate()).thenReturn(LocalDate.of(2024, 6, 1));
 
@@ -65,8 +61,6 @@ public class StudentGradeMapperTest {
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
 
         when(studentIDDataModel.getUniqueNumber()).thenReturn(1000001);
-        when(studentIDDataModel.getNIF()).thenReturn("123456789");
-        when(studentIDDataModel.getCountry()).thenReturn("Portugal");
         when(dataModel.get_grade()).thenReturn(18.0);
         when(dataModel.get_date()).thenReturn(LocalDate.of(2025, 4, 14));
         when(dataModel.getStudentId()).thenReturn(studentIDDataModel);
@@ -79,7 +73,7 @@ public class StudentGradeMapperTest {
         // Assert
         assertEquals(18.0, result.get_grade().knowGrade(), 0.01);
         assertEquals(LocalDate.of(2025, 4, 14), result.get_date().getLocalDate());
-        assertEquals(new UniqueNumber(1000001), result.get_studentID().getUniqueNumber());
+        assertEquals((1000001), result.get_studentID().getUniqueNumber());
         assertEquals(fakeCourseEditionID, result.get_courseEditionID());
     }
 
