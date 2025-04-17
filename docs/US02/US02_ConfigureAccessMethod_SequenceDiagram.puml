@@ -6,7 +6,7 @@ title: US02_Sequence Diagram_Configure Access Method in System (Happy Path)
 
 admin -> UI ++ #application : I want to configure access method
 UI --> admin -- : access method name?odName)
-admin -> UI ++ #application :(accessMeth
+admin -> UI ++ #application :(accessMethodName)
 UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (NameWithNumbersAndSpecialCharsVO)
 ConfigureAccessMethodController -> ":AccessMethodService" ++ #application: registerAccessMethodInMemoryRepository(NameWithNumbersAndSpecialCharsVO)
 
