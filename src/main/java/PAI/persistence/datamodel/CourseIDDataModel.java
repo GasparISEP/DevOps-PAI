@@ -13,9 +13,9 @@ public class CourseIDDataModel implements Serializable {
     public CourseIDDataModel() {
     }
 
-    public CourseIDDataModel(CourseID courseID) {
-        _acronym = courseID.getAcronym().toString();
-        _name = courseID.getName().toString();
+    public CourseIDDataModel(String acronym, String name) {
+        _acronym = acronym;
+        _name = name;
     }
 
     public String getId() {
