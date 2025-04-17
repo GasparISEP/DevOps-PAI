@@ -17,17 +17,17 @@ together {
     package Service {
         package SchoolYear {
             class SchoolYearServiceImpl
-            interface ISchoolYearService
+            interface ISchoolYearService <<interface>>
         }
 
         package Programme {
             class ProgrammeServiceImpl
-            interface IProgrammeService
+            interface IProgrammeService <<interface>>
         }
 
         package ProgrammeEdition {
             class ProgrammeEditionServiceImpl
-            interface IProgrammeEditionService
+            interface IProgrammeEditionService <<interface>>
         }
     }
 }
@@ -39,38 +39,38 @@ package repository {
 
     together {
         class SchoolYearRepositorySpringDataImpl
-        interface ISchoolYearRepository
-        interface ISchoolYearRepositorySpringData
+        interface ISchoolYearRepository <<interface>>
+        interface ISchoolYearRepositorySpringData <<interface>>
     }
 
     together {
         class ProgrammeRepositorySpringDataImpl
-        interface IProgrammeRepository
-        interface IProgrammeRepositorySpringData
+        interface IProgrammeRepository <<interface>>
+        interface IProgrammeRepositorySpringData <<interface>>
     }
 
     together {
         class ProgrammeEditionRepositorySpringDataImpl
-        interface IProgrammeEditionRepository
-        interface IProgrammeEditionRepositorySpringData
+        interface IProgrammeEditionRepository <<interface>>
+        interface IProgrammeEditionRepositorySpringData <<interface>>
     }
 }
 
 package datamodel {
     together {
-        interface ISchoolYearMapper
+        interface ISchoolYearMapper <<interface>>
         class SchoolYearMapperImpl
         class SchoolYearDataModel
     }
 
     together {
-        interface IProgrammeMapper
+        interface IProgrammeMapper <<interface>>
         class ProgrammeMapperImpl
         class ProgrammeDataModel
     }
 
     together {
-        interface IProgrammeEditionMapper
+        interface IProgrammeEditionMapper <<interface>>
         class ProgrammeEditionMapperImpl
         class ProgrammeEditionDataModel
     }
@@ -88,7 +88,7 @@ package domain {
     package "ProgrammeEdition Aggregate" {
         entity "<<Root>>\n<<Entity>>\nProgrammeEdition"
         class "<<Value Object>>\nProgrammeEditionID"
-        interface IProgrammeEditionFactory
+        interface IProgrammeEditionFactory <<interface>>
         class ProgrammeEditionFactoryImpl
     }
 }
