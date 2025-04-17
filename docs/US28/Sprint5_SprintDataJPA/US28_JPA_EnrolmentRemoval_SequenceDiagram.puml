@@ -15,7 +15,9 @@ participant ":UI" as UI #E1F5FE
 participant ":US28_EnrolmentRemoval\nController" as Controller #E1F5FE
 participant ":ICourseEditionEnrolment\nService" as Service #E1F5FE
 participant ":ICourseEditionEnrolment\nRepository" as Repository #E1F5FE
-participant ":CourseEditionEnrolment\nRepositorySpringDataImpl" as SpringDataRepo #E1F5FE
+participant ":ICourseEditionEnrolment\nRepositorySpringData" as SpringDataRepo #E1F5FE
+participant ":CourseEditionEnrolment" as Enrolment #E1F5FE
+participant ":EnrolmentStatus" as Status #E1F5FE
 participant ":CourseEditionEnrolment\nMapper" as Mapper #E1F5FE
 
 ' Step 1: ASC triggers removal
@@ -37,45 +39,37 @@ Controller -> Service: removeStudentEnrolment\n(studentID, courseEditionID)
 activate Service #HoneyDew
 
 ' Step 3: Check if enrolment exists
-Service -> Repository: findByStudentAndCourseEditionId\n(studentID, courseEditionID)
+Service -> Repository: removeEnrolment\n(studentID, courseEditionID)
 activate Repository #HoneyDew
-Repository -> SpringDataRepo: findByStudentIdAndCourseEditionId\n(studentID, courseEditionID)
+Repository -> SpringDataRepo: findByStudentAndEdition\n(studentID, courseEditionID)
 activate SpringDataRepo #HoneyDew
-SpringDataRepo --> Repository: Optional<CourseEditionEnrolmentDataModel>
+SpringDataRepo --> Repository: CourseEditionEnrolment
 deactivate SpringDataRepo
 
-' Step 4: Map to domain entity
-Repository -> Mapper: toEntity(CourseEditionEnrolmentDataModel)
-activate Mapper #HoneyDew
-Mapper --> Repository: CourseEditionEnrolment
-deactivate Mapper
-Repository --> Service: Optional<CourseEditionEnrolment>
-deactivate Repository
-
-' Step 5: Deactivate Enrolment
-participant "cee:CourseEditionEnrolment" as Enrolment #E1F5FE
-Service -> Enrolment : isEnrolmentActive()
+' Step 4: Deactivate Enrolment
+Repository -> Enrolment : isEnrolmentActive()
 activate Enrolment #HoneyDew
-Enrolment --> Service : true
+Enrolment --> Repository : true
 deactivate Enrolment
-Service -> Enrolment : deactivateEnrolment()
+Repository -> Enrolment : deactivateEnrolment()
 activate Enrolment #HoneyDew
-participant ":EnrolmentStatus" as Status #E1F5FE
 Enrolment -> Status : new EnrolmentStatus(false)
 activate Status #HoneyDew
 Status --> Enrolment : EnrolmentStatus(false)
 deactivate Status
-Enrolment --> Service : Enrolment status set to inactive
+Enrolment --> Repository : Enrolment status set to inactive
 deactivate Enrolment
+Repository --> Service : Enrolment status set to inactive
+deactivate Repository
 
-' Step 6: Persist updated enrolment
+' Step 5: Persist updated enrolment
 Service -> Repository: save(courseEditionEnrolment)
 activate Repository #HoneyDew
 Repository -> Mapper: toDataModel(courseEditionEnrolment)
 activate Mapper #HoneyDew
-Mapper --> Repository: CourseEditionEnrolmentDataModel
+create "ceeDataModel: \nCourseEditionEnrolment\nDataModel" as DataModel #E1F5FE
+Mapper -> DataModel :create (ceeDM)
 deactivate Mapper
-
 Repository -> SpringDataRepo: save(CourseEditionEnrolmentDataModel)
 activate SpringDataRepo #HoneyDew
 SpringDataRepo --> Repository: saved
@@ -83,12 +77,12 @@ deactivate SpringDataRepo
 Repository --> Service: saved
 deactivate Repository
 
-' Step 7: Response flow back
+' Step 6: Response flow back
 Service --> Controller: true
 deactivate Service
 Controller --> UI: true
 deactivate Controller
-UI --> ASC: Enrolment removed!
+UI --> ASC: Enrolment successfully\n removed!
 deactivate UI
 
 
