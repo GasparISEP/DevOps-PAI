@@ -1,4 +1,4 @@
-package PAI.repository.accessMethodRepository;
+package PAI.persistence.mem.accessMethod;
 
 import PAI.domain.accessMethod.AccessMethod;
 

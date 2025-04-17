@@ -1,6 +1,8 @@
 package PAI.repository.accessMethodRepository;
 
 import PAI.domain.accessMethod.AccessMethod;
+import PAI.persistence.mem.accessMethod.AccessMethodListFactoryImpl;
+import PAI.persistence.mem.accessMethod.IAccessMethodListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
