@@ -3,10 +3,8 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
-import PAI.repository.DepartmentRepositoryImpl;
-import PAI.repository.TeacherCareerProgressionRepository;
-import PAI.repository.TeacherCategoryRepositoryImpl;
-import PAI.repository.TeacherRepository;
+import PAI.factory.*;
+import PAI.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,17 +21,17 @@ import static org.mockito.Mockito.when;
 class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     // Arrange
-    private TeacherCategoryRepositoryImpl _teacherCategoryRepoDouble;
-    private DepartmentRepositoryImpl _departmentRepoDouble;
-    private TeacherRepository _teacherRepoDouble;
-    private TeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
+    private ITeacherCategoryRepository _teacherCategoryRepoDouble;
+    private IDepartmentRepository _departmentRepoDouble;
+    private ITeacherRepository _teacherRepoDouble;
+    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
 
     @BeforeEach
     void factoryDoublesSetup(){
-        _teacherCategoryRepoDouble = mock(TeacherCategoryRepositoryImpl.class);
-        _departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        _teacherRepoDouble = mock(TeacherRepository.class);
-        _teacherCareerProgressionRepoDouble = mock(TeacherCareerProgressionRepository.class);
+        _teacherCategoryRepoDouble = mock(ITeacherCategoryRepository.class);
+        _departmentRepoDouble = mock(IDepartmentRepository.class);
+        _teacherRepoDouble = mock(ITeacherRepository.class);
+        _teacherCareerProgressionRepoDouble = mock(ITeacherCareerProgressionRepository.class);
     }
 
 
@@ -89,8 +87,6 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     @Test
     void shouldReturnExceptionIfCategoriesListIsEmpty() throws IllegalStateException {
         // Arrange
-
-
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
 
@@ -193,62 +189,66 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         assertFalse(result);
     }
 
-//    @Test
-//    void shouldRegisterATeacherIntegrationTest() throws Exception {
-//        // Arrange
-//        TeacherCategoryRepositoryImpl teacherCategoryRepository = new TeacherCategoryRepositoryImpl();
-//        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-//        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
-//        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
-//        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-//        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
-//        TeacherRepository teacherRepository = new TeacherRepository(teacherFactory, teacherListFactory);
-//        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-//        ITeacherCareerProgressionFactory teacherCategoryFactory = new TeacherCareerProgressionFactoryImpl();
-//        TeacherCareerProgressionRepository teacherCareerProgressionRepository = new TeacherCareerProgressionRepository(teacherCategoryFactory, teacherCareerProgressionListFactory);
-//
-//        US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-//                teacherCategoryRepository, departmentRepository, teacherRepository, teacherCareerProgressionRepository);
-//
-//        // Act
-//        boolean result = controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
-//                "Mestre em Ciências", "Rua das Flores", "1234-567", "Lisboa", "Portugal",
-//                "DEI", "01-09-2024", "550e8400-e29b-41d4-a716-446655440000",
-//                100, "+351");
-//
-//        // Assert
-//        assertTrue(result);
-//    }
+    @Test
+    void shouldRegisterATeacherIntegrationTest() throws Exception {
+        // Arrange
+        ITeacherCategoryFactory teacherCategoryFactory = new TeacherCategoryFactoryImpl();
+        ITeacherCategoryListFactory teacherCategoryListFactory = new TeacherCategoryListFactoryImpl();
+        ITeacherCategoryRepository teacherCategoryRepository = new TeacherCategoryRepositoryImpl(teacherCategoryFactory, teacherCategoryListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepository(teacherFactory, teacherListFactory);
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionRepository teacherCareerProgressionRepository = new TeacherCareerProgressionRepository(teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
 
-//    @Test
-//    void shouldNotRegisterATeacherWhenTeacherIsDuplicateIntegrationTest() throws Exception {
-//        // Arrange
-//        TeacherCategoryRepositoryImpl teacherCategoryRepository = new TeacherCategoryRepositoryImpl();
-//        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-//        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
-//        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
-//        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-//        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
-//        TeacherRepository teacherRepository = new TeacherRepository(teacherFactory, teacherListFactory);
-//        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
-//        ITeacherCareerProgressionFactory teacherCategoryFactory = new TeacherCareerProgressionFactoryImpl();
-//        TeacherCareerProgressionRepository teacherCareerProgressionRepository = new TeacherCareerProgressionRepository(teacherCategoryFactory, teacherCareerProgressionListFactory);
-//
-//        US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-//                teacherCategoryRepository, departmentRepository, teacherRepository, teacherCareerProgressionRepository);
-//
-//        controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
-//                "Mestre em Ciências", "Rua das Flores", "1234-567", "Lisboa", "Portugal",
-//                "DEI", "01-09-2024", "550e8400-e29b-41d4-a716-446655440000",
-//                100, "+351");
-//
-//        // Act
-//        boolean result = controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
-//                "Mestre em Ciências", "Rua das Flores", "1234-567", "Lisboa", "Portugal",
-//                "DEI", "01-09-2024", "550e8400-e29b-41d4-a716-446655440000",
-//                100, "+351");
-//
-//        // Assert
-//        assertFalse(result);
-//    }
+        US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
+                teacherCategoryRepository, departmentRepository, teacherRepository, teacherCareerProgressionRepository);
+
+        // Act
+        boolean result = controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
+                "Mestre em Ciências", "Rua das Flores", "1234-567", "Lisboa", "Portugal",
+                "DEI", "01-09-2024", "550e8400-e29b-41d4-a716-446655440000",
+                100, "+351");
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldNotRegisterATeacherWhenTeacherIsDuplicateIntegrationTest() throws Exception {
+        // Arrange
+        ITeacherCategoryFactory teacherCategoryFactory = new TeacherCategoryFactoryImpl();
+        ITeacherCategoryListFactory teacherCategoryListFactory = new TeacherCategoryListFactoryImpl();
+        TeacherCategoryRepositoryImpl teacherCategoryRepository = new TeacherCategoryRepositoryImpl(teacherCategoryFactory, teacherCategoryListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
+        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+        TeacherRepository teacherRepository = new TeacherRepository(teacherFactory, teacherListFactory);
+        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactory = new TeacherCareerProgressionListFactoryImpl();
+        ITeacherCareerProgressionFactory teacherCareerProgressionFactory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionRepository teacherCareerProgressionRepository = new TeacherCareerProgressionRepository(teacherCareerProgressionFactory, teacherCareerProgressionListFactory);
+
+        US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
+                teacherCategoryRepository, departmentRepository, teacherRepository, teacherCareerProgressionRepository);
+
+        controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
+                "Mestre em Ciências", "Rua das Flores", "1234-567", "Lisboa", "Portugal",
+                "DEI", "01-09-2024", "550e8400-e29b-41d4-a716-446655440000",
+                100, "+351");
+
+        // Act
+        boolean result = controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
+                "Mestre em Ciências", "Rua das Flores", "1234-567", "Lisboa", "Portugal",
+                "DEI", "01-09-2024", "550e8400-e29b-41d4-a716-446655440000",
+                100, "+351");
+
+        // Assert
+        assertFalse(result);
+    }
 }
