@@ -1,123 +1,111 @@
 @startuml
 
-skinparam ranksep 150
-skinparam nodesep 120
+skinparam ranksep 140
+skinparam nodesep 75
 skinparam packageBorderColor #F0B0B0
 skinparam arrowThickness 1.2
 skinparam linetype ortho
 top to bottom direction
 
-package Controller {
-    class US18_CreateProgrammeEditionForCurrentSchoolYearController <<controller>> {
-        + US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository : ProgrammeEditionRepository, schoolYearRepository : SchoolYearRepository, programmeList : ProgrammeList)
-        + getAllProgrammeNames() : List<NameWithNumbersAndSpecialChars>
-        + createAProgrammeEditionForTheCurrentSchoolYear(programmeName : NameWithNumbersAndSpecialChars) : boolean
+together {
+    package Controller {
+        class US18_CreateProgrammeEditionForCurrentSchoolYearController <<controller>>
     }
 }
 
-package Service {
-
-    package SchoolYear {
+together {
+    package Service {
+        package SchoolYear {
             class SchoolYearServiceImpl
             interface ISchoolYearService <<interface>>
-    }
+        }
 
-    package Programme {
-        class ProgrammeServiceImpl
-        interface IProgrammeService <<interface>>
-    }
+        package Programme {
+            class ProgrammeServiceImpl
+            interface IProgrammeService <<interface>>
+        }
 
-    package ProgrammeEdition {
+        package ProgrammeEdition {
             class ProgrammeEditionServiceImpl
             interface IProgrammeEditionService <<interface>>
+        }
     }
 }
 
 
-'interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
-
-
-package repository{
-
+package repository {
     interface JpaRepository
+    interface IRepository
 
-    together{
-    class SchoolYearRepositorySpringDataImpl {
-        - _SchoolYearRepository
-        + getAllSchoolYears()
-    }
-    interface ISchoolYearRepository <<interface>>  {}
-    interface ISchoolYearRepositorySpringData <<interface>> {}
+    together {
+        class SchoolYearRepositorySpringDataImpl
+        interface ISchoolYearRepository <<interface>>
+        interface ISchoolYearRepositorySpringData <<interface>>
     }
 
-    together{
-    class ProgrammeRepositorySpringDataImpl {
-        - _ProgrammeRepository
-        + getAllProgrammes()
-    }
-    interface IProgrammeRepository <<interface>> {}
-    interface IProgrammeRepositorySpringData <<interface>> {}
+    together {
+        class ProgrammeRepositorySpringDataImpl
+        interface IProgrammeRepository <<interface>>
+        interface IProgrammeRepositorySpringData <<interface>>
     }
 
-    together{
-    class ProgrammeEditionRepositorySpringDataImpl {
-        - _ProgrammeEditionRepository
-        + getAllProgrammeEditions()
-    }
-    interface IProgrammeEditionRepository <<interface>> {}
-    interface IProgrammeEditionRepositorySpringData <<interface>> {}
+    together {
+        class ProgrammeEditionRepositorySpringDataImpl
+        interface IProgrammeEditionRepository <<interface>>
+        interface IProgrammeEditionRepositorySpringData <<interface>>
     }
 }
 
-package datamodel{
-
-    together{
+package datamodel {
+    together {
         interface ISchoolYearMapper <<interface>>
         class SchoolYearMapperImpl
         class SchoolYearDataModel
     }
 
-    together{
+    together {
         interface IProgrammeMapper <<interface>>
         class ProgrammeMapperImpl
         class ProgrammeDataModel
     }
 
-    together{
+    together {
         interface IProgrammeEditionMapper <<interface>>
         class ProgrammeEditionMapperImpl
         class ProgrammeEditionDataModel
     }
 }
 
-
 package domain {
-
     package "SchoolYear Aggregate" {
-        entity "<<Root>>\n<<Entity>>\nSchoolYear" {}
-        class "<<Value Object>>\nSchoolYearID" {}
+        class "<<Value Object>>\nSchoolYearID"
     }
 
     package "Programme Aggregate" {
-        entity "<<Root>>\n<<Entity>>\nProgramme" {}
-        class "<<Value Object>>\nProgrammeID" {}
+        class "<<Value Object>>\nProgrammeID"
     }
 
     package "ProgrammeEdition Aggregate" {
-        entity "<<Root>>\n<<Entity>>\nProgrammeEdition" {}
-        class "<<Value Object>>\nProgrammeEditionID" {}
-        interface IProgrammeEditionFactory <<interface>> {}
-        class ProgrammeEditionFactoryImpl {}
+        entity "<<Root>>\n<<Entity>>\nProgrammeEdition"
+        class "<<Value Object>>\nProgrammeEditionID"
+        interface IProgrammeEditionFactory <<interface>>
+        class ProgrammeEditionFactoryImpl
     }
 }
 
-Controller -[#white]- Service
-Service --[#white]- Repository
-Repository -[#white]- datamodel
-Repository --[#white]- domain
-datamodel --[#white]- domain
+' Layout constraints - force vertical alignment
+Controller -[hidden]d-> Service
+Service -[hidden]d-> repository
+Service -[hidden]d-> datamodel
 
-'Aggregates -[#white]- ValueObjects
+' Force repository and datamodel to be side by side
+repository -[hidden]r- datamodel
+
+' Force domain to be directly below repository and datamodel
+repository -[hidden]d-> domain
+datamodel -[hidden]d-> domain
+
+SchoolYearRepositorySpringDataImpl -[hidden]d-> SchoolYearServiceImpl
 
 ' Controller uses Services Interfaces
 US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" ISchoolYearService : uses
@@ -134,16 +122,19 @@ ProgrammeServiceImpl .up.|> IProgrammeService : implements
 SchoolYearRepositorySpringDataImpl "*" ..|> "1" ISchoolYearRepository : implements
 SchoolYearRepositorySpringDataImpl "*" ..> "1" ISchoolYearRepositorySpringData : uses
 ISchoolYearRepositorySpringData "1" --|> "1" JpaRepository : extends
+ISchoolYearRepository "1" --|> "1" IRepository : extends
 
 'ProgrammeEdition
 ProgrammeEditionRepositorySpringDataImpl "*" ..|> "1" IProgrammeEditionRepository : implements
 ProgrammeEditionRepositorySpringDataImpl "*" ..> "1" IProgrammeEditionRepositorySpringData : uses
 IProgrammeEditionRepositorySpringData "1" --|> "1" JpaRepository : extends
+IProgrammeEditionRepository "1" --|> "1" IRepository : extends
 
 'Programme
 ProgrammeRepositorySpringDataImpl "*" ..|> "1" IProgrammeRepository : implements
 ProgrammeRepositorySpringDataImpl "*" ..> "1" IProgrammeRepositorySpringData : uses
 IProgrammeRepositorySpringData "1" --|> "1" JpaRepository : extends
+IProgrammeRepository "1" --|> "1" IRepository : extends
 
 
 'Services Uses Repository
@@ -164,23 +155,23 @@ ISchoolYearRepository ..> ISchoolYearMapper : uses
 IProgrammeRepository ..> IProgrammeMapper : uses
 IProgrammeEditionRepository ..> IProgrammeEditionMapper : uses
 
+'Repository & ID's
+SchoolYearRepositorySpringDataImpl --> "<<Value Object>>\nSchoolYearID"
+ProgrammeRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeID"
+ProgrammeEditionRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeEditionID"
+
 'Services Uses Factory
-'ISchoolYearService -down-> ISchoolYearFactory: uses
-'IAccessMethodService -down-> IAccessMethodFactory: uses
 IProgrammeEditionService -down-> IProgrammeEditionFactory: uses
 
 
 'Domain
-'SchoolYear
-"<<Root>>\n<<Entity>>\nSchoolYear" "1" --> "uses 1" "<<Value Object>>\nSchoolYearID"
-
-'Programme
-"<<Root>>\n<<Entity>>\nProgramme" "1" --> "uses 1" "<<Value Object>>\nProgrammeID"
-
 'ProgrammeEdition
 IProgrammeEditionFactory "1" ..> "1..*" "<<Root>>\n<<Entity>>\nProgrammeEdition" : creates
 ProgrammeEditionFactoryImpl ..|> IProgrammeEditionFactory: implements
 "<<Root>>\n<<Entity>>\nProgrammeEdition" "1" --> "uses 1" "<<Value Object>>\nProgrammeEditionID"
+
+"<<Root>>\n<<Entity>>\nProgrammeEdition" *-- "<<Value Object>>\nSchoolYearID": has
+"<<Root>>\n<<Entity>>\nProgrammeEdition" *-- "<<Value Object>>\nProgrammeID": has
 
 
 

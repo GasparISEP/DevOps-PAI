@@ -43,6 +43,7 @@ class CourseIDMapperImplTest {
     @Test
     void shouldReturnNotNullCourseIDDataModel() {
         // Arrange
+
         Acronym acronymDouble = mock(Acronym.class);
         Name nameDouble = mock(Name.class);
         CourseID courseID = mock(CourseID.class);

@@ -31,4 +31,8 @@ public class DurationCourseInCurricularYear implements ValueObject {
     public int hashCode() {
         return Objects.hash(_duration);
     }
+
+    public int getDuration() {
+        return _duration;
+    }
 }
