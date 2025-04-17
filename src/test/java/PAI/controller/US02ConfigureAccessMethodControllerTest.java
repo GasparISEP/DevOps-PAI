@@ -3,9 +3,9 @@ package PAI.controller;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethodFactoryImpl;
 import PAI.domain.accessMethod.IAccessMethodFactory;
-import PAI.repository.accessMethodRepository.AccessMethodListFactoryImpl;
-import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
-import PAI.repository.accessMethodRepository.IAccessMethodListFactory;
+import PAI.persistence.mem.accessMethod.AccessMethodListFactoryImpl;
+import PAI.persistence.mem.accessMethod.AccessMethodRepositoryImpl;
+import PAI.persistence.mem.accessMethod.IAccessMethodListFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
