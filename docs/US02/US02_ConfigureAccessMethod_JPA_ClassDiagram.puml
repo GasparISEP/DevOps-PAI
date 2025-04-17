@@ -1,5 +1,6 @@
 @startuml
 
+
 package "AccessMethod Aggregate" {
     entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
     + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)

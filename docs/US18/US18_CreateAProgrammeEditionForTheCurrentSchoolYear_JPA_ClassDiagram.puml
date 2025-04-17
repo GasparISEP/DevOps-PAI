@@ -19,17 +19,17 @@ package Service {
 
     package SchoolYear {
             class SchoolYearServiceImpl
-            interface ISchoolYearService
+            interface ISchoolYearService <<interface>>
     }
 
     package Programme {
         class ProgrammeServiceImpl
-        interface IProgrammeService
+        interface IProgrammeService <<interface>>
     }
 
     package ProgrammeEdition {
             class ProgrammeEditionServiceImpl
-            interface IProgrammeEditionService
+            interface IProgrammeEditionService <<interface>>
     }
 }
 
@@ -39,15 +39,15 @@ package Service {
 
 package repository{
 
-    Interface JpaRepository
+    interface JpaRepository
 
     together{
     class SchoolYearRepositorySpringDataImpl {
         - _SchoolYearRepository
         + getAllSchoolYears()
     }
-    interface "ISchoolYearRepository <<interface>>"  {}
-    interface "ISchoolYearRepositorySpringData <<interface>>" {}
+    interface ISchoolYearRepository <<interface>>  {}
+    interface ISchoolYearRepositorySpringData <<interface>> {}
     }
 
     together{
@@ -55,8 +55,8 @@ package repository{
         - _ProgrammeRepository
         + getAllProgrammes()
     }
-    interface "IProgrammeRepository <<interface>>"  {}
-    interface "IProgrammeRepositorySpringData <<interface>>" {}
+    interface IProgrammeRepository <<interface>> {}
+    interface IProgrammeRepositorySpringData <<interface>> {}
     }
 
     together{
@@ -64,27 +64,27 @@ package repository{
         - _ProgrammeEditionRepository
         + getAllProgrammeEditions()
     }
-    interface "IProgrammeEditionRepository <<interface>>"  {}
-    interface "IProgrammeEditionRepositorySpringData <<interface>>" {}
+    interface IProgrammeEditionRepository <<interface>> {}
+    interface IProgrammeEditionRepositorySpringData <<interface>> {}
     }
 }
 
 package datamodel{
 
     together{
-        interface ISchoolYearMapper
+        interface ISchoolYearMapper <<interface>>
         class SchoolYearMapperImpl
         class SchoolYearDataModel
     }
 
     together{
-        interface IProgrammeMapper
+        interface IProgrammeMapper <<interface>>
         class ProgrammeMapperImpl
         class ProgrammeDataModel
     }
 
     together{
-        interface IProgrammeEditionMapper
+        interface IProgrammeEditionMapper <<interface>>
         class ProgrammeEditionMapperImpl
         class ProgrammeEditionDataModel
     }
@@ -131,25 +131,25 @@ ProgrammeServiceImpl .up.|> IProgrammeService : implements
 
 'RepositoriesSpring implements IRepositoriesSpring
 'SchoolYear
-SchoolYearRepositorySpringDataImpl "*" ..|> "1" "ISchoolYearRepository <<interface>>" : implements
-SchoolYearRepositorySpringDataImpl "*" ..> "1" "ISchoolYearRepositorySpringData <<interface>>" : uses
-"ISchoolYearRepositorySpringData <<interface>>" "1" --|> "1" JpaRepository : extends
+SchoolYearRepositorySpringDataImpl "*" ..|> "1" ISchoolYearRepository : implements
+SchoolYearRepositorySpringDataImpl "*" ..> "1" ISchoolYearRepositorySpringData : uses
+ISchoolYearRepositorySpringData "1" --|> "1" JpaRepository : extends
 
 'ProgrammeEdition
-ProgrammeEditionRepositorySpringDataImpl "*" ..|> "1" "IProgrammeEditionRepository <<interface>>" : implements
-ProgrammeEditionRepositorySpringDataImpl "*" ..> "1" "IProgrammeEditionRepositorySpringData <<interface>>" : uses
-"IProgrammeEditionRepositorySpringData <<interface>>" "1" --|> "1" JpaRepository : extends
+ProgrammeEditionRepositorySpringDataImpl "*" ..|> "1" IProgrammeEditionRepository : implements
+ProgrammeEditionRepositorySpringDataImpl "*" ..> "1" IProgrammeEditionRepositorySpringData : uses
+IProgrammeEditionRepositorySpringData "1" --|> "1" JpaRepository : extends
 
 'Programme
-ProgrammeRepositorySpringDataImpl "*" ..|> "1" "IProgrammeRepository <<interface>>" : implements
-ProgrammeRepositorySpringDataImpl "*" ..> "1" "IProgrammeRepositorySpringData <<interface>>" : uses
-"IProgrammeRepositorySpringData <<interface>>" "1" --|> "1" JpaRepository : extends
+ProgrammeRepositorySpringDataImpl "*" ..|> "1" IProgrammeRepository : implements
+ProgrammeRepositorySpringDataImpl "*" ..> "1" IProgrammeRepositorySpringData : uses
+IProgrammeRepositorySpringData "1" --|> "1" JpaRepository : extends
 
 
 'Services Uses Repository
-ISchoolYearService "1" ..> "1" "ISchoolYearRepository <<interface>>" : uses
-IProgrammeEditionService "1" ..> "1" "IProgrammeEditionRepository <<interface>>" : uses
-IProgrammeService "1" ..> "1" "IProgrammeRepository <<interface>>" : uses
+ISchoolYearService "1" ..> "1" ISchoolYearRepository : uses
+IProgrammeEditionService "1" ..> "1" IProgrammeEditionRepository : uses
+IProgrammeService "1" ..> "1" IProgrammeRepository : uses
 
 'Mappers & DataModels
 SchoolYearMapperImpl ..|> ISchoolYearMapper : implements
@@ -160,9 +160,9 @@ ProgrammeEditionMapperImpl ..|> IProgrammeEditionMapper : implements
 IProgrammeEditionMapper ..> ProgrammeEditionDataModel : transforms to/from
 
 'Repository & Mapper
-"ISchoolYearRepository <<interface>>" ..> ISchoolYearMapper : uses
-"IProgrammeRepository <<interface>>" ..> IProgrammeMapper : uses
-"IProgrammeEditionRepository <<interface>>" ..> IProgrammeEditionMapper : uses
+ISchoolYearRepository ..> ISchoolYearMapper : uses
+IProgrammeRepository ..> IProgrammeMapper : uses
+IProgrammeEditionRepository ..> IProgrammeEditionMapper : uses
 
 'Services Uses Factory
 'ISchoolYearService -down-> ISchoolYearFactory: uses
