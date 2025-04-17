@@ -18,11 +18,11 @@ public class NameWithNumbersAndSpecialChars implements ValueObject {
        return name==null || name.isBlank() || name.isEmpty();
     }
 
-    @Override
-    public boolean equals(Object o) {
+    public boolean equalsIgnoreCase(Object o) {
         if (this == o) return true;
         if (!(o instanceof NameWithNumbersAndSpecialChars that)) return false;
-        return Objects.equals(_nameWithNumbersAndSpecialChars, that._nameWithNumbersAndSpecialChars);
+        return _nameWithNumbersAndSpecialChars != null
+                && _nameWithNumbersAndSpecialChars.equalsIgnoreCase(that._nameWithNumbersAndSpecialChars);
     }
 
     public String getnameWithNumbersAndSpecialChars() {

@@ -14,7 +14,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         // Act
         StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -29,7 +29,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
 
         // Act
@@ -46,7 +46,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
 
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
@@ -67,10 +67,7 @@ class StudyPlanTest {
         Date implementationDate = mock(Date.class);
         Date implementationDate1 = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
-
-
-
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         // Act
         StudyPlan studyPlan1 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -86,7 +83,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlan studyPlan1 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
         // act
@@ -101,11 +98,12 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlan studyPlan1 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
         // act
-        QuantEcts result = studyPlan1.getQuantityOfEcts();
+        MaxEcts result = studyPlan1.getQuantityOfEcts();
+
         // assert
         assertEquals(quantityOfEcts, result);
     }
@@ -116,7 +114,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
         StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -131,7 +129,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
@@ -145,7 +143,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlan studyPlan1 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
         StudyPlan studyPlan2 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
@@ -160,12 +158,12 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         ProgrammeID programmeID2 = mock(ProgrammeID.class);
         Date implementationDate2 = mock(Date.class);
         DurationInYears durationInYears2 = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts2 = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts2 = mock(MaxEcts.class);
 
         StudyPlan studyPlan1 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
         StudyPlan studyPlan2 = new StudyPlan(programmeID2, implementationDate2, durationInYears2, quantityOfEcts2);
@@ -180,7 +178,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
@@ -194,7 +192,7 @@ class StudyPlanTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
 
         StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
 

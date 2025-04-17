@@ -107,10 +107,10 @@ class CourseRepositoryImplTest {
         DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
         Course course = mock(Course.class);
-        when(iCourseFactory.createCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear)).thenReturn(course);
+        when(iCourseFactory.createCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear)).thenReturn(course);
 
         //act
-        boolean result = repository.registerCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        boolean result = repository.registerCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
         //assert
         assertTrue(result);
     }
@@ -130,13 +130,13 @@ class CourseRepositoryImplTest {
 
         Course course = mock(Course.class);
         when(course.identity()).thenReturn(courseID);
-        when(iCourseFactory.createCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear))
+        when(iCourseFactory.createCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear))
                 .thenReturn(course);
 
-        repository.registerCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        repository.registerCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
 
         //act
-        boolean result = repository.registerCourse(courseID, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        boolean result = repository.registerCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
         //assert
         assertFalse(result);
     }

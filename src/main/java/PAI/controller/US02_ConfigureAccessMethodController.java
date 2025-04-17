@@ -1,6 +1,5 @@
 package PAI.controller;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
 import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
 
 public class US02_ConfigureAccessMethodController {

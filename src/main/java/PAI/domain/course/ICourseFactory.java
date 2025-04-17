@@ -4,5 +4,7 @@ import PAI.VOs.*;
 
 public interface ICourseFactory {
 
-    public Course createCourse(CourseID id, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInSemester);
+    Course createCourse(Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInSemester);
+
+    Course createCourse(CourseID courseID, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInSemester) throws Exception;
 }

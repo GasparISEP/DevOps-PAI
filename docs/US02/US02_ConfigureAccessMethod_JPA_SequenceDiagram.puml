@@ -11,9 +11,8 @@ admin -> UI ++ #application :(NameWithNumbersAndSpecialChars)
 
 
 ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : configureAccessMethod (NameWithNumbersAndSpecialChars)
-":AccessMethodService" -> ":AccessMethodService": getnameWithNumbersAndSpecialChars()
-":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application:  findAccessMethodByName(name)
-":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService" -- #application: false
+":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application:  getAccessMethodByName(NameWithNumbersAndSpecialChars)
+":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService" -- #application: Optional.empty()
 ":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application: createAccessMethod(NameWithNumbersAndSpecialChars)
 create "ac1:AccessMethod" as AccessMethod
 AccessMethodFactory -> AccessMethod  ++ #application  : <create> (NameWithNumbersAndSpecialChars)

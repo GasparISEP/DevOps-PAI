@@ -6,14 +6,19 @@ actor ASC
 participant ":UI" as UI
 participant "ctrl1 : EnrolAStudentInProgrammeController" as CTRL #lightgreen
 participant "peService : ProgrammeEnrolmentService" as PEService #silver
-participant "stdRepoJPA : <<Interface>>IStudentRepository" as StudentRepo #lightyellow
-participant "amRepoJPA : <<Interface>>IAccessMethodRepository" as AMRepo #lightyellow
-participant "pRepoJPA : <<Interface>>IProgrammeRepository" as ProgrammeRepo #lightyellow
-participant "peRepoJPA : <<Interface>>IProgrammeEnrolmentRepository" as PERepo #lightyellow
+participant "stdRepo" as StudentRepo #lightblue
+participant "<<Interface>>IStudentRepositorySpringData" as IStudentRepoSpringData #lightyellow
+participant "amRepo" as AccessMethodRepo #lightblue
+participant "<<Interface>>IAccessMethodRepositorySpringData" as IAMRepoSpringData #lightyellow
+participant "pRepo" as ProgrammeRepo #lightblue
+participant "<<Interface>>IProgrammeRepositorySpringData" as IProgrammeRepoSpringData #lightyellow
+participant "peRepo" as ProgrammeEnrolmentRepo #lightblue
 participant "pef : ProgrammeEnrolmentFactoryImpl" as PEFactory
 participant "ProgrammeEnrolmentMapper" as PEMapper
 participant "pe : ProgrammeEnrolment" as ProgrammeEnrolment
 participant "peDataModel : ProgrammeEnrolmentDataModel" as PEDataModel
+participant "<<Interface>>IProgrammeEnrolmentRepositorySpringData" as IPERepoSpringData #lightyellow
+
 
 ASC -> UI : I want to enrol a student in a programme.
 activate UI
@@ -45,28 +50,42 @@ end ref
 
 PEService -> StudentRepo : getStudentIDFromUniqueNumber(uniqueNumberVO)
 activate StudentRepo
-StudentRepo -> : findByStudentIdUniqueNumber(uniqueNumber: String);
-StudentRepo <-- : studentIDVO
+StudentRepo -> IStudentRepoSpringData : findByStudentIdUniqueNumber(uniqueNumber: String);
+activate IStudentRepoSpringData
+IStudentRepoSpringData -> :
+IStudentRepoSpringData <-- :
+StudentRepo <-- IStudentRepoSpringData : studentIDVO
+deactivate IStudentRepoSpringData
 StudentRepo --> PEService : studentIDVO
 deactivate StudentRepo
 
-PEService -> AMRepo : getAccessMethodIDFromName(accessMethodNameVO)
-activate AMRepo
-AMRepo -> : findByAccessMethodIDUuid(accessMethodNameID: UUID)
-AMRepo <--  : amIDVO
-AMRepo --> PEService : amIDVO
-deactivate AMRepo
+PEService -> AccessMethodRepo : getAccessMethodIDFromName(accessMethodNameVO)
+activate AccessMethodRepo
+AccessMethodRepo -> IAMRepoSpringData : findByAccessMethodIDUuid(accessMethodNameID: UUID)
+activate IAMRepoSpringData
+IAMRepoSpringData -> :
+IAMRepoSpringData <-- :
+AccessMethodRepo <-- IAMRepoSpringData : amIDVO
+deactivate IAMRepoSpringData
+AccessMethodRepo --> PEService : amIDVO
+deactivate AccessMethodRepo
+
+
 
 PEService -> ProgrammeRepo : getProgrammeIDFromAcronym(programmeAcronymVO)
 activate ProgrammeRepo
-ProgrammeRepo -> : findByProgrammeIDAcronym(programmeAcronym: String)
-ProgrammeRepo <-- : pIDVO
+ProgrammeRepo -> IProgrammeRepoSpringData : findByProgrammeIDAcronym(programmeAcronym: String)
+activate IProgrammeRepoSpringData
+IProgrammeRepoSpringData -> :
+IProgrammeRepoSpringData <-- :
+ProgrammeRepo <-- IProgrammeRepoSpringData : pIDVO
+deactivate IProgrammeRepoSpringData
 ProgrammeRepo --> PEService : pIDVO
 deactivate ProgrammeRepo
 
-PEService -> PERepo: enrolStudent(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
-activate PERepo
-PERepo -> PEFactory: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
+PEService -> ProgrammeEnrolmentRepo: enrolStudent(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
+activate ProgrammeEnrolmentRepo
+ProgrammeEnrolmentRepo -> PEFactory: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
 activate PEFactory
 PEFactory -> ProgrammeEnrolment**: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
 
@@ -74,30 +93,36 @@ activate ProgrammeEnrolment
 ProgrammeEnrolment -> ProgrammeEnrolment : validateAndFormatDate(date)
 ProgrammeEnrolment --> PEFactory: pe
 deactivate ProgrammeEnrolment
-PEFactory --> PERepo: pe
+PEFactory --> ProgrammeEnrolmentRepo: pe
 deactivate PEFactory
 
-PERepo -> ProgrammeEnrolment : getProgrammeEnrolmentID(programmeEnrolment)
+ProgrammeEnrolmentRepo -> ProgrammeEnrolment : getProgrammeEnrolmentID(programmeEnrolment)
 activate ProgrammeEnrolment
-ProgrammeEnrolment -> PERepo : peID
+ProgrammeEnrolment -> ProgrammeEnrolmentRepo : peID
 deactivate ProgrammeEnrolment
 
-PERepo -> : existsByID(peID)
-PERepo <-- : false
+ProgrammeEnrolmentRepo -> : existsByID(peID)
+ProgrammeEnrolmentRepo <-- : false
 
-PERepo -> PEMapper : toDataModel(pe)
+ProgrammeEnrolmentRepo -> PEMapper : toDataModel(pe)
 activate PEMapper
 PEMapper -> PEDataModel : createPEDataModel(pe)
 activate PEDataModel
 PEDataModel -> PEMapper : peDataModel
 deactivate PEDataModel
-PEMapper -> PERepo : peDataModel
+PEMapper -> ProgrammeEnrolmentRepo : peDataModel
 deactivate PEMapper
 
-PERepo -> : save(peDataModel)
+ProgrammeEnrolmentRepo -> IPERepoSpringData : save(peDataModel)
+activate IPERepoSpringData
+IPERepoSpringData ->
+IPERepoSpringData <--
+IPERepoSpringData --> ProgrammeEnrolmentRepo :
+deactivate IPERepoSpringData
 
-PERepo --> PEService: True
-deactivate PERepo
+
+ProgrammeEnrolmentRepo --> PEService: True
+deactivate ProgrammeEnrolmentRepo
 
 PEService -> CTRL : True
 
@@ -105,6 +130,6 @@ CTRL --> UI : True
 deactivate CTRL
 UI --> ASC : Success
 deactivate UI
-Deactivate PERepo
+Deactivate IPERepoSpringData
 
 @enduml

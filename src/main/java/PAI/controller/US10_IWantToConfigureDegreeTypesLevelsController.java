@@ -1,19 +1,20 @@
 package PAI.controller;
 
-import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.repository.degreeTypeRepository.DegreeTypeRepositoryImpl;
+import PAI.service.DegreeTypeService;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class US10_IWantToConfigureDegreeTypesLevelsController {
 
-    private final DegreeTypeRepositoryImpl degreeTypeRepositoryImpl;
+    private final DegreeTypeService service;
 
-    public US10_IWantToConfigureDegreeTypesLevelsController(DegreeTypeRepositoryImpl degreeTypeRepositoryImpl) {
-        this.degreeTypeRepositoryImpl = degreeTypeRepositoryImpl;
+    public US10_IWantToConfigureDegreeTypesLevelsController(DegreeTypeService service) {
+        this.service = service;
     }
 
-    public boolean registerDegreeType(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception {
-        return degreeTypeRepositoryImpl.registerDegreeType(degreeTypeID, name, maxEcts);
+    public boolean registerDegreeType(Name name, MaxEcts maxEcts) throws Exception {
+        return service.registerDegreeType(name, maxEcts);
     }
 }

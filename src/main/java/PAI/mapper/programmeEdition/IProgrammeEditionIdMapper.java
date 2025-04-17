@@ -1,9 +1,8 @@
 package PAI.mapper.programmeEdition;
 
-import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 
 public interface IProgrammeEditionIdMapper {
-    ProgrammeEdition dataModelToDomain (ProgrammeEditionIdDataModel programmeEditionIdDataModel);
-    Iterable<ProgrammeEdition> dataModelToDomain (Iterable<ProgrammeEditionIdDataModel> listProgrammeEditionDataModel);
+    ProgrammeEditionID dataModelToDomain (ProgrammeEditionIdDataModel programmeEditionIdDataModel) throws Exception;
 }

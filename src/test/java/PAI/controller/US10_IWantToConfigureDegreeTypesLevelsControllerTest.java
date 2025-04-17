@@ -1,71 +1,63 @@
 package PAI.controller;
 
-import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.repository.degreeTypeRepository.DegreeTypeRepositoryImpl;
+import PAI.service.DegreeTypeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
 
-    private DegreeTypeRepositoryImpl degreeTypeRepositoryImplMock;
+    private DegreeTypeService service;
     private US10_IWantToConfigureDegreeTypesLevelsController controller;
 
     @BeforeEach
     void setUp() {
-        degreeTypeRepositoryImplMock = Mockito.mock(DegreeTypeRepositoryImpl.class);
-        controller = new US10_IWantToConfigureDegreeTypesLevelsController(degreeTypeRepositoryImplMock);
+        service = mock(DegreeTypeService.class);
+        controller = new US10_IWantToConfigureDegreeTypesLevelsController(service);
     }
 
     @Test
-    void shouldCreateControllerSuccessfully() {
-        assertNotNull(controller);
-    }
+    void testRegisterDegreeType_Success() throws Exception {
+        Name name = new Name("Gestão");
+        MaxEcts ects = new MaxEcts(180);
 
-    @Test
-    void shouldRegisterDegreeTypeSuccessfully() throws Exception {
-        DegreeTypeID id = new DegreeTypeID("DT1");
-        Name name = new Name("Bachelor");
-        MaxEcts maxEcts = new MaxEcts(180);
+        when(service.registerDegreeType(name, ects)).thenReturn(true);
 
-        when(degreeTypeRepositoryImplMock.registerDegreeType(id, name, maxEcts)).thenReturn(true);
-
-        boolean result = controller.registerDegreeType(id, name, maxEcts);
+        boolean result = controller.registerDegreeType(name, ects);
 
         assertTrue(result);
-        verify(degreeTypeRepositoryImplMock, times(1)).registerDegreeType(id, name, maxEcts);
+        verify(service).registerDegreeType(name, ects);
     }
 
     @Test
-    void shouldReturnFalseWhenRegisteringDuplicateDegreeType() throws Exception {
-        DegreeTypeID id = new DegreeTypeID("DT1");
-        Name name = new Name("Bachelor");
-        MaxEcts maxEcts = new MaxEcts(180);
+    void testRegisterDegreeType_Failure() throws Exception {
+        Name name = new Name("Filosofia");
+        MaxEcts ects = new MaxEcts(180);
 
-        when(degreeTypeRepositoryImplMock.registerDegreeType(id, name, maxEcts)).thenReturn(false);
+        when(service.registerDegreeType(name, ects)).thenReturn(false);
 
-        boolean result = controller.registerDegreeType(id, name, maxEcts);
+        boolean result = controller.registerDegreeType(name, ects);
 
         assertFalse(result);
-        verify(degreeTypeRepositoryImplMock, times(1)).registerDegreeType(id, name, maxEcts);
+        verify(service).registerDegreeType(name, ects);
     }
 
     @Test
-    void shouldThrowExceptionWhenRepositoryFails() throws Exception {
-        DegreeTypeID id = new DegreeTypeID("DT1");
-        Name name = new Name("Bachelor");
-        MaxEcts maxEcts = new MaxEcts(180);
+    void testRegisterDegreeType_ThrowsException() throws Exception {
+        Name name = new Name("Arquitetura");
+        MaxEcts ects = new MaxEcts(180);
 
-        when(degreeTypeRepositoryImplMock.registerDegreeType(id, name, maxEcts)).thenThrow(new Exception("Repository error"));
+        when(service.registerDegreeType(name, ects)).thenThrow(new Exception("Erro"));
 
-        Exception exception = assertThrows(Exception.class, () -> controller.registerDegreeType(id, name, maxEcts));
+        Exception ex = assertThrows(Exception.class, () -> {
+            controller.registerDegreeType(name, ects);
+        });
 
-        assertEquals("Repository error", exception.getMessage());
-        verify(degreeTypeRepositoryImplMock, times(1)).registerDegreeType(id, name, maxEcts);
+        assertEquals("Erro", ex.getMessage());
+        verify(service).registerDegreeType(name, ects);
     }
 }
