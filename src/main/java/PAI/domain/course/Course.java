@@ -11,31 +11,8 @@ public class Course implements AggregateRoot<CourseID> {
     private final CourseQuantityCreditsEcts _quantityCreditsEcts;
     private final DurationCourseInCurricularYear _duration;
 
-    public Course(Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear){
-
-        if(name == null){
-            throw new IllegalArgumentException("Course Name must be valid");
-        }
-        if(acronym == null){
-            throw new IllegalArgumentException("Course Acronym must be valid");
-        }
-        if(quantityCreditsEcts == null){
-            throw new IllegalArgumentException("Course Quantity of Credits Ects must be valid");
-        }
-        if(durationCourseInCurricularYear == null){
-            throw new IllegalArgumentException("Course Duration must be valid");
-        }
-
-        this._courseID = new CourseID(acronym, name);
-        this._name = name;
-        this._acronym = acronym;
-        this._quantityCreditsEcts = quantityCreditsEcts;
-        this._duration = durationCourseInCurricularYear;
-    }
-
-    protected Course(CourseID id, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear){
-
-        if(id == null){
+    public Course(CourseID courseID, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear){
+        if(courseID == null){
             throw new IllegalArgumentException("Course Id must be valid");
         }
         if(name == null){
@@ -51,7 +28,7 @@ public class Course implements AggregateRoot<CourseID> {
             throw new IllegalArgumentException("Course Duration must be valid");
         }
 
-        this._courseID = id;
+        this._courseID = courseID;
         this._name = name;
         this._acronym = acronym;
         this._quantityCreditsEcts = quantityCreditsEcts;
