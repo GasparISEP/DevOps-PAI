@@ -547,4 +547,20 @@ class SchoolYearTest {
         });
 
     }
+
+    //Testing getDescription method
+
+    @Test
+    // Arrange
+   void shouldReturnDescriptionFromSchoolYear(){
+    Description description = new Description("School Year 24/25");
+    Date startDate = new Date("23-11-2024");
+    Date endDate = new Date("09-12-2025");
+    SchoolYear sy1 = new SchoolYear(description, startDate, endDate);
+
+    // Act
+    Description result = sy1.getDescription();
+
+    // Assert
+    assertEquals(description, result);}
 }
