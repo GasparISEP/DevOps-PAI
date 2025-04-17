@@ -7,7 +7,7 @@ skinparam arrowThickness 1.2
 skinparam linetype ortho
 top to bottom direction
 
-package controller {
+package Controller {
     class US18_CreateProgrammeEditionForCurrentSchoolYearController <<controller>> {
         + US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository : ProgrammeEditionRepository, schoolYearRepository : SchoolYearRepository, programmeList : ProgrammeList)
         + getAllProgrammeNames() : List<NameWithNumbersAndSpecialChars>
@@ -15,229 +15,175 @@ package controller {
     }
 }
 
-interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
+package Service {
 
-
-    package repository{
-
-        package SchoolYearRepository {
-
-
-                    interface ISchoolYearRepository <<interface>> {
-                            + addSchoolYear(description : Description, date : Date, date : Date) : boolean
-                            + schoolYearExists(schoolYearID : SchoolYearID) : boolean
-                            + getCurrentSchoolYearID() : SchoolYearID
-                            + getAllSchoolYears() : List<SchoolYear>
-                    }
-
-                    class SchoolYearRepositoryImpl <<repository>> {
-                        + SchoolYearRepositoryImpl(ISchoolYearFactory schoolYearFactory, ISchoolYearListFactory schoolYearListFactory)
-                        + addSchoolYear(description : Description, date : Date, date : Date) : boolean
-                        + schoolYearExists(schoolYearID : SchoolYearID) : boolean
-                        + getCurrentSchoolYearID() : SchoolYearID
-                        + getAllSchoolYears() : List<SchoolYear>
-                    }
-                }
-
-
-        package ProgrammeRepository{
-
-            interface IProgrammeRepository <<interface>> {
-                    + registerProgramme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, quantityOfEcts: QuantEcts, \n quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID, \n programmeDirectorID: TeacherID) : boolean
-                    +findProgrammeByDepartment(departmentID: DepartmentID) : List<ProgrammeID>
-                    +getProgrammesByDegreeTypeID(degreeTypeID: DegreeTypeID) : List<Programme>
-                    +findProgrammeIdByProgramme(programme: Programme) : Optional<ProgrammeID>
-                    +changeProgrammeDirector(programmeID: ProgrammeID, newDirectorID: TeacherID) : boolean
-                    +getAllProgrammes() : List<Programme>
-                    +getProgrammeByName(name: NameWithNumbersAndSpecialChars) : Optional<Programme>
-                    +getProgrammeByAcronym(acronym: Acronym) : Programme
-                    +getAllProgrammeNames() : List<NameWithNumbersAndSpecialChars>
-                    +getAllProgrammesIDs() : List<ProgrammeID>
-            }
-
-            class ProgrammeRepositoryImpl <<repository>> {
-                - _I_programmeFactory: IProgrammeFactory
-                - _programmeRepo: List<Programme>
-                - _programmeRepoListFactory: IProgrammeRepositoryListFactory
-                + ProgrammeRepositoryImpl(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeLisListFactory)
-                + registerProgramme(name : Name, acronym : Acronym, quantEcts : QuantEcts, (...))
-                + changeProgrammeDirector(programmeID : ProgrammeID, teacherID : TeacherID)
-                + getAllProgrammes() : List<Programme>
-                + getAllProgrammeEditions() : List<ProgrammeEdition>
-                + getProgrammeByName(name : Name) : Optional<Programme>
-                + getProgrammeByAcronym(acronym : Acronym) : Programme
-                + getAllProgrammeNames() : List <String>
-            }
-        }
-
-        package ProgrammeEditionRepository{
-
-            interface IProgrammeEditionRepository <<interface>> {
-                    + createProgrammeEdition(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : boolean
-                    + findProgrammeEditionBySchoolYearAndProgramme(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : Optional <ProgrammeEdition>
-                    + getAllProgrammeEditions() : List<ProgrammeEdition>
-            }
-
-            class ProgrammeEditionRepositoryImpl <<repository>> {
-                    + ProgrammeEditionRepositoryImpl (IProgrammeEditionFactory iProgrammeEditionFactory, IProgrammeEditionListFactory iProgrammeEditionListFactory)
-                    + createProgrammeEdition(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : boolean
-                    + findProgrammeEditionBySchoolYearAndProgramme(programmeID : ProgrammeID, schoolYearID : SchoolYearID) : Optional <ProgrammeEdition>
-                    + getAllProgrammeEditions() : List<ProgrammeEdition>
-            }
-
-            Interface IProgrammeEditionListFactory <<interface>> {
-                    createProgrammeEditionList() : List<ProgrammeEdition>
-            }
-
-            Class ProgrammeEditionListFactoryImpl {
-                + createProgrammeEditionList() : List<ProgrammeEdition>
-            }
-        }
-
+    package SchoolYear {
+            class SchoolYearServiceImpl
+            interface ISchoolYearService
     }
 
-
-
-    package domain {
-
-        package "SchoolYear Aggregate" {
-                    entity "<<Root>>\n<<Entity>>\nSchoolYear" {
-                        +SchoolYear(descriptionVO : DescriptionVO, date : Date, date : Date)
-                        +getEndDate() : Date
-                        +getStartDate() : Date
-                        +equals(object : Object) : boolean
-                    }
-
-                    class "<<Value Object>>\nSchoolYearID" {
-                            - schoolYearID : int
-                            + getProgrammeEditionID() : int
-                            + equals() : boolean
-                    }
-                }
-
-        package "Programme Aggregate" {
-            entity "<<Root>>\n<<Entity>>\nProgramme" {
-                - _name: NameWithNumbersAndSpecialChars
-                - _quantSemesters: QuantSemesters
-                - _quantEcts: QuantEcts
-                - _acronym: Acronym
-                - _degreeTypeID: DegreeTypeID
-                - _department: DepartmentID
-                - _programmeDirectorID: TeacherID
-                - _programmeID: ProgrammeID
-                +Programme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, \n quantityOfEcts: QuantEcts,  quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, \n departmentID: DepartmentID, programmeDirectorID: TeacherID)
-                +equals(o: Object): boolean
-                +isEquals(programmeID: ProgrammeID): boolean
-                +newProgrammeDirector(teacherDirectorID: TeacherID): boolean
-                +isInDepartment(departmentID: DepartmentID): boolean
-                +hasThisProgrammeName(name: NameWithNumbersAndSpecialChars): boolean
-            }
-
-            class "<<Value Object>>\nProgrammeID" {
-                     - _name: NameWithNumbersAndSpecialChars
-                        - _acronym: Acronym
-
-                        +ProgrammeID(name: NameWithNumbersAndSpecialChars, acronym: Acronym)
-                        +equals(object: Object): boolean
-                        +hashCode(): int
-                        +getName(): NameWithNumbersAndSpecialChars
-                        +getAcronym(): Acronym
-            }
-        }
-
-        package "ProgrammeEdition Aggregate" {
-                entity "<<Root>>\n<<Entity>>\nProgrammeEdition" {
-                    - _programmeEditionID: ProgrammeEditionID
-                    - _programmeID: ProgrammeID
-                    - _schoolYearID: SchoolYearID
-
-                    +ProgrammeEdition(pEID: ProgrammeEditionID, pID: ProgrammeID, sYID: SchoolYearID)
-                    +identity(): ProgrammeEditionID
-                    +sameAs(object: Object): boolean
-                    +equals(object: Object): boolean
-                    +hashCode(): int
-                    +findProgrammeIDInProgrammeEdition(): ProgrammeID
-                    +findSchoolYearIDInProgrammeEdition(): SchoolYearID
-                }
-
-                class "<<Value Object>>\nProgrammeEditionID" {
-                        - _programmeID: ProgrammeID
-                        - _schoolYearID: SchoolYearID
-
-                        +ProgrammeEditionID(programmeID: ProgrammeID, schoolYearID: SchoolYearID)
-                        +equals(o: Object): boolean
-                        +toString(): String
-                        +hashCode(): int
-                        +isSameProgrammeEdition(programmeID: ProgrammeID, schoolYearID: SchoolYearID): boolean
-                }
-
-                interface IProgrammeEditionFactory <<interface>> {
-                    + createProgrammeEdition(ProgrammeID, SchoolYearID)
-                }
-
-                class ProgrammeEditionFactoryImpl {
-                    + createProgrammeEdition(ProgrammeID, SchoolYearID)
-                }
-        }
-
-
+    package Programme {
+        class ProgrammeServiceImpl
+        interface IProgrammeService
     }
 
+    package ProgrammeEdition {
+            class ProgrammeEditionServiceImpl
+            interface IProgrammeEditionService
+    }
+}
 
 
-US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" IProgrammeEditionRepository : uses
-US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" ISchoolYearRepository : uses
-US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" IProgrammeRepository : uses
-
-IProgrammeRepository -up-|> IRepository : extends
-IProgrammeEditionRepository -up-|> IRepository : extends
-ISchoolYearRepository -up-|> IRepository : extends
+'interface "IRepository<ProgrammeID, Programme>" as IRepository <<interface>>
 
 
+package repository{
+
+    Interface JpaRepository
+
+    together{
+    class SchoolYearRepositorySpringDataImpl {
+        - _SchoolYearRepository
+        + getAllSchoolYears()
+    }
+    interface "ISchoolYearRepository <<interface>>"  {}
+    interface "ISchoolYearRepositorySpringData <<interface>>" {}
+    }
+
+    together{
+    class ProgrammeRepositorySpringDataImpl {
+        - _ProgrammeRepository
+        + getAllProgrammes()
+    }
+    interface "IProgrammeRepository <<interface>>"  {}
+    interface "IProgrammeRepositorySpringData <<interface>>" {}
+    }
+
+    together{
+    class ProgrammeEditionRepositorySpringDataImpl {
+        - _ProgrammeEditionRepository
+        + getAllProgrammeEditions()
+    }
+    interface "IProgrammeEditionRepository <<interface>>"  {}
+    interface "IProgrammeEditionRepositorySpringData <<interface>>" {}
+    }
+}
+
+package datamodel{
+
+    together{
+        interface ISchoolYearMapper
+        class SchoolYearMapperImpl
+        class SchoolYearDataModel
+    }
+
+    together{
+        interface IProgrammeMapper
+        class ProgrammeMapperImpl
+        class ProgrammeDataModel
+    }
+
+    together{
+        interface IProgrammeEditionMapper
+        class ProgrammeEditionMapperImpl
+        class ProgrammeEditionDataModel
+    }
+}
 
 
-IProgrammeRepository <|.. ProgrammeRepositoryImpl
+package domain {
 
-ProgrammeEditionRepositoryImpl "1" --up> "1" IProgrammeEditionListFactory : uses
-ProgrammeEditionListFactoryImpl ..left|> IProgrammeEditionListFactory
-IProgrammeEditionRepository <|.. ProgrammeEditionRepositoryImpl
+    package "SchoolYear Aggregate" {
+        entity "<<Root>>\n<<Entity>>\nSchoolYear" {}
+        class "<<Value Object>>\nSchoolYearID" {}
+    }
+
+    package "Programme Aggregate" {
+        entity "<<Root>>\n<<Entity>>\nProgramme" {}
+        class "<<Value Object>>\nProgrammeID" {}
+    }
+
+    package "ProgrammeEdition Aggregate" {
+        entity "<<Root>>\n<<Entity>>\nProgrammeEdition" {}
+        class "<<Value Object>>\nProgrammeEditionID" {}
+        interface IProgrammeEditionFactory <<interface>> {}
+        class ProgrammeEditionFactoryImpl {}
+    }
+}
+
+Controller -[#white]- Service
+Service --[#white]- Repository
+Repository -[#white]- datamodel
+Repository --[#white]- domain
+datamodel --[#white]- domain
+
+'Aggregates -[#white]- ValueObjects
+
+' Controller uses Services Interfaces
+US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" ISchoolYearService : uses
+US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" IProgrammeEditionService : uses
+US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" IProgrammeService : uses
+
+' Services implement interfaces
+SchoolYearServiceImpl .up.|> ISchoolYearService : implements
+ProgrammeEditionServiceImpl .up.|> IProgrammeEditionService : implements
+ProgrammeServiceImpl .up.|> IProgrammeService : implements
+
+'RepositoriesSpring implements IRepositoriesSpring
+'SchoolYear
+SchoolYearRepositorySpringDataImpl "*" ..|> "1" "ISchoolYearRepository <<interface>>" : implements
+SchoolYearRepositorySpringDataImpl "*" ..> "1" "ISchoolYearRepositorySpringData <<interface>>" : uses
+"ISchoolYearRepositorySpringData <<interface>>" "1" --|> "1" JpaRepository : extends
+
+'ProgrammeEdition
+ProgrammeEditionRepositorySpringDataImpl "*" ..|> "1" "IProgrammeEditionRepository <<interface>>" : implements
+ProgrammeEditionRepositorySpringDataImpl "*" ..> "1" "IProgrammeEditionRepositorySpringData <<interface>>" : uses
+"IProgrammeEditionRepositorySpringData <<interface>>" "1" --|> "1" JpaRepository : extends
+
+'Programme
+ProgrammeRepositorySpringDataImpl "*" ..|> "1" "IProgrammeRepository <<interface>>" : implements
+ProgrammeRepositorySpringDataImpl "*" ..> "1" "IProgrammeRepositorySpringData <<interface>>" : uses
+"IProgrammeRepositorySpringData <<interface>>" "1" --|> "1" JpaRepository : extends
+
+
+'Services Uses Repository
+ISchoolYearService "1" ..> "1" "ISchoolYearRepository <<interface>>" : uses
+IProgrammeEditionService "1" ..> "1" "IProgrammeEditionRepository <<interface>>" : uses
+IProgrammeService "1" ..> "1" "IProgrammeRepository <<interface>>" : uses
+
+'Mappers & DataModels
+SchoolYearMapperImpl ..|> ISchoolYearMapper : implements
+ISchoolYearMapper ..> SchoolYearDataModel : transforms to/from
+ProgrammeMapperImpl ..|> IProgrammeMapper : implements
+IProgrammeMapper ..> ProgrammeDataModel : transforms to/from
+ProgrammeEditionMapperImpl ..|> IProgrammeEditionMapper : implements
+IProgrammeEditionMapper ..> ProgrammeEditionDataModel : transforms to/from
+
+'Repository & Mapper
+"ISchoolYearRepository <<interface>>" ..> ISchoolYearMapper : uses
+"IProgrammeRepository <<interface>>" ..> IProgrammeMapper : uses
+"IProgrammeEditionRepository <<interface>>" ..> IProgrammeEditionMapper : uses
+
+'Services Uses Factory
+'ISchoolYearService -down-> ISchoolYearFactory: uses
+'IAccessMethodService -down-> IAccessMethodFactory: uses
+IProgrammeEditionService -down-> IProgrammeEditionFactory: uses
+
+
+'Domain
+'SchoolYear
+"<<Root>>\n<<Entity>>\nSchoolYear" "1" --> "uses 1" "<<Value Object>>\nSchoolYearID"
+
+'Programme
+"<<Root>>\n<<Entity>>\nProgramme" "1" --> "uses 1" "<<Value Object>>\nProgrammeID"
+
+'ProgrammeEdition
+IProgrammeEditionFactory "1" ..> "1..*" "<<Root>>\n<<Entity>>\nProgrammeEdition" : creates
+ProgrammeEditionFactoryImpl ..|> IProgrammeEditionFactory: implements
+"<<Root>>\n<<Entity>>\nProgrammeEdition" "1" --> "uses 1" "<<Value Object>>\nProgrammeEditionID"
 
 
 
-ProgrammeEditionFactoryImpl "1" ..|> "1" IProgrammeEditionFactory
-"<<Root>>\n<<Entity>>\nProgrammeEdition" "0..*" ..> "1" IProgrammeEditionFactory
-"<<Root>>\n<<Entity>>\nProgrammeEdition" "*" --> "1" "<<Value Object>>\nProgrammeEditionID" : contains
-IProgrammeEditionRepository "1" --> "1" IProgrammeEditionFactory
 
 
-"<<Root>>\n<<Entity>>\nProgramme" "*" *-- "1" "<<Value Object>>\nProgrammeID" : contains
-"<<Root>>\n<<Entity>>\nSchoolYear" "1" *-- "1" "<<Value Object>>\nSchoolYearID" : contains
-
-"<<Value Object>>\nProgrammeEditionID" "0..*" <-- "1" "<<Value Object>>\nProgrammeID"
-"<<Value Object>>\nProgrammeEditionID" "0..*" <-- "1" "<<Value Object>>\nSchoolYearID"
-
-ISchoolYearRepository <|.. SchoolYearRepositoryImpl
-
-
-IProgrammeEditionRepository "1" --> "*" "<<Root>>\n<<Entity>>\nProgrammeEdition" : contains
-"<<Root>>\n<<Entity>>\nSchoolYear" "*" <-- "1" ISchoolYearRepository : contains
-"<<Root>>\n<<Entity>>\nProgramme" "*" <-- "1" IProgrammeRepository : contains
-
-"SchoolYear Aggregate" -[hidden]u-> SchoolYearRepositoryImpl
-"Programme Aggregate" -[hidden]u-> ProgrammeRepositoryImpl
-
-IProgrammeEditionRepository -[hidden]-> "<<Value Object>>\nProgrammeEditionID"
-
-ISchoolYearRepository -[hidden]l> IProgrammeRepository
-SchoolYearRepositoryImpl -[hidden]l> ProgrammeRepositoryImpl
-ISchoolYearRepository -[hidden]r-> IProgrammeEditionListFactory
-SchoolYearRepositoryImpl -[hidden]r-> ProgrammeEditionRepositoryImpl
-
-"Programme Aggregate" -[hidden]r-> "SchoolYear Aggregate"
-"Programme Aggregate" -[hidden]r-> "ProgrammeEdition Aggregate"
-
-"<<Root>>\n<<Entity>>\nProgrammeEdition" -[hidden]u-> SchoolYearRepositoryImpl
-"<<Root>>\n<<Entity>>\nProgrammeEdition" -[hidden]u-> ProgrammeRepositoryImpl
-"<<Root>>\n<<Entity>>\nProgrammeEdition" -[hidden]u-> ProgrammeEditionRepositoryImpl
-"<<Root>>\n<<Entity>>\nProgramme" -[hidden]r> "<<Root>>\n<<Entity>>\nProgrammeEdition"
 @enduml
