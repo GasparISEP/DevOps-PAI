@@ -20,7 +20,6 @@ class TeacherDataModelTest {
     void testConstructor () {
         // Arrange
         TeacherIDDataModel teacherIDdataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -31,7 +30,7 @@ class TeacherDataModelTest {
         String dptAcronym = "DEI";
 
         // Act
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDdataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDdataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         assertNotNull(teacherDataModel);
     }
@@ -40,7 +39,6 @@ class TeacherDataModelTest {
     void getTeacherIDShouldReturnTeacherID () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -50,7 +48,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         TeacherIDDataModel result = teacherDataModel.getTeacherIDDataModel();
@@ -60,33 +58,9 @@ class TeacherDataModelTest {
     }
 
     @Test
-    void getAcronymShouldReturnTeacherAcronym() {
-        // Arrange
-        TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
-        String name = "Migas";
-        String email = "migas@outlook.com";
-        NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
-        PhoneNumberDataModel phoneDataModelDouble = mock(PhoneNumberDataModel.class);
-        String academicBackground = "Mestrado em Eng. Informática";
-        AddressDataModel addressDataModelDouble = mock(AddressDataModel.class);
-        TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
-        String dptAcronym = "DEI";
-
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
-
-        // Act
-        String result = teacherDataModel.getTeacherAcronym();
-
-        // Assert
-        assertEquals(acronym, result);
-    }
-
-    @Test
     void getNameShouldReturnName () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -96,7 +70,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         String result = teacherDataModel.getName();
@@ -109,7 +83,6 @@ class TeacherDataModelTest {
     void getEmailShouldReturnEmail () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -119,7 +92,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         String result = teacherDataModel.getEmail();
@@ -132,7 +105,6 @@ class TeacherDataModelTest {
     void getNIFShouldReturnNIF () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -142,7 +114,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         NIFDataModel result = teacherDataModel.getNif();
@@ -155,7 +127,6 @@ class TeacherDataModelTest {
     void getPhoneNumberShouldReturnPhoneNumber () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -165,7 +136,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         PhoneNumberDataModel result = teacherDataModel.getPhoneNumber();
@@ -178,7 +149,6 @@ class TeacherDataModelTest {
     void getAcademicBackgroundShouldReturnAcademicBackground () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -188,7 +158,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         String result = teacherDataModel.getAcademicBackground();
@@ -201,7 +171,6 @@ class TeacherDataModelTest {
     void getAddressShouldReturnAddress () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -211,7 +180,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         AddressDataModel result = teacherDataModel.getAddress();
@@ -224,7 +193,6 @@ class TeacherDataModelTest {
     void getTeacherAcademicEmailShouldReturnAcademicEmail () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -234,7 +202,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         TeacherAcademicEmailDataModel result = teacherDataModel.getTeacherAcademicEmail();
@@ -247,7 +215,6 @@ class TeacherDataModelTest {
     void getDptAcronymShouldReturnDptAcronym () {
         // Arrange
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        String acronym = "MSA";
         String name = "Migas";
         String email = "migas@outlook.com";
         NIFDataModel nifDataModelDouble = mock(NIFDataModel.class);
@@ -257,7 +224,7 @@ class TeacherDataModelTest {
         TeacherAcademicEmailDataModel academicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
         String dptAcronym = "DEI";
 
-        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, acronym, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
+        TeacherDataModel teacherDataModel = new TeacherDataModel(teacherIDDataModelDouble, name, email, nifDataModelDouble, phoneDataModelDouble, academicBackground, addressDataModelDouble, academicEmailDataModelDouble, dptAcronym);
 
         // Act
         String result = teacherDataModel.getDptAcronym();

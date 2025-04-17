@@ -12,8 +12,6 @@ public class TeacherDataModel {
     @Id
     private TeacherIDDataModel _teacherIDDataModel;
 
-    private String _teacherAcronym;
-
     private String _name;
     private String _email;
 
@@ -36,10 +34,9 @@ public class TeacherDataModel {
 
     public TeacherDataModel () {}
 
-    public TeacherDataModel (TeacherIDDataModel teacherIDDataModel, String teacherAcronym, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
+    public TeacherDataModel (TeacherIDDataModel teacherIDDataModel, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
 
         _teacherIDDataModel = teacherIDDataModel;
-        _teacherAcronym = teacherAcronym;
         _name = name;
         _email = email;
         _nif = nif;
@@ -52,10 +49,6 @@ public class TeacherDataModel {
 
     public TeacherIDDataModel getTeacherIDDataModel() {
         return _teacherIDDataModel;
-    }
-
-    public String getTeacherAcronym() {
-        return _teacherAcronym;
     }
 
     public String getName() {
