@@ -1,11 +1,14 @@
 package PAI.persistence.datamodel;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TeacherCategoryDataModelTest {
     @Test
@@ -45,4 +48,27 @@ public class TeacherCategoryDataModelTest {
         );
         assertEquals("name não pode ser nulo", ex.getMessage());
     }
+
+    @Test
+    void testJPAAnnotationsPresent() {
+        // Arrange & Act
+        Entity entityAnno = TeacherCategoryDataModel.class.getAnnotation(Entity.class);
+        Table tableAnno = TeacherCategoryDataModel.class.getAnnotation(Table.class);
+
+        // Assert
+        assertNotNull(entityAnno, "@Entity deve estar presente na classe");
+        assertNotNull(tableAnno, "@Table deve estar presente na classe");
+        assertEquals("teacher_category", tableAnno.name(), "@Table name deve corresponder à tabela do BD");
+    }
+
+    @Test
+    void testDefaultConstructorIsProtected() throws NoSuchMethodException {
+        // Arrange & Act
+        Constructor<TeacherCategoryDataModel> ctor = TeacherCategoryDataModel.class.getDeclaredConstructor();
+
+        // Assert
+        int modifiers = ctor.getModifiers();
+        assertTrue(Modifier.isProtected(modifiers), "Construtor sem-args deve ser protected");
+    }
+
 }
