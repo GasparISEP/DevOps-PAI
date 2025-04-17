@@ -5,22 +5,23 @@ autonumber
 title: US02_Sequence Diagram_Configure Access Method in System (Happy Path)
 
 admin -> UI ++ #application : I want to configure access method
-UI --> admin -- : access method name?
-admin -> UI ++ #application :(accessMethodNameVO)
-UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (accessMethodNameVO)
+UI --> admin -- : access method name?odName)
+admin -> UI ++ #application :(accessMeth
+UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (NameWithNumbersAndSpecialCharsVO)
+ConfigureAccessMethodController -> ":AccessMethodService" ++ #application: registerAccessMethodInMemoryRepository(NameWithNumbersAndSpecialCharsVO)
 
-
-ConfigureAccessMethodController -> ":AccessMethodFactory" as AccessMethodFactory ++ #application : createAccessMethod (accessMethodNameVO)
+":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application : createAccessMethod(NameWithNumbersAndSpecialCharsVO)
 create "ac1:AccessMethod" as AccessMethod
-AccessMethodFactory -> AccessMethod  #application  : <create> (accessMethodNameVO)
-AccessMethodFactory --> ConfigureAccessMethodController -- : :ac1
+AccessMethodFactory -> AccessMethod  #application  : <create> (NameWithNumbersAndSpecialCharsVO)
+AccessMethodFactory --> ":AccessMethodService" -- : :ac1
 
-ConfigureAccessMethodController -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : registerAccessMethod (ac1)
+":AccessMethodService" -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : saveAccessMethod(ac1)
 
 AccessMethodRepository -> AccessMethodRepository : isAccessMethodAlreadyRegistered (ac1)
 
-AccessMethodRepository --> ConfigureAccessMethodController --: true
+AccessMethodRepository --> ":AccessMethodService" --:  Optional<ac1>
 
+":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1>
 ConfigureAccessMethodController --> UI --: true
-UI --> admin --: AM Created and Registered
+UI --> admin --: AC1 Created and Registered
 @enduml

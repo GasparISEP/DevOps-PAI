@@ -27,5 +27,5 @@ create "ac1DM: AccessMethodDataModel" as AccessMethodDataModel
 ":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService": Optional<ac1>
 ":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1>
 ConfigureAccessMethodController --> UI: true
-UI --> admin: true
+UI --> admin: AC1 Created and Registered
 @enduml
