@@ -23,5 +23,5 @@ AccessMethodRepository --> ":AccessMethodService" --:  Optional<ac1>
 
 ":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1>
 ConfigureAccessMethodController --> UI --: true
-UI --> admin --: AM Created and Registered
+UI --> admin --: AC1 Created and Registered
 @enduml
