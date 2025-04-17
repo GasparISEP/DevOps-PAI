@@ -52,6 +52,6 @@ public class AccessMethod implements AggregateRoot<AccessMethodID> {
     }
 
     public boolean hasThisAccessMethodName (NameWithNumbersAndSpecialChars accessMethodName) {
-        return _accessMethodName.equals(accessMethodName);
+        return _accessMethodName.equalsIgnoreCase(accessMethodName);
     }
 }
