@@ -35,8 +35,41 @@ package Service {
         class CourseEditionService
 }
 
+'--- Factories & Interfaces ---
+package Factories {
+    together{
+    interface IDegreeTypeFactory
+    class DegreeTypeImpl
+    }
+
+    together{
+    interface IProgrammeFactory
+    class ProgrammeImpl
+    }
+
+    together{
+    interface IStudyPlanFactory
+    class StudyPlanImpl
+    }
+
+    together{
+    interface ICourseInStudyPlanFactory
+    class CourseInStudyPlanImpl
+    }
+
+    together{
+    interface IProgrammeEditionFactory
+    class ProgrammeEditionImpl
+    }
+
+    together{
+    interface ICourseEditionFactory
+    class CourseEditionImpl
+    }
+}
+
+'--- Repositories & Interfaces---
 package Repository {
-    'skinparam PackageBorderColor White
     together{
     interface IDegreeTypeRepository
     interface IDegreeTypeRepositorySpringData
@@ -76,8 +109,48 @@ package Repository {
     Interface JpaRepository
 }
 
+'--- Mappers & DataModels ---
+package Mappers {
+
+    together {
+    interface IDegreeTypeMapper
+    class DegreeTypeMapper
+    class DegreeDataModel
+    }
+
+    together {
+    interface IProgrammeMapper
+    class ProgrammeMapper
+    class ProgrammeDataModel
+    }
+
+    together {
+    interface IStudyPlanMapper
+    class StudyPlanMapper
+    class StudyPlanDataModel
+    }
+
+    together {
+    interface ICourseInStudyPlanMapper
+    class CourseInStudyPlanMapper
+    class CourseInStudyPlanDataModel
+    }
+
+    together {
+    interface IProgrammeEditionMapper
+    class ProgrammeEditionMapper
+    class ProgrammeEditionDataModel
+    }
+
+    together {
+    interface ICourseEditionMapper
+    class CourseEditionMapper
+    class CourseEditionDataModel
+    }
+}
+
+'--- Aggregates---
 package Aggregates {
-    'skinparam PackageBorderColor White
     entity "<<Root>>\n<<Entity>>\nDegreeType"{}
 
     entity "<<Root>>\n<<Entity>>\nProgramme"{}
@@ -91,9 +164,23 @@ package Aggregates {
     entity "<<Root>>\n<<Entity>>\nCourseEdition"{}
 }
 
+'---ValueObjects---
+package ValueObjects {
+
+    class DegreeTypeID
+    class ProgrammeID
+    class StudyPlanID
+    class CourseInStudyPlanID
+    class ProgrammeEditionID
+    class CourseEditionID
+}
+
 Controller -[#white]- Service
-Service --[#white]- Repository
-Repository -[#white]down--- Aggregates
+Service --[#white]--- Repository
+Service -[#white]- Factories
+Repository -[#white]--- Aggregates
+Repository -[#white]- Mappers
+Aggregates -[#white]- ValueObjects
 
 ' Services implement interfaces
 IDegreeTypeService <|.. DegreeTypeService : implements
@@ -150,6 +237,20 @@ ICourseInStudyPlanService "1" ..> "1" ICourseInStudyPlanRepository : uses
 IProgrammeEditionService "1" ..> "1" IProgrammeEditionRepository : uses
 ICourseEditionService "1" ..> "1" ICourseEditionRepository : uses
 
+'Services Uses Factories
+IDegreeTypeService ..> IDegreeTypeFactory : uses
+DegreeTypeImpl ..|> IDegreeTypeFactory : implements
+IProgrammeService ..> IProgrammeFactory : uses
+ProgrammeImpl ..|> IProgrammeFactory : implements
+IStudyPlanService ..> IStudyPlanFactory : uses
+StudyPlanImpl ..|> IStudyPlanFactory : implements
+ICourseInStudyPlanService ..> ICourseInStudyPlanFactory : uses
+CourseInStudyPlanImpl ..|> ICourseInStudyPlanFactory : implements
+IProgrammeEditionService ..> IProgrammeEditionFactory : uses
+ProgrammeEditionImpl ..|> IProgrammeEditionFactory : implements
+ICourseEditionService ..> ICourseEditionFactory : uses
+CourseEditionImpl ..|> ICourseEditionFactory : implements
+
 'Repositories and Aggregates
 IDegreeTypeRepository "1" --> "*" "<<Root>>\n<<Entity>>\nDegreeType" : contains
 IProgrammeRepository "1" --> "*" "<<Root>>\n<<Entity>>\nProgramme" : contains
@@ -157,5 +258,38 @@ IStudyPlanRepository "1" --> "*" "<<Root>>\n<<Entity>>\nStudyPlan" : contains
 ICourseInStudyPlanRepository "1" --> "*" "<<Root>>\n<<Entity>>\nCourseInStudyPlan" : contains
 IProgrammeEditionRepository "1" --> "*" "<<Root>>\n<<Entity>>\nProgrammeEdition" : contains
 ICourseEditionRepository "1" --> "*" "<<Root>>\n<<Entity>>\nCourseEdition" : contains
+
+'Mappers & DataModels
+DegreeTypeMapper ..|> IDegreeTypeMapper : implements
+IDegreeTypeMapper ..> DegreeDataModel : creates
+ProgrammeMapper ..|> IProgrammeMapper : implements
+IProgrammeMapper ..> ProgrammeDataModel : creates
+StudyPlanMapper ..|> IStudyPlanMapper : implements
+IStudyPlanMapper ..> StudyPlanDataModel : creates
+CourseInStudyPlanMapper ..|> ICourseInStudyPlanMapper : implements
+ICourseInStudyPlanMapper ..> CourseInStudyPlanDataModel : creates
+ProgrammeEditionMapper ..|> IProgrammeEditionMapper : implements
+IProgrammeEditionMapper ..> ProgrammeEditionDataModel : creates
+CourseEditionMapper ..|> ICourseEditionMapper : implements
+ICourseEditionMapper ..> CourseEditionDataModel : creates
+
+'Repository & Mapper
+IDegreeTypeRepository ..> IDegreeTypeMapper : uses
+IProgrammeRepository ..> IProgrammeMapper : uses
+IStudyPlanRepository ..> IStudyPlanMapper : uses
+ICourseInStudyPlanRepository ..> ICourseInStudyPlanMapper : uses
+IProgrammeEditionRepository ..> IProgrammeEditionMapper : uses
+ICourseEditionRepository ..> ICourseEditionMapper : uses
+
+'Aggregates & ValueObjects
+"<<Root>>\n<<Entity>>\nDegreeType" *-- DegreeTypeID : contains
+"<<Root>>\n<<Entity>>\nProgramme" *-- ProgrammeID : contains
+"<<Root>>\n<<Entity>>\nStudyPlan" *-- StudyPlanID : contains
+"<<Root>>\n<<Entity>>\nCourseInStudyPlan" *-- CourseInStudyPlanID : contains
+"<<Root>>\n<<Entity>>\nProgrammeEdition" *-- ProgrammeEditionID : contains
+"<<Root>>\n<<Entity>>\nCourseEdition" *-- CourseEditionID : contains
+"<<Root>>\n<<Entity>>\nCourseEdition" <..  ProgrammeEditionID : uses
+"<<Root>>\n<<Entity>>\nCourseEdition" <..  CourseInStudyPlanID : uses
+
 
 @enduml

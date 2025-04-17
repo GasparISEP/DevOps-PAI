@@ -7,6 +7,7 @@ skinparam {
   BoxPadding 2
 }
 skinparam defaultTextAlignment center
+skinparam shadowing true
 
 actor ASC
 participant ":UI" as UI
@@ -140,7 +141,7 @@ deactivate "cee:CourseEditionEnrolment"
 ' verify if already exists
 
 participant ":ICourseEditionEnrolmentRepository" as ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: checkIfAlreadyExists (new CourseEditionEnrolment (studentID, courseEditionID)
+CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: checkIfAlreadyExists (cee)
 activate ICourseEditionEnrolmentRepository #E1F5FE
 ICourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: False
 deactivate ICourseEditionEnrolmentRepository
@@ -150,7 +151,6 @@ deactivate ICourseEditionEnrolmentRepository
 CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: enrolStudentInACourseEdition (cee)
 activate ICourseEditionEnrolmentRepository #E1F5FE
 
-
 ' convert domain to dataModel
 participant ":CourseEditionEnrolmentMapper" as ceeMapper
 ICourseEditionEnrolmentRepository -> ceeMapper: toDataModel (cee)
@@ -158,7 +158,11 @@ activate ceeMapper #E1F5FE
 
 create "ceeDataModel: CourseEditionEnrolmentDataModel"
 ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel" :create (cee)
+activate "ceeDataModel: CourseEditionEnrolmentDataModel" #E1F5FE
 deactivate ceeMapper
+create "ceeIDDataModel: CourseEditionEnrolmentIDDataModel"
+"ceeDataModel: CourseEditionEnrolmentDataModel" -> "ceeIDDataModel: CourseEditionEnrolmentIDDataModel": create \n (cee.knowStudent().getUniqueNumber(),\n cee.knowCourseEdition().toString())
+deactivate "ceeDataModel: CourseEditionEnrolmentDataModel"
 
 ' database persistence
 

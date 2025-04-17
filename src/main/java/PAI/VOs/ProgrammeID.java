@@ -26,7 +26,7 @@ public class ProgrammeID implements DomainId {
         if (object == null || getClass() != object.getClass())
             return false;
         ProgrammeID programmeID = (ProgrammeID) object;
-        return _name.equals(programmeID._name)
+        return _name.equalsIgnoreCase(programmeID._name)
                 || _acronym.equals(programmeID._acronym);
     }
 

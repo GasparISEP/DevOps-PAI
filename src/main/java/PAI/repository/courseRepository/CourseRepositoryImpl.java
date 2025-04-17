@@ -23,9 +23,9 @@ public class CourseRepositoryImpl implements ICourseRepository {
         courseList = iCourseRepositoryListFactory.createCourseRepositoryList();
     }
 
-    public boolean registerCourse (CourseID id, Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear) throws Exception {
+    public boolean registerCourse (Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInCurricularYear) throws Exception {
 
-        Course course = _courseFactory.createCourse(id, name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        Course course = _courseFactory.createCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
 
         course = save(course);
         if(course == null)

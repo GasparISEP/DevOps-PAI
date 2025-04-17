@@ -1,80 +1,67 @@
 package PAI.controller;
 
-import PAI.domain.TeacherCategory;
-import PAI.factory.ITeacherCategoryFactory;
-import PAI.repository.ITeacherCategoryRepository;
 import PAI.VOs.Name;
-import PAI.VOs.TeacherCategoryID;
+import PAI.repository.ITeacherCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-/**
- * Testes unitários para o controller V2 de configuração de categorias de professor.
- */
 public class US01_ConfigureTeacherCategoryControllerTest {
 
     private ITeacherCategoryRepository repository;
-    private ITeacherCategoryFactory factory;
     private US01_ConfigureTeacherCategoryController controller;
 
     @BeforeEach
     public void setUp() {
         repository = mock(ITeacherCategoryRepository.class);
-        factory = mock(ITeacherCategoryFactory.class);
-        controller = new US01_ConfigureTeacherCategoryController(repository, factory);
+        controller = new US01_ConfigureTeacherCategoryController(repository);
     }
 
     @Test
-    public void testConstructorWithNullArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new US01_ConfigureTeacherCategoryController(null, factory));
-        assertThrows(IllegalArgumentException.class, () -> new US01_ConfigureTeacherCategoryController(repository, null));
+    public void testConstructorWithNullArgument() {
+        assertThrows(IllegalArgumentException.class, () -> new US01_ConfigureTeacherCategoryController(null));
     }
 
     @Test
-    public void testAddNewCategorySuccessfully() throws Exception {
-        Name name = new Name("Matemática");
-        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), name);
+    public void testConfigureTeacherCategorySuccess() throws Exception {
+        // Arrange
+        Name expectedName = new Name("Matemática");
+        when(repository.registerTeacherCategory(any(Name.class))).thenReturn(true);
 
-        when(repository.existsByName(any(Name.class))).thenReturn(false);
-        when(factory.createTeacherCategory(any(Name.class))).thenReturn(category);
-        when(repository.save(category)).thenReturn(category);
-
+        // Act
         boolean result = controller.configureTeacherCategory("Matemática");
 
+        // Assert
         assertTrue(result);
-        verify(repository).save(category);
+        verify(repository).registerTeacherCategory(eq(expectedName));
     }
 
     @Test
-    public void testDuplicateCategoryThrowsException() throws Exception {
-        Name name = new Name("Física Fisica");
+    public void testConfigureTeacherCategoryDuplicateThrows() {
+        // Arrange: note the exact same casing/spelling as passed to controller
+        Name expectedName = new Name("Física fisica");
+        when(repository.registerTeacherCategory(any(Name.class))).thenReturn(false);
 
-        when(repository.existsByName(any(Name.class))).thenReturn(true);
+        // Act & Assert
+        Exception ex = assertThrows(Exception.class,
+                () -> controller.configureTeacherCategory("Física fisica")
+        );
+        assertEquals("Category already exists or could not be registered.", ex.getMessage());
 
-        Exception ex = assertThrows(Exception.class, () -> controller.configureTeacherCategory("Física fisica"));
-        assertEquals("Category already exists.", ex.getMessage());
+        // Verify that the repository was called with the exact Name VO
+        verify(repository).registerTeacherCategory(eq(expectedName));
     }
 
     @Test
-    public void testCategoryWithSpecialCharacters() throws Exception {
-        Name name = new Name("Comp-Sci");
-        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), name);
-
-        when(repository.existsByName(any(Name.class))).thenReturn(false);
-        when(factory.createTeacherCategory(any(Name.class))).thenReturn(category);
-        when(repository.save(category)).thenReturn(category);
-
-        boolean result = controller.configureTeacherCategory("Comp-Sci");
-
-        assertTrue(result);
-        verify(repository).save(category);
-    }
-
-    @Test
-    public void testInvalidLowercaseNameThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new Name("história"));
+    public void testInvalidLowercaseNameThrows() {
+        // Name VO rejects lowercase-first strings before hitting the repository
+        assertThrows(IllegalArgumentException.class,
+                () -> controller.configureTeacherCategory("história")
+        );
+        verify(repository, never()).registerTeacherCategory(any());
     }
 }

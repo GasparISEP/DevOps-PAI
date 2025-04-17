@@ -9,14 +9,19 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for TeacherCategoryV2.
+ * Interface for the TeacherCategory repository.
+ * This interface extends the IRepository interface and provides methods specific to TeacherCategory.
  */
+
 public interface ITeacherCategoryRepository extends IRepository<TeacherCategoryID, TeacherCategory> {
     boolean existsByName(Name name);
+
+    // New method: registers a new teacher category.
+    boolean registerTeacherCategory(Name teacherCategoryName);
 
     List<TeacherCategory> getTeacherCategoryList();
 
     Optional<TeacherCategory> findByName(Name name);
 
-    Optional<TeacherCategoryID> getTeacherCategoryIDFromName (Name name);
+    Optional<TeacherCategoryID> getTeacherCategoryIDFromName(Name name);
 }

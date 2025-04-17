@@ -2,11 +2,13 @@ package PAI.factory;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -64,4 +66,37 @@ class SchoolYearFactoryImplTest {
             }
         }
     }
-}
+
+    // Testing new Factory method that accepts a UUID as parameter
+
+    @Test
+    void shouldCreateAValidSchoolYearWhenMockedConstructorWithUUIDIsGiven() {
+        //arrange
+        UUID uuid = mock(UUID.class);
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+
+        try (MockedConstruction<SchoolYear> schoolYearDouble = mockConstruction(
+                SchoolYear.class, (mock, context) -> {
+                    UUID actualUuid = (UUID) context.arguments().get(0);
+                    Date actualStartDate = (Date) context.arguments().get(2);
+                    Date actualEndDate = (Date) context.arguments().get(3);
+                    when(mock.identity()).thenReturn(new SchoolYearID(actualUuid));
+                    when(mock.getStartDate()).thenReturn(actualStartDate);
+                    when(mock.getEndDate()).thenReturn(actualEndDate);
+                })) {
+
+            ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+
+            //act
+            SchoolYear schoolYear = schoolYearFactory.createSchoolYear(uuid, description, startDate, endDate);
+
+            //assert
+            List<SchoolYear> schoolYears = schoolYearDouble.constructed();
+            assertEquals(1, schoolYears.size());
+
+            assertEquals(startDate.getLocalDate(), schoolYear.getStartDate().getLocalDate());
+            assertEquals(endDate.getLocalDate(), schoolYear.getEndDate().getLocalDate());
+        }
+}}

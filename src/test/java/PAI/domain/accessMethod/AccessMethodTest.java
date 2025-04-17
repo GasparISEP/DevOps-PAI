@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class AccessMethodTest {
     
@@ -141,6 +142,7 @@ class AccessMethodTest {
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethod accessMethod = new AccessMethod(accessMethodId, accessMethodName);
+        when(accessMethodName.equalsIgnoreCase(accessMethodName)).thenReturn(true);
         //act
         boolean result = accessMethod.hasThisAccessMethodName(accessMethodName);
         //assert

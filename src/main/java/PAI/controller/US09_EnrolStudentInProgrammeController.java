@@ -6,7 +6,7 @@ import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.programme.Programme;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
-import PAI.repository.accessMethodRepository.AccessMethodRepositoryImpl;
+import PAI.persistence.mem.accessMethod.AccessMethodRepositoryImpl;
 import PAI.persistence.mem.ProgrammeRepositoryImpl;
 
 import java.util.Optional;
