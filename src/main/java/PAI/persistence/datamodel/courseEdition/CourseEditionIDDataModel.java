@@ -18,6 +18,11 @@ public class CourseEditionIDDataModel implements Serializable {
 
     public CourseEditionIDDataModel() {}
 
+    public CourseEditionIDDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel, CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel) {
+        this._programmeEditionIdDataModel = programmeEditionIdDataModel;
+        this._courseInStudyPlanIDDataModel = courseInStudyPlanIDDataModel;
+    }
+
     public ProgrammeEditionIdDataModel getProgrammeEditionIdDataModel() {
         return null;
     }
@@ -35,7 +40,4 @@ public class CourseEditionIDDataModel implements Serializable {
     public int hashCode() {
         return -1;
     }
-
-
-
 }

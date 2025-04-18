@@ -5,9 +5,11 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class CourseEditionIDDataModelTest {
 
+    // -----Constructos Tests-----
     @Test
     void shouldCreateCourseEditionIDWithEmptyArguments() {
         // Arrange
@@ -15,6 +17,19 @@ class CourseEditionIDDataModelTest {
 
         // Act
         courseEditionIDDataModel = new CourseEditionIDDataModel();
+
+        // Assert
+        assertNotNull(courseEditionIDDataModel);
+    }
+
+    @Test
+    void shouldCreateCourseEditionIDWithArguments() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+
+        // Act
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel(programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
 
         // Assert
         assertNotNull(courseEditionIDDataModel);
