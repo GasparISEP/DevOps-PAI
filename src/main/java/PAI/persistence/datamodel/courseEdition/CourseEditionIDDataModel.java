@@ -26,4 +26,11 @@ public class CourseEditionIDDataModel implements Serializable {
         return null;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
+
+
+
 }

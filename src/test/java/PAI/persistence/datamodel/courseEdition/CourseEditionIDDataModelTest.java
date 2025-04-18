@@ -44,4 +44,17 @@ class CourseEditionIDDataModelTest {
         assertNull(cISPIDDataModel);
     }
 
+    @Test
+    void shouldReturnFalseWhenUseEqualsMethodInCourseEditionIDDataModel() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
+
+        // Act
+        boolean result = courseEditionIDDataModel.equals(courseEditionIDDataModel);
+
+        // Assert
+        assertFalse(result);
+
+    }
+
 }
