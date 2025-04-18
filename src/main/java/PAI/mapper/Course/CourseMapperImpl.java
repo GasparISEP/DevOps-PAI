@@ -1,4 +1,5 @@
 package PAI.mapper.Course;
+
 import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.course.CourseFactoryImpl;
@@ -34,14 +35,20 @@ public class CourseMapperImpl implements ICourseMapper {
         if (course == null) {
             throw new NullPointerException("course cannot be null");
         }
-        CourseIDDataModel courseIDDataModel = new CourseIDDataModel(course.identity()); // uso o construtor de courseiddatamodel
+
+        CourseID courseID = course.identity();
+        String acronym = courseID.getAcronym().getAcronym();
+        String name = courseID.getName().getName();
+
+        CourseIDDataModel courseIDDataModel = new CourseIDDataModel(acronym, name);
 
         return new CourseDataModel(
                 courseIDDataModel,
-                course.getName().toString(),
-                course.getAcronym().toString(),
+                name,
+                acronym,
                 course.getCourseQuantityCreditsEcts().getQuantity(),
                 course.getDurationCourseInCurricularYear().getDuration()
         );
     }
+
 }
