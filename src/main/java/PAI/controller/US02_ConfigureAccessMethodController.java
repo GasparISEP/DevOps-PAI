@@ -19,6 +19,6 @@ public class US02_ConfigureAccessMethodController {
         if (accessMethodName== null) {
             return false;
         }
-        return accessMethodService.registerAccessMethodInMemoryRepository(accessMethodName).isPresent();
+        return accessMethodService.registerAccessMethod(accessMethodName).isPresent();
     }
 }
