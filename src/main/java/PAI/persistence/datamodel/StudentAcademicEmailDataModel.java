@@ -17,7 +17,7 @@ public class StudentAcademicEmailDataModel {
         this.fullStudentEmail = studentMail + "@" + emailDomain;
     }
 
-    public String getStudentMail() {
+    public String getStudentEmail() {
         return studentEmail;
     }
 
